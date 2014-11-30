@@ -1,2 +1,0 @@
-serviceClass: com.dawg6.web.sentry.client.SentryService
-path: D3D5A8EC9572E7633CB81F9461964EB4.gwt.rpc
