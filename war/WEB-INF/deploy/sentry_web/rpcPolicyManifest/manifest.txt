@@ -1,0 +1,3 @@
+# Module sentry_web
+# RPC service class, partial path of RPC policy file
+com.dawg6.web.sentry.client.SentryService, 5FFFDB6A9B7F450D320A3BBD4640F386.gwt.rpc

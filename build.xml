@@ -1,0 +1,36 @@
+<project name="sentry-web" basedir="." default="default">
+
+    <target name="default" depends="buildwar"></target>
+
+    <property name="src" value="src" />
+    <property name="classes" value="classes" />
+    <property name="bin" value="bin" />
+    <property name="lib" value="lib" />
+
+    <property name="war-dir" location="./war" />
+    <property name="webinf-dir" location="${war-dir}/WEB-INF" />
+	<property name="webinf-lib-dir" location="${webinf-dir}/lib" />
+    <property name="lib-dir" location="./${lib}" />
+    <property name="servlet-api.jar" location="${lib-dir}/servlet-api.jar" />
+    <property name="sentry-war" value="sentry-web.war" />
+    <property name="webxml" value="${webinf-dir}/web.xml" />
+	<property name="sentry-jar" value="${webinf-lib-dir}/sentry-web.jar" />
+
+	<target name="sentry-jar">
+		<jar destfile="${sentry-jar}">
+			<fileset dir="../dawg6-common/bin" />
+			<fileset dir="../dawg6-aws-common/bin" />
+			<fileset dir="../dawg6-gwt-common/bin" />
+		</jar>
+	</target>
+		
+    <target name="buildwar" depends="sentry-jar">
+        <war destfile="${sentry-war}" webxml="${webxml}">
+            <fileset dir="${war-dir}">
+                <exclude name="${webxml}" />
+            </fileset>
+        </war>
+    </target>
+
+
+</project>

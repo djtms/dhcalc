@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+              http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5" xmlns="http://java.sun.com/xml/ns/javaee">
+
+	<!-- Servlets -->
+	<servlet>
+		<servlet-name>sentryServlet</servlet-name>
+		<servlet-class>com.dawg6.web.sentry.server.SentryServiceImpl</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>saveServlet</servlet-name>
+		<servlet-class>com.dawg6.web.sentry.server.FileSaveServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>loadServlet</servlet-name>
+		<servlet-class>com.dawg6.web.sentry.server.FileLoadServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>versionServlet</servlet-name>
+		<servlet-class>com.dawg6.web.sentry.server.VersionServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>jsonServlet</servlet-name>
+		<servlet-class>com.dawg6.web.sentry.server.JsonServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>sentryServlet</servlet-name>
+		<url-pattern>/sentry_web/sentry</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>saveServlet</servlet-name>
+		<url-pattern>/saveData</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>loadServlet</servlet-name>
+		<url-pattern>/loadData</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>versionServlet</servlet-name>
+		<url-pattern>/version</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>jsonServlet</servlet-name>
+		<url-pattern>/json</url-pattern>
+	</servlet-mapping>
+		<!-- <servlet> <servlet-name>fetchServlet</servlet-name> <servlet-class>com.dawg6.web.sentry.server.FetchServlet</servlet-class> 
+		</servlet> <servlet-mapping> <servlet-name>fetchServlet</servlet-name> <url-pattern>/d3/en/tooltip/item/*</url-pattern> 
+		</servlet-mapping> -->
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>Sentry_web.html</welcome-file>
+	</welcome-file-list>
+</web-app>

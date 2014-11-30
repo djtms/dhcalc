@@ -1,0 +1,168 @@
+Change Log:
+
+**11/18/14**
+
+* Added statistics
+
+**11/13/14**
+
+* Reduced # of calls to battle.net API to 8 per second (still receiving occasional HTTP 403 at 9/sec).
+* Implemented server side in-memory cache of item data to reduce total # of battle.net API calls and improve performance 
+
+**11/12/14**
+
+* Added Caltrops/Bait the Trap
+
+**11/10/14**
+
+* Added Hexing Pants of Mr. Yan, Strongarm Bracers and Harrington Waistguard
+* Added Mantra of Retribution/Transgression and Laws of Valor
+* Attack speed buffs from BBV, Mantra of Retribution and Laws of Valor now affect breakpoint calculation (only if 100% uptime selected)
+
+**11/7/14**
+
+* Added support for importing attack speed bonus from set items (Cain's set)
+* Added toggle display damage log and summary tables for Elite vs Non-Elite (also now included as separate tabs in Excel export)
+* Removed non-stacking DoT damage from multiple sentry calculations for 2nd and subsequent sentries
+
+**11/6/14**
+
+* Added label to clarify elite damage and BotP rank 25 passive bonus
+* Fixed access to non-US profiles
+* Internal changes to use correct battle.net API. This might cause some clients to time out during heavy usage. Further testing is required. 
+* Marked for death active skill and Calamity now stack. Added "uptime" percentages for each.
+
+**11/5/14**
+
+* Fixed special characters in battletag being URL encoded twice
+* Now displays Smoke Screen Cooldown
+* Removed elite inputs and now displays both elite and non-elite total damage and dps
+* Added counter of offense paragon points spent
+
+**11/4/14**
+
+* Added support for Meticulous Bolts and Ball Lightning mechanics (including Target Size)
+* Added simple build comparison tool
+* Added Mass Confusion, Mantra of Conviction, Crippling Wave, Piranhas and Inner Sanctuary Player Buffs
+* Added Bane of the Powerful % Uptime (default 100%)
+* Changed several situational yes/no toggles to percent values (default 100% for most)
+
+**11/3/14**
+
+* Added Companion/Wolf buff
+* Added Big Bad Voodoo/Slam Dance buff
+* Added attack speed bonus from Pain Enhancer
+* Added Taeguk gem
+
+**11/2/14**
+
+* Added support for Gem of Efficacious Toxin and Pain Enhancer 
+
+**11/1/14**
+
+* Paperdoll now has links to battle.net API JSON output
+
+**10/31/14**
+
+* Fixed Import of Nat's 3 item Set bonus (7% CC) when wearing royal ring
+
+**10/30/14**
+
+* Added display of Sentry Base DPS
+* Updated display of Sentry APS to be calculated from # attacks/30 seconds
+* Added min/max constraints for several input fields
+
+**10/29/14**
+
+* Fixed IAS calculation to treat Gogok and Focused Mind IAS as additive with equipment and paragon IAS
+* Lowered timeout on empty file upload
+* Added other options for saving form data (browser storage, text area)
+* Changed to save field defaults using browser local storage (if enabled) in lieu of Cookies 
+* Fixed import of profile when no rune is selected for hatred spender
+
+**10/28/14**
+
+* Fixed so that changes to TNT percent in main screen cause APS to be recalculated immediately
+* Fixed DPS calculator to update when weapon type is changed
+* Added version checking (refresh browser if new version available)
+* Added follower buffs
+* Added browser icon
+
+**10/27/14**
+
+* Added Gogok of Switftness gem
+* Added cooldown reduction for multiple sentry calculations
+* Added support for multiple sentries (assumes no CDR)
+
+**10/26/14**
+
+* Paragon points now also shows the +% IAS/CC/CHD
+
+**10/25/14**
+
+* Steady Aim is now included in Sheet DPS calculation
+* Added export of damage log to Excel
+
+**10/24/14**
+
+* Fixed import of Archery passive
+* Grenades now do AoE damage! It should properly account for multiple grenades hitting the same target as well as multiple grenades hitting multiple targets, based on target spacing.
+* When Chain of Torment rune is selected for Sentry, no hatred spenders are calculated.
+* Replaced "Targets at least 20 yards apart" with numerical input (target spacing)
+* Removed rounding in APS calculation
+* Added columns to summary tables to show # attacks and damage per attack
+
+**10/23/14**
+
+* Fixed missing elemental damage fields
+* Added "paperdoll" to show equipment imported
+
+**10/22/14**
+
+* Updated calculator to show raw weapon damage min/max (must do battle.net import), and to make changes automatic
+* Fixed Single Out calculation
+* Added Archery back to main panel and made it synchronize with calculator panel and update DPS when checked
+* Split out dex and crit bonus from average weapon damage in damage log to eliminate rounding errors and expose all formulas
+* Formatting of tables (right align damage/dps columns)
+
+**10/21/14**
+
+* Updated CA/Maelstrom and CA/Shooting Stars so that rockets will hit primary target
+* Removed Archery from main screen (it's only used on calculator panel) to avoid confusion
+* Added ability to save/load all form data to/from a file
+* Default # of additional targets now set to 5
+* Fixed import of jewelry x-y damage
+* Added import of passive skills from Hellfire amulet
+* Fixed Cull the Weak (should be multiplicative, not additive)
+* Added Single Out passive
+* Added Ambush passive
+* Legend is now sorted alphabetically
+
+**10/20/14**
+
+* Fixed average weapon damage mismatch (rounding error)
+* Added +/- buttons for numeric fields 
+* Added link to battle.net profile
+* Now calculates +elite damage from Set bonuses when importing
+* Added other realms (KR, TW, SEA). Changed to drop-down instead of radio buttons.
+* Clicking in text/numerical fields will select all text in that field
+
+**10/18/14**
+
+* Fixed IAS calculation (paragon IAS is additive with non-weapon Equipment IAS)
+* Fixed Enforcer damage bonus to be additive with elemental damage
+* Added Zei's gem bonus
+* Added Steady Aim
+* Fixed bug when "primary is elite" is unchecked, several damage modifiers were ignored
+* Importing a profile or updating the calculator (press OK) will force a re-calculation of the damage log
+* Fixed elemental damage scaling for Multishot/Arsenal (should be all Fire)
+* Fixed IAS calculation for next breakpoint 
+* Added calculation of "extra" IAS for current breakpoint
+* Updated paragon points on main page when they are changed in calculator (only if "OK" is pressed)
+
+**10/17/14**
+
+* Fixed weapon IAS rounding error
+* Fixed to save Realm selection
+* Fixed import of level 1 character
+* Fixed import of elite damage (still not set bonus)

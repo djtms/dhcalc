@@ -1,0 +1,15 @@
+**TO DO:**
+
+* Support dual wield
+* Check other set bonuses that need import logic to handle royal ring
+* Improve logic for selecting # of AoE targets
+* Verify/fix Chakram targeting logic
+* Add Companion dps
+* Improve ability to compare damage/dps between multiple builds
+* Add build recommendations based on gear
+* Add undo
+* Model monster HP and fight duration
+* Add translation/localization
+* Improve appearance (colors, styles, etc....)
+* Add skill/rune icons
+* Implement 4th Hatred Spender
