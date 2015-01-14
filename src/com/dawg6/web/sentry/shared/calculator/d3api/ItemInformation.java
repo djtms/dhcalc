@@ -38,6 +38,7 @@ public class ItemInformation extends D3Message implements Serializable {
 	public Value<Float> minDamage;
 	public Value<Float> maxDamage;
 	public Value<Float> blockChance;
+	public String[] slots;
 
 	public Attributes attributes;
 

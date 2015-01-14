@@ -74,10 +74,10 @@ public class MainPanel extends BasePanel {
 	private final Label aps;
 	private final ListBox skill1;
 	private final ListBox rune1;
-	private final ListBox skill2;
-	private final ListBox rune2;
-	private final ListBox skill3;
-	private final ListBox rune3;
+//	private final ListBox skill2;
+//	private final ListBox rune2;
+//	private final ListBox skill3;
+//	private final ListBox rune3;
 	private final ListBox sentryRunes;
 	private final Label sentryAps;
 	private final Label breakPoint;
@@ -100,11 +100,11 @@ public class MainPanel extends BasePanel {
 	private final DPSCalculator calculator;
 	private final FlexTable skillSummary;
 	private final Anchor skill1Label;
-	private final Anchor skill2Label;
-	private final Anchor skill3Label;
+//	private final Anchor skill2Label;
+//	private final Anchor skill3Label;
 	private final Anchor rune1Label;
-	private final Anchor rune2Label;
-	private final Anchor rune3Label;
+//	private final Anchor rune2Label;
+//	private final Anchor rune3Label;
 	private final Anchor sentryRuneLabel;
 	private final ListBox realms;
 	private final Anchor profileLink;
@@ -728,41 +728,41 @@ public class MainPanel extends BasePanel {
 		grid.setWidget(1, 3, rune1);
 		rune1.setTitle("Selected rune for this Hatred Spender.");
 
-		skill2Label = new Anchor("Skill 2:");
-		skill2Label.setWordWrap(false);
-		skill2Label.setTarget("_blank");
-		grid.setWidget(2, 0, skill2Label);
-
-		skill2 = new ListBox();
-		grid.setWidget(2, 1, skill2);
-		skill2.setTitle("Hatred Spender.");
-
-		rune2Label = new Anchor("Rune:");
-		rune2Label.setWordWrap(false);
-		rune2Label.setTarget("_blank");
-		grid.setWidget(2, 2, rune2Label);
-
-		rune2 = new ListBox();
-		grid.setWidget(2, 3, rune2);
-		rune2.setTitle("Selected rune for this Hatred Spender.");
-
-		skill3Label = new Anchor("Skill 3:");
-		skill3Label.setWordWrap(false);
-		skill3Label.setTarget("_blank");
-		grid.setWidget(3, 0, skill3Label);
-
-		skill3 = new ListBox();
-		grid.setWidget(3, 1, skill3);
-		skill3.setTitle("Hatred Spender.");
-
-		rune3Label = new Anchor("Rune:");
-		rune3Label.setWordWrap(false);
-		rune3Label.setTarget("_blank");
-		grid.setWidget(3, 2, rune3Label);
-
-		rune3 = new ListBox();
-		grid.setWidget(3, 3, rune3);
-		rune3.setTitle("Selected rune for this Hatred Spender.");
+//		skill2Label = new Anchor("Skill 2:");
+//		skill2Label.setWordWrap(false);
+//		skill2Label.setTarget("_blank");
+//		grid.setWidget(2, 0, skill2Label);
+//
+//		skill2 = new ListBox();
+//		grid.setWidget(2, 1, skill2);
+//		skill2.setTitle("Hatred Spender.");
+//
+//		rune2Label = new Anchor("Rune:");
+//		rune2Label.setWordWrap(false);
+//		rune2Label.setTarget("_blank");
+//		grid.setWidget(2, 2, rune2Label);
+//
+//		rune2 = new ListBox();
+//		grid.setWidget(2, 3, rune2);
+//		rune2.setTitle("Selected rune for this Hatred Spender.");
+//
+//		skill3Label = new Anchor("Skill 3:");
+//		skill3Label.setWordWrap(false);
+//		skill3Label.setTarget("_blank");
+//		grid.setWidget(3, 0, skill3Label);
+//
+//		skill3 = new ListBox();
+//		grid.setWidget(3, 1, skill3);
+//		skill3.setTitle("Hatred Spender.");
+//
+//		rune3Label = new Anchor("Rune:");
+//		rune3Label.setWordWrap(false);
+//		rune3Label.setTarget("_blank");
+//		grid.setWidget(3, 2, rune3Label);
+//
+//		rune3 = new ListBox();
+//		grid.setWidget(3, 3, rune3);
+//		rune3.setTitle("Selected rune for this Hatred Spender.");
 
 		skills = new SkillsPanel();
 		verticalPanel_1.add(skills);
@@ -1583,11 +1583,11 @@ public class MainPanel extends BasePanel {
 			realms.addItem(r.getDisplayName(), r.name());
 		}
 
-		skillBoxes = new ListBox[] { skill1, skill2, skill3 };
-		runeBoxes = new ListBox[] { rune1, rune2, rune3 };
+		skillBoxes = new ListBox[] { skill1 }; //, skill2, skill3 };
+		runeBoxes = new ListBox[] { rune1 }; //, rune2, rune3 };
 
-		skillLabels = new Anchor[] { skill1Label, skill2Label, skill3Label };
-		runeLabels = new Anchor[] { rune1Label, rune2Label, rune3Label };
+		skillLabels = new Anchor[] { skill1Label }; //, skill2Label, skill3Label };
+		runeLabels = new Anchor[] { rune1Label }; //, rune2Label, rune3Label };
 	}
 
 	protected void setBuild(Build build) {
@@ -2331,8 +2331,8 @@ public class MainPanel extends BasePanel {
 
 				realms.setSelectedIndex(0);
 
-			} else if ((field == this.skill1) || (field == this.skill2)
-					|| (field == this.skill3)) {
+			} else if (field == this.skill1) //|| (field == this.skill2) || (field == this.skill3)) 
+				{
 
 				this.disableListeners = true;
 
@@ -2342,20 +2342,20 @@ public class MainPanel extends BasePanel {
 					ActiveSkill skill = ActiveSkill.valueOf(value);
 
 					this.selectSkill(field, skill);
-					ListBox runes = rune3;
+					ListBox runes = rune1; //rune3;
 
-					if (field == this.skill1)
-						runes = rune1;
-					else if (field == this.skill2)
-						runes = rune2;
+//					if (field == this.skill1)
+//						runes = rune1;
+//					else if (field == this.skill2)
+//						runes = rune2;
 
 					this.setRunes(runes, skill);
 				}
 
 				this.disableListeners = false;
 
-			} else if ((field == this.rune1) || (field == this.rune2)
-					|| (field == this.rune3)) {
+			} else if (field == this.rune1) // || (field == this.rune2) || (field == this.rune3)) 
+				{
 
 				Rune rune = Rune.None;
 
@@ -2865,7 +2865,7 @@ public class MainPanel extends BasePanel {
 		setRune(sentryRunes, Rune.None);
 		this.updateRuneLabel(sentryRuneLabel, null, sentryRunes);
 
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 1; i++) {
 			setSkillAndRune(skillLabels[i], runeLabels[i], skillBoxes[i],
 					runeBoxes[i], null, Rune.None.name());
 		}
@@ -2917,6 +2917,7 @@ public class MainPanel extends BasePanel {
 										runeLabels[skill], skillBoxes[skill],
 										runeBoxes[skill], sk, runeName);
 								skill++;
+								break;
 							}
 						}
 					}
@@ -3174,11 +3175,11 @@ public class MainPanel extends BasePanel {
 						"50"),
 				new Field(this.sentryRunes, "SentryRune", Rune.None.name()),
 				new Field(this.skill1, "Skill1", ""),
-				new Field(this.skill2, "Skill2", ""),
-				new Field(this.skill3, "Skill3", ""),
+//				new Field(this.skill2, "Skill2", ""),
+//				new Field(this.skill3, "Skill3", ""),
 				new Field(this.rune1, "Rune1", Rune.None.name()),
-				new Field(this.rune2, "Rune2", Rune.None.name()),
-				new Field(this.rune3, "Rune3", Rune.None.name()),
+//				new Field(this.rune2, "Rune2", Rune.None.name()),
+//				new Field(this.rune3, "Rune3", Rune.None.name()),
 				new Field(this.passives.getAmbush(), "Ambush",
 						Boolean.FALSE.toString()),
 				new Field(this.passives.getSingleOut(), "SingleOut",
@@ -3461,8 +3462,8 @@ public class MainPanel extends BasePanel {
 		Map<ActiveSkill, Rune> skills = new TreeMap<ActiveSkill, Rune>();
 
 		addSkill(skills, skill1, rune1);
-		addSkill(skills, skill2, rune2);
-		addSkill(skills, skill3, rune3);
+//		addSkill(skills, skill2, rune2);
+//		addSkill(skills, skill3, rune3);
 
 		return skills;
 	}
@@ -3868,12 +3869,12 @@ public class MainPanel extends BasePanel {
 		if (!Beans.isDesignTime()) {
 
 			addSkills(skill1, rune1);
-			addSkills(skill2, rune2);
-			addSkills(skill3, rune3);
+//			addSkills(skill2, rune2);
+//			addSkills(skill3, rune3);
 
-			addSkillHandler(skill1, rune1Label, rune1, skill2, skill3);
-			addSkillHandler(skill2, rune2Label, rune2, skill1, skill3);
-			addSkillHandler(skill3, rune3Label, rune3, skill1, skill2);
+			addSkillHandler(skill1, rune1Label, rune1); //, skill2, skill3);
+//			addSkillHandler(skill2, rune2Label, rune2, skill1, skill3);
+//			addSkillHandler(skill3, rune3Label, rune3, skill1, skill2);
 
 			calculator.loadForm();
 			loadForm();
@@ -3888,32 +3889,32 @@ public class MainPanel extends BasePanel {
 
 			setRuneLabel(sentryRuneLabel, null, sentryRunes);
 			setRuneLabel(this.rune1Label, skill1, rune1);
-			setRuneLabel(this.rune2Label, skill2, rune2);
-			setRuneLabel(this.rune3Label, skill3, rune3);
+//			setRuneLabel(this.rune2Label, skill2, rune2);
+//			setRuneLabel(this.rune3Label, skill3, rune3);
 			setSkillLabel(this.skill1Label, skill1);
-			setSkillLabel(this.skill2Label, skill2);
-			setSkillLabel(this.skill3Label, skill3);
+//			setSkillLabel(this.skill2Label, skill2);
+//			setSkillLabel(this.skill3Label, skill3);
 		}
 
 		disableListeners = false;
 	}
 
 	private void addSkillHandler(final ListBox skills, final Anchor runeLabel,
-			final ListBox runes, final ListBox other1, final ListBox other2) {
+			final ListBox runes) { //, final ListBox other1, final ListBox other2) {
 		skills.addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {
 
 				if (!disableListeners)
-					skillChanged(skills, runeLabel, runes, other1, other2);
+					skillChanged(skills, runeLabel, runes); //, other1, other2);
 			}
 		});
 
 	}
 
 	protected void skillChanged(ListBox skills, Anchor runeLabel,
-			ListBox runes, ListBox other1, ListBox other2) {
+			ListBox runes) { //, ListBox other1, ListBox other2) {
 
 		// ActiveSkill sk = getSkill(skills);
 		//

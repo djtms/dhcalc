@@ -218,13 +218,15 @@ public class ProfileHelper {
 
 						if (s.skill.name.equals(sk.getLongName())) {
 							Rune rune = Rune.None;
-							String runeName = Rune.None.getLongName();
+							//String runeName = Rune.None.getLongName();
 
 							if ((s.rune != null) && (s.rune.name != null))
 								rune = lookupRune(sk, s.rune.name);
 
 							SkillAndRune sr = new SkillAndRune(sk, rune);
 							skills.add(sr);
+							
+							break;
 						}
 					}
 				}

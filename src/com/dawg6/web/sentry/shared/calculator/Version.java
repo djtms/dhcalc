@@ -10,10 +10,10 @@ public class Version  implements Serializable {
 
 	public static final String PREFIX = "Version:";
 	
-	public static int VERSION_MAJOR = 1;
-	public static int VERSION_MINOR = 3;
-	public static String VERSION_BUILD = ".r";
-	public static String VERSION_DATE = "11/29/2014";
+	public static int VERSION_MAJOR = 2;
+	public static int VERSION_MINOR = 0;
+	public static String VERSION_BUILD = "";
+	public static String VERSION_DATE = "01/14/2015";
 	
 	public int major;
 	public int minor;
