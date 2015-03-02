@@ -399,6 +399,8 @@ public class ExportExcel {
 				"Marked for Death Primary Target Uptime", pctStyle);
 		createInput(inputs, data.data.getMfdAddUptime(),
 				"Marked for Death Additional Targets Uptime", pctStyle);
+		createInput(inputs, data.data.getNumSentries(),
+				"# of Sentries");
 
 		createInputHeader(inputs, "Passive Skills");
 		createInput(inputs, data.data.isBallistics(), "Ballistics");
@@ -479,6 +481,8 @@ public class ExportExcel {
 				"Calamity");
 		createInput(inputs, data.data.getCalamityUptime(),
 				"Calamity Uptime", pctStyle);
+		createInput(inputs, data.data.isHasBombardiers(),
+				"Bombadier's Rucksack");
 
 		createInputHeader(inputs, "Legendary Gems");
 		createInput(inputs, data.data.isUseBaneOfTheTrapped(),

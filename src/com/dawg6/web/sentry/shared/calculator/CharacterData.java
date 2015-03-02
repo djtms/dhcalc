@@ -170,6 +170,8 @@ public class CharacterData implements Serializable {
 	private double sentryDps;
 	private double equipCritChance;
 	private double equipCritDamage;
+	private int numSentries;
+	private boolean hasBombardiers;
 	
 	public void setDefaults() {
 		mfdUptime = 1.0;
@@ -203,6 +205,8 @@ public class CharacterData implements Serializable {
 		anatomy = false;
 		hysteria = false;
 		caltropsUptime = 1.0;
+		numSentries = 3;
+		hasBombardiers = false;
 	}
 	
 	public CharacterData() {
@@ -1489,6 +1493,22 @@ public class CharacterData implements Serializable {
 
 	public void setEquipCritDamage(double equipCritDamage) {
 		this.equipCritDamage = equipCritDamage;
+	}
+
+	public int getNumSentries() {
+		return numSentries;
+	}
+
+	public void setNumSentries(int numSentries) {
+		this.numSentries = numSentries;
+	}
+
+	public boolean isHasBombardiers() {
+		return hasBombardiers;
+	}
+
+	public void setHasBombardiers(boolean hasBombardiers) {
+		this.hasBombardiers = hasBombardiers;
 	}
 	
 }

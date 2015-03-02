@@ -242,7 +242,7 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 
 				DpsTableEntry entry = calculateDps(data);
 
-				Database.getInstance().logDps(entry);
+//				Database.getInstance().logDps(entry);
 			}
 		}).start();
 
