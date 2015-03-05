@@ -93,644 +93,645 @@ public class FiringData {
 
 			// 1 Spender
 
-			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.BOLT, 24) }),
-			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 11),
-					new SkillAction(ActiveSkill.BOLT, 31) }),
-			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.BOLT, 36) }),
-			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 12),
-					new SkillAction(ActiveSkill.BOLT, 48) }),
-			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.BOLT, 61) }),
-			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 14),
-					new SkillAction(ActiveSkill.BOLT, 83) }),
-			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 14),
-					new SkillAction(ActiveSkill.BOLT, 136) }),
-
-			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 19),
-					new SkillAction(ActiveSkill.BOLT, 18) }),
-			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 21),
-					new SkillAction(ActiveSkill.BOLT, 21) }),
-			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 25),
-					new SkillAction(ActiveSkill.BOLT, 24) }),
-			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 30),
-					new SkillAction(ActiveSkill.BOLT, 30) }),
-			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 25),
-					new SkillAction(ActiveSkill.BOLT, 49) }),
-			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 33),
-					new SkillAction(ActiveSkill.BOLT, 64) }),
-			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 38),
-					new SkillAction(ActiveSkill.BOLT, 112) }),
-
-			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 19),
-					new SkillAction(ActiveSkill.BOLT, 18) }),
-			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 21),
-					new SkillAction(ActiveSkill.BOLT, 21) }),
-			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 25),
-					new SkillAction(ActiveSkill.BOLT, 24) }),
-			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 30),
-					new SkillAction(ActiveSkill.BOLT, 30) }),
-			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 25),
-					new SkillAction(ActiveSkill.BOLT, 49) }),
-			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 33),
-					new SkillAction(ActiveSkill.BOLT, 64) }),
-			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 38),
-					new SkillAction(ActiveSkill.BOLT, 112) }),
-
-			new FiringData(BreakPoint.ALL[0],
-					new SkillAction[] { new SkillAction(ActiveSkill.CHAK, 37) }),
-			new FiringData(BreakPoint.ALL[1],
-					new SkillAction[] { new SkillAction(ActiveSkill.CHAK, 42) }),
-			new FiringData(BreakPoint.ALL[2],
-					new SkillAction[] { new SkillAction(ActiveSkill.CHAK, 49) }),
-			new FiringData(BreakPoint.ALL[3],
-					new SkillAction[] { new SkillAction(ActiveSkill.CHAK, 60) }),
-			new FiringData(BreakPoint.ALL[4],
-					new SkillAction[] { new SkillAction(ActiveSkill.CHAK, 74) }),
-			new FiringData(BreakPoint.ALL[5],
-					new SkillAction[] { new SkillAction(ActiveSkill.CHAK, 97) }),
-			new FiringData(
-					BreakPoint.ALL[6],
-					new SkillAction[] { new SkillAction(ActiveSkill.CHAK, 150) }),
-
-			new FiringData(BreakPoint.ALL[0],
-					new SkillAction[] { new SkillAction(ActiveSkill.EA, 37) }),
-			new FiringData(BreakPoint.ALL[1],
-					new SkillAction[] { new SkillAction(ActiveSkill.EA, 42) }),
-			new FiringData(BreakPoint.ALL[2],
-					new SkillAction[] { new SkillAction(ActiveSkill.EA, 49) }),
-			new FiringData(BreakPoint.ALL[3],
-					new SkillAction[] { new SkillAction(ActiveSkill.EA, 60) }),
-			new FiringData(BreakPoint.ALL[4],
-					new SkillAction[] { new SkillAction(ActiveSkill.EA, 74) }),
-			new FiringData(BreakPoint.ALL[5],
-					new SkillAction[] { new SkillAction(ActiveSkill.EA, 97) }),
-			new FiringData(BreakPoint.ALL[6],
-					new SkillAction[] { new SkillAction(ActiveSkill.EA, 150) }),
-
-			// 2 Spenders
-
-			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.MS, 12),
-					new SkillAction(ActiveSkill.BOLT, 12) }),
-			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 11),
-					new SkillAction(ActiveSkill.MS, 21),
-					new SkillAction(ActiveSkill.BOLT, 10) }),
-			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.MS, 24),
-					new SkillAction(ActiveSkill.BOLT, 12) }),
-			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 12),
-					new SkillAction(ActiveSkill.MS, 24),
-					new SkillAction(ActiveSkill.BOLT, 24) }),
-			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.MS, 24),
-					new SkillAction(ActiveSkill.BOLT, 37) }),
-			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 14),
-					new SkillAction(ActiveSkill.MS, 29),
-					new SkillAction(ActiveSkill.BOLT, 54) }),
-			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 14),
-					new SkillAction(ActiveSkill.MS, 36),
-					new SkillAction(ActiveSkill.BOLT, 100) }),
-
-			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.IMP, 12),
-					new SkillAction(ActiveSkill.BOLT, 12) }),
-			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 11),
-					new SkillAction(ActiveSkill.IMP, 21),
-					new SkillAction(ActiveSkill.BOLT, 10) }),
-			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.IMP, 24),
-					new SkillAction(ActiveSkill.BOLT, 12) }),
-			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 12),
-					new SkillAction(ActiveSkill.IMP, 24),
-					new SkillAction(ActiveSkill.BOLT, 24) }),
-			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.IMP, 24),
-					new SkillAction(ActiveSkill.BOLT, 37) }),
-			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 14),
-					new SkillAction(ActiveSkill.IMP, 29),
-					new SkillAction(ActiveSkill.BOLT, 54) }),
-			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 14),
-					new SkillAction(ActiveSkill.IMP, 36),
-					new SkillAction(ActiveSkill.BOLT, 100) }),
-
-			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.CHAK, 24) }),
-			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 11),
-					new SkillAction(ActiveSkill.CHAK, 31) }),
-			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.CHAK, 36) }),
-			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 12),
-					new SkillAction(ActiveSkill.CHAK, 48) }),
-			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.CHAK, 61) }),
-			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 14),
-					new SkillAction(ActiveSkill.CHAK, 83) }),
-			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 14),
-					new SkillAction(ActiveSkill.CHAK, 136) }),
-
-			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.EA, 24) }),
-			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 11),
-					new SkillAction(ActiveSkill.EA, 31) }),
-			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.EA, 36) }),
-			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 12),
-					new SkillAction(ActiveSkill.EA, 48) }),
-			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.EA, 61) }),
-			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 14),
-					new SkillAction(ActiveSkill.EA, 83) }),
-			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 14),
-					new SkillAction(ActiveSkill.EA, 136) }),
-
-			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 19),
-					new SkillAction(ActiveSkill.IMP, 18),
-					new SkillAction(ActiveSkill.BOLT, 0) }),
-			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 21),
-					new SkillAction(ActiveSkill.IMP, 21),
-					new SkillAction(ActiveSkill.BOLT, 0) }),
-			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 25),
-					new SkillAction(ActiveSkill.IMP, 24),
-					new SkillAction(ActiveSkill.BOLT, 0) }),
-			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 30),
-					new SkillAction(ActiveSkill.IMP, 30),
-					new SkillAction(ActiveSkill.BOLT, 0) }),
-			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 25),
-					new SkillAction(ActiveSkill.IMP, 25),
-					new SkillAction(ActiveSkill.BOLT, 24) }),
-			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 33),
-					new SkillAction(ActiveSkill.IMP, 32),
-					new SkillAction(ActiveSkill.BOLT, 32) }),
-			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 38),
-					new SkillAction(ActiveSkill.IMP, 38),
-					new SkillAction(ActiveSkill.BOLT, 74) }),
-
-			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 19),
-					new SkillAction(ActiveSkill.CHAK, 18) }),
-			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 21),
-					new SkillAction(ActiveSkill.CHAK, 21) }),
-			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 25),
-					new SkillAction(ActiveSkill.CHAK, 24) }),
-			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 30),
-					new SkillAction(ActiveSkill.CHAK, 30) }),
-			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 25),
-					new SkillAction(ActiveSkill.CHAK, 49) }),
-			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 33),
-					new SkillAction(ActiveSkill.CHAK, 64) }),
-			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 38),
-					new SkillAction(ActiveSkill.CHAK, 112) }),
-
-			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 19),
-					new SkillAction(ActiveSkill.EA, 18) }),
-			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 21),
-					new SkillAction(ActiveSkill.EA, 21) }),
-			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 25),
-					new SkillAction(ActiveSkill.EA, 24) }),
-			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 30),
-					new SkillAction(ActiveSkill.EA, 30) }),
-			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 25),
-					new SkillAction(ActiveSkill.EA, 49) }),
-			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 33),
-					new SkillAction(ActiveSkill.EA, 64) }),
-			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 38),
-					new SkillAction(ActiveSkill.EA, 112) }),
-
-			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 19),
-					new SkillAction(ActiveSkill.CHAK, 18) }),
-			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 21),
-					new SkillAction(ActiveSkill.CHAK, 21) }),
-			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 25),
-					new SkillAction(ActiveSkill.CHAK, 24) }),
-			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 30),
-					new SkillAction(ActiveSkill.CHAK, 30) }),
-			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 25),
-					new SkillAction(ActiveSkill.CHAK, 49) }),
-			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 33),
-					new SkillAction(ActiveSkill.CHAK, 64) }),
-			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 38),
-					new SkillAction(ActiveSkill.CHAK, 112) }),
-
-			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 19),
-					new SkillAction(ActiveSkill.EA, 18) }),
-			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 21),
-					new SkillAction(ActiveSkill.EA, 21) }),
-			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 25),
-					new SkillAction(ActiveSkill.EA, 24) }),
-			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 30),
-					new SkillAction(ActiveSkill.EA, 30) }),
-			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 25),
-					new SkillAction(ActiveSkill.EA, 49) }),
-			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 33),
-					new SkillAction(ActiveSkill.EA, 64) }),
-			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 38),
-					new SkillAction(ActiveSkill.EA, 112) }),
-
-			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
-					new SkillAction(ActiveSkill.CHAK, 19),
-					new SkillAction(ActiveSkill.EA, 18) }),
-			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
-					new SkillAction(ActiveSkill.CHAK, 21),
-					new SkillAction(ActiveSkill.EA, 21) }),
-			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
-					new SkillAction(ActiveSkill.CHAK, 25),
-					new SkillAction(ActiveSkill.EA, 24) }),
-			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
-					new SkillAction(ActiveSkill.CHAK, 30),
-					new SkillAction(ActiveSkill.EA, 30) }),
-			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
-					new SkillAction(ActiveSkill.CHAK, 25),
-					new SkillAction(ActiveSkill.EA, 49) }),
-			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
-					new SkillAction(ActiveSkill.CHAK, 49),
-					new SkillAction(ActiveSkill.EA, 48) }),
-			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
-					new SkillAction(ActiveSkill.CHAK, 75),
-					new SkillAction(ActiveSkill.EA, 75) }),
-
-			// 3 Spenders
-
-			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.MS, 12),
-					new SkillAction(ActiveSkill.IMP, 12),
-					new SkillAction(ActiveSkill.BOLT, 0) }),
-			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 11),
-					new SkillAction(ActiveSkill.MS, 21),
-					new SkillAction(ActiveSkill.IMP, 10),
-					new SkillAction(ActiveSkill.BOLT, 0) }),
-			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.MS, 24),
-					new SkillAction(ActiveSkill.IMP, 12),
-					new SkillAction(ActiveSkill.BOLT, 0) }),
-			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 12),
-					new SkillAction(ActiveSkill.MS, 24),
-					new SkillAction(ActiveSkill.IMP, 24),
-					new SkillAction(ActiveSkill.BOLT, 0) }),
-			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.MS, 24),
-					new SkillAction(ActiveSkill.IMP, 24),
-					new SkillAction(ActiveSkill.BOLT, 13) }),
-			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.MS, 31),
-					new SkillAction(ActiveSkill.IMP, 31),
-					new SkillAction(ActiveSkill.BOLT, 22) }),
-			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 14),
-					new SkillAction(ActiveSkill.MS, 33),
-					new SkillAction(ActiveSkill.IMP, 33),
-					new SkillAction(ActiveSkill.BOLT, 70) }),
-
-			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.MS, 12),
-					new SkillAction(ActiveSkill.CHAK, 12) }),
-			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 11),
-					new SkillAction(ActiveSkill.MS, 21),
-					new SkillAction(ActiveSkill.CHAK, 10) }),
-			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.MS, 24),
-					new SkillAction(ActiveSkill.CHAK, 12) }),
-			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 12),
-					new SkillAction(ActiveSkill.MS, 24),
-					new SkillAction(ActiveSkill.CHAK, 24) }),
-			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.MS, 24),
-					new SkillAction(ActiveSkill.CHAK, 37) }),
-			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 14),
-					new SkillAction(ActiveSkill.MS, 29),
-					new SkillAction(ActiveSkill.CHAK, 54) }),
-			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 14),
-					new SkillAction(ActiveSkill.MS, 36),
-					new SkillAction(ActiveSkill.CHAK, 100) }),
-
-			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.MS, 12),
-					new SkillAction(ActiveSkill.EA, 12) }),
-			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 11),
-					new SkillAction(ActiveSkill.MS, 21),
-					new SkillAction(ActiveSkill.EA, 10) }),
-			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.MS, 24),
-					new SkillAction(ActiveSkill.EA, 12) }),
-			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 12),
-					new SkillAction(ActiveSkill.MS, 24),
-					new SkillAction(ActiveSkill.EA, 24) }),
-			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.MS, 24),
-					new SkillAction(ActiveSkill.EA, 37) }),
-			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 14),
-					new SkillAction(ActiveSkill.MS, 29),
-					new SkillAction(ActiveSkill.EA, 54) }),
-			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 14),
-					new SkillAction(ActiveSkill.MS, 36),
-					new SkillAction(ActiveSkill.EA, 100) }),
-
-			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.IMP, 12),
-					new SkillAction(ActiveSkill.CHAK, 12) }),
-			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 11),
-					new SkillAction(ActiveSkill.IMP, 21),
-					new SkillAction(ActiveSkill.CHAK, 10) }),
-			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.IMP, 24),
-					new SkillAction(ActiveSkill.CHAK, 12) }),
-			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 12),
-					new SkillAction(ActiveSkill.IMP, 24),
-					new SkillAction(ActiveSkill.CHAK, 24) }),
-			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.IMP, 24),
-					new SkillAction(ActiveSkill.CHAK, 37) }),
-			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 14),
-					new SkillAction(ActiveSkill.IMP, 29),
-					new SkillAction(ActiveSkill.CHAK, 54) }),
-			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 14),
-					new SkillAction(ActiveSkill.IMP, 36),
-					new SkillAction(ActiveSkill.CHAK, 100) }),
-
-			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.IMP, 12),
-					new SkillAction(ActiveSkill.EA, 12) }),
-			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 11),
-					new SkillAction(ActiveSkill.IMP, 21),
-					new SkillAction(ActiveSkill.EA, 10) }),
-			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.IMP, 24),
-					new SkillAction(ActiveSkill.EA, 12) }),
-			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 12),
-					new SkillAction(ActiveSkill.IMP, 24),
-					new SkillAction(ActiveSkill.EA, 24) }),
-			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.IMP, 24),
-					new SkillAction(ActiveSkill.EA, 37) }),
-			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 14),
-					new SkillAction(ActiveSkill.IMP, 29),
-					new SkillAction(ActiveSkill.EA, 54) }),
-			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 14),
-					new SkillAction(ActiveSkill.IMP, 36),
-					new SkillAction(ActiveSkill.EA, 100) }),
-
-			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.CHAK, 12),
-					new SkillAction(ActiveSkill.EA, 12) }),
-			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 11),
-					new SkillAction(ActiveSkill.CHAK, 16),
-					new SkillAction(ActiveSkill.EA, 15) }),
-			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.CHAK, 18),
-					new SkillAction(ActiveSkill.EA, 18) }),
-			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 12),
-					new SkillAction(ActiveSkill.CHAK, 24),
-					new SkillAction(ActiveSkill.EA, 24) }),
-			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.CHAK, 31),
-					new SkillAction(ActiveSkill.EA, 30) }),
-			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 13),
-					new SkillAction(ActiveSkill.CHAK, 42),
-					new SkillAction(ActiveSkill.EA, 42) }),
-			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
-					new SkillAction(ActiveSkill.CA, 14),
-					new SkillAction(ActiveSkill.CHAK, 68),
-					new SkillAction(ActiveSkill.EA, 68) }),
-
-			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 19),
-					new SkillAction(ActiveSkill.IMP, 18),
-					new SkillAction(ActiveSkill.CHAK, 0) }),
-			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 21),
-					new SkillAction(ActiveSkill.IMP, 21),
-					new SkillAction(ActiveSkill.CHAK, 0) }),
-			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 25),
-					new SkillAction(ActiveSkill.IMP, 24),
-					new SkillAction(ActiveSkill.CHAK, 0) }),
-			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 30),
-					new SkillAction(ActiveSkill.IMP, 30),
-					new SkillAction(ActiveSkill.CHAK, 0) }),
-			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 25),
-					new SkillAction(ActiveSkill.IMP, 25),
-					new SkillAction(ActiveSkill.CHAK, 24) }),
-			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 33),
-					new SkillAction(ActiveSkill.IMP, 32),
-					new SkillAction(ActiveSkill.CHAK, 32) }),
-			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 38),
-					new SkillAction(ActiveSkill.IMP, 38),
-					new SkillAction(ActiveSkill.CHAK, 74) }),
-
-			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 19),
-					new SkillAction(ActiveSkill.IMP, 18),
-					new SkillAction(ActiveSkill.EA, 0) }),
-			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 21),
-					new SkillAction(ActiveSkill.IMP, 21),
-					new SkillAction(ActiveSkill.EA, 0) }),
-			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 25),
-					new SkillAction(ActiveSkill.IMP, 24),
-					new SkillAction(ActiveSkill.EA, 0) }),
-			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 30),
-					new SkillAction(ActiveSkill.IMP, 30),
-					new SkillAction(ActiveSkill.EA, 0) }),
-			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 25),
-					new SkillAction(ActiveSkill.IMP, 25),
-					new SkillAction(ActiveSkill.EA, 24) }),
-			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 33),
-					new SkillAction(ActiveSkill.IMP, 32),
-					new SkillAction(ActiveSkill.EA, 32) }),
-			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 38),
-					new SkillAction(ActiveSkill.IMP, 38),
-					new SkillAction(ActiveSkill.EA, 74) }),
-
-			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 19),
-					new SkillAction(ActiveSkill.CHAK, 9),
-					new SkillAction(ActiveSkill.EA, 9) }),
-			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 21),
-					new SkillAction(ActiveSkill.CHAK, 11),
-					new SkillAction(ActiveSkill.EA, 10) }),
-			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 25),
-					new SkillAction(ActiveSkill.CHAK, 12),
-					new SkillAction(ActiveSkill.EA, 12) }),
-			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 30),
-					new SkillAction(ActiveSkill.CHAK, 15),
-					new SkillAction(ActiveSkill.EA, 15) }),
-			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 25),
-					new SkillAction(ActiveSkill.CHAK, 25),
-					new SkillAction(ActiveSkill.EA, 24) }),
-			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 33),
-					new SkillAction(ActiveSkill.CHAK, 32),
-					new SkillAction(ActiveSkill.EA, 32) }),
-			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
-					new SkillAction(ActiveSkill.MS, 38),
-					new SkillAction(ActiveSkill.CHAK, 56),
-					new SkillAction(ActiveSkill.EA, 56) }),
-
-			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 19),
-					new SkillAction(ActiveSkill.CHAK, 9),
-					new SkillAction(ActiveSkill.EA, 9) }),
-			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 21),
-					new SkillAction(ActiveSkill.CHAK, 11),
-					new SkillAction(ActiveSkill.EA, 10) }),
-			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 25),
-					new SkillAction(ActiveSkill.CHAK, 12),
-					new SkillAction(ActiveSkill.EA, 12) }),
-			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 30),
-					new SkillAction(ActiveSkill.CHAK, 15),
-					new SkillAction(ActiveSkill.EA, 15) }),
-			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 25),
-					new SkillAction(ActiveSkill.CHAK, 25),
-					new SkillAction(ActiveSkill.EA, 24) }),
-			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 33),
-					new SkillAction(ActiveSkill.CHAK, 32),
-					new SkillAction(ActiveSkill.EA, 32) }),
-			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
-					new SkillAction(ActiveSkill.IMP, 38),
-					new SkillAction(ActiveSkill.CHAK, 56),
-					new SkillAction(ActiveSkill.EA, 56) }), };
+//			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.BOLT, 24) }),
+//			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 11),
+//					new SkillAction(ActiveSkill.BOLT, 31) }),
+//			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.BOLT, 36) }),
+//			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 12),
+//					new SkillAction(ActiveSkill.BOLT, 48) }),
+//			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.BOLT, 61) }),
+//			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 14),
+//					new SkillAction(ActiveSkill.BOLT, 83) }),
+//			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 14),
+//					new SkillAction(ActiveSkill.BOLT, 136) }),
+//
+//			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 19),
+//					new SkillAction(ActiveSkill.BOLT, 18) }),
+//			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 21),
+//					new SkillAction(ActiveSkill.BOLT, 21) }),
+//			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 25),
+//					new SkillAction(ActiveSkill.BOLT, 24) }),
+//			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 30),
+//					new SkillAction(ActiveSkill.BOLT, 30) }),
+//			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 25),
+//					new SkillAction(ActiveSkill.BOLT, 49) }),
+//			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 33),
+//					new SkillAction(ActiveSkill.BOLT, 64) }),
+//			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 38),
+//					new SkillAction(ActiveSkill.BOLT, 112) }),
+//
+//			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 19),
+//					new SkillAction(ActiveSkill.BOLT, 18) }),
+//			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 21),
+//					new SkillAction(ActiveSkill.BOLT, 21) }),
+//			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 25),
+//					new SkillAction(ActiveSkill.BOLT, 24) }),
+//			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 30),
+//					new SkillAction(ActiveSkill.BOLT, 30) }),
+//			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 25),
+//					new SkillAction(ActiveSkill.BOLT, 49) }),
+//			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 33),
+//					new SkillAction(ActiveSkill.BOLT, 64) }),
+//			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 38),
+//					new SkillAction(ActiveSkill.BOLT, 112) }),
+//
+//			new FiringData(BreakPoint.ALL[0],
+//					new SkillAction[] { new SkillAction(ActiveSkill.CHAK, 37) }),
+//			new FiringData(BreakPoint.ALL[1],
+//					new SkillAction[] { new SkillAction(ActiveSkill.CHAK, 42) }),
+//			new FiringData(BreakPoint.ALL[2],
+//					new SkillAction[] { new SkillAction(ActiveSkill.CHAK, 49) }),
+//			new FiringData(BreakPoint.ALL[3],
+//					new SkillAction[] { new SkillAction(ActiveSkill.CHAK, 60) }),
+//			new FiringData(BreakPoint.ALL[4],
+//					new SkillAction[] { new SkillAction(ActiveSkill.CHAK, 74) }),
+//			new FiringData(BreakPoint.ALL[5],
+//					new SkillAction[] { new SkillAction(ActiveSkill.CHAK, 97) }),
+//			new FiringData(
+//					BreakPoint.ALL[6],
+//					new SkillAction[] { new SkillAction(ActiveSkill.CHAK, 150) }),
+//
+//			new FiringData(BreakPoint.ALL[0],
+//					new SkillAction[] { new SkillAction(ActiveSkill.EA, 37) }),
+//			new FiringData(BreakPoint.ALL[1],
+//					new SkillAction[] { new SkillAction(ActiveSkill.EA, 42) }),
+//			new FiringData(BreakPoint.ALL[2],
+//					new SkillAction[] { new SkillAction(ActiveSkill.EA, 49) }),
+//			new FiringData(BreakPoint.ALL[3],
+//					new SkillAction[] { new SkillAction(ActiveSkill.EA, 60) }),
+//			new FiringData(BreakPoint.ALL[4],
+//					new SkillAction[] { new SkillAction(ActiveSkill.EA, 74) }),
+//			new FiringData(BreakPoint.ALL[5],
+//					new SkillAction[] { new SkillAction(ActiveSkill.EA, 97) }),
+//			new FiringData(BreakPoint.ALL[6],
+//					new SkillAction[] { new SkillAction(ActiveSkill.EA, 150) }),
+//
+//			// 2 Spenders
+//
+//			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.MS, 12),
+//					new SkillAction(ActiveSkill.BOLT, 12) }),
+//			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 11),
+//					new SkillAction(ActiveSkill.MS, 21),
+//					new SkillAction(ActiveSkill.BOLT, 10) }),
+//			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.MS, 24),
+//					new SkillAction(ActiveSkill.BOLT, 12) }),
+//			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 12),
+//					new SkillAction(ActiveSkill.MS, 24),
+//					new SkillAction(ActiveSkill.BOLT, 24) }),
+//			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.MS, 24),
+//					new SkillAction(ActiveSkill.BOLT, 37) }),
+//			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 14),
+//					new SkillAction(ActiveSkill.MS, 29),
+//					new SkillAction(ActiveSkill.BOLT, 54) }),
+//			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 14),
+//					new SkillAction(ActiveSkill.MS, 36),
+//					new SkillAction(ActiveSkill.BOLT, 100) }),
+//
+//			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.IMP, 12),
+//					new SkillAction(ActiveSkill.BOLT, 12) }),
+//			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 11),
+//					new SkillAction(ActiveSkill.IMP, 21),
+//					new SkillAction(ActiveSkill.BOLT, 10) }),
+//			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.IMP, 24),
+//					new SkillAction(ActiveSkill.BOLT, 12) }),
+//			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 12),
+//					new SkillAction(ActiveSkill.IMP, 24),
+//					new SkillAction(ActiveSkill.BOLT, 24) }),
+//			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.IMP, 24),
+//					new SkillAction(ActiveSkill.BOLT, 37) }),
+//			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 14),
+//					new SkillAction(ActiveSkill.IMP, 29),
+//					new SkillAction(ActiveSkill.BOLT, 54) }),
+//			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 14),
+//					new SkillAction(ActiveSkill.IMP, 36),
+//					new SkillAction(ActiveSkill.BOLT, 100) }),
+//
+//			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.CHAK, 24) }),
+//			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 11),
+//					new SkillAction(ActiveSkill.CHAK, 31) }),
+//			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.CHAK, 36) }),
+//			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 12),
+//					new SkillAction(ActiveSkill.CHAK, 48) }),
+//			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.CHAK, 61) }),
+//			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 14),
+//					new SkillAction(ActiveSkill.CHAK, 83) }),
+//			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 14),
+//					new SkillAction(ActiveSkill.CHAK, 136) }),
+//
+//			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.EA, 24) }),
+//			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 11),
+//					new SkillAction(ActiveSkill.EA, 31) }),
+//			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.EA, 36) }),
+//			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 12),
+//					new SkillAction(ActiveSkill.EA, 48) }),
+//			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.EA, 61) }),
+//			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 14),
+//					new SkillAction(ActiveSkill.EA, 83) }),
+//			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 14),
+//					new SkillAction(ActiveSkill.EA, 136) }),
+//
+//			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 19),
+//					new SkillAction(ActiveSkill.IMP, 18),
+//					new SkillAction(ActiveSkill.BOLT, 0) }),
+//			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 21),
+//					new SkillAction(ActiveSkill.IMP, 21),
+//					new SkillAction(ActiveSkill.BOLT, 0) }),
+//			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 25),
+//					new SkillAction(ActiveSkill.IMP, 24),
+//					new SkillAction(ActiveSkill.BOLT, 0) }),
+//			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 30),
+//					new SkillAction(ActiveSkill.IMP, 30),
+//					new SkillAction(ActiveSkill.BOLT, 0) }),
+//			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 25),
+//					new SkillAction(ActiveSkill.IMP, 25),
+//					new SkillAction(ActiveSkill.BOLT, 24) }),
+//			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 33),
+//					new SkillAction(ActiveSkill.IMP, 32),
+//					new SkillAction(ActiveSkill.BOLT, 32) }),
+//			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 38),
+//					new SkillAction(ActiveSkill.IMP, 38),
+//					new SkillAction(ActiveSkill.BOLT, 74) }),
+//
+//			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 19),
+//					new SkillAction(ActiveSkill.CHAK, 18) }),
+//			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 21),
+//					new SkillAction(ActiveSkill.CHAK, 21) }),
+//			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 25),
+//					new SkillAction(ActiveSkill.CHAK, 24) }),
+//			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 30),
+//					new SkillAction(ActiveSkill.CHAK, 30) }),
+//			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 25),
+//					new SkillAction(ActiveSkill.CHAK, 49) }),
+//			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 33),
+//					new SkillAction(ActiveSkill.CHAK, 64) }),
+//			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 38),
+//					new SkillAction(ActiveSkill.CHAK, 112) }),
+//
+//			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 19),
+//					new SkillAction(ActiveSkill.EA, 18) }),
+//			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 21),
+//					new SkillAction(ActiveSkill.EA, 21) }),
+//			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 25),
+//					new SkillAction(ActiveSkill.EA, 24) }),
+//			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 30),
+//					new SkillAction(ActiveSkill.EA, 30) }),
+//			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 25),
+//					new SkillAction(ActiveSkill.EA, 49) }),
+//			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 33),
+//					new SkillAction(ActiveSkill.EA, 64) }),
+//			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 38),
+//					new SkillAction(ActiveSkill.EA, 112) }),
+//
+//			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 19),
+//					new SkillAction(ActiveSkill.CHAK, 18) }),
+//			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 21),
+//					new SkillAction(ActiveSkill.CHAK, 21) }),
+//			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 25),
+//					new SkillAction(ActiveSkill.CHAK, 24) }),
+//			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 30),
+//					new SkillAction(ActiveSkill.CHAK, 30) }),
+//			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 25),
+//					new SkillAction(ActiveSkill.CHAK, 49) }),
+//			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 33),
+//					new SkillAction(ActiveSkill.CHAK, 64) }),
+//			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 38),
+//					new SkillAction(ActiveSkill.CHAK, 112) }),
+//
+//			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 19),
+//					new SkillAction(ActiveSkill.EA, 18) }),
+//			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 21),
+//					new SkillAction(ActiveSkill.EA, 21) }),
+//			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 25),
+//					new SkillAction(ActiveSkill.EA, 24) }),
+//			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 30),
+//					new SkillAction(ActiveSkill.EA, 30) }),
+//			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 25),
+//					new SkillAction(ActiveSkill.EA, 49) }),
+//			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 33),
+//					new SkillAction(ActiveSkill.EA, 64) }),
+//			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 38),
+//					new SkillAction(ActiveSkill.EA, 112) }),
+//
+//			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CHAK, 19),
+//					new SkillAction(ActiveSkill.EA, 18) }),
+//			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CHAK, 21),
+//					new SkillAction(ActiveSkill.EA, 21) }),
+//			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CHAK, 25),
+//					new SkillAction(ActiveSkill.EA, 24) }),
+//			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CHAK, 30),
+//					new SkillAction(ActiveSkill.EA, 30) }),
+//			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CHAK, 25),
+//					new SkillAction(ActiveSkill.EA, 49) }),
+//			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CHAK, 49),
+//					new SkillAction(ActiveSkill.EA, 48) }),
+//			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CHAK, 75),
+//					new SkillAction(ActiveSkill.EA, 75) }),
+//
+//			// 3 Spenders
+//
+//			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.MS, 12),
+//					new SkillAction(ActiveSkill.IMP, 12),
+//					new SkillAction(ActiveSkill.BOLT, 0) }),
+//			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 11),
+//					new SkillAction(ActiveSkill.MS, 21),
+//					new SkillAction(ActiveSkill.IMP, 10),
+//					new SkillAction(ActiveSkill.BOLT, 0) }),
+//			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.MS, 24),
+//					new SkillAction(ActiveSkill.IMP, 12),
+//					new SkillAction(ActiveSkill.BOLT, 0) }),
+//			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 12),
+//					new SkillAction(ActiveSkill.MS, 24),
+//					new SkillAction(ActiveSkill.IMP, 24),
+//					new SkillAction(ActiveSkill.BOLT, 0) }),
+//			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.MS, 24),
+//					new SkillAction(ActiveSkill.IMP, 24),
+//					new SkillAction(ActiveSkill.BOLT, 13) }),
+//			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.MS, 31),
+//					new SkillAction(ActiveSkill.IMP, 31),
+//					new SkillAction(ActiveSkill.BOLT, 22) }),
+//			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 14),
+//					new SkillAction(ActiveSkill.MS, 33),
+//					new SkillAction(ActiveSkill.IMP, 33),
+//					new SkillAction(ActiveSkill.BOLT, 70) }),
+//
+//			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.MS, 12),
+//					new SkillAction(ActiveSkill.CHAK, 12) }),
+//			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 11),
+//					new SkillAction(ActiveSkill.MS, 21),
+//					new SkillAction(ActiveSkill.CHAK, 10) }),
+//			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.MS, 24),
+//					new SkillAction(ActiveSkill.CHAK, 12) }),
+//			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 12),
+//					new SkillAction(ActiveSkill.MS, 24),
+//					new SkillAction(ActiveSkill.CHAK, 24) }),
+//			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.MS, 24),
+//					new SkillAction(ActiveSkill.CHAK, 37) }),
+//			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 14),
+//					new SkillAction(ActiveSkill.MS, 29),
+//					new SkillAction(ActiveSkill.CHAK, 54) }),
+//			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 14),
+//					new SkillAction(ActiveSkill.MS, 36),
+//					new SkillAction(ActiveSkill.CHAK, 100) }),
+//
+//			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.MS, 12),
+//					new SkillAction(ActiveSkill.EA, 12) }),
+//			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 11),
+//					new SkillAction(ActiveSkill.MS, 21),
+//					new SkillAction(ActiveSkill.EA, 10) }),
+//			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.MS, 24),
+//					new SkillAction(ActiveSkill.EA, 12) }),
+//			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 12),
+//					new SkillAction(ActiveSkill.MS, 24),
+//					new SkillAction(ActiveSkill.EA, 24) }),
+//			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.MS, 24),
+//					new SkillAction(ActiveSkill.EA, 37) }),
+//			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 14),
+//					new SkillAction(ActiveSkill.MS, 29),
+//					new SkillAction(ActiveSkill.EA, 54) }),
+//			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 14),
+//					new SkillAction(ActiveSkill.MS, 36),
+//					new SkillAction(ActiveSkill.EA, 100) }),
+//
+//			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.IMP, 12),
+//					new SkillAction(ActiveSkill.CHAK, 12) }),
+//			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 11),
+//					new SkillAction(ActiveSkill.IMP, 21),
+//					new SkillAction(ActiveSkill.CHAK, 10) }),
+//			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.IMP, 24),
+//					new SkillAction(ActiveSkill.CHAK, 12) }),
+//			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 12),
+//					new SkillAction(ActiveSkill.IMP, 24),
+//					new SkillAction(ActiveSkill.CHAK, 24) }),
+//			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.IMP, 24),
+//					new SkillAction(ActiveSkill.CHAK, 37) }),
+//			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 14),
+//					new SkillAction(ActiveSkill.IMP, 29),
+//					new SkillAction(ActiveSkill.CHAK, 54) }),
+//			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 14),
+//					new SkillAction(ActiveSkill.IMP, 36),
+//					new SkillAction(ActiveSkill.CHAK, 100) }),
+//
+//			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.IMP, 12),
+//					new SkillAction(ActiveSkill.EA, 12) }),
+//			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 11),
+//					new SkillAction(ActiveSkill.IMP, 21),
+//					new SkillAction(ActiveSkill.EA, 10) }),
+//			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.IMP, 24),
+//					new SkillAction(ActiveSkill.EA, 12) }),
+//			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 12),
+//					new SkillAction(ActiveSkill.IMP, 24),
+//					new SkillAction(ActiveSkill.EA, 24) }),
+//			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.IMP, 24),
+//					new SkillAction(ActiveSkill.EA, 37) }),
+//			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 14),
+//					new SkillAction(ActiveSkill.IMP, 29),
+//					new SkillAction(ActiveSkill.EA, 54) }),
+//			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 14),
+//					new SkillAction(ActiveSkill.IMP, 36),
+//					new SkillAction(ActiveSkill.EA, 100) }),
+//
+//			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.CHAK, 12),
+//					new SkillAction(ActiveSkill.EA, 12) }),
+//			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 11),
+//					new SkillAction(ActiveSkill.CHAK, 16),
+//					new SkillAction(ActiveSkill.EA, 15) }),
+//			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.CHAK, 18),
+//					new SkillAction(ActiveSkill.EA, 18) }),
+//			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 12),
+//					new SkillAction(ActiveSkill.CHAK, 24),
+//					new SkillAction(ActiveSkill.EA, 24) }),
+//			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.CHAK, 31),
+//					new SkillAction(ActiveSkill.EA, 30) }),
+//			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 13),
+//					new SkillAction(ActiveSkill.CHAK, 42),
+//					new SkillAction(ActiveSkill.EA, 42) }),
+//			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
+//					new SkillAction(ActiveSkill.CA, 14),
+//					new SkillAction(ActiveSkill.CHAK, 68),
+//					new SkillAction(ActiveSkill.EA, 68) }),
+//
+//			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 19),
+//					new SkillAction(ActiveSkill.IMP, 18),
+//					new SkillAction(ActiveSkill.CHAK, 0) }),
+//			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 21),
+//					new SkillAction(ActiveSkill.IMP, 21),
+//					new SkillAction(ActiveSkill.CHAK, 0) }),
+//			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 25),
+//					new SkillAction(ActiveSkill.IMP, 24),
+//					new SkillAction(ActiveSkill.CHAK, 0) }),
+//			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 30),
+//					new SkillAction(ActiveSkill.IMP, 30),
+//					new SkillAction(ActiveSkill.CHAK, 0) }),
+//			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 25),
+//					new SkillAction(ActiveSkill.IMP, 25),
+//					new SkillAction(ActiveSkill.CHAK, 24) }),
+//			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 33),
+//					new SkillAction(ActiveSkill.IMP, 32),
+//					new SkillAction(ActiveSkill.CHAK, 32) }),
+//			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 38),
+//					new SkillAction(ActiveSkill.IMP, 38),
+//					new SkillAction(ActiveSkill.CHAK, 74) }),
+//
+//			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 19),
+//					new SkillAction(ActiveSkill.IMP, 18),
+//					new SkillAction(ActiveSkill.EA, 0) }),
+//			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 21),
+//					new SkillAction(ActiveSkill.IMP, 21),
+//					new SkillAction(ActiveSkill.EA, 0) }),
+//			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 25),
+//					new SkillAction(ActiveSkill.IMP, 24),
+//					new SkillAction(ActiveSkill.EA, 0) }),
+//			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 30),
+//					new SkillAction(ActiveSkill.IMP, 30),
+//					new SkillAction(ActiveSkill.EA, 0) }),
+//			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 25),
+//					new SkillAction(ActiveSkill.IMP, 25),
+//					new SkillAction(ActiveSkill.EA, 24) }),
+//			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 33),
+//					new SkillAction(ActiveSkill.IMP, 32),
+//					new SkillAction(ActiveSkill.EA, 32) }),
+//			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 38),
+//					new SkillAction(ActiveSkill.IMP, 38),
+//					new SkillAction(ActiveSkill.EA, 74) }),
+//
+//			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 19),
+//					new SkillAction(ActiveSkill.CHAK, 9),
+//					new SkillAction(ActiveSkill.EA, 9) }),
+//			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 21),
+//					new SkillAction(ActiveSkill.CHAK, 11),
+//					new SkillAction(ActiveSkill.EA, 10) }),
+//			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 25),
+//					new SkillAction(ActiveSkill.CHAK, 12),
+//					new SkillAction(ActiveSkill.EA, 12) }),
+//			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 30),
+//					new SkillAction(ActiveSkill.CHAK, 15),
+//					new SkillAction(ActiveSkill.EA, 15) }),
+//			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 25),
+//					new SkillAction(ActiveSkill.CHAK, 25),
+//					new SkillAction(ActiveSkill.EA, 24) }),
+//			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 33),
+//					new SkillAction(ActiveSkill.CHAK, 32),
+//					new SkillAction(ActiveSkill.EA, 32) }),
+//			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
+//					new SkillAction(ActiveSkill.MS, 38),
+//					new SkillAction(ActiveSkill.CHAK, 56),
+//					new SkillAction(ActiveSkill.EA, 56) }),
+//
+//			new FiringData(BreakPoint.ALL[0], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 19),
+//					new SkillAction(ActiveSkill.CHAK, 9),
+//					new SkillAction(ActiveSkill.EA, 9) }),
+//			new FiringData(BreakPoint.ALL[1], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 21),
+//					new SkillAction(ActiveSkill.CHAK, 11),
+//					new SkillAction(ActiveSkill.EA, 10) }),
+//			new FiringData(BreakPoint.ALL[2], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 25),
+//					new SkillAction(ActiveSkill.CHAK, 12),
+//					new SkillAction(ActiveSkill.EA, 12) }),
+//			new FiringData(BreakPoint.ALL[3], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 30),
+//					new SkillAction(ActiveSkill.CHAK, 15),
+//					new SkillAction(ActiveSkill.EA, 15) }),
+//			new FiringData(BreakPoint.ALL[4], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 25),
+//					new SkillAction(ActiveSkill.CHAK, 25),
+//					new SkillAction(ActiveSkill.EA, 24) }),
+//			new FiringData(BreakPoint.ALL[5], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 33),
+//					new SkillAction(ActiveSkill.CHAK, 32),
+//					new SkillAction(ActiveSkill.EA, 32) }),
+//			new FiringData(BreakPoint.ALL[6], new SkillAction[] {
+//					new SkillAction(ActiveSkill.IMP, 38),
+//					new SkillAction(ActiveSkill.CHAK, 56),
+//					new SkillAction(ActiveSkill.EA, 56) }), 
+					};
 
 	public Damage[] calculateDamages(Map<ActiveSkill, Rune> runes, CharacterData data) {
 		List<Damage> list = new Vector<Damage>();

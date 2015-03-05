@@ -1224,23 +1224,23 @@ public class MainPanel extends BasePanel {
 			}
 		});
 
-		for (int i = 1; i <= 3; i++) {
-			Button spenderButton = new Button("New button");
-			final String title = String.valueOf(i) + " Spender"
-					+ ((i > 1) ? "s" : "");
-			spenderButton.setText(title + "...");
-			horizontalPanel_19.add(spenderButton);
-			final SpenderData spenders = new SpenderData(i);
-
-			spenderButton.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					ApplicationPanel.showDialogBox(title, spenders,
-							ApplicationPanel.OK, null);
-				}
-			});
-		}
+//		for (int i = 1; i <= 3; i++) {
+//			Button spenderButton = new Button("New button");
+//			final String title = String.valueOf(i) + " Spender"
+//					+ ((i > 1) ? "s" : "");
+//			spenderButton.setText(title + "...");
+//			horizontalPanel_19.add(spenderButton);
+////			final SpenderData spenders = new SpenderData(i);
+//
+//			spenderButton.addClickHandler(new ClickHandler() {
+//
+//				@Override
+//				public void onClick(ClickEvent event) {
+////					ApplicationPanel.showDialogBox(title, spenders,
+////							ApplicationPanel.OK, null);
+//				}
+//			});
+//		}
 
 		final AboutDialog about = new AboutDialog();
 		final StatsPanel stats = new StatsPanel();

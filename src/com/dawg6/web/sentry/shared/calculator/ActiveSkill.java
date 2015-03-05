@@ -126,15 +126,6 @@ public enum ActiveSkill {
 		return list;
 	}
 
-	public static void main(String[] args) {
-		System.out.println(com.dawg6.common.util.Util
-				.toString(getCombinations(1)));
-		System.out.println(com.dawg6.common.util.Util
-				.toString(getCombinations(2)));
-		System.out.println(com.dawg6.common.util.Util
-				.toString(getCombinations(3)));
-	}
-
 	public DamageMultiplier getDamageMultiplier() {
 		return multiplier;
 	}
