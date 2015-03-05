@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.dawg6.web.sentry.client.SentryService;
-import com.dawg6.web.sentry.server.db.aws.Database;
+import com.dawg6.web.sentry.server.db.couchdb.CouchDBSentryDatabase;
 import com.dawg6.web.sentry.shared.calculator.ActiveSkill;
 import com.dawg6.web.sentry.shared.calculator.BreakPoint;
 import com.dawg6.web.sentry.shared.calculator.Build;
@@ -341,6 +341,6 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public DBStatistics getStats(Rune sentryRune, ActiveSkill[] skills,
 			Rune[] runes) {
-		return Database.getInstance().getStatistics(sentryRune, skills, runes);
+		return CouchDBSentryDatabase.getInstance().getStatistics(sentryRune, skills, runes);
 	}
 }

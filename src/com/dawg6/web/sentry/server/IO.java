@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.dawg6.web.sentry.server.db.couchdb.CouchDBSentryParameters;
 import com.dawg6.web.sentry.shared.calculator.d3api.CareerProfile;
 import com.dawg6.web.sentry.shared.calculator.d3api.HeroProfile;
 import com.dawg6.web.sentry.shared.calculator.d3api.ItemInformation;
@@ -41,7 +42,7 @@ public class IO {
 	public final Cache<String, ItemInformation> itemCache = new Cache<String, ItemInformation>(true);
 	
 	private IO() {
-		String value = Parameters.getInstance().getParameter(Parameters.MAX_REQUESTS, String.valueOf(DEFAULT_MAX_REQUESTS_PER_SECOND), new Parameters.Listener() {
+		String value = CouchDBSentryParameters.getInstance().getParameter(CouchDBSentryParameters.MAX_REQUESTS, String.valueOf(DEFAULT_MAX_REQUESTS_PER_SECOND), new CouchDBSentryParameters.Listener() {
 			
 			@Override
 			public void parameterChanged(String parameter, String value) {
@@ -50,7 +51,7 @@ public class IO {
 		});
 		setMaxRequests(Integer.parseInt(value));
 		
-		value = Parameters.getInstance().getParameter(Parameters.CACHE_SIZE, String.valueOf(Cache.DEFAULT_MAX_SIZE), new Parameters.Listener() {
+		value = CouchDBSentryParameters.getInstance().getParameter(CouchDBSentryParameters.CACHE_SIZE, String.valueOf(Cache.DEFAULT_MAX_SIZE), new CouchDBSentryParameters.Listener() {
 			
 			@Override
 			public void parameterChanged(String parameter, String value) {

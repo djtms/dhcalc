@@ -2,17 +2,9 @@ package com.dawg6.web.sentry.shared.calculator.stats;
 
 import java.io.Serializable;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMarshalling;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-import com.dawg6.server.common.aws.dao.EnumMarshaller;
-import com.dawg6.web.sentry.server.db.aws.BuildMarshaller;
 import com.dawg6.web.sentry.shared.calculator.Build;
 import com.dawg6.web.sentry.shared.calculator.d3api.Realm;
 
-@DynamoDBTable(tableName = "undefined")
 public class DpsTableEntry implements Serializable {
 
 	private static final long serialVersionUID = -7605233453931536272L;
@@ -43,7 +35,6 @@ public class DpsTableEntry implements Serializable {
 	protected Double sheetDps;
 	protected Integer level;
 
-	@DynamoDBHashKey(attributeName = "battletag")
 	public String getBattletag() {
 		return battletag;
 	}
@@ -52,8 +43,6 @@ public class DpsTableEntry implements Serializable {
 		this.battletag = battletag;
 	}
 
-	@DynamoDBRangeKey(attributeName = "realm")
-	@DynamoDBMarshalling(marshallerClass = EnumMarshaller.class)
 	public Realm getRealm() {
 		return realm;
 	}
@@ -62,7 +51,6 @@ public class DpsTableEntry implements Serializable {
 		this.realm = realm;
 	}
 
-	@DynamoDBAttribute(attributeName = "when")
 	public Long getWhen() {
 		return when;
 	}
@@ -71,7 +59,6 @@ public class DpsTableEntry implements Serializable {
 		this.when = when;
 	}
 
-	@DynamoDBAttribute(attributeName = "single")
 	public Double getSingle() {
 		return single;
 	}
@@ -80,7 +67,6 @@ public class DpsTableEntry implements Serializable {
 		this.single = single;
 	}
 
-	@DynamoDBAttribute(attributeName = "single_elite")
 	public Double getSingle_elite() {
 		return single_elite;
 	}
@@ -89,7 +75,6 @@ public class DpsTableEntry implements Serializable {
 		this.single_elite = single_elite;
 	}
 
-	@DynamoDBAttribute(attributeName = "multiple")
 	public Double getMultiple() {
 		return multiple;
 	}
@@ -98,7 +83,6 @@ public class DpsTableEntry implements Serializable {
 		this.multiple = multiple;
 	}
 
-	@DynamoDBAttribute(attributeName = "multiple_elite")
 	public Double getMultiple_elite() {
 		return multiple_elite;
 	}
@@ -107,7 +91,6 @@ public class DpsTableEntry implements Serializable {
 		this.multiple_elite = multiple_elite;
 	}
 
-	@DynamoDBAttribute(attributeName = "paragon")
 	public Integer getParagon() {
 		return paragon;
 	}
@@ -120,7 +103,6 @@ public class DpsTableEntry implements Serializable {
 		return paragon_ias;
 	}
 
-	@DynamoDBAttribute(attributeName = "paragon_ias")
 	public void setParagon_ias(Integer paragon_ias) {
 		this.paragon_ias = paragon_ias;
 	}
@@ -129,7 +111,6 @@ public class DpsTableEntry implements Serializable {
 		return paragon_cdr;
 	}
 
-	@DynamoDBAttribute(attributeName = "paragon_cdr")
 	public void setParagon_cdr(Integer paragon_cdr) {
 		this.paragon_cdr = paragon_cdr;
 	}
@@ -138,7 +119,6 @@ public class DpsTableEntry implements Serializable {
 		return paragon_cc;
 	}
 
-	@DynamoDBAttribute(attributeName = "paragon_cc")
 	public void setParagon_cc(Integer paragon_cc) {
 		this.paragon_cc = paragon_cc;
 	}
@@ -147,13 +127,10 @@ public class DpsTableEntry implements Serializable {
 		return paragon_chd;
 	}
 
-	@DynamoDBAttribute(attributeName = "paragon_chd")
 	public void setParagon_chd(Integer paragon_chd) {
 		this.paragon_chd = paragon_chd;
 	}
 
-	@DynamoDBAttribute(attributeName = "build")
-	@DynamoDBMarshalling(marshallerClass = BuildMarshaller.class)
 	public Build getBuild() {
 		return build;
 	}
@@ -162,7 +139,6 @@ public class DpsTableEntry implements Serializable {
 		this.build = build;
 	}
 
-	@DynamoDBAttribute(attributeName = "bp")
 	public Integer getBp() {
 		return bp;
 	}
@@ -171,7 +147,6 @@ public class DpsTableEntry implements Serializable {
 		this.bp = bp;
 	}
 
-	@DynamoDBAttribute(attributeName = "sentryDps")
 	public Double getSentryDps() {
 		return sentryDps;
 	}
@@ -180,7 +155,6 @@ public class DpsTableEntry implements Serializable {
 		this.sentryDps = sentryDps;
 	}
 
-	@DynamoDBAttribute(attributeName = "playerAps")
 	public Double getPlayerAps() {
 		return playerAps;
 	}
@@ -189,7 +163,6 @@ public class DpsTableEntry implements Serializable {
 		this.playerAps = playerAps;
 	}
 
-	@DynamoDBAttribute(attributeName = "profile")
 	public String getProfile() {
 		return profile;
 	}
@@ -198,7 +171,6 @@ public class DpsTableEntry implements Serializable {
 		this.profile = profile;
 	}
 
-	@DynamoDBAttribute(attributeName = "tag")
 	public Integer getTag() {
 		return tag;
 	}
@@ -207,7 +179,6 @@ public class DpsTableEntry implements Serializable {
 		this.tag = tag;
 	}
 
-	@DynamoDBAttribute(attributeName = "heroId")
 	public Integer getHeroId() {
 		return heroId;
 	}
@@ -216,7 +187,6 @@ public class DpsTableEntry implements Serializable {
 		this.heroId = heroId;
 	}
 
-	@DynamoDBAttribute(attributeName = "heroName")
 	public String getHeroName() {
 		return heroName;
 	}
@@ -225,7 +195,6 @@ public class DpsTableEntry implements Serializable {
 		this.heroName = heroName;
 	}
 
-	@DynamoDBAttribute(attributeName = "seasonal")
 	public Boolean getSeasonal() {
 		return seasonal;
 	}
@@ -234,7 +203,6 @@ public class DpsTableEntry implements Serializable {
 		this.seasonal = seasonal;
 	}
 
-	@DynamoDBAttribute(attributeName = "hardcore")
 	public Boolean getHardcore() {
 		return hardcore;
 	}
@@ -243,7 +211,6 @@ public class DpsTableEntry implements Serializable {
 		this.hardcore = hardcore;
 	}
 
-	@DynamoDBAttribute(attributeName = "dead")
 	public Boolean getDead() {
 		return dead;
 	}
@@ -252,7 +219,6 @@ public class DpsTableEntry implements Serializable {
 		this.dead = dead;
 	}
 
-	@DynamoDBAttribute(attributeName = "sheetDps")
 	public Double getSheetDps() {
 		return sheetDps;
 	}
@@ -261,7 +227,6 @@ public class DpsTableEntry implements Serializable {
 		this.sheetDps = sheetDps;
 	}
 
-	@DynamoDBAttribute(attributeName = "level")
 	public Integer getLevel() {
 		return level;
 	}
