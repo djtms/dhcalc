@@ -1521,4 +1521,5 @@ public class DPSCalculator extends BasePanel {
 	public DoubleSpinner getRetributionUptime() {
 		return retributionUptime;
 	}
+
 }

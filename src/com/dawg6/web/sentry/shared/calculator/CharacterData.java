@@ -172,6 +172,8 @@ public class CharacterData implements Serializable {
 	private double equipCritDamage;
 	private boolean hasBombardiers;
 	private boolean customEngineering;
+	private double hatredPerSecond;
+	private int maxHatred;
 	
 	public void setDefaults() {
 		mfdUptime = 1.0;
@@ -205,7 +207,6 @@ public class CharacterData implements Serializable {
 		anatomy = false;
 		hysteria = false;
 		caltropsUptime = 1.0;
-		hasBombardiers = false;
 	}
 	
 	public CharacterData() {
@@ -1512,6 +1513,22 @@ public class CharacterData implements Serializable {
 
 	public void setCustomEngineering(boolean customEngineering) {
 		this.customEngineering = customEngineering;
+	}
+
+	public double getHatredPerSecond() {
+		return hatredPerSecond;
+	}
+
+	public void setHatredPerSecond(double hatredPerSecond) {
+		this.hatredPerSecond = hatredPerSecond;
+	}
+
+	public int getMaxHatred() {
+		return maxHatred;
+	}
+
+	public void setMaxHatred(int maxHatred) {
+		this.maxHatred = maxHatred;
 	}
 	
 }

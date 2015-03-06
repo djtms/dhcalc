@@ -14,6 +14,7 @@ public class PassivesPanel extends Composite {
 	private final SimpleCheckBox ambush;
 	private final SimpleCheckBox steadyAim;
 	private final SimpleCheckBox archery;
+	private final SimpleCheckBox customEngineering;
 	
 	public PassivesPanel() {
 		
@@ -91,6 +92,17 @@ public class PassivesPanel extends Composite {
 		
 		archery = new SimpleCheckBox();
 		flexTable.setWidget(3, 1, archery);
+		
+		Anchor anchor_7 = new Anchor("Custom Engineering:");
+		anchor_7.setWordWrap(false);
+		anchor_7.setText("Custom Engineering:");
+		anchor_7.setTarget("_blank");
+		anchor_7.setHTML("Single Out:");
+		anchor_7.setHref("http://us.battle.net/d3/en/class/demon-hunter/passive/custom-engineering");
+		flexTable.setWidget(3, 2, anchor_7);
+		
+		customEngineering = new SimpleCheckBox();
+		flexTable.setWidget(3, 3, customEngineering);
 	}
 
 	public SimpleCheckBox getBallistics() {
@@ -119,6 +131,10 @@ public class PassivesPanel extends Composite {
 
 	public SimpleCheckBox getArchery() {
 		return archery;
+	}
+
+	public SimpleCheckBox getCustomEngineering() {
+		return customEngineering;
 	}
 
 }

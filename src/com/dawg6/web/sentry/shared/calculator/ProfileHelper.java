@@ -239,7 +239,9 @@ public class ProfileHelper {
 		boolean steadyAim = false;
 		boolean ambush = false;
 		boolean singleOut = false;
-
+		boolean customEngineering = false;
+		boolean archery = false;
+		
 		for (HeroProfile.Skills.Passive p : hero.skills.passive) {
 
 			if ((p != null) && (p.skill != null) && (p.skill.name != null)) {
@@ -255,6 +257,10 @@ public class ProfileHelper {
 					ambush = true;
 				} else if (p.skill.name.equals(Const.SINGLE_OUT)) {
 					singleOut = true;
+				} else if (p.skill.name.equals(Const.ARCHERY)) {
+					archery = true;
+				} else if (p.skill.name.equals(Const.CUSTOM_ENGINEERING)) {
+					customEngineering = true;
 				}
 			}
 		}
@@ -285,6 +291,10 @@ public class ProfileHelper {
 								ambush = true;
 							} else if (pname.equals(Const.SINGLE_OUT)) {
 								singleOut = true;
+							} else if (pname.equals(Const.ARCHERY)) {
+								archery = true;
+							} else if (pname.equals(Const.CUSTOM_ENGINEERING)) {
+								customEngineering = true;
 							}
 						}
 
@@ -305,6 +315,8 @@ public class ProfileHelper {
 		data.setCaltrops(caltrops);
 		data.setSentryRune(sentryRune);
 		data.setSkills(skills);
+		data.setCustomEngineering(customEngineering);
+		data.setArchery(archery);
 	}
 
 	public static Rune lookupRune(ActiveSkill skill, String name) {
@@ -598,7 +610,8 @@ public class ProfileHelper {
 		double harringtonPercent = 0.0;
 		boolean hexingPants = false;
 		double hexingPantsPercent = 0.0;
-
+		boolean bombadiers = false;
+		
 		for (ItemInformation i : hero.items.values()) {
 
 			if (i.attributesRaw != null) {
@@ -647,6 +660,8 @@ public class ProfileHelper {
 					strongarmPercent = value.min;
 				else
 					strongarmPercent = 0.20;
+			} else if (i.name.equals(Const.BOMBADIERS)) {
+				bombadiers = true;
 			} else if (i.name.equals(Const.HARRINGTON)) {
 				Value<Float> value = i.attributesRaw
 						.get(Const.HARRINGTON_PERCENT);
@@ -800,6 +815,8 @@ public class ProfileHelper {
 
 		data.setHarrington(harrington);
 		data.setHarringtonPercent(harringtonPercent);
+		
+		data.setHasBombardiers(bombadiers);
 	}
 
 	private static Boolean hasSet(HeroProfile hero,

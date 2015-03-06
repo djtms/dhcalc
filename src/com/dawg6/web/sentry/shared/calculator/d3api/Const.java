@@ -95,4 +95,6 @@ public class Const {
 	public static final String HEXING_PANTS = "Hexing Pants of Mr. Yan";
 	public static final String HEXING_PANTS_PERCENT = "Item_Power_Passive#ItemPassive_Unique_Ring_635_x1";
 	public static final String CALTROPS = "Caltrops";
+	public static final String BOMBADIERS = "Bombardier's Rucksack";
+	public static final String CUSTOM_ENGINEERING = "Custom Engineering";
 }

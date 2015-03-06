@@ -76,6 +76,7 @@ public enum ActiveSkill {
 		this.shortName = shortName;
 		this.multiplier = multiplier;
 		this.url = url;
+		this.hatred = hatred;
 	}
 
 	public String getUrl() {

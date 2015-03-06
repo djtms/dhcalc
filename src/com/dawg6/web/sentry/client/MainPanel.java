@@ -158,6 +158,7 @@ public class MainPanel extends BasePanel {
 	private Anchor[] skillLabels;
 	private Anchor[] runeLabels;
 	private FlexTable outputHeader;
+	private HatredPanel hatredPanel;
 
 	public MainPanel() {
 		VerticalPanel panel = new VerticalPanel();
@@ -975,9 +976,15 @@ public class MainPanel extends BasePanel {
 			}
 		});
 
+		VerticalPanel vpanel = new VerticalPanel();
+		horizontalPanel_4.add(vpanel);
+		
 		cdrPanel = new CDRPanel();
-		horizontalPanel_4.add(cdrPanel);
+		vpanel.add(cdrPanel);
 
+		hatredPanel = new HatredPanel();
+		vpanel.add(hatredPanel);
+		
 		gemPanel.getGogokStacks().addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -2501,6 +2508,7 @@ public class MainPanel extends BasePanel {
 		this.itemPanel.getTnt().setValue(data.isTnt());
 		this.itemPanel.getTntPercent().setValue((int) (Math.round(data.getTntPercent() * 100.0)));
 		this.itemPanel.getCalamity().setValue(data.isCalamityMdf());
+		this.itemPanel.getBombadiers().setValue(data.isHasBombardiers());
 		this.itemPanel.getEliteDamagePercent()
 				.setValue((int) Math.round(data.getEliteDamage()));
 		this.itemPanel.getMeticulousBolts().setValue(data.isMeticulousBolts());
@@ -2568,6 +2576,8 @@ public class MainPanel extends BasePanel {
 		this.passives.getSingleOut().setValue(data.isSingleOut());
 		this.playerBuffPanel.getWolf().setValue(data.isWolf());
 		this.skills.getCaltrops().setValue(data.isCaltrops());
+		this.passives.getCustomEngineering().setValue(data.isCustomEngineering());
+		this.passives.getArchery().setValue(data.isArchery());
 	}
 
 	private void setSkillAndRune(Anchor skillLabel, Anchor runeLabel,
@@ -2639,6 +2649,8 @@ public class MainPanel extends BasePanel {
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getCalamity(), "Calamity",
 						Boolean.FALSE.toString()),
+				new Field(this.itemPanel.getBombadiers(), "Bombadiers",
+						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getCalamityUptime(), "CalamityUptime",
 						"100"),
 				new Field(this.skills.getMfd(), "MarkedForDeath",
@@ -2696,6 +2708,8 @@ public class MainPanel extends BasePanel {
 				new Field(this.situational.getPercentAtLeast10Yards(),
 						"PercentAtleast10Yards", "100"),
 				new Field(this.passives.getArchery(), "Archery",
+						Boolean.FALSE.toString()),
+				new Field(this.passives.getCustomEngineering(), "CustomEngineering",
 						Boolean.FALSE.toString()),
 				new Field(this.passives.getBallistics(), "Ballistics",
 						Boolean.TRUE.toString()),
@@ -2896,6 +2910,7 @@ public class MainPanel extends BasePanel {
 			data.setBotpUptime(getValue(this.gemPanel.getBotpUptime()) / 100.0);
 			data.setGrenadier(this.passives.getGrenadier().getValue());
 			data.setCalamityMdf(itemPanel.getCalamity().getValue());
+			data.setHasBombardiers(itemPanel.getBombadiers().getValue());
 			data.setMarked(skills.getMfd().getValue());
 			data.setSteadyAim(this.passives.getSteadyAim().getValue());
 			data.setPercentAtLeast10Yards((double) this.situational
@@ -2912,6 +2927,7 @@ public class MainPanel extends BasePanel {
 					.getValue());
 			data.setWeaponDamage(calculator.getAverageWeaponDamage());
 			data.setArchery(calculator.getArchery());
+			data.setCustomEngineering(passives.getCustomEngineering().getValue());
 			data.setWeaponType(calculator.getWeaponType());
 			data.setGogok(gemPanel.getGogok().getValue());
 			data.setGogokLevel(gemPanel.getGogokLevel().getValue());

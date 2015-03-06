@@ -101,7 +101,9 @@ public class SkillData extends ApplicationPanel {
 		table.setWidget(0, 11, lblNotes);
 		
 		for (ActiveSkill s : ActiveSkill.values()) {
-			skills.addItem(s.getLongName(), s.name());
+			
+			if (s != ActiveSkill.Any)
+				skills.addItem(s.getLongName(), s.name());
 		}
 		
 		for (GemSkill g : GemSkill.values()) {
