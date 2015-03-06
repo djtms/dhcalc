@@ -25,7 +25,6 @@ import com.dawg6.web.sentry.shared.calculator.FiringData;
 import com.dawg6.web.sentry.shared.calculator.FormData;
 import com.dawg6.web.sentry.shared.calculator.GemLevel;
 import com.dawg6.web.sentry.shared.calculator.GemSkill;
-import com.dawg6.web.sentry.shared.calculator.MarkedForDeath;
 import com.dawg6.web.sentry.shared.calculator.MultipleSummary;
 import com.dawg6.web.sentry.shared.calculator.ProfileHelper;
 import com.dawg6.web.sentry.shared.calculator.Rune;
@@ -39,11 +38,7 @@ import com.dawg6.web.sentry.shared.calculator.d3api.CareerProfile;
 import com.dawg6.web.sentry.shared.calculator.d3api.Const;
 import com.dawg6.web.sentry.shared.calculator.d3api.Hero;
 import com.dawg6.web.sentry.shared.calculator.d3api.HeroProfile;
-import com.dawg6.web.sentry.shared.calculator.d3api.ItemInformation;
-import com.dawg6.web.sentry.shared.calculator.d3api.ItemInformation.Attributes.Attribute;
-import com.dawg6.web.sentry.shared.calculator.d3api.ItemInformation.D3Set;
 import com.dawg6.web.sentry.shared.calculator.d3api.Realm;
-import com.dawg6.web.sentry.shared.calculator.d3api.Value;
 import com.dawg6.web.sentry.shared.calculator.stats.DpsTableEntry;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -162,6 +157,7 @@ public class MainPanel extends BasePanel {
 	private ListBox[] runeBoxes;
 	private Anchor[] skillLabels;
 	private Anchor[] runeLabels;
+	private FlexTable outputHeader;
 
 	public MainPanel() {
 		VerticalPanel panel = new VerticalPanel();
@@ -613,7 +609,7 @@ public class MainPanel extends BasePanel {
 		label_10.setStyleName("dpsCol");
 		compareTable.setWidget(3, 5, label_10);
 
-		Label label_14 = new Label("Single Sentry (Non-Elite) DPS:");
+		Label label_14 = new Label("Total (Non-Elite) DPS:");
 		label_14.setWordWrap(false);
 		label_14.setStyleName("boldText");
 		compareTable.setWidget(4, 0, label_14);
@@ -633,7 +629,7 @@ public class MainPanel extends BasePanel {
 		label_12.setStyleName("dpsCol");
 		compareTable.setWidget(4, 5, label_12);
 
-		Label label_14a = new Label("Single Sentry (Elite) DPS:");
+		Label label_14a = new Label("Total (Elite) DPS:");
 		label_14a.setWordWrap(false);
 		label_14a.setStyleName("boldText");
 		compareTable.setWidget(5, 0, label_14a);
@@ -1075,95 +1071,98 @@ public class MainPanel extends BasePanel {
 		legendButton.setText("Legend...");
 		horizontalPanel_19.add(legendButton);
 
-		FlexTable flexTable = new FlexTable();
-		flexTable.setCellPadding(2);
-		verticalPanel_5.add(flexTable);
+		outputHeader = new FlexTable();
+		outputHeader.setCellPadding(2);
+		verticalPanel_5.add(outputHeader);
 
 		Label lblNewLabel_27 = new Label("Average Weapon Damage:");
-		flexTable.setWidget(0, 0, lblNewLabel_27);
+		outputHeader.setWidget(0, 0, lblNewLabel_27);
 		lblNewLabel_27.setWordWrap(false);
 
 		weaponDamage = new Label("00000");
-		flexTable.setWidget(0, 1, weaponDamage);
+		outputHeader.setWidget(0, 1, weaponDamage);
 		weaponDamage.setStyleName("boldText");
 
 		Label lblNewLabel_3 = new Label("Pet APS:");
-		flexTable.setWidget(0, 2, lblNewLabel_3);
+		outputHeader.setWidget(0, 2, lblNewLabel_3);
 		lblNewLabel_3.setWordWrap(false);
 
 		sentryAps = new Label("00000");
-		flexTable.setWidget(0, 3, sentryAps);
+		outputHeader.setWidget(0, 3, sentryAps);
 		sentryAps.setStyleName("boldText");
 		sentryAps.setWordWrap(false);
 
 		Label lblNewLabel_4 = new Label("Break Point:");
-		flexTable.setWidget(0, 4, lblNewLabel_4);
+		outputHeader.setWidget(0, 4, lblNewLabel_4);
 		lblNewLabel_4.setWordWrap(false);
 
 		breakPoint = new Label("000000");
-		flexTable.setWidget(0, 5, breakPoint);
+		outputHeader.setWidget(0, 5, breakPoint);
 		breakPoint.setStyleName("boldText");
 		breakPoint.setWordWrap(false);
 
 		Label lblNewLabel_29 = new Label("Sentry APS:");
-		flexTable.setWidget(0, 6, lblNewLabel_29);
+		outputHeader.setWidget(0, 6, lblNewLabel_29);
+
+		Label lblNewLabel_29a = new Label("# Sentries:");
+		outputHeader.setWidget(1, 6, lblNewLabel_29a);
 
 		actualAps = new Label("00000");
-		flexTable.setWidget(0, 7, actualAps);
+		outputHeader.setWidget(0, 7, actualAps);
 		actualAps.setStyleName("boldText");
 
 		lblNewLabel_5 = new Label("Attacks Per " + FiringData.DURATION
 				+ " Seconds:");
-		flexTable.setWidget(0, 8, lblNewLabel_5);
+		outputHeader.setWidget(0, 8, lblNewLabel_5);
 		lblNewLabel_5.setWordWrap(false);
 
 		aps30 = new Label("00000");
-		flexTable.setWidget(0, 9, aps30);
+		outputHeader.setWidget(0, 9, aps30);
 		aps30.setStyleName("boldText");
 		aps30.setWordWrap(false);
 
 		Label lblNewLabel_6 = new Label(
-				"Total Single Sentry (Non-Elite) Damage over "
+				"Total (Non-Elite) Damage over "
 						+ FiringData.DURATION + " seconds:");
-		flexTable.setWidget(1, 0, lblNewLabel_6);
+		outputHeader.setWidget(1, 0, lblNewLabel_6);
 		lblNewLabel_6.setWordWrap(false);
 
 		totalDamage = new Label("00000");
-		flexTable.setWidget(1, 1, totalDamage);
+		outputHeader.setWidget(1, 1, totalDamage);
 		totalDamage.setStyleName("boldText");
 
-		Label lblNewLabel_7 = new Label("Single Sentry (Non-Elite) DPS:");
-		flexTable.setWidget(1, 2, lblNewLabel_7);
+		Label lblNewLabel_7 = new Label("(Non-Elite) DPS:");
+		outputHeader.setWidget(1, 2, lblNewLabel_7);
 		lblNewLabel_7.setWordWrap(false);
 
 		dps = new Label("00000");
-		flexTable.setWidget(1, 3, dps);
+		outputHeader.setWidget(1, 3, dps);
 		dps.setStyleName("boldText");
 
 		Label lblNewLabel_6a = new Label(
-				"Total Single Sentry (Elite) Damage over "
+				"Total (Elite) Damage over "
 						+ FiringData.DURATION + " seconds:");
-		flexTable.setWidget(2, 0, lblNewLabel_6a);
+		outputHeader.setWidget(2, 0, lblNewLabel_6a);
 		lblNewLabel_6a.setWordWrap(false);
 
 		totalEliteDamage = new Label("00000");
-		flexTable.setWidget(2, 1, totalEliteDamage);
+		outputHeader.setWidget(2, 1, totalEliteDamage);
 		totalEliteDamage.setStyleName("boldText");
 
-		Label lblNewLabel_7a = new Label("Single Sentry (Elite) DPS:");
-		flexTable.setWidget(2, 2, lblNewLabel_7a);
+		Label lblNewLabel_7a = new Label("(Elite) DPS:");
+		outputHeader.setWidget(2, 2, lblNewLabel_7a);
 		lblNewLabel_7a.setWordWrap(false);
 
 		Label lblNewLabel_7b = new Label("Elite Damage:");
-		flexTable.setWidget(2, 4, lblNewLabel_7b);
+		outputHeader.setWidget(2, 4, lblNewLabel_7b);
 		lblNewLabel_7b.setWordWrap(false);
 
 		eliteDps = new Label("00000");
-		flexTable.setWidget(2, 3, eliteDps);
+		outputHeader.setWidget(2, 3, eliteDps);
 		eliteDps.setStyleName("boldText");
 
 		eliteDamage = new Label("00000");
-		flexTable.setWidget(2, 5, eliteDamage);
+		outputHeader.setWidget(2, 5, eliteDamage);
 		eliteDamage.setStyleName("boldText");
 
 		final Legend legend = new Legend();
@@ -1171,11 +1170,11 @@ public class MainPanel extends BasePanel {
 
 		Label label_13 = new Label("Show Details for Damage against: ");
 		label_13.setWordWrap(false);
-		flexTable.setWidget(3, 0, label_13);
+		outputHeader.setWidget(3, 0, label_13);
 
 		targetType = new ListBox();
 		targetType.setWidth("100%");
-		flexTable.setWidget(3, 1, targetType);
+		outputHeader.setWidget(3, 1, targetType);
 
 		targetType.addItem("Non-Elite", Boolean.FALSE.toString());
 		targetType.addItem("Elite", Boolean.TRUE.toString());
@@ -1276,7 +1275,7 @@ public class MainPanel extends BasePanel {
 		outputPanel.add(horizontalPanel_9);
 
 		captionPanelTypeSummary = new CaptionPanel(
-				"Damage Type Summary (Single Sentry, Non-Elite, "
+				"Damage Type Summary (Non-Elite, "
 						+ FiringData.DURATION + " seconds)");
 		horizontalPanel_9.add(captionPanelTypeSummary);
 
@@ -1318,7 +1317,7 @@ public class MainPanel extends BasePanel {
 		summary.setWidget(0, 5, lblOfTotal);
 
 		captionPanelSkillSummary = new CaptionPanel(
-				"Skill Damage Summary (Single Sentry, Non-Elite, "
+				"Skill Damage Summary (Non-Elite, "
 						+ FiringData.DURATION + " seconds)");
 		horizontalPanel_9.add(captionPanelSkillSummary);
 
@@ -1368,7 +1367,7 @@ public class MainPanel extends BasePanel {
 		outputPanel.add(horizontalPanel_2);
 
 		captionPanelDamageLog = new CaptionPanel(
-				"Damage Log (Single Sentry, Non-Elite, " + FiringData.DURATION
+				"Damage Log (Non-Elite, " + FiringData.DURATION
 						+ " seconds)");
 		horizontalPanel_2.add(captionPanelDamageLog);
 
@@ -1490,7 +1489,7 @@ public class MainPanel extends BasePanel {
 		});
 
 		Button statsButton = new Button("Statistics...");
-		horizontalPanel_8.add(statsButton);
+//		horizontalPanel_8.add(statsButton);
 
 		firstTimeStats = true;
 
@@ -2156,6 +2155,9 @@ public class MainPanel extends BasePanel {
 
 		if (h.seasonal)
 			buf.append(" Seasonal");
+		
+		if (h.dead)
+			buf.append(" (RIP)");
 
 		heroList.addItem(buf.toString(), String.valueOf(h.id));
 	}
@@ -2190,7 +2192,7 @@ public class MainPanel extends BasePanel {
 
 								MainPanel.this.hero = hero;
 
-								final CharacterData data = ProfileHelper
+								data = ProfileHelper
 										.importHero(hero);
 
 								data.setRealm(realm);
@@ -2218,7 +2220,7 @@ public class MainPanel extends BasePanel {
 								setGemDamage();
 
 								calculator.importHero(server, profile, tag,
-										heroId, hero);
+										heroId, data);
 
 								calculator.saveForm();
 
@@ -2333,79 +2335,24 @@ public class MainPanel extends BasePanel {
 
 	protected void setGemDamage() {
 
-		boolean enforcer = false;
-		boolean bot = false;
-		boolean botp = false;
-		int enforcerLevel = 0;
-		int botLevel = 0;
-		int botpLevel = 0;
-		boolean zeis = false;
-		int zeisLevel = 0;
-
-		boolean gogok = false;
-		int gogokLevel = 0;
-		boolean toxin = false;
-		int toxinLevel = 0;
-		boolean painEnhancer = false;
-		int painEnhancerLevel = 0;
-
-		for (ItemInformation i : hero.items.values()) {
-
-			if (i.gems != null) {
-				for (ItemInformation.Gem g : i.gems) {
-					if (g.item != null) {
-						if (g.item.name.equals(Const.BANE_OF_THE_TRAPPED)) {
-							bot = true;
-							float rank = g.jewelRank;
-							botLevel = (int) rank;
-						} else if (g.item.name.equals(Const.ENFORCER)) {
-							enforcer = true;
-							float rank = g.jewelRank;
-							enforcerLevel = (int) rank;
-						} else if (g.item.name.equals(Const.BOTP)) {
-							botp = true;
-							float rank = g.jewelRank;
-							botpLevel = (int) rank;
-						} else if (g.item.name.equals(Const.ZEI)) {
-							zeis = true;
-							float rank = g.jewelRank;
-							zeisLevel = (int) rank;
-						} else if (g.item.name.equals(Const.GOGOK)) {
-							gogok = true;
-							float rank = g.jewelRank;
-							gogokLevel = (int) rank;
-						} else if (g.item.name.equals(Const.TOXIN)) {
-							toxin = true;
-							float rank = g.jewelRank;
-							toxinLevel = (int) rank;
-						} else if (g.item.name.equals(Const.PAIN_ENHANCER)) {
-							painEnhancer = true;
-							float rank = g.jewelRank;
-							painEnhancerLevel = (int) rank;
-						}
-					}
-				}
-			}
-		}
-
-		this.gemPanel.getBot().setValue(bot);
-		this.gemPanel.getEnforcer().setValue(enforcer);
-		this.gemPanel.getBotp().setValue(botp);
-		this.gemPanel.getBotLevel().setValue(botLevel);
-		this.gemPanel.getEnforcerLevel().setValue(enforcerLevel);
-		this.gemPanel.getBotpLevel().setValue(botpLevel);
-		this.gemPanel.getZeis().setValue(zeis);
-		this.gemPanel.getZeisLevel().setValue(zeisLevel);
-		this.gemPanel.getGogok().setValue(gogok);
-		this.gemPanel.getGogokLevel().setValue(gogokLevel);
-		this.gemPanel.getToxin().setValue(toxin);
-		this.gemPanel.getToxinLevel().setValue(toxinLevel);
-		this.gemPanel.getPainEnhancer().setValue(painEnhancer);
-		this.calculator.setPainEnhancer(painEnhancer);
-		this.gemPanel.getPainEnhancerLevel().setValue(painEnhancerLevel);
-		this.calculator.setPainEnhancerLevel(painEnhancerLevel);
-		this.calculator.setGogok(gogok);
-		this.calculator.setGogokLevel(gogokLevel);
+		this.gemPanel.getBot().setValue(data.isUseBaneOfTheTrapped());
+		this.gemPanel.getEnforcer().setValue(data.isUseEnforcer());
+		this.gemPanel.getBotp().setValue(data.isBotp());
+		this.gemPanel.getBotLevel().setValue(data.getBaneOfTheTrappedLevel());
+		this.gemPanel.getEnforcerLevel().setValue(data.getEnforcerLevel());
+		this.gemPanel.getBotpLevel().setValue(data.getBotpLevel());
+		this.gemPanel.getZeis().setValue(data.isZeis());
+		this.gemPanel.getZeisLevel().setValue(data.getZeisLevel());
+		this.gemPanel.getGogok().setValue(data.isGogok());
+		this.gemPanel.getGogokLevel().setValue(data.getGogokLevel());
+		this.gemPanel.getToxin().setValue(data.isToxin());
+		this.gemPanel.getToxinLevel().setValue(data.getToxinLevel());
+		this.gemPanel.getPainEnhancer().setValue(data.isPainEnhancer());
+		this.calculator.setPainEnhancer(data.isPainEnhancer());
+		this.gemPanel.getPainEnhancerLevel().setValue(data.getPainEnhancerLevel());
+		this.calculator.setPainEnhancerLevel(data.getPainEnhancerLevel());
+		this.calculator.setGogok(data.isGogok());
+		this.calculator.setGogokLevel(data.getGogokLevel());
 
 	}
 
@@ -2533,219 +2480,41 @@ public class MainPanel extends BasePanel {
 
 	protected void setSkillDamage() {
 
-		ActiveSkill[] skills = { ActiveSkill.EA, ActiveSkill.CA,
-				ActiveSkill.MS, ActiveSkill.CHAK, ActiveSkill.IMP,
-				ActiveSkill.SENTRY };
-		NumberSpinner[] fields = { skillDamage.getEaDamage(),
-				skillDamage.getCaDamage(), skillDamage.getMsDamage(),
-				skillDamage.getChakDamage(), skillDamage.getImpDamage(),
-				skillDamage.getSentryDamage() };
-		int[] damage = { 0, 0, 0, 0, 0, 0 };
-		int petSpeed = 0;
-		boolean tnt = false;
-		boolean calamity = false;
-		boolean meticulousBolts = false;
-		int meticulousBoltsPercent = 0;
-		double elite = 0;
-		Map<String, Integer> setCounts = new TreeMap<String, Integer>();
-		Map<String, D3Set> sets = new TreeMap<String, D3Set>();
-		boolean royalRing = false;
-		boolean strongarm = false;
-		double strongarmPercent = 0.0;
-		boolean harrington = false;
-		double harringtonPercent = 0.0;
-		boolean hexingPants = false;
-		double hexingPantsPercent = 0.0;
-
-		for (ItemInformation i : hero.items.values()) {
-
-			if (i.attributesRaw != null) {
-				Value<Float> v = i.attributesRaw.get(Const.ROYAL_RING);
-
-				if (v != null) {
-					royalRing = true;
-				}
-
-				v = i.attributesRaw.get(Const.ELITE_DAMAGE_RAW);
-
-				if (v != null) {
-					elite += Math.round(v.min * 100.0);
-				}
-			}
-
-			if ((i.set != null) && (i.set.slug != null)) {
-				Integer count = setCounts.get(i.set.slug);
-
-				if (count == null) {
-					setCounts.put(i.set.slug, 1);
-					sets.put(i.set.slug, i.set);
-				} else {
-					setCounts.put(i.set.slug, count + 1);
-				}
-			}
-
-			if (i.name.equals(Const.CALAMITY)) {
-				calamity = true;
-			} else if (i.name.equals(Const.METICULOUS_BOLTS)) {
-				meticulousBolts = true;
-				Value<Float> value = i.attributesRaw
-						.get(Const.METICULOUS_BOLTS_PERCENT);
-
-				if (value != null)
-					meticulousBoltsPercent = (int) Math
-							.round(value.min * 100.0);
-				else
-					meticulousBoltsPercent = 30;
-			} else if (i.name.equals(Const.STRONGARM)) {
-				Value<Float> value = i.attributesRaw
-						.get(Const.STRONGARM_PERCENT);
-				strongarm = true;
-
-				if (value != null)
-					strongarmPercent = value.min;
-				else
-					strongarmPercent = 0.20;
-			} else if (i.name.equals(Const.HARRINGTON)) {
-				Value<Float> value = i.attributesRaw
-						.get(Const.HARRINGTON_PERCENT);
-				harrington = true;
-
-				if (value != null)
-					harringtonPercent = value.min;
-				else
-					harringtonPercent = 1.0;
-			} else if (i.name.equals(Const.HEXING_PANTS)) {
-				Value<Float> value = i.attributesRaw
-						.get(Const.HEXING_PANTS_PERCENT);
-				hexingPants = true;
-
-				if (value != null)
-					hexingPantsPercent = value.min;
-				else
-					hexingPantsPercent = 0.20;
-			}
-
-			for (ItemInformation.Attributes.Attribute a : i.attributes.primary) {
-				String text = a.text;
-
-				for (int n = 0; n < skills.length; n++) {
-					String phrase = Const.INCREASES + skills[n].getLongName()
-							+ Const.DAMAGE_BY;
-					if (text.startsWith(phrase)) {
-						int j = text.indexOf('%');
-						String value = text.substring(phrase.length(), j);
-						damage[n] += Integer.valueOf(value);
-						break;
-					}
-				}
-			}
-
-			for (ItemInformation.Attributes.Attribute a : i.attributes.passive) {
-				if (a.text.startsWith(Const.PET_ATTACK_SPEED)) {
-					int j = a.text.indexOf('%');
-					String value = a.text.substring(
-							Const.PET_ATTACK_SPEED.length(), j);
-					double d = Double.valueOf(value);
-					tnt = true;
-					petSpeed = (int) d;
-				}
-			}
-		}
-
-		for (Map.Entry<String, Integer> e : setCounts.entrySet()) {
-			int count = e.getValue();
-
-			if ((count > 1) && royalRing)
-				count++;
-
-			D3Set set = sets.get(e.getKey());
-
-			for (D3Set.Rank r : set.ranks) {
-				if (r.required <= count) {
-					if (r.attributesRaw != null) {
-						Value<Float> v = r.attributesRaw
-								.get(Const.ELITE_DAMAGE_RAW);
-
-						if (v != null) {
-							elite += Math.round(v.min * 100.0);
-						}
-					}
-				}
-			}
-		}
-		for (int n = 0; n < damage.length; n++) {
-			fields[n].setValue(damage[n]);
-		}
-
-		ItemInformation helm = hero.items.get(Const.HEAD);
-
-		boolean leorics = false;
-		int leoricsLevel = 0;
-		GemLevel diamond = GemLevel.None;
-
-		getSetCDR(cdrPanel.getShoulders(), hero.items.get(Const.SHOULDERS));
-		getSetCDR(cdrPanel.getGloves(), hero.items.get(Const.GLOVES));
-		getSetCDR(cdrPanel.getRing1(), hero.items.get(Const.RING1));
-		getSetCDR(cdrPanel.getRing2(), hero.items.get(Const.RING2));
-		getSetCDR(cdrPanel.getBelt(), hero.items.get(Const.BELT));
-		getSetCDR(cdrPanel.getWeapon(), hero.items.get(Const.WEAPON));
-		getSetCDR(cdrPanel.getQuiver(), hero.items.get(Const.QUIVER));
-		getSetCDR(cdrPanel.getAmulet(), hero.items.get(Const.AMULET));
-		getSetSetCDR(cdrPanel.getBorn(), setCounts, royalRing, Const.BORNS, 2);
-		getSetSetCDR(cdrPanel.getCrimson(), setCounts, royalRing,
+		getSetCDR(cdrPanel.getShoulders(), Const.SHOULDERS);
+		getSetCDR(cdrPanel.getGloves(), Const.GLOVES);
+		getSetCDR(cdrPanel.getRing1(), Const.RING1);
+		getSetCDR(cdrPanel.getRing2(), Const.RING2);
+		getSetCDR(cdrPanel.getBelt(), Const.BELT);
+		getSetCDR(cdrPanel.getWeapon(), Const.WEAPON);
+		getSetCDR(cdrPanel.getQuiver(), Const.QUIVER);
+		getSetCDR(cdrPanel.getAmulet(), Const.AMULET);
+		
+		
+		getSetSetCDR(cdrPanel.getBorn(), data.getSetCounts(), data.isRoyalRing(), Const.BORNS, 2);
+		getSetSetCDR(cdrPanel.getCrimson(), data.getSetCounts(), data.isRoyalRing(),
 				Const.CAPTAIN_CRIMSON, 3);
 
-		if (helm != null) {
-			if ((helm.name != null) && helm.name.equals(Const.LEORICS_CROWN)) {
-				leorics = true;
-				Value<Float> value = helm.attributesRaw
-						.get(Const.GEM_MULTIPLIER);
+		this.cdrPanel.getLeorics().setValue(data.isLeorics());
+		this.cdrPanel.getLeoricsLevel().setValue((int) (Math.round(data.getLeoricsPercent() * 100.0)));
+		this.cdrPanel.setDiamond(data.getDiamond());
 
-				if (value != null)
-					leoricsLevel = (int) Math.round(value.min * 100.0);
-			}
-
-			if (helm.gems != null) {
-				for (ItemInformation.Gem gem : helm.gems) {
-					Value<Float> value = gem.attributesRaw.get(Const.CDR);
-
-					if (value != null) {
-						int a = (int) Math.round(value.min * 10000.0);
-
-						for (GemLevel l : GemLevel.values()) {
-							int b = (int) Math.round(l.getCdr() * 10000.0);
-
-							if (a == b) {
-								diamond = l;
-								break;
-							}
-						}
-					}
-				}
-			}
-		}
-
-		this.cdrPanel.getLeorics().setValue(leorics);
-		this.cdrPanel.getLeoricsLevel().setValue(leoricsLevel);
-		this.cdrPanel.setDiamond(diamond);
-
-		this.itemPanel.getTnt().setValue(tnt);
-		this.itemPanel.getTntPercent().setValue(petSpeed);
-		this.itemPanel.getCalamity().setValue(calamity);
+		this.itemPanel.getTnt().setValue(data.isTnt());
+		this.itemPanel.getTntPercent().setValue((int) (Math.round(data.getTntPercent() * 100.0)));
+		this.itemPanel.getCalamity().setValue(data.isCalamityMdf());
 		this.itemPanel.getEliteDamagePercent()
-				.setValue((int) Math.round(elite));
-		this.itemPanel.getMeticulousBolts().setValue(meticulousBolts);
+				.setValue((int) Math.round(data.getEliteDamage()));
+		this.itemPanel.getMeticulousBolts().setValue(data.isMeticulousBolts());
 		this.itemPanel.getMeticulousBoltsPercent().setValue(
-				meticulousBoltsPercent);
-		this.itemPanel.getStrongarm().setValue(strongarm);
+				(int) (Math.round(data.getMeticulousBoltsPercent() * 100.0)));
+		this.itemPanel.getStrongarm().setValue(data.isStrongarm());
 		this.itemPanel.getStrongarmPercent().setValue(
-				(int) Math.round(strongarmPercent * 100.0));
-		this.itemPanel.getHexingPants().setValue(hexingPants);
+				(int) Math.round(data.getStrongarmPercent() * 100.0));
+		this.itemPanel.getHexingPants().setValue(data.isHexingPants());
 		this.itemPanel.getHexingPantsPercent().setValue(
-				(int) Math.round(hexingPantsPercent * 100.0));
-		this.itemPanel.getHarrington().setValue(harrington);
+				(int) Math.round(data.getHexingPantsPercent() * 100.0));
+		this.itemPanel.getHarrington().setValue(data.isHarrington());
 		this.itemPanel.getHarringtonPercent().setValue(
-				(int) Math.round(harringtonPercent * 100.0));
+				(int) Math.round(data.getHarringtonPercent() * 100.0));
 	}
 
 	private void getSetSetCDR(SimpleCheckBox field,
@@ -2767,194 +2536,38 @@ public class MainPanel extends BasePanel {
 		field.setValue(hasSet);
 	}
 
-	private void getSetCDR(NumberSpinner field, ItemInformation i) {
+	private void getSetCDR(NumberSpinner field, String slot) {
 
-		int cdr = 0;
-
-		if (i != null) {
-			Value<Float> value = i.attributesRaw.get(Const.CDR);
-
-			if (value != null) {
-				cdr = (int) Math.round(value.min * 100.0);
-			}
-		}
-
-		field.setValue(cdr);
+		Integer value = data.getCdrData().get(slot);
+		
+		if (value == null)
+			value = 0;
+		
+		field.setValue(value);
 	}
 
 	protected void setElementalDamage() {
 
-		String[] elements = { Const.COLD, Const.FIRE, Const.LIGHTNING,
-				Const.Poison, Const.PHYSICAL };
-		NumberSpinner[] fields = { typeDamage.getColdDamage(),
-				typeDamage.getFireDamage(), typeDamage.getLightningDamage(),
-				typeDamage.getPoisonDamage(), typeDamage.getPhysicalDamage() };
-		int[] damage = { 0, 0, 0, 0, 0 };
-
-		for (ItemInformation i : hero.items.values()) {
-			for (ItemInformation.Attributes.Attribute a : i.attributes.primary) {
-				String text = a.text;
-
-				for (int n = 0; n < elements.length; n++) {
-					if (text.startsWith(elements[n]
-							+ Const.ELEMENTAL_SKILL_DAMAGE)) {
-						int j = text.indexOf('%');
-						String value = text.substring(elements[n].length()
-								+ Const.ELEMENTAL_SKILL_DAMAGE.length(), j);
-						damage[n] += Integer.valueOf(value);
-						break;
-					}
-				}
-			}
-		}
-
-		for (int n = 0; n < damage.length; n++) {
-			fields[n].setValue(damage[n]);
-		}
+		typeDamage.getColdDamage().setValue((int) (data.getColdDamage() * 100));
+		typeDamage.getFireDamage().setValue((int) (data.getFireDamage() * 100));
+		typeDamage.getPoisonDamage().setValue((int) (data.getPoisonDamage() * 100));
+		typeDamage.getPhysicalDamage().setValue((int) (data.getPhysDamage() * 100));
+		typeDamage.getLightningDamage().setValue((int) (data.getLightDamage() * 100));
 
 	}
 
 	protected void setHeroSkills() {
 
-		int skill = 0;
-		boolean mfd = false;
-		boolean wolf = false;
-		Rune mfdRune = Rune.None;
-		boolean caltrops = false;
-
-		setRune(sentryRunes, Rune.None);
-		this.updateRuneLabel(sentryRuneLabel, null, sentryRunes);
-
-		for (int i = 0; i < 1; i++) {
-			setSkillAndRune(skillLabels[i], runeLabels[i], skillBoxes[i],
-					runeBoxes[i], null, Rune.None.name());
-		}
-
-		for (HeroProfile.Skills.Active s : hero.skills.active) {
-
-			if ((s != null) && (s.skill != null) && (s.skill.name != null)) {
-
-				if (s.skill.name.equals(Const.COMPANION)) {
-					wolf = true;
-				} else if (s.skill.name.equals(Const.CALTROPS)
-						&& (s.rune != null) && (s.rune.type != null)
-						&& (s.rune.type.equals(Rune.Bait_the_Trap.getSlug()))) {
-					caltrops = true;
-				} else if (s.skill.name
-
-				.equals(ActiveSkill.SENTRY.getLongName())) {
-
-					if (s.rune == null) {
-						setRune(sentryRunes, Rune.None);
-					} else {
-						setSentryRune(s.rune.name);
-					}
-
-					this.updateRuneLabel(sentryRuneLabel, null, sentryRunes);
-				} else if (s.skill.name.equals(Const.MARKED_FOR_DEATH)) {
-					mfd = true;
-
-					if ((s.rune != null) && (s.rune.type != null)) {
-						for (Rune r : MarkedForDeath.RUNES) {
-							if (r.getSlug().equals(s.rune.type)) {
-								mfdRune = r;
-								break;
-							}
-						}
-					}
-
-				} else {
-					for (ActiveSkill sk : ActiveSkill.values()) {
-
-						if (skill < skillBoxes.length) {
-							String runeName = Rune.None.getLongName();
-
-							if ((s.rune != null) && (s.rune.name != null))
-								runeName = s.rune.name;
-
-							if (s.skill.name.equals(sk.getLongName())) {
-								setSkillAndRune(skillLabels[skill],
-										runeLabels[skill], skillBoxes[skill],
-										runeBoxes[skill], sk, runeName);
-								skill++;
-								break;
-							}
-						}
-					}
-				}
-			}
-		}
-
-		boolean ballistics = false;
-		boolean cullTheWeak = false;
-		boolean grenadier = false;
-		boolean steadyAim = false;
-		boolean ambush = false;
-		boolean singleOut = false;
-
-		for (HeroProfile.Skills.Passive p : hero.skills.passive) {
-
-			if ((p != null) && (p.skill != null) && (p.skill.name != null)) {
-				if (p.skill.name.equals(Const.BALLISTICS)) {
-					ballistics = true;
-				} else if (p.skill.name.equals(Const.CULL_THE_WEEK)) {
-					cullTheWeak = true;
-				} else if (p.skill.name.equals(Const.GRENADIER)) {
-					grenadier = true;
-				} else if (p.skill.name.equals(Const.STEADY_AIM)) {
-					steadyAim = true;
-				} else if (p.skill.name.equals(Const.AMBUSH)) {
-					ambush = true;
-				} else if (p.skill.name.equals(Const.SINGLE_OUT)) {
-					singleOut = true;
-				}
-			}
-		}
-
-		for (ItemInformation item : hero.items.values()) {
-
-			if ((item.attributes != null) && (item.attributes.passive != null)) {
-
-				for (Attribute a : item.attributes.passive) {
-
-					if ((a != null) && (a.text != null)
-							&& (a.text.length() > 0)) {
-						if (a.text.startsWith(Const.HELLFIRE_PASSIVE)) {
-							String pname = a.text
-									.substring(Const.HELLFIRE_PASSIVE.length());
-							pname = pname.substring(0, pname.length()
-									- Const.PASSIVE.length());
-
-							if (pname.equals(Const.BALLISTICS)) {
-								ballistics = true;
-							} else if (pname.equals(Const.CULL_THE_WEEK)) {
-								cullTheWeak = true;
-							} else if (pname.equals(Const.GRENADIER)) {
-								grenadier = true;
-							} else if (pname.equals(Const.STEADY_AIM)) {
-								steadyAim = true;
-							} else if (pname.equals(Const.AMBUSH)) {
-								ambush = true;
-							} else if (pname.equals(Const.SINGLE_OUT)) {
-								singleOut = true;
-							}
-						}
-
-					}
-				}
-			}
-		}
-
-		this.passives.getBallistics().setValue(ballistics);
-		this.passives.getCtw().setValue(cullTheWeak);
-		this.passives.getGrenadier().setValue(grenadier);
-		this.skills.getMfd().setValue(mfd);
-		this.skills.setMarkedForDeathRune(mfdRune);
-		this.passives.getSteadyAim().setValue(steadyAim);
-		this.passives.getAmbush().setValue(ambush);
-		this.passives.getSingleOut().setValue(singleOut);
-		this.playerBuffPanel.getWolf().setValue(wolf);
-		this.skills.getCaltrops().setValue(caltrops);
+		this.passives.getBallistics().setValue(data.isBallistics());
+		this.passives.getCtw().setValue(data.isCullTheWeak());
+		this.passives.getGrenadier().setValue(data.isGrenadier());
+		this.skills.getMfd().setValue(data.isMfdSkill());
+		this.skills.setMarkedForDeathRune(data.getMfdRune());
+		this.passives.getSteadyAim().setValue(data.isSteadyAim());
+		this.passives.getAmbush().setValue(data.isAmbush());
+		this.passives.getSingleOut().setValue(data.isSingleOut());
+		this.playerBuffPanel.getWolf().setValue(data.isWolf());
+		this.skills.getCaltrops().setValue(data.isCaltrops());
 	}
 
 	private void setSkillAndRune(Anchor skillLabel, Anchor runeLabel,
@@ -3276,7 +2889,7 @@ public class MainPanel extends BasePanel {
 			data.setBaneOfTheTrappedLevel(getValue(this.gemPanel.getBotLevel()));
 			data.setEnforcerLevel(getValue(this.gemPanel.getEnforcerLevel()));
 			data.setChillDamage(this.passives.getCtw().getValue() ? 0.2 : 0.0);
-			data.setCullOfTheWeak(this.passives.getCtw().getValue());
+			data.setCullTheWeak(this.passives.getCtw().getValue());
 			data.setEliteDamage(getValue(this.itemPanel.getEliteDamagePercent()) / 100.0);
 			data.setBotp(this.gemPanel.getBotp().getValue());
 			data.setBotpLevel(getValue(this.gemPanel.getBotpLevel()));
@@ -3483,7 +3096,11 @@ public class MainPanel extends BasePanel {
 		double eliteBonus = isElite ? elite : 1.0;
 		String eliteLog = "";
 		String eliteString = isElite ? "Elite" : "Non-Elite";
-
+		
+		Label ns = new Label("" + data.getNumSentries());
+		ns.addStyleName("boldText");
+		outputHeader.setWidget(1, 7, ns);
+		
 		if (isElite && (elite > 1.0)) {
 			eliteLog = " X " + DamageMultiplier.Elite.getAbbreviation() + "("
 					+ Util.format(elite) + ")";
@@ -3497,13 +3114,13 @@ public class MainPanel extends BasePanel {
 			damageLog.removeRow(i - 1);
 		}
 
-		this.captionPanelDamageLog.setCaptionHTML("Damage Log (Single Sentry, "
+		this.captionPanelDamageLog.setCaptionHTML("Damage Log ("
 				+ eliteString + " " + FiringData.DURATION + " seconds)");
 		this.captionPanelTypeSummary
-				.setCaptionHTML("Damage Type Summary (Single Sentry, "
+				.setCaptionHTML("Damage Type Summary ("
 						+ eliteString + " " + FiringData.DURATION + " seconds)");
 		this.captionPanelSkillSummary
-				.setCaptionHTML("Skill Damage Summary (Single Sentry, "
+				.setCaptionHTML("Skill Damage Summary ("
 						+ eliteString + " " + FiringData.DURATION + " seconds)");
 
 		for (int row = 0; row < damage.length; row++) {
@@ -3516,7 +3133,7 @@ public class MainPanel extends BasePanel {
 			
 			Label sLabel = new Label(d.shooter);
 			sLabel.setWordWrap(false);
-			damageLog.setWidget(row, 0, sLabel);
+			damageLog.setWidget(row + 1, 0, sLabel);
 			
 			ActiveSkill skill = d.source.skill;
 			GemSkill gem = d.source.gem;

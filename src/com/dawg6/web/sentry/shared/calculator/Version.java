@@ -10,43 +10,32 @@ public class Version  implements Serializable {
 
 	public static final String PREFIX = "Version:";
 	
-	public static int VERSION_MAJOR = 2;
-	public static int VERSION_MINOR = 0;
-	public static String VERSION_BUILD = "";
-	public static String VERSION_DATE = "01/14/2015";
+	public static String VERSION = "2.1.2-a";
+	public static String VERSION_DATE = "03/06/2015";
 	
-	public int major;
-	public int minor;
-	public String build;
+	public String version;
 	
 	public Version() { }
 	
-	public Version(int major, int minor, String build) {
-		this.major = major;
-		this.minor = minor;
-		this.build = build;
+	public Version(String version) {
+		this.version = version;
 	}
 
 	public static String getVersionString() {
-		return VERSION_MAJOR + "." + VERSION_MINOR + VERSION_BUILD + " (" + VERSION_DATE + ")";
+		return VERSION + " (" + VERSION_DATE + ")";
 	}
 
 	public static String getShortVersionString() {
-		return VERSION_MAJOR + "." + VERSION_MINOR + VERSION_BUILD;
+		return VERSION;
 	}
 	
 	public static Version getVersion() {
-		return new Version(VERSION_MAJOR, VERSION_MINOR, VERSION_BUILD);
+		return new Version(VERSION);
 	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((build == null) ? 0 : build.hashCode());
-		result = prime * result + major;
-		result = prime * result + minor;
-		return result;
+		return version.hashCode();
 	}
 
 	@Override
@@ -58,15 +47,12 @@ public class Version  implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Version other = (Version) obj;
-		if (build == null) {
-			if (other.build != null)
+		if (version == null) {
+			if (other.version != null)
 				return false;
-		} else if (!build.equals(other.build))
+		} else if (!version.equals(other.version))
 			return false;
-		if (major != other.major)
-			return false;
-		if (minor != other.minor)
-			return false;
+
 		return true;
 	}
 
@@ -77,6 +63,6 @@ public class Version  implements Serializable {
 	
 	@Override
 	public String toString() {
-		return major + "." + minor + build;
+		return version;
 	}
 }

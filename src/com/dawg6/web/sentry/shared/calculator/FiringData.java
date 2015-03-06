@@ -27,9 +27,10 @@ public class FiringData {
 		
 		Rune sentryRune = runes.get(ActiveSkill.SENTRY);
 
-		BreakPoint bp = BreakPoint.get(data.getSentryAps());
+		BreakPoint bp = BreakPoint.getBp(data.getBp());
 		
-		list.addAll(DamageFunction.getDamages(false, true, "Sentry", new DamageSource(ActiveSkill.SENTRY, sentryRune), bp.getQty(), data));
+		list.addAll(DamageFunction.getDamages(false, true, "Sentry", new DamageSource(ActiveSkill.BOLT, sentryRune), bp.getQty(), data));
+		list.addAll(DamageFunction.getDamages(false, true, "Sentry", new DamageSource(ActiveSkill.SENTRY, sentryRune), totalQty, data));
 		
 		// gem procs
 		list.addAll(DamageFunction.getDamages(false, false, "Gems", null, FiringData.DURATION, data));

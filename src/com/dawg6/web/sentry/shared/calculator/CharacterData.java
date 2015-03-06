@@ -64,7 +64,7 @@ public class CharacterData implements Serializable {
 	private boolean calamityMdf;
 	private boolean zeis;
 	private int zeisLevel;
-	private boolean cullOfTheWeak;
+	private boolean cullTheWeak;
 	private boolean Ballistics;
 	private boolean grenadier;
 	private boolean singleOut;
@@ -554,12 +554,12 @@ public class CharacterData implements Serializable {
 		this.zeis = zeis;
 	}
 
-	public boolean isCullOfTheWeak() {
-		return cullOfTheWeak;
+	public boolean isCullTheWeak() {
+		return cullTheWeak;
 	}
 
-	public void setCullOfTheWeak(boolean cullOfTheWeak) {
-		this.cullOfTheWeak = cullOfTheWeak;
+	public void setCullTheWeak(boolean cullOfTheWeak) {
+		this.cullTheWeak = cullOfTheWeak;
 	}
 
 	public boolean isBallistics() {

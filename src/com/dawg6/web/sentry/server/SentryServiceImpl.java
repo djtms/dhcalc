@@ -234,13 +234,13 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 
 			@Override
 			public void run() {
-				data.setDefaults();
+//				data.setDefaults();
 
-				log.info("Logging data for " + data.getProfile() + "-"
-						+ data.getTag() + "(" + data.getRealm().name() + ")/"
-						+ data.getHero());
+//				log.info("Logging data for " + data.getProfile() + "-"
+//						+ data.getTag() + "(" + data.getRealm().name() + ")/"
+//						+ data.getHero());
 
-				DpsTableEntry entry = calculateDps(data);
+//				DpsTableEntry entry = calculateDps(data);
 
 //				Database.getInstance().logDps(entry);
 			}

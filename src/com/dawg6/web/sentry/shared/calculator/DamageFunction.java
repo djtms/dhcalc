@@ -409,7 +409,7 @@ public class DamageFunction {
 
 						for (DamageMultiplier dw : dr.multipliers) {
 
-							if (isSentry || (dw != DamageMultiplier.Sentry)) {
+							if (isSentry || ((dw != DamageMultiplier.Sentry) && (dw != DamageMultiplier.Enforcer))) {
 								
 								if (dw.getAccumulator() != DamageAccumulator.Special) {
 	

@@ -41,9 +41,14 @@ public class CouchDBSentryParameters {
 	public String getParameter(String parameter, String defaultValue, Listener listener) {
 		String value = null;
 
-		if (cachePolicy == CachePolicy.CacheDisabled)
+		if (cachePolicy == CachePolicy.CacheDisabled) {
 			value = CouchDBSentryDatabase.getInstance().getParameter(parameter);
-		else {
+		
+			if (value == null) {
+					value = defaultValue;
+			}
+
+		} else {
 
 			synchronized (cache) {
 				value = cache.get(parameter);

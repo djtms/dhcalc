@@ -187,7 +187,7 @@ public enum DamageMultiplier {
 			new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
-					return data.isCullOfTheWeak() ? (0.2 * data
+					return data.isCullTheWeak() ? (0.2 * data
 							.getPercentSlowedChilled()) : 0.0;
 				}
 			}), Elite("Elite", DamageAccumulator.Multiplicative,

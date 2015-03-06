@@ -404,7 +404,7 @@ public class ExportExcel {
 
 		createInputHeader(inputs, "Passive Skills");
 		createInput(inputs, data.data.isBallistics(), "Ballistics");
-		createInput(inputs, data.data.isCullOfTheWeak(), "Cull the Weak");
+		createInput(inputs, data.data.isCullTheWeak(), "Cull the Weak");
 		createInput(inputs, data.data.isGrenadier(), "Grenadier");
 		createInput(inputs, data.data.isSteadyAim(), "Steady Aim");
 		createInput(inputs, data.data.isAmbush(), "Ambush");

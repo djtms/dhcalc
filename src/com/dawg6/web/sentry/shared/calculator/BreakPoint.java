@@ -48,6 +48,14 @@ public class BreakPoint implements Comparable<BreakPoint> {
 		return cur;
 	}
 
+	public static BreakPoint getBp(int bp) {
+		for (BreakPoint b : ALL)
+			if (b.getBp() == bp)
+				return b;
+		
+		return null;
+	}
+	
 	public static void main(String[] args) {
 		System.out.println(get(1.8));
 		System.out.println(get(2.2));

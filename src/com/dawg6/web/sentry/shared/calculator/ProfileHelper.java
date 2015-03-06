@@ -294,7 +294,7 @@ public class ProfileHelper {
 		}
 
 		data.setBallistics(ballistics);
-		data.setCullOfTheWeak(cullTheWeak);
+		data.setCullTheWeak(cullTheWeak);
 		data.setGrenadier(grenadier);
 		data.setMfdSkill(mfd);
 		data.setMfdRune(mfdRune);
@@ -747,6 +747,8 @@ public class ProfileHelper {
 		data.setCrimsonCdr(hasSet(hero, setCounts, royalRing,
 				Const.CAPTAIN_CRIMSON, 3));
 
+		data.setCdrData(cdrData);
+		
 		if (helm != null) {
 			if ((helm.name != null) && helm.name.equals(Const.LEORICS_CROWN)) {
 				leorics = true;

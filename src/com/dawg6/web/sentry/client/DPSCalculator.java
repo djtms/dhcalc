@@ -1,17 +1,10 @@
 package com.dawg6.web.sentry.client;
 
-import java.util.Map;
-import java.util.TreeMap;
-
 import com.dawg6.web.sentry.shared.calculator.BreakPoint;
+import com.dawg6.web.sentry.shared.calculator.CharacterData;
 import com.dawg6.web.sentry.shared.calculator.FiringData;
 import com.dawg6.web.sentry.shared.calculator.Util;
 import com.dawg6.web.sentry.shared.calculator.WeaponType;
-import com.dawg6.web.sentry.shared.calculator.d3api.Const;
-import com.dawg6.web.sentry.shared.calculator.d3api.HeroProfile;
-import com.dawg6.web.sentry.shared.calculator.d3api.ItemInformation;
-import com.dawg6.web.sentry.shared.calculator.d3api.ItemInformation.Attributes.Attribute;
-import com.dawg6.web.sentry.shared.calculator.d3api.Value;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -1262,240 +1255,30 @@ public class DPSCalculator extends BasePanel {
 	}
 
 	public void importHero(String server, String profile, int tag, int id,
-			HeroProfile hero) {
+			CharacterData data) {
 
-		// paperdoll.load(server, profile, tag, id);
+		this.disableListeners = true;
 
-		double critChance = hero.stats.critChance;
-		double critDamage = hero.stats.critDamage - 1.0;
-		WeaponType type = WeaponType.Crossbow;
-		int weaponIas = 0;
-		int equipIas = 0;
-		double wpnDamage = 0.0;
-		boolean tnt = false;
-		int tntPercent = 0;
-		double minJewelry = 0.0;
-		double maxJewelry = 0.0;
+		this.baseMin.setValue(data.getBaseMin());
+		this.baseMax.setValue(data.getBaseMax());
+		this.addMin.setValue(data.getAddMin());
+		this.addMax.setValue(data.getAddMax());
 
-		double baseMin = 0.0;
-		double baseDelta = 0.0;
-		double addMin = 0.0;
-		double addDelta = 0.0;
-		Map<String, Integer> setCounts = new TreeMap<String, Integer>();
-		Map<String, ItemInformation.D3Set> sets = new TreeMap<String, ItemInformation.D3Set>();
-		boolean royalRing = false;
+		this.disableListeners = false;
 
-		ItemInformation bow = hero.items.get(Const.MAIN_HAND);
-
-		if (bow != null) {
-			String bowType = bow.type.id;
-
-			if (bowType.equalsIgnoreCase(Const.HANDXBOW)) {
-				type = WeaponType.HandCrossbow;
-			} else if (bowType.equalsIgnoreCase(Const.BOW)) {
-				type = WeaponType.Bow;
-			} else if (bowType.equalsIgnoreCase(Const.CROSSBOW)) {
-				type = WeaponType.Crossbow;
-			} else {
-				// ????
-			}
-		}
-
-		setWeaponType(type);
-
-		if (bow != null) {
-
-			for (Map.Entry<String, Value<Float>> e : bow.attributesRaw
-					.entrySet()) {
-				String name = e.getKey();
-				double value = e.getValue().min;
-
-				if (name.startsWith(Const.DAMAGE_WEAPON_MIN)) {
-
-					if (name.contains(Const.PHYSICAL))
-						baseMin = value;
-					else
-						addMin += value;
-
-				} else if (name.startsWith(Const.DAMAGE_WEAPON_DELTA)) {
-
-					if (name.contains(Const.PHYSICAL))
-						baseDelta = value;
-					else
-						addDelta += value;
-
-				} else if (name.startsWith(Const.DAMAGE_WEAPON_BONUS_MIN)) {
-					addMin += value;
-				} else if (name.startsWith(Const.DAMAGE_WEAPON_BONUS_DELTA)) {
-					addDelta += value;
-				} else if (name.startsWith(Const.DAMAGE_WEAPON_PERCENT))
-					wpnDamage = value;
-				else if (name.equals(Const.WEAPON_IAS)) {
-					weaponIas = (int) Math.round(value * 100.0);
-				}
-			}
-
-			this.disableListeners = true;
-
-			this.baseMin.setValue(baseMin);
-			this.baseMax.setValue(baseMin + baseDelta);
-			this.addMin.setValue(addMin);
-			this.addMax.setValue(addMin + addDelta);
-
-			this.disableListeners = false;
-		}
-
-		boolean archery = false;
-		boolean steadyAim = false;
-
-		for (HeroProfile.Skills.Passive p : hero.skills.passive) {
-
-			if ((p != null) && (p.skill != null) && (p.skill.name != null)) {
-				if (p.skill.name.equals(Const.ARCHERY)) {
-					archery = true;
-				} else if (p.skill.name.equals(Const.STEADY_AIM)) {
-					steadyAim = true;
-				}
-			}
-		}
-
-		// StringBuffer log = new StringBuffer();
-
-		for (ItemInformation i : hero.items.values()) {
-
-			if (i.attributesRaw != null) {
-				Value<Float> v = i.attributesRaw.get(Const.ROYAL_RING);
-
-				if (v != null) {
-					royalRing = true;
-				}
-			}
-
-			if ((i.set != null) && (i.set.slug != null)) {
-				Integer count = setCounts.get(i.set.slug);
-
-				if (count == null) {
-					setCounts.put(i.set.slug, 1);
-					sets.put(i.set.slug, i.set);
-				} else {
-					setCounts.put(i.set.slug, count + 1);
-				}
-			}
-
-			if (i != bow) {
-
-				if (i.attributesRaw != null) {
-					Value<Float> min = i.attributesRaw
-							.get(Const.JEWELY_MIN_DAMAGE);
-
-					if (min != null) {
-						minJewelry += min.min;
-
-						Value<Float> delta = i.attributesRaw
-								.get(Const.JEWELY_DELTA_DAMAGE);
-
-						if (delta != null) {
-							maxJewelry += (min.min + delta.min);
-						}
-					}
-				}
-
-				Value<Float> ias = i.attributesRaw.get(Const.IAS);
-
-				if (ias != null) {
-
-					equipIas += Math.round(ias.min * 100.0);
-					// log.append(i.name + ": +IAS " + ias.min + ", equipIas = "
-					// + equipIas + "\n");
-				}
-
-				for (ItemInformation.Attributes.Attribute a : i.attributes.passive) {
-					String text = a.text;
-					if (text.startsWith(Const.PET_ATTACK_SPEED)) {
-						int j = text.indexOf('%');
-						String value = text.substring(
-								Const.PET_ATTACK_SPEED.length(), j);
-						double d = Double.valueOf(value);
-						tnt = true;
-						tntPercent = (int) Math.round(d);
-					}
-				}
-			}
-
-		}
-
-		// ApplicationPanel.showInfoDialog("IAS", log.toString());
-
-		for (ItemInformation item : hero.items.values()) {
-
-			if ((item.attributes != null) && (item.attributes.passive != null)) {
-
-				for (Attribute a : item.attributes.passive) {
-
-					if ((a != null) && (a.text != null)
-							&& (a.text.length() > 0)) {
-						if (a.text.startsWith(Const.HELLFIRE_PASSIVE)) {
-							String pname = a.text
-									.substring(Const.HELLFIRE_PASSIVE.length());
-							pname = pname.substring(0, pname.length()
-									- Const.PASSIVE.length());
-
-							if (pname.equals(Const.ARCHERY)) {
-								archery = true;
-							} else if (pname.equals(Const.STEADY_AIM)) {
-								steadyAim = true;
-							}
-						}
-
-					}
-				}
-			}
-		}
-
-		for (Map.Entry<String, Integer> e : setCounts.entrySet()) {
-			int count = e.getValue();
-
-			if ((count > 1) && royalRing)
-				count++;
-
-			ItemInformation.D3Set set = sets.get(e.getKey());
-
-			for (ItemInformation.D3Set.Rank r : set.ranks) {
-				if (r.required <= count) {
-					if (r.attributesRaw != null) {
-						Value<Float> v = r.attributesRaw
-								.get(Const.CRIT_CHANCE_RAW);
-
-						// only add if set count was less than required
-						// (obtained through royal ring)
-						// since battle.net profile won't include royal ring
-						// bonus
-						if ((v != null) && (e.getValue() < r.required)) {
-							critChance += v.min;
-						}
-
-						v = r.attributesRaw.get(Const.IAS);
-
-						if (v != null) {
-							equipIas += (int) Math.round(v.min * 100.0);
-						}
-					}
-				}
-			}
-		}
-
-		this.critChance.setValue(Math.round(critChance * 10000.0) / 100.0);
-		this.critDamage.setValue((int) Math.round(critDamage * 100.0));
-		this.weaponIAS.setValue(weaponIas);
-		this.equipIAS.setValue(equipIas);
-		this.weaponDamage.setValue((int) Math.round(wpnDamage * 100.0));
-		this.dexterity.setValue(hero.stats.dexterity);
-		this.tnt.setValue(tnt);
-		this.tntPercent.setValue(tntPercent);
-		this.archery.setValue(archery);
-		this.steadyAim.setValue(steadyAim);
-		this.minJewelDamage.setValue((int) Math.round(minJewelry));
-		this.maxJewelDamage.setValue((int) Math.round(maxJewelry));
+		this.critChance.setValue(Math.round(data.getCritChance() * 10000.0) / 100.0);
+		this.critDamage.setValue((int) Math.round(data.getCritHitDamage()
+				* 100.0));
+		this.weaponIAS.setValue((int)(Math.round(data.getWeaponIas() * 100.0)));
+		this.equipIAS.setValue((int)(Math.round(data.getEquipIas() * 100.0)));
+		this.weaponDamage.setValue((int) Math.round(data.getWeaponDamage() * 100.0));
+		this.dexterity.setValue((int)data.getDexterity());
+		this.tnt.setValue(data.isTnt());
+		this.tntPercent.setValue((int)(Math.round(data.getTntPercent() * 100.0)));
+		this.archery.setValue(data.isArchery());
+		this.steadyAim.setValue(data.isSteadyAim());
+		this.minJewelDamage.setValue((int) Math.round(data.getJewelMin()));
+		this.maxJewelDamage.setValue((int) Math.round(data.getJewelMax()));
 
 		this.updateTooltipDamage();
 
