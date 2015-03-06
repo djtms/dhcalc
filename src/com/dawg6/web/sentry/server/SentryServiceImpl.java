@@ -270,7 +270,6 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 		skillMap.put(ActiveSkill.BOLT, data.getSentryRune());
 
 		BreakPoint bp = BreakPoint.ALL[data.getBp()-1];
-		FiringData fd = FiringData.find(skillSet, bp);
 
 		DpsTableEntry entry = new DpsTableEntry();
 
@@ -302,9 +301,9 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 		entry.setLevel(data.getLevel());
 
 		data.setNumAdditional(0);
-		calculateDamage(skillMap, data, fd, entry);
+		calculateDamage(skillMap, data, entry);
 		data.setNumAdditional(10);
-		calculateDamage(skillMap, data, fd, entry);
+		calculateDamage(skillMap, data, entry);
 
 		entry.setWhen(System.currentTimeMillis());
 
@@ -312,9 +311,9 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 	}
 
 	private void calculateDamage(Map<ActiveSkill, Rune> skillMap,
-			CharacterData data, FiringData fd, DpsTableEntry entry) {
+			CharacterData data, DpsTableEntry entry) {
 
-		Damage[] damage = fd.calculateDamages(skillMap, data);
+		Damage[] damage = FiringData.calculateDamages(skillMap, data);
 
 		double total = 0.0;
 		double totalElite = 0.0;

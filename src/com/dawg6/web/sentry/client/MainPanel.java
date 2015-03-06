@@ -51,7 +51,6 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.URL;
-import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
@@ -126,7 +125,6 @@ public class MainPanel extends BasePanel {
 	private FormData formData;
 	private ExportData exportData;
 	private final ParagonPanel paragonPanel;
-	private final FlexTable multipleSummary;
 	private final CDRPanel cdrPanel;
 	private final Label rawCDRLabel;
 	private final Label effectiveCDRLabel;
@@ -148,7 +146,6 @@ public class MainPanel extends BasePanel {
 	private Label eliteDamage;
 	private Label smokeCDLabel;
 	private double smokeCD;
-	private CaptionPanel captionPanelMultipleSentries;
 	private CaptionPanel captionPanelTypeSummary;
 	private CaptionPanel captionPanelSkillSummary;
 	private CaptionPanel captionPanelDamageLog;
@@ -1278,41 +1275,6 @@ public class MainPanel extends BasePanel {
 		HorizontalPanel horizontalPanel_9 = new HorizontalPanel();
 		outputPanel.add(horizontalPanel_9);
 
-		captionPanelMultipleSentries = new CaptionPanel(
-				"Summary (Multiple Sentries, Non-Elite)");
-		horizontalPanel_9.add(captionPanelMultipleSentries);
-
-		multipleSummary = new FlexTable();
-		multipleSummary.setStyleName("outputTable");
-		multipleSummary.setCellPadding(5);
-		multipleSummary.setBorderWidth(1);
-		captionPanelMultipleSentries.setContentWidget(multipleSummary);
-
-		Label lblSentry = new Label("# Sentries");
-		lblSentry.setWordWrap(false);
-		lblSentry.setStyleName("dpsHeader");
-		multipleSummary.setWidget(0, 0, lblSentry);
-
-		Label lblDuration = new Label("Duration");
-		lblDuration.setWordWrap(false);
-		lblDuration.setStyleName("dpsHeader");
-		multipleSummary.setWidget(0, 1, lblDuration);
-
-		Label lblDamage = new Label("Total Damage");
-		lblDamage.setWordWrap(false);
-		lblDamage.setStyleName("dpsHeader");
-		multipleSummary.setWidget(0, 2, lblDamage);
-
-		Label lblDps = new Label("Average DPS");
-		lblDps.setWordWrap(false);
-		lblDps.setStyleName("dpsHeader");
-		multipleSummary.setWidget(0, 3, lblDps);
-
-		Label lblDps2 = new Label("Max DPS");
-		lblDps2.setWordWrap(false);
-		lblDps2.setStyleName("dpsHeader");
-		multipleSummary.setWidget(0, 4, lblDps2);
-
 		captionPanelTypeSummary = new CaptionPanel(
 				"Damage Type Summary (Single Sentry, Non-Elite, "
 						+ FiringData.DURATION + " seconds)");
@@ -1401,12 +1363,6 @@ public class MainPanel extends BasePanel {
 		skillSummary.getRowFormatter().addStyleName(0, "headerRow");
 		summary.getColumnFormatter().addStyleName(3, "dpsCol");
 		summary.getRowFormatter().addStyleName(0, "headerRow");
-		multipleSummary.getRowFormatter().addStyleName(0, "headerRow");
-		multipleSummary.getColumnFormatter().addStyleName(0, "dpsCol");
-		multipleSummary.getColumnFormatter().addStyleName(1, "dpsCol");
-		multipleSummary.getColumnFormatter().addStyleName(2, "dpsCol");
-		multipleSummary.getColumnFormatter().addStyleName(3, "dpsCol");
-		multipleSummary.getColumnFormatter().addStyleName(4, "dpsCol");
 
 		HorizontalPanel horizontalPanel_2 = new HorizontalPanel();
 		outputPanel.add(horizontalPanel_2);
@@ -1421,57 +1377,61 @@ public class MainPanel extends BasePanel {
 		damageLog.setBorderWidth(1);
 		captionPanelDamageLog.setContentWidget(damageLog);
 
+		Label lblNewLabel_8a = new Label("Shooter", false);
+		lblNewLabel_8a.setWordWrap(false);
+		damageLog.setWidget(0, 0, lblNewLabel_8a);
+
 		Label lblNewLabel_8 = new Label("Skill", false);
 		lblNewLabel_8.setWordWrap(false);
-		damageLog.setWidget(0, 0, lblNewLabel_8);
+		damageLog.setWidget(0, 1, lblNewLabel_8);
 
 		Label lblNewLabel_9 = new Label("Rune", false);
 		lblNewLabel_9.setWordWrap(false);
-		damageLog.setWidget(0, 1, lblNewLabel_9);
+		damageLog.setWidget(0, 2, lblNewLabel_9);
 
 		Label lblNewLabel_10 = new Label("Type", false);
 		lblNewLabel_10.setWordWrap(false);
-		damageLog.setWidget(0, 2, lblNewLabel_10);
+		damageLog.setWidget(0, 3, lblNewLabel_10);
 
 		Label lblNewLabel_11 = new Label("Damage", false);
 		lblNewLabel_11.setWordWrap(false);
 		lblNewLabel_11.setStyleName("dpsHeader");
-		damageLog.setWidget(0, 3, lblNewLabel_11);
+		damageLog.setWidget(0, 4, lblNewLabel_11);
 		damageLog.getColumnFormatter().addStyleName(3, "dpsCol");
 
 		Label lblNewLabel_12 = new Label("Qty", false);
 		lblNewLabel_12.setWordWrap(false);
-		damageLog.setWidget(0, 4, lblNewLabel_12);
+		damageLog.setWidget(0, 5, lblNewLabel_12);
 
 		Label lblNewLabel_13 = new Label("Total Damage", false);
 		lblNewLabel_13.setStyleName("dpsHeader");
 		lblNewLabel_13.setWordWrap(false);
-		damageLog.setWidget(0, 5, lblNewLabel_13);
-		damageLog.getColumnFormatter().addStyleName(5, "dpsCol");
+		damageLog.setWidget(0, 6, lblNewLabel_13);
+		damageLog.getColumnFormatter().addStyleName(6, "dpsCol");
 
 		Label lblNewLabel_14 = new Label("DPS", false);
 		lblNewLabel_14.setStyleName("dpsHeader");
 		lblNewLabel_14.setWordWrap(false);
-		damageLog.setWidget(0, 6, lblNewLabel_14);
-		damageLog.getColumnFormatter().addStyleName(6, "dpsCol");
+		damageLog.setWidget(0, 7, lblNewLabel_14);
+		damageLog.getColumnFormatter().addStyleName(7, "dpsCol");
 
 		Label lblNewLabel_15 = new Label("% of Total", false);
 		lblNewLabel_15.setStyleName("dpsHeader");
 		lblNewLabel_15.setWordWrap(false);
-		damageLog.setWidget(0, 7, lblNewLabel_15);
-		damageLog.getColumnFormatter().addStyleName(7, "dpsCol");
+		damageLog.setWidget(0, 8, lblNewLabel_15);
+		damageLog.getColumnFormatter().addStyleName(8, "dpsCol");
 
 		Label lblNewLabel_15b = new Label("Target", false);
 		lblNewLabel_15b.setWordWrap(false);
-		damageLog.setWidget(0, 8, lblNewLabel_15b);
+		damageLog.setWidget(0, 9, lblNewLabel_15b);
 
 		Label lblNewLabel_16 = new Label("Notes", false);
 		lblNewLabel_16.setWordWrap(false);
-		damageLog.setWidget(0, 9, lblNewLabel_16);
+		damageLog.setWidget(0, 10, lblNewLabel_16);
 
 		Label lblNewLabel_28 = new Label("Calculations", false);
 		lblNewLabel_28.setWordWrap(false);
-		damageLog.setWidget(0, 10, lblNewLabel_28);
+		damageLog.setWidget(0, 11, lblNewLabel_28);
 
 		damageLog.addStyleName("outputTable");
 		damageLog.getRowFormatter().addStyleName(0, "headerRow");
@@ -3421,9 +3381,7 @@ public class MainPanel extends BasePanel {
 			BreakPoint bp = BreakPoint.get(petApsValue);
 			data.setBp(bp.getBp());
 
-			FiringData fd = FiringData.find(skillSet, bp);
-
-			this.damage = fd.calculateDamages(skills, data);
+			this.damage = FiringData.calculateDamages(skills, data);
 
 			types = new TreeMap<DamageType, DamageHolder>();
 			skillDamages = new TreeMap<DamageSource, DamageHolder>();
@@ -3547,9 +3505,6 @@ public class MainPanel extends BasePanel {
 		this.captionPanelSkillSummary
 				.setCaptionHTML("Skill Damage Summary (Single Sentry, "
 						+ eliteString + " " + FiringData.DURATION + " seconds)");
-		this.captionPanelMultipleSentries
-				.setCaptionHTML("Summary (Multiple Sentries, " + eliteString
-						+ ")");
 
 		for (int row = 0; row < damage.length; row++) {
 			if ((row % 2) == 0)
@@ -3558,6 +3513,11 @@ public class MainPanel extends BasePanel {
 				damageLog.getRowFormatter().addStyleName(row + 1, "evenRow");
 
 			Damage d = damage[row];
+			
+			Label sLabel = new Label(d.shooter);
+			sLabel.setWordWrap(false);
+			damageLog.setWidget(row, 0, sLabel);
+			
 			ActiveSkill skill = d.source.skill;
 			GemSkill gem = d.source.gem;
 			Anchor a = new Anchor((skill != null) ? skill.getLongName()
@@ -3567,7 +3527,7 @@ public class MainPanel extends BasePanel {
 			String url = (skill != null) ? skill.getUrl() : gem.getUrl();
 			a.setHref(url);
 
-			damageLog.setWidget(row + 1, 0, a);
+			damageLog.setWidget(row + 1, 1, a);
 
 			if (skill != null) {
 				Anchor b = new Anchor(d.source.rune.getLongName());
@@ -3579,45 +3539,45 @@ public class MainPanel extends BasePanel {
 
 				b.setHref(url);
 
-				damageLog.setWidget(row + 1, 1, b);
+				damageLog.setWidget(row + 1, 2, b);
 			} else {
 				Label b = new Label("N/A");
-				damageLog.setWidget(row + 1, 1, b);
+				damageLog.setWidget(row + 1, 2, b);
 			}
 
-			damageLog.setWidget(row + 1, 2, new Label(d.type.name(), false));
+			damageLog.setWidget(row + 1, 3, new Label(d.type.name(), false));
 			Label damageLabel = new Label(Util.format(Math.round(d.damage
 					* eliteBonus)), false);
 			damageLabel.addStyleName("dpsCol");
-			damageLog.setWidget(row + 1, 3, damageLabel);
-			damageLog.setWidget(row + 1, 4, new Label(String.valueOf(d.qty),
+			damageLog.setWidget(row + 1, 4, damageLabel);
+			damageLog.setWidget(row + 1, 5, new Label(String.valueOf(d.qty),
 					false));
 
 			Label totalLabel = new Label(Util.format(Math.round(d.totalDamage
 					* eliteBonus)), false);
 			totalLabel.addStyleName("dpsCol");
-			damageLog.setWidget(row + 1, 5, totalLabel);
+			damageLog.setWidget(row + 1, 6, totalLabel);
 
 			Label dpsLabel = new Label(
 					Util.format(Math.round((d.totalDamage * eliteBonus)
 							/ FiringData.DURATION)), false);
 			dpsLabel.addStyleName("dpsCol");
-			damageLog.setWidget(row + 1, 6, dpsLabel);
+			damageLog.setWidget(row + 1, 7, dpsLabel);
 			double pct = Math.round((d.totalDamage / total) * 10000.0) / 100.0;
 			Label pctLabel = new Label(String.valueOf(pct) + "%", false);
 			pctLabel.addStyleName("dpsCol");
-			damageLog.setWidget(row + 1, 7, pctLabel);
+			damageLog.setWidget(row + 1, 8, pctLabel);
 
 			String target = d.target.name();
 
 			if (d.target == Target.Additional)
 				target += (" (" + d.numAdd + ")");
 
-			damageLog.setWidget(row + 1, 8, new Label(target, false));
-			damageLog.setWidget(row + 1, 9, new Label(d.note, false));
+			damageLog.setWidget(row + 1, 9, new Label(target, false));
+			damageLog.setWidget(row + 1, 10, new Label(d.note, false));
 			Label log = new Label(d.log + eliteLog);
 			log.setWordWrap(false);
-			damageLog.setWidget(row + 1, 10, log);
+			damageLog.setWidget(row + 1, 11, log);
 		}
 
 		for (int i = summary.getRowCount(); i > 1; --i) {
@@ -3726,75 +3686,9 @@ public class MainPanel extends BasePanel {
 		weaponDamage
 				.setText(Util.format(Math.round(data.getWeaponDamage() * 100.0) / 100.0));
 
-		for (int i = multipleSummary.getRowCount(); i > 1; --i) {
-			multipleSummary.removeRow(i - 1);
-		}
-
 		row = 1;
 
 		double dpsActual = total / FiringData.DURATION;
-		double multipleTotal = total - nonStacking;
-		double multipleDps = multipleTotal / FiringData.DURATION;
-
-		for (int i = 1; i < 6; i++) {
-
-			MultipleSummary summary = new MultipleSummary();
-			this.exportData.multiple.add(summary);
-
-			double dur = FiringData.DURATION + ((i - 1) * this.sentryCD);
-			int mins = (int) (dur / 60);
-			double seconds = (dur - (mins * 60.0));
-
-			// int n = (i * (i - 1)) / 2;
-
-			double t = 0;
-
-			for (int j = 1; j <= i; j++) {
-				if (j == 1) {
-					t += (total + (dpsActual * sentryCD * (i - 1)));
-				} else {
-					t += (multipleTotal + ((j - 2) * sentryCD * multipleDps));
-				}
-			}
-
-			summary.numSentries = i;
-			summary.duration = dur;
-			summary.durationString = mins + ":"
-					+ NumberFormat.getFormat("00.00").format(seconds);
-			summary.total = t;
-			summary.dps = t / dur;
-			summary.maxDps = dpsActual + ((i - 1) * multipleDps);
-
-			if ((row % 2) == 0)
-				multipleSummary.getRowFormatter().addStyleName(row, "evenRow");
-			else
-				multipleSummary.getRowFormatter().addStyleName(row, "oddRow");
-
-			Label label1 = new Label(String.valueOf(summary.numSentries), false);
-			label1.addStyleName("dpsCol");
-			multipleSummary.setWidget(row, 0, label1);
-
-			Label label2 = new Label(summary.durationString, false);
-			label2.addStyleName("dpsCol");
-			multipleSummary.setWidget(row, 1, label2);
-
-			Label label3 = new Label(Util.format(Math.round(summary.total
-					* eliteBonus)), false);
-			label3.addStyleName("dpsCol");
-			multipleSummary.setWidget(row, 2, label3);
-
-			Label label4 = new Label(Util.format(Math.round(summary.dps
-					* eliteBonus)), false);
-			label4.addStyleName("dpsCol");
-			multipleSummary.setWidget(row, 3, label4);
-
-			Label label5 = new Label(Util.format(Math.round(summary.maxDps
-					* eliteBonus)), false);
-			label5.addStyleName("dpsCol");
-			multipleSummary.setWidget(row, 4, label5);
-
-			row++;
-		}
 
 		this.dps.setText(Util.format(Math.round(dps)));
 		this.totalDamage.setText(Util.format(Math.round(total)));

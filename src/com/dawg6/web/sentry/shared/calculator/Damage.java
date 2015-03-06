@@ -6,6 +6,7 @@ public class Damage implements Serializable {
 	
 	private static final long serialVersionUID = -8479254378841622164L;
 	
+	public String shooter;
 	public DamageSource source;
 	public int index;
 	public int qty;

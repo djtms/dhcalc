@@ -170,8 +170,8 @@ public class CharacterData implements Serializable {
 	private double sentryDps;
 	private double equipCritChance;
 	private double equipCritDamage;
-	private int numSentries;
 	private boolean hasBombardiers;
+	private boolean customEngineering;
 	
 	public void setDefaults() {
 		mfdUptime = 1.0;
@@ -205,7 +205,6 @@ public class CharacterData implements Serializable {
 		anatomy = false;
 		hysteria = false;
 		caltropsUptime = 1.0;
-		numSentries = 3;
 		hasBombardiers = false;
 	}
 	
@@ -1496,11 +1495,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public int getNumSentries() {
-		return numSentries;
-	}
-
-	public void setNumSentries(int numSentries) {
-		this.numSentries = numSentries;
+		return 2 + (hasBombardiers ? 2 : 0) + (customEngineering ? 1 : 0);
 	}
 
 	public boolean isHasBombardiers() {
@@ -1509,6 +1504,14 @@ public class CharacterData implements Serializable {
 
 	public void setHasBombardiers(boolean hasBombardiers) {
 		this.hasBombardiers = hasBombardiers;
+	}
+
+	public boolean isCustomEngineering() {
+		return customEngineering;
+	}
+
+	public void setCustomEngineering(boolean customEngineering) {
+		this.customEngineering = customEngineering;
 	}
 	
 }
