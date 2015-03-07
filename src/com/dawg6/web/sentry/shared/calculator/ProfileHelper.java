@@ -226,7 +226,8 @@ public class ProfileHelper {
 							SkillAndRune sr = new SkillAndRune(sk, rune);
 							skills.add(sr);
 							
-							break;
+							if (skills.size() >= 2)
+								break;
 						}
 					}
 				}

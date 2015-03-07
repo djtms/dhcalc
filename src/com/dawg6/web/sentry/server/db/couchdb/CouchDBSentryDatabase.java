@@ -52,8 +52,8 @@ public class CouchDBSentryDatabase {
 				.setDbName(DB_NAME)
 				.setCreateDbIfNotExist(true)
 				.setProtocol("http")
-//				.setHost("192.168.1.52")
-				.setHost("127.0.0.1")
+				.setHost("192.168.1.51")
+//				.setHost("127.0.0.1")
 				.setPort(5984)
 				.setMaxConnections(100)
 				.setConnectionTimeout(0);

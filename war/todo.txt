@@ -1,5 +1,9 @@
 **TO DO:**
 
+* Add Reaper's Wraps 
+* Add items/skills that increase Hatred
+* Import hatred regen from items/skills
+* Add Spines of Seething Hatred, Kridershot, Oddesy's End
 * Support dual wield
 * Check other set bonuses that need import logic to handle royal ring
 * Improve logic for selecting # of AoE targets
@@ -12,4 +16,3 @@
 * Add translation/localization
 * Improve appearance (colors, styles, etc....)
 * Add skill/rune icons
-* Implement 4th Hatred Spender

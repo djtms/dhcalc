@@ -25,7 +25,7 @@ public class FiringData {
 			}
 		}
 		
-		Rune sentryRune = runes.get(ActiveSkill.SENTRY);
+		Rune sentryRune = data.getSentryRune();
 
 		BreakPoint bp = BreakPoint.getBp(data.getBp());
 		

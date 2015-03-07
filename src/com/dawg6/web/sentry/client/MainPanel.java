@@ -3,6 +3,7 @@ package com.dawg6.web.sentry.client;
 import java.beans.Beans;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.Vector;
@@ -159,6 +160,10 @@ public class MainPanel extends BasePanel {
 	private Anchor[] runeLabels;
 	private FlexTable outputHeader;
 	private HatredPanel hatredPanel;
+	private Anchor skill2Label;
+	private Anchor rune2Label;
+	private ListBox skill2;
+	private ListBox rune2;
 
 	public MainPanel() {
 		VerticalPanel panel = new VerticalPanel();
@@ -722,23 +727,23 @@ public class MainPanel extends BasePanel {
 		grid.setWidget(1, 3, rune1);
 		rune1.setTitle("Selected rune for this Hatred Spender.");
 
-//		skill2Label = new Anchor("Skill 2:");
-//		skill2Label.setWordWrap(false);
-//		skill2Label.setTarget("_blank");
-//		grid.setWidget(2, 0, skill2Label);
-//
-//		skill2 = new ListBox();
-//		grid.setWidget(2, 1, skill2);
-//		skill2.setTitle("Hatred Spender.");
-//
-//		rune2Label = new Anchor("Rune:");
-//		rune2Label.setWordWrap(false);
-//		rune2Label.setTarget("_blank");
-//		grid.setWidget(2, 2, rune2Label);
-//
-//		rune2 = new ListBox();
-//		grid.setWidget(2, 3, rune2);
-//		rune2.setTitle("Selected rune for this Hatred Spender.");
+		skill2Label = new Anchor("Skill 2:");
+		skill2Label.setWordWrap(false);
+		skill2Label.setTarget("_blank");
+		grid.setWidget(2, 0, skill2Label);
+
+		skill2 = new ListBox();
+		grid.setWidget(2, 1, skill2);
+		skill2.setTitle("Hatred Spender.");
+
+		rune2Label = new Anchor("Rune:");
+		rune2Label.setWordWrap(false);
+		rune2Label.setTarget("_blank");
+		grid.setWidget(2, 2, rune2Label);
+
+		rune2 = new ListBox();
+		grid.setWidget(2, 3, rune2);
+		rune2.setTitle("Selected rune for this Hatred Spender.");
 //
 //		skill3Label = new Anchor("Skill 3:");
 //		skill3Label.setWordWrap(false);
@@ -1549,11 +1554,11 @@ public class MainPanel extends BasePanel {
 			realms.addItem(r.getDisplayName(), r.name());
 		}
 
-		skillBoxes = new ListBox[] { skill1 }; //, skill2, skill3 };
-		runeBoxes = new ListBox[] { rune1 }; //, rune2, rune3 };
+		skillBoxes = new ListBox[] { skill1, skill2 }; //, skill2, skill3 };
+		runeBoxes = new ListBox[] { rune1, rune2 }; //, rune2, rune3 };
 
-		skillLabels = new Anchor[] { skill1Label }; //, skill2Label, skill3Label };
-		runeLabels = new Anchor[] { rune1Label }; //, rune2Label, rune3Label };
+		skillLabels = new Anchor[] { skill1Label, skill2Label }; //, skill2Label, skill3Label };
+		runeLabels = new Anchor[] { rune1Label, rune2Label }; //, rune2Label, rune3Label };
 	}
 
 	protected void setBuild(Build build) {
@@ -2226,6 +2231,8 @@ public class MainPanel extends BasePanel {
 
 								setGemDamage();
 
+								setSkills();
+								
 								calculator.importHero(server, profile, tag,
 										heroId, data);
 
@@ -2263,6 +2270,25 @@ public class MainPanel extends BasePanel {
 		}
 	}
 
+	private void setSkills() {
+		
+		Rune sentryRune = data.getSentryRune();
+		
+		this.setSentryRune(sentryRune.getLongName());
+		
+		Set<SkillAndRune> skills = data.getSkills();
+
+		int n = 0;
+		
+		for (SkillAndRune skr : skills) {
+			this.setSkillAndRune(skillLabels[n], runeLabels[n], skillBoxes[n], runeBoxes[n], skr.getSkill(), skr.getRune().getLongName());
+			n++;
+			
+			if (n > skillLabels.length)
+				break;
+		}
+	}
+	
 	private void updateParagonPoints() {
 		this.calculator.setParagonPoints(
 				getValue(MainPanel.this.paragonPanel.getParagonIAS()),
@@ -2300,7 +2326,7 @@ public class MainPanel extends BasePanel {
 
 				realms.setSelectedIndex(0);
 
-			} else if (field == this.skill1) //|| (field == this.skill2) || (field == this.skill3)) 
+			} else if (field == this.skill1 || (field == this.skill2)) // || (field == this.skill3)) 
 				{
 
 				this.disableListeners = true;
@@ -2313,10 +2339,10 @@ public class MainPanel extends BasePanel {
 					this.selectSkill(field, skill);
 					ListBox runes = rune1; //rune3;
 
-//					if (field == this.skill1)
-//						runes = rune1;
-//					else if (field == this.skill2)
-//						runes = rune2;
+					if (field == this.skill1)
+						runes = rune1;
+					else if (field == this.skill2)
+						runes = rune2;
 
 					this.setRunes(runes, skill);
 				}
@@ -2663,6 +2689,10 @@ public class MainPanel extends BasePanel {
 						"100"),
 				new Field(this.skills.getCaltropsUptime(), "CaltropsUptime",
 						"100"),
+				new Field(this.hatredPanel.getMaxHatred(),
+						"MaxHatred", "150"),
+				new Field(this.hatredPanel.getHatredPerSecond(),
+						"HatredPerSecond", "5.0"),
 				new Field(this.skills.getMfdAddUptime(),
 						"MarkedForDeathAddUptime", "100"),
 				new Field(this.itemPanel.getTntPercent(), "TnTPercent", "35"),
@@ -2762,10 +2792,10 @@ public class MainPanel extends BasePanel {
 						"50"),
 				new Field(this.sentryRunes, "SentryRune", Rune.None.name()),
 				new Field(this.skill1, "Skill1", ""),
-//				new Field(this.skill2, "Skill2", ""),
+				new Field(this.skill2, "Skill2", ""),
 //				new Field(this.skill3, "Skill3", ""),
 				new Field(this.rune1, "Rune1", Rune.None.name()),
-//				new Field(this.rune2, "Rune2", Rune.None.name()),
+				new Field(this.rune2, "Rune2", Rune.None.name()),
 //				new Field(this.rune3, "Rune3", Rune.None.name()),
 				new Field(this.passives.getAmbush(), "Ambush",
 						Boolean.FALSE.toString()),
@@ -2999,9 +3029,11 @@ public class MainPanel extends BasePanel {
 					.getValue() / 100.0);
 			data.setCaltrops(skills.getCaltrops().getValue());
 			data.setCaltropsUptime(skills.getCaltropsUptime().getValue() / 100.0);
+			data.setMaxHatred(hatredPanel.getMaxHatred().getValue());
+			data.setHatredPerSecond(hatredPanel.getHatredPerSecond().getValue());
 
 			Map<ActiveSkill, Rune> skills = getSkills();
-			SkillSet skillSet = getSkillSet(skills);
+//			SkillSet skillSet = getSkillSet(skills);
 
 			double gogokIas = data.isGogok() ? (data.getGogokStacks() / 100.0) : 0.0;
 			double petIasValue = data.isTnt() ? data.getTntPercent() : 0.0;
@@ -3049,7 +3081,7 @@ public class MainPanel extends BasePanel {
 		Map<ActiveSkill, Rune> skills = new TreeMap<ActiveSkill, Rune>();
 
 		addSkill(skills, skill1, rune1);
-//		addSkill(skills, skill2, rune2);
+		addSkill(skills, skill2, rune2);
 //		addSkill(skills, skill3, rune3);
 
 		return skills;
@@ -3321,7 +3353,7 @@ public class MainPanel extends BasePanel {
 
 		row = 1;
 
-		double dpsActual = total / FiringData.DURATION;
+//		double dpsActual = total / FiringData.DURATION;
 
 		this.dps.setText(Util.format(Math.round(dps)));
 		this.totalDamage.setText(Util.format(Math.round(total)));
@@ -3396,11 +3428,11 @@ public class MainPanel extends BasePanel {
 		if (!Beans.isDesignTime()) {
 
 			addSkills(skill1, rune1);
-//			addSkills(skill2, rune2);
+			addSkills(skill2, rune2);
 //			addSkills(skill3, rune3);
 
-			addSkillHandler(skill1, rune1Label, rune1); //, skill2, skill3);
-//			addSkillHandler(skill2, rune2Label, rune2, skill1, skill3);
+			addSkillHandler(skill1, rune1Label, rune1, skill2); //, skill2, skill3);
+			addSkillHandler(skill2, rune2Label, rune2, skill1); //, skill3);
 //			addSkillHandler(skill3, rune3Label, rune3, skill1, skill2);
 
 			calculator.loadForm();
@@ -3416,10 +3448,10 @@ public class MainPanel extends BasePanel {
 
 			setRuneLabel(sentryRuneLabel, null, sentryRunes);
 			setRuneLabel(this.rune1Label, skill1, rune1);
-//			setRuneLabel(this.rune2Label, skill2, rune2);
+			setRuneLabel(this.rune2Label, skill2, rune2);
 //			setRuneLabel(this.rune3Label, skill3, rune3);
 			setSkillLabel(this.skill1Label, skill1);
-//			setSkillLabel(this.skill2Label, skill2);
+			setSkillLabel(this.skill2Label, skill2);
 //			setSkillLabel(this.skill3Label, skill3);
 		}
 
@@ -3427,21 +3459,21 @@ public class MainPanel extends BasePanel {
 	}
 
 	private void addSkillHandler(final ListBox skills, final Anchor runeLabel,
-			final ListBox runes) { //, final ListBox other1, final ListBox other2) {
+			final ListBox runes, final ListBox other1) { //, final ListBox other2) {
 		skills.addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {
 
 				if (!disableListeners)
-					skillChanged(skills, runeLabel, runes); //, other1, other2);
+					skillChanged(skills, runeLabel, runes, other1); //, other2);
 			}
 		});
 
 	}
 
 	protected void skillChanged(ListBox skills, Anchor runeLabel,
-			ListBox runes) { //, ListBox other1, ListBox other2) {
+			ListBox runes, ListBox other1) { //, ListBox other2) {
 
 		// ActiveSkill sk = getSkill(skills);
 		//
