@@ -716,7 +716,7 @@ public class MainPanel extends BasePanel {
 
 		skill1 = new ListBox();
 		grid.setWidget(1, 1, skill1);
-		skill1.setTitle("Hatred Spender.");
+		skill1.setTitle("Hatred Spender/Generator.");
 
 		rune1Label = new Anchor("Rune:");
 		rune1Label.setWordWrap(false);
@@ -734,7 +734,7 @@ public class MainPanel extends BasePanel {
 
 		skill2 = new ListBox();
 		grid.setWidget(2, 1, skill2);
-		skill2.setTitle("Hatred Spender.");
+		skill2.setTitle("Hatred Spender/Generator.");
 
 		rune2Label = new Anchor("Rune:");
 		rune2Label.setWordWrap(false);
@@ -2920,6 +2920,7 @@ public class MainPanel extends BasePanel {
 			data.setPhysDamage(getValue(this.typeDamage.getPhysicalDamage()) / 100.0);
 			data.setBallistics(this.passives.getBallistics().getValue());
 			data.setSentryDamage(getValue(this.skillDamage.getSentryDamage()) / 100.0);
+			data.setSentryRune(this.getRune(sentryRunes));
 			data.setCritChance(calculator.getCritChance());
 			data.setCritHitDamage(calculator.getCritDamage());
 			data.setPoisonDamage(getValue(this.typeDamage.getPoisonDamage()) / 100.0);
@@ -3504,6 +3505,11 @@ public class MainPanel extends BasePanel {
 
 		skills.addItem("None", "");
 		skills.setSelectedIndex(0);
+		addSkill(skills, ActiveSkill.HA);
+		addSkill(skills, ActiveSkill.ES);
+		addSkill(skills, ActiveSkill.BOLAS);
+		addSkill(skills, ActiveSkill.EF);
+		addSkill(skills, ActiveSkill.GRENADE);
 		addSkill(skills, ActiveSkill.CA);
 		addSkill(skills, ActiveSkill.EA);
 		addSkill(skills, ActiveSkill.IMP);

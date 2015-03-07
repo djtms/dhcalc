@@ -1,12 +1,20 @@
 package com.dawg6.web.sentry.shared.calculator;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class SkillAndRune implements Serializable, Comparable<SkillAndRune> {
 
 	private static final long serialVersionUID = -2598597723188510677L;
+
+	public static final Comparator<SkillAndRune> HatredSorter = new Comparator<SkillAndRune>(){
+
+		@Override
+		public int compare(SkillAndRune o1, SkillAndRune o2) {
+			return new Integer(o1.getHatred()).compareTo(o2.getHatred());
+		}};
 
 	private ActiveSkill skill;
 	private Rune rune;
@@ -16,6 +24,10 @@ public class SkillAndRune implements Serializable, Comparable<SkillAndRune> {
 	public SkillAndRune() {
 	}
 
+	public int getHatred() {
+		return skill.getHatred() + rune.getHatred();
+	}
+	
 	public SkillAndRune(ActiveSkill skill, Rune rune) {
 		this.skill = skill;
 		this.rune = rune;

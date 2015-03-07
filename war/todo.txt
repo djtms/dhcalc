@@ -1,6 +1,8 @@
 **TO DO:**
 
-* Add Reaper's Wraps 
+* Add Marauder's 6pc bonus
+* Add check for Marauder's 4/6 pc bonus
+* Add Reaper's Wraps and Health Globes
 * Add items/skills that increase Hatred
 * Import hatred regen from items/skills
 * Add Spines of Seething Hatred, Kridershot, Oddesy's End
