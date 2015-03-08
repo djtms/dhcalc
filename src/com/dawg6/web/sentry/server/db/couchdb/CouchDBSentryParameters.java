@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.Vector;
 
 import com.google.gson.Gson;
@@ -34,7 +35,7 @@ public class CouchDBSentryParameters {
 	}
 	
 	private CouchDBSentryParameters() { 
-		this.cachePolicy = CachePolicy.CacheDisabled;
+		this.cachePolicy = CachePolicy.CacheEnabled;
 		this.gson = new Gson();
 	}
 
@@ -46,6 +47,7 @@ public class CouchDBSentryParameters {
 		
 			if (value == null) {
 					value = defaultValue;
+					storeParameter(parameter, value);
 			}
 
 		} else {
@@ -58,6 +60,7 @@ public class CouchDBSentryParameters {
 
 					if (value == null) {
 						value = defaultValue;
+						storeParameter(parameter, value);
 					}
 
 					cache.put(parameter, value);
@@ -137,5 +140,18 @@ public class CouchDBSentryParameters {
 	
 	public interface Listener {
 		void parameterChanged(String parameter, String value);
+	}
+	
+	public void reloadCache() {
+		synchronized (cache) {
+			cache.clear();
+		}
+	}
+	
+	public Map<String, String> copy() {
+		
+		synchronized (cache) {
+			return new TreeMap<String, String>(cache);
+		}
 	}
 }

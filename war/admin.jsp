@@ -4,7 +4,7 @@
 <%@ page import="com.dawg6.web.sentry.server.IO"%>
 <%@ page import="com.dawg6.web.sentry.server.util.ServerUtils"%>
 <%@ page import="com.dawg6.web.sentry.server.Cache"%>
-<%@ page import="com.dawg6.web.sentry.server.Parameters"%>
+<%@ page import="com.dawg6.web.sentry.server.db.couchdb.CouchDBSentryParameters"%>
 <%@ page import="com.dawg6.web.sentry.server.SentryServiceImpl"%>
 
 <%
@@ -19,13 +19,13 @@
 	if ((clear != null) && (clear.trim().length() > 0)) {
 
 		if (clear.equals("all")) {
-	ClientBuffer.getInstance().clear();
+			ClientBuffer.getInstance().clear();
 		} else if (clear.equals("itemCache")) {
-	IO.getInstance().clearItemCache();
+			IO.getInstance().clearItemCache();
 		} else if (clear.equals("parameterCache")) {
-	Parameters.getInstance().reloadCache();
+			CouchDBSentryParameters.getInstance().reloadCache();
 		} else {
-	ClientBuffer.getInstance().get(clear);
+			ClientBuffer.getInstance().get(clear);
 		}
 %>
 <script>
@@ -156,7 +156,7 @@
 			<th>Value</th>
 		</tr>
 		<%
-			Map<String, String> map = Parameters.getInstance().copy();
+			Map<String, String> map = CouchDBSentryParameters.getInstance().copy();
 
 			for (Map.Entry<String, String> e : map.entrySet()) {
 		%>

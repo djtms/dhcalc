@@ -25,7 +25,7 @@ public class IO {
 
 	private static final Logger log = Logger.getLogger(IO.class.getName());
 
-	private static final Integer DEFAULT_MAX_REQUESTS_PER_SECOND = 8;
+	private static final Integer DEFAULT_MAX_REQUESTS_PER_SECOND = 85;
 	
 	private static IO instance;
 	
