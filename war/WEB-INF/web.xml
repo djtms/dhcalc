@@ -54,11 +54,15 @@
 		<servlet-name>jsonServlet</servlet-name>
 		<url-pattern>/json</url-pattern>
 	</servlet-mapping>
-		<!-- <servlet> <servlet-name>fetchServlet</servlet-name> <servlet-class>com.dawg6.web.sentry.server.FetchServlet</servlet-class> 
+	<!-- <servlet> <servlet-name>fetchServlet</servlet-name> <servlet-class>com.dawg6.web.sentry.server.FetchServlet</servlet-class> 
 		</servlet> <servlet-mapping> <servlet-name>fetchServlet</servlet-name> <url-pattern>/d3/en/tooltip/item/*</url-pattern> 
 		</servlet-mapping> -->
 	<!-- Default page to serve -->
 	<welcome-file-list>
 		<welcome-file>Sentry_web.html</welcome-file>
 	</welcome-file-list>
+	<system-properties>
+		<property name="java.util.logging.config.file" value="WEB-INF/logging.properties" />
+	</system-properties>
+
 </web-app>

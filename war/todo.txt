@@ -1,12 +1,17 @@
 **TO DO:**
 
-* Add Marauder's 6pc bonus
-* Add check for Marauder's 4/6 pc bonus
-* Add Reaper's Wraps and Health Globes
-* Add items/skills that increase Hatred
+* Confirm: Does M6 bonus also apply to sentry spenders/generators or only those from player? (currently assumes only to player)
+* Confirm: M6 bonus is Multiplicative? (currently assumes yes)
+* Confirm: Sentries will fire bolts only when not firing spenders? (currently assumes if a Sentry can fire X bolts over 30 seconds, and the player fires Y spenders, then the Sentry will actually fire X - Y bolts over 30 seconds)
+
+* Add configurable delays between player firing? 
+* Add support for more multiple spenders/generators
+* Add Reaper's Wraps and Health Globes (for hatred)
+* Add cooldown skills (e.g. Rain of Vengeance)
+* re-enable player/build statistics
 * Import hatred regen from items/skills
 * Add Spines of Seething Hatred, Kridershot, Oddesy's End
-* Support dual wield
+* Support dual wield for hand crossbows
 * Check other set bonuses that need import logic to handle royal ring
 * Improve logic for selecting # of AoE targets
 * Verify/fix Chakram targeting logic

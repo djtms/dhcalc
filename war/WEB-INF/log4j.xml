@@ -14,6 +14,11 @@
   	<appender-ref ref="console"/>
   </logger>
 
+  <logger name="com.dawg6">
+  	<level value="info"/> 
+  	<appender-ref ref="console"/>
+  </logger>
+  
   <logger name="org.apache.jasper">
   	<level value="error"/> 
   	<appender-ref ref="console"/>

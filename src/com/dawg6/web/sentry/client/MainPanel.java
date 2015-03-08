@@ -69,8 +69,6 @@ public class MainPanel extends BasePanel {
 	private final Label aps;
 	private final ListBox skill1;
 	private final ListBox rune1;
-//	private final ListBox skill2;
-//	private final ListBox rune2;
 //	private final ListBox skill3;
 //	private final ListBox rune3;
 	private final ListBox sentryRunes;
@@ -98,7 +96,6 @@ public class MainPanel extends BasePanel {
 //	private final Anchor skill2Label;
 //	private final Anchor skill3Label;
 	private final Anchor rune1Label;
-//	private final Anchor rune2Label;
 //	private final Anchor rune3Label;
 	private final Anchor sentryRuneLabel;
 	private final ListBox realms;
@@ -151,7 +148,7 @@ public class MainPanel extends BasePanel {
 	private TreeMap<DamageSource, DamageHolder> skillDamages;
 	private double total;
 	private double nonStacking;
-	private CharacterData data;
+	private CharacterData data = new CharacterData();
 	private boolean firstTimeStats;
 	protected DialogBox statsDialog;
 	private ListBox[] skillBoxes;
@@ -2349,7 +2346,7 @@ public class MainPanel extends BasePanel {
 
 				this.disableListeners = false;
 
-			} else if (field == this.rune1) // || (field == this.rune2) || (field == this.rune3)) 
+			} else if ((field == this.rune1) || (field == this.rune2))// || (field == this.rune3)) 
 				{
 
 				Rune rune = Rune.None;
@@ -2535,6 +2532,7 @@ public class MainPanel extends BasePanel {
 		this.itemPanel.getTntPercent().setValue((int) (Math.round(data.getTntPercent() * 100.0)));
 		this.itemPanel.getCalamity().setValue(data.isCalamityMdf());
 		this.itemPanel.getBombadiers().setValue(data.isHasBombardiers());
+		this.itemPanel.getMarauders().setValue(data.getNumMarauders());
 		this.itemPanel.getEliteDamagePercent()
 				.setValue((int) Math.round(data.getEliteDamage()));
 		this.itemPanel.getMeticulousBolts().setValue(data.isMeticulousBolts());
@@ -2677,6 +2675,8 @@ public class MainPanel extends BasePanel {
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getBombadiers(), "Bombadiers",
 						Boolean.FALSE.toString()),
+				new Field(this.itemPanel.getMarauders(), "Marauders",
+						"6"),
 				new Field(this.itemPanel.getCalamityUptime(), "CalamityUptime",
 						"100"),
 				new Field(this.skills.getMfd(), "MarkedForDeath",
@@ -2903,10 +2903,7 @@ public class MainPanel extends BasePanel {
 
 			this.formData = getFormData();
 
-			data = new CharacterData();
-
 			data.setDexterity(calculator.getDexterity());
-
 			data.setSheetDps(calculator.getSheetDps());
 			data.setAps(calculator.getAps());
 			data.setCaDamage(getValue(this.skillDamage.getCaDamage()) / 100.0);
@@ -2942,6 +2939,7 @@ public class MainPanel extends BasePanel {
 			data.setGrenadier(this.passives.getGrenadier().getValue());
 			data.setCalamityMdf(itemPanel.getCalamity().getValue());
 			data.setHasBombardiers(itemPanel.getBombadiers().getValue());
+			data.setNumMarauders(itemPanel.getMarauders().getValue());
 			data.setMarked(skills.getMfd().getValue());
 			data.setSteadyAim(this.passives.getSteadyAim().getValue());
 			data.setPercentAtLeast10Yards((double) this.situational

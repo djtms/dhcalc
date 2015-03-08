@@ -35,6 +35,7 @@ import com.dawg6.web.sentry.shared.calculator.stats.DpsTableEntry;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -60,6 +61,8 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 		});
 	}
 
+	private final Gson gson = new Gson();
+	
 	@Override
 	public CareerProfile getProfile(Realm realm, String profile, int tag) {
 
@@ -72,6 +75,8 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 			CareerProfile career = IO.getInstance().readCareerProfile(server,
 					profile, tag);
 
+//			log.info("Career: " + gson.toJson(career));
+			
 			if (career.code != null)
 				log.info(realm.getDisplayName() + "/" + profile + "-" + tag
 						+ " Code: " + career.code + ", Reason: "

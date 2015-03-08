@@ -23,6 +23,7 @@ import com.dawg6.web.sentry.shared.calculator.stats.DBStatistics;
 import com.dawg6.web.sentry.shared.calculator.stats.DocumentBase;
 import com.dawg6.web.sentry.shared.calculator.stats.DpsTableEntry;
 import com.dawg6.web.sentry.shared.calculator.stats.Statistics;
+import com.google.gson.JsonObject;
 
 public class CouchDBSentryDatabase {
 
@@ -45,6 +46,8 @@ public class CouchDBSentryDatabase {
 
 		return instance;
 	}
+	
+	private final Object dpsLock = new Object();
 
 	private CouchDBSentryDatabase() {
 		try {
@@ -356,60 +359,40 @@ public class CouchDBSentryDatabase {
 	}
 
 	public DpsTableEntry getDps(String battletag, Realm realm) {
-//		try {
-//
-//			synchronized (dpsLock) {
-//				AmazonDynamoDBClient client = getClient();
-//
-//				DynamoDBMapperConfig.Builder builder = new DynamoDBMapperConfig.Builder();
-//				builder.setConsistentReads(ConsistentReads.EVENTUAL);
-//				builder.setPaginationLoadingStrategy(PaginationLoadingStrategy.ITERATION_ONLY);
-//				builder.setTableNameOverride(TableNameOverride
-//						.withTableNameReplacement(getDpsTableName()));
-//				DynamoDBMapperConfig mapperConfig = builder.build();
-//
-//				DynamoDBMapper mapper = new DynamoDBMapper(client, mapperConfig);
-//
-//				DpsTableEntry hashKObject = new DpsTableEntry();
-//				hashKObject.setBattletag(battletag);
-//				hashKObject.setRealm(realm);
-//				DynamoDBQueryExpression<DpsTableEntry> queryExpression = new DynamoDBQueryExpression<DpsTableEntry>()
-//						.withHashKeyValues(hashKObject);
-//
-//				List<DpsTableEntry> list = mapper.query(DpsTableEntry.class,
-//						queryExpression);
-//				Iterator<DpsTableEntry> iter = list.iterator();
-//
-//				if ((iter != null) && iter.hasNext())
-//					return iter.next();
-//				else
-//					return null;
-//			}
-//
-//		} catch (Exception e) {
-//			log.log(Level.SEVERE, "Exception", e);
+		try {
+
+			synchronized (dpsLock) {
+				JsonObject q = new JsonObject();
+				q.addProperty(DpsTableEntry.REALM, realm.name());
+				q.addProperty(DpsTableEntry.BATTLETAG, battletag);
+				
+				return this.viewOne(DpsTableEntry.class, DpsTableEntry.PROFILES, q);
+			}
+
+		} catch (Exception e) {
+			log.log(Level.SEVERE, "Exception", e);
 
 			return null;
-//		}
+		}
 
 	}
 
 	public void logDps(DpsTableEntry entry) {
-//		try {
-//			synchronized (dpsLock) {
-//				AmazonDynamoDBClient client = getClient();
-//				DynamoDBMapperConfig.Builder builder = new DynamoDBMapperConfig.Builder();
-//				builder.setTableNameOverride(TableNameOverride
-//						.withTableNameReplacement(getDpsTableName()));
-//				DynamoDBMapperConfig mapperConfig = builder.build();
-//				DynamoDBMapper mapper = new DynamoDBMapper(client, mapperConfig);
-//
-//				mapper.save(entry);
-//			}
-//
-//		} catch (Exception e) {
-//			log.log(Level.SEVERE, "Exception", e);
-//		}
+		try {
+			synchronized (dpsLock) {
+				DpsTableEntry existing = this.getDps(entry.getBattletag(), entry.getRealm());
+				
+				if (existing != null) {
+					entry.setId(existing.getId());
+					entry.setRevision(existing.getRevision());
+				}
+
+				this.persist(entry);
+			}
+
+		} catch (Exception e) {
+			log.log(Level.SEVERE, "Exception", e);
+		}
 
 	}
 

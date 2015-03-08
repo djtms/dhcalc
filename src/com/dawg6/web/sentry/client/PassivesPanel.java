@@ -97,7 +97,7 @@ public class PassivesPanel extends Composite {
 		anchor_7.setWordWrap(false);
 		anchor_7.setText("Custom Engineering:");
 		anchor_7.setTarget("_blank");
-		anchor_7.setHTML("Single Out:");
+		anchor_7.setHTML("Custom Engineering:");
 		anchor_7.setHref("http://us.battle.net/d3/en/class/demon-hunter/passive/custom-engineering");
 		flexTable.setWidget(3, 2, anchor_7);
 		

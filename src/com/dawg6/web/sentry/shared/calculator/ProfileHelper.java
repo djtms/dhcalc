@@ -763,6 +763,9 @@ public class ProfileHelper {
 		data.setCrimsonCdr(hasSet(hero, setCounts, royalRing,
 				Const.CAPTAIN_CRIMSON, 3));
 
+		int m = getSetCount(data, Const.MARAUDERS);
+		
+		data.setNumMarauders(m);
 		data.setCdrData(cdrData);
 		
 		if (helm != null) {
@@ -839,6 +842,18 @@ public class ProfileHelper {
 		return hasSet;
 	}
 
+	public static int getSetCount(CharacterData data, String name) {
+		Integer i = data.getSetCounts().get(name);
+		
+		if (i != null) {
+
+			if ((i >= 2) && (data.isRoyalRing()))
+				i++;
+		}
+		
+		return i;
+	}
+	
 	private static void addCdr(HeroProfile hero, String slot,
 			Map<String, Integer> cdrData) {
 

@@ -36,6 +36,7 @@ public class FiringData {
 		double aps = data.getAps();
 		double as = 1.0 / aps;
 		int total = 0;
+		int totalSpender = 0;
 		Rune sentryRune = data.getSentryRune();
 		
 		while (t < DURATION) {
@@ -69,15 +70,19 @@ public class FiringData {
 				if (qty > 0) {
 					list.addAll(DamageFunction.getDamages(true, false, "Player", new DamageSource(skill, rune), qty, data));
 					
-					// TODO check for Maurauder's 4 pc 
-					list.addAll(DamageFunction.getDamages(false, true, "Sentry", new DamageSource(ActiveSkill.SENTRY, sentryRune), qty, data));
+					if ((data.getNumMarauders() >= 4) && (skill.getSkillType() == SkillType.Spender)) {
+						list.addAll(DamageFunction.getDamages(false, true, "Sentry-M4", new DamageSource(skill, rune), qty, data));
+						totalSpender += qty;
+					}
 				}
 			}
 		}
 		
 		BreakPoint bp = BreakPoint.getBp(data.getBp());
+		int boltQty = Math.max(0, bp.getQty() - totalSpender);
 		
-		list.addAll(DamageFunction.getDamages(false, true, "Sentry", new DamageSource(ActiveSkill.BOLT, sentryRune), bp.getQty(), data));
+		if (boltQty > 0)
+			list.addAll(DamageFunction.getDamages(false, true, "Sentry-Bolt", new DamageSource(ActiveSkill.BOLT, sentryRune), boltQty, data));
 		
 		// gem procs
 		list.addAll(DamageFunction.getDamages(false, false, "Gems", null, FiringData.DURATION, data));

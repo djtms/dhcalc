@@ -174,7 +174,16 @@ public class CharacterData implements Serializable {
 	private boolean customEngineering;
 	private double hatredPerSecond;
 	private int maxHatred;
+	private int numMarauders;
 	
+	public int getNumMarauders() {
+		return numMarauders;
+	}
+
+	public void setNumMarauders(int numMarauders) {
+		this.numMarauders = numMarauders;
+	}
+
 	public void setDefaults() {
 		mfdUptime = 1.0;
 		mfdAddUptime = 1.0;
@@ -312,7 +321,7 @@ public class CharacterData implements Serializable {
 	public double getSentryAps() {
 		double gogokIas = gogok ? (gogokStacks * .01) : 0.0;
 		
-		return this.aps * (1.0 + this.tntPercent) * (1.0 + gogokIas);
+		return this.aps * (this.tnt ? (1.0 + this.tntPercent) : 1.0) * (1.0 + gogokIas);
 	}
 	
 	public double getCritChance() {

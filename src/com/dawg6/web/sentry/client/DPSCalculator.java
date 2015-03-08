@@ -1257,6 +1257,7 @@ public class DPSCalculator extends BasePanel {
 	public void importHero(String server, String profile, int tag, int id,
 			CharacterData data) {
 
+		this.setWeaponType(data.getWeaponType());
 		this.disableListeners = true;
 
 		this.baseMin.setValue(data.getBaseMin());

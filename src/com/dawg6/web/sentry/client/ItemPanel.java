@@ -26,11 +26,13 @@ public class ItemPanel extends Composite {
 	private final NumberSpinner strongarmUptime;
 	private final NumberSpinner hexingPantsPercent;
 	private final SimpleCheckBox bombadiers;
+	private final NumberSpinner marauders;
 
 	public ItemPanel() {
 
 		CaptionPanel captionPanel = new CaptionPanel("Item Data");
 		initWidget(captionPanel);
+		captionPanel.setHeight("404px");
 
 		FlexTable flexTable = new FlexTable();
 		captionPanel.setContentWidget(flexTable);
@@ -164,32 +166,49 @@ public class ItemPanel extends Composite {
 		calamityUptime.setTitle("Percent of the time Calamity's Marked for Death will be applied to targets.");
 		flexTable.setWidget(8, 3, calamityUptime);
 		
+		Anchor labelM = new Anchor("Calamity (Marked for Death)");
+		labelM.setHTML("Marauder's Set");
+		labelM.setText("Marauder's Set");
+		labelM.setWordWrap(false);
+		labelM.setTarget("_blank");
+		labelM.setHref("http://us.battle.net/d3/en/item/marauders-visage");
+		flexTable.setWidget(9, 0, labelM);
+		
+		Label lblPieces = new Label("# Pieces:");
+		flexTable.setWidget(9, 1, lblPieces);
+		flexTable.getFlexCellFormatter().setColSpan(9, 1, 2);
+		
+		marauders = new NumberSpinner();
+		marauders.setVisibleLength(2);
+		marauders.setText("6");
+		flexTable.setWidget(9, 2, marauders);
+		
 		Anchor anchor_6 = new Anchor("Bombadier's Rucksack");
 		anchor_6.setWordWrap(false);
 		anchor_6.setTarget("_blank");
 		anchor_6.setHref("http://us.battle.net/d3/en/item/bombardiers-rucksack");
-		flexTable.setWidget(9, 0, anchor_6);
+		flexTable.setWidget(10, 0, anchor_6);
 		
 		bombadiers = new SimpleCheckBox();
-		flexTable.setWidget(9, 1, bombadiers);
+		flexTable.setWidget(10, 1, bombadiers);
 
 		Label label_1 = new Label("Elite Damage +%:");
 		label_1.setWordWrap(false);
 		label_1.setTitle("The Elite Damage percentage, as shown in-in game in the character details screen under offense. Subtract 15% if Bane of the Powerful is level 25 or more (it will be added automatically if selected).");
-		flexTable.setWidget(10, 0, label_1);
-		flexTable.getFlexCellFormatter().setColSpan(10, 0, 3);
+		flexTable.setWidget(11, 0, label_1);
+		flexTable.getFlexCellFormatter().setColSpan(11, 0, 3);
 
 		eliteDamagePercent = new NumberSpinner();
 		eliteDamagePercent.setVisibleLength(2);
 		eliteDamagePercent
 				.setTitle("The Elite Damage percentage, as shown in-in game in the character details screen under offense. Subtract 15% if Bane of the Powerful is level 25 or more (it will be added automatically if selected).");
-		flexTable.setWidget(10, 1, eliteDamagePercent);
+		flexTable.setWidget(11, 1, eliteDamagePercent);
 		
 		Label lblNoteSubtract = new Label("Note: subtract 15% from the value displayed in-game if Bane of the Powerful is rank 25 or more.");
 		lblNoteSubtract.setStyleName("boldText");
 		lblNoteSubtract.setWidth("300px");
-		flexTable.setWidget(11, 0, lblNoteSubtract);
-		flexTable.getFlexCellFormatter().setColSpan(11, 0, 4);
+		flexTable.setWidget(12, 0, lblNoteSubtract);
+		flexTable.getFlexCellFormatter().setColSpan(12, 0, 4);
 		flexTable.getFlexCellFormatter().setColSpan(7, 0, 3);
 		flexTable.getCellFormatter().setHorizontalAlignment(7, 0, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(6, 2, HasHorizontalAlignment.ALIGN_RIGHT);
@@ -200,6 +219,7 @@ public class ItemPanel extends Composite {
 		flexTable.getCellFormatter().setHorizontalAlignment(5, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(2, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(3, 2, HasHorizontalAlignment.ALIGN_RIGHT);
+		flexTable.getCellFormatter().setHorizontalAlignment(9, 1, HasHorizontalAlignment.ALIGN_RIGHT);
 		
 		this.tntPercent.setMin(40);
 		this.tntPercent.setMax(50);
@@ -215,6 +235,8 @@ public class ItemPanel extends Composite {
 		strongarmPercent.setMax(30);
 		harringtonPercent.setMin(100);
 		harringtonPercent.setMax(135);
+		marauders.setMin(0);
+		marauders.setMax(7);
 	}
 
 	public SimpleCheckBox getTnt() {
@@ -283,6 +305,10 @@ public class ItemPanel extends Composite {
 
 	public SimpleCheckBox getBombadiers() {
 		return bombadiers;
+	}
+
+	public NumberSpinner getMarauders() {
+		return marauders;
 	}
 
 }

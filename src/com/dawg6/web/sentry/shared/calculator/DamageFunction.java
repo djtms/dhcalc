@@ -407,7 +407,15 @@ public class DamageFunction {
 						addBuf.append("(1");
 						eaBuf.append("(1");
 
-						for (DamageMultiplier dw : dr.multipliers) {
+						DamageMultiplierList dlist = new DamageMultiplierList(dr.multipliers);
+						ActiveSkill skill = dr.source.skill;
+						SkillType skillType = skill.getSkillType();
+						
+						if (isPlayer && ((skillType == SkillType.Spender) || (skillType == SkillType.Primary))) {
+							dlist.add(DamageMultiplier.M6);
+						}
+						
+						for (DamageMultiplier dw : dlist) {
 
 							if (isSentry || ((dw != DamageMultiplier.Sentry) && (dw != DamageMultiplier.Enforcer))) {
 								
@@ -475,10 +483,6 @@ public class DamageFunction {
 			}
 		}
 
-		if (isPlayer) {
-			list.addAll(getDamages(false, true, "Sentry", source, qty, data));
-		}
-		
 		return list;
 	}
 

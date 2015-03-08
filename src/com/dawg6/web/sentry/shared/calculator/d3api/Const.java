@@ -97,4 +97,5 @@ public class Const {
 	public static final String CALTROPS = "Caltrops";
 	public static final String BOMBADIERS = "Bombardier's Rucksack";
 	public static final String CUSTOM_ENGINEERING = "Custom Engineering";
+	public static final String MARAUDERS = "embodiment-of-the-marauder";
 }

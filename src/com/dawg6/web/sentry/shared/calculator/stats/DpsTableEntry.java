@@ -5,10 +5,17 @@ import java.io.Serializable;
 import com.dawg6.web.sentry.shared.calculator.Build;
 import com.dawg6.web.sentry.shared.calculator.d3api.Realm;
 
-public class DpsTableEntry implements Serializable {
+public class DpsTableEntry extends DocumentBase implements Serializable {
 
 	private static final long serialVersionUID = -7605233453931536272L;
 
+	public static final String DOCUMENT_TYPE = "DPS";
+	
+	public static final String REALM = "realm";
+	public static final String BATTLETAG = "battletag";
+
+	public static final String PROFILES = "profiles";
+	
 	protected String battletag;
 	protected Realm realm;
 	protected Long when;
@@ -34,6 +41,10 @@ public class DpsTableEntry implements Serializable {
 	protected Boolean dead;
 	protected Double sheetDps;
 	protected Integer level;
+
+	public DpsTableEntry() {
+		super(DOCUMENT_TYPE);
+	}
 
 	public String getBattletag() {
 		return battletag;

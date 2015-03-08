@@ -9,6 +9,10 @@ public class DamageMultiplierList extends Vector<DamageMultiplier>  implements C
 	
 	public DamageMultiplierList() { }
 
+	public DamageMultiplierList(Collection<DamageMultiplier> copy) {
+		super(copy);
+	}
+	
 	@Override
 	public boolean add(DamageMultiplier item) {
 		if (!contains(item))

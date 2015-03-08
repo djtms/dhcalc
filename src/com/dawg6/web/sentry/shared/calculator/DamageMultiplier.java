@@ -190,6 +190,13 @@ public enum DamageMultiplier {
 					return data.isCullTheWeak() ? (0.2 * data
 							.getPercentSlowedChilled()) : 0.0;
 				}
+			}), M6("M6", DamageAccumulator.Multiplicative,
+			"Marauder's 6 piece bonus",
+			new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return (data.getNumMarauders() >= 6) ? (double)(data.getNumSentries() - 1) : 0;
+				}
 			}), Elite("Elite", DamageAccumulator.Multiplicative,
 			"Elite damage bonus (includes BotP if rank 25+)",
 			new Test<CharacterData, Double>() {

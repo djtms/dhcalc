@@ -11,7 +11,7 @@ public class HatredPanel extends Composite {
 	
 	public HatredPanel() {
 		
-		CaptionPanel captionPanel = new CaptionPanel("Passives");
+		CaptionPanel captionPanel = new CaptionPanel("Hatred");
 		initWidget(captionPanel);
 		
 		FlexTable flexTable = new FlexTable();
