@@ -18,5 +18,6 @@ public class Damage implements Serializable {
 	public Target target;
 	public int numAdd;
 	public boolean nonStacking;
+	public double hatred;
 
 }

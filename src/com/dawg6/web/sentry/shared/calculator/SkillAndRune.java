@@ -19,7 +19,7 @@ public class SkillAndRune implements Serializable, Comparable<SkillAndRune> {
 		
 		@Override
 		public int compare(SkillAndRune o1, SkillAndRune o2) {
-			return new Integer(o1.getHatred(data)).compareTo(o2.getHatred(data));
+			return Double.compare(o1.getHatred(data), o2.getHatred(data));
 		}
 	}
 
@@ -31,14 +31,22 @@ public class SkillAndRune implements Serializable, Comparable<SkillAndRune> {
 	public SkillAndRune() {
 	}
 
-	public int getHatred(CharacterData data) {
+	public double getHatred(CharacterData data) {
 		
 		if ((skill == ActiveSkill.CHAK) && data.isSpines())
 			return data.getSpinesHatred();
 		if ((skill == ActiveSkill.EA) && data.isKridershot())
 			return data.getKridershotHatred();
-		else
-			return skill.getHatred() + rune.getHatred();
+		else {
+			double hatred = skill.getHatred() + rune.getHatred();
+			double rcr = data.getRcr();
+			
+			if ((hatred < 0) && (rcr > 0.0)) {
+				hatred = hatred * (1.0 - rcr);
+			}
+			
+			return hatred;
+		}
 	}
 	
 	public SkillAndRune(ActiveSkill skill, Rune rune) {

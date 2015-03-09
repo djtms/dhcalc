@@ -373,6 +373,12 @@ public class ExportExcel {
 		createInput(inputs, data.data.getTotalEliteDamage(), "Total Elite Damage", pctStyle);
 		createInput(inputs, data.data.getMaxHatred(), "Max Hatred");
 		createInput(inputs, data.data.getHatredPerSecond(), "Hatred Per Second");
+		createInput(inputs, data.data.getParagonIAS(), "Paragon IAS");
+		createInput(inputs, data.data.getParagonCC(), "Paragon CC");
+		createInput(inputs, data.data.getParagonCHD(), "Paragon CHD");
+		createInput(inputs, data.data.getParagonCDR(), "Paragon CDR");
+		createInput(inputs, data.data.getParagonHatred(), "Paragon Hatred");
+		createInput(inputs, data.data.getParagonRCR(), "Paragon RCR");
 		
 		createInputHeader(inputs, "Sentry Skills");
 		createInput(inputs, data.data.getSentryRune().getLongName(),

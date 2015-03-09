@@ -240,6 +240,7 @@ public class DamageFunction {
 
 		int index = 0;
 		int numShooters = isSentry ? data.getNumSentries() : 1;
+		boolean first = true;
 		
 		for (DamageRow dr : ALL) {
 			if (dr.source.test(source, data)) {
@@ -464,6 +465,14 @@ public class DamageFunction {
 						d.numAdd = add;
 						d.nonStacking = dr.multipliers.contains(DamageMultiplier.DoT);
 
+						if (isPlayer && first) {
+							SkillAndRune skr = new SkillAndRune(skill, dr.source.rune);
+							d.hatred = skr.getHatred(data) * qty;
+							first = false;
+						} else {
+							d.hatred = 0;
+						}
+						
 						if (dr.multipliers.contains(DamageMultiplier.DoT))
 							d.totalDamage = d.damage * FiringData.DURATION;
 						else

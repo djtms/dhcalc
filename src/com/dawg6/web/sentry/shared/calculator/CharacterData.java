@@ -20,6 +20,8 @@ public class CharacterData implements Serializable {
 	private int paragonCDR;
 	private int paragonCC;
 	private int paragonCHD;
+	private int paragonHatred;
+	private int paragonRCR;
 	private double sheetDps;
 	private double aps;
 	private double coldDamage;
@@ -95,6 +97,7 @@ public class CharacterData implements Serializable {
 	private int gogokLevel;
 	private int gogokStacks;
 	private double cdr;
+	private double rcr;
 	private boolean focusedMind;
 	private boolean hysteria;
 	private boolean anatomy;
@@ -146,10 +149,13 @@ public class CharacterData implements Serializable {
 	private Set<SkillAndRune> skills;
 	private Rune sentryRune;
 	private Map<String, Integer> cdrData;
+	private Map<String, Integer> rcrData;
 	private boolean bornsCdr;
 	private boolean crimsonCdr;
+	private boolean crimsonRcr;
 	private boolean leorics;
 	private double leoricsPercent;
+	private boolean pridesFall;
 	private GemLevel diamond;
 	private double baseMin;
 	private double baseMax;
@@ -178,7 +184,7 @@ public class CharacterData implements Serializable {
 	private boolean hasBombardiers;
 	private boolean customEngineering;
 	private double hatredPerSecond;
-	private int maxHatred;
+	private double maxHatred;
 	private int numMarauders;
 	private boolean kridershot;
 	private boolean spines;
@@ -1541,11 +1547,11 @@ public class CharacterData implements Serializable {
 		this.hatredPerSecond = hatredPerSecond;
 	}
 
-	public int getMaxHatred() {
+	public double getMaxHatred() {
 		return maxHatred;
 	}
 
-	public void setMaxHatred(int maxHatred) {
+	public void setMaxHatred(double maxHatred) {
 		this.maxHatred = maxHatred;
 	}
 
@@ -1619,6 +1625,54 @@ public class CharacterData implements Serializable {
 
 	public void setGrenadeDamage(double grenadeDamage) {
 		this.grenadeDamage = grenadeDamage;
+	}
+
+	public int getParagonHatred() {
+		return paragonHatred;
+	}
+
+	public void setParagonHatred(int paragonHatred) {
+		this.paragonHatred = paragonHatred;
+	}
+
+	public int getParagonRCR() {
+		return paragonRCR;
+	}
+
+	public void setParagonRCR(int paragonRCR) {
+		this.paragonRCR = paragonRCR;
+	}
+
+	public Map<String, Integer> getRcrData() {
+		return rcrData;
+	}
+
+	public void setRcrData(Map<String, Integer> rcrData) {
+		this.rcrData = rcrData;
+	}
+
+	public boolean isCrimsonRcr() {
+		return crimsonRcr;
+	}
+
+	public void setCrimsonRcr(boolean crimsonRcr) {
+		this.crimsonRcr = crimsonRcr;
+	}
+
+	public boolean isPridesFall() {
+		return pridesFall;
+	}
+
+	public void setPridesFall(boolean pridesFall) {
+		this.pridesFall = pridesFall;
+	}
+
+	public double getRcr() {
+		return rcr;
+	}
+
+	public void setRcr(double rcr) {
+		this.rcr = rcr;
 	}
 	
 }

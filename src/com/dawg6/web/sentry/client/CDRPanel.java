@@ -145,14 +145,14 @@ public class CDRPanel extends Composite {
 		horizontalPanel.setSpacing(5);
 		flexTable.setWidget(10, 0, horizontalPanel);
 		
-		Anchor lblCaptainCrimsonsSet = new Anchor("Captain Crimson's Set (10%):");
+		Anchor lblCaptainCrimsonsSet = new Anchor();
 		lblCaptainCrimsonsSet.setText("Captain Crimson's Set");
 		horizontalPanel.add(lblCaptainCrimsonsSet);
 		lblCaptainCrimsonsSet.setWordWrap(false);
 		lblCaptainCrimsonsSet.setTarget("_blank");
 		lblCaptainCrimsonsSet.setHref("http://us.battle.net/d3/en/artisan/blacksmith/recipe/captain-crimsons-silk-girdle");
 		
-		Label label_1 = new Label("(10%):");
+		Label label_1 = new Label("(2pc = 10%):");
 		label_1.setWordWrap(false);
 		label_1.setStyleName("boldText");
 		horizontalPanel.add(label_1);

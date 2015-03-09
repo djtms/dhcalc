@@ -9,6 +9,10 @@ Change Log:
 * Fixed bug with M6 to account for all sentries (was currently calculating # of sentries minus 1)
 * Fixed import of skill damage bonuses
 * Added skill damage bonuses for primary skills
+* Added import of Hatred Per Second from items
+* Added paragon points for Max Hatred and Resource Cost Reduction
+* Added Resource Cost Reduction import from items
+* Damage Log now displays Hatred spent/gained from skills
 
 **3/8/15**
 

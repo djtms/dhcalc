@@ -616,6 +616,7 @@ public class ProfileHelper {
 		boolean spines = false;
 		int kridershotHatred = 0;
 		int spinesHatred = 0;
+		double hatredPerSecond = 5.0;
 		
 		for (ItemInformation i : hero.items.values()) {
 
@@ -630,6 +631,12 @@ public class ProfileHelper {
 
 				if (v != null) {
 					elite += Math.round(v.min * 100.0);
+				}
+				
+				v = i.attributesRaw.get(Const.HATRED_PER_SECOND);
+				
+				if (v != null) {
+					hatredPerSecond += v.min;
 				}
 			}
 
@@ -760,6 +767,7 @@ public class ProfileHelper {
 		ItemInformation helm = hero.items.get(Const.HEAD);
 
 		boolean leorics = false;
+		boolean pridesFall = false;
 		int leoricsLevel = 0;
 		GemLevel diamond = GemLevel.None;
 
@@ -773,16 +781,33 @@ public class ProfileHelper {
 		addCdr(hero, Const.QUIVER, cdrData);
 		addCdr(hero, Const.AMULET, cdrData);
 
+		Map<String, Integer> rcrData = new TreeMap<String, Integer>();
+		addRcr(hero, Const.SHOULDERS, rcrData);
+		addRcr(hero, Const.GLOVES, rcrData);
+		addRcr(hero, Const.RING1, rcrData);
+		addRcr(hero, Const.RING2, rcrData);
+		addRcr(hero, Const.BELT, rcrData);
+		addRcr(hero, Const.WEAPON, rcrData);
+		addRcr(hero, Const.QUIVER, rcrData);
+		addRcr(hero, Const.AMULET, rcrData);
+
 		data.setBornsCdr(hasSet(hero, setCounts, royalRing, Const.BORNS, 2));
 		data.setCrimsonCdr(hasSet(hero, setCounts, royalRing,
+				Const.CAPTAIN_CRIMSON, 2));
+		data.setCrimsonRcr(hasSet(hero, setCounts, royalRing,
 				Const.CAPTAIN_CRIMSON, 3));
 
 		int m = getSetCount(data, Const.MARAUDERS);
 		
 		data.setNumMarauders(m);
 		data.setCdrData(cdrData);
+		data.setRcrData(rcrData);
 		
 		if (helm != null) {
+			if ((helm.name != null) && helm.name.equals(Const.PRIDES_FALL)) {
+				pridesFall = true;
+			}
+			
 			if ((helm.name != null) && helm.name.equals(Const.LEORICS_CROWN)) {
 				leorics = true;
 				Value<Float> value = helm.attributesRaw
@@ -812,6 +837,8 @@ public class ProfileHelper {
 			}
 		}
 
+		data.setPridesFall(pridesFall);
+		
 		data.setLeorics(leorics);
 		data.setLeoricsPercent(leoricsLevel / 100.0);
 		data.setDiamond(diamond);
@@ -840,6 +867,8 @@ public class ProfileHelper {
 		data.setKridershotHatred(kridershotHatred);
 		data.setSpines(spines);
 		data.setSpinesHatred(spinesHatred);
+		
+		data.setHatredPerSecond(hatredPerSecond);
 	}
 
 	private static Boolean hasSet(HeroProfile hero,
@@ -891,4 +920,21 @@ public class ProfileHelper {
 		cdrData.put(slot, cdr);
 	}
 
+	private static void addRcr(HeroProfile hero, String slot,
+			Map<String, Integer> rcrData) {
+
+		Integer rcr = 0;
+
+		ItemInformation i = hero.items.get(slot);
+
+		if (i != null) {
+			Value<Float> value = i.attributesRaw.get(Const.RESOURCE_REDUCTION);
+
+			if (value != null) {
+				rcr = (int) Math.round(value.min * 100.0);
+			}
+		}
+
+		rcrData.put(slot, rcr);
+	}
 }

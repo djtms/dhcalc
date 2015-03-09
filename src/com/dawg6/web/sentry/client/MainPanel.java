@@ -119,6 +119,7 @@ public class MainPanel extends BasePanel {
 	private ExportData exportData;
 	private final ParagonPanel paragonPanel;
 	private final CDRPanel cdrPanel;
+	private final RCRPanel rcrPanel;
 	private final Label rawCDRLabel;
 	private final Label effectiveCDRLabel;
 	private final Label sentryCDLabel;
@@ -161,6 +162,10 @@ public class MainPanel extends BasePanel {
 	private Anchor rune2Label;
 	private ListBox skill2;
 	private ListBox rune2;
+	private Label rawRCRLabel;
+	private Label effectiveRCRLabel;
+	private double rawRcr;
+	private double effRcr;
 
 	public MainPanel() {
 		VerticalPanel panel = new VerticalPanel();
@@ -290,7 +295,28 @@ public class MainPanel extends BasePanel {
 			}
 		});
 
+		this.paragonPanel.getParagonHatred().addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+
+				if (!disableListeners) {
+					hatredPanel.getMaxHatred().setValue(150.0 + (paragonPanel.getParagonHatred().getValue() * 0.5));
+				}
+			}
+		});
+
 		this.paragonPanel.getParagonCDR().addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+
+				if (!disableListeners)
+					updateDps();
+			}
+		});
+
+		this.paragonPanel.getParagonRCR().addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {
@@ -388,59 +414,75 @@ public class MainPanel extends BasePanel {
 		effectiveCDRLabel.setStyleName("boldText");
 		grid_1.setWidget(3, 3, effectiveCDRLabel);
 
+		Label lblRawRcr = new Label("Raw RCR:");
+		lblRawRcr.setWordWrap(false);
+		grid_1.setWidget(4, 0, lblRawRcr);
+
+		rawRCRLabel = new Label("0%", false);
+		rawRCRLabel.setStyleName("boldText");
+		grid_1.setWidget(4, 1, rawRCRLabel);
+
+		Label lblEfgfectiveRcr = new Label("Effective RCR:");
+		lblEfgfectiveRcr.setWordWrap(false);
+		grid_1.setWidget(4, 2, lblEfgfectiveRcr);
+
+		effectiveRCRLabel = new Label("0%", false);
+		effectiveRCRLabel.setStyleName("boldText");
+		grid_1.setWidget(4, 3, effectiveRCRLabel);
+
 		Label lblPetAps = new Label("Pet APS:");
-		grid_1.setWidget(4, 0, lblPetAps);
+		grid_1.setWidget(5, 0, lblPetAps);
 
 		petApsLabel = new Label("0.0", false);
 		petApsLabel.setStyleName("boldText");
-		grid_1.setWidget(4, 1, petApsLabel);
+		grid_1.setWidget(5, 1, petApsLabel);
 
 		Label lblSentryCooldown = new Label("Sentry Cooldown:");
 		lblSentryCooldown.setWordWrap(false);
-		grid_1.setWidget(4, 2, lblSentryCooldown);
+		grid_1.setWidget(5, 2, lblSentryCooldown);
 
 		Label lblSmokeCooldown = new Label("Smoke Screen Cooldown:");
 		lblSmokeCooldown.setWordWrap(false);
-		grid_1.setWidget(5, 2, lblSmokeCooldown);
+		grid_1.setWidget(6, 2, lblSmokeCooldown);
 
 		sentryCDLabel = new Label("0.0 sec", false);
 		sentryCDLabel.setStyleName("boldText");
-		grid_1.setWidget(4, 3, sentryCDLabel);
+		grid_1.setWidget(5, 3, sentryCDLabel);
 
 		smokeCDLabel = new Label("0.0 sec", false);
 		smokeCDLabel.setStyleName("boldText");
-		grid_1.setWidget(5, 3, smokeCDLabel);
+		grid_1.setWidget(6, 3, smokeCDLabel);
 
 		Label label_3 = new Label("Sentry APS:");
-		grid_1.setWidget(5, 0, label_3);
+		grid_1.setWidget(6, 0, label_3);
 
 		sentryApsLabel = new Label("0.0", false);
 		sentryApsLabel.setStyleName("boldText");
-		grid_1.setWidget(5, 1, sentryApsLabel);
+		grid_1.setWidget(6, 1, sentryApsLabel);
 
 		Label label_4 = new Label("Break Point:");
 		label_4.setWordWrap(false);
-		grid_1.setWidget(6, 2, label_4);
+		grid_1.setWidget(7, 2, label_4);
 
 		bpLabel = new Label("1", false);
 		bpLabel.setStyleName("boldText");
-		grid_1.setWidget(6, 3, bpLabel);
+		grid_1.setWidget(7, 3, bpLabel);
 
 		Label label_7 = new Label("Sentry Base DPS:");
 		label_7.setWordWrap(false);
-		grid_1.setWidget(6, 0, label_7);
+		grid_1.setWidget(7, 0, label_7);
 
 		sentryDps = new Label("0");
 		sentryDps.setTitle("Base Sentry DPS (includes Crit, Dex)");
 		sentryDps.setStyleName("boldText");
-		grid_1.setWidget(6, 1, sentryDps);
+		grid_1.setWidget(7, 1, sentryDps);
 
 		Button calcDps = new Button("Calculator...");
-		grid_1.setWidget(7, 2, calcDps);
-		grid_1.getFlexCellFormatter().setColSpan(7, 2, 2);
-		grid_1.getCellFormatter().setHorizontalAlignment(7, 2,
+		grid_1.setWidget(8, 2, calcDps);
+		grid_1.getFlexCellFormatter().setColSpan(8, 2, 2);
+		grid_1.getCellFormatter().setHorizontalAlignment(8, 2,
 				HasHorizontalAlignment.ALIGN_RIGHT);
-		grid_1.getCellFormatter().setVerticalAlignment(7, 2,
+		grid_1.getCellFormatter().setVerticalAlignment(8, 2,
 				HasVerticalAlignment.ALIGN_MIDDLE);
 
 		CaptionPanel captionPanel = new CaptionPanel("Compare Builds");
@@ -944,6 +986,9 @@ public class MainPanel extends BasePanel {
 		cdrPanel = new CDRPanel();
 		vpanel.add(cdrPanel);
 
+		rcrPanel = new RCRPanel();
+		vpanel.add(rcrPanel);
+
 		hatredPanel = new HatredPanel();
 		vpanel.add(hatredPanel);
 		
@@ -1411,35 +1456,40 @@ public class MainPanel extends BasePanel {
 		lblNewLabel_12.setWordWrap(false);
 		damageLog.setWidget(0, 5, lblNewLabel_12);
 
+		Label lblNewLabel_12a = new Label("Hatred", false);
+		lblNewLabel_12a.setWordWrap(false);
+		damageLog.setWidget(0, 6, lblNewLabel_12a);
+		damageLog.getColumnFormatter().addStyleName(6, "dpsCol");
+
 		Label lblNewLabel_13 = new Label("Total Damage", false);
 		lblNewLabel_13.setStyleName("dpsHeader");
 		lblNewLabel_13.setWordWrap(false);
-		damageLog.setWidget(0, 6, lblNewLabel_13);
-		damageLog.getColumnFormatter().addStyleName(6, "dpsCol");
+		damageLog.setWidget(0, 7, lblNewLabel_13);
+		damageLog.getColumnFormatter().addStyleName(7, "dpsCol");
 
 		Label lblNewLabel_14 = new Label("DPS", false);
 		lblNewLabel_14.setStyleName("dpsHeader");
 		lblNewLabel_14.setWordWrap(false);
-		damageLog.setWidget(0, 7, lblNewLabel_14);
-		damageLog.getColumnFormatter().addStyleName(7, "dpsCol");
+		damageLog.setWidget(0, 8, lblNewLabel_14);
+		damageLog.getColumnFormatter().addStyleName(8, "dpsCol");
 
 		Label lblNewLabel_15 = new Label("% of Total", false);
 		lblNewLabel_15.setStyleName("dpsHeader");
 		lblNewLabel_15.setWordWrap(false);
-		damageLog.setWidget(0, 8, lblNewLabel_15);
-		damageLog.getColumnFormatter().addStyleName(8, "dpsCol");
+		damageLog.setWidget(0, 9, lblNewLabel_15);
+		damageLog.getColumnFormatter().addStyleName(9, "dpsCol");
 
 		Label lblNewLabel_15b = new Label("Target", false);
 		lblNewLabel_15b.setWordWrap(false);
-		damageLog.setWidget(0, 9, lblNewLabel_15b);
+		damageLog.setWidget(0, 10, lblNewLabel_15b);
 
 		Label lblNewLabel_16 = new Label("Notes", false);
 		lblNewLabel_16.setWordWrap(false);
-		damageLog.setWidget(0, 10, lblNewLabel_16);
+		damageLog.setWidget(0, 11, lblNewLabel_16);
 
 		Label lblNewLabel_28 = new Label("Calculations", false);
 		lblNewLabel_28.setWordWrap(false);
-		damageLog.setWidget(0, 11, lblNewLabel_28);
+		damageLog.setWidget(0, 12, lblNewLabel_28);
 
 		damageLog.addStyleName("outputTable");
 		damageLog.getRowFormatter().addStyleName(0, "headerRow");
@@ -1454,11 +1504,28 @@ public class MainPanel extends BasePanel {
 			}
 		};
 
+		ChangeHandler handler2 = new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				updateRCRLabels();
+			}
+		};
+
 		ClickHandler clickHandler = new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				updateCDRLabels();
+			}
+
+		};
+
+		ClickHandler clickHandler2 = new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				updateRCRLabels();
 			}
 
 		};
@@ -1483,6 +1550,18 @@ public class MainPanel extends BasePanel {
 		cdrPanel.getQuiver().addChangeHandler(handler);
 		cdrPanel.getBorn().addClickHandler(clickHandler);
 		cdrPanel.getCrimson().addClickHandler(clickHandler);
+
+		paragonPanel.getParagonRCR().addChangeHandler(handler2);
+		rcrPanel.getPridesFall().addClickHandler(clickHandler2);
+		rcrPanel.getShoulders().addChangeHandler(handler2);
+		rcrPanel.getAmulet().addChangeHandler(handler2);
+		rcrPanel.getGloves().addChangeHandler(handler2);
+		rcrPanel.getRing1().addChangeHandler(handler2);
+		rcrPanel.getRing2().addChangeHandler(handler2);
+		rcrPanel.getBelt().addChangeHandler(handler2);
+		rcrPanel.getWeapon().addChangeHandler(handler2);
+		rcrPanel.getQuiver().addChangeHandler(handler2);
+		rcrPanel.getCrimson().addClickHandler(clickHandler2);
 
 		Button exportButton = new Button("New button");
 		exportButton.setText("Export to Excel...");
@@ -1617,6 +1696,8 @@ public class MainPanel extends BasePanel {
 		this.paragonPanel.getParagonCHD().setValue(entry.getParagon_chd());
 		this.paragonPanel.getParagonCDR().setValue(entry.getParagon_cdr());
 		this.paragonPanel.getParagonIAS().setValue(entry.getParagon_ias());
+		this.paragonPanel.getParagonHatred().setValue(entry.getParagon_hatred());
+		this.paragonPanel.getParagonRCR().setValue(entry.getParagon_rcr());
 
 		this.fetchHeros(new AsyncTaskHandler() {
 
@@ -2027,6 +2108,10 @@ public class MainPanel extends BasePanel {
 									.setValue(calculator.getParagonCC());
 							MainPanel.this.paragonPanel.getParagonCHD()
 									.setValue(calculator.getParagonCD());
+							MainPanel.this.paragonPanel.getParagonCHD()
+								.setValue(calculator.getParagonHatred());
+							MainPanel.this.paragonPanel.getParagonCHD()
+								.setValue(calculator.getParagonRCR());
 							MainPanel.this.passives.getArchery().setValue(
 									calculator.getArchery());
 							MainPanel.this.passives.getSteadyAim().setValue(
@@ -2216,6 +2301,10 @@ public class MainPanel extends BasePanel {
 										.getValue());
 								data.setParagonCHD(paragonPanel.getParagonCHD()
 										.getValue());
+								data.setParagonHatred(paragonPanel.getParagonHatred()
+										.getValue());
+								data.setParagonRCR(paragonPanel.getParagonRCR()
+										.getValue());
 								
 								ProfileHelper.updateCdr(data);
 								ProfileHelper.updateWeaponDamage(data);
@@ -2284,6 +2373,8 @@ public class MainPanel extends BasePanel {
 			if (n > skillLabels.length)
 				break;
 		}
+		
+		hatredPanel.getHatredPerSecond().setValue(data.getHatredPerSecond());
 	}
 	
 	private void updateParagonPoints() {
@@ -2291,7 +2382,9 @@ public class MainPanel extends BasePanel {
 				getValue(MainPanel.this.paragonPanel.getParagonIAS()),
 				getValue(MainPanel.this.paragonPanel.getParagonCDR()),
 				getValue(MainPanel.this.paragonPanel.getParagonCC()),
-				getValue(MainPanel.this.paragonPanel.getParagonCHD()));
+				getValue(MainPanel.this.paragonPanel.getParagonCHD()),
+				getValue(MainPanel.this.paragonPanel.getParagonHatred()),
+				getValue(MainPanel.this.paragonPanel.getParagonRCR()));
 		this.calculator.saveForm();
 	}
 
@@ -2390,8 +2483,58 @@ public class MainPanel extends BasePanel {
 		updateParagonPoints();
 		updateDpsLabels();
 		updateCDRLabels();
+		updateRCRLabels();
 	}
 
+	private void updateRCRLabels() {
+		List<Double> list = new Vector<Double>();
+
+		list.add(paragonPanel.getParagonRCR().getValue() * 0.002);
+
+		if (rcrPanel.getPridesFall().getValue())
+			list.add(0.30);
+
+		list.add(rcrPanel.getShoulders().getValue() / 100.0);
+		list.add(rcrPanel.getGloves().getValue() / 100.0);
+		list.add(rcrPanel.getAmulet().getValue() / 100.0);
+		list.add(rcrPanel.getRing1().getValue() / 100.0);
+		list.add(rcrPanel.getRing2().getValue() / 100.0);
+		list.add(rcrPanel.getBelt().getValue() / 100.0);
+		list.add(rcrPanel.getWeapon().getValue() / 100.0);
+		list.add(rcrPanel.getQuiver().getValue() / 100.0);
+
+		if (rcrPanel.getCrimson().getValue())
+			list.add(0.10);
+
+		double rawRcr = 0.0;
+		double effRcr = 0.0;
+
+		boolean first = true;
+
+		for (Double c : list) {
+			rawRcr += c;
+
+			if (first) {
+				first = false;
+				effRcr = 1.0 - c;
+			} else {
+				effRcr *= (1.0 - c);
+			}
+		}
+
+		effRcr = 1.0 - effRcr;
+
+		this.rawRcr = rawRcr;
+		this.effRcr = effRcr;
+
+		this.rawRCRLabel
+				.setText(Util.format(Math.round(rawRcr * 10000.0) / 100.0)
+						+ "%");
+		this.effectiveRCRLabel
+				.setText(Util.format(Math.round(effRcr * 10000.0) / 100.0)
+						+ "%");
+	}
+	
 	private void updateCDRLabels() {
 
 		List<Double> list = new Vector<Double>();
@@ -2519,14 +2662,27 @@ public class MainPanel extends BasePanel {
 		getSetCDR(cdrPanel.getQuiver(), Const.QUIVER);
 		getSetCDR(cdrPanel.getAmulet(), Const.AMULET);
 		
-		
 		getSetSetCDR(cdrPanel.getBorn(), data.getSetCounts(), data.isRoyalRing(), Const.BORNS, 2);
 		getSetSetCDR(cdrPanel.getCrimson(), data.getSetCounts(), data.isRoyalRing(),
-				Const.CAPTAIN_CRIMSON, 3);
+				Const.CAPTAIN_CRIMSON, 2);
 
 		this.cdrPanel.getLeorics().setValue(data.isLeorics());
 		this.cdrPanel.getLeoricsLevel().setValue((int) (Math.round(data.getLeoricsPercent() * 100.0)));
 		this.cdrPanel.setDiamond(data.getDiamond());
+
+		getSetRCR(rcrPanel.getShoulders(), Const.SHOULDERS);
+		getSetRCR(rcrPanel.getGloves(), Const.GLOVES);
+		getSetRCR(rcrPanel.getRing1(), Const.RING1);
+		getSetRCR(rcrPanel.getRing2(), Const.RING2);
+		getSetRCR(rcrPanel.getBelt(), Const.BELT);
+		getSetRCR(rcrPanel.getWeapon(), Const.WEAPON);
+		getSetRCR(rcrPanel.getQuiver(), Const.QUIVER);
+		getSetRCR(rcrPanel.getAmulet(), Const.AMULET);
+		
+		getSetSetRCR(rcrPanel.getCrimson(), data.getSetCounts(), data.isRoyalRing(),
+				Const.CAPTAIN_CRIMSON, 3);
+
+		this.rcrPanel.getPridesFall().setValue(data.isPridesFall());
 
 		this.itemPanel.getTnt().setValue(data.isTnt());
 		this.itemPanel.getTntPercent().setValue((int) (Math.round(data.getTntPercent() * 100.0)));
@@ -2583,6 +2739,35 @@ public class MainPanel extends BasePanel {
 		}
 
 		field.setValue(hasSet);
+	}
+
+	private void getSetSetRCR(SimpleCheckBox field,
+			Map<String, Integer> setCounts, boolean royalRing, String name,
+			int count) {
+
+		boolean hasSet = false;
+
+		Integer i = setCounts.get(name);
+
+		if (i != null) {
+
+			if ((i >= 2) && (royalRing))
+				i++;
+
+			hasSet = (i >= count);
+		}
+
+		field.setValue(hasSet);
+	}
+
+	private void getSetRCR(NumberSpinner field, String slot) {
+
+		Integer value = data.getRcrData().get(slot);
+		
+		if (value == null)
+			value = 0;
+		
+		field.setValue(value);
 	}
 
 	private void getSetCDR(NumberSpinner field, String slot) {
@@ -2686,6 +2871,8 @@ public class MainPanel extends BasePanel {
 				new Field(this.paragonPanel.getParagonCDR(), "ParagonCDR", "0"),
 				new Field(this.paragonPanel.getParagonCC(), "ParagonCC", "0"),
 				new Field(this.paragonPanel.getParagonCHD(), "ParagonCD", "0"),
+				new Field(this.paragonPanel.getParagonHatred(), "ParagonHatred", "0"),
+				new Field(this.paragonPanel.getParagonRCR(), "ParagonRCR", "0"),
 				new Field(this.itemPanel.getTnt(), "TnT",
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getCalamity(), "Calamity",
@@ -2855,6 +3042,18 @@ public class MainPanel extends BasePanel {
 				new Field(this.cdrPanel.getShoulders(), "CDR.Shoulders", "0"),
 				new Field(this.cdrPanel.getWeapon(), "CDR.Weapon", "0"),
 
+				new Field(this.rcrPanel.getBelt(), "RCR.Belt", "0"),
+				new Field(this.rcrPanel.getCrimson(), "RCR.CrimsonsSet",
+						Boolean.FALSE.toString()),
+				new Field(this.rcrPanel.getGloves(), "RCR.Gloves", "0"),
+				new Field(this.rcrPanel.getPridesFall(), "RCR.PridesFall",
+						Boolean.FALSE.toString()),
+				new Field(this.rcrPanel.getQuiver(), "RCR.Quiver", "0"),
+				new Field(this.rcrPanel.getRing1(), "RCR.Ring1", "0"),
+				new Field(this.rcrPanel.getRing2(), "RCR.Ring2", "0"),
+				new Field(this.rcrPanel.getShoulders(), "RCR.Shoulders", "0"),
+				new Field(this.rcrPanel.getWeapon(), "RCR.Weapon", "0"),
+
 				new Field(this.buffPanel.getHysteria(), "Hysteria",
 						Boolean.FALSE.toString()),
 				new Field(this.buffPanel.getAnatomy(), "Anatomy",
@@ -2997,6 +3196,7 @@ public class MainPanel extends BasePanel {
 			data.setGogokLevel(gemPanel.getGogokLevel().getValue());
 			data.setGogokStacks(gemPanel.getGogokStacks().getValue());
 			data.setCdr(this.effCdr);
+			data.setRcr(this.effRcr);
 			data.setFocusedMind(buffPanel.getFocusedMind().getValue());
 			data.setHysteria(buffPanel.getHysteria().getValue());
 			data.setAnatomy(buffPanel.getAnatomy().getValue());
@@ -3256,31 +3456,36 @@ public class MainPanel extends BasePanel {
 			damageLog.setWidget(row + 1, 5, new Label(String.valueOf(d.qty),
 					false));
 
+			Label hatredLabel = new Label(Util.format(Math.round(d.hatred)),
+					false);
+			hatredLabel.addStyleName("dpsCol");
+			damageLog.setWidget(row + 1, 6, hatredLabel);
+
 			Label totalLabel = new Label(Util.format(Math.round(d.totalDamage
 					* eliteBonus)), false);
 			totalLabel.addStyleName("dpsCol");
-			damageLog.setWidget(row + 1, 6, totalLabel);
+			damageLog.setWidget(row + 1, 7, totalLabel);
 
 			Label dpsLabel = new Label(
 					Util.format(Math.round((d.totalDamage * eliteBonus)
 							/ FiringData.DURATION)), false);
 			dpsLabel.addStyleName("dpsCol");
-			damageLog.setWidget(row + 1, 7, dpsLabel);
+			damageLog.setWidget(row + 1, 8, dpsLabel);
 			double pct = Math.round((d.totalDamage / total) * 10000.0) / 100.0;
 			Label pctLabel = new Label(String.valueOf(pct) + "%", false);
 			pctLabel.addStyleName("dpsCol");
-			damageLog.setWidget(row + 1, 8, pctLabel);
+			damageLog.setWidget(row + 1, 9, pctLabel);
 
 			String target = d.target.name();
 
 			if (d.target == Target.Additional)
 				target += (" (" + d.numAdd + ")");
 
-			damageLog.setWidget(row + 1, 9, new Label(target, false));
-			damageLog.setWidget(row + 1, 10, new Label(d.note, false));
+			damageLog.setWidget(row + 1, 10, new Label(target, false));
+			damageLog.setWidget(row + 1, 11, new Label(d.note, false));
 			Label log = new Label(d.log + eliteLog);
 			log.setWordWrap(false);
-			damageLog.setWidget(row + 1, 11, log);
+			damageLog.setWidget(row + 1, 12, log);
 		}
 
 		for (int i = summary.getRowCount(); i > 1; --i) {

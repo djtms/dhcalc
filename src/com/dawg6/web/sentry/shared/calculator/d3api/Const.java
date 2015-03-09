@@ -102,4 +102,7 @@ public class Const {
 	public static final String SPINES_HATRED = "Item_Power_Passive#ItemPassive_Unique_Ring_750_x1";
 	public static final String KRIDERSHOT = "Kridershot";
 	public static final String KRIDERSHOT_HATRED = "Item_Power_Passive#ItemPassive_Unique_Ring_517_x1";
+	public static final String HATRED_PER_SECOND = "Resource_Regen_Per_Second#Hatred";
+	public static final String PRIDES_FALL = "Pride's Fall";
+	public static final String RESOURCE_REDUCTION = "Resource_Cost_Reduction_Percent_All";
 }

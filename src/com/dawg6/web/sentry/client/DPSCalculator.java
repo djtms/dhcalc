@@ -1119,6 +1119,10 @@ public class DPSCalculator extends BasePanel {
 						"0"),
 				new Field(this.paragonPanel.getParagonCC(), "calc.ParagonCD",
 						"0"),
+				new Field(this.paragonPanel.getParagonHatred(), "calc.ParagonHatred",
+						"0"),
+				new Field(this.paragonPanel.getParagonRCR(), "calc.ParagonRCR",
+						"0"),
 				new Field(this.tntPercent, "calc.PetIAS", "0"),
 				new Field(this.dexterity, "calc.Dexterity", "0"),
 				new Field(this.critChance, "calc.CritChance", "0"),
@@ -1305,7 +1309,7 @@ public class DPSCalculator extends BasePanel {
 		}
 	}
 
-	public void setParagonPoints(int ias, int cdr, int cc, int cd) {
+	public void setParagonPoints(int ias, int cdr, int cc, int cd, int hatred, int rcr) {
 
 		this.disableListeners = true;
 
@@ -1313,6 +1317,8 @@ public class DPSCalculator extends BasePanel {
 		this.paragonPanel.getParagonCDR().setValue(cdr);
 		this.paragonPanel.getParagonCC().setValue(cc);
 		this.paragonPanel.getParagonCHD().setValue(cd);
+		this.paragonPanel.getParagonHatred().setValue(hatred);
+		this.paragonPanel.getParagonRCR().setValue(rcr);
 
 		this.disableListeners = false;
 
@@ -1353,6 +1359,14 @@ public class DPSCalculator extends BasePanel {
 
 	public int getParagonCD() {
 		return this.getValue(this.paragonPanel.getParagonCHD());
+	}
+
+	public Integer getParagonHatred() {
+		return this.getValue(this.paragonPanel.getParagonHatred());
+	}
+
+	public Integer getParagonRCR() {
+		return this.getValue(this.paragonPanel.getParagonRCR());
 	}
 
 	public double getAverageWeaponDamage() {

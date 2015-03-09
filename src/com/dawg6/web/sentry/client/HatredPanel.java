@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 
 public class HatredPanel extends Composite {
-	private final NumberSpinner maxHatred;
+	private final DoubleSpinner maxHatred;
 	private final DoubleSpinner hatredPerSecond;
 	
 	public HatredPanel() {
@@ -21,7 +21,7 @@ public class HatredPanel extends Composite {
 		Label lblNewLabel = new Label("Maximum Hatred:");
 		flexTable.setWidget(0, 0, lblNewLabel);
 		
-		maxHatred = new NumberSpinner();
+		maxHatred = new DoubleSpinner();
 		maxHatred.setVisibleLength(5);
 		flexTable.setWidget(0, 1, maxHatred);
 		
@@ -34,7 +34,7 @@ public class HatredPanel extends Composite {
 	}
 
 
-	public NumberSpinner getMaxHatred() {
+	public DoubleSpinner getMaxHatred() {
 		return maxHatred;
 	}
 
