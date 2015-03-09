@@ -81,8 +81,10 @@ public class FiringData {
 		BreakPoint bp = BreakPoint.getBp(data.getBp());
 		int boltQty = Math.max(0, bp.getQty() - totalSpender);
 		
-		if (boltQty > 0)
+		if (boltQty > 0) {
+			list.addAll(DamageFunction.getDamages(false, true, "Sentry", new DamageSource(ActiveSkill.SENTRY, sentryRune), boltQty, data));
 			list.addAll(DamageFunction.getDamages(false, true, "Sentry-Bolt", new DamageSource(ActiveSkill.BOLT, sentryRune), boltQty, data));
+		}
 		
 		// gem procs
 		list.addAll(DamageFunction.getDamages(false, false, "Gems", null, FiringData.DURATION, data));

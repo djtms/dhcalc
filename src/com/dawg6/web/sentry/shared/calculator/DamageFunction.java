@@ -409,7 +409,7 @@ public class DamageFunction {
 
 						DamageMultiplierList dlist = new DamageMultiplierList(dr.multipliers);
 						ActiveSkill skill = dr.source.skill;
-						SkillType skillType = skill.getSkillType();
+						SkillType skillType = (skill != null) ? skill.getSkillType() : null;
 						
 						if (isPlayer && ((skillType == SkillType.Spender) || (skillType == SkillType.Primary))) {
 							dlist.add(DamageMultiplier.M6);

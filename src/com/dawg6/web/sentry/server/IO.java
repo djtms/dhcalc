@@ -1,17 +1,14 @@
 package com.dawg6.web.sentry.server;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.dawg6.web.sentry.server.db.couchdb.CouchDBSentryParameters;
+import com.dawg6.web.sentry.server.util.SentryProperties;
 import com.dawg6.web.sentry.shared.calculator.d3api.CareerProfile;
 import com.dawg6.web.sentry.shared.calculator.d3api.HeroProfile;
 import com.dawg6.web.sentry.shared.calculator.d3api.ItemInformation;
@@ -37,7 +34,6 @@ public class IO {
 	}
 	
 	
-	private String API_KEY;
 	private int maxRequests = DEFAULT_MAX_REQUESTS_PER_SECOND;
 	public final Cache<String, ItemInformation> itemCache = new Cache<String, ItemInformation>(true);
 	
@@ -78,24 +74,7 @@ public class IO {
 	}
 
 	public synchronized String getApiKey() {
-
-		if (API_KEY == null) {
-			try {
-				InputStream stream = Thread.currentThread()
-						.getContextClassLoader()
-						.getResourceAsStream("API_KEY.txt");
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(stream));
-				API_KEY = reader.readLine();
-				log.info("API_KEY = " + API_KEY);
-				stream.close();
-			} catch (Exception e) {
-				log.log(Level.SEVERE, "Exception", e);
-				API_KEY = "unknown";
-			}
-		}
-
-		return "&apikey=" + API_KEY;
+		return "&apikey=" + SentryProperties.getInstance().getApiKey();
 	}
 
 	private final List<Long> requests = new LinkedList<Long>();

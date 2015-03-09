@@ -16,6 +16,7 @@ import org.lightcouch.NoDocumentException;
 import org.lightcouch.Response;
 import org.lightcouch.View;
 
+import com.dawg6.web.sentry.server.util.SentryProperties;
 import com.dawg6.web.sentry.shared.calculator.ActiveSkill;
 import com.dawg6.web.sentry.shared.calculator.Rune;
 import com.dawg6.web.sentry.shared.calculator.d3api.Realm;
@@ -55,8 +56,7 @@ public class CouchDBSentryDatabase {
 				.setDbName(DB_NAME)
 				.setCreateDbIfNotExist(true)
 				.setProtocol("http")
-				.setHost("192.168.1.51")
-//				.setHost("127.0.0.1")
+				.setHost(SentryProperties.getInstance().getDb())
 				.setPort(5984)
 				.setMaxConnections(100)
 				.setConnectionTimeout(0);

@@ -1,5 +1,16 @@
 Change Log:
 
+**3/9/15**
+
+* Fixed bug that caused some profiles to fail to import
+* Fixed bug that was omitting damage from Spitfire Turret's Rockets in the damage log
+
+**3/8/15**
+
+* Updated to Patch 2.1.2. Changed mechanics for calculating Sentry Damage
+* Added fields for Max Hatred and Hatred Regen
+* Added support for Hatred Generators
+
 **11/18/14**
 
 * Added statistics
