@@ -45,6 +45,10 @@ public class SkillAndRune implements Serializable, Comparable<SkillAndRune> {
 				hatred = hatred * (1.0 - rcr);
 			}
 			
+			if ((skill.getSkillType() == SkillType.Primary) && data.isNightStalker()) {
+				hatred += 4;
+			}
+			
 			return hatred;
 		}
 	}

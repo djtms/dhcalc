@@ -13,6 +13,8 @@ Change Log:
 * Added paragon points for Max Hatred and Resource Cost Reduction
 * Added Resource Cost Reduction import from items
 * Damage Log now displays Hatred spent/gained from skills
+* Added Blood Vengeance (only +max hatred effect for now) and Night Stalker passives 
+* Fixed error with crit chance/damage calculation (added paragon points twice)
 
 **3/8/15**
 

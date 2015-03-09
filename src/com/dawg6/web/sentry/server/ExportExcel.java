@@ -418,6 +418,8 @@ public class ExportExcel {
 		createInput(inputs, data.data.isAmbush(), "Ambush");
 		createInput(inputs, data.data.isSingleOut(), "Single Out");
 		createInput(inputs, data.data.isArchery(), "Archery");
+		createInput(inputs, data.data.isBloodVengeance(), "Blood Vengeance");
+		createInput(inputs, data.data.isNightStalker(), "Night Stalker");
 
 		createInputHeader(inputs, "Situational");
 		createInput(inputs, data.data.getPercentSlowedChilled(), "Percent Slowed/Chilled", pctStyle);

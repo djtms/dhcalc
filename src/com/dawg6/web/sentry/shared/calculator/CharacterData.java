@@ -190,6 +190,8 @@ public class CharacterData implements Serializable {
 	private boolean spines;
 	private int kridershotHatred;
 	private int spinesHatred;
+	private boolean bloodVengeance;
+	private boolean nightStalker;
 	
 	public int getNumMarauders() {
 		return numMarauders;
@@ -1673,6 +1675,22 @@ public class CharacterData implements Serializable {
 
 	public void setRcr(double rcr) {
 		this.rcr = rcr;
+	}
+
+	public boolean isBloodVengeance() {
+		return bloodVengeance;
+	}
+
+	public void setBloodVengeance(boolean bloodVengeance) {
+		this.bloodVengeance = bloodVengeance;
+	}
+
+	public boolean isNightStalker() {
+		return nightStalker;
+	}
+
+	public void setNightStalker(boolean nightStalker) {
+		this.nightStalker = nightStalker;
 	}
 	
 }

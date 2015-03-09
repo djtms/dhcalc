@@ -1269,10 +1269,9 @@ public class DPSCalculator extends BasePanel {
 		this.addMin.setValue(data.getAddMin());
 		this.addMax.setValue(data.getAddMax());
 
-		this.disableListeners = false;
 
-		this.critChance.setValue(Math.round(data.getCritChance() * 10000.0) / 100.0);
-		this.critDamage.setValue((int) Math.round(data.getCritHitDamage()
+		this.critChance.setValue(Math.round(data.getEquipCritChance() * 10000.0) / 100.0);
+		this.critDamage.setValue((int) Math.round(data.getEquipCritDamage()
 				* 100.0));
 		this.weaponIAS.setValue((int)(Math.round(data.getWeaponIas() * 100.0)));
 		this.equipIAS.setValue((int)(Math.round(data.getEquipIas() * 100.0)));
@@ -1284,6 +1283,8 @@ public class DPSCalculator extends BasePanel {
 		this.steadyAim.setValue(data.isSteadyAim());
 		this.minJewelDamage.setValue((int) Math.round(data.getJewelMin()));
 		this.maxJewelDamage.setValue((int) Math.round(data.getJewelMax()));
+
+		this.disableListeners = false;
 
 		this.updateTooltipDamage();
 

@@ -301,11 +301,11 @@ public class MainPanel extends BasePanel {
 			public void onChange(ChangeEvent event) {
 
 				if (!disableListeners) {
-					hatredPanel.getMaxHatred().setValue(150.0 + (paragonPanel.getParagonHatred().getValue() * 0.5));
+					updateHatred();
 				}
 			}
 		});
-
+		
 		this.paragonPanel.getParagonCDR().addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -867,6 +867,15 @@ public class MainPanel extends BasePanel {
 
 		passives = new PassivesPanel();
 		verticalPanel_3.add(passives);
+
+		this.passives.getBloodVengeance().addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if (!disableListeners) {
+					updateHatred();
+				}
+			}});
 
 		passives.getArchery().addClickHandler(new ClickHandler() {
 
@@ -1635,6 +1644,11 @@ public class MainPanel extends BasePanel {
 
 		skillLabels = new Anchor[] { skill1Label, skill2Label }; //, skill2Label, skill3Label };
 		runeLabels = new Anchor[] { rune1Label, rune2Label }; //, rune2Label, rune3Label };
+	}
+
+	protected void updateHatred() {
+		hatredPanel.getMaxHatred().setValue(150.0 + (paragonPanel.getParagonHatred().getValue() * 0.5) +
+				(this.passives.getBloodVengeance().getValue() ? 25:0));
 	}
 
 	protected void setBuild(Build build) {
@@ -2793,6 +2807,8 @@ public class MainPanel extends BasePanel {
 	protected void setHeroSkills() {
 
 		this.passives.getBallistics().setValue(data.isBallistics());
+		this.passives.getBloodVengeance().setValue(data.isBloodVengeance());
+		this.passives.getNightStalker().setValue(data.isNightStalker());
 		this.passives.getCtw().setValue(data.isCullTheWeak());
 		this.passives.getGrenadier().setValue(data.isGrenadier());
 		this.skills.getMfd().setValue(data.isMfdSkill());
@@ -2959,26 +2975,30 @@ public class MainPanel extends BasePanel {
 				new Field(this.passives.getCustomEngineering(), "CustomEngineering",
 						Boolean.FALSE.toString()),
 				new Field(this.passives.getBallistics(), "Ballistics",
-						Boolean.TRUE.toString()),
+						Boolean.FALSE.toString()),
+				new Field(this.passives.getBloodVengeance(), "BloodVengeance",
+						Boolean.FALSE.toString()),
+				new Field(this.passives.getNightStalker(), "NightStalker",
+						Boolean.FALSE.toString()),
 				new Field(this.passives.getSteadyAim(), "SteadyAim",
 						Boolean.FALSE.toString()),
 				new Field(this.passives.getGrenadier(), "Grenadier",
 						Boolean.FALSE.toString()),
 				new Field(this.passives.getCtw(), "CtW",
-						Boolean.TRUE.toString()),
+						Boolean.FALSE.toString()),
 				new Field(this.typeDamage.getColdDamage(), "Cold", "0"),
 				new Field(this.typeDamage.getFireDamage(), "Fire", "0"),
 				new Field(this.typeDamage.getLightningDamage(), "Light", "0"),
 				new Field(this.typeDamage.getPhysicalDamage(), "Phys", "0"),
 				new Field(this.typeDamage.getPoisonDamage(), "Psn", "0"),
 				new Field(this.gemPanel.getBot(), "BoT",
-						Boolean.TRUE.toString()),
+						Boolean.FALSE.toString()),
 				new Field(this.gemPanel.getGogok(), "Gogok",
 						Boolean.FALSE.toString()),
 				new Field(this.gemPanel.getTaeguk(), "Taeguk",
 						Boolean.FALSE.toString()),
 				new Field(this.gemPanel.getEnforcer(), "Enforcer",
-						Boolean.TRUE.toString()),
+						Boolean.FALSE.toString()),
 				new Field(this.gemPanel.getBotLevel(), "BoTLevel", "0"),
 				new Field(this.gemPanel.getGogokLevel(), "GogokLevel", "0"),
 				new Field(this.gemPanel.getTaegukLevel(), "TaegukLevel", "0"),
@@ -2999,7 +3019,7 @@ public class MainPanel extends BasePanel {
 				new Field(this.itemPanel.getEliteDamagePercent(),
 						"EliteDamage", "0"),
 				new Field(this.gemPanel.getBotp(), "BotP",
-						Boolean.TRUE.toString()),
+						Boolean.FALSE.toString()),
 				new Field(this.gemPanel.getBotpLevel(), "BotPLevel", "0"),
 				new Field(this.gemPanel.getBotpUptime(), "BotPUptime", "100"),
 				new Field(this.gemPanel.getZeis(), "Zei's",
@@ -3150,6 +3170,8 @@ public class MainPanel extends BasePanel {
 			data.setMsDamage(getValue(this.skillDamage.getMsDamage()) / 100.0);
 			data.setPhysDamage(getValue(this.typeDamage.getPhysicalDamage()) / 100.0);
 			data.setBallistics(this.passives.getBallistics().getValue());
+			data.setBloodVengeance(this.passives.getBloodVengeance().getValue());
+			data.setNightStalker(this.passives.getNightStalker().getValue());
 			data.setSentryDamage(getValue(this.skillDamage.getSentryDamage()) / 100.0);
 			data.setSentryRune(this.getRune(sentryRunes));
 			data.setCritChance(calculator.getCritChance());

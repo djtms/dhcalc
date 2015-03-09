@@ -15,6 +15,8 @@ public class PassivesPanel extends Composite {
 	private final SimpleCheckBox steadyAim;
 	private final SimpleCheckBox archery;
 	private final SimpleCheckBox customEngineering;
+	private final SimpleCheckBox nightStalker;
+	private final SimpleCheckBox bloodVengeance;
 	
 	public PassivesPanel() {
 		
@@ -54,16 +56,16 @@ public class PassivesPanel extends Composite {
 		ctw = new SimpleCheckBox();
 		flexTable.setWidget(1, 1, ctw);
 		
-		Anchor anchor_4 = new Anchor("Ambush:");
-		anchor_4.setWordWrap(false);
-		anchor_4.setText("Ambush:");
-		anchor_4.setTarget("_blank");
-		anchor_4.setHTML("Ambush:");
-		anchor_4.setHref("http://us.battle.net/d3/en/class/demon-hunter/passive/ambush");
-		flexTable.setWidget(1, 2, anchor_4);
+		Anchor anchor_8 = new Anchor("Night Stalker:");
+		anchor_8.setWordWrap(false);
+		anchor_8.setText("Night Stalker:");
+		anchor_8.setTarget("_blank");
+		anchor_8.setHTML("Night Stalker:");
+		anchor_8.setHref("http://us.battle.net/d3/en/class/demon-hunter/passive/night-stalker");
+		flexTable.setWidget(1, 2, anchor_8);
 		
-		ambush = new SimpleCheckBox();
-		flexTable.setWidget(1, 3, ambush);
+		nightStalker = new SimpleCheckBox();
+		flexTable.setWidget(1, 3, nightStalker);
 		
 		Anchor anchor_5 = new Anchor("Grenadier:");
 		anchor_5.setWordWrap(false);
@@ -103,6 +105,28 @@ public class PassivesPanel extends Composite {
 		
 		customEngineering = new SimpleCheckBox();
 		flexTable.setWidget(3, 3, customEngineering);
+		
+		Anchor anchor_4 = new Anchor("Ambush:");
+		anchor_4.setWordWrap(false);
+		anchor_4.setText("Ambush:");
+		anchor_4.setTarget("_blank");
+		anchor_4.setHTML("Ambush:");
+		anchor_4.setHref("http://us.battle.net/d3/en/class/demon-hunter/passive/ambush");
+		flexTable.setWidget(4, 0, anchor_4);
+		
+		ambush = new SimpleCheckBox();
+		flexTable.setWidget(4, 1, ambush);
+		
+		Anchor anchor_9 = new Anchor("Blood Vengeance:");
+		anchor_9.setWordWrap(false);
+		anchor_9.setText("Blood Vengeance:");
+		anchor_9.setTarget("_blank");
+		anchor_9.setHTML("Blood Vengeance:");
+		anchor_9.setHref("http://us.battle.net/d3/en/class/demon-hunter/passive/blood-vengeance");
+		flexTable.setWidget(4, 2, anchor_9);
+		
+		 bloodVengeance = new SimpleCheckBox();
+		flexTable.setWidget(4, 3, bloodVengeance);
 	}
 
 	public SimpleCheckBox getBallistics() {
@@ -135,6 +159,14 @@ public class PassivesPanel extends Composite {
 
 	public SimpleCheckBox getCustomEngineering() {
 		return customEngineering;
+	}
+
+	public SimpleCheckBox getNightStalker() {
+		return nightStalker;
+	}
+
+	public SimpleCheckBox getBloodVengeance() {
+		return bloodVengeance;
 	}
 
 }

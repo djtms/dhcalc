@@ -59,6 +59,7 @@ public class Const {
 	public static final String ROYAL_RING = "Attribute_Set_Item_Discount";
 	public static final String ELITE_DAMAGE_RAW = "Damage_Percent_Bonus_Vs_Elites";
 	public static final String CRIT_CHANCE_RAW = "Crit_Percent_Bonus_Capped";
+	public static final String CRIT_DAMAGE_RAW = "Crit_Damage_Percent";
 	public static final String AMBUSH = "Ambush";
 	public static final String SINGLE_OUT = "Single Out";
 	public static final String HELLFIRE_PASSIVE = "Gain the ";
@@ -105,4 +106,6 @@ public class Const {
 	public static final String HATRED_PER_SECOND = "Resource_Regen_Per_Second#Hatred";
 	public static final String PRIDES_FALL = "Pride's Fall";
 	public static final String RESOURCE_REDUCTION = "Resource_Cost_Reduction_Percent_All";
+	public static final String BLOOD_VENGEANCE = "Blood Vengeance";
+	public static final String NIGHT_STALKER = "Night Stalker";
 }

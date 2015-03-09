@@ -242,6 +242,8 @@ public class ProfileHelper {
 		boolean singleOut = false;
 		boolean customEngineering = false;
 		boolean archery = false;
+		boolean bloodVengeance = false;
+		boolean nightStalker = false;
 		
 		for (HeroProfile.Skills.Passive p : hero.skills.passive) {
 
@@ -260,6 +262,10 @@ public class ProfileHelper {
 					singleOut = true;
 				} else if (p.skill.name.equals(Const.ARCHERY)) {
 					archery = true;
+				} else if (p.skill.name.equals(Const.BLOOD_VENGEANCE)) {
+					bloodVengeance = true;
+				} else if (p.skill.name.equals(Const.NIGHT_STALKER)) {
+					nightStalker = true;
 				} else if (p.skill.name.equals(Const.CUSTOM_ENGINEERING)) {
 					customEngineering = true;
 				}
@@ -294,6 +300,10 @@ public class ProfileHelper {
 								singleOut = true;
 							} else if (pname.equals(Const.ARCHERY)) {
 								archery = true;
+							} else if (pname.equals(Const.BLOOD_VENGEANCE)) {
+								bloodVengeance = true;
+							} else if (pname.equals(Const.NIGHT_STALKER)) {
+								nightStalker = true;
 							} else if (pname.equals(Const.CUSTOM_ENGINEERING)) {
 								customEngineering = true;
 							}
@@ -318,6 +328,8 @@ public class ProfileHelper {
 		data.setSkills(skills);
 		data.setCustomEngineering(customEngineering);
 		data.setArchery(archery);
+		data.setBloodVengeance(bloodVengeance);
+		data.setNightStalker(nightStalker);
 	}
 
 	public static Rune lookupRune(ActiveSkill skill, String name) {
@@ -444,8 +456,8 @@ public class ProfileHelper {
 
 	public static void importWeaponData(HeroProfile hero, CharacterData data) {
 
-		double critChance = hero.stats.critChance;
-		double critDamage = hero.stats.critDamage - 1.0;
+		double critChance = 0.0;
+		double critDamage = 0.0;
 		WeaponType type = WeaponType.Crossbow;
 		int weaponIas = 0;
 		int equipIas = 0;
@@ -517,6 +529,28 @@ public class ProfileHelper {
 
 		for (ItemInformation i : hero.items.values()) {
 
+			Value<Float> v = i.attributesRaw.get(Const.CRIT_CHANCE_RAW);
+			
+			if (v != null) {
+				critChance += v.min;
+			}
+			
+			v = i.attributesRaw.get(Const.CRIT_DAMAGE_RAW);
+			
+			if (v != null) {
+				critDamage += v.min;
+			}
+
+			if (i.gems != null) {
+				for (ItemInformation.Gem g : i.gems) {
+					v = g.attributesRaw.get(Const.CRIT_DAMAGE_RAW);
+					
+					if (v != null) {
+						critDamage += v.min;
+					}
+				}
+			}
+
 			if (i != bow) {
 
 				if (i.attributesRaw != null) {
@@ -535,13 +569,13 @@ public class ProfileHelper {
 					}
 				}
 
-				Value<Float> ias = i.attributesRaw.get(Const.IAS);
+				v = i.attributesRaw.get(Const.IAS);
 
-				if (ias != null) {
+				if (v != null) {
 
-					equipIas += Math.round(ias.min * 100.0);
+					equipIas += Math.round(v.min * 100.0);
 				}
-
+				
 			}
 
 		}
@@ -560,12 +594,14 @@ public class ProfileHelper {
 						Value<Float> v = r.attributesRaw
 								.get(Const.CRIT_CHANCE_RAW);
 
-						// only add if set count was less than required
-						// (obtained through royal ring)
-						// since battle.net profile won't include royal ring
-						// bonus
-						if ((v != null) && (e.getValue() < r.required)) {
+						if (v != null) {
 							critChance += v.min;
+						}
+						
+						v = r.attributesRaw.get(Const.CRIT_DAMAGE_RAW);
+						
+						if (v != null) {
+							critDamage += v.min;
 						}
 
 						v = r.attributesRaw.get(Const.IAS);
