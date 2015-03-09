@@ -98,4 +98,8 @@ public class Const {
 	public static final String BOMBADIERS = "Bombardier's Rucksack";
 	public static final String CUSTOM_ENGINEERING = "Custom Engineering";
 	public static final String MARAUDERS = "embodiment-of-the-marauder";
+	public static final String SPINES = "Spines of Seething Hatred";
+	public static final String SPINES_HATRED = "Item_Power_Passive#ItemPassive_Unique_Ring_750_x1";
+	public static final String KRIDERSHOT = "Kridershot";
+	public static final String KRIDERSHOT_HATRED = "Item_Power_Passive#ItemPassive_Unique_Ring_517_x1";
 }

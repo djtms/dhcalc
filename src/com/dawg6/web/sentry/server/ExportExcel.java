@@ -371,9 +371,11 @@ public class ExportExcel {
 		createInput(inputs, 6.0 * (1 - data.data.getCdr()), "Sentry Cooldown (sec)", timeStyle);
 		createInput(inputs, bp.getQty(), "Attacks per 30 Seconds");
 		createInput(inputs, data.data.getTotalEliteDamage(), "Total Elite Damage", pctStyle);
+		createInput(inputs, data.data.getMaxHatred(), "Max Hatred");
+		createInput(inputs, data.data.getHatredPerSecond(), "Hatred Per Second");
 		
 		createInputHeader(inputs, "Sentry Skills");
-		createInput(inputs, data.skills.get(ActiveSkill.SENTRY).getLongName(),
+		createInput(inputs, data.data.getSentryRune().getLongName(),
 				"Sentry Rune");
 
 		int n = 1;
@@ -483,6 +485,14 @@ public class ExportExcel {
 				"Calamity Uptime", pctStyle);
 		createInput(inputs, data.data.isHasBombardiers(),
 				"Bombadier's Rucksack");
+		createInput(inputs, data.data.isSpines(),
+				"Spines of Seething Hatred");
+		createInput(inputs, data.data.isKridershot(),
+				"Kridershot");
+		createInput(inputs, data.data.getSpinesHatred(),
+				"Spines of Seething Hatred - Hatred Value");
+		createInput(inputs, data.data.getKridershotHatred(),
+				"Kridershot - Hatred Value");
 
 		createInputHeader(inputs, "Legendary Gems");
 		createInput(inputs, data.data.isUseBaneOfTheTrapped(),

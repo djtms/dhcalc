@@ -27,7 +27,7 @@ public class FiringData {
 			}
 		}
 
-		Collections.sort(skills, SkillAndRune.HatredSorter);
+		Collections.sort(skills, new SkillAndRune.HatredSorter(data));
 
 		double maxHatred = data.getMaxHatred();
 		double hatred = maxHatred;
@@ -42,7 +42,7 @@ public class FiringData {
 		while (t < DURATION) {
 		
 			for (SkillAndRune skr : skills) {
-				double h = skr.getHatred();
+				double h = skr.getHatred(data);
 				
 				if ((h + hatred) >= 0) {
 					Integer n = skillQty.get(skr) + 1;

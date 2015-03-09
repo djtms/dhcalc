@@ -10,7 +10,7 @@
 * Add cooldown skills (e.g. Rain of Vengeance)
 * re-enable player/build statistics
 * Import hatred regen from items/skills
-* Add Spines of Seething Hatred, Kridershot, Oddesy's End
+* Add Oddesey's End 
 * Support dual wield for hand crossbows
 * Check other set bonuses that need import logic to handle royal ring
 * Improve logic for selecting # of AoE targets

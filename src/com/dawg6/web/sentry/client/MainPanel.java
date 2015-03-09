@@ -2532,6 +2532,10 @@ public class MainPanel extends BasePanel {
 		this.itemPanel.getTntPercent().setValue((int) (Math.round(data.getTntPercent() * 100.0)));
 		this.itemPanel.getCalamity().setValue(data.isCalamityMdf());
 		this.itemPanel.getBombadiers().setValue(data.isHasBombardiers());
+		this.itemPanel.getSpines().setValue(data.isSpines());
+		this.itemPanel.getKridershot().setValue(data.isKridershot());
+		this.itemPanel.getSpinesHatred().setValue(data.getSpinesHatred());
+		this.itemPanel.getKridershotHatred().setValue(data.getKridershotHatred());
 		this.itemPanel.getMarauders().setValue(data.getNumMarauders());
 		this.itemPanel.getEliteDamagePercent()
 				.setValue((int) Math.round(data.getEliteDamage()));
@@ -2674,6 +2678,14 @@ public class MainPanel extends BasePanel {
 				new Field(this.itemPanel.getCalamity(), "Calamity",
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getBombadiers(), "Bombadiers",
+						Boolean.FALSE.toString()),
+				new Field(this.itemPanel.getSpines(), "Spines",
+						Boolean.FALSE.toString()),
+				new Field(this.itemPanel.getKridershot(), "Kridershot",
+						Boolean.FALSE.toString()),
+				new Field(this.itemPanel.getSpinesHatred(), "SpinesHatred",
+						Boolean.FALSE.toString()),
+				new Field(this.itemPanel.getKridershotHatred(), "KridershotHatred",
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getMarauders(), "Marauders",
 						"6"),
@@ -3030,6 +3042,10 @@ public class MainPanel extends BasePanel {
 			data.setCaltropsUptime(skills.getCaltropsUptime().getValue() / 100.0);
 			data.setMaxHatred(hatredPanel.getMaxHatred().getValue());
 			data.setHatredPerSecond(hatredPanel.getHatredPerSecond().getValue());
+			data.setSpines(itemPanel.getSpines().getValue());
+			data.setKridershot(itemPanel.getKridershot().getValue());
+			data.setSpinesHatred(itemPanel.getSpinesHatred().getValue());
+			data.setKridershotHatred(itemPanel.getKridershotHatred().getValue());
 
 			Map<ActiveSkill, Rune> skills = getSkills();
 //			SkillSet skillSet = getSkillSet(skills);

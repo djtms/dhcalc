@@ -612,6 +612,10 @@ public class ProfileHelper {
 		boolean hexingPants = false;
 		double hexingPantsPercent = 0.0;
 		boolean bombadiers = false;
+		boolean kridershot = false;
+		boolean spines = false;
+		int kridershotHatred = 0;
+		int spinesHatred = 0;
 		
 		for (ItemInformation i : hero.items.values()) {
 
@@ -642,6 +646,16 @@ public class ProfileHelper {
 
 			if (i.name.equals(Const.CALAMITY)) {
 				calamity = true;
+			} else if (i.name.equals(Const.KRIDERSHOT)) {
+				kridershot = true;
+				Value<Float> value = i.attributesRaw
+						.get(Const.KRIDERSHOT_HATRED);
+				kridershotHatred = Math.round(value.min);
+			} else if (i.name.equals(Const.SPINES)) {
+				spines = true;
+				Value<Float> value = i.attributesRaw
+						.get(Const.SPINES_HATRED);
+				spinesHatred = Math.round(value.min);
 			} else if (i.name.equals(Const.METICULOUS_BOLTS)) {
 				meticulousBolts = true;
 				Value<Float> value = i.attributesRaw
@@ -821,6 +835,11 @@ public class ProfileHelper {
 		data.setHarringtonPercent(harringtonPercent);
 		
 		data.setHasBombardiers(bombadiers);
+		
+		data.setKridershot(kridershot);
+		data.setKridershotHatred(kridershotHatred);
+		data.setSpines(spines);
+		data.setSpinesHatred(spinesHatred);
 	}
 
 	private static Boolean hasSet(HeroProfile hero,

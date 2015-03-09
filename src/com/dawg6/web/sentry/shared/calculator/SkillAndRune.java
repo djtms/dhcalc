@@ -9,12 +9,19 @@ public class SkillAndRune implements Serializable, Comparable<SkillAndRune> {
 
 	private static final long serialVersionUID = -2598597723188510677L;
 
-	public static final Comparator<SkillAndRune> HatredSorter = new Comparator<SkillAndRune>(){
+	public static class HatredSorter implements Comparator<SkillAndRune> {
 
+		private final CharacterData data;
+
+		public HatredSorter(CharacterData data) {
+			this.data = data;
+		}
+		
 		@Override
 		public int compare(SkillAndRune o1, SkillAndRune o2) {
-			return new Integer(o1.getHatred()).compareTo(o2.getHatred());
-		}};
+			return new Integer(o1.getHatred(data)).compareTo(o2.getHatred(data));
+		}
+	}
 
 	private ActiveSkill skill;
 	private Rune rune;
@@ -24,8 +31,14 @@ public class SkillAndRune implements Serializable, Comparable<SkillAndRune> {
 	public SkillAndRune() {
 	}
 
-	public int getHatred() {
-		return skill.getHatred() + rune.getHatred();
+	public int getHatred(CharacterData data) {
+		
+		if ((skill == ActiveSkill.CHAK) && data.isSpines())
+			return data.getSpinesHatred();
+		if ((skill == ActiveSkill.EA) && data.isKridershot())
+			return data.getKridershotHatred();
+		else
+			return skill.getHatred() + rune.getHatred();
 	}
 	
 	public SkillAndRune(ActiveSkill skill, Rune rune) {

@@ -27,12 +27,15 @@ public class ItemPanel extends Composite {
 	private final NumberSpinner hexingPantsPercent;
 	private final SimpleCheckBox bombadiers;
 	private final NumberSpinner marauders;
+	private final SimpleCheckBox spines;
+	private final SimpleCheckBox kridershot;
+	private final NumberSpinner spinesHatred;
+	private final NumberSpinner kridershotHatred;
 
 	public ItemPanel() {
 
 		CaptionPanel captionPanel = new CaptionPanel("Item Data");
 		initWidget(captionPanel);
-		captionPanel.setHeight("404px");
 
 		FlexTable flexTable = new FlexTable();
 		captionPanel.setContentWidget(flexTable);
@@ -191,24 +194,58 @@ public class ItemPanel extends Composite {
 		
 		bombadiers = new SimpleCheckBox();
 		flexTable.setWidget(10, 1, bombadiers);
+		
+		Anchor anchor_7 = new Anchor("Spines of Seething Hatred");
+		anchor_7.setWordWrap(false);
+		anchor_7.setTarget("_blank");
+		anchor_7.setHref("http://us.battle.net/d3/en/item/spines-of-seething-hatred");
+		flexTable.setWidget(11, 0, anchor_7);
+		
+		spines = new SimpleCheckBox();
+		flexTable.setWidget(11, 1, spines);
+		
+		Label label_9 = new Label("Hatred:");
+		flexTable.setWidget(11, 2, label_9);
+		
+		spinesHatred = new NumberSpinner();
+		spinesHatred.setVisibleLength(2);
+		spinesHatred.setText("6");
+		flexTable.setWidget(11, 3, spinesHatred);
+		
+		Anchor anchor_8 = new Anchor("Kridershot");
+		anchor_8.setWordWrap(false);
+		anchor_8.setTarget("_blank");
+		anchor_8.setHref("http://us.battle.net/d3/en/item/kridershot");
+		flexTable.setWidget(12, 0, anchor_8);
+		
+		kridershot = new SimpleCheckBox();
+		flexTable.setWidget(12, 1, kridershot);
+		
+		Label label_10 = new Label("Hatred:");
+		flexTable.setWidget(12, 2, label_10);
+		
+		kridershotHatred = new NumberSpinner();
+		kridershotHatred.setVisibleLength(2);
+		kridershotHatred.setText("6");
+		flexTable.setWidget(12, 3, kridershotHatred);
 
 		Label label_1 = new Label("Elite Damage +%:");
 		label_1.setWordWrap(false);
 		label_1.setTitle("The Elite Damage percentage, as shown in-in game in the character details screen under offense. Subtract 15% if Bane of the Powerful is level 25 or more (it will be added automatically if selected).");
-		flexTable.setWidget(11, 0, label_1);
-		flexTable.getFlexCellFormatter().setColSpan(11, 0, 3);
+		flexTable.setWidget(13, 0, label_1);
+		flexTable.getFlexCellFormatter().setColSpan(13, 0, 3);
 
 		eliteDamagePercent = new NumberSpinner();
 		eliteDamagePercent.setVisibleLength(2);
 		eliteDamagePercent
 				.setTitle("The Elite Damage percentage, as shown in-in game in the character details screen under offense. Subtract 15% if Bane of the Powerful is level 25 or more (it will be added automatically if selected).");
-		flexTable.setWidget(11, 1, eliteDamagePercent);
+		flexTable.setWidget(13, 1, eliteDamagePercent);
 		
 		Label lblNoteSubtract = new Label("Note: subtract 15% from the value displayed in-game if Bane of the Powerful is rank 25 or more.");
 		lblNoteSubtract.setStyleName("boldText");
 		lblNoteSubtract.setWidth("300px");
-		flexTable.setWidget(12, 0, lblNoteSubtract);
-		flexTable.getFlexCellFormatter().setColSpan(12, 0, 4);
+		flexTable.setWidget(14, 0, lblNoteSubtract);
+		flexTable.getFlexCellFormatter().setColSpan(14, 0, 4);
 		flexTable.getFlexCellFormatter().setColSpan(7, 0, 3);
 		flexTable.getCellFormatter().setHorizontalAlignment(7, 0, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(6, 2, HasHorizontalAlignment.ALIGN_RIGHT);
@@ -309,6 +346,22 @@ public class ItemPanel extends Composite {
 
 	public NumberSpinner getMarauders() {
 		return marauders;
+	}
+
+	public SimpleCheckBox getSpines() {
+		return spines;
+	}
+
+	public SimpleCheckBox getKridershot() {
+		return kridershot;
+	}
+
+	public NumberSpinner getSpinesHatred() {
+		return spinesHatred;
+	}
+
+	public NumberSpinner getKridershotHatred() {
+		return kridershotHatred;
 	}
 
 }

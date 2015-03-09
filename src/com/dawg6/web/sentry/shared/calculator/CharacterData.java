@@ -175,6 +175,10 @@ public class CharacterData implements Serializable {
 	private double hatredPerSecond;
 	private int maxHatred;
 	private int numMarauders;
+	private boolean kridershot;
+	private boolean spines;
+	private int kridershotHatred;
+	private int spinesHatred;
 	
 	public int getNumMarauders() {
 		return numMarauders;
@@ -1538,6 +1542,38 @@ public class CharacterData implements Serializable {
 
 	public void setMaxHatred(int maxHatred) {
 		this.maxHatred = maxHatred;
+	}
+
+	public boolean isKridershot() {
+		return kridershot;
+	}
+
+	public void setKridershot(boolean kridershot) {
+		this.kridershot = kridershot;
+	}
+
+	public boolean isSpines() {
+		return spines;
+	}
+
+	public void setSpines(boolean spines) {
+		this.spines = spines;
+	}
+
+	public int getKridershotHatred() {
+		return kridershotHatred;
+	}
+
+	public void setKridershotHatred(int kridershotHatred) {
+		this.kridershotHatred = kridershotHatred;
+	}
+
+	public int getSpinesHatred() {
+		return spinesHatred;
+	}
+
+	public void setSpinesHatred(int spinesHatred) {
+		this.spinesHatred = spinesHatred;
 	}
 	
 }

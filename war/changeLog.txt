@@ -4,6 +4,8 @@ Change Log:
 
 * Fixed bug that caused some profiles to fail to import
 * Fixed bug that was omitting damage from Spitfire Turret's Rockets in the damage log
+* Added Kridershot and Spines of Seething Hatred
+* Fixed bug with Excel export
 
 **3/8/15**
 
