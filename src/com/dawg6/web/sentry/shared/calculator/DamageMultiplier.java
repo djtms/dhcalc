@@ -182,6 +182,39 @@ public enum DamageMultiplier {
 				public Double getValue(CharacterData data) {
 					return data.getChakDamage();
 				}
+			}), HA("HA", DamageAccumulator.Additive,
+			"Hungering Arrow Skill Damage Bonus",
+			new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return data.getHaDamage();
+				}
+			}), ES("ES", DamageAccumulator.Additive,
+			"Entangling Shot Skill Damage Bonus",
+			new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return data.getEsDamage();
+				}
+			}), BOLAS("BOLAS", DamageAccumulator.Additive,
+			"Bolas Skill Damage Bonus", new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return data.getBolasDamage();
+				}
+			}), EF("EF", DamageAccumulator.Additive,
+			"Evasive Fire Skill Damage Bonus",
+			new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return data.getEfDamage();
+				}
+			}), GRENADE("GRENADE", DamageAccumulator.Additive,
+			"Grenade Skill Damage Bonus", new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return data.getGrenadeDamage();
+				}
 			}), CtW("CtW", DamageAccumulator.Multiplicative,
 			"Cull the Weak passive bonus (20% to chilled/frozen)",
 			new Test<CharacterData, Double>() {
@@ -191,11 +224,11 @@ public enum DamageMultiplier {
 							.getPercentSlowedChilled()) : 0.0;
 				}
 			}), M6("M6", DamageAccumulator.Multiplicative,
-			"Marauder's 6 piece bonus",
-			new Test<CharacterData, Double>() {
+			"Marauder's 6 piece bonus", new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
-					return (data.getNumMarauders() >= 6) ? (double)(data.getNumSentries()) : 0;
+					return (data.getNumMarauders() >= 6) ? (double) (data
+							.getNumSentries()) : 0;
 				}
 			}), Elite("Elite", DamageAccumulator.Multiplicative,
 			"Elite damage bonus (includes BotP if rank 25+)",

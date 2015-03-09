@@ -812,9 +812,6 @@ public class MainPanel extends BasePanel {
 			}
 		});
 
-		buffPanel = new BuffPanel();
-		verticalPanel_3.add(buffPanel);
-
 		playerBuffPanel = new PlayerBuffPanel();
 		verticalPanel_1.add(playerBuffPanel);
 
@@ -941,6 +938,18 @@ public class MainPanel extends BasePanel {
 					}
 				});
 
+		VerticalPanel vpanel = new VerticalPanel();
+		horizontalPanel_4.add(vpanel);
+		
+		cdrPanel = new CDRPanel();
+		vpanel.add(cdrPanel);
+
+		hatredPanel = new HatredPanel();
+		vpanel.add(hatredPanel);
+		
+		buffPanel = new BuffPanel();
+		vpanel.add(buffPanel);
+
 		buffPanel.getAnatomy().addClickHandler(new ClickHandler() {
 
 			@Override
@@ -978,15 +987,6 @@ public class MainPanel extends BasePanel {
 			}
 		});
 
-		VerticalPanel vpanel = new VerticalPanel();
-		horizontalPanel_4.add(vpanel);
-		
-		cdrPanel = new CDRPanel();
-		vpanel.add(cdrPanel);
-
-		hatredPanel = new HatredPanel();
-		vpanel.add(hatredPanel);
-		
 		gemPanel.getGogokStacks().addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -2551,6 +2551,19 @@ public class MainPanel extends BasePanel {
 		this.itemPanel.getHarrington().setValue(data.isHarrington());
 		this.itemPanel.getHarringtonPercent().setValue(
 				(int) Math.round(data.getHarringtonPercent() * 100.0));
+		
+		this.skillDamage.getSentryDamage().setValue((int)Math.round(data.getSentryDamage() * 100.0));
+		this.skillDamage.getEaDamage().setValue((int)Math.round(data.getEaDamage() * 100.0));
+		this.skillDamage.getChakDamage().setValue((int)Math.round(data.getChakDamage() * 100.0));
+		this.skillDamage.getImpDamage().setValue((int)Math.round(data.getImpDamage() * 100.0));
+		this.skillDamage.getMsDamage().setValue((int)Math.round(data.getMsDamage() * 100.0));
+		this.skillDamage.getCaDamage().setValue((int)Math.round(data.getCaDamage() * 100.0));
+
+		this.skillDamage.getHaDamage().setValue((int)Math.round(data.getHaDamage() * 100.0));
+		this.skillDamage.getEsDamage().setValue((int)Math.round(data.getEsDamage() * 100.0));
+		this.skillDamage.getBolasDamage().setValue((int)Math.round(data.getBolasDamage() * 100.0));
+		this.skillDamage.getEfDamage().setValue((int)Math.round(data.getEfDamage() * 100.0));
+		this.skillDamage.getGrenadeDamage().setValue((int)Math.round(data.getGrenadeDamage() * 100.0));
 	}
 
 	private void getSetSetCDR(SimpleCheckBox field,
@@ -2745,6 +2758,11 @@ public class MainPanel extends BasePanel {
 				new Field(this.skillDamage.getCaDamage(), "CA", "0"),
 				new Field(this.skillDamage.getChakDamage(), "CHAK", "0"),
 				new Field(this.skillDamage.getImpDamage(), "IMP", "0"),
+				new Field(this.skillDamage.getHaDamage(), "HA", "0"),
+				new Field(this.skillDamage.getEsDamage(), "ES", "0"),
+				new Field(this.skillDamage.getBolasDamage(), "Bolas", "0"),
+				new Field(this.skillDamage.getEfDamage(), "EF", "0"),
+				new Field(this.skillDamage.getGrenadeDamage(), "Grenade", "0"),
 				new Field(this.situational.getTargetSize(), "TargetSize",
 						TargetSize.Small.name()),
 				new Field(this.situational.getPercentAtLeast10Yards(),
@@ -2924,6 +2942,11 @@ public class MainPanel extends BasePanel {
 			data.setEaDamage(getValue(this.skillDamage.getEaDamage()) / 100.0);
 			data.setFireDamage(getValue(this.typeDamage.getFireDamage()) / 100.0);
 			data.setImpDamage(getValue(this.skillDamage.getImpDamage()) / 100.0);
+			data.setHaDamage(getValue(this.skillDamage.getHaDamage()) / 100.0);
+			data.setEsDamage(getValue(this.skillDamage.getEsDamage()) / 100.0);
+			data.setBolasDamage(getValue(this.skillDamage.getBolasDamage()) / 100.0);
+			data.setEfDamage(getValue(this.skillDamage.getEfDamage()) / 100.0);
+			data.setGrenadeDamage(getValue(this.skillDamage.getGrenadeDamage()) / 100.0);
 			data.setLightDamage(getValue(this.typeDamage.getLightningDamage()) / 100.0);
 			data.setMsDamage(getValue(this.skillDamage.getMsDamage()) / 100.0);
 			data.setPhysDamage(getValue(this.typeDamage.getPhysicalDamage()) / 100.0);

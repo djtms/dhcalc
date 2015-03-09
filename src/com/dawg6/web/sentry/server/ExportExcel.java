@@ -449,6 +449,11 @@ public class ExportExcel {
 				"Chakram Damage", pctStyle);
 		createInput(inputs, data.data.getImpDamage(),
 				"Impale Damage", pctStyle);
+		createInput(inputs, data.data.getHaDamage(), "HA Damage", pctStyle);
+		createInput(inputs, data.data.getEsDamage(), "ES Damage", pctStyle);
+		createInput(inputs, data.data.getBolasDamage(), "Bolas Damage", pctStyle);
+		createInput(inputs, data.data.getEfDamage(), "EF Damage", pctStyle);
+		createInput(inputs, data.data.getGrenadeDamage(), "Grenade Damage", pctStyle);
 
 		createInputHeader(inputs, "Item Data");
 		createInput(inputs, data.data.getEliteDamage(),

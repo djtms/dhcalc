@@ -32,6 +32,11 @@ public class CharacterData implements Serializable {
 	private double msDamage;
 	private double caDamage;
 	private double impDamage;
+	private double haDamage;
+	private double esDamage;
+	private double bolasDamage;
+	private double efDamage;
+	private double grenadeDamage;
 	private double chakDamage;
 	private double chillDamage;
 	private double critChance;
@@ -1574,6 +1579,46 @@ public class CharacterData implements Serializable {
 
 	public void setSpinesHatred(int spinesHatred) {
 		this.spinesHatred = spinesHatred;
+	}
+
+	public double getHaDamage() {
+		return haDamage;
+	}
+
+	public void setHaDamage(double haDamage) {
+		this.haDamage = haDamage;
+	}
+
+	public double getEsDamage() {
+		return esDamage;
+	}
+
+	public void setEsDamage(double esDamage) {
+		this.esDamage = esDamage;
+	}
+
+	public double getBolasDamage() {
+		return bolasDamage;
+	}
+
+	public void setBolasDamage(double bolasDamage) {
+		this.bolasDamage = bolasDamage;
+	}
+
+	public double getEfDamage() {
+		return efDamage;
+	}
+
+	public void setEfDamage(double efDamage) {
+		this.efDamage = efDamage;
+	}
+
+	public double getGrenadeDamage() {
+		return grenadeDamage;
+	}
+
+	public void setGrenadeDamage(double grenadeDamage) {
+		this.grenadeDamage = grenadeDamage;
 	}
 	
 }

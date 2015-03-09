@@ -7,6 +7,8 @@ Change Log:
 * Added Kridershot and Spines of Seething Hatred
 * Fixed bug with Excel export
 * Fixed bug with M6 to account for all sentries (was currently calculating # of sentries minus 1)
+* Fixed import of skill damage bonuses
+* Added skill damage bonuses for primary skills
 
 **3/8/15**
 
