@@ -195,7 +195,7 @@ public enum DamageMultiplier {
 			new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
-					return (data.getNumMarauders() >= 6) ? (double)(data.getNumSentries() - 1) : 0;
+					return (data.getNumMarauders() >= 6) ? (double)(data.getNumSentries()) : 0;
 				}
 			}), Elite("Elite", DamageAccumulator.Multiplicative,
 			"Elite damage bonus (includes BotP if rank 25+)",

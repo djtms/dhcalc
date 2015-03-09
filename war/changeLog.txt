@@ -6,6 +6,7 @@ Change Log:
 * Fixed bug that was omitting damage from Spitfire Turret's Rockets in the damage log
 * Added Kridershot and Spines of Seething Hatred
 * Fixed bug with Excel export
+* Fixed bug with M6 to account for all sentries (was currently calculating # of sentries minus 1)
 
 **3/8/15**
 
