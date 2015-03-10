@@ -260,7 +260,7 @@ public class ItemPanel extends Composite {
 		
 		odysseysEndUptime = new NumberSpinner();
 		odysseysEndUptime.setVisibleLength(2);
-		odysseysEndUptime.setTitle("Percent of the time Calamity's Marked for Death will be applied to targets.");
+		odysseysEndUptime.setTitle("Percent of the time Odyssey's End debuff will be applied to targets.");
 		odysseysEndUptime.setText("100");
 		flexTable.setWidget(14, 3, odysseysEndUptime);
 		
