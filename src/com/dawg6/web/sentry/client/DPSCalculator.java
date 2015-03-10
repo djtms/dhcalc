@@ -1275,7 +1275,7 @@ public class DPSCalculator extends BasePanel {
 				* 100.0));
 		this.weaponIAS.setValue((int)(Math.round(data.getWeaponIas() * 100.0)));
 		this.equipIAS.setValue((int)(Math.round(data.getEquipIas() * 100.0)));
-		this.weaponDamage.setValue((int) Math.round(data.getWeaponDamage() * 100.0));
+		this.weaponDamage.setValue((int) Math.round(data.getWeaponDamagePercent() * 100.0));
 		this.dexterity.setValue((int)data.getDexterity());
 		this.tnt.setValue(data.isTnt());
 		this.tntPercent.setValue((int)(Math.round(data.getTntPercent() * 100.0)));
