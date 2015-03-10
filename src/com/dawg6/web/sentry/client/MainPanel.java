@@ -2388,6 +2388,14 @@ public class MainPanel extends BasePanel {
 				break;
 		}
 		
+		if (n < 1) {
+			this.setSkillAndRune(skillLabels[0], runeLabels[0], skillBoxes[0], runeBoxes[0], null, null);
+		}
+
+		if (n < 2) {
+			this.setSkillAndRune(skillLabels[1], runeLabels[1], skillBoxes[1], runeBoxes[1], null, null);
+		}
+		
 		hatredPanel.getHatredPerSecond().setValue(data.getHatredPerSecond());
 	}
 	
@@ -2702,6 +2710,10 @@ public class MainPanel extends BasePanel {
 		this.itemPanel.getTntPercent().setValue((int) (Math.round(data.getTntPercent() * 100.0)));
 		this.itemPanel.getCalamity().setValue(data.isCalamityMdf());
 		this.itemPanel.getBombadiers().setValue(data.isHasBombardiers());
+		this.itemPanel.getReapersWraps().setValue(data.isReapersWraps());
+		this.itemPanel.getReapersWrapsPercent().setValue((int)Math.round(data.getReapersWrapsPercent() * 100.0));
+		this.itemPanel.getCindercoat().setValue(data.isCindercoat());
+		this.itemPanel.getCindercoatPercent().setValue((int)Math.round(data.getCindercoatRCR() * 100.0));
 		this.itemPanel.getSpines().setValue(data.isSpines());
 		this.itemPanel.getKridershot().setValue(data.isKridershot());
 		this.itemPanel.getSpinesHatred().setValue(data.getSpinesHatred());
@@ -2905,6 +2917,16 @@ public class MainPanel extends BasePanel {
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getMarauders(), "Marauders",
 						"6"),
+				new Field(this.itemPanel.getReapersWraps(), "ReapersWraps",
+						Boolean.FALSE.toString()),
+				new Field(this.itemPanel.getReapersWrapsPercent(), "ReapersWrapsPercent",
+						"25"),
+				new Field(this.itemPanel.getCindercoat(), "Cindercoat",
+						Boolean.FALSE.toString()),
+				new Field(this.itemPanel.getCindercoatPercent(), "CindercoatPercent",
+						"23"),
+				new Field(this.situational.getNumHealthGlobes(), "HealthGlobes",
+						"1"),
 				new Field(this.itemPanel.getCalamityUptime(), "CalamityUptime",
 						"100"),
 				new Field(this.skills.getMfd(), "MarkedForDeath",
@@ -3291,6 +3313,11 @@ public class MainPanel extends BasePanel {
 			data.setKridershot(itemPanel.getKridershot().getValue());
 			data.setSpinesHatred(itemPanel.getSpinesHatred().getValue());
 			data.setKridershotHatred(itemPanel.getKridershotHatred().getValue());
+			data.setReapersWraps(itemPanel.getReapersWraps().getValue());
+			data.setReapersWrapsPercent(itemPanel.getReapersWrapsPercent().getValue() / 100.0);
+			data.setNumHealthGlobes(situational.getNumHealthGlobes().getValue());
+			data.setCindercoat(itemPanel.getCindercoat().getValue());
+			data.setCindercoatRCR(itemPanel.getCindercoatPercent().getValue() / 100.0);
 
 			Map<ActiveSkill, Rune> skills = getSkills();
 //			SkillSet skillSet = getSkillSet(skills);

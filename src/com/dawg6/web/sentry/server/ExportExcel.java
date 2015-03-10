@@ -102,22 +102,18 @@ public class ExportExcel {
 
 		inputs = wb.createSheet("Inputs");
 		summary = wb.createSheet("Summary");
-		HSSFSheet multiple = wb.createSheet("MultipleSentriesNonElite");
 		HSSFSheet damageLog = wb.createSheet("DamageLogNonElite");
 		HSSFSheet typeSummary = wb.createSheet("DamageTypeSummaryNonElite");
 		HSSFSheet skillSummary = wb.createSheet("SkillSummaryNonElite");
-		HSSFSheet multipleElite = wb.createSheet("MultipleSentriesElite");
 		HSSFSheet damageLogElite = wb.createSheet("DamageLogElite");
 		HSSFSheet typeSummaryElite = wb.createSheet("DamageTypeSummaryElite");
 		HSSFSheet skillSummaryElite = wb.createSheet("SkillSummaryElite");
 
 		addInputs();
 		addSummary();
-		addMultiple(multiple, false);
 		addDamageLog(damageLog, false);
 		addTypeSummary(typeSummary, false);
 		addSkillSummary(skillSummary, false);
-		addMultiple(multipleElite, true);
 		addDamageLog(damageLogElite, true);
 		addTypeSummary(typeSummaryElite, true);
 		addSkillSummary(skillSummaryElite, true);
@@ -235,18 +231,22 @@ public class ExportExcel {
 
 	private void addDamageLog(HSSFSheet damageLog, boolean elite) {
 		
-		createTableHeader(damageLog, 0, "Skill");
-		createTableHeader(damageLog, 1, "Rune");
-		createTableHeader(damageLog, 2, "Type");
-		createTableHeader(damageLog, 3, "Damage");
-		createTableHeader(damageLog, 4, "Qty");
-		createTableHeader(damageLog, 5, "Total Damage");
-		createTableHeader(damageLog, 6, "DPS");
-		createTableHeader(damageLog, 7, "% of Total");
-		createTableHeader(damageLog, 8, "Target");
-		createTableHeader(damageLog, 9, "# Targets");
-		createTableHeader(damageLog, 10, "Notes");
-		createTableHeader(damageLog, 11, "Calculations");
+		int col = 0;
+		
+		createTableHeader(damageLog, col++, "Shooter");
+		createTableHeader(damageLog, col++, "Skill");
+		createTableHeader(damageLog, col++, "Rune");
+		createTableHeader(damageLog, col++, "Type");
+		createTableHeader(damageLog, col++, "Damage");
+		createTableHeader(damageLog, col++, "Qty");
+		createTableHeader(damageLog, col++, "Hatred");
+		createTableHeader(damageLog, col++, "Total Damage");
+		createTableHeader(damageLog, col++, "DPS");
+		createTableHeader(damageLog, col++, "% of Total");
+		createTableHeader(damageLog, col++, "Target");
+		createTableHeader(damageLog, col++, "# Targets");
+		createTableHeader(damageLog, col++, "Notes");
+		createTableHeader(damageLog, col++, "Calculations");
 		
 		double eliteBonus = 1.0 + (elite ? data.data.getTotalEliteDamage() : 0.0);
 		
@@ -261,22 +261,26 @@ public class ExportExcel {
 			GemSkill gem = d.source.gem;
 			Rune rune = d.source.rune;
 			Row row = damageLog.createRow(i+1);
-			addTableCell(row, 0, (skill != null) ? skill.getLongName() : gem.getDisplayName());
-			addTableCell(row, 1, (rune != null) ? rune.getLongName() : "N/A");
-			addTableCell(row, 2, d.type.name());
-			addTableCell(row, 3, Math.round(d.damage * eliteBonus));
-			addTableCell(row, 4, d.qty);
-			addTableCell(row, 5, Math.round(d.totalDamage * eliteBonus));
-			addTableCell(row, 6, Math.round((d.totalDamage  * eliteBonus) / FiringData.DURATION));
-			addTableCell(row, 7, (Math.round(10000.0 * d.totalDamage / total) / 10000.0), pctStyle);
-			addTableCell(row, 8, d.target.name());
+			col = 0;
+			
+			addTableCell(row, col++, d.shooter);
+			addTableCell(row, col++, (skill != null) ? skill.getLongName() : gem.getDisplayName());
+			addTableCell(row, col++, (rune != null) ? rune.getLongName() : "N/A");
+			addTableCell(row, col++, d.type.name());
+			addTableCell(row, col++, Math.round(d.damage * eliteBonus));
+			addTableCell(row, col++, d.qty);
+			addTableCell(row, col++, d.hatred);
+			addTableCell(row, col++, Math.round(d.totalDamage * eliteBonus));
+			addTableCell(row, col++, Math.round((d.totalDamage  * eliteBonus) / FiringData.DURATION));
+			addTableCell(row, col++, (Math.round(10000.0 * d.totalDamage / total) / 10000.0), pctStyle);
+			addTableCell(row, col++, d.target.name());
 			
 			if (d.target == Target.Additional)
-				addTableCell(row, 9, d.numAdd);
+				addTableCell(row, col++, d.numAdd);
 			else
-				addTableCell(row, 9, 1);
+				addTableCell(row, col++, 1);
 				
-			addTableCell(row, 10, d.note);
+			addTableCell(row, col++, d.note);
 			
 			String eliteLog = "";
 			
@@ -284,7 +288,7 @@ public class ExportExcel {
 				eliteLog = " X " + DamageMultiplier.Elite.getAbbreviation() + "(" + Util.format(eliteBonus) + ")";
 			}
 			
-			addTableCell(row, 11, d.log + eliteLog);
+			addTableCell(row, col++, d.log + eliteLog);
 		}
 		
 		for (int i = 0; i < 12; i++) {
@@ -357,10 +361,11 @@ public class ExportExcel {
 		createInput(inputs, data.data.getCritChance(),
 				"Crit Chance ", pctStyle);
 		createInput(inputs, data.data.getCritHitDamage(),
-				"Crit Chance ", pctStyle);
+				"Crit Hit Damage ", pctStyle);
 		createInput(inputs, data.data.getWeaponDamage(), "Weapon Damage");
 		createInput(inputs, (int)data.data.getDexterity(), "Dexterity");
-		createInput(inputs, data.data.getCdr(), "CDR", this.pctStyle);
+		createInput(inputs, data.data.getCdr(), "Effective CDR", this.pctStyle);
+		createInput(inputs, data.data.getRcr(), "Effective RCR", this.pctStyle);
 		createInput(inputs, data.data.getWeaponType().getName(), "WeaponType");
 		createInput(inputs, data.data.getAps(), "Player APS");
 		createInput(inputs, data.data.getSentryAps(), "Sentry APS");
@@ -498,6 +503,12 @@ public class ExportExcel {
 				"Calamity Uptime", pctStyle);
 		createInput(inputs, data.data.isHasBombardiers(),
 				"Bombadier's Rucksack");
+		createInput(inputs, data.data.isReapersWraps(),
+				"Reapers Wraps");
+		createInput(inputs, data.data.getReapersWrapsPercent(),
+				"Reapers Wraps Percent", pctStyle);
+		createInput(inputs, data.data.getNumHealthGlobes(),
+				"# Health Globes");
 		createInput(inputs, data.data.isSpines(),
 				"Spines of Seething Hatred");
 		createInput(inputs, data.data.isKridershot(),

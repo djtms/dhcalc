@@ -648,11 +648,15 @@ public class ProfileHelper {
 		boolean hexingPants = false;
 		double hexingPantsPercent = 0.0;
 		boolean bombadiers = false;
+		boolean reapersWraps = false;
+		double reapersWrapsPercent = 0.0;
 		boolean kridershot = false;
 		boolean spines = false;
 		int kridershotHatred = 0;
 		int spinesHatred = 0;
 		double hatredPerSecond = 5.0;
+		boolean cindercoat = false;
+		double cindercoatPercent = 0.0;
 		
 		for (ItemInformation i : hero.items.values()) {
 
@@ -699,6 +703,16 @@ public class ProfileHelper {
 				Value<Float> value = i.attributesRaw
 						.get(Const.SPINES_HATRED);
 				spinesHatred = Math.round(value.min);
+			} else if (i.name.equals(Const.REAPERS_WRAPS)) {
+				reapersWraps = true;
+				Value<Float> value = i.attributesRaw
+						.get(Const.REAPERS_WRAPS_PERCENT);
+				reapersWrapsPercent = value.min;
+			} else if (i.name.equals(Const.CINDERCOAT)) {
+				cindercoat = true;
+				Value<Float> value = i.attributesRaw
+						.get(Const.CINDERCOAT_RCR);
+				cindercoatPercent = value.min;
 			} else if (i.name.equals(Const.METICULOUS_BOLTS)) {
 				meticulousBolts = true;
 				Value<Float> value = i.attributesRaw
@@ -905,6 +919,12 @@ public class ProfileHelper {
 		data.setSpinesHatred(spinesHatred);
 		
 		data.setHatredPerSecond(hatredPerSecond);
+		
+		data.setReapersWraps(reapersWraps);
+		data.setReapersWrapsPercent(reapersWrapsPercent);
+		
+		data.setCindercoat(cindercoat);
+		data.setCindercoatRCR(cindercoatPercent);
 	}
 
 	private static Boolean hasSet(HeroProfile hero,

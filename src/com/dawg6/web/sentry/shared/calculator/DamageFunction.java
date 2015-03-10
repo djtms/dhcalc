@@ -1,6 +1,8 @@
 package com.dawg6.web.sentry.shared.calculator;
 
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.Vector;
 
 public class DamageFunction {
@@ -495,4 +497,26 @@ public class DamageFunction {
 		return list;
 	}
 
+	private static Map<SkillAndRune, DamageType> runeDamageType = null;
+	
+	public static synchronized DamageType getDamageType(SkillAndRune skr) {
+		
+		if (runeDamageType == null) {
+			runeDamageType = new TreeMap<SkillAndRune, DamageType>();
+			
+			for (DamageRow row : ALL) {
+				
+				if (row.source != null) {
+					SkillAndRune r = new SkillAndRune(row.source.skill, row.source.rune);
+					DamageType t = runeDamageType.get(r);
+					
+					if (t == null)
+						runeDamageType.put(r, row.type);
+				}
+			}
+		}
+		
+		return runeDamageType.get(skr);
+		
+	}
 }

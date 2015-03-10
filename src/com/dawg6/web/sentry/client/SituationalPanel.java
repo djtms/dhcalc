@@ -1,5 +1,6 @@
 package com.dawg6.web.sentry.client;
 
+import com.dawg6.web.sentry.shared.calculator.FiringData;
 import com.dawg6.web.sentry.shared.calculator.TargetSize;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
@@ -16,6 +17,7 @@ public class SituationalPanel extends Composite {
 	private final NumberSpinner percentAtLeast10Yards;
 	private final NumberSpinner percentAbove75;
 	private final ListBox targetSize;
+	private final NumberSpinner numHealthGlobes;
 
 	public SituationalPanel() {
 
@@ -117,12 +119,24 @@ public class SituationalPanel extends Composite {
 		targetSize.setTitle("Target Size");
 		flexTable.setWidget(7, 1, targetSize);
 		targetSize.setWidth("100%");
+		
+		Label label = new Label("# Health Globes/" + FiringData.DURATION + " Seconds:");
+		flexTable.setWidget(8, 0, label);
+		
+		numHealthGlobes = new NumberSpinner();
+		numHealthGlobes.setVisibleLength(2);
+		numHealthGlobes.setText("1");
+		numHealthGlobes.setTitle("# of Health Globes picked up during " + FiringData.DURATION + " second fight");
+		flexTable.setWidget(8, 1, numHealthGlobes);
 		this.distance.setMax(100);
 		this.targetSpacing.setMax(100);
 		this.percentAbove75.setMax(100);
 		this.percentAtLeast10Yards.setMax(100);
 		this.percentControlled.setMax(100);
 		this.percentSlowedChilled.setMax(100);
+		this.numHealthGlobes.setMin(0);
+		this.numHealthGlobes.setMax(FiringData.DURATION);
+		
 		
 		for (TargetSize t : TargetSize.values()) {
 			targetSize.addItem(t.getDisplayName(), t.name());
@@ -181,5 +195,9 @@ public class SituationalPanel extends Composite {
 				return;
 			}
 		}
+	}
+
+	public NumberSpinner getNumHealthGlobes() {
+		return numHealthGlobes;
 	}
 }

@@ -4,6 +4,11 @@ Change Log:
 
 * Fixed import for Elite damage
 * Fixed (finally!) import of Crit Chance/Crit Hit Damage
+* Now handles case of only 1 generator/spender
+* Added Reaper's Wraps and Health Globes (for hatred)
+* Added Blood Vengeance hatred from health globes bonus
+* Added Cindercoat RCR for Fire Skills
+* Fixed hatred calculation so that RCR does not affect hatred generators
 
 **3/9/15**
 

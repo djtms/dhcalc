@@ -35,12 +35,25 @@ public class FiringData {
 		double t = 0.0;
 		double aps = data.getAps();
 		double as = 1.0 / aps;
-		int total = 0;
 		int totalSpender = 0;
 		Rune sentryRune = data.getSentryRune();
+		double healthGlobeInterval = (data.getNumHealthGlobes() > 0) ? (FiringData.DURATION / (data.getNumHealthGlobes() + 1.0)) : (FiringData.DURATION * 2.0);
+		double nextHealthGlobe = healthGlobeInterval;
 		
 		while (t < DURATION) {
-		
+
+			if (t >= nextHealthGlobe) {
+				nextHealthGlobe += healthGlobeInterval;
+				
+				if (data.isBloodVengeance()) {
+					hatred = Math.min(maxHatred, hatred + 30.0);
+				}
+				
+				if (data.isReapersWraps()) {
+					hatred = Math.min(maxHatred, hatred + (maxHatred * data.getReapersWrapsPercent()));
+				}
+			}
+			
 			for (SkillAndRune skr : skills) {
 				double h = skr.getHatred(data);
 				
@@ -48,7 +61,6 @@ public class FiringData {
 					Integer n = skillQty.get(skr) + 1;
 					skillQty.put(skr, n);
 					hatred = Math.min(maxHatred, hatred + h);
-					total++;
 					
 					break;
 				}

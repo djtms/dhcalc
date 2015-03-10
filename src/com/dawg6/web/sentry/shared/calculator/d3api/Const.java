@@ -108,4 +108,8 @@ public class Const {
 	public static final String RESOURCE_REDUCTION = "Resource_Cost_Reduction_Percent_All";
 	public static final String BLOOD_VENGEANCE = "Blood Vengeance";
 	public static final String NIGHT_STALKER = "Night Stalker";
+	public static final String REAPERS_WRAPS = "Reaper's Wraps";
+	public static final String REAPERS_WRAPS_PERCENT = "Item_Power_Passive#ItemPassive_Unique_Ring_636_x1";
+	public static final String CINDERCOAT = "Cindercoat";
+	public static final String CINDERCOAT_RCR = "Item_Power_Passive#ItemPassive_Unique_Ring_608_x1";
 }

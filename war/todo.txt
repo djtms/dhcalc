@@ -4,13 +4,9 @@
 * Confirm: M6 bonus is Multiplicative? (currently assumes yes)
 * Confirm: Sentries will fire bolts only when not firing spenders? (currently assumes if a Sentry can fire X bolts over 30 seconds, and the player fires Y spenders, then the Sentry will actually fire X - Y bolts over 30 seconds)
 
-* Handle case of only 1 generator/spender
 * Add configurable delays between player firing? 
-* Add support for more spenders/generators
-* Add Reaper's Wraps and Health Globes (for hatred)
-* Add Cindercoat RCR for Fire Skills
+* Add support for more than two spenders/generators
 * re-enable player/build statistics
-* Add Blood Vengeance hatred from health globes bonus
 * Add Oddesey's End 
 * Support dual wield for hand crossbows
 * Check other set bonuses that need import logic to handle royal ring

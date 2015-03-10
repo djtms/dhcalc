@@ -192,6 +192,11 @@ public class CharacterData implements Serializable {
 	private int spinesHatred;
 	private boolean bloodVengeance;
 	private boolean nightStalker;
+	private boolean reapersWraps;
+	private double reapersWrapsPercent;
+	private int numHealthGlobes;
+	private boolean cindercoat;
+	private double cindercoatRCR;
 	
 	public int getNumMarauders() {
 		return numMarauders;
@@ -233,6 +238,7 @@ public class CharacterData implements Serializable {
 		anatomy = false;
 		hysteria = false;
 		caltropsUptime = 1.0;
+		numHealthGlobes = 1;
 	}
 	
 	public CharacterData() {
@@ -1691,6 +1697,46 @@ public class CharacterData implements Serializable {
 
 	public void setNightStalker(boolean nightStalker) {
 		this.nightStalker = nightStalker;
+	}
+
+	public boolean isReapersWraps() {
+		return reapersWraps;
+	}
+
+	public void setReapersWraps(boolean reapersWraps) {
+		this.reapersWraps = reapersWraps;
+	}
+
+	public double getReapersWrapsPercent() {
+		return reapersWrapsPercent;
+	}
+
+	public void setReapersWrapsPercent(double reapersWrapsPercent) {
+		this.reapersWrapsPercent = reapersWrapsPercent;
+	}
+
+	public int getNumHealthGlobes() {
+		return numHealthGlobes;
+	}
+
+	public void setNumHealthGlobes(int numHealthGlobes) {
+		this.numHealthGlobes = numHealthGlobes;
+	}
+
+	public boolean isCindercoat() {
+		return cindercoat;
+	}
+
+	public void setCindercoat(boolean cindercoat) {
+		this.cindercoat = cindercoat;
+	}
+
+	public double getCindercoatRCR() {
+		return cindercoatRCR;
+	}
+
+	public void setCindercoatRCR(double cindercoatRCR) {
+		this.cindercoatRCR = cindercoatRCR;
 	}
 	
 }

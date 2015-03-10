@@ -39,16 +39,28 @@ public class SkillAndRune implements Serializable, Comparable<SkillAndRune> {
 			return data.getKridershotHatred();
 		else {
 			double hatred = skill.getHatred() + rune.getHatred();
-			double rcr = data.getRcr();
 			
-			if ((hatred < 0) && (rcr > 0.0)) {
-				hatred = hatred * (1.0 - rcr);
+			if (hatred < 0) {
+				double rcr = data.getRcr();
+				
+				if (data.isCindercoat()) {
+					DamageType type = DamageFunction.getDamageType(this);
+					
+					if (type == DamageType.Fire) {
+						rcr = 1.0 - ((1.0 - rcr) * (1.0 - data.getCindercoatRCR()));
+					}
+				}
+				
+				if ((hatred < 0) && (rcr > 0.0)) {
+					hatred = hatred * (1.0 - rcr);
+				}
+				
 			}
 			
 			if ((skill.getSkillType() == SkillType.Primary) && data.isNightStalker()) {
 				hatred += 4;
 			}
-			
+
 			return hatred;
 		}
 	}
