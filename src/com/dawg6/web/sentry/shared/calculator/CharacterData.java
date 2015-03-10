@@ -199,6 +199,9 @@ public class CharacterData implements Serializable {
 	private double cindercoatRCR;
 	private boolean inspire;
 	private int delay;
+	private boolean odysseysEnd;
+	private double odysseysEndPercent;
+	private double odysseysEndUptime;
 	
 	public int getNumMarauders() {
 		return numMarauders;
@@ -243,6 +246,7 @@ public class CharacterData implements Serializable {
 		caltropsUptime = 1.0;
 		numHealthGlobes = 1;
 		delay = 50;
+		odysseysEndUptime = 1.0;
 	}
 	
 	public CharacterData() {
@@ -1757,6 +1761,30 @@ public class CharacterData implements Serializable {
 
 	public void setDelay(int delay) {
 		this.delay = delay;
+	}
+
+	public boolean isOdysseysEnd() {
+		return odysseysEnd;
+	}
+
+	public void setOdysseysEnd(boolean odysseysEnd) {
+		this.odysseysEnd = odysseysEnd;
+	}
+
+	public double getOdysseysEndPercent() {
+		return odysseysEndPercent;
+	}
+
+	public void setOdysseysEndPercent(double odysseysEndPercent) {
+		this.odysseysEndPercent = odysseysEndPercent;
+	}
+
+	public double getOdysseysEndUptime() {
+		return odysseysEndUptime;
+	}
+
+	public void setOdysseysEndUptime(double odysseysEndUptime) {
+		this.odysseysEndUptime = odysseysEndUptime;
 	}
 	
 }

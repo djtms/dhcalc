@@ -150,7 +150,14 @@ public enum DamageMultiplier {
 				public Double getValue(CharacterData data) {
 					return data.isHysteria() ? 0.03 : 0.0;
 				}
-			}), EA("EA", DamageAccumulator.Additive,
+			}), OdysseysEnd("OE", DamageAccumulator.Additive,
+				"Odyssey's End Damage Bonus",
+				new Test<CharacterData, Double>() {
+					@Override
+					public Double getValue(CharacterData data) {
+						return data.isOdysseysEnd() ? (data.getOdysseysEndPercent() * data.getOdysseysEndUptime()) : 0.0;
+					}
+				}), EA("EA", DamageAccumulator.Additive,
 			"Elemental Arrow Skill Damage Bonus",
 			new Test<CharacterData, Double>() {
 				@Override

@@ -35,6 +35,9 @@ public class ItemPanel extends Composite {
 	private final NumberSpinner reapersWrapsPercent;
 	private final SimpleCheckBox cindercoat;
 	private final NumberSpinner cindercoatPercent;
+	private final SimpleCheckBox odysseysEnd;
+	private final NumberSpinner odysseysEndPercent;
+	private final NumberSpinner odysseysEndUptime;
 
 	public ItemPanel() {
 
@@ -233,24 +236,52 @@ public class ItemPanel extends Composite {
 		kridershotHatred.setText("6");
 		flexTable.setWidget(12, 3, kridershotHatred);
 		
+		Anchor anchor_11 = new Anchor("Kridershot");
+		anchor_11.setText("Odyssey's End");
+		anchor_11.setHTML("Odyssey's End");
+		anchor_11.setWordWrap(false);
+		anchor_11.setTarget("_blank");
+		anchor_11.setHref("http://us.battle.net/d3/en/item/odysseys-end");
+		flexTable.setWidget(13, 0, anchor_11);
+		
+		odysseysEnd = new SimpleCheckBox();
+		flexTable.setWidget(13, 1, odysseysEnd);
+		
+		Label label_13 = new Label("Percent:");
+		flexTable.setWidget(13, 2, label_13);
+		
+		odysseysEndPercent = new NumberSpinner();
+		odysseysEndPercent.setVisibleLength(2);
+		odysseysEndPercent.setText("30");
+		flexTable.setWidget(13, 3, odysseysEndPercent);
+		
+		Label label_14 = new Label("Uptime:");
+		flexTable.setWidget(14, 2, label_14);
+		
+		odysseysEndUptime = new NumberSpinner();
+		odysseysEndUptime.setVisibleLength(2);
+		odysseysEndUptime.setTitle("Percent of the time Calamity's Marked for Death will be applied to targets.");
+		odysseysEndUptime.setText("100");
+		flexTable.setWidget(14, 3, odysseysEndUptime);
+		
 		Anchor anchor_9 = new Anchor("Bombadier's Rucksack");
 		anchor_9.setText("Reaper's Wraps");
 		anchor_9.setHTML("Reaper's Wraps");
 		anchor_9.setWordWrap(false);
 		anchor_9.setTarget("_blank");
 		anchor_9.setHref("http://us.battle.net/d3/en/artisan/blacksmith/recipe/reapers-wraps");
-		flexTable.setWidget(13, 0, anchor_9);
+		flexTable.setWidget(15, 0, anchor_9);
 		
 		reapersWraps = new SimpleCheckBox();
-		flexTable.setWidget(13, 1, reapersWraps);
+		flexTable.setWidget(15, 1, reapersWraps);
 		
 		Label label_11 = new Label("Percent:");
-		flexTable.setWidget(13, 2, label_11);
+		flexTable.setWidget(15, 2, label_11);
 		
 		reapersWrapsPercent = new NumberSpinner();
 		reapersWrapsPercent.setVisibleLength(2);
 		reapersWrapsPercent.setText("25");
-		flexTable.setWidget(13, 3, reapersWrapsPercent);
+		flexTable.setWidget(15, 3, reapersWrapsPercent);
 		
 		Anchor anchor_10 = new Anchor("Bombadier's Rucksack");
 		anchor_10.setWordWrap(false);
@@ -258,36 +289,36 @@ public class ItemPanel extends Composite {
 		anchor_10.setTarget("_blank");
 		anchor_10.setHTML("Cindercoat");
 		anchor_10.setHref("http://us.battle.net/d3/en/item/cindercoat");
-		flexTable.setWidget(14, 0, anchor_10);
+		flexTable.setWidget(16, 0, anchor_10);
 		
 		cindercoat = new SimpleCheckBox();
-		flexTable.setWidget(14, 1, cindercoat);
+		flexTable.setWidget(16, 1, cindercoat);
 		
 		Label label_12 = new Label("Percent:");
-		flexTable.setWidget(14, 2, label_12);
+		flexTable.setWidget(16, 2, label_12);
 		
 		cindercoatPercent = new NumberSpinner();
 		cindercoatPercent.setVisibleLength(2);
 		cindercoatPercent.setText("25");
-		flexTable.setWidget(14, 3, cindercoatPercent);
+		flexTable.setWidget(16, 3, cindercoatPercent);
 		
 		Label label_1 = new Label("Elite Damage +%:");
 		label_1.setWordWrap(false);
 		label_1.setTitle("The Elite Damage percentage, as shown in-in game in the character details screen under offense. Subtract 15% if Bane of the Powerful is level 25 or more (it will be added automatically if selected).");
-		flexTable.setWidget(15, 0, label_1);
-		flexTable.getFlexCellFormatter().setColSpan(15, 0, 3);
+		flexTable.setWidget(17, 0, label_1);
+		flexTable.getFlexCellFormatter().setColSpan(17, 0, 3);
 
 		eliteDamagePercent = new NumberSpinner();
 		eliteDamagePercent.setVisibleLength(2);
 		eliteDamagePercent
 				.setTitle("The Elite Damage percentage, as shown in-in game in the character details screen under offense. Subtract 15% if Bane of the Powerful is level 25 or more (it will be added automatically if selected).");
-		flexTable.setWidget(15, 1, eliteDamagePercent);
+		flexTable.setWidget(17, 1, eliteDamagePercent);
 		
 		Label lblNoteSubtract = new Label("Note: subtract 15% from the value displayed in-game if Bane of the Powerful is rank 25 or more.");
 		lblNoteSubtract.setStyleName("boldText");
 		lblNoteSubtract.setWidth("300px");
-		flexTable.setWidget(16, 0, lblNoteSubtract);
-		flexTable.getFlexCellFormatter().setColSpan(16, 0, 4);
+		flexTable.setWidget(18, 0, lblNoteSubtract);
+		flexTable.getFlexCellFormatter().setColSpan(18, 0, 4);
 		flexTable.getFlexCellFormatter().setColSpan(7, 0, 3);
 		flexTable.getCellFormatter().setHorizontalAlignment(7, 0, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(6, 2, HasHorizontalAlignment.ALIGN_RIGHT);
@@ -303,6 +334,8 @@ public class ItemPanel extends Composite {
 		flexTable.getCellFormatter().setHorizontalAlignment(12, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(13, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(14, 2, HasHorizontalAlignment.ALIGN_RIGHT);
+		flexTable.getCellFormatter().setHorizontalAlignment(15, 2, HasHorizontalAlignment.ALIGN_RIGHT);
+		flexTable.getCellFormatter().setHorizontalAlignment(16, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		
 		this.tntPercent.setMin(40);
 		this.tntPercent.setMax(50);
@@ -328,6 +361,10 @@ public class ItemPanel extends Composite {
 		spinesHatred.setMax(4);
 		marauders.setMin(0);
 		marauders.setMax(7);
+		odysseysEndPercent.setMin(20);
+		odysseysEndPercent.setMax(25);
+		odysseysEndUptime.setMin(0);
+		odysseysEndUptime.setMax(100);
 	}
 
 	public SimpleCheckBox getTnt() {
@@ -432,6 +469,18 @@ public class ItemPanel extends Composite {
 
 	public NumberSpinner getCindercoatPercent() {
 		return cindercoatPercent;
+	}
+
+	public SimpleCheckBox getOdysseysEnd() {
+		return odysseysEnd;
+	}
+
+	public NumberSpinner getOdysseysEndPercent() {
+		return odysseysEndPercent;
+	}
+
+	public NumberSpinner getOdysseysEndUptime() {
+		return odysseysEndUptime;
 	}
 
 }

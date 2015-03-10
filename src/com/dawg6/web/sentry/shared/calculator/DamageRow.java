@@ -90,6 +90,7 @@ public class DamageRow {
 		this.multipliers.add(DamageMultiplier.Ambush);
 		this.multipliers.add(DamageMultiplier.ArcheryDamage);
 		this.multipliers.add(DamageMultiplier.Hysteria);
+		this.multipliers.add(DamageMultiplier.OdysseysEnd);
 		this.multipliers.add(DamageMultiplier.Toxicity);
 		this.multipliers.add(DamageMultiplier.Wolf);
 		this.multipliers.add(DamageMultiplier.Bbv);

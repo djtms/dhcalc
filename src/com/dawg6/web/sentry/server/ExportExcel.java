@@ -441,6 +441,8 @@ public class ExportExcel {
 				"Spacing between Targets(yards)");
 		createInput(inputs, data.data.getTargetSize().getDisplayName(),
 				"Target Size");
+		createInput(inputs, data.data.getDelay(),
+				"Player Action Delay");
 
 		createInputHeader(inputs, "Damage Type Modifiers");
 		createInput(inputs, data.data.getColdDamage(), "Cold Damage", pctStyle);
@@ -507,8 +509,18 @@ public class ExportExcel {
 				"Reapers Wraps");
 		createInput(inputs, data.data.getReapersWrapsPercent(),
 				"Reapers Wraps Percent", pctStyle);
+		createInput(inputs, data.data.isCindercoat(),
+				"Cindercoat");
+		createInput(inputs, data.data.getCindercoatRCR(),
+				"Cindercoat RCR Percent", pctStyle);
+		createInput(inputs, data.data.isOdysseysEnd(),
+				"Odyssey's End");
+		createInput(inputs, data.data.getOdysseysEndPercent(),
+				"Odyssey's End Percent", pctStyle);
+		createInput(inputs, data.data.getOdysseysEndUptime(),
+				"Odyssey's End Uptime", pctStyle);
 		createInput(inputs, data.data.getNumHealthGlobes(),
-				"# Health Globes");
+				"# Health Globes per " + FiringData.DURATION + " seconds");
 		createInput(inputs, data.data.isSpines(),
 				"Spines of Seething Hatred");
 		createInput(inputs, data.data.isKridershot(),
@@ -558,6 +570,7 @@ public class ExportExcel {
 		createInput(inputs, data.data.isFocusedMind(), "Enchantress Focused Mind");
 		createInput(inputs, data.data.isAnatomy(), "Scoundrel Anatomy");
 		createInput(inputs, data.data.isHysteria(), "Scoundrel Hysteria");
+		createInput(inputs, data.data.isInspire(), "Templar Inspire");
 
 		createInputHeader(inputs, "Player Buffs");
 		createInput(inputs, data.data.isWolf(), "Wolf Companion");

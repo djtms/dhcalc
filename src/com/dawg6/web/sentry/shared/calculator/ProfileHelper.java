@@ -643,6 +643,8 @@ public class ProfileHelper {
 		boolean royalRing = false;
 		boolean strongarm = false;
 		double strongarmPercent = 0.0;
+		boolean odysseysEnd = false;
+		double odysseysEndPercent = 0.0;
 		boolean harrington = false;
 		double harringtonPercent = 0.0;
 		boolean hexingPants = false;
@@ -698,6 +700,11 @@ public class ProfileHelper {
 				Value<Float> value = i.attributesRaw
 						.get(Const.KRIDERSHOT_HATRED);
 				kridershotHatred = Math.round(value.min);
+			} else if (i.name.equals(Const.ODYSSEYS_END)) {
+				odysseysEnd = true;
+				Value<Float> value = i.attributesRaw
+						.get(Const.ODYSSEYS_END_PERCENT);
+				odysseysEndPercent = Math.round(value.min);
 			} else if (i.name.equals(Const.SPINES)) {
 				spines = true;
 				Value<Float> value = i.attributesRaw
@@ -925,6 +932,9 @@ public class ProfileHelper {
 		
 		data.setCindercoat(cindercoat);
 		data.setCindercoatRCR(cindercoatPercent);
+		
+		data.setOdysseysEnd(odysseysEnd);
+		data.setOdysseysEndPercent(odysseysEndPercent);
 	}
 
 	private static Boolean hasSet(HeroProfile hero,

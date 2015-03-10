@@ -2710,6 +2710,8 @@ public class MainPanel extends BasePanel {
 		this.itemPanel.getTntPercent().setValue((int) (Math.round(data.getTntPercent() * 100.0)));
 		this.itemPanel.getCalamity().setValue(data.isCalamityMdf());
 		this.itemPanel.getBombadiers().setValue(data.isHasBombardiers());
+		this.itemPanel.getOdysseysEnd().setValue(data.isOdysseysEnd());
+		this.itemPanel.getOdysseysEndPercent().setValue((int)Math.round(data.getOdysseysEndPercent() * 100.0));
 		this.itemPanel.getReapersWraps().setValue(data.isReapersWraps());
 		this.itemPanel.getReapersWrapsPercent().setValue((int)Math.round(data.getReapersWrapsPercent() * 100.0));
 		this.itemPanel.getCindercoat().setValue(data.isCindercoat());
@@ -2971,6 +2973,13 @@ public class MainPanel extends BasePanel {
 						"HexingPantsUptime", "0"),
 				new Field(this.itemPanel.getStrongarmUptime(),
 						"StrongarmUptime", "0"),
+
+				new Field(this.itemPanel.getOdysseysEnd(),
+						"OdysseysEnd", Boolean.FALSE.toString()),
+				new Field(this.itemPanel.getOdysseysEndPercent(),
+						"OdysseysEndPercent", "20"),
+				new Field(this.itemPanel.getOdysseysEndUptime(),
+						"OdysseysEndUptime", "100"),
 
 				new Field(this.itemPanel.getMeticulousBoltsPercent(),
 						"MeticulousBoltsPercent", "30"),
@@ -3324,6 +3333,9 @@ public class MainPanel extends BasePanel {
 			data.setDelay(situational.getFiringDelay().getValue());
 			data.setCindercoat(itemPanel.getCindercoat().getValue());
 			data.setCindercoatRCR(itemPanel.getCindercoatPercent().getValue() / 100.0);
+			data.setOdysseysEnd(itemPanel.getOdysseysEnd().getValue());
+			data.setOdysseysEndPercent(itemPanel.getOdysseysEndPercent().getValue() / 100.0);
+			data.setOdysseysEndUptime(itemPanel.getOdysseysEndUptime().getValue() / 100.0);
 
 			Map<ActiveSkill, Rune> skills = getSkills();
 //			SkillSet skillSet = getSkillSet(skills);
