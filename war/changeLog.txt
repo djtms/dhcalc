@@ -9,6 +9,8 @@ Change Log:
 * Added Blood Vengeance hatred from health globes bonus
 * Added Cindercoat RCR for Fire Skills
 * Fixed hatred calculation so that RCR does not affect hatred generators
+* Added Templar/Inspire buff
+* Added configurable delay between player actions (default is 50 milliseconds)
 
 **3/9/15**
 

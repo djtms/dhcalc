@@ -31,10 +31,10 @@ public class FiringData {
 
 		double maxHatred = data.getMaxHatred();
 		double hatred = maxHatred;
-		double regen = data.getHatredPerSecond();
+		double regen = data.getHatredPerSecond() + (data.isInspire() ? 1.0 : 0.0);
 		double t = 0.0;
 		double aps = data.getAps();
-		double as = 1.0 / aps;
+		double interval = (1.0 / aps) + (data.getDelay() / 1000.0);
 		int totalSpender = 0;
 		Rune sentryRune = data.getSentryRune();
 		double healthGlobeInterval = (data.getNumHealthGlobes() > 0) ? (FiringData.DURATION / (data.getNumHealthGlobes() + 1.0)) : (FiringData.DURATION * 2.0);
@@ -66,9 +66,9 @@ public class FiringData {
 				}
 			}
 			
-			t += as;
+			t += interval;
 
-			hatred = Math.min(maxHatred, hatred + (as * regen));
+			hatred = Math.min(maxHatred, hatred + (interval * regen));
 		}
 		
 		for (SkillAndRune skr : skills) {

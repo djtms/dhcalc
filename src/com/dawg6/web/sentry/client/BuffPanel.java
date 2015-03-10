@@ -13,6 +13,7 @@ public class BuffPanel extends Composite {
 	private final SimpleCheckBox focusedMind;
 	private final SimpleCheckBox anatomy;
 	private final SimpleCheckBox hysteria;
+	private final SimpleCheckBox inspire;
 	public BuffPanel() {
 		
 		CaptionPanel cptnpnlNewPanel = new CaptionPanel("Follower Buffs");
@@ -71,6 +72,24 @@ public class BuffPanel extends Composite {
 		
 		hysteria = new SimpleCheckBox();
 		flexTable.setWidget(2, 1, hysteria);
+		
+		HorizontalPanel horizontalPanel_3 = new HorizontalPanel();
+		horizontalPanel_3.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		horizontalPanel_3.setSpacing(5);
+		flexTable.setWidget(3, 0, horizontalPanel_3);
+		
+		Label lblTemplar = new Label("Templar");
+		horizontalPanel_3.add(lblTemplar);
+		
+		Anchor anchor_3 = new Anchor("Hysteria:");
+		anchor_3.setHTML("Inspire:");
+		anchor_3.setText("Inspire:");
+		anchor_3.setTarget("_blank");
+		anchor_3.setHref("http://us.battle.net/d3/en/follower/templar/skill/inspire");
+		horizontalPanel_3.add(anchor_3);
+		
+		inspire = new SimpleCheckBox();
+		flexTable.setWidget(3, 1, inspire);
 	}
 	public SimpleCheckBox getFocusedMind() {
 		return focusedMind;
@@ -80,5 +99,8 @@ public class BuffPanel extends Composite {
 	}
 	public SimpleCheckBox getHysteria() {
 		return hysteria;
+	}
+	public SimpleCheckBox getInspire() {
+		return inspire;
 	}
 }

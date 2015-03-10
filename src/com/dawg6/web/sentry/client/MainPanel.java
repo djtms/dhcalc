@@ -2927,6 +2927,8 @@ public class MainPanel extends BasePanel {
 						"23"),
 				new Field(this.situational.getNumHealthGlobes(), "HealthGlobes",
 						"1"),
+				new Field(this.situational.getFiringDelay(), "FiringDelay",
+						"50"),
 				new Field(this.itemPanel.getCalamityUptime(), "CalamityUptime",
 						"100"),
 				new Field(this.skills.getMfd(), "MarkedForDeath",
@@ -3102,6 +3104,8 @@ public class MainPanel extends BasePanel {
 						Boolean.FALSE.toString()),
 				new Field(this.buffPanel.getFocusedMind(), "FocusedMind",
 						Boolean.FALSE.toString()),
+				new Field(this.buffPanel.getInspire(), "Inspire",
+						Boolean.FALSE.toString()),
 
 				new Field(this.playerBuffPanel.getBbv(), "BBV",
 						Boolean.FALSE.toString()),
@@ -3242,6 +3246,7 @@ public class MainPanel extends BasePanel {
 			data.setCdr(this.effCdr);
 			data.setRcr(this.effRcr);
 			data.setFocusedMind(buffPanel.getFocusedMind().getValue());
+			data.setInspire(buffPanel.getInspire().getValue());
 			data.setHysteria(buffPanel.getHysteria().getValue());
 			data.setAnatomy(buffPanel.getAnatomy().getValue());
 			data.setToxin(gemPanel.getToxin().getValue());
@@ -3316,6 +3321,7 @@ public class MainPanel extends BasePanel {
 			data.setReapersWraps(itemPanel.getReapersWraps().getValue());
 			data.setReapersWrapsPercent(itemPanel.getReapersWrapsPercent().getValue() / 100.0);
 			data.setNumHealthGlobes(situational.getNumHealthGlobes().getValue());
+			data.setDelay(situational.getFiringDelay().getValue());
 			data.setCindercoat(itemPanel.getCindercoat().getValue());
 			data.setCindercoatRCR(itemPanel.getCindercoatPercent().getValue() / 100.0);
 

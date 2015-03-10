@@ -197,6 +197,8 @@ public class CharacterData implements Serializable {
 	private int numHealthGlobes;
 	private boolean cindercoat;
 	private double cindercoatRCR;
+	private boolean inspire;
+	private int delay;
 	
 	public int getNumMarauders() {
 		return numMarauders;
@@ -237,8 +239,10 @@ public class CharacterData implements Serializable {
 		focusedMind = false;
 		anatomy = false;
 		hysteria = false;
+		inspire = false;
 		caltropsUptime = 1.0;
 		numHealthGlobes = 1;
+		delay = 50;
 	}
 	
 	public CharacterData() {
@@ -1737,6 +1741,22 @@ public class CharacterData implements Serializable {
 
 	public void setCindercoatRCR(double cindercoatRCR) {
 		this.cindercoatRCR = cindercoatRCR;
+	}
+
+	public boolean isInspire() {
+		return inspire;
+	}
+
+	public void setInspire(boolean inspire) {
+		this.inspire = inspire;
+	}
+
+	public int getDelay() {
+		return delay;
+	}
+
+	public void setDelay(int delay) {
+		this.delay = delay;
 	}
 	
 }

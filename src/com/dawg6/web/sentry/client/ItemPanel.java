@@ -322,6 +322,10 @@ public class ItemPanel extends Composite {
 		reapersWrapsPercent.setMax(30);
 		cindercoatPercent.setMin(23);
 		cindercoatPercent.setMax(30);
+		kridershotHatred.setMin(3);
+		kridershotHatred.setMax(4);
+		spinesHatred.setMin(3);
+		spinesHatred.setMax(4);
 		marauders.setMin(0);
 		marauders.setMax(7);
 	}

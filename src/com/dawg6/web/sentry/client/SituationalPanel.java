@@ -18,6 +18,7 @@ public class SituationalPanel extends Composite {
 	private final NumberSpinner percentAbove75;
 	private final ListBox targetSize;
 	private final NumberSpinner numHealthGlobes;
+	private final NumberSpinner firingDelay;
 
 	public SituationalPanel() {
 
@@ -33,7 +34,7 @@ public class SituationalPanel extends Composite {
 		flexTable.setWidget(0, 0, label_7);
 
 		additional = new NumberSpinner();
-		additional.setVisibleLength(3);
+		additional.setVisibleLength(4);
 		additional
 				.setTitle("Maximum number of additional targets to apply damage to, for skills that are able to.");
 		additional.setText("0");
@@ -47,7 +48,7 @@ public class SituationalPanel extends Composite {
 		flexTable.setWidget(1, 0, lblPercentOfTargets);
 
 		percentSlowedChilled = new NumberSpinner();
-		percentSlowedChilled.setVisibleLength(3);
+		percentSlowedChilled.setVisibleLength(4);
 		percentSlowedChilled
 				.setTitle("Percent of targets slowed or chilled (apply Cull the Weak).");
 		percentSlowedChilled.setText("0");
@@ -59,7 +60,7 @@ public class SituationalPanel extends Composite {
 		flexTable.setWidget(2, 0, lblPercentOfTargets_1);
 
 		percentControlled = new NumberSpinner();
-		percentControlled.setVisibleLength(3);
+		percentControlled.setVisibleLength(4);
 		percentControlled
 				.setTitle("Percent of targets control impaired (apply Bane of the Trapped).");
 		percentControlled.setText("0");
@@ -71,7 +72,7 @@ public class SituationalPanel extends Composite {
 		flexTable.setWidget(3, 0, lblPercentOfTargets_2);
 
 		percentAtLeast10Yards = new NumberSpinner();
-		percentAtLeast10Yards.setVisibleLength(3);
+		percentAtLeast10Yards.setVisibleLength(4);
 		percentAtLeast10Yards
 				.setTitle("Percent of targets at least 10 yards away (apply Steady Aim).");
 		percentAtLeast10Yards.setText("0");
@@ -83,7 +84,7 @@ public class SituationalPanel extends Composite {
 		flexTable.setWidget(4, 0, lblPercentOfEnemies);
 
 		percentAbove75 = new NumberSpinner();
-		percentAbove75.setVisibleLength(3);
+		percentAbove75.setVisibleLength(4);
 		percentAbove75
 				.setTitle("Maximum number of additional targets to apply damage to, for skills that are able to.");
 		percentAbove75.setText("0");
@@ -94,7 +95,7 @@ public class SituationalPanel extends Composite {
 		flexTable.setWidget(5, 0, label_8);
 
 		distance = new NumberSpinner();
-		distance.setVisibleLength(3);
+		distance.setVisibleLength(4);
 		distance.setTitle("Average distance (in yards) to target(s) (for Zei's Stone of Vengeance).");
 		distance.setText("0");
 		flexTable.setWidget(5, 1, distance);
@@ -105,7 +106,7 @@ public class SituationalPanel extends Composite {
 		flexTable.setWidget(6, 0, lblSpacingBetweenTargets);
 
 		targetSpacing = new NumberSpinner();
-		targetSpacing.setVisibleLength(3);
+		targetSpacing.setVisibleLength(4);
 		targetSpacing
 				.setTitle("Average distance (in yards) between target(s) (for Grenades, certain Marked for Death runes and Single Out).");
 		targetSpacing.setText("0");
@@ -124,10 +125,19 @@ public class SituationalPanel extends Composite {
 		flexTable.setWidget(8, 0, label);
 		
 		numHealthGlobes = new NumberSpinner();
-		numHealthGlobes.setVisibleLength(2);
-		numHealthGlobes.setText("1");
+		numHealthGlobes.setVisibleLength(4);
 		numHealthGlobes.setTitle("# of Health Globes picked up during " + FiringData.DURATION + " second fight");
 		flexTable.setWidget(8, 1, numHealthGlobes);
+		
+		Label label_1 = new Label("Average Firing Delay (ms):");
+		label_1.setWordWrap(false);
+		flexTable.setWidget(9, 0, label_1);
+		
+		firingDelay = new NumberSpinner();
+		firingDelay.setVisibleLength(4);
+		firingDelay.setTitle("Average delay (in milliseconds) of player actions.");
+		flexTable.setWidget(9, 1, firingDelay);
+		
 		this.distance.setMax(100);
 		this.targetSpacing.setMax(100);
 		this.percentAbove75.setMax(100);
@@ -136,6 +146,8 @@ public class SituationalPanel extends Composite {
 		this.percentSlowedChilled.setMax(100);
 		this.numHealthGlobes.setMin(0);
 		this.numHealthGlobes.setMax(FiringData.DURATION);
+		this.firingDelay.setMin(0);
+		this.firingDelay.setMax(1000);
 		
 		
 		for (TargetSize t : TargetSize.values()) {
@@ -199,5 +211,9 @@ public class SituationalPanel extends Composite {
 
 	public NumberSpinner getNumHealthGlobes() {
 		return numHealthGlobes;
+	}
+
+	public NumberSpinner getFiringDelay() {
+		return firingDelay;
 	}
 }
