@@ -19,6 +19,8 @@ public class CouchDBSentryParameters {
 	public static final String MAX_REQUESTS = "max_requests";
 	public static final String CACHE_SIZE = "cache_size";
 	public static final String SCHEMA_VERSION = "schema.version";
+	public static final String CONNECT_TIMEOUT = "timeout.connect";
+	public static final String READ_TIMEOUT = "timeout.read";
 
 	private final CachePolicy cachePolicy;
 	private final Gson gson;
@@ -144,7 +146,15 @@ public class CouchDBSentryParameters {
 	
 	public void reloadCache() {
 		synchronized (cache) {
+			
+			Map<String, String> copy = copy();
+			
 			cache.clear();
+			
+			for (Map.Entry<String, String> e : copy.entrySet()) {
+				String value = this.getParameter(e.getKey(), e.getValue(), null);
+				this.notifyListeners(e.getKey(), value);
+			}
 		}
 	}
 	

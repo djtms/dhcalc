@@ -1,7 +1,10 @@
 package com.dawg6.web.sentry.server;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,6 +26,8 @@ public class IO {
 	private static final Logger log = Logger.getLogger(IO.class.getName());
 
 	private static final Integer DEFAULT_MAX_REQUESTS_PER_SECOND = 85;
+	private static final int DEFAULT_CONNECT_TIMEOUT = 30000;
+	private static final int DEFAULT_READ_TIMEOUT = 30000;
 	
 	private static IO instance;
 	
@@ -36,6 +41,10 @@ public class IO {
 	
 	private int maxRequests = DEFAULT_MAX_REQUESTS_PER_SECOND;
 	public final Cache<String, ItemInformation> itemCache = new Cache<String, ItemInformation>(true);
+
+	private int connectTimeout;
+
+	private int readTimeout;
 	
 	private IO() {
 		String value = CouchDBSentryParameters.getInstance().getParameter(CouchDBSentryParameters.MAX_REQUESTS, String.valueOf(DEFAULT_MAX_REQUESTS_PER_SECOND), new CouchDBSentryParameters.Listener() {
@@ -55,8 +64,34 @@ public class IO {
 			}
 		});
 		setCacheSize(Integer.parseInt(value));
+		
+		value = CouchDBSentryParameters.getInstance().getParameter(CouchDBSentryParameters.CONNECT_TIMEOUT, String.valueOf(DEFAULT_CONNECT_TIMEOUT), new CouchDBSentryParameters.Listener() {
+			
+			@Override
+			public void parameterChanged(String parameter, String value) {
+				setConnectTimeout(Integer.parseInt(value));
+			}
+		});
+		setConnectTimeout(Integer.parseInt(value));
+
+		value = CouchDBSentryParameters.getInstance().getParameter(CouchDBSentryParameters.READ_TIMEOUT, String.valueOf(DEFAULT_READ_TIMEOUT), new CouchDBSentryParameters.Listener() {
+			
+			@Override
+			public void parameterChanged(String parameter, String value) {
+				setReadTimeout(Integer.parseInt(value));
+			}
+		});
+		setReadTimeout(Integer.parseInt(value));
 	}
 	
+	protected void setReadTimeout(int value) {
+		this.readTimeout = value;
+	}
+
+	protected void setConnectTimeout(int value) {
+		this.connectTimeout = value;
+	}
+
 	protected void setCacheSize(int value) {
 		synchronized (itemCache) {
 			log.info("Setting ItemCache Size to " + value);
@@ -178,15 +213,44 @@ public class IO {
 		//
 		// stream.close();
 
-		CareerProfile out = mapper.readValue(url, CareerProfile.class);
+		CareerProfile out = readValue(mapper, url, CareerProfile.class);
 		return out;
 	}
 
+	private <T> T readValue(ObjectMapper mapper, URL url, Class<T> clazz) throws JsonParseException, JsonMappingException, IOException {
+		
+		HttpURLConnection c = (HttpURLConnection) url.openConnection();
+        c.setRequestMethod("GET");
+        c.setRequestProperty("Content-length", "0");
+        c.setUseCaches(false);
+        c.setAllowUserInteraction(false);
+        c.setConnectTimeout(connectTimeout);
+        c.setReadTimeout(readTimeout);
+        c.connect();
+        int status = c.getResponseCode();
+        
+        switch (status) {
+        case 200:
+        case 201:
+            BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line+"\n");
+            }
+            br.close();
+
+            return mapper.readValue(sb.toString(), clazz);
+        }
+        
+        return null;
+	}
+	
 	public HeroProfile readHeroProfile(String server, String name,
 			int code, int id) throws JsonParseException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		throttle();
-		HeroProfile out = mapper.readValue(
+		HeroProfile out = readValue(mapper, 
 				new URL(UrlHelper.heroProfileUrl(server, name, code, id)
 						+ getApiKey()), HeroProfile.class);
 		return out;
@@ -237,7 +301,7 @@ public class IO {
 
 		ObjectMapper mapper = new ObjectMapper();
 		throttle();
-		ItemInformation out = mapper.readValue(url, ItemInformation.class);
+		ItemInformation out = readValue(mapper, url, ItemInformation.class);
 
 		synchronized (itemCache) {
 			itemCache.put(urlString, out);

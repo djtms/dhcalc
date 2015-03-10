@@ -2384,7 +2384,7 @@ public class MainPanel extends BasePanel {
 			this.setSkillAndRune(skillLabels[n], runeLabels[n], skillBoxes[n], runeBoxes[n], skr.getSkill(), skr.getRune().getLongName());
 			n++;
 			
-			if (n > skillLabels.length)
+			if (n >= skillLabels.length)
 				break;
 		}
 		

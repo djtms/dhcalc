@@ -8,6 +8,7 @@ public class Cache<K, V> extends LinkedHashMap<K, V> {
 	private static final long serialVersionUID = -6887102596733419364L;
 
 	public static final int DEFAULT_MAX_SIZE = 1000;
+
 	private int maxSize;
 
 	public Cache() {
