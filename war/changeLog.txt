@@ -1,5 +1,10 @@
 Change Log:
 
+**3/10/15**
+
+* Fixed import for Elite damage
+* Fixed (finally!) import of Crit Chance/Crit Hit Damage
+
 **3/9/15**
 
 * Fixed bug that caused some profiles to fail to import

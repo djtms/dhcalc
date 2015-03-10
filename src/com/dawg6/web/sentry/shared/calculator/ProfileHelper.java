@@ -456,8 +456,8 @@ public class ProfileHelper {
 
 	public static void importWeaponData(HeroProfile hero, CharacterData data) {
 
-		double critChance = 0.0;
-		double critDamage = 0.0;
+		double critChance = 0.05;
+		double critDamage = 0.5;
 		WeaponType type = WeaponType.Crossbow;
 		int weaponIas = 0;
 		int equipIas = 0;

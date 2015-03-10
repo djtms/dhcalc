@@ -2708,7 +2708,7 @@ public class MainPanel extends BasePanel {
 		this.itemPanel.getKridershotHatred().setValue(data.getKridershotHatred());
 		this.itemPanel.getMarauders().setValue(data.getNumMarauders());
 		this.itemPanel.getEliteDamagePercent()
-				.setValue((int) Math.round(data.getEliteDamage()));
+				.setValue((int) Math.round(data.getEliteDamage() * 100.0));
 		this.itemPanel.getMeticulousBolts().setValue(data.isMeticulousBolts());
 		this.itemPanel.getMeticulousBoltsPercent().setValue(
 				(int) (Math.round(data.getMeticulousBoltsPercent() * 100.0)));

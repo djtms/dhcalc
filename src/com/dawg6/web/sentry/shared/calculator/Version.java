@@ -10,8 +10,8 @@ public class Version  implements Serializable {
 
 	public static final String PREFIX = "Version:";
 	
-	public static String VERSION = "2.1.2-g";
-	public static String VERSION_DATE = "03/09/2015";
+	public static String VERSION = "2.1.2-h";
+	public static String VERSION_DATE = "03/10/2015";
 	
 	public String version;
 	
