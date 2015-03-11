@@ -1,5 +1,10 @@
 Change Log:
 
+**3/11/15**
+
+* Added Preparation/Punishment (for hatred)
+* Added Hatred generation rows to damage log for punishment, regen and health globes
+
 **3/10/15**
 
 * Fixed import for Elite damage

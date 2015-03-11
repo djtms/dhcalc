@@ -181,6 +181,7 @@ public class ProfileHelper {
 		Rune mfdRune = Rune.None;
 		boolean caltrops = false;
 		Rune sentryRune = Rune.None;
+		boolean preparationPunishment = false;
 		Set<SkillAndRune> skills = new TreeSet<SkillAndRune>();
 
 		for (HeroProfile.Skills.Active s : hero.skills.active) {
@@ -189,6 +190,8 @@ public class ProfileHelper {
 
 				if (s.skill.name.equals(Const.COMPANION)) {
 					wolf = true;
+				} else if (s.skill.name.equals(Const.PREPARATION) && (s.rune != null) && (s.rune.name != null) && (s.rune.name.equals(Const.PUNISHMENT))) {
+					preparationPunishment = true;
 				} else if (s.skill.name.equals(Const.CALTROPS)
 						&& (s.rune != null) && (s.rune.type != null)
 						&& (s.rune.type.equals(Rune.Bait_the_Trap.getSlug()))) {
@@ -330,6 +333,7 @@ public class ProfileHelper {
 		data.setArchery(archery);
 		data.setBloodVengeance(bloodVengeance);
 		data.setNightStalker(nightStalker);
+		data.setPreparationPunishment(preparationPunishment);
 	}
 
 	public static Rune lookupRune(ActiveSkill skill, String name) {

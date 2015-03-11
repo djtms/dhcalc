@@ -114,4 +114,6 @@ public class Const {
 	public static final String CINDERCOAT_RCR = "Item_Power_Passive#ItemPassive_Unique_Ring_608_x1";
 	public static final String ODYSSEYS_END = "Odyssey's End";
 	public static final String ODYSSEYS_END_PERCENT = "Item_Power_Passive#P2_ItemPassive_Unique_Ring_023";
+	public static final String PREPARATION = "Preparation";
+	public static final String PUNISHMENT = "Punishment";
 }

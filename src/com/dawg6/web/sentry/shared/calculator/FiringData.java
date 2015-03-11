@@ -12,7 +12,8 @@ public class FiringData {
 
 	public static Damage[] calculateDamages(Map<ActiveSkill, Rune> runes, CharacterData data) {
 		List<Damage> list = new Vector<Damage>();
-
+		List<Damage> hatredLog = new Vector<Damage>();
+		
 		List<SkillAndRune> skills = new Vector<SkillAndRune>();
 		Map<SkillAndRune, Integer> skillQty = new TreeMap<SkillAndRune, Integer>();
 		
@@ -39,19 +40,35 @@ public class FiringData {
 		Rune sentryRune = data.getSentryRune();
 		double healthGlobeInterval = (data.getNumHealthGlobes() > 0) ? (FiringData.DURATION / (data.getNumHealthGlobes() + 1.0)) : (FiringData.DURATION * 2.0);
 		double nextHealthGlobe = healthGlobeInterval;
+		double cdr = data.getCdr();
+		double prepCd = 20.0 * (1.0 - cdr);
+		double prepAvail = 0;
+		int numPrep = 0;
+		int numHealthGlobes = 0;
+		double healthGlobeHatred = 0.0;
+		double regenHatred = 0.0;
 		
 		while (t < DURATION) {
 
 			if (t >= nextHealthGlobe) {
 				nextHealthGlobe += healthGlobeInterval;
+				numHealthGlobes++;
 				
 				if (data.isBloodVengeance()) {
+					healthGlobeHatred += Math.min(30.0, maxHatred - hatred);
 					hatred = Math.min(maxHatred, hatred + 30.0);
 				}
 				
 				if (data.isReapersWraps()) {
+					healthGlobeHatred += Math.min(maxHatred * data.getReapersWrapsPercent(), maxHatred - hatred);
 					hatred = Math.min(maxHatred, hatred + (maxHatred * data.getReapersWrapsPercent()));
 				}
+			}
+			
+			if (data.isPreparationPunishment() && ((maxHatred - hatred) >= 75.0) && (prepAvail <= t)) {
+				hatred += 75.0;
+				prepAvail = t + prepCd;
+				numPrep++;
 			}
 			
 			for (SkillAndRune skr : skills) {
@@ -68,7 +85,10 @@ public class FiringData {
 			
 			t += interval;
 
-			hatred = Math.min(maxHatred, hatred + (interval * regen));
+			if (t < FiringData.DURATION) {
+				regenHatred += Math.min(interval * regen, maxHatred - hatred);
+				hatred = Math.min(maxHatred, hatred + (interval * regen));
+			}
 		}
 		
 		for (SkillAndRune skr : skills) {
@@ -101,6 +121,28 @@ public class FiringData {
 		// gem procs
 		list.addAll(DamageFunction.getDamages(false, false, "Gems", null, FiringData.DURATION, data));
 
+		if (numPrep > 0) {
+			Damage d = new Damage();
+			d.shooter = "Preparation";
+			d.hatred = numPrep * 75.0;
+			d.qty = numPrep;
+			list.add(d);
+		}
+		
+		if (numHealthGlobes > 0) {
+			Damage d = new Damage();
+			d.shooter = "Health Globes";
+			d.hatred = healthGlobeHatred;
+			d.qty = numHealthGlobes;
+			list.add(d);
+		}
+		
+		Damage d = new Damage();
+		d.shooter = "Hatred Regen";
+		d.hatred = regenHatred;
+		d.qty = FiringData.DURATION;
+		list.add(d);
+		
 		return list.toArray(new Damage[0]);
 	}
 

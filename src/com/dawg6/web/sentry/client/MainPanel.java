@@ -122,10 +122,10 @@ public class MainPanel extends BasePanel {
 	private final RCRPanel rcrPanel;
 	private final Label rawCDRLabel;
 	private final Label effectiveCDRLabel;
-	private final Label sentryCDLabel;
+	private final Label punishmentCDLabel;
 	private double rawCdr;
 	private double effCdr;
-	private double sentryCD;
+	private double punishmentCD;
 	private final Label sentryApsLabel;
 	private final Label bpLabel;
 	private final Label petApsLabel;
@@ -437,17 +437,17 @@ public class MainPanel extends BasePanel {
 		petApsLabel.setStyleName("boldText");
 		grid_1.setWidget(5, 1, petApsLabel);
 
-		Label lblSentryCooldown = new Label("Sentry Cooldown:");
-		lblSentryCooldown.setWordWrap(false);
-		grid_1.setWidget(5, 2, lblSentryCooldown);
+		Label lblPunishmentCooldown = new Label("Punishment Cooldown:");
+		lblPunishmentCooldown.setWordWrap(false);
+		grid_1.setWidget(5, 2, lblPunishmentCooldown);
 
 		Label lblSmokeCooldown = new Label("Smoke Screen Cooldown:");
 		lblSmokeCooldown.setWordWrap(false);
 		grid_1.setWidget(6, 2, lblSmokeCooldown);
 
-		sentryCDLabel = new Label("0.0 sec", false);
-		sentryCDLabel.setStyleName("boldText");
-		grid_1.setWidget(5, 3, sentryCDLabel);
+		punishmentCDLabel = new Label("0.0 sec", false);
+		punishmentCDLabel.setStyleName("boldText");
+		grid_1.setWidget(5, 3, punishmentCDLabel);
 
 		smokeCDLabel = new Label("0.0 sec", false);
 		smokeCDLabel.setStyleName("boldText");
@@ -2397,6 +2397,7 @@ public class MainPanel extends BasePanel {
 		}
 		
 		hatredPanel.getHatredPerSecond().setValue(data.getHatredPerSecond());
+		hatredPanel.getPreparationPunishment().setValue(data.isPreparationPunishment());
 	}
 	
 	private void updateParagonPoints() {
@@ -2608,7 +2609,7 @@ public class MainPanel extends BasePanel {
 
 		this.rawCdr = rawCdr;
 		this.effCdr = effCdr;
-		this.sentryCD = 6.0 * (1 - effCdr);
+		this.punishmentCD = 20.0 * (1 - effCdr);
 		this.smokeCD = 2.0 * (1 - effCdr);
 
 		this.rawCDRLabel
@@ -2617,8 +2618,8 @@ public class MainPanel extends BasePanel {
 		this.effectiveCDRLabel
 				.setText(Util.format(Math.round(effCdr * 10000.0) / 100.0)
 						+ "%");
-		this.sentryCDLabel
-				.setText(Util.format(Math.round(sentryCD * 100.0) / 100.0)
+		this.punishmentCDLabel
+				.setText(Util.format(Math.round(punishmentCD * 100.0) / 100.0)
 						+ " sec");
 		this.smokeCDLabel
 				.setText(Util.format(Math.round(smokeCD * 100.0) / 100.0)
@@ -2947,6 +2948,8 @@ public class MainPanel extends BasePanel {
 						"MaxHatredValue", "125"),
 				new Field(this.hatredPanel.getHatredPerSecond(),
 						"HatredPerSecond", "5.0"),
+				new Field(this.hatredPanel.getPreparationPunishment(),
+						"PreparationPunishment", Boolean.FALSE.toString()),
 				new Field(this.skills.getMfdAddUptime(),
 						"MarkedForDeathAddUptime", "100"),
 				new Field(this.itemPanel.getTntPercent(), "TnTPercent", "35"),
@@ -3323,6 +3326,7 @@ public class MainPanel extends BasePanel {
 			data.setCaltropsUptime(skills.getCaltropsUptime().getValue() / 100.0);
 			data.setMaxHatred(hatredPanel.getMaxHatred().getValue());
 			data.setHatredPerSecond(hatredPanel.getHatredPerSecond().getValue());
+			data.setPreparationPunishment(hatredPanel.getPreparationPunishment().getValue());
 			data.setSpines(itemPanel.getSpines().getValue());
 			data.setKridershot(itemPanel.getKridershot().getValue());
 			data.setSpinesHatred(itemPanel.getSpinesHatred().getValue());
@@ -3403,32 +3407,35 @@ public class MainPanel extends BasePanel {
 			if (d.nonStacking)
 				nonStacking += d.totalDamage;
 
-			DamageType type = d.type;
-
-			DamageHolder h = types.get(type);
-
-			DamageSource source = d.source;
-			DamageHolder th = skillDamages.get(source);
-
-			if (h == null) {
-				h = new DamageHolder();
-				h.damage = d.totalDamage;
-				h.attacks = d.qty;
-				types.put(type, h);
-			} else {
-				h.damage += d.totalDamage;
-				h.attacks = Math.max(d.qty, h.attacks);
-				h.attacks += d.qty;
-			}
-
-			if (th == null) {
-				th = new DamageHolder();
-				th.damage = d.totalDamage;
-				th.attacks = d.qty;
-				skillDamages.put(source, th);
-			} else {
-				th.damage += d.totalDamage;
-				th.attacks = Math.max(d.qty, th.attacks);
+			if (d.type != null) {
+				DamageType type = d.type;
+	
+				
+				DamageHolder h = types.get(type);
+	
+				DamageSource source = d.source;
+				DamageHolder th = skillDamages.get(source);
+	
+				if (h == null) {
+					h = new DamageHolder();
+					h.damage = d.totalDamage;
+					h.attacks = d.qty;
+					types.put(type, h);
+				} else {
+					h.damage += d.totalDamage;
+					h.attacks = Math.max(d.qty, h.attacks);
+					h.attacks += d.qty;
+				}
+	
+				if (th == null) {
+					th = new DamageHolder();
+					th.damage = d.totalDamage;
+					th.attacks = d.qty;
+					skillDamages.put(source, th);
+				} else {
+					th.damage += d.totalDamage;
+					th.attacks = Math.max(d.qty, th.attacks);
+				}
 			}
 
 		}
@@ -3488,38 +3495,58 @@ public class MainPanel extends BasePanel {
 			sLabel.setWordWrap(false);
 			damageLog.setWidget(row + 1, 0, sLabel);
 			
-			ActiveSkill skill = d.source.skill;
-			GemSkill gem = d.source.gem;
-			Anchor a = new Anchor((skill != null) ? skill.getLongName()
-					: gem.getDisplayName());
-			a.setTarget("_blank");
-			a.setWordWrap(false);
-			String url = (skill != null) ? skill.getUrl() : gem.getUrl();
-			a.setHref(url);
+			if (d.source != null) {
+				ActiveSkill skill = d.source.skill;
+				GemSkill gem = d.source.gem;
+				Anchor a = new Anchor((skill != null) ? skill.getLongName()
+						: gem.getDisplayName());
+				a.setTarget("_blank");
+				a.setWordWrap(false);
+				String url = (skill != null) ? skill.getUrl() : gem.getUrl();
+				a.setHref(url);
+	
+				damageLog.setWidget(row + 1, 1, a);
 
-			damageLog.setWidget(row + 1, 1, a);
-
-			if (skill != null) {
-				Anchor b = new Anchor(d.source.rune.getLongName());
+				if (skill != null) {
+					Anchor b = new Anchor(d.source.rune.getLongName());
+					b.setTarget("_blank");
+					b.setWordWrap(false);
+	
+					if (d.source.rune != Rune.None)
+						url += ("#" + d.source.rune.getSlug() + "+");
+	
+					b.setHref(url);
+	
+					damageLog.setWidget(row + 1, 2, b);
+				} else {
+					Label b = new Label("N/A");
+					damageLog.setWidget(row + 1, 2, b);
+				}
+			} else if (d.shooter.equals("Preparation")) {
+				Anchor b = new Anchor("Preparation");
 				b.setTarget("_blank");
 				b.setWordWrap(false);
-
-				if (d.source.rune != Rune.None)
-					url += ("#" + d.source.rune.getSlug() + "+");
-
-				b.setHref(url);
-
-				damageLog.setWidget(row + 1, 2, b);
-			} else {
-				Label b = new Label("N/A");
-				damageLog.setWidget(row + 1, 2, b);
+				b.setHref("http://us.battle.net/d3/en/class/demon-hunter/active/preparation");
+				damageLog.setWidget(row + 1, 1, b);
+				
+				Anchor b2 = new Anchor("Punishment");
+				b2.setTarget("_blank");
+				b2.setWordWrap(false);
+				b2.setHref("http://us.battle.net/d3/en/class/demon-hunter/active/preparation#a+");
+				damageLog.setWidget(row + 1, 2, b2);
+				
 			}
-
-			damageLog.setWidget(row + 1, 3, new Label(d.type.name(), false));
-			Label damageLabel = new Label(Util.format(Math.round(d.damage
-					* eliteBonus)), false);
-			damageLabel.addStyleName("dpsCol");
-			damageLog.setWidget(row + 1, 4, damageLabel);
+				
+			if (d.type != null) 
+				damageLog.setWidget(row + 1, 3, new Label(d.type.name(), false));
+			
+			if (d.damage > 0) {
+				Label damageLabel = new Label(Util.format(Math.round(d.damage
+						* eliteBonus)), false);
+				damageLabel.addStyleName("dpsCol");
+				damageLog.setWidget(row + 1, 4, damageLabel);
+			}
+			
 			damageLog.setWidget(row + 1, 5, new Label(String.valueOf(d.qty),
 					false));
 
@@ -3528,31 +3555,48 @@ public class MainPanel extends BasePanel {
 			hatredLabel.addStyleName("dpsCol");
 			damageLog.setWidget(row + 1, 6, hatredLabel);
 
-			Label totalLabel = new Label(Util.format(Math.round(d.totalDamage
-					* eliteBonus)), false);
-			totalLabel.addStyleName("dpsCol");
-			damageLog.setWidget(row + 1, 7, totalLabel);
+			if (d.totalDamage > 0) {
+				Label totalLabel = new Label(Util.format(Math.round(d.totalDamage
+						* eliteBonus)), false);
+				totalLabel.addStyleName("dpsCol");
+				damageLog.setWidget(row + 1, 7, totalLabel);
+	
+				Label dpsLabel = new Label(
+						Util.format(Math.round((d.totalDamage * eliteBonus)
+								/ FiringData.DURATION)), false);
+				dpsLabel.addStyleName("dpsCol");
+				damageLog.setWidget(row + 1, 8, dpsLabel);
+				double pct = Math.round((d.totalDamage / total) * 10000.0) / 100.0;
+				Label pctLabel = new Label(String.valueOf(pct) + "%", false);
+				pctLabel.addStyleName("dpsCol");
+				damageLog.setWidget(row + 1, 9, pctLabel);
+			}
 
-			Label dpsLabel = new Label(
-					Util.format(Math.round((d.totalDamage * eliteBonus)
-							/ FiringData.DURATION)), false);
-			dpsLabel.addStyleName("dpsCol");
-			damageLog.setWidget(row + 1, 8, dpsLabel);
-			double pct = Math.round((d.totalDamage / total) * 10000.0) / 100.0;
-			Label pctLabel = new Label(String.valueOf(pct) + "%", false);
-			pctLabel.addStyleName("dpsCol");
-			damageLog.setWidget(row + 1, 9, pctLabel);
-
-			String target = d.target.name();
-
-			if (d.target == Target.Additional)
-				target += (" (" + d.numAdd + ")");
-
-			damageLog.setWidget(row + 1, 10, new Label(target, false));
-			damageLog.setWidget(row + 1, 11, new Label(d.note, false));
-			Label log = new Label(d.log + eliteLog);
-			log.setWordWrap(false);
-			damageLog.setWidget(row + 1, 12, log);
+			if (d.target != null) {
+				String target = d.target.name();
+	
+				if (d.target == Target.Additional)
+					target += (" (" + d.numAdd + ")");
+	
+				damageLog.setWidget(row + 1, 10, new Label(target, false));
+			} else {
+				damageLog.setWidget(row + 1, 10, new Label("", false));
+			}
+			
+			if (d.note != null) {
+				damageLog.setWidget(row + 1, 11, new Label(d.note, false));
+			} else {
+				damageLog.setWidget(row + 1, 11, new Label("", false));
+			}
+			
+			if (d.log != null) {
+				Label log = new Label(d.log + eliteLog);
+				log.setWordWrap(false);
+				damageLog.setWidget(row + 1, 12, log);
+			} else {
+				damageLog.setWidget(row + 1, 12, new Label("", false));
+			}
+			
 		}
 
 		for (int i = summary.getRowCount(); i > 1; --i) {

@@ -257,43 +257,74 @@ public class ExportExcel {
 		
 		for (int i = 0; i < data.output.length; i++) {
 			Damage d = data.output[i];
-			ActiveSkill skill = d.source.skill;
-			GemSkill gem = d.source.gem;
-			Rune rune = d.source.rune;
 			Row row = damageLog.createRow(i+1);
 			col = 0;
-			
+
 			addTableCell(row, col++, d.shooter);
-			addTableCell(row, col++, (skill != null) ? skill.getLongName() : gem.getDisplayName());
-			addTableCell(row, col++, (rune != null) ? rune.getLongName() : "N/A");
-			addTableCell(row, col++, d.type.name());
+
+			if (d.source != null) {
+				ActiveSkill skill = d.source.skill;
+				GemSkill gem = d.source.gem;
+				Rune rune = d.source.rune;
+			
+				addTableCell(row, col++, (skill != null) ? skill.getLongName() : gem.getDisplayName());
+				addTableCell(row, col++, (rune != null) ? rune.getLongName() : "N/A");
+			} else {
+				col += 2;
+			}
+			
+			if (d.type != null) {
+				addTableCell(row, col++, d.type.name());
+			} else {
+				col++;
+			}
+			
 			addTableCell(row, col++, Math.round(d.damage * eliteBonus));
 			addTableCell(row, col++, d.qty);
 			addTableCell(row, col++, d.hatred);
+			
 			addTableCell(row, col++, Math.round(d.totalDamage * eliteBonus));
 			addTableCell(row, col++, Math.round((d.totalDamage  * eliteBonus) / FiringData.DURATION));
-			addTableCell(row, col++, (Math.round(10000.0 * d.totalDamage / total) / 10000.0), pctStyle);
-			addTableCell(row, col++, d.target.name());
 			
-			if (d.target == Target.Additional)
-				addTableCell(row, col++, d.numAdd);
-			else
-				addTableCell(row, col++, 1);
-				
-			addTableCell(row, col++, d.note);
-			
-			String eliteLog = "";
-			
-			if (eliteBonus > 1.0) {
-				eliteLog = " X " + DamageMultiplier.Elite.getAbbreviation() + "(" + Util.format(eliteBonus) + ")";
+			if (d.totalDamage > 0) {
+				addTableCell(row, col++, (Math.round(10000.0 * d.totalDamage / total) / 10000.0), pctStyle);
+			} else {
+				col++;
 			}
 			
-			addTableCell(row, col++, d.log + eliteLog);
+			if (d.target != null) {
+				addTableCell(row, col++, d.target.name());
+			
+				if (d.target == Target.Additional)
+					addTableCell(row, col++, d.numAdd);
+				else
+					addTableCell(row, col++, 1);
+			} else {
+				col += 2;
+			}
+
+			if (d.note != null) {
+				addTableCell(row, col++, d.note);
+			} else {
+				col++;
+			}
+
+			if (d.log != null) {
+				String eliteLog = "";
+				
+				if (eliteBonus > 1.0) {
+					eliteLog = " X " + DamageMultiplier.Elite.getAbbreviation() + "(" + Util.format(eliteBonus) + ")";
+				}
+				
+				addTableCell(row, col++, d.log + eliteLog);
+			} else {
+				col++;
+			}
 		}
 		
 		for (int i = 0; i < 12; i++) {
 			damageLog.autoSizeColumn(i, true);
-		}
+		} 
 		
 	}
 
@@ -373,11 +404,17 @@ public class ExportExcel {
 		createInput(inputs, bp.getBp(), "Break Point");
 		createInput(inputs, bp.getAps(), "Sentry APS");
 		createInput(inputs, bp.getQty(), "Attacks per 30 Seconds");
-		createInput(inputs, 6.0 * (1 - data.data.getCdr()), "Sentry Cooldown (sec)", timeStyle);
+		createInput(inputs, 8.0 * (1 - data.data.getCdr()), "Sentry Cooldown (sec)", timeStyle);
+		
+		if (data.data.isPreparationPunishment())
+			createInput(inputs, 20.0 * (1 - data.data.getCdr()), "Preparation Cooldown (sec)", timeStyle);
+		
+		createInput(inputs, 8.0 * (1 - data.data.getCdr()), "Sentry Cooldown (sec)", timeStyle);
 		createInput(inputs, bp.getQty(), "Attacks per 30 Seconds");
 		createInput(inputs, data.data.getTotalEliteDamage(), "Total Elite Damage", pctStyle);
 		createInput(inputs, data.data.getMaxHatred(), "Max Hatred");
 		createInput(inputs, data.data.getHatredPerSecond(), "Hatred Per Second");
+		createInput(inputs, data.data.isPreparationPunishment(), "Preparation/Punishment");
 		createInput(inputs, data.data.getParagonIAS(), "Paragon IAS");
 		createInput(inputs, data.data.getParagonCC(), "Paragon CC");
 		createInput(inputs, data.data.getParagonCHD(), "Paragon CHD");

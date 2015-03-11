@@ -202,6 +202,7 @@ public class CharacterData implements Serializable {
 	private boolean odysseysEnd;
 	private double odysseysEndPercent;
 	private double odysseysEndUptime;
+	private boolean preparationPunishment;
 	
 	public int getNumMarauders() {
 		return numMarauders;
@@ -1787,4 +1788,12 @@ public class CharacterData implements Serializable {
 		this.odysseysEndUptime = odysseysEndUptime;
 	}
 	
+	public boolean isPreparationPunishment() {
+		return preparationPunishment;
+	}
+
+	public void setPreparationPunishment(boolean preparationPunishment) {
+		this.preparationPunishment = preparationPunishment;
+	}
+
 }
