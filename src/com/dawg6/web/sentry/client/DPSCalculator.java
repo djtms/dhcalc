@@ -1538,4 +1538,11 @@ public class DPSCalculator extends BasePanel {
 		return retributionUptime;
 	}
 
+	public double getEquipIAS() {
+		return this.equipIAS.getValue() / 100.0;
+	}
+	
+	public double getWeaponIAS() {
+		return this.weaponIAS.getValue() / 100.0;
+	}
 }

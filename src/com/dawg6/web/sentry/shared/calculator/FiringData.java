@@ -128,6 +128,10 @@ public class FiringData {
 			list.addAll(DamageFunction.getDamages(false, true, "Sentry-Bolt", new DamageSource(ActiveSkill.BOLT, sentryRune), boltQty, data));
 		}
 		
+		for (Rune r : ActiveSkill.Companion.getRunes()) {
+			list.addAll(DamageFunction.getDamages(false, false, r.getLongName(), new DamageSource(ActiveSkill.Companion, r), 30, data));
+		}
+		
 		// gem procs
 		list.addAll(DamageFunction.getDamages(false, false, "Gems", null, FiringData.DURATION, data));
 

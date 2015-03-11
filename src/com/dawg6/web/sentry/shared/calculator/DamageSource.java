@@ -64,7 +64,7 @@ public class DamageSource implements Serializable, Comparable<DamageSource> {
 	@Override
 	public String toString() {
 		if (skill != null) {
-			return skill.name() + "." + rune.name();
+			return skill.name() + ((rune != null) ? ("." + rune.name()) : "");
 		} else {
 			return gem.name();
 		}

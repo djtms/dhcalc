@@ -61,13 +61,14 @@ public class DamageRow {
 		this.numProjectiles = numProjectiles;
 		this.radius = radius;
 
-		this.multipliers.add(DamageMultiplier.Dexterity);
 		
 
 		// Sentry damage and enforcer won't effect gem procs
 		if (source.skill != null) {
 
-			this.multipliers.add(DamageMultiplier.Sentry);
+			if (source.skill != ActiveSkill.Companion) {
+				this.multipliers.add(DamageMultiplier.Sentry);
+			}
 			
 			// Spitfire Turret's rockets don't get Enforce bonus?
 			if ((source.skill != ActiveSkill.SENTRY) || (source.rune != Rune.Spitfire_Turret)
@@ -79,19 +80,7 @@ public class DamageRow {
 		this.multipliers.add(DamageMultiplier.CtW);
 		this.multipliers.add(DamageMultiplier.BoT);
 		this.multipliers.add(DamageMultiplier.BotP);
-		this.multipliers.add(DamageMultiplier.Taeguk);
-		this.multipliers.add(DamageMultiplier.MfD);
-		this.multipliers.add(DamageMultiplier.Calamity);
-		this.multipliers.add(DamageMultiplier.SteadyAim);
-		this.multipliers.add(DamageMultiplier.Harrington);
-		this.multipliers.add(DamageMultiplier.Strongarm);
-		this.multipliers.add(DamageMultiplier.HexingPants);
-		this.multipliers.add(DamageMultiplier.Zeis);
-		this.multipliers.add(DamageMultiplier.Ambush);
-		this.multipliers.add(DamageMultiplier.ArcheryDamage);
-		this.multipliers.add(DamageMultiplier.Hysteria);
 		this.multipliers.add(DamageMultiplier.OdysseysEnd);
-		this.multipliers.add(DamageMultiplier.Toxicity);
 		this.multipliers.add(DamageMultiplier.Wolf);
 		this.multipliers.add(DamageMultiplier.Bbv);
 		this.multipliers.add(DamageMultiplier.Paranoia);
@@ -99,8 +88,27 @@ public class DamageRow {
 		this.multipliers.add(DamageMultiplier.InnerSanctuary);
 		this.multipliers.add(DamageMultiplier.CripplingWave);
 		this.multipliers.add(DamageMultiplier.Conviction);
-		
 		this.multipliers.add(type.getMultiplier());
+
+		if (source.skill != ActiveSkill.Companion) {
+			this.multipliers.add(DamageMultiplier.Dexterity);
+			this.multipliers.add(DamageMultiplier.Taeguk);
+			this.multipliers.add(DamageMultiplier.MfD);
+			this.multipliers.add(DamageMultiplier.Calamity);
+			this.multipliers.add(DamageMultiplier.Harrington);
+			this.multipliers.add(DamageMultiplier.Strongarm);
+			this.multipliers.add(DamageMultiplier.Ambush);
+			this.multipliers.add(DamageMultiplier.ArcheryDamage);
+			this.multipliers.add(DamageMultiplier.Hysteria);
+			this.multipliers.add(DamageMultiplier.Toxicity);
+			this.multipliers.add(DamageMultiplier.Zeis);
+			this.multipliers.add(DamageMultiplier.HexingPants);
+			this.multipliers.add(DamageMultiplier.SteadyAim);
+		} else {
+			this.multipliers.add(DamageMultiplier.Enforcer);
+			this.multipliers.add(DamageMultiplier.IAS);
+			this.multipliers.add(DamageMultiplier.Companion);
+		}
 		
 		if (source.skill != null) {
 			if (source.skill.getDamageMultiplier() != null)

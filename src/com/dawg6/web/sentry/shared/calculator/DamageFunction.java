@@ -232,7 +232,12 @@ public class DamageFunction {
 			new DamageRow(new DamageSource(GemSkill.PainEnhancer), 12.0, true,
 					Integer.MAX_VALUE, "DoT", DamageType.Physical,
 					DamageMultiplier.DoT), 
-					
+	
+			new DamageRow(ActiveSkill.Companion, Rune.Spider, 1.0, true, 0, DamageType.Physical),
+			new DamageRow(ActiveSkill.Companion, Rune.Bat, 1.0, true, 0, DamageType.Physical),
+			new DamageRow(ActiveSkill.Companion, Rune.Boar, 1.0, true, 0, DamageType.Physical),
+			new DamageRow(ActiveSkill.Companion, Rune.Ferret, 2.0, true, 0, DamageType.Physical),
+			new DamageRow(ActiveSkill.Companion, Rune.Wolf, 1.0, true, 0, DamageType.Physical),
 	
 			};
 
@@ -354,57 +359,59 @@ public class DamageFunction {
 						
 						multBuf.append(" x WD");
 
-						double cc = DamageMultiplier.CC.getValue(data);
-						double cd = DamageMultiplier.CHD.getValue(data);
-						double caltrops = DamageMultiplier.Caltrops.getValue(data);
-						double singleOut = DamageMultiplier.SingleOut
-								.getValue(data);
-
-						if (((cc > 0.0) || (singleOut > 0.0) || (caltrops > 0.0)) && (cd > 0.0)) {
-							StringBuffer ccStr = new StringBuffer();
-
-							if (cc > 0.0) {
-
-								if ((singleOut > 0.0) || (caltrops > 0.0))
-									ccStr.append("(");
-
-								ccStr.append("CC(" + Util.format(cc) + ")");
+						if (dr.source.skill != ActiveSkill.Companion) {
+							double cc = DamageMultiplier.CC.getValue(data);
+							double cd = DamageMultiplier.CHD.getValue(data);
+							double caltrops = DamageMultiplier.Caltrops.getValue(data);
+							double singleOut = DamageMultiplier.SingleOut
+									.getValue(data);
+	
+							if (((cc > 0.0) || (singleOut > 0.0) || (caltrops > 0.0)) && (cd > 0.0)) {
+								StringBuffer ccStr = new StringBuffer();
+	
+								if (cc > 0.0) {
+	
+									if ((singleOut > 0.0) || (caltrops > 0.0))
+										ccStr.append("(");
+	
+									ccStr.append("CC(" + Util.format(cc) + ")");
+								}
+	
+								if (singleOut > 0.0) {
+									if (cc > 0.0)
+										ccStr.append(" + ");
+									else
+										ccStr.append("(");
+	
+									ccStr.append(DamageMultiplier.SingleOut
+											.getAbbreviation()
+											+ "("
+											+ singleOut
+											+ ")");
+	
+									if (cc > 0.0)
+										ccStr.append(")");
+								}
+	
+								if (caltrops > 0.0) {
+									if ((cc > 0.0) || (singleOut > 0.0))
+										ccStr.append(" + ");
+	
+									ccStr.append(DamageMultiplier.Caltrops
+											.getAbbreviation()
+											+ "("
+											+ Util.format(caltrops)
+											+ ")");
+	
+									if ((cc > 0.0) || (singleOut > 0.0))
+										ccStr.append(")");
+								}
+	
+								multBuf.append(" x (1 + (" + ccStr.toString()
+										+ " x CHD(" + Util.format(cd) + ")))");
+	
+								m *= (1.0 + ((cc + singleOut + caltrops) * cd));
 							}
-
-							if (singleOut > 0.0) {
-								if (cc > 0.0)
-									ccStr.append(" + ");
-								else
-									ccStr.append("(");
-
-								ccStr.append(DamageMultiplier.SingleOut
-										.getAbbreviation()
-										+ "("
-										+ singleOut
-										+ ")");
-
-								if (cc > 0.0)
-									ccStr.append(")");
-							}
-
-							if (caltrops > 0.0) {
-								if ((cc > 0.0) || (singleOut > 0.0))
-									ccStr.append(" + ");
-
-								ccStr.append(DamageMultiplier.Caltrops
-										.getAbbreviation()
-										+ "("
-										+ Util.format(caltrops)
-										+ ")");
-
-								if ((cc > 0.0) || (singleOut > 0.0))
-									ccStr.append(")");
-							}
-
-							multBuf.append(" x (1 + (" + ccStr.toString()
-									+ " x CHD(" + Util.format(cd) + ")))");
-
-							m *= (1.0 + ((cc + singleOut + caltrops) * cd));
 						}
 
 						addBuf.append("(1");
@@ -420,7 +427,7 @@ public class DamageFunction {
 						
 						for (DamageMultiplier dw : dlist) {
 
-							if (isSentry || ((dw != DamageMultiplier.Sentry) && (dw != DamageMultiplier.Enforcer))) {
+							if (((isSentry || (dw != DamageMultiplier.Sentry)) && (!isPlayer || (dw != DamageMultiplier.Enforcer)))) {
 								
 								if (dw.getAccumulator() != DamageAccumulator.Special) {
 	

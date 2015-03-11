@@ -58,6 +58,10 @@ public enum ActiveSkill {
 			new Rune[] { Rune.None, Rune.Tinkerer, Rune.Cluster_Grenades, Rune.Grenade_Cache, Rune.Stun_Grenade, Rune.Cold_Grenade },
 			"http://us.battle.net/d3/en/class/demon-hunter/active/grenade"),
 
+	Companion(SkillType.Cooldown, "Companion", "Companion", 0, null, new Rune[] {
+			Rune.Bat, Rune.Spider, Rune.Wolf, Rune.Boar, Rune.Ferret
+		}, "http://us.battle.net/d3/en/class/demon-hunter/active/companion"),
+		
 	Any(SkillType.NA, "Any Skill", "Any Skill", 0, null, new Rune[0], null);
 
 	private String name;

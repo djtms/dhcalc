@@ -2749,6 +2749,7 @@ public class MainPanel extends BasePanel {
 		this.skillDamage.getBolasDamage().setValue((int)Math.round(data.getBolasDamage() * 100.0));
 		this.skillDamage.getEfDamage().setValue((int)Math.round(data.getEfDamage() * 100.0));
 		this.skillDamage.getGrenadeDamage().setValue((int)Math.round(data.getGrenadeDamage() * 100.0));
+		this.skillDamage.getCompanionDamage().setValue((int)Math.round(data.getCompanionDamage() * 100.0));
 	}
 
 	private void getSetSetCDR(SimpleCheckBox field,
@@ -2998,6 +2999,7 @@ public class MainPanel extends BasePanel {
 				new Field(this.skillDamage.getChakDamage(), "CHAK", "0"),
 				new Field(this.skillDamage.getImpDamage(), "IMP", "0"),
 				new Field(this.skillDamage.getHaDamage(), "HA", "0"),
+				new Field(this.skillDamage.getCompanionDamage(), "CompanionDamage", "0"),
 				new Field(this.skillDamage.getEsDamage(), "ES", "0"),
 				new Field(this.skillDamage.getBolasDamage(), "Bolas", "0"),
 				new Field(this.skillDamage.getEfDamage(), "EF", "0"),
@@ -3200,6 +3202,7 @@ public class MainPanel extends BasePanel {
 			data.setFireDamage(getValue(this.typeDamage.getFireDamage()) / 100.0);
 			data.setImpDamage(getValue(this.skillDamage.getImpDamage()) / 100.0);
 			data.setHaDamage(getValue(this.skillDamage.getHaDamage()) / 100.0);
+			data.setCompanionDamage(getValue(this.skillDamage.getCompanionDamage()) / 100.0);
 			data.setEsDamage(getValue(this.skillDamage.getEsDamage()) / 100.0);
 			data.setBolasDamage(getValue(this.skillDamage.getBolasDamage()) / 100.0);
 			data.setEfDamage(getValue(this.skillDamage.getEfDamage()) / 100.0);
@@ -3340,7 +3343,9 @@ public class MainPanel extends BasePanel {
 			data.setOdysseysEnd(itemPanel.getOdysseysEnd().getValue());
 			data.setOdysseysEndPercent(itemPanel.getOdysseysEndPercent().getValue() / 100.0);
 			data.setOdysseysEndUptime(itemPanel.getOdysseysEndUptime().getValue() / 100.0);
-
+			data.setEquipIas(calculator.getEquipIAS());
+			data.setWeaponIas(calculator.getWeaponIAS());
+			
 			Map<ActiveSkill, Rune> skills = getSkills();
 //			SkillSet skillSet = getSkillSet(skills);
 
@@ -3414,6 +3419,11 @@ public class MainPanel extends BasePanel {
 				DamageHolder h = types.get(type);
 	
 				DamageSource source = d.source;
+
+				if ((source.skill != null) && (source.rune != null)) {
+					source = new DamageSource(source.skill, null);
+				}
+				
 				DamageHolder th = skillDamages.get(source);
 	
 				if (h == null) {

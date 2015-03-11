@@ -632,9 +632,9 @@ public class ProfileHelper {
 
 		ActiveSkill[] skills = { ActiveSkill.EA, ActiveSkill.CA,
 				ActiveSkill.MS, ActiveSkill.CHAK, ActiveSkill.IMP,
-				ActiveSkill.SENTRY };
+				ActiveSkill.SENTRY, ActiveSkill.HA, ActiveSkill.ES, ActiveSkill.BOLAS, ActiveSkill.EF, ActiveSkill.GRENADE, ActiveSkill.Companion };
 
-		int[] damage = { 0, 0, 0, 0, 0, 0 };
+		int[] damage = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		int petSpeed = 0;
 		boolean tnt = false;
 		boolean calamity = false;
@@ -824,6 +824,12 @@ public class ProfileHelper {
 		data.setChakDamage(damage[n++] / 100.0);
 		data.setImpDamage(damage[n++] / 100.0);
 		data.setSentryDamage(damage[n++] / 100.0);
+		data.setHaDamage(damage[n++] / 100.0);
+		data.setEsDamage(damage[n++] / 100.0);
+		data.setBolasDamage(damage[n++] / 100.0);
+		data.setEfDamage(damage[n++] / 100.0);
+		data.setGrenadeDamage(damage[n++] / 100.0);
+		data.setCompanionDamage(damage[n++] / 100.0);
 
 		ItemInformation helm = hero.items.get(Const.HEAD);
 

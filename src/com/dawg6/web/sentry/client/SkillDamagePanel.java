@@ -20,6 +20,7 @@ public class SkillDamagePanel extends Composite {
 	private final NumberSpinner bolasDamage;
 	private final NumberSpinner efDamage;
 	private final NumberSpinner grenadeDamage;
+	private final NumberSpinner companionDamage;
 	
 	public SkillDamagePanel() {
 		
@@ -264,6 +265,28 @@ public class SkillDamagePanel extends Composite {
 		grenadeDamage.setVisibleLength(3);
 		grenadeDamage.setTitle("Additional damage done by the Impale skill (as a percent), as shown in-game in the Character details screen under offense.");
 		flexTable.setWidget(10, 1, grenadeDamage);
+		
+		HorizontalPanel horizontalPanel_11 = new HorizontalPanel();
+		horizontalPanel_11.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		horizontalPanel_11.setSpacing(5);
+		flexTable.setWidget(11, 0, horizontalPanel_11);
+		
+		Anchor anchor_11 = new Anchor("Ballistics:");
+		anchor_11.setWordWrap(false);
+		anchor_11.setText("Companion");
+		anchor_11.setTarget("_blank");
+		anchor_11.setHTML("Companion");
+		anchor_11.setHref("http://us.battle.net/d3/en/class/demon-hunter/active/companion");
+		horizontalPanel_11.add(anchor_11);
+		
+		Label label_11 = new Label("Damage +%:");
+		label_11.setWordWrap(false);
+		horizontalPanel_11.add(label_11);
+		
+		companionDamage = new NumberSpinner();
+		companionDamage.setVisibleLength(3);
+		companionDamage.setTitle("Additional damage done by the Impale skill (as a percent), as shown in-game in the Character details screen under offense.");
+		flexTable.setWidget(11, 1, companionDamage);
 	}
 	public NumberSpinner getSentryDamage() {
 		return sentryDamage;
@@ -297,6 +320,9 @@ public class SkillDamagePanel extends Composite {
 	}
 	public NumberSpinner getGrenadeDamage() {
 		return grenadeDamage;
+	}
+	public NumberSpinner getCompanionDamage() {
+		return companionDamage;
 	}
 
 }

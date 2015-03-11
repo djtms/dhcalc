@@ -196,7 +196,14 @@ public enum DamageMultiplier {
 				public Double getValue(CharacterData data) {
 					return data.getHaDamage();
 				}
-			}), ES("ES", DamageAccumulator.Additive,
+			}), Companion("Companion", DamageAccumulator.Additive,
+				"Companion Skill Damage Bonus",
+				new Test<CharacterData, Double>() {
+					@Override
+					public Double getValue(CharacterData data) {
+						return data.getCompanionDamage();
+					}
+				}), ES("ES", DamageAccumulator.Additive,
 			"Entangling Shot Skill Damage Bonus",
 			new Test<CharacterData, Double>() {
 				@Override
@@ -266,6 +273,20 @@ public enum DamageMultiplier {
 				@Override
 				public Double getValue(CharacterData data) {
 					return data.isBotp() ? (0.2 * data.getBotpUptime()) : 0.0;
+				}
+			}), IAS("IAS", DamageAccumulator.Multiplicative,
+				"Character IAS bonus for Companions",
+				new Test<CharacterData, Double>() {
+					@Override
+					public Double getValue(CharacterData data) {
+						return (
+								data.getWeaponIas() + 
+								data.getEquipIas() + 
+								(data.getParagonIAS() * 0.002) + 
+								(data.isTnt() ? data.getTntPercent() : 0.0) + 
+								(data.isFocusedMind() ? 0.03 : 0.0) + 
+								(data.isRetribution() ? (0.1 * data.getRetributionUptime()) : 0.0)
+								) * 100.0;
 				}
 			}), Caltrops(
 			"Caltrops",

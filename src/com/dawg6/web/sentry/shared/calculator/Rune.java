@@ -92,7 +92,14 @@ public enum Rune {
 	Cold_Grenade("a", 0),
 	
 	// Caltrops
-	Bait_the_Trap("e", 0);
+	Bait_the_Trap("e", 0),
+	
+	// Companion
+	Spider("a", 0),
+	Boar("b", 0),
+	Wolf("c", 0),
+	Bat("d", 0),
+	Ferret("e", 0);
 	
 	private String slug;
 	private int hatred;

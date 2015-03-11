@@ -35,6 +35,7 @@ public class CharacterData implements Serializable {
 	private double caDamage;
 	private double impDamage;
 	private double haDamage;
+	private double companionDamage;
 	private double esDamage;
 	private double bolasDamage;
 	private double efDamage;
@@ -1794,6 +1795,14 @@ public class CharacterData implements Serializable {
 
 	public void setPreparationPunishment(boolean preparationPunishment) {
 		this.preparationPunishment = preparationPunishment;
+	}
+
+	public double getCompanionDamage() {
+		return companionDamage;
+	}
+
+	public void setCompanionDamage(double companionDamage) {
+		this.companionDamage = companionDamage;
 	}
 
 }
