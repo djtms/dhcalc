@@ -43,6 +43,10 @@ public class FiringData {
 		double cdr = data.getCdr();
 		double prepCd = 20.0 * (1.0 - cdr);
 		double prepAvail = 0;
+		double batCd = 30.0 * (1.0 - cdr);
+		double batAvail = 0;
+		int numBat = 0;
+		double batHatred = 0.0;
 		int numPrep = 0;
 		int numHealthGlobes = 0;
 		double healthGlobeHatred = 0.0;
@@ -71,6 +75,12 @@ public class FiringData {
 				numPrep++;
 			}
 			
+			if (((maxHatred - hatred) >= 50.0) && (batAvail <= t)) {
+				hatred += 50.0;
+				batAvail = t + batCd;
+				numBat++;
+			}
+
 			for (SkillAndRune skr : skills) {
 				double h = skr.getHatred(data);
 				
@@ -129,6 +139,14 @@ public class FiringData {
 			list.add(d);
 		}
 		
+		if (numBat > 0) {
+			Damage d = new Damage();
+			d.shooter = "Companion";
+			d.hatred = numBat * 50.0;
+			d.qty = numBat;
+			list.add(d);
+		}
+
 		if (numHealthGlobes > 0) {
 			Damage d = new Damage();
 			d.shooter = "Health Globes";

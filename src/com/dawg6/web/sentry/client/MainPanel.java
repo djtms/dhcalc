@@ -3534,7 +3534,18 @@ public class MainPanel extends BasePanel {
 				b2.setWordWrap(false);
 				b2.setHref("http://us.battle.net/d3/en/class/demon-hunter/active/preparation#a+");
 				damageLog.setWidget(row + 1, 2, b2);
+			} else if (d.shooter.equals("Companion")) {
+				Anchor b = new Anchor("Companion");
+				b.setTarget("_blank");
+				b.setWordWrap(false);
+				b.setHref("http://us.battle.net/d3/en/class/demon-hunter/active/companion");
+				damageLog.setWidget(row + 1, 1, b);
 				
+				Anchor b2 = new Anchor("Bat");
+				b2.setTarget("_blank");
+				b2.setWordWrap(false);
+				b2.setHref("http://us.battle.net/d3/en/class/demon-hunter/active/companion#d+");
+				damageLog.setWidget(row + 1, 2, b2);
 			}
 				
 			if (d.type != null) 

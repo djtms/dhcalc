@@ -4,6 +4,7 @@ Change Log:
 
 * Added Preparation/Punishment (for hatred)
 * Added Hatred generation rows to damage log for punishment, regen and health globes
+* Added Hatred from Companion/Bat
 
 **3/10/15**
 
