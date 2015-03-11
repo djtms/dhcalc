@@ -39,8 +39,8 @@ public class StatsPanel extends Composite {
 	private final FlexTable filterTable;
 	private final ListBox sentryRune;
 	private final ListBox skill1;
-	private final ListBox rune3;
-	private final ListBox skill3;
+//	private final ListBox rune3;
+//	private final ListBox skill3;
 	private final ListBox rune2;
 	private final ListBox skill2;
 	private final ListBox rune1;
@@ -157,16 +157,16 @@ public class StatsPanel extends Composite {
 		skill2 = new ListBox();
 		filterTable.setWidget(0, 5, skill2);
 
-		Label lblSkill_2 = new Label("Skill 3:");
-		lblSkill_2.setWordWrap(false);
-		lblSkill_2.setStyleName("boldText");
-		filterTable.setWidget(0, 6, lblSkill_2);
-
-		skill3 = new ListBox();
-		filterTable.setWidget(0, 7, skill3);
-
+//		Label lblSkill_2 = new Label("Skill 3:");
+//		lblSkill_2.setWordWrap(false);
+//		lblSkill_2.setStyleName("boldText");
+//		filterTable.setWidget(0, 6, lblSkill_2);
+//
+//		skill3 = new ListBox();
+//		filterTable.setWidget(0, 7, skill3);
+//
 		Button button = new Button("Copy My Build");
-		filterTable.setWidget(0, 8, button);
+		filterTable.setWidget(0, 6, button);
 
 		button.addClickHandler(new ClickHandler() {
 
@@ -192,27 +192,27 @@ public class StatsPanel extends Composite {
 		Label lblRune = new Label("Rune 1:");
 		lblRune.setWordWrap(false);
 		lblRune.setStyleName("boldText");
-		filterTable.setWidget(1, 1, lblRune);
+		filterTable.setWidget(1, 2, lblRune);
 
 		rune1 = new ListBox();
-		filterTable.setWidget(1, 2, rune1);
+		filterTable.setWidget(1, 3, rune1);
 
 		Label lblRune_1 = new Label("Rune 2:");
 		lblRune_1.setWordWrap(false);
 		lblRune_1.setStyleName("boldText");
-		filterTable.setWidget(1, 3, lblRune_1);
+		filterTable.setWidget(1, 4, lblRune_1);
 
 		rune2 = new ListBox();
-		filterTable.setWidget(1, 4, rune2);
+		filterTable.setWidget(1, 5, rune2);
 
-		Label lblRune_2 = new Label("Rune 3:");
-		lblRune_2.setWordWrap(false);
-		lblRune_2.setStyleName("boldText");
-		filterTable.setWidget(1, 5, lblRune_2);
-
-		rune3 = new ListBox();
-		filterTable.setWidget(1, 6, rune3);
-		filterTable.getFlexCellFormatter().setColSpan(1, 0, 2);
+//		Label lblRune_2 = new Label("Rune 3:");
+//		lblRune_2.setWordWrap(false);
+//		lblRune_2.setStyleName("boldText");
+//		filterTable.setWidget(1, 6, lblRune_2);
+//
+//		rune3 = new ListBox();
+//		filterTable.setWidget(1, 7, rune3);
+//		filterTable.getFlexCellFormatter().setColSpan(1, 0, 2);
 
 		buildTable = new FlexTable();
 		buildTable.setStyleName("statsTable");
@@ -351,8 +351,8 @@ public class StatsPanel extends Composite {
 			col++;
 		}
 
-		skills = new ListBox[] { skill1, skill2, skill3 };
-		runes = new ListBox[] { rune1, rune2, rune3 };
+		skills = new ListBox[] { skill1, skill2 }; //, skill3 };
+		runes = new ListBox[] { rune1, rune2 }; //, rune3 };
 
 		for (int i = 0; i < skills.length; i++) {
 			populateSkillsAndRunes(i);
@@ -387,7 +387,7 @@ public class StatsPanel extends Composite {
 
 		this.disableListeners = true;
 
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < skills.length; i++) {
 			this.selectSkill(this.skills[i], null);
 			this.populateRunes(this.runes[i], null);
 		}
@@ -443,10 +443,10 @@ public class StatsPanel extends Composite {
 	public void updateStats() {
 
 		Rune sentryRune = getSelectedRune(this.sentryRune);
-		ActiveSkill[] skills = new ActiveSkill[3];
-		Rune[] runes = new Rune[3];
+		ActiveSkill[] skills = new ActiveSkill[2];
+		Rune[] runes = new Rune[2];
 
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < skills.length; i++) {
 			skills[i] = getSelectedSkill(i);
 			runes[i] = getSelectedRune(i);
 		}
@@ -698,7 +698,7 @@ public class StatsPanel extends Composite {
 	}
 
 	private final ActiveSkill[] spenders = { ActiveSkill.CA, ActiveSkill.CHAK,
-			ActiveSkill.EA, ActiveSkill.IMP, ActiveSkill.MS };
+			ActiveSkill.EA, ActiveSkill.IMP, ActiveSkill.MS, ActiveSkill.HA, ActiveSkill.ES, ActiveSkill.BOLAS, ActiveSkill.EF, ActiveSkill.GRENADE };
 
 	private void populateSkills(int i) {
 		ListBox list = skills[i];

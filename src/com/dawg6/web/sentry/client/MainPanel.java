@@ -1586,7 +1586,7 @@ public class MainPanel extends BasePanel {
 		});
 
 		Button statsButton = new Button("Statistics...");
-//		horizontalPanel_8.add(statsButton);
+		horizontalPanel_8.add(statsButton);
 
 		firstTimeStats = true;
 
@@ -1657,7 +1657,7 @@ public class MainPanel extends BasePanel {
 
 		this.setFieldValue(this.sentryRunes, build.getSentryRune().name());
 
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < skillBoxes.length; i++) {
 			this.setFieldValue(this.skillBoxes[i], null);
 			this.setFieldValue(this.runeBoxes[i], Rune.None.name());
 		}
@@ -1679,7 +1679,7 @@ public class MainPanel extends BasePanel {
 		build.setSentryRune(this.getRune(this.sentryRunes));
 		build.setSkills(new TreeSet<SkillAndRune>());
 
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < skillBoxes.length; i++) {
 			ActiveSkill skill = this.getSkill(skillBoxes[i]);
 
 			if (skill != null) {

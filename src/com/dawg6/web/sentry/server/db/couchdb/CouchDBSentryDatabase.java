@@ -1,9 +1,10 @@
 package com.dawg6.web.sentry.server.db.couchdb;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -18,11 +19,13 @@ import org.lightcouch.View;
 
 import com.dawg6.web.sentry.server.util.SentryProperties;
 import com.dawg6.web.sentry.shared.calculator.ActiveSkill;
+import com.dawg6.web.sentry.shared.calculator.Build;
 import com.dawg6.web.sentry.shared.calculator.Rune;
 import com.dawg6.web.sentry.shared.calculator.d3api.Realm;
 import com.dawg6.web.sentry.shared.calculator.stats.DBStatistics;
 import com.dawg6.web.sentry.shared.calculator.stats.DocumentBase;
 import com.dawg6.web.sentry.shared.calculator.stats.DpsTableEntry;
+import com.dawg6.web.sentry.shared.calculator.stats.StatCategory;
 import com.dawg6.web.sentry.shared.calculator.stats.Statistics;
 import com.google.gson.JsonObject;
 
@@ -396,140 +399,84 @@ public class CouchDBSentryDatabase {
 
 	}
 
-	public interface IteratorTask {
-
-		void complete();
-
-		void addItem(DpsTableEntry next);
-
-	}
-
-	public void iterateDatabase(IteratorTask task) {
-//		try {
-//			synchronized (dpsLock) {
-//				Iterator<DpsTableEntry> iter = getDatabaseIterator();
-//
-//				while ((iter != null) && iter.hasNext()) {
-//					task.addItem(iter.next());
-//				}
-//			}
-//		} catch (Exception e) {
-//			log.log(Level.SEVERE, "Exception", e);
-//		} finally {
-//			task.complete();
-//		}
-
-	}
-
-	private Iterator<DpsTableEntry> getDatabaseIterator() {
-//		try {
-//			synchronized (dpsLock) {
-//				AmazonDynamoDBClient client = getClient();
-//				DynamoDBMapperConfig.Builder builder = new DynamoDBMapperConfig.Builder();
-//
-//				builder.setConsistentReads(ConsistentReads.EVENTUAL);
-//				builder.setPaginationLoadingStrategy(PaginationLoadingStrategy.ITERATION_ONLY);
-//				builder.setTableNameOverride(TableNameOverride
-//						.withTableNameReplacement(getDpsTableName()));
-//				DynamoDBMapperConfig mapperConfig = builder.build();
-//
-//				DynamoDBMapper mapper = new DynamoDBMapper(client, mapperConfig);
-//				DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
-//
-//				List<DpsTableEntry> list = mapper.scan(DpsTableEntry.class,
-//						scanExpression);
-//
-//				return list.iterator();
-//			}
-//
-//		} catch (Exception e) {
-//			log.log(Level.SEVERE, "Exception", e);
-//
-			return null;
-//		}
-	}
-
 	public DBStatistics getStatistics(Rune sentryRune, ActiveSkill[] skills,
 			Rune[] runes) {
 		DBStatistics stats = new DBStatistics();
 
-//		Map<ActiveSkill, Rune> skillMap = new HashMap<ActiveSkill, Rune>();
-//
-//		int skillCount = 0;
-//
-//		for (int i = 0; i < 3; i++) {
-//			if (skills[i] != null)
-//				skillCount++;
-//		}
-//
-//		synchronized (dpsLock) {
-//			Iterator<DpsTableEntry> iter = getDatabaseIterator();
-//
-//			while ((iter != null) && (iter.hasNext())) {
-//				DpsTableEntry e = iter.next();
-//
-//				addStatistics(stats.stats, e);
-//
-//				Build build = e.getBuild();
-//
-//				if ((sentryRune == Rune.All_Runes)
-//						|| (sentryRune == build.getSentryRune())) {
-//
-//					int match = 0;
-//
-//					for (int i = 0; i < 3; i++) {
-//						ActiveSkill s1 = skills[i];
-//						Rune r2 = build.getRune(s1);
-//
-//						if ((s1 == ActiveSkill.Any) || (r2 != null)) {
-//							Rune r1 = runes[i];
-//
-//							if ((r1 == Rune.All_Runes) || (r1 == r2)) {
-//								match++;
-//							}
-//						}
-//					}
-//
-//					if ((match == skillCount)
-//							&& (build.getSkills().size() <= skillCount)) {
-//
-//						Statistics s = stats.builds.get(build);
-//
-//						if (s == null) {
-//							s = new Statistics();
-//							stats.builds.put(build, s);
-//						}
-//
-//						addStatistics(s, e);
-//					}
-//				}
-//			}
-//		}
+		Map<ActiveSkill, Rune> skillMap = new HashMap<ActiveSkill, Rune>();
+
+		int skillCount = 0;
+
+		for (int i = 0; i < skills.length; i++) {
+			if (skills[i] != null)
+				skillCount++;
+		}
+
+		synchronized (dpsLock) {
+
+			for (DpsTableEntry e : this.findAll(DpsTableEntry.class)) {
+				addStatistics(stats.stats, e);
+
+				Build build = e.getBuild();
+
+				if ((sentryRune == Rune.All_Runes)
+						|| (sentryRune == build.getSentryRune())) {
+
+					int match = 0;
+
+					for (int i = 0; i < skills.length; i++) {
+						ActiveSkill s1 = skills[i];
+						Rune r2 = build.getRune(s1);
+
+						if ((s1 == ActiveSkill.Any) || (r2 != null)) {
+							Rune r1 = runes[i];
+
+							if ((r1 == Rune.All_Runes) || (r1 == r2)) {
+								match++;
+							}
+						}
+					}
+
+					if ((match == skillCount)
+							&& (build.getSkills().size() <= skillCount)) {
+
+						Statistics s = stats.builds.get(build);
+
+						if (s == null) {
+							s = new Statistics();
+							stats.builds.put(build, s);
+						}
+
+						addStatistics(s, e);
+					}
+				}
+			}
+		}
 
 		return stats;
 	}
 
 	private void addStatistics(Statistics stats, DpsTableEntry e) {
 
-//		for (StatCategory c : StatCategory.values()) {
-//			DpsTableEntry old = stats.max.get(c);
-//			double value = c.getValue(e);
-//
-//			if ((old == null) || (value > c.getValue(old))) {
-//				stats.max.put(c, e);
-//			}
-//
-//			Double avg = stats.average.get(c);
-//
-//			if (avg == null) {
-//				stats.average.put(c, value);
-//			} else {
-//				Double newAverage = ((avg * stats.total) + value)
-//						/ (stats.total + 1);
-//				stats.average.put(c, newAverage);
-//			}
-//		}
-//
-//		stats.total++;
+		for (StatCategory c : StatCategory.values()) {
+			DpsTableEntry old = stats.max.get(c);
+			double value = c.getValue(e);
+
+			if ((old == null) || (value > c.getValue(old))) {
+				stats.max.put(c, e);
+			}
+
+			Double avg = stats.average.get(c);
+
+			if (avg == null) {
+				stats.average.put(c, value);
+			} else {
+				Double newAverage = ((avg * stats.total) + value)
+						/ (stats.total + 1);
+				stats.average.put(c, newAverage);
+			}
+		}
+
+		stats.total++;
 	}
 }
