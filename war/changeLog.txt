@@ -7,7 +7,6 @@ Change Log:
 * Added Hatred from Companion/Bat
 * Added Companion DPS
 * Fixed import of primary skill damage bonuses from items
-* (Re)enabled player-build Statistics
 
 **3/10/15**
 

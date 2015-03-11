@@ -1586,7 +1586,7 @@ public class MainPanel extends BasePanel {
 		});
 
 		Button statsButton = new Button("Statistics...");
-		horizontalPanel_8.add(statsButton);
+//		horizontalPanel_8.add(statsButton);
 
 		firstTimeStats = true;
 

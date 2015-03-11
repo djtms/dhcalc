@@ -7,6 +7,7 @@
 
 * Add ability to save different weapons/items to compare against
 * Add support for more than two spenders/generators
+* re-enable player/build statistics
 * Support dual wield for hand crossbows
 * Check other set bonuses that need import logic to handle royal ring
 * Improve logic for selecting # of AoE targets
