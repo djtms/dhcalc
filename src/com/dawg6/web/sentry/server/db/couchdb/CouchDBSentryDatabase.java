@@ -479,4 +479,8 @@ public class CouchDBSentryDatabase {
 
 		stats.total++;
 	}
+	
+	public static void main(String[] args) {
+		CouchDBSentryDatabase.getInstance();
+	}
 }
