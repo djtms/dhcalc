@@ -1647,7 +1647,7 @@ public class MainPanel extends BasePanel {
 	}
 
 	protected void updateHatred() {
-		hatredPanel.getMaxHatred().setValue(150.0 + (paragonPanel.getParagonHatred().getValue() * 0.5) +
+		hatredPanel.getMaxHatred().setValue(125.0 + (paragonPanel.getParagonHatred().getValue() * 0.5) +
 				(this.passives.getBloodVengeance().getValue() ? 25:0));
 	}
 
@@ -2944,7 +2944,7 @@ public class MainPanel extends BasePanel {
 				new Field(this.skills.getCaltropsUptime(), "CaltropsUptime",
 						"100"),
 				new Field(this.hatredPanel.getMaxHatred(),
-						"MaxHatred", "150"),
+						"MaxHatredValue", "125"),
 				new Field(this.hatredPanel.getHatredPerSecond(),
 						"HatredPerSecond", "5.0"),
 				new Field(this.skills.getMfdAddUptime(),

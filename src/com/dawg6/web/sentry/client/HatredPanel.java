@@ -30,6 +30,9 @@ public class HatredPanel extends Composite {
 		
 		hatredPerSecond = new DoubleSpinner();
 		hatredPerSecond.setVisibleLength(5);
+		maxHatred.setMin(125.0);
+		maxHatred.setMax(200.0);
+		
 		flexTable.setWidget(1, 1, hatredPerSecond);
 	}
 
