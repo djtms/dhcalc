@@ -1,5 +1,10 @@
 Change Log:
 
+**3/12/15**
+
+* Added Dex, Crit and Gogok of Swiftness bonuses to Companion damage
+* Fixed IAS calculation in Companion DPS
+
 **3/11/15**
 
 * Added Preparation/Punishment (for hatred)
@@ -7,7 +12,7 @@ Change Log:
 * Added Hatred from Companion/Bat
 * Added Companion DPS
 * Fixed import of primary skill damage bonuses from items
-* Added Dex, Crit and Gogok of Swiftness bonuses to Companion damage
+
 
 **3/10/15**
 

@@ -287,7 +287,7 @@ public enum DamageMultiplier {
 								(data.isGogok()? (data.getGogokStacks() * 0.01) : 0.0) +
 								(data.isFocusedMind() ? 0.03 : 0.0) + 
 								(data.isRetribution() ? (0.1 * data.getRetributionUptime()) : 0.0)
-								) * 100.0;
+								);
 				}
 			}), Caltrops(
 			"Caltrops",
