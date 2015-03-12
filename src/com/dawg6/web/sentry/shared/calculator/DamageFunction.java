@@ -359,7 +359,7 @@ public class DamageFunction {
 						
 						multBuf.append(" x WD");
 
-						if (dr.source.skill != ActiveSkill.Companion) {
+//						if (dr.source.skill != ActiveSkill.Companion) {
 							double cc = DamageMultiplier.CC.getValue(data);
 							double cd = DamageMultiplier.CHD.getValue(data);
 							double caltrops = DamageMultiplier.Caltrops.getValue(data);
@@ -412,7 +412,7 @@ public class DamageFunction {
 	
 								m *= (1.0 + ((cc + singleOut + caltrops) * cd));
 							}
-						}
+//						}
 
 						addBuf.append("(1");
 						eaBuf.append("(1");

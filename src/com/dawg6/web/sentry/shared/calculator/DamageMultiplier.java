@@ -284,6 +284,7 @@ public enum DamageMultiplier {
 								data.getEquipIas() + 
 								(data.getParagonIAS() * 0.002) + 
 								(data.isTnt() ? data.getTntPercent() : 0.0) + 
+								(data.isGogok()? (data.getGogokStacks() * 0.01) : 0.0) +
 								(data.isFocusedMind() ? 0.03 : 0.0) + 
 								(data.isRetribution() ? (0.1 * data.getRetributionUptime()) : 0.0)
 								) * 100.0;

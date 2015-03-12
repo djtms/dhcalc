@@ -89,18 +89,18 @@ public class DamageRow {
 		this.multipliers.add(DamageMultiplier.CripplingWave);
 		this.multipliers.add(DamageMultiplier.Conviction);
 		this.multipliers.add(type.getMultiplier());
+		this.multipliers.add(DamageMultiplier.Dexterity);
+		this.multipliers.add(DamageMultiplier.MfD);
+		this.multipliers.add(DamageMultiplier.Calamity);
+		this.multipliers.add(DamageMultiplier.Toxicity);
 
 		if (source.skill != ActiveSkill.Companion) {
-			this.multipliers.add(DamageMultiplier.Dexterity);
 			this.multipliers.add(DamageMultiplier.Taeguk);
-			this.multipliers.add(DamageMultiplier.MfD);
-			this.multipliers.add(DamageMultiplier.Calamity);
 			this.multipliers.add(DamageMultiplier.Harrington);
 			this.multipliers.add(DamageMultiplier.Strongarm);
 			this.multipliers.add(DamageMultiplier.Ambush);
 			this.multipliers.add(DamageMultiplier.ArcheryDamage);
 			this.multipliers.add(DamageMultiplier.Hysteria);
-			this.multipliers.add(DamageMultiplier.Toxicity);
 			this.multipliers.add(DamageMultiplier.Zeis);
 			this.multipliers.add(DamageMultiplier.HexingPants);
 			this.multipliers.add(DamageMultiplier.SteadyAim);
