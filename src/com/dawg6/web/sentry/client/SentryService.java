@@ -9,6 +9,7 @@ import com.dawg6.web.sentry.shared.calculator.Rune;
 import com.dawg6.web.sentry.shared.calculator.Version;
 import com.dawg6.web.sentry.shared.calculator.d3api.CareerProfile;
 import com.dawg6.web.sentry.shared.calculator.d3api.HeroProfile;
+import com.dawg6.web.sentry.shared.calculator.d3api.ItemInformation;
 import com.dawg6.web.sentry.shared.calculator.d3api.Realm;
 import com.dawg6.web.sentry.shared.calculator.stats.DBStatistics;
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -22,6 +23,7 @@ public interface SentryService extends RemoteService {
 
 	CareerProfile getProfile(Realm realm, String profile, int tag);
 	HeroProfile getHero(Realm realm, String profile, int tag, int id);
+	ItemInformation getItem(Realm realm, String item);
 	
 	String serializeFormData(FormData data);
 	String exportData(ExportData data);

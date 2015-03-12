@@ -9,6 +9,7 @@ import com.dawg6.web.sentry.shared.calculator.Rune;
 import com.dawg6.web.sentry.shared.calculator.Version;
 import com.dawg6.web.sentry.shared.calculator.d3api.CareerProfile;
 import com.dawg6.web.sentry.shared.calculator.d3api.HeroProfile;
+import com.dawg6.web.sentry.shared.calculator.d3api.ItemInformation;
 import com.dawg6.web.sentry.shared.calculator.d3api.Realm;
 import com.dawg6.web.sentry.shared.calculator.stats.DBStatistics;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -42,6 +43,8 @@ public interface SentryServiceAsync {
 
 	void getStats(Rune sentryRune, ActiveSkill[] skills, Rune[] runes,
 			AsyncCallback<DBStatistics> callback);
+
+	void getItem(Realm realm, String item, AsyncCallback<ItemInformation> callback);
 	
 	
 }

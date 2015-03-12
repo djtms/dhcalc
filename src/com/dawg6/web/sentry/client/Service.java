@@ -13,6 +13,7 @@ import com.dawg6.web.sentry.shared.calculator.Rune;
 import com.dawg6.web.sentry.shared.calculator.Version;
 import com.dawg6.web.sentry.shared.calculator.d3api.CareerProfile;
 import com.dawg6.web.sentry.shared.calculator.d3api.HeroProfile;
+import com.dawg6.web.sentry.shared.calculator.d3api.ItemInformation;
 import com.dawg6.web.sentry.shared.calculator.d3api.Realm;
 import com.dawg6.web.sentry.shared.calculator.stats.DBStatistics;
 import com.google.gwt.core.client.GWT;
@@ -97,32 +98,23 @@ public class Service implements SentryServiceAsync {
 			@Override
 			public void run(final AsyncTaskHandler handler) {
 
-				// String url = UrlHelper.careerProfileUrl(realm.getHost(),
-				// profile, tag);
-				//
-				// httpRequest(url, new AsyncCallback<String>(){
-				//
-				// @Override
-				// public void onSuccess(String result) {
-				//
-				// SERVICE.fromJson(result, CareerProfile.class.getName(), new
-				// DefaultCallback<JsonObject>(handler){
-				//
-				// @Override
-				// protected void doOnSuccess(JsonObject result) {
-				// CareerProfile profile = (CareerProfile)result;
-				// callback.onSuccess(profile);
-				// }});
-				// }
-				//
-				// @Override
-				// public void onFailure(Throwable caught) {
-				// callback.onFailure(caught);
-				// handler.taskCompleted();
-				// }});
-
 				SERVICE.getProfile(realm, profile, tag,
 						new DelegateCallback<CareerProfile>(handler, callback));
+			}
+		});
+
+	}
+
+	@Override
+	public void getItem(final Realm realm, final String item, final AsyncCallback<ItemInformation> callback) {
+
+		execute(new AsyncTask() {
+
+			@Override
+			public void run(final AsyncTaskHandler handler) {
+
+				SERVICE.getItem(realm, item,
+						new DelegateCallback<ItemInformation>(handler, callback));
 			}
 		});
 

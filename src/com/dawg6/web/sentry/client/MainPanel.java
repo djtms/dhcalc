@@ -31,6 +31,7 @@ import com.dawg6.web.sentry.shared.calculator.ProfileHelper;
 import com.dawg6.web.sentry.shared.calculator.Rune;
 import com.dawg6.web.sentry.shared.calculator.SkillAndRune;
 import com.dawg6.web.sentry.shared.calculator.SkillSet;
+import com.dawg6.web.sentry.shared.calculator.Slot;
 import com.dawg6.web.sentry.shared.calculator.Target;
 import com.dawg6.web.sentry.shared.calculator.TargetSize;
 import com.dawg6.web.sentry.shared.calculator.Util;
@@ -39,6 +40,7 @@ import com.dawg6.web.sentry.shared.calculator.d3api.CareerProfile;
 import com.dawg6.web.sentry.shared.calculator.d3api.Const;
 import com.dawg6.web.sentry.shared.calculator.d3api.Hero;
 import com.dawg6.web.sentry.shared.calculator.d3api.HeroProfile;
+import com.dawg6.web.sentry.shared.calculator.d3api.ItemInformation;
 import com.dawg6.web.sentry.shared.calculator.d3api.Realm;
 import com.dawg6.web.sentry.shared.calculator.stats.DpsTableEntry;
 import com.google.gwt.core.client.Scheduler;
@@ -69,8 +71,8 @@ public class MainPanel extends BasePanel {
 	private final Label aps;
 	private final ListBox skill1;
 	private final ListBox rune1;
-//	private final ListBox skill3;
-//	private final ListBox rune3;
+	// private final ListBox skill3;
+	// private final ListBox rune3;
 	private final ListBox sentryRunes;
 	private final Label sentryAps;
 	private final Label breakPoint;
@@ -93,10 +95,10 @@ public class MainPanel extends BasePanel {
 	private final DPSCalculator calculator;
 	private final FlexTable skillSummary;
 	private final Anchor skill1Label;
-//	private final Anchor skill2Label;
-//	private final Anchor skill3Label;
+	// private final Anchor skill2Label;
+	// private final Anchor skill3Label;
 	private final Anchor rune1Label;
-//	private final Anchor rune3Label;
+	// private final Anchor rune3Label;
 	private final Anchor sentryRuneLabel;
 	private final ListBox realms;
 	private final Anchor profileLink;
@@ -166,6 +168,12 @@ public class MainPanel extends BasePanel {
 	private Label effectiveRCRLabel;
 	private double rawRcr;
 	private double effRcr;
+	private AboutDialog about;
+	private StatsPanel stats;
+	private Legend legend;
+	private BreakpointData bpData;
+	private SkillData skillData;
+	private GearPanel gearPanel;
 
 	public MainPanel() {
 		VerticalPanel panel = new VerticalPanel();
@@ -282,6 +290,17 @@ public class MainPanel extends BasePanel {
 			}
 		});
 
+		Button itemsButton = new Button("Items...");
+		profileLinks.add(itemsButton);
+
+		itemsButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				showGearPanel();
+			}
+		});
+
 		paragonPanel = new ParagonPanel();
 		verticalPanel_2.add(paragonPanel);
 
@@ -295,17 +314,18 @@ public class MainPanel extends BasePanel {
 			}
 		});
 
-		this.paragonPanel.getParagonHatred().addChangeHandler(new ChangeHandler() {
+		this.paragonPanel.getParagonHatred().addChangeHandler(
+				new ChangeHandler() {
 
-			@Override
-			public void onChange(ChangeEvent event) {
+					@Override
+					public void onChange(ChangeEvent event) {
 
-				if (!disableListeners) {
-					updateHatred();
-				}
-			}
-		});
-		
+						if (!disableListeners) {
+							updateHatred();
+						}
+					}
+				});
+
 		this.paragonPanel.getParagonCDR().addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -783,24 +803,24 @@ public class MainPanel extends BasePanel {
 		rune2 = new ListBox();
 		grid.setWidget(2, 3, rune2);
 		rune2.setTitle("Selected rune for this Hatred Spender.");
-//
-//		skill3Label = new Anchor("Skill 3:");
-//		skill3Label.setWordWrap(false);
-//		skill3Label.setTarget("_blank");
-//		grid.setWidget(3, 0, skill3Label);
-//
-//		skill3 = new ListBox();
-//		grid.setWidget(3, 1, skill3);
-//		skill3.setTitle("Hatred Spender.");
-//
-//		rune3Label = new Anchor("Rune:");
-//		rune3Label.setWordWrap(false);
-//		rune3Label.setTarget("_blank");
-//		grid.setWidget(3, 2, rune3Label);
-//
-//		rune3 = new ListBox();
-//		grid.setWidget(3, 3, rune3);
-//		rune3.setTitle("Selected rune for this Hatred Spender.");
+		//
+		// skill3Label = new Anchor("Skill 3:");
+		// skill3Label.setWordWrap(false);
+		// skill3Label.setTarget("_blank");
+		// grid.setWidget(3, 0, skill3Label);
+		//
+		// skill3 = new ListBox();
+		// grid.setWidget(3, 1, skill3);
+		// skill3.setTitle("Hatred Spender.");
+		//
+		// rune3Label = new Anchor("Rune:");
+		// rune3Label.setWordWrap(false);
+		// rune3Label.setTarget("_blank");
+		// grid.setWidget(3, 2, rune3Label);
+		//
+		// rune3 = new ListBox();
+		// grid.setWidget(3, 3, rune3);
+		// rune3.setTitle("Selected rune for this Hatred Spender.");
 
 		skills = new SkillsPanel();
 		verticalPanel_1.add(skills);
@@ -868,14 +888,15 @@ public class MainPanel extends BasePanel {
 		passives = new PassivesPanel();
 		verticalPanel_3.add(passives);
 
-		this.passives.getBloodVengeance().addClickHandler(new ClickHandler(){
+		this.passives.getBloodVengeance().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				if (!disableListeners) {
 					updateHatred();
 				}
-			}});
+			}
+		});
 
 		passives.getArchery().addClickHandler(new ClickHandler() {
 
@@ -991,7 +1012,7 @@ public class MainPanel extends BasePanel {
 
 		VerticalPanel vpanel = new VerticalPanel();
 		horizontalPanel_4.add(vpanel);
-		
+
 		cdrPanel = new CDRPanel();
 		vpanel.add(cdrPanel);
 
@@ -1000,7 +1021,7 @@ public class MainPanel extends BasePanel {
 
 		hatredPanel = new HatredPanel();
 		vpanel.add(hatredPanel);
-		
+
 		buffPanel = new BuffPanel();
 		vpanel.add(buffPanel);
 
@@ -1184,9 +1205,8 @@ public class MainPanel extends BasePanel {
 		aps30.setStyleName("boldText");
 		aps30.setWordWrap(false);
 
-		Label lblNewLabel_6 = new Label(
-				"Total (Non-Elite) Damage over "
-						+ FiringData.DURATION + " seconds:");
+		Label lblNewLabel_6 = new Label("Total (Non-Elite) Damage over "
+				+ FiringData.DURATION + " seconds:");
 		outputHeader.setWidget(1, 0, lblNewLabel_6);
 		lblNewLabel_6.setWordWrap(false);
 
@@ -1202,9 +1222,8 @@ public class MainPanel extends BasePanel {
 		outputHeader.setWidget(1, 3, dps);
 		dps.setStyleName("boldText");
 
-		Label lblNewLabel_6a = new Label(
-				"Total (Elite) Damage over "
-						+ FiringData.DURATION + " seconds:");
+		Label lblNewLabel_6a = new Label("Total (Elite) Damage over "
+				+ FiringData.DURATION + " seconds:");
 		outputHeader.setWidget(2, 0, lblNewLabel_6a);
 		lblNewLabel_6a.setWordWrap(false);
 
@@ -1227,9 +1246,6 @@ public class MainPanel extends BasePanel {
 		eliteDamage = new Label("00000");
 		outputHeader.setWidget(2, 5, eliteDamage);
 		eliteDamage.setStyleName("boldText");
-
-		final Legend legend = new Legend();
-		final BreakpointData bpData = new BreakpointData();
 
 		Label label_13 = new Label("Show Details for Damage against: ");
 		label_13.setWordWrap(false);
@@ -1263,6 +1279,10 @@ public class MainPanel extends BasePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+
+				if (bpData == null)
+					bpData = new BreakpointData();
+
 				ApplicationPanel.showDialogBox("Break Points", bpData,
 						ApplicationPanel.OK, null);
 			}
@@ -1272,64 +1292,36 @@ public class MainPanel extends BasePanel {
 		skillButton.setText("Skills...");
 		horizontalPanel_19.add(skillButton);
 
-		final SkillData skillData = new SkillData();
-
 		skillButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
+
+				if (skillData == null)
+					skillData = new SkillData();
+
 				ApplicationPanel.showDialogBox("Skills", skillData,
 						ApplicationPanel.OK, null);
 			}
 		});
 
-//		for (int i = 1; i <= 3; i++) {
-//			Button spenderButton = new Button("New button");
-//			final String title = String.valueOf(i) + " Spender"
-//					+ ((i > 1) ? "s" : "");
-//			spenderButton.setText(title + "...");
-//			horizontalPanel_19.add(spenderButton);
-////			final SpenderData spenders = new SpenderData(i);
-//
-//			spenderButton.addClickHandler(new ClickHandler() {
-//
-//				@Override
-//				public void onClick(ClickEvent event) {
-////					ApplicationPanel.showDialogBox(title, spenders,
-////							ApplicationPanel.OK, null);
-//				}
-//			});
-//		}
-
-		final AboutDialog about = new AboutDialog();
-		final StatsPanel stats = new StatsPanel();
-
-		stats.setActionListener(new StatsPanel.ActionListener() {
-
-			@Override
-			public void importEntry(DpsTableEntry entry) {
-				MainPanel.this.importEntry(entry);
-			}
-
-			@Override
-			public void closePanel() {
-				if (statsDialog != null) {
-					statsDialog.hide();
-					statsDialog = null;
-				}
-			}
-
-			@Override
-			public Build getBuild() {
-				return MainPanel.this.getBuild();
-			}
-
-			@Override
-			public void setBuild(Build build) {
-				MainPanel.this.setBuild(build);
-
-			}
-		});
+		// for (int i = 1; i <= 3; i++) {
+		// Button spenderButton = new Button("New button");
+		// final String title = String.valueOf(i) + " Spender"
+		// + ((i > 1) ? "s" : "");
+		// spenderButton.setText(title + "...");
+		// horizontalPanel_19.add(spenderButton);
+		// // final SpenderData spenders = new SpenderData(i);
+		//
+		// spenderButton.addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// // ApplicationPanel.showDialogBox(title, spenders,
+		// // ApplicationPanel.OK, null);
+		// }
+		// });
+		// }
 
 		outputPanel = new VerticalPanel();
 		verticalPanel_5.add(outputPanel);
@@ -1338,8 +1330,8 @@ public class MainPanel extends BasePanel {
 		outputPanel.add(horizontalPanel_9);
 
 		captionPanelTypeSummary = new CaptionPanel(
-				"Damage Type Summary (Non-Elite, "
-						+ FiringData.DURATION + " seconds)");
+				"Damage Type Summary (Non-Elite, " + FiringData.DURATION
+						+ " seconds)");
 		horizontalPanel_9.add(captionPanelTypeSummary);
 
 		summary = new FlexTable();
@@ -1380,8 +1372,8 @@ public class MainPanel extends BasePanel {
 		summary.setWidget(0, 5, lblOfTotal);
 
 		captionPanelSkillSummary = new CaptionPanel(
-				"Skill Damage Summary (Non-Elite, "
-						+ FiringData.DURATION + " seconds)");
+				"Skill Damage Summary (Non-Elite, " + FiringData.DURATION
+						+ " seconds)");
 		horizontalPanel_9.add(captionPanelSkillSummary);
 
 		skillSummary = new FlexTable();
@@ -1429,9 +1421,8 @@ public class MainPanel extends BasePanel {
 		HorizontalPanel horizontalPanel_2 = new HorizontalPanel();
 		outputPanel.add(horizontalPanel_2);
 
-		captionPanelDamageLog = new CaptionPanel(
-				"Damage Log (Non-Elite, " + FiringData.DURATION
-						+ " seconds)");
+		captionPanelDamageLog = new CaptionPanel("Damage Log (Non-Elite, "
+				+ FiringData.DURATION + " seconds)");
 		horizontalPanel_2.add(captionPanelDamageLog);
 
 		damageLog = new FlexTable();
@@ -1586,7 +1577,7 @@ public class MainPanel extends BasePanel {
 		});
 
 		Button statsButton = new Button("Statistics...");
-//		horizontalPanel_8.add(statsButton);
+		// horizontalPanel_8.add(statsButton);
 
 		firstTimeStats = true;
 
@@ -1594,6 +1585,38 @@ public class MainPanel extends BasePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+
+				if (stats == null) {
+					stats = new StatsPanel();
+
+					stats.setActionListener(new StatsPanel.ActionListener() {
+
+						@Override
+						public void importEntry(DpsTableEntry entry) {
+							MainPanel.this.importEntry(entry);
+						}
+
+						@Override
+						public void closePanel() {
+							if (statsDialog != null) {
+								statsDialog.hide();
+								statsDialog = null;
+							}
+						}
+
+						@Override
+						public Build getBuild() {
+							return MainPanel.this.getBuild();
+						}
+
+						@Override
+						public void setBuild(Build build) {
+							MainPanel.this.setBuild(build);
+
+						}
+					});
+
+				}
 
 				statsDialog = ApplicationPanel.showDialogBox("Statistics",
 						stats, ApplicationPanel.OK, null);
@@ -1621,6 +1644,10 @@ public class MainPanel extends BasePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+
+				if (about == null)
+					about = new AboutDialog();
+
 				ApplicationPanel.showDialogBox("About", about,
 						ApplicationPanel.OK, null);
 			}
@@ -1630,6 +1657,10 @@ public class MainPanel extends BasePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+
+				if (legend == null)
+					legend = new Legend();
+
 				ApplicationPanel.showDialogBox("Legend", legend,
 						ApplicationPanel.OK, null);
 			}
@@ -1639,16 +1670,23 @@ public class MainPanel extends BasePanel {
 			realms.addItem(r.getDisplayName(), r.name());
 		}
 
-		skillBoxes = new ListBox[] { skill1, skill2 }; //, skill2, skill3 };
-		runeBoxes = new ListBox[] { rune1, rune2 }; //, rune2, rune3 };
+		skillBoxes = new ListBox[] { skill1, skill2 }; // , skill2, skill3 };
+		runeBoxes = new ListBox[] { rune1, rune2 }; // , rune2, rune3 };
 
-		skillLabels = new Anchor[] { skill1Label, skill2Label }; //, skill2Label, skill3Label };
-		runeLabels = new Anchor[] { rune1Label, rune2Label }; //, rune2Label, rune3Label };
+		skillLabels = new Anchor[] { skill1Label, skill2Label }; // ,
+																	// skill2Label,
+																	// skill3Label
+																	// };
+		runeLabels = new Anchor[] { rune1Label, rune2Label }; // , rune2Label,
+																// rune3Label };
 	}
 
 	protected void updateHatred() {
-		hatredPanel.getMaxHatred().setValue(125.0 + (paragonPanel.getParagonHatred().getValue() * 0.5) +
-				(this.passives.getBloodVengeance().getValue() ? 25:0));
+		hatredPanel.getMaxHatred().setValue(
+				125.0
+						+ (paragonPanel.getParagonHatred().getValue() * 0.5)
+						+ (this.passives.getBloodVengeance().getValue() ? 25
+								: 0));
 	}
 
 	protected void setBuild(Build build) {
@@ -1710,7 +1748,8 @@ public class MainPanel extends BasePanel {
 		this.paragonPanel.getParagonCHD().setValue(entry.getParagon_chd());
 		this.paragonPanel.getParagonCDR().setValue(entry.getParagon_cdr());
 		this.paragonPanel.getParagonIAS().setValue(entry.getParagon_ias());
-		this.paragonPanel.getParagonHatred().setValue(entry.getParagon_hatred());
+		this.paragonPanel.getParagonHatred()
+				.setValue(entry.getParagon_hatred());
 		this.paragonPanel.getParagonRCR().setValue(entry.getParagon_rcr());
 
 		this.fetchHeros(new AsyncTaskHandler() {
@@ -2123,9 +2162,9 @@ public class MainPanel extends BasePanel {
 							MainPanel.this.paragonPanel.getParagonCHD()
 									.setValue(calculator.getParagonCD());
 							MainPanel.this.paragonPanel.getParagonCHD()
-								.setValue(calculator.getParagonHatred());
+									.setValue(calculator.getParagonHatred());
 							MainPanel.this.paragonPanel.getParagonCHD()
-								.setValue(calculator.getParagonRCR());
+									.setValue(calculator.getParagonRCR());
 							MainPanel.this.passives.getArchery().setValue(
 									calculator.getArchery());
 							MainPanel.this.passives.getSteadyAim().setValue(
@@ -2263,7 +2302,7 @@ public class MainPanel extends BasePanel {
 
 		if (h.seasonal)
 			buf.append(" Seasonal");
-		
+
 		if (h.dead)
 			buf.append(" (RIP)");
 
@@ -2300,52 +2339,13 @@ public class MainPanel extends BasePanel {
 
 								MainPanel.this.hero = hero;
 
-								data = ProfileHelper
-										.importHero(hero);
+								if (gearPanel == null) {
+									gearPanel = new GearPanel();
+								}
 
-								data.setRealm(realm);
-								data.setProfile(profile);
-								data.setTag(tag);
-								data.setHero(heroId);
-								data.setParagonIAS(paragonPanel.getParagonIAS()
-										.getValue());
-								data.setParagonCDR(paragonPanel.getParagonCDR()
-										.getValue());
-								data.setParagonCC(paragonPanel.getParagonCC()
-										.getValue());
-								data.setParagonCHD(paragonPanel.getParagonCHD()
-										.getValue());
-								data.setParagonHatred(paragonPanel.getParagonHatred()
-										.getValue());
-								data.setParagonRCR(paragonPanel.getParagonRCR()
-										.getValue());
-								
-								ProfileHelper.updateCdr(data);
-								ProfileHelper.updateWeaponDamage(data);
+								gearPanel.setHero(hero);
 
-								setHeroSkills();
-
-								setElementalDamage();
-
-								setSkillDamage();
-
-								setGemDamage();
-
-								setSkills();
-								
-								calculator.importHero(server, profile, tag,
-										heroId, data);
-
-								calculator.saveForm();
-
-								MainPanel.this.passives.getArchery().setValue(
-										calculator.isArchery());
-								MainPanel.this.passives.getSteadyAim()
-										.setValue(calculator.getSteadyAim());
-
-								updateDps();
-
-								doCalculate(new AsyncTaskHandler() {
+								importHeroData(new AsyncTaskHandler() {
 
 									@Override
 									public void taskCompleted() {
@@ -2361,7 +2361,6 @@ public class MainPanel extends BasePanel {
 												});
 									}
 								});
-
 							}
 						});
 
@@ -2370,36 +2369,80 @@ public class MainPanel extends BasePanel {
 		}
 	}
 
+	protected void importHeroData(AsyncTaskHandler handler) {
+		data = ProfileHelper.importHero(hero);
+
+		data.setRealm(realm);
+		data.setProfile(profile);
+		data.setTag(tag);
+		data.setHero(heroId);
+		data.setParagonIAS(paragonPanel.getParagonIAS().getValue());
+		data.setParagonCDR(paragonPanel.getParagonCDR().getValue());
+		data.setParagonCC(paragonPanel.getParagonCC().getValue());
+		data.setParagonCHD(paragonPanel.getParagonCHD().getValue());
+		data.setParagonHatred(paragonPanel.getParagonHatred().getValue());
+		data.setParagonRCR(paragonPanel.getParagonRCR().getValue());
+
+		ProfileHelper.updateCdr(data);
+		ProfileHelper.updateWeaponDamage(data);
+
+		setHeroSkills();
+
+		setElementalDamage();
+
+		setSkillDamage();
+
+		setGemDamage();
+
+		setSkills();
+
+		calculator.importHero(server, profile, tag, heroId, data);
+
+		calculator.saveForm();
+
+		MainPanel.this.passives.getArchery().setValue(calculator.isArchery());
+		MainPanel.this.passives.getSteadyAim().setValue(
+				calculator.getSteadyAim());
+
+		updateDps();
+
+		doCalculate(handler);
+	}
+
 	private void setSkills() {
-		
+
 		Rune sentryRune = data.getSentryRune();
-		
+
 		this.setSentryRune(sentryRune.getLongName());
-		
+
 		Set<SkillAndRune> skills = data.getSkills();
 
 		int n = 0;
-		
+
 		for (SkillAndRune skr : skills) {
-			this.setSkillAndRune(skillLabels[n], runeLabels[n], skillBoxes[n], runeBoxes[n], skr.getSkill(), skr.getRune().getLongName());
+			this.setSkillAndRune(skillLabels[n], runeLabels[n], skillBoxes[n],
+					runeBoxes[n], skr.getSkill(), skr.getRune().getLongName());
 			n++;
-			
+
 			if (n >= skillLabels.length)
 				break;
 		}
-		
+
 		if (n < 1) {
-			this.setSkillAndRune(skillLabels[0], runeLabels[0], skillBoxes[0], runeBoxes[0], null, null);
+			this.setSkillAndRune(skillLabels[0], runeLabels[0], skillBoxes[0],
+					runeBoxes[0], null, null);
 		}
 
 		if (n < 2) {
-			this.setSkillAndRune(skillLabels[1], runeLabels[1], skillBoxes[1], runeBoxes[1], null, null);
+			this.setSkillAndRune(skillLabels[1], runeLabels[1], skillBoxes[1],
+					runeBoxes[1], null, null);
 		}
-		
+
 		hatredPanel.getHatredPerSecond().setValue(data.getHatredPerSecond());
-		hatredPanel.getPreparationPunishment().setValue(data.isPreparationPunishment());
+		hatredPanel.getPreparationPunishment().setValue(
+				data.isPreparationPunishment());
 	}
-	
+
 	private void updateParagonPoints() {
 		this.calculator.setParagonPoints(
 				getValue(MainPanel.this.paragonPanel.getParagonIAS()),
@@ -2439,8 +2482,11 @@ public class MainPanel extends BasePanel {
 
 				realms.setSelectedIndex(0);
 
-			} else if (field == this.skill1 || (field == this.skill2)) // || (field == this.skill3)) 
-				{
+			} else if (field == this.skill1 || (field == this.skill2)) // ||
+																		// (field
+																		// ==
+																		// this.skill3))
+			{
 
 				this.disableListeners = true;
 
@@ -2450,7 +2496,7 @@ public class MainPanel extends BasePanel {
 					ActiveSkill skill = ActiveSkill.valueOf(value);
 
 					this.selectSkill(field, skill);
-					ListBox runes = rune1; //rune3;
+					ListBox runes = rune1; // rune3;
 
 					if (field == this.skill1)
 						runes = rune1;
@@ -2462,8 +2508,11 @@ public class MainPanel extends BasePanel {
 
 				this.disableListeners = false;
 
-			} else if ((field == this.rune1) || (field == this.rune2))// || (field == this.rune3)) 
-				{
+			} else if ((field == this.rune1) || (field == this.rune2))// ||
+																		// (field
+																		// ==
+																		// this.rune3))
+			{
 
 				Rune rune = Rune.None;
 
@@ -2495,7 +2544,8 @@ public class MainPanel extends BasePanel {
 		this.gemPanel.getToxinLevel().setValue(data.getToxinLevel());
 		this.gemPanel.getPainEnhancer().setValue(data.isPainEnhancer());
 		this.calculator.setPainEnhancer(data.isPainEnhancer());
-		this.gemPanel.getPainEnhancerLevel().setValue(data.getPainEnhancerLevel());
+		this.gemPanel.getPainEnhancerLevel().setValue(
+				data.getPainEnhancerLevel());
 		this.calculator.setPainEnhancerLevel(data.getPainEnhancerLevel());
 		this.calculator.setGogok(data.isGogok());
 		this.calculator.setGogokLevel(data.getGogokLevel());
@@ -2557,7 +2607,7 @@ public class MainPanel extends BasePanel {
 				.setText(Util.format(Math.round(effRcr * 10000.0) / 100.0)
 						+ "%");
 	}
-	
+
 	private void updateCDRLabels() {
 
 		List<Double> list = new Vector<Double>();
@@ -2618,9 +2668,8 @@ public class MainPanel extends BasePanel {
 		this.effectiveCDRLabel
 				.setText(Util.format(Math.round(effCdr * 10000.0) / 100.0)
 						+ "%");
-		this.punishmentCDLabel
-				.setText(Util.format(Math.round(punishmentCD * 100.0) / 100.0)
-						+ " sec");
+		this.punishmentCDLabel.setText(Util.format(Math
+				.round(punishmentCD * 100.0) / 100.0) + " sec");
 		this.smokeCDLabel
 				.setText(Util.format(Math.round(smokeCD * 100.0) / 100.0)
 						+ " sec");
@@ -2684,13 +2733,15 @@ public class MainPanel extends BasePanel {
 		getSetCDR(cdrPanel.getWeapon(), Const.WEAPON);
 		getSetCDR(cdrPanel.getQuiver(), Const.QUIVER);
 		getSetCDR(cdrPanel.getAmulet(), Const.AMULET);
-		
-		getSetSetCDR(cdrPanel.getBorn(), data.getSetCounts(), data.isRoyalRing(), Const.BORNS, 2);
-		getSetSetCDR(cdrPanel.getCrimson(), data.getSetCounts(), data.isRoyalRing(),
-				Const.CAPTAIN_CRIMSON, 2);
+
+		getSetSetCDR(cdrPanel.getBorn(), data.getSetCounts(),
+				data.isRoyalRing(), Const.BORNS, 2);
+		getSetSetCDR(cdrPanel.getCrimson(), data.getSetCounts(),
+				data.isRoyalRing(), Const.CAPTAIN_CRIMSON, 2);
 
 		this.cdrPanel.getLeorics().setValue(data.isLeorics());
-		this.cdrPanel.getLeoricsLevel().setValue((int) (Math.round(data.getLeoricsPercent() * 100.0)));
+		this.cdrPanel.getLeoricsLevel().setValue(
+				(int) (Math.round(data.getLeoricsPercent() * 100.0)));
 		this.cdrPanel.setDiamond(data.getDiamond());
 
 		getSetRCR(rcrPanel.getShoulders(), Const.SHOULDERS);
@@ -2701,29 +2752,34 @@ public class MainPanel extends BasePanel {
 		getSetRCR(rcrPanel.getWeapon(), Const.WEAPON);
 		getSetRCR(rcrPanel.getQuiver(), Const.QUIVER);
 		getSetRCR(rcrPanel.getAmulet(), Const.AMULET);
-		
-		getSetSetRCR(rcrPanel.getCrimson(), data.getSetCounts(), data.isRoyalRing(),
-				Const.CAPTAIN_CRIMSON, 3);
+
+		getSetSetRCR(rcrPanel.getCrimson(), data.getSetCounts(),
+				data.isRoyalRing(), Const.CAPTAIN_CRIMSON, 3);
 
 		this.rcrPanel.getPridesFall().setValue(data.isPridesFall());
 
 		this.itemPanel.getTnt().setValue(data.isTnt());
-		this.itemPanel.getTntPercent().setValue((int) (Math.round(data.getTntPercent() * 100.0)));
+		this.itemPanel.getTntPercent().setValue(
+				(int) (Math.round(data.getTntPercent() * 100.0)));
 		this.itemPanel.getCalamity().setValue(data.isCalamityMdf());
 		this.itemPanel.getBombadiers().setValue(data.isHasBombardiers());
 		this.itemPanel.getOdysseysEnd().setValue(data.isOdysseysEnd());
-		this.itemPanel.getOdysseysEndPercent().setValue((int)Math.round(data.getOdysseysEndPercent() * 100.0));
+		this.itemPanel.getOdysseysEndPercent().setValue(
+				(int) Math.round(data.getOdysseysEndPercent() * 100.0));
 		this.itemPanel.getReapersWraps().setValue(data.isReapersWraps());
-		this.itemPanel.getReapersWrapsPercent().setValue((int)Math.round(data.getReapersWrapsPercent() * 100.0));
+		this.itemPanel.getReapersWrapsPercent().setValue(
+				(int) Math.round(data.getReapersWrapsPercent() * 100.0));
 		this.itemPanel.getCindercoat().setValue(data.isCindercoat());
-		this.itemPanel.getCindercoatPercent().setValue((int)Math.round(data.getCindercoatRCR() * 100.0));
+		this.itemPanel.getCindercoatPercent().setValue(
+				(int) Math.round(data.getCindercoatRCR() * 100.0));
 		this.itemPanel.getSpines().setValue(data.isSpines());
 		this.itemPanel.getKridershot().setValue(data.isKridershot());
 		this.itemPanel.getSpinesHatred().setValue(data.getSpinesHatred());
-		this.itemPanel.getKridershotHatred().setValue(data.getKridershotHatred());
+		this.itemPanel.getKridershotHatred().setValue(
+				data.getKridershotHatred());
 		this.itemPanel.getMarauders().setValue(data.getNumMarauders());
-		this.itemPanel.getEliteDamagePercent()
-				.setValue((int) Math.round(data.getEliteDamage() * 100.0));
+		this.itemPanel.getEliteDamagePercent().setValue(
+				(int) Math.round(data.getEliteDamage() * 100.0));
 		this.itemPanel.getMeticulousBolts().setValue(data.isMeticulousBolts());
 		this.itemPanel.getMeticulousBoltsPercent().setValue(
 				(int) (Math.round(data.getMeticulousBoltsPercent() * 100.0)));
@@ -2736,20 +2792,32 @@ public class MainPanel extends BasePanel {
 		this.itemPanel.getHarrington().setValue(data.isHarrington());
 		this.itemPanel.getHarringtonPercent().setValue(
 				(int) Math.round(data.getHarringtonPercent() * 100.0));
-		
-		this.skillDamage.getSentryDamage().setValue((int)Math.round(data.getSentryDamage() * 100.0));
-		this.skillDamage.getEaDamage().setValue((int)Math.round(data.getEaDamage() * 100.0));
-		this.skillDamage.getChakDamage().setValue((int)Math.round(data.getChakDamage() * 100.0));
-		this.skillDamage.getImpDamage().setValue((int)Math.round(data.getImpDamage() * 100.0));
-		this.skillDamage.getMsDamage().setValue((int)Math.round(data.getMsDamage() * 100.0));
-		this.skillDamage.getCaDamage().setValue((int)Math.round(data.getCaDamage() * 100.0));
 
-		this.skillDamage.getHaDamage().setValue((int)Math.round(data.getHaDamage() * 100.0));
-		this.skillDamage.getEsDamage().setValue((int)Math.round(data.getEsDamage() * 100.0));
-		this.skillDamage.getBolasDamage().setValue((int)Math.round(data.getBolasDamage() * 100.0));
-		this.skillDamage.getEfDamage().setValue((int)Math.round(data.getEfDamage() * 100.0));
-		this.skillDamage.getGrenadeDamage().setValue((int)Math.round(data.getGrenadeDamage() * 100.0));
-		this.skillDamage.getCompanionDamage().setValue((int)Math.round(data.getCompanionDamage() * 100.0));
+		this.skillDamage.getSentryDamage().setValue(
+				(int) Math.round(data.getSentryDamage() * 100.0));
+		this.skillDamage.getEaDamage().setValue(
+				(int) Math.round(data.getEaDamage() * 100.0));
+		this.skillDamage.getChakDamage().setValue(
+				(int) Math.round(data.getChakDamage() * 100.0));
+		this.skillDamage.getImpDamage().setValue(
+				(int) Math.round(data.getImpDamage() * 100.0));
+		this.skillDamage.getMsDamage().setValue(
+				(int) Math.round(data.getMsDamage() * 100.0));
+		this.skillDamage.getCaDamage().setValue(
+				(int) Math.round(data.getCaDamage() * 100.0));
+
+		this.skillDamage.getHaDamage().setValue(
+				(int) Math.round(data.getHaDamage() * 100.0));
+		this.skillDamage.getEsDamage().setValue(
+				(int) Math.round(data.getEsDamage() * 100.0));
+		this.skillDamage.getBolasDamage().setValue(
+				(int) Math.round(data.getBolasDamage() * 100.0));
+		this.skillDamage.getEfDamage().setValue(
+				(int) Math.round(data.getEfDamage() * 100.0));
+		this.skillDamage.getGrenadeDamage().setValue(
+				(int) Math.round(data.getGrenadeDamage() * 100.0));
+		this.skillDamage.getCompanionDamage().setValue(
+				(int) Math.round(data.getCompanionDamage() * 100.0));
 	}
 
 	private void getSetSetCDR(SimpleCheckBox field,
@@ -2793,20 +2861,20 @@ public class MainPanel extends BasePanel {
 	private void getSetRCR(NumberSpinner field, String slot) {
 
 		Integer value = data.getRcrData().get(slot);
-		
+
 		if (value == null)
 			value = 0;
-		
+
 		field.setValue(value);
 	}
 
 	private void getSetCDR(NumberSpinner field, String slot) {
 
 		Integer value = data.getCdrData().get(slot);
-		
+
 		if (value == null)
 			value = 0;
-		
+
 		field.setValue(value);
 	}
 
@@ -2814,9 +2882,12 @@ public class MainPanel extends BasePanel {
 
 		typeDamage.getColdDamage().setValue((int) (data.getColdDamage() * 100));
 		typeDamage.getFireDamage().setValue((int) (data.getFireDamage() * 100));
-		typeDamage.getPoisonDamage().setValue((int) (data.getPoisonDamage() * 100));
-		typeDamage.getPhysicalDamage().setValue((int) (data.getPhysDamage() * 100));
-		typeDamage.getLightningDamage().setValue((int) (data.getLightDamage() * 100));
+		typeDamage.getPoisonDamage().setValue(
+				(int) (data.getPoisonDamage() * 100));
+		typeDamage.getPhysicalDamage().setValue(
+				(int) (data.getPhysDamage() * 100));
+		typeDamage.getLightningDamage().setValue(
+				(int) (data.getLightDamage() * 100));
 
 	}
 
@@ -2834,7 +2905,8 @@ public class MainPanel extends BasePanel {
 		this.passives.getSingleOut().setValue(data.isSingleOut());
 		this.playerBuffPanel.getWolf().setValue(data.isWolf());
 		this.skills.getCaltrops().setValue(data.isCaltrops());
-		this.passives.getCustomEngineering().setValue(data.isCustomEngineering());
+		this.passives.getCustomEngineering().setValue(
+				data.isCustomEngineering());
 		this.passives.getArchery().setValue(data.isArchery());
 	}
 
@@ -2903,7 +2975,8 @@ public class MainPanel extends BasePanel {
 				new Field(this.paragonPanel.getParagonCDR(), "ParagonCDR", "0"),
 				new Field(this.paragonPanel.getParagonCC(), "ParagonCC", "0"),
 				new Field(this.paragonPanel.getParagonCHD(), "ParagonCD", "0"),
-				new Field(this.paragonPanel.getParagonHatred(), "ParagonHatred", "0"),
+				new Field(this.paragonPanel.getParagonHatred(),
+						"ParagonHatred", "0"),
 				new Field(this.paragonPanel.getParagonRCR(), "ParagonRCR", "0"),
 				new Field(this.itemPanel.getTnt(), "TnT",
 						Boolean.FALSE.toString()),
@@ -2917,20 +2990,19 @@ public class MainPanel extends BasePanel {
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getSpinesHatred(), "SpinesHatred",
 						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getKridershotHatred(), "KridershotHatred",
-						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getMarauders(), "Marauders",
-						"6"),
+				new Field(this.itemPanel.getKridershotHatred(),
+						"KridershotHatred", Boolean.FALSE.toString()),
+				new Field(this.itemPanel.getMarauders(), "Marauders", "6"),
 				new Field(this.itemPanel.getReapersWraps(), "ReapersWraps",
 						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getReapersWrapsPercent(), "ReapersWrapsPercent",
-						"25"),
+				new Field(this.itemPanel.getReapersWrapsPercent(),
+						"ReapersWrapsPercent", "25"),
 				new Field(this.itemPanel.getCindercoat(), "Cindercoat",
 						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getCindercoatPercent(), "CindercoatPercent",
-						"23"),
-				new Field(this.situational.getNumHealthGlobes(), "HealthGlobes",
-						"1"),
+				new Field(this.itemPanel.getCindercoatPercent(),
+						"CindercoatPercent", "23"),
+				new Field(this.situational.getNumHealthGlobes(),
+						"HealthGlobes", "1"),
 				new Field(this.situational.getFiringDelay(), "FiringDelay",
 						"50"),
 				new Field(this.itemPanel.getCalamityUptime(), "CalamityUptime",
@@ -2945,8 +3017,8 @@ public class MainPanel extends BasePanel {
 						"100"),
 				new Field(this.skills.getCaltropsUptime(), "CaltropsUptime",
 						"100"),
-				new Field(this.hatredPanel.getMaxHatred(),
-						"MaxHatredValue", "125"),
+				new Field(this.hatredPanel.getMaxHatred(), "MaxHatredValue",
+						"125"),
 				new Field(this.hatredPanel.getHatredPerSecond(),
 						"HatredPerSecond", "5.0"),
 				new Field(this.hatredPanel.getPreparationPunishment(),
@@ -2978,8 +3050,8 @@ public class MainPanel extends BasePanel {
 				new Field(this.itemPanel.getStrongarmUptime(),
 						"StrongarmUptime", "0"),
 
-				new Field(this.itemPanel.getOdysseysEnd(),
-						"OdysseysEnd", Boolean.FALSE.toString()),
+				new Field(this.itemPanel.getOdysseysEnd(), "OdysseysEnd",
+						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getOdysseysEndPercent(),
 						"OdysseysEndPercent", "20"),
 				new Field(this.itemPanel.getOdysseysEndUptime(),
@@ -2999,7 +3071,8 @@ public class MainPanel extends BasePanel {
 				new Field(this.skillDamage.getChakDamage(), "CHAK", "0"),
 				new Field(this.skillDamage.getImpDamage(), "IMP", "0"),
 				new Field(this.skillDamage.getHaDamage(), "HA", "0"),
-				new Field(this.skillDamage.getCompanionDamage(), "CompanionDamage", "0"),
+				new Field(this.skillDamage.getCompanionDamage(),
+						"CompanionDamage", "0"),
 				new Field(this.skillDamage.getEsDamage(), "ES", "0"),
 				new Field(this.skillDamage.getBolasDamage(), "Bolas", "0"),
 				new Field(this.skillDamage.getEfDamage(), "EF", "0"),
@@ -3010,8 +3083,8 @@ public class MainPanel extends BasePanel {
 						"PercentAtleast10Yards", "100"),
 				new Field(this.passives.getArchery(), "Archery",
 						Boolean.FALSE.toString()),
-				new Field(this.passives.getCustomEngineering(), "CustomEngineering",
-						Boolean.FALSE.toString()),
+				new Field(this.passives.getCustomEngineering(),
+						"CustomEngineering", Boolean.FALSE.toString()),
 				new Field(this.passives.getBallistics(), "Ballistics",
 						Boolean.FALSE.toString()),
 				new Field(this.passives.getBloodVengeance(), "BloodVengeance",
@@ -3068,10 +3141,10 @@ public class MainPanel extends BasePanel {
 				new Field(this.sentryRunes, "SentryRune", Rune.None.name()),
 				new Field(this.skill1, "Skill1", ""),
 				new Field(this.skill2, "Skill2", ""),
-//				new Field(this.skill3, "Skill3", ""),
+				// new Field(this.skill3, "Skill3", ""),
 				new Field(this.rune1, "Rune1", Rune.None.name()),
 				new Field(this.rune2, "Rune2", Rune.None.name()),
-//				new Field(this.rune3, "Rune3", Rune.None.name()),
+				// new Field(this.rune3, "Rune3", Rune.None.name()),
 				new Field(this.passives.getAmbush(), "Ambush",
 						Boolean.FALSE.toString()),
 				new Field(this.passives.getSingleOut(), "SingleOut",
@@ -3202,7 +3275,8 @@ public class MainPanel extends BasePanel {
 			data.setFireDamage(getValue(this.typeDamage.getFireDamage()) / 100.0);
 			data.setImpDamage(getValue(this.skillDamage.getImpDamage()) / 100.0);
 			data.setHaDamage(getValue(this.skillDamage.getHaDamage()) / 100.0);
-			data.setCompanionDamage(getValue(this.skillDamage.getCompanionDamage()) / 100.0);
+			data.setCompanionDamage(getValue(this.skillDamage
+					.getCompanionDamage()) / 100.0);
 			data.setEsDamage(getValue(this.skillDamage.getEsDamage()) / 100.0);
 			data.setBolasDamage(getValue(this.skillDamage.getBolasDamage()) / 100.0);
 			data.setEfDamage(getValue(this.skillDamage.getEfDamage()) / 100.0);
@@ -3253,7 +3327,8 @@ public class MainPanel extends BasePanel {
 					.getValue());
 			data.setWeaponDamage(calculator.getAverageWeaponDamage());
 			data.setArchery(calculator.getArchery());
-			data.setCustomEngineering(passives.getCustomEngineering().getValue());
+			data.setCustomEngineering(passives.getCustomEngineering()
+					.getValue());
 			data.setWeaponType(calculator.getWeaponType());
 			data.setGogok(gemPanel.getGogok().getValue());
 			data.setGogokLevel(gemPanel.getGogokLevel().getValue());
@@ -3329,30 +3404,36 @@ public class MainPanel extends BasePanel {
 			data.setCaltropsUptime(skills.getCaltropsUptime().getValue() / 100.0);
 			data.setMaxHatred(hatredPanel.getMaxHatred().getValue());
 			data.setHatredPerSecond(hatredPanel.getHatredPerSecond().getValue());
-			data.setPreparationPunishment(hatredPanel.getPreparationPunishment().getValue());
+			data.setPreparationPunishment(hatredPanel
+					.getPreparationPunishment().getValue());
 			data.setSpines(itemPanel.getSpines().getValue());
 			data.setKridershot(itemPanel.getKridershot().getValue());
 			data.setSpinesHatred(itemPanel.getSpinesHatred().getValue());
 			data.setKridershotHatred(itemPanel.getKridershotHatred().getValue());
 			data.setReapersWraps(itemPanel.getReapersWraps().getValue());
-			data.setReapersWrapsPercent(itemPanel.getReapersWrapsPercent().getValue() / 100.0);
+			data.setReapersWrapsPercent(itemPanel.getReapersWrapsPercent()
+					.getValue() / 100.0);
 			data.setNumHealthGlobes(situational.getNumHealthGlobes().getValue());
 			data.setDelay(situational.getFiringDelay().getValue());
 			data.setCindercoat(itemPanel.getCindercoat().getValue());
 			data.setCindercoatRCR(itemPanel.getCindercoatPercent().getValue() / 100.0);
 			data.setOdysseysEnd(itemPanel.getOdysseysEnd().getValue());
-			data.setOdysseysEndPercent(itemPanel.getOdysseysEndPercent().getValue() / 100.0);
-			data.setOdysseysEndUptime(itemPanel.getOdysseysEndUptime().getValue() / 100.0);
+			data.setOdysseysEndPercent(itemPanel.getOdysseysEndPercent()
+					.getValue() / 100.0);
+			data.setOdysseysEndUptime(itemPanel.getOdysseysEndUptime()
+					.getValue() / 100.0);
 			data.setEquipIas(calculator.getEquipIAS());
 			data.setWeaponIas(calculator.getWeaponIAS());
-			
-			Map<ActiveSkill, Rune> skills = getSkills();
-//			SkillSet skillSet = getSkillSet(skills);
 
-			double gogokIas = data.isGogok() ? (data.getGogokStacks() / 100.0) : 0.0;
+			Map<ActiveSkill, Rune> skills = getSkills();
+			// SkillSet skillSet = getSkillSet(skills);
+
+			double gogokIas = data.isGogok() ? (data.getGogokStacks() / 100.0)
+					: 0.0;
 			double petIasValue = data.isTnt() ? data.getTntPercent() : 0.0;
-			double petApsValue = data.getAps() * (1.0 + petIasValue) * (1.0 + gogokIas);
-			
+			double petApsValue = data.getAps() * (1.0 + petIasValue)
+					* (1.0 + gogokIas);
+
 			BreakPoint bp = BreakPoint.get(petApsValue);
 			data.setBp(bp.getBp());
 
@@ -3396,7 +3477,7 @@ public class MainPanel extends BasePanel {
 
 		addSkill(skills, skill1, rune1);
 		addSkill(skills, skill2, rune2);
-//		addSkill(skills, skill3, rune3);
+		// addSkill(skills, skill3, rune3);
 
 		return skills;
 	}
@@ -3414,18 +3495,17 @@ public class MainPanel extends BasePanel {
 
 			if (d.type != null) {
 				DamageType type = d.type;
-	
-				
+
 				DamageHolder h = types.get(type);
-	
+
 				DamageSource source = d.source;
 
 				if ((source.skill != null) && (source.rune != null)) {
 					source = new DamageSource(source.skill, null);
 				}
-				
+
 				DamageHolder th = skillDamages.get(source);
-	
+
 				if (h == null) {
 					h = new DamageHolder();
 					h.damage = d.totalDamage;
@@ -3436,7 +3516,7 @@ public class MainPanel extends BasePanel {
 					h.attacks = Math.max(d.qty, h.attacks);
 					h.attacks += d.qty;
 				}
-	
+
 				if (th == null) {
 					th = new DamageHolder();
 					th.damage = d.totalDamage;
@@ -3466,11 +3546,11 @@ public class MainPanel extends BasePanel {
 		double eliteBonus = isElite ? elite : 1.0;
 		String eliteLog = "";
 		String eliteString = isElite ? "Elite" : "Non-Elite";
-		
+
 		Label ns = new Label("" + data.getNumSentries());
 		ns.addStyleName("boldText");
 		outputHeader.setWidget(1, 7, ns);
-		
+
 		if (isElite && (elite > 1.0)) {
 			eliteLog = " X " + DamageMultiplier.Elite.getAbbreviation() + "("
 					+ Util.format(elite) + ")";
@@ -3484,14 +3564,12 @@ public class MainPanel extends BasePanel {
 			damageLog.removeRow(i - 1);
 		}
 
-		this.captionPanelDamageLog.setCaptionHTML("Damage Log ("
+		this.captionPanelDamageLog.setCaptionHTML("Damage Log (" + eliteString
+				+ " " + FiringData.DURATION + " seconds)");
+		this.captionPanelTypeSummary.setCaptionHTML("Damage Type Summary ("
 				+ eliteString + " " + FiringData.DURATION + " seconds)");
-		this.captionPanelTypeSummary
-				.setCaptionHTML("Damage Type Summary ("
-						+ eliteString + " " + FiringData.DURATION + " seconds)");
-		this.captionPanelSkillSummary
-				.setCaptionHTML("Skill Damage Summary ("
-						+ eliteString + " " + FiringData.DURATION + " seconds)");
+		this.captionPanelSkillSummary.setCaptionHTML("Skill Damage Summary ("
+				+ eliteString + " " + FiringData.DURATION + " seconds)");
 
 		for (int row = 0; row < damage.length; row++) {
 			if ((row % 2) == 0)
@@ -3500,11 +3578,11 @@ public class MainPanel extends BasePanel {
 				damageLog.getRowFormatter().addStyleName(row + 1, "evenRow");
 
 			Damage d = damage[row];
-			
+
 			Label sLabel = new Label(d.shooter);
 			sLabel.setWordWrap(false);
 			damageLog.setWidget(row + 1, 0, sLabel);
-			
+
 			if (d.source != null) {
 				ActiveSkill skill = d.source.skill;
 				GemSkill gem = d.source.gem;
@@ -3514,19 +3592,19 @@ public class MainPanel extends BasePanel {
 				a.setWordWrap(false);
 				String url = (skill != null) ? skill.getUrl() : gem.getUrl();
 				a.setHref(url);
-	
+
 				damageLog.setWidget(row + 1, 1, a);
 
 				if (skill != null) {
 					Anchor b = new Anchor(d.source.rune.getLongName());
 					b.setTarget("_blank");
 					b.setWordWrap(false);
-	
+
 					if (d.source.rune != Rune.None)
 						url += ("#" + d.source.rune.getSlug() + "+");
-	
+
 					b.setHref(url);
-	
+
 					damageLog.setWidget(row + 1, 2, b);
 				} else {
 					Label b = new Label("N/A");
@@ -3538,7 +3616,7 @@ public class MainPanel extends BasePanel {
 				b.setWordWrap(false);
 				b.setHref("http://us.battle.net/d3/en/class/demon-hunter/active/preparation");
 				damageLog.setWidget(row + 1, 1, b);
-				
+
 				Anchor b2 = new Anchor("Punishment");
 				b2.setTarget("_blank");
 				b2.setWordWrap(false);
@@ -3550,24 +3628,25 @@ public class MainPanel extends BasePanel {
 				b.setWordWrap(false);
 				b.setHref("http://us.battle.net/d3/en/class/demon-hunter/active/companion");
 				damageLog.setWidget(row + 1, 1, b);
-				
+
 				Anchor b2 = new Anchor("Bat");
 				b2.setTarget("_blank");
 				b2.setWordWrap(false);
 				b2.setHref("http://us.battle.net/d3/en/class/demon-hunter/active/companion#d+");
 				damageLog.setWidget(row + 1, 2, b2);
 			}
-				
-			if (d.type != null) 
-				damageLog.setWidget(row + 1, 3, new Label(d.type.name(), false));
-			
+
+			if (d.type != null)
+				damageLog
+						.setWidget(row + 1, 3, new Label(d.type.name(), false));
+
 			if (d.damage > 0) {
 				Label damageLabel = new Label(Util.format(Math.round(d.damage
 						* eliteBonus)), false);
 				damageLabel.addStyleName("dpsCol");
 				damageLog.setWidget(row + 1, 4, damageLabel);
 			}
-			
+
 			damageLog.setWidget(row + 1, 5, new Label(String.valueOf(d.qty),
 					false));
 
@@ -3577,13 +3656,13 @@ public class MainPanel extends BasePanel {
 			damageLog.setWidget(row + 1, 6, hatredLabel);
 
 			if (d.totalDamage > 0) {
-				Label totalLabel = new Label(Util.format(Math.round(d.totalDamage
-						* eliteBonus)), false);
+				Label totalLabel = new Label(Util.format(Math
+						.round(d.totalDamage * eliteBonus)), false);
 				totalLabel.addStyleName("dpsCol");
 				damageLog.setWidget(row + 1, 7, totalLabel);
-	
-				Label dpsLabel = new Label(
-						Util.format(Math.round((d.totalDamage * eliteBonus)
+
+				Label dpsLabel = new Label(Util.format(Math
+						.round((d.totalDamage * eliteBonus)
 								/ FiringData.DURATION)), false);
 				dpsLabel.addStyleName("dpsCol");
 				damageLog.setWidget(row + 1, 8, dpsLabel);
@@ -3595,21 +3674,21 @@ public class MainPanel extends BasePanel {
 
 			if (d.target != null) {
 				String target = d.target.name();
-	
+
 				if (d.target == Target.Additional)
 					target += (" (" + d.numAdd + ")");
-	
+
 				damageLog.setWidget(row + 1, 10, new Label(target, false));
 			} else {
 				damageLog.setWidget(row + 1, 10, new Label("", false));
 			}
-			
+
 			if (d.note != null) {
 				damageLog.setWidget(row + 1, 11, new Label(d.note, false));
 			} else {
 				damageLog.setWidget(row + 1, 11, new Label("", false));
 			}
-			
+
 			if (d.log != null) {
 				Label log = new Label(d.log + eliteLog);
 				log.setWordWrap(false);
@@ -3617,7 +3696,7 @@ public class MainPanel extends BasePanel {
 			} else {
 				damageLog.setWidget(row + 1, 12, new Label("", false));
 			}
-			
+
 		}
 
 		for (int i = summary.getRowCount(); i > 1; --i) {
@@ -3715,7 +3794,7 @@ public class MainPanel extends BasePanel {
 
 		double dps = Math.round(total / FiringData.DURATION);
 		double aps = data.getSentryAps();
-		BreakPoint bp = BreakPoint.ALL[data.getBp()-1];
+		BreakPoint bp = BreakPoint.ALL[data.getBp() - 1];
 
 		sentryAps.setText(Util.format(aps));
 		breakPoint.setText(String.valueOf(bp.getBp()));
@@ -3728,7 +3807,7 @@ public class MainPanel extends BasePanel {
 
 		row = 1;
 
-//		double dpsActual = total / FiringData.DURATION;
+		// double dpsActual = total / FiringData.DURATION;
 
 		this.dps.setText(Util.format(Math.round(dps)));
 		this.totalDamage.setText(Util.format(Math.round(total)));
@@ -3804,11 +3883,12 @@ public class MainPanel extends BasePanel {
 
 			addSkills(skill1, rune1);
 			addSkills(skill2, rune2);
-//			addSkills(skill3, rune3);
+			// addSkills(skill3, rune3);
 
-			addSkillHandler(skill1, rune1Label, rune1, skill2); //, skill2, skill3);
-			addSkillHandler(skill2, rune2Label, rune2, skill1); //, skill3);
-//			addSkillHandler(skill3, rune3Label, rune3, skill1, skill2);
+			addSkillHandler(skill1, rune1Label, rune1, skill2); // , skill2,
+																// skill3);
+			addSkillHandler(skill2, rune2Label, rune2, skill1); // , skill3);
+			// addSkillHandler(skill3, rune3Label, rune3, skill1, skill2);
 
 			calculator.loadForm();
 			loadForm();
@@ -3824,31 +3904,33 @@ public class MainPanel extends BasePanel {
 			setRuneLabel(sentryRuneLabel, null, sentryRunes);
 			setRuneLabel(this.rune1Label, skill1, rune1);
 			setRuneLabel(this.rune2Label, skill2, rune2);
-//			setRuneLabel(this.rune3Label, skill3, rune3);
+			// setRuneLabel(this.rune3Label, skill3, rune3);
 			setSkillLabel(this.skill1Label, skill1);
 			setSkillLabel(this.skill2Label, skill2);
-//			setSkillLabel(this.skill3Label, skill3);
+			// setSkillLabel(this.skill3Label, skill3);
 		}
 
 		disableListeners = false;
 	}
 
 	private void addSkillHandler(final ListBox skills, final Anchor runeLabel,
-			final ListBox runes, final ListBox other1) { //, final ListBox other2) {
+			final ListBox runes, final ListBox other1) { // , final ListBox
+															// other2) {
 		skills.addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {
 
 				if (!disableListeners)
-					skillChanged(skills, runeLabel, runes, other1); //, other2);
+					skillChanged(skills, runeLabel, runes, other1); // ,
+																	// other2);
 			}
 		});
 
 	}
 
 	protected void skillChanged(ListBox skills, Anchor runeLabel,
-			ListBox runes, ListBox other1) { //, ListBox other2) {
+			ListBox runes, ListBox other1) { // , ListBox other2) {
 
 		// ActiveSkill sk = getSkill(skills);
 		//
@@ -3962,29 +4044,29 @@ public class MainPanel extends BasePanel {
 
 	public static native void saveFormData(String filename, String key)
 	/*-{
-			var popupWindow =  window.open('', '_self', '');
-			var form = document.createElement("form");
-			
-			form.setAttribute("method", "post");
-			form.setAttribute("action", "saveData");
-			form.setAttribute("target", "_self");
-			form.setAttribute("enctype", "multipart/form-data");
-			var hiddenField = document.createElement("input");
-			hiddenField.setAttribute("type", "hidden");
-			hiddenField.setAttribute("name", "key");
-			hiddenField.setAttribute("value", key);
-			var hiddenField2 = document.createElement("input");
-			hiddenField2.setAttribute("type", "hidden");
-			hiddenField2.setAttribute("name", "filename");
-			hiddenField2.setAttribute("value", filename);
-			form.appendChild(hiddenField);
-			form.appendChild(hiddenField2);
-			document.getElementsByTagName('body')[0].appendChild(form);
-			form.submit();
-			
-			while(!popupWindow){
-				//wait for popupwindow to open before submitting the form
-			}
+		var popupWindow = window.open('', '_self', '');
+		var form = document.createElement("form");
+
+		form.setAttribute("method", "post");
+		form.setAttribute("action", "saveData");
+		form.setAttribute("target", "_self");
+		form.setAttribute("enctype", "multipart/form-data");
+		var hiddenField = document.createElement("input");
+		hiddenField.setAttribute("type", "hidden");
+		hiddenField.setAttribute("name", "key");
+		hiddenField.setAttribute("value", key);
+		var hiddenField2 = document.createElement("input");
+		hiddenField2.setAttribute("type", "hidden");
+		hiddenField2.setAttribute("name", "filename");
+		hiddenField2.setAttribute("value", filename);
+		form.appendChild(hiddenField);
+		form.appendChild(hiddenField2);
+		document.getElementsByTagName('body')[0].appendChild(form);
+		form.submit();
+
+		while (!popupWindow) {
+			//wait for popupwindow to open before submitting the form
+		}
 	}-*/;
 
 	protected void showProfile() {
@@ -4026,6 +4108,43 @@ public class MainPanel extends BasePanel {
 
 	}
 
+	protected void showGearPanel() {
+
+		if (gearPanel == null) {
+			gearPanel = new GearPanel();
+		}
+
+		ApplicationPanel.showDialogBox("Items", gearPanel,
+				ApplicationPanel.APPLY_CHANGES | ApplicationPanel.CANCEL,
+				new DialogBoxResultHandler() {
+
+					@Override
+					public void dialogBoxResult(int result) {
+						if (result == ApplicationPanel.APPLY_CHANGES) {
+							
+							AsyncTaskHandler dialog = ApplicationPanel.showWaitDialogBox("Please Wait", "Calculatin...");
+							
+							Map<Slot, ItemInformation> items = gearPanel
+									.getItems();
+
+							if ((hero != null) && (hero.items != null)) {
+								for (Slot s : Slot.values()) {
+									ItemInformation item = items.get(s);
+
+									if (item == null) {
+										hero.items.remove(s.getSlot());
+									} else {
+										hero.items.put(s.getSlot(), item);
+									}
+								}
+
+								importHeroData(dialog);
+							}
+						}
+					}
+				});
+	}
+
 	protected void showPaperdoll() {
 
 		if (this.career == null) {
@@ -4040,7 +4159,7 @@ public class MainPanel extends BasePanel {
 			String value = heroList.getValue(index);
 
 			if (value.length() == 0) {
-				ApplicationPanel.showErrorDialog("Fetch Hero List");
+				ApplicationPanel.showErrorDialog("Fetch Hero List First");
 				return;
 			}
 
@@ -4063,42 +4182,42 @@ public class MainPanel extends BasePanel {
 	public static native void openPaperdoll(String realm, String profile,
 			int tag, int id)
 	/*-{
-	 		var name = 'paperdoll.' + profile + '-' + tag + '.' + id;
-	 
-	   		window.open('', name, 'width=640,height=640').focus();
-			var form = document.createElement("form");
-			
-			form.setAttribute("method", "post");
-			form.setAttribute("action", 'paperdoll.jsp');
-			form.setAttribute("target", name);
-			form.enctype = "application/x-www-form-urlencoded";
+		var name = 'paperdoll.' + profile + '-' + tag + '.' + id;
 
-			var serverField = document.createElement("input");
-			serverField.setAttribute("type", "hidden");
-			serverField.setAttribute("name", "realm");
-			serverField.setAttribute("value", realm);
-			form.appendChild(serverField);
-			
-			var profileField = document.createElement("input");
-			profileField.setAttribute("type", "hidden");
-			profileField.setAttribute("name", "profile");
-			profileField.setAttribute("value", profile);
-			form.appendChild(profileField);
-			
-			var tagField = document.createElement("input");
-			tagField.setAttribute("type", "hidden");
-			tagField.setAttribute("name", "tag");
-			tagField.setAttribute("value", tag);
-			form.appendChild(tagField);
-			
-			var idField = document.createElement("input");
-			idField.setAttribute("type", "hidden");
-			idField.setAttribute("name", "id");
-			idField.setAttribute("value", id);
-			form.appendChild(idField);
-			
-			document.getElementsByTagName('body')[0].appendChild(form);
-			form.submit();
+		window.open('', name, 'width=640,height=640').focus();
+		var form = document.createElement("form");
+
+		form.setAttribute("method", "post");
+		form.setAttribute("action", 'paperdoll.jsp');
+		form.setAttribute("target", name);
+		form.enctype = "application/x-www-form-urlencoded";
+
+		var serverField = document.createElement("input");
+		serverField.setAttribute("type", "hidden");
+		serverField.setAttribute("name", "realm");
+		serverField.setAttribute("value", realm);
+		form.appendChild(serverField);
+
+		var profileField = document.createElement("input");
+		profileField.setAttribute("type", "hidden");
+		profileField.setAttribute("name", "profile");
+		profileField.setAttribute("value", profile);
+		form.appendChild(profileField);
+
+		var tagField = document.createElement("input");
+		tagField.setAttribute("type", "hidden");
+		tagField.setAttribute("name", "tag");
+		tagField.setAttribute("value", tag);
+		form.appendChild(tagField);
+
+		var idField = document.createElement("input");
+		idField.setAttribute("type", "hidden");
+		idField.setAttribute("name", "id");
+		idField.setAttribute("value", id);
+		form.appendChild(idField);
+
+		document.getElementsByTagName('body')[0].appendChild(form);
+		form.submit();
 	}-*/;
 
 }

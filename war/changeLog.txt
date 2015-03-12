@@ -4,6 +4,7 @@ Change Log:
 
 * Added Dex, Crit and Gogok of Swiftness bonuses to Companion damage
 * Fixed IAS calculation in Companion DPS
+* Added ability to save different weapons/items to compare against (see Items button in import panel)
 
 **3/11/15**
 

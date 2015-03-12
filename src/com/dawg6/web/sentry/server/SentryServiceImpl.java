@@ -91,6 +91,31 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
+	public ItemInformation getItem(Realm realm, String item) {
+
+		try {
+			String server = realm.getApiHost();
+
+//			log.info("getItem(" + realm.getDisplayName() + "," + item + ")");
+	
+			ItemInformation result = IO.getInstance().readItemInformation(server,
+					item);
+
+//			log.info("Item: " + gson.toJson(result));
+			
+			if (result.code != null)
+				log.info(realm.getDisplayName() + "/" + item + " Code: " + result.code + ", Reason: "
+						+ result.reason);
+
+			return result;
+
+		} catch (Exception e) {
+			log.log(Level.SEVERE, "Exception Getting Profile", e);
+			return null;
+		}
+	}
+
+	@Override
 	public HeroProfile getHero(Realm realm, String profile, int tag, int id) {
 		try {
 			String server = realm.getApiHost();
