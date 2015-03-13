@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,16 +18,22 @@ import org.lightcouch.NoDocumentException;
 import org.lightcouch.Response;
 import org.lightcouch.View;
 
+import com.dawg6.web.sentry.server.SentryServiceImpl;
 import com.dawg6.web.sentry.server.util.SentryProperties;
 import com.dawg6.web.sentry.shared.calculator.ActiveSkill;
 import com.dawg6.web.sentry.shared.calculator.Build;
+import com.dawg6.web.sentry.shared.calculator.CharacterData;
+import com.dawg6.web.sentry.shared.calculator.ProfileHelper;
 import com.dawg6.web.sentry.shared.calculator.Rune;
+import com.dawg6.web.sentry.shared.calculator.SkillAndRune;
+import com.dawg6.web.sentry.shared.calculator.d3api.HeroProfile;
 import com.dawg6.web.sentry.shared.calculator.d3api.Realm;
 import com.dawg6.web.sentry.shared.calculator.stats.DBStatistics;
 import com.dawg6.web.sentry.shared.calculator.stats.DocumentBase;
 import com.dawg6.web.sentry.shared.calculator.stats.DpsTableEntry;
 import com.dawg6.web.sentry.shared.calculator.stats.StatCategory;
 import com.dawg6.web.sentry.shared.calculator.stats.Statistics;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 public class CouchDBSentryDatabase {
@@ -112,11 +119,24 @@ public class CouchDBSentryDatabase {
 		return list.isEmpty() ? null : list.get(0);
 	}
 
+	public <T> T reduce(Class<T> clazz, String viewName, Object... key) {
+		View view = dbClient.view(DB_NAME + "/" + viewName);
+		
+		if (key.length > 0) {
+			view.key(key);
+		}
+
+		List<T> list = view.query(clazz);
+		
+		return list.isEmpty() ? null : list.get(0);
+	}
+
 	public <T extends DocumentBase> List<T> view(Class<T> clazz, String viewName, List<String> keys) {
 		View view = dbClient.view(DB_NAME + "/" + viewName)
 				.includeDocs(true);
 		
-		view.keys(keys);
+		if (keys.size() > 0)
+			view.keys(keys);
 
 		return view.query(clazz);
 	}
@@ -129,10 +149,21 @@ public class CouchDBSentryDatabase {
 		if (key.length > 0) {
 			view.key(key);
 		}
-
+		
 		return view.query(clazz);
 	}
 	
+	public <T extends DocumentBase> List<T> viewRange(Class<T> clazz, String viewName, Object start, Object end) {
+		
+		View view = dbClient.view(DB_NAME + "/" + viewName)
+				.includeDocs(true);
+		
+		view.startKey(start);
+		view.endKey(end);
+		
+		return view.query(clazz);
+	}
+
 	public <T extends DocumentBase> void truncate(Class<T> clazz) {
 		
 		try {
@@ -225,108 +256,57 @@ public class CouchDBSentryDatabase {
 	}
 
 
-	protected void updateDpsData(String table, long since) {
-//		AmazonDynamoDBClient client = this.getClient();
-//
-//		DynamoDBMapperConfig.Builder builder = new DynamoDBMapperConfig.Builder();
-//		builder.setConsistentReads(ConsistentReads.EVENTUAL);
-//		builder.setPaginationLoadingStrategy(PaginationLoadingStrategy.ITERATION_ONLY);
-//		builder.setTableNameOverride(TableNameOverride
-//				.withTableNameReplacement(table));
-//
-//		DynamoDBMapperConfig fromMapperConfig = builder.build();
-//		DynamoDBMapper fromMapper = new DynamoDBMapper(client, fromMapperConfig);
-//
-//		DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
-//
-//		scanExpression.addFilterCondition(
-//				"when",
-//				new Condition().withComparisonOperator(ComparisonOperator.LT)
-//						.withAttributeValueList(
-//								new AttributeValue().withN(String
-//										.valueOf(since))));
-//
-//		List<DpsTableEntry> fromList = fromMapper.scan(DpsTableEntry.class,
-//				scanExpression);
-//
-//		SentryServiceImpl service = new SentryServiceImpl();
-//
-//		int count = 0;
-//
-//		for (Iterator<DpsTableEntry> iter = fromList.iterator(); iter.hasNext();) {
-//			DpsTableEntry source = iter.next();
-//
-//			System.out.println(count + ". Updating DPS for "
-//					+ source.getRealm().name() + "/" + source.getBattletag());
-//			Realm realm = source.getRealm();
-//			String battletag = source.getBattletag();
-//			String[] split1 = battletag.split("/");
-//			String[] split2 = split1[0].split("-");
-//			String profile = split2[0];
-//			Integer tag = Integer.parseInt(split2[1]);
-//			Integer heroId = Integer.parseInt(split1[1]);
-//			HeroProfile hero = service.getHero(realm, profile, tag, heroId);
-//
-//			if (hero.code == null) {
-//				CharacterData data = ProfileHelper.importHero(hero);
-//				data.setRealm(realm);
-//				data.setProfile(profile);
-//				data.setTag(tag);
-//				data.setHero(heroId);
-//				data.setParagonCC(source.getParagon_cc());
-//				data.setParagonCHD(source.getParagon_chd());
-//				data.setParagonCDR(source.getParagon_cdr());
-//				data.setParagonIAS(source.getParagon_ias());
-//				
-//				DpsTableEntry entry = service.calculateDps(data);
-//
-//				fromMapper.save(entry);
-//			} else {
-//				log.warning("Unable to find hero: " + battletag);
-//			}
-//
-//			count++;
-//		}
+	protected void updateDpsData(Long since) {
+
+		SentryServiceImpl service = new SentryServiceImpl();
+		Long start = (long)0;
+		List<DpsTableEntry> list = this.viewRange(DpsTableEntry.class, DpsTableEntry.BY_TIME, start, since);
+		int count = 1;
+		int num = list.size();
+		
+		for (DpsTableEntry source : list) {
+
+			System.out.println(count + "/" + num + ": Updating DPS for "
+					+ source.getRealm().name() + "/" + source.getBattletag());
+			Realm realm = source.getRealm();
+			String battletag = source.getBattletag();
+			String[] split1 = battletag.split("/");
+			String[] split2 = split1[0].split("-");
+			String profile = split2[0];
+			Integer tag = Integer.parseInt(split2[1]);
+			Integer heroId = Integer.parseInt(split1[1]);
+			HeroProfile hero = service.getHero(realm, profile, tag, heroId);
+
+			if (hero.code == null) {
+				CharacterData data = ProfileHelper.importHero(hero, null);
+				data.setRealm(realm);
+				data.setProfile(profile);
+				data.setTag(tag);
+				data.setHero(heroId);
+				data.setParagonCC(source.getParagon_cc());
+				data.setParagonCHD(source.getParagon_chd());
+				data.setParagonCDR(source.getParagon_cdr());
+				data.setParagonIAS(source.getParagon_ias());
+				data.setParagonHatred(getValue(source.getParagon_hatred(), 0));
+				data.setParagonRCR(getValue(source.getParagon_rcr(), 0));
+				data.setBp(source.getBp());
+				
+				DpsTableEntry entry = service.calculateDps(data);
+				entry.setId(source.getId());
+				entry.setRevision(source.getRevision());
+				
+				persist(entry);
+			} else {
+				log.warning("Unable to find hero: " + battletag);
+			}
+
+			count++;
+		}
 	}
 
-	protected void fixProfile(String table) {
-//		AmazonDynamoDBClient client = this.getClient();
-//
-//		DynamoDBMapperConfig.Builder builder = new DynamoDBMapperConfig.Builder();
-//		builder.setConsistentReads(ConsistentReads.EVENTUAL);
-//		builder.setPaginationLoadingStrategy(PaginationLoadingStrategy.ITERATION_ONLY);
-//		builder.setTableNameOverride(TableNameOverride
-//				.withTableNameReplacement(table));
-//
-//		DynamoDBMapperConfig fromMapperConfig = builder.build();
-//		DynamoDBMapper fromMapper = new DynamoDBMapper(client, fromMapperConfig);
-//
-//		DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
-//
-//		List<DpsTableEntry> fromList = fromMapper.scan(DpsTableEntry.class,
-//				scanExpression);
-//
-//		int count = 0;
-//
-//		for (Iterator<DpsTableEntry> iter = fromList.iterator(); iter.hasNext();) {
-//			DpsTableEntry source = iter.next();
-//
-//			System.out.println(count + ". Fixing Profile for "
-//					+ source.getRealm().name() + "/" + source.getBattletag());
-//			String battletag = source.getBattletag();
-//			String[] split1 = battletag.split("/");
-//			String[] split2 = split1[0].split("-");
-//			String profile = split2[0];
-//			Integer tag = Integer.parseInt(split2[1]);
-//			Integer heroId = Integer.parseInt(split1[1]);
-//
-//			source.setProfile(profile);
-//			source.setTag(tag);
-//			source.setHeroId(heroId);
-//
-//			fromMapper.save(source);
-//			count++;
-//		}
+
+	public int getValue(Integer value, int defaultValue) {
+		return (value == null) ? defaultValue : value;
 	}
 
 	protected void importData(String from, String to) {
@@ -399,6 +379,45 @@ public class CouchDBSentryDatabase {
 
 	}
 
+	public static class DBStat {
+		public double single_elite;
+		public double single;
+		public double multiple_elite;
+		public double multiple;
+	}
+
+	public static class DBStatHolder {
+		public int count;
+		public DBStat total;
+		public DBStat min;
+		public DBStat max;
+		public DBStat average;
+	}
+	
+	public static class DBStats {
+		public String key;
+		public DBStatHolder value;
+	}
+	
+	public DBStats getStatistics(Build build) {
+		
+		if (build != null) {
+			JsonObject key = new JsonObject();
+			key.addProperty("Sentry", build.getSentryRune().name());
+			
+			for (SkillAndRune skr : build.getSkills()) {
+				key.addProperty(skr.getSkill().name(), "true");
+				key.addProperty(skr.getRune().name(), "true");
+			}
+			
+			log.info("Build = " + key.toString());
+			
+			return this.reduce(DBStats.class, DpsTableEntry.DPS_SUMMARY, key);
+		} else {
+			return this.reduce(DBStats.class, DpsTableEntry.DPS_SUMMARY);
+		}
+	}
+	
 	public DBStatistics getStatistics(Rune sentryRune, ActiveSkill[] skills,
 			Rune[] runes) {
 		DBStatistics stats = new DBStatistics();
@@ -481,6 +500,31 @@ public class CouchDBSentryDatabase {
 	}
 	
 	public static void main(String[] args) {
-		CouchDBSentryDatabase.getInstance();
+		try {
+			CouchDBSentryDatabase db = CouchDBSentryDatabase.getInstance();
+			long since = System.currentTimeMillis();
+			System.out.println("Start Time = " + since);
+			
+			Build build = new Build();
+			build.setSentryRune(Rune.Polar_Station);
+			Set<SkillAndRune> skills = new TreeSet<SkillAndRune>();
+			skills.add(new SkillAndRune(ActiveSkill.CA, Rune.Maelstrom));
+			skills.add(new SkillAndRune(ActiveSkill.EF, Rune.Focus));
+			build.setSkills(skills);
+			
+			DBStats stats = db.getStatistics(build);
+
+			Gson gson = new Gson();
+			System.out.println("Stats = " + gson.toJson(stats));
+	//		Long start = (long)0;
+	//		List<DpsTableEntry> list = db.viewRange(DpsTableEntry.class, DpsTableEntry.BY_TIME, start, since);
+	//		
+	//		System.out.println("Count = " + list.size());
+//			db.updateDpsData(since);
+		} catch (Exception e) {
+			log.log(Level.SEVERE, e.getMessage(), e);
+		} finally {
+			System.out.println("End Time = " + System.currentTimeMillis());
+		}
 	}
 }

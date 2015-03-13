@@ -15,6 +15,10 @@ public class DpsTableEntry extends DocumentBase implements Serializable {
 	public static final String BATTLETAG = "battletag";
 
 	public static final String PROFILES = "profiles";
+
+	public static final String BY_TIME = "profilesByTime";
+
+	public static final String DPS_SUMMARY = "dpsSummary";
 	
 	protected String battletag;
 	protected Realm realm;

@@ -11,7 +11,7 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/poi-3.10.1-20140818.jar" sourcepath="C:/Users/scott.clarke/.m2/repository/org/apache/poi/poi/3.10.1/poi-3.10.1-sources.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/log4j-1.2.17.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gson-2.1.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/lightcouch-0.1.6.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/lightcouch-0.1.6.jar" sourcepath="C:/Users/scott.clarke/.m2/repository/org/lightcouch/lightcouch/0.1.6/lightcouch-0.1.6-sources.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/dawg6-common"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/dawg6-gwt-common"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>

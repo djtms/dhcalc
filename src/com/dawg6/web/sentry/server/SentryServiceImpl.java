@@ -334,6 +334,8 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 		entry.setParagon_cdr(data.getParagonCDR());
 		entry.setParagon_chd(data.getParagonCHD());
 		entry.setParagon_ias(data.getParagonIAS());
+		entry.setParagon_hatred(data.getParagonHatred());
+		entry.setParagon_rcr(data.getParagonRCR());
 		entry.setParagon(data.getParagon());
 		entry.setProfile(data.getProfile());
 		entry.setTag(data.getTag());
