@@ -86,6 +86,8 @@ public class DPSCalculator extends BasePanel {
 	private double focusedMind;
 	private double gogokIas;
 	private double painEnhancerIas;
+	private final Label dexterityLabel;
+	private final NumberSpinner heroLevel;
 
 	public DPSCalculator() {
 
@@ -421,6 +423,14 @@ public class DPSCalculator extends BasePanel {
 			}
 		});
 
+		paragonPanel.getParagonDexterity().addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				calculate();
+			}
+		});
+
 		paragonPanel.getParagonCC().addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -525,15 +535,33 @@ public class DPSCalculator extends BasePanel {
 		FlexTable flexTable_4 = new FlexTable();
 		flexTable_4.setCellPadding(2);
 		cptnpnlNewPanel_4.setContentWidget(flexTable_4);
+		
+		Label lblHeroLevel = new Label("Hero Level:");
+		lblHeroLevel.setWordWrap(false);
+		flexTable_4.setWidget(0, 0, lblHeroLevel);
+		
+		heroLevel = new NumberSpinner();
+		heroLevel.box.setTitle("Total of all dexterity from items and set bonuses only");
+		heroLevel.setVisibleLength(6);
+		heroLevel.setMin(1);
+		heroLevel.setMax(70);
+		flexTable_4.setWidget(0, 1, heroLevel);
+		
+		heroLevel.addChangeHandler(new ChangeHandler(){
 
-		Label lblNewLabel_3 = new Label("Total Dexterity:");
-		flexTable_4.setWidget(0, 0, lblNewLabel_3);
+			@Override
+			public void onChange(ChangeEvent event) {
+				calculate();
+			}});
+
+		Label lblNewLabel_3 = new Label("Dexterity from Items:");
+		flexTable_4.setWidget(1, 0, lblNewLabel_3);
 		lblNewLabel_3.setWordWrap(false);
 
 		dexterity = new NumberSpinner();
 		dexterity.box
-				.setTitle("Total of all dexterity from levels, paragon points, equipment and set bonuses");
-		flexTable_4.setWidget(0, 1, dexterity);
+				.setTitle("Total of all dexterity from items and set bonuses only");
+		flexTable_4.setWidget(1, 1, dexterity);
 		dexterity.setVisibleLength(6);
 
 		CaptionPanel captionPanel = new CaptionPanel("Other");
@@ -566,7 +594,7 @@ public class DPSCalculator extends BasePanel {
 
 		gogokStacks = new NumberSpinner();
 		gogokStacks.box
-				.setTitle("Total of all dexterity from levels, paragon points, equipment and set bonuses");
+				.setTitle("Average # of stacks of Gogok of Swiftness");
 		gogokStacks.setVisibleLength(3);
 		flexTable_8.setWidget(0, 5, gogokStacks);
 
@@ -593,7 +621,7 @@ public class DPSCalculator extends BasePanel {
 
 		painEnhancerStacks = new NumberSpinner();
 		painEnhancerStacks.box
-				.setTitle("Total of all dexterity from levels, paragon points, equipment and set bonuses");
+				.setTitle("Average # of bleeding enemies");
 		painEnhancerStacks.setVisibleLength(3);
 		painEnhancerStacks.setTitle("# of bleeding enemies within 20 yards");
 		flexTable_8.setWidget(1, 5, painEnhancerStacks);
@@ -885,6 +913,15 @@ public class DPSCalculator extends BasePanel {
 		sentryAps.setTitle("Actual Sentry APS (based on BP)");
 		flexTable_6.setWidget(3, 3, sentryAps);
 		sentryAps.setStyleName("boldText");
+		
+		Label lblTotalDexterity = new Label("Total Dexterity:");
+		lblTotalDexterity.setStyleName("boldText");
+		flexTable_6.setWidget(4, 0, lblTotalDexterity);
+		
+		dexterityLabel = new Label("0");
+		dexterityLabel.setTitle("This is the total of all Dexterity from items, levels and paragon points");
+		dexterityLabel.setStyleName("boldText");
+		flexTable_6.setWidget(4, 1, dexterityLabel);
 
 		Label lblSentryDps = new Label("Sentry Base DPS:");
 		lblSentryDps.setWordWrap(false);
@@ -1113,6 +1150,8 @@ public class DPSCalculator extends BasePanel {
 				new Field(this.equipIAS, "calc.EquipIAS", "0"),
 				new Field(this.paragonPanel.getParagonIAS(), "calc.ParagonIAS",
 						"0"),
+				new Field(this.paragonPanel.getParagonDexterity(), "calc.ParagonDEX",
+						"0"),
 				new Field(this.paragonPanel.getParagonCDR(), "calc.ParagonCDR",
 						"0"),
 				new Field(this.paragonPanel.getParagonCC(), "calc.ParagonCC",
@@ -1124,7 +1163,8 @@ public class DPSCalculator extends BasePanel {
 				new Field(this.paragonPanel.getParagonRCR(), "calc.ParagonRCR",
 						"0"),
 				new Field(this.tntPercent, "calc.PetIAS", "0"),
-				new Field(this.dexterity, "calc.Dexterity", "0"),
+				new Field(this.dexterity, "calc.EquipmentDexterity", "0"),
+				new Field(this.heroLevel, "calc.HeroLevel", "70"),
 				new Field(this.critChance, "calc.CritChance", "0"),
 				new Field(this.critDamage, "calc.CritDamage", "0"),
 				new Field(this.archery, "calc.Archery", "0"),
@@ -1154,7 +1194,7 @@ public class DPSCalculator extends BasePanel {
 
 		double min = this.min + getValue(this.minJewelDamage);
 		double max = this.max + getValue(this.maxJewelDamage);
-		double dex = getValue(this.dexterity);
+		double dex = getValue(this.dexterity) + (paragonPanel.getParagonDexterity().getValue() * 5) + 217;
 		double pCC = (getValue(this.paragonPanel.getParagonCC()) * 0.1) / 100.0;
 		double pCD = (getValue(this.paragonPanel.getParagonCHD()) * 1.0) / 100.0;
 		double aCC = 0.0;
@@ -1244,6 +1284,8 @@ public class DPSCalculator extends BasePanel {
 				* (1.0 + aDam);
 		this.sentryDps.setText(Util.format(Math.round(sentryDpsValue)));
 
+		this.dexterityLabel.setText(String.valueOf(this.getTotalDexterity()));
+
 		this.iasTypeChanged();
 	}
 
@@ -1276,7 +1318,7 @@ public class DPSCalculator extends BasePanel {
 		this.weaponIAS.setValue((int)(Math.round(data.getWeaponIas() * 100.0)));
 		this.equipIAS.setValue((int)(Math.round(data.getEquipIas() * 100.0)));
 		this.weaponDamage.setValue((int) Math.round(data.getWeaponDamagePercent() * 100.0));
-		this.dexterity.setValue((int)data.getDexterity());
+		this.dexterity.setValue(data.getEquipmentDexterity());
 		this.tnt.setValue(data.isTnt());
 		this.tntPercent.setValue((int)(Math.round(data.getTntPercent() * 100.0)));
 		this.archery.setValue(data.isArchery());
@@ -1310,11 +1352,12 @@ public class DPSCalculator extends BasePanel {
 		}
 	}
 
-	public void setParagonPoints(int ias, int cdr, int cc, int cd, int hatred, int rcr) {
+	public void setParagonPoints(int ias, int dex, int cdr, int cc, int cd, int hatred, int rcr) {
 
 		this.disableListeners = true;
 
 		this.paragonPanel.getParagonIAS().setValue(ias);
+		this.paragonPanel.getParagonDexterity().setValue(dex);
 		this.paragonPanel.getParagonCDR().setValue(cdr);
 		this.paragonPanel.getParagonCC().setValue(cc);
 		this.paragonPanel.getParagonCHD().setValue(cd);
@@ -1379,8 +1422,8 @@ public class DPSCalculator extends BasePanel {
 		this.calculate();
 	}
 
-	public int getDexterity() {
-		return this.dexterity.getValue();
+	public int getTotalDexterity() {
+		return getValue(this.dexterity) + (paragonPanel.getParagonDexterity().getValue() * 5) + 7 + (getHeroLevel() * 3);
 	}
 
 	public double getDamageBonus() {
@@ -1544,5 +1587,17 @@ public class DPSCalculator extends BasePanel {
 	
 	public double getWeaponIAS() {
 		return this.weaponIAS.getValue() / 100.0;
+	}
+
+	public Integer getParagonDexterity() {
+		return this.getValue(this.paragonPanel.getParagonDexterity());
+	}
+
+	public int getEquipmentDexterity() {
+		return this.dexterity.getValue();
+	}
+	
+	public int getHeroLevel() {
+		return heroLevel.getValue();
 	}
 }

@@ -314,6 +314,16 @@ public class MainPanel extends BasePanel {
 			}
 		});
 
+		this.paragonPanel.getParagonDexterity().addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+
+				if (!disableListeners)
+					updateDps();
+			}
+		});
+
 		this.paragonPanel.getParagonHatred().addChangeHandler(
 				new ChangeHandler() {
 
@@ -1748,6 +1758,7 @@ public class MainPanel extends BasePanel {
 		this.paragonPanel.getParagonCHD().setValue(entry.getParagon_chd());
 		this.paragonPanel.getParagonCDR().setValue(entry.getParagon_cdr());
 		this.paragonPanel.getParagonIAS().setValue(entry.getParagon_ias());
+		this.paragonPanel.getParagonDexterity().setValue(entry.getParagon_dex());
 		this.paragonPanel.getParagonHatred()
 				.setValue(entry.getParagon_hatred());
 		this.paragonPanel.getParagonRCR().setValue(entry.getParagon_rcr());
@@ -2155,6 +2166,8 @@ public class MainPanel extends BasePanel {
 
 							MainPanel.this.paragonPanel.getParagonIAS()
 									.setValue(calculator.getParagonIas());
+							MainPanel.this.paragonPanel.getParagonDexterity()
+									.setValue(calculator.getParagonDexterity());
 							MainPanel.this.paragonPanel.getParagonCDR()
 									.setValue(calculator.getParagonCDR());
 							MainPanel.this.paragonPanel.getParagonCC()
@@ -2372,6 +2385,10 @@ public class MainPanel extends BasePanel {
 	protected void importHeroData(Integer paragonDexterity, AsyncTaskHandler handler) {
 		data = ProfileHelper.importHero(hero, paragonDexterity);
 
+		if (paragonDexterity == null) {
+			paragonPanel.getParagonDexterity().setValue(data.getParagonDexterity() / 5);
+		}
+		
 		data.setRealm(realm);
 		data.setProfile(profile);
 		data.setTag(tag);
@@ -2446,6 +2463,7 @@ public class MainPanel extends BasePanel {
 	private void updateParagonPoints() {
 		this.calculator.setParagonPoints(
 				getValue(MainPanel.this.paragonPanel.getParagonIAS()),
+				getValue(MainPanel.this.paragonPanel.getParagonDexterity()),
 				getValue(MainPanel.this.paragonPanel.getParagonCDR()),
 				getValue(MainPanel.this.paragonPanel.getParagonCC()),
 				getValue(MainPanel.this.paragonPanel.getParagonCHD()),
@@ -2688,7 +2706,7 @@ public class MainPanel extends BasePanel {
 				calculator.getPainEnhancerLevel());
 		this.gemPanel.getPainEnhancerStacks().setValue(
 				calculator.getPainEnhancerStacks());
-		this.dexterity.setText(String.valueOf(calculator.getDexterity()));
+		this.dexterity.setText(String.valueOf(calculator.getTotalDexterity()));
 		this.critChance.setText(Util.format(Math.round(calculator
 				.getCritChance() * 1000.0) / 10.0) + "%");
 		this.critDamage.setText(Util.format(Math.round(calculator
@@ -2972,6 +2990,7 @@ public class MainPanel extends BasePanel {
 				new Field(this.battleTag, "BattleTag", "BnetName"),
 				new Field(this.tagNumber, "BattleTagNumber", "1234"),
 				new Field(this.paragonPanel.getParagonIAS(), "ParagonIas", "0"),
+				new Field(this.paragonPanel.getParagonDexterity(), "ParagonDex", "0"),
 				new Field(this.paragonPanel.getParagonCDR(), "ParagonCDR", "0"),
 				new Field(this.paragonPanel.getParagonCC(), "ParagonCC", "0"),
 				new Field(this.paragonPanel.getParagonCHD(), "ParagonCD", "0"),
@@ -3265,7 +3284,15 @@ public class MainPanel extends BasePanel {
 
 			this.formData = getFormData();
 
-			data.setEquipmentDexterity(calculator.getDexterity() - data.getParagonDexterity());
+			data.setEquipmentDexterity(calculator.getEquipmentDexterity());
+			data.setParagonCC(paragonPanel.getParagonCC().getValue());
+			data.setParagonIAS(paragonPanel.getParagonIAS().getValue());
+			data.setParagonCHD(paragonPanel.getParagonCHD().getValue());
+			data.setParagonCDR(paragonPanel.getParagonCDR().getValue());
+			data.setParagonDexterity(paragonPanel.getParagonDexterity().getValue() * 5);
+			data.setHeroLevel(calculator.getHeroLevel());
+			data.setParagonHatred(paragonPanel.getParagonHatred().getValue());
+			data.setParagonRCR(paragonPanel.getParagonRCR().getValue());
 			data.setSheetDps(calculator.getSheetDps());
 			data.setAps(calculator.getAps());
 			data.setCaDamage(getValue(this.skillDamage.getCaDamage()) / 100.0);

@@ -334,6 +334,7 @@ public class ProfileHelper {
 		data.setBloodVengeance(bloodVengeance);
 		data.setNightStalker(nightStalker);
 		data.setPreparationPunishment(preparationPunishment);
+		data.setHeroLevel(hero.level);
 	}
 
 	public static Rune lookupRune(ActiveSkill skill, String name) {
@@ -647,8 +648,9 @@ public class ProfileHelper {
 		
 		if (paragonDexterity != null)
 			data.setParagonDexterity(paragonDexterity);
-		else
-			data.setParagonDexterity(hero.stats.dexterity - equipmentDexterity);
+		else {
+			data.setParagonDexterity(hero.stats.dexterity - (equipmentDexterity + 7 + (hero.level *3)));
+		}
 		
 		data.setJewelMin(minJewelry);
 		data.setJewelMax(maxJewelry);

@@ -11,6 +11,8 @@ public class CharacterData implements Serializable {
 
 	private static final long serialVersionUID = -7542480040314924139L;
 	
+	
+	private int heroLevel;
 	private Realm realm;
 	private String profile;
 	private int tag;
@@ -383,7 +385,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public double getDexterity() {
-		return equipmentDexterity + paragonDexterity;
+		return equipmentDexterity + paragonDexterity + 7 + (heroLevel * 3);
 	}
 
 	public double getEliteDamage() {
@@ -1816,6 +1818,14 @@ public class CharacterData implements Serializable {
 
 	public void setEquipmentDexterity(int equipmentDexterity) {
 		this.equipmentDexterity = equipmentDexterity;
+	}
+
+	public int getHeroLevel() {
+		return heroLevel;
+	}
+
+	public void setHeroLevel(int heroLevel) {
+		this.heroLevel = heroLevel;
 	}
 
 }

@@ -25,6 +25,7 @@ public class DpsTableEntry extends DocumentBase implements Serializable {
 	protected Double multiple_elite;
 	protected Integer paragon;
 	protected Integer paragon_ias;
+	protected Integer paragon_dex;
 	protected Integer paragon_cdr;
 	protected Integer paragon_cc;
 	protected Integer paragon_chd;
@@ -262,5 +263,13 @@ public class DpsTableEntry extends DocumentBase implements Serializable {
 
 	public void setParagon_rcr(Integer paragon_rcr) {
 		this.paragon_rcr = paragon_rcr;
+	}
+
+	public Integer getParagon_dex() {
+		return paragon_dex;
+	}
+
+	public void setParagon_dex(Integer paragon_dex) {
+		this.paragon_dex = paragon_dex;
 	}
 }

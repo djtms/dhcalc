@@ -1,5 +1,9 @@
 Change Log:
 
+**3/13/15**
+
+* Added Paragon Dexterity points and Hero Level input fields (both values are set automatically when importing a hero profile)
+
 **3/12/15**
 
 * Added Dex, Crit and Gogok of Swiftness bonuses to Companion damage

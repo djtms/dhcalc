@@ -394,7 +394,9 @@ public class ExportExcel {
 		createInput(inputs, data.data.getCritHitDamage(),
 				"Crit Hit Damage ", pctStyle);
 		createInput(inputs, data.data.getWeaponDamage(), "Weapon Damage");
-		createInput(inputs, (int)data.data.getDexterity(), "Dexterity");
+		createInput(inputs, (int)data.data.getDexterity(), "Total Dexterity");
+		createInput(inputs, data.data.getEquipmentDexterity(), "Equipment Dexterity");
+		createInput(inputs, data.data.getLevel(), "Level");
 		createInput(inputs, data.data.getCdr(), "Effective CDR", this.pctStyle);
 		createInput(inputs, data.data.getRcr(), "Effective RCR", this.pctStyle);
 		createInput(inputs, data.data.getWeaponType().getName(), "WeaponType");
@@ -415,6 +417,7 @@ public class ExportExcel {
 		createInput(inputs, data.data.getMaxHatred(), "Max Hatred");
 		createInput(inputs, data.data.getHatredPerSecond(), "Hatred Per Second");
 		createInput(inputs, data.data.isPreparationPunishment(), "Preparation/Punishment");
+		createInput(inputs, data.data.getParagonDexterity() / 5, "Paragon Dexterity");
 		createInput(inputs, data.data.getParagonIAS(), "Paragon IAS");
 		createInput(inputs, data.data.getParagonCC(), "Paragon CC");
 		createInput(inputs, data.data.getParagonCHD(), "Paragon CHD");
