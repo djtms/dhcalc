@@ -9,6 +9,8 @@ public class Const {
 	public static final String CLASS_DEMONHUNTER = "demon-hunter";
 	public static final String CLASS_MONK = "monk";
 
+	public static final String DEXTERITY = "Dexterity_Item";
+	
 	public static final int GENDER_MALE = 0;
 	public static final int GENDER_FEMALE = 1;
 

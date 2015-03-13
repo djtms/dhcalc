@@ -44,7 +44,6 @@ public class CharacterData implements Serializable {
 	private double chillDamage;
 	private double critChance;
 	private double critHitDamage;
-	private double dexterity;
 	private double eliteDamage;
 	private boolean useEnforcer;
 	private int enforcerLevel;
@@ -204,6 +203,8 @@ public class CharacterData implements Serializable {
 	private double odysseysEndPercent;
 	private double odysseysEndUptime;
 	private boolean preparationPunishment;
+	private int equipmentDexterity;
+	private int paragonDexterity;
 	
 	public int getNumMarauders() {
 		return numMarauders;
@@ -382,11 +383,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public double getDexterity() {
-		return dexterity;
-	}
-
-	public void setDexterity(double dexterity) {
-		this.dexterity = dexterity;
+		return equipmentDexterity + paragonDexterity;
 	}
 
 	public double getEliteDamage() {
@@ -1803,6 +1800,22 @@ public class CharacterData implements Serializable {
 
 	public void setCompanionDamage(double companionDamage) {
 		this.companionDamage = companionDamage;
+	}
+
+	public int getParagonDexterity() {
+		return paragonDexterity;
+	}
+
+	public void setParagonDexterity(int paragonDexterity) {
+		this.paragonDexterity = paragonDexterity;
+	}
+
+	public int getEquipmentDexterity() {
+		return equipmentDexterity;
+	}
+
+	public void setEquipmentDexterity(int equipmentDexterity) {
+		this.equipmentDexterity = equipmentDexterity;
 	}
 
 }

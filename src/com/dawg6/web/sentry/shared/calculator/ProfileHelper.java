@@ -472,7 +472,9 @@ public class ProfileHelper {
 		double baseDelta = 0.0;
 		double addMin = 0.0;
 		double addDelta = 0.0;
-
+		int equipmentDexterity = 0;
+		int paragonDexterity = 0;
+		
 		ItemInformation bow = hero.items.get(Const.MAIN_HAND);
 
 		if (bow != null) {
@@ -539,6 +541,12 @@ public class ProfileHelper {
 				critChance += v.min;
 			}
 			
+			v = i.attributesRaw.get(Const.DEXTERITY);
+			
+			if (v != null) {
+				equipmentDexterity += v.min;
+			}
+			
 			v = i.attributesRaw.get(Const.CRIT_DAMAGE_RAW);
 			
 			if (v != null) {
@@ -552,6 +560,13 @@ public class ProfileHelper {
 					if (v != null) {
 						critDamage += v.min;
 					}
+					
+					v = g.attributesRaw.get(Const.DEXTERITY);
+					
+					if (v != null) {
+						equipmentDexterity += v.min;
+					}
+					
 				}
 			}
 
@@ -602,6 +617,12 @@ public class ProfileHelper {
 							critChance += v.min;
 						}
 						
+						v = r.attributesRaw.get(Const.DEXTERITY);
+						
+						if (v != null) {
+							equipmentDexterity += v.min;
+						}
+
 						v = r.attributesRaw.get(Const.CRIT_DAMAGE_RAW);
 						
 						if (v != null) {
@@ -623,7 +644,8 @@ public class ProfileHelper {
 		data.setWeaponIas(weaponIas / 100.0);
 		data.setEquipIas(equipIas / 100.0);
 		data.setWeaponDamagePercent(wpnDamage);
-		data.setDexterity(hero.stats.dexterity);
+		data.setEquipmentDexterity(equipmentDexterity);
+		data.setParagonDexterity(hero.stats.dexterity - equipmentDexterity);
 		data.setJewelMin(minJewelry);
 		data.setJewelMax(maxJewelry);
 	}

@@ -77,6 +77,12 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 
 //			log.info("Career: " + gson.toJson(career));
 			
+			if (career == null) {
+				career = new CareerProfile();
+				career.code = "Timeout";
+				career.reason = "Timeout";
+				
+			}
 			if (career.code != null)
 				log.info(realm.getDisplayName() + "/" + profile + "-" + tag
 						+ " Code: " + career.code + ", Reason: "
@@ -103,6 +109,13 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 
 //			log.info("Item: " + gson.toJson(result));
 			
+			if (result == null) {
+				result = new ItemInformation();
+				result.code = "Timeout";
+				result.reason = "Timeout";
+				
+			}
+
 			if (result.code != null)
 				log.info(realm.getDisplayName() + "/" + item + " Code: " + result.code + ", Reason: "
 						+ result.reason);
@@ -126,6 +139,13 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 
 			HeroProfile hero = IO.getInstance().readHeroProfile(server,
 					profile, tag, id);
+
+			if (hero == null) {
+				hero = new HeroProfile();
+				hero.code = "Timeout";
+				hero.reason = "Timeout";
+				
+			}
 
 			if (hero.code != null)
 				log.warning(realm.getDisplayName() + "/" + profile + "-" + tag

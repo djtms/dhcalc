@@ -3265,7 +3265,7 @@ public class MainPanel extends BasePanel {
 
 			this.formData = getFormData();
 
-			data.setDexterity(calculator.getDexterity());
+			data.setEquipmentDexterity(calculator.getDexterity() - data.getParagonDexterity());
 			data.setSheetDps(calculator.getSheetDps());
 			data.setAps(calculator.getAps());
 			data.setCaDamage(getValue(this.skillDamage.getCaDamage()) / 100.0);
