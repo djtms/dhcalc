@@ -541,7 +541,7 @@ public class DPSCalculator extends BasePanel {
 		flexTable_4.setWidget(0, 0, lblHeroLevel);
 		
 		heroLevel = new NumberSpinner();
-		heroLevel.box.setTitle("Total of all dexterity from items and set bonuses only");
+		heroLevel.box.setTitle("Hero's level");
 		heroLevel.setVisibleLength(6);
 		heroLevel.setMin(1);
 		heroLevel.setMax(70);
