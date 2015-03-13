@@ -23,7 +23,6 @@ import com.dawg6.web.sentry.shared.calculator.JsonObject;
 import com.dawg6.web.sentry.shared.calculator.ProfileHelper;
 import com.dawg6.web.sentry.shared.calculator.Rune;
 import com.dawg6.web.sentry.shared.calculator.SkillAndRune;
-import com.dawg6.web.sentry.shared.calculator.SkillSet;
 import com.dawg6.web.sentry.shared.calculator.Util;
 import com.dawg6.web.sentry.shared.calculator.Version;
 import com.dawg6.web.sentry.shared.calculator.d3api.CareerProfile;
@@ -314,8 +313,6 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 			n++;
 		}
 
-		SkillSet skillSet = new SkillSet(skillMap.keySet());
-
 		skillMap.put(ActiveSkill.SENTRY, data.getSentryRune());
 		skillMap.put(ActiveSkill.BOLT, data.getSentryRune());
 
@@ -332,6 +329,7 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 				+ data.getHero());
 		entry.setRealm(data.getRealm());
 		entry.setBuild(build);
+		entry.setParagon_dex(data.getParagonDexterity() / 5);
 		entry.setParagon_cc(data.getParagonCC());
 		entry.setParagon_cdr(data.getParagonCDR());
 		entry.setParagon_chd(data.getParagonCHD());
