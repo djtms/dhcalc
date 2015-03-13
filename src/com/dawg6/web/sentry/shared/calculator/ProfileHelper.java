@@ -16,7 +16,7 @@ import com.dawg6.web.sentry.shared.calculator.d3api.Value;
 
 public class ProfileHelper {
 
-	public static CharacterData importHero(HeroProfile hero) {
+	public static CharacterData importHero(HeroProfile hero, Integer paragonDexterity) {
 		CharacterData data = new CharacterData();
 
 		data.setHeroName(hero.name);
@@ -30,7 +30,7 @@ public class ProfileHelper {
 		setElementalDamage(hero, data);
 		setSkillDamage(hero, data);
 		setGemDamage(hero, data);
-		importWeaponData(hero, data);
+		importWeaponData(hero, data, paragonDexterity);
 
 		data.setDefaults();
 		updateCdr(data);
@@ -458,7 +458,7 @@ public class ProfileHelper {
 		data.setPainEnhancerLevel(painEnhancerLevel);
 	}
 
-	public static void importWeaponData(HeroProfile hero, CharacterData data) {
+	public static void importWeaponData(HeroProfile hero, CharacterData data, Integer paragonDexterity) {
 
 		double critChance = 0.05;
 		double critDamage = 0.5;
@@ -473,7 +473,6 @@ public class ProfileHelper {
 		double addMin = 0.0;
 		double addDelta = 0.0;
 		int equipmentDexterity = 0;
-		int paragonDexterity = 0;
 		
 		ItemInformation bow = hero.items.get(Const.MAIN_HAND);
 
@@ -645,7 +644,12 @@ public class ProfileHelper {
 		data.setEquipIas(equipIas / 100.0);
 		data.setWeaponDamagePercent(wpnDamage);
 		data.setEquipmentDexterity(equipmentDexterity);
-		data.setParagonDexterity(hero.stats.dexterity - equipmentDexterity);
+		
+		if (paragonDexterity != null)
+			data.setParagonDexterity(paragonDexterity);
+		else
+			data.setParagonDexterity(hero.stats.dexterity - equipmentDexterity);
+		
 		data.setJewelMin(minJewelry);
 		data.setJewelMax(maxJewelry);
 	}

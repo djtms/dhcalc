@@ -2345,7 +2345,7 @@ public class MainPanel extends BasePanel {
 
 								gearPanel.setHero(hero);
 
-								importHeroData(new AsyncTaskHandler() {
+								importHeroData(null, new AsyncTaskHandler() {
 
 									@Override
 									public void taskCompleted() {
@@ -2369,8 +2369,8 @@ public class MainPanel extends BasePanel {
 		}
 	}
 
-	protected void importHeroData(AsyncTaskHandler handler) {
-		data = ProfileHelper.importHero(hero);
+	protected void importHeroData(Integer paragonDexterity, AsyncTaskHandler handler) {
+		data = ProfileHelper.importHero(hero, paragonDexterity);
 
 		data.setRealm(realm);
 		data.setProfile(profile);
@@ -4138,7 +4138,7 @@ public class MainPanel extends BasePanel {
 									}
 								}
 
-								importHeroData(dialog);
+								importHeroData(data.getParagonDexterity(), dialog);
 							}
 						}
 					}
