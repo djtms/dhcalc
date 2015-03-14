@@ -3559,7 +3559,10 @@ public class MainPanel extends BasePanel {
 	private void calculateData() {
 		total = 0.0;
 		nonStacking = 0.0;
-
+		
+		String prevShooter = null;
+		DamageSource prev = null;
+		
 		for (Damage d : damage) {
 
 			total += d.totalDamage;
@@ -3609,10 +3612,18 @@ public class MainPanel extends BasePanel {
 					shooterDamages.put(d.shooter, sh);
 				} else {
 					sh.damage += d.totalDamage;
+					
+					if ((prev == null) || !prev.equals(d.source) || !prevShooter.equals(d.shooter)) {
+						sh.attacks += d.qty;
+					}
+					
 					sh.attacks = Math.max(d.qty, sh.attacks);
 				}
-			}
 
+			}
+			
+			prev = d.source;
+			prevShooter = d.shooter;
 		}
 
 		double dps = Math.round(total / FiringData.DURATION);
