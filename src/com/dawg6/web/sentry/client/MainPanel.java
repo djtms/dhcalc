@@ -174,6 +174,7 @@ public class MainPanel extends BasePanel {
 	private BreakpointData bpData;
 	private SkillData skillData;
 	private GearPanel gearPanel;
+	private FlexTable shooterSummary;
 
 	public MainPanel() {
 		VerticalPanel panel = new VerticalPanel();
@@ -1422,11 +1423,53 @@ public class MainPanel extends BasePanel {
 		label_6.setStyleName("dpsHeader");
 		label_6.setWordWrap(false);
 		skillSummary.setWidget(0, 5, label_6);
+		
+		captionPanelShooterSummary = new CaptionPanel("Shooter Summary");
+		horizontalPanel_9.add(captionPanelShooterSummary);
 
+		shooterSummary = new FlexTable();
+		captionPanelShooterSummary.setContentWidget(shooterSummary);
+		shooterSummary.setStyleName("outputTable");
+		shooterSummary.setCellPadding(5);
+		shooterSummary.setBorderWidth(1);
+
+		Label lblSkill_2a = new Label("Shooter");
+		lblSkill_2a.setWordWrap(false);
+		shooterSummary.setWidget(0, 0, lblSkill_2a);
+
+		Label lblAttacksa = new Label("# Attacks");
+		lblAttacksa.setWordWrap(false);
+		lblAttacksa.setStyleName("dpsHeader");
+		shooterSummary.setWidget(0, 1, lblAttacksa);
+
+		Label lblPerAttacka = new Label("Per Attack");
+		lblPerAttacka.setWordWrap(false);
+		lblPerAttacka.setStyleName("dpsHeader");
+		shooterSummary.setWidget(0, 2, lblPerAttacka);
+
+		Label lblTotala = new Label("Total");
+		lblTotala.setStyleName("dpsHeader");
+		lblTotala.setWordWrap(false);
+		shooterSummary.setWidget(0, 3, lblTotala);
+		shooterSummary.getColumnFormatter().addStyleName(1, "dpsCol");
+
+		Label label_5a = new Label("DPS");
+		label_5a.setStyleName("dpsHeader");
+		label_5a.setWordWrap(false);
+		shooterSummary.setWidget(0, 4, label_5a);
+		shooterSummary.getColumnFormatter().addStyleName(2, "dpsCol");
+
+		Label label_6b = new Label("% of Total");
+		label_6b.setStyleName("dpsHeader");
+		label_6b.setWordWrap(false);
+		shooterSummary.setWidget(0, 5, label_6b);
+		
 		skillSummary.getColumnFormatter().addStyleName(3, "dpsCol");
 		skillSummary.getRowFormatter().addStyleName(0, "headerRow");
 		summary.getColumnFormatter().addStyleName(3, "dpsCol");
 		summary.getRowFormatter().addStyleName(0, "headerRow");
+		shooterSummary.getColumnFormatter().addStyleName(3, "dpsCol");
+		shooterSummary.getRowFormatter().addStyleName(0, "headerRow");
 
 		HorizontalPanel horizontalPanel_2 = new HorizontalPanel();
 		outputPanel.add(horizontalPanel_2);
@@ -1809,6 +1852,8 @@ public class MainPanel extends BasePanel {
 	}
 
 	private static final int NUM_COMPARE_ROWS = 4;
+	private CaptionPanel captionPanelShooterSummary;
+	private Map<String, DamageHolder> shooterDamages;
 
 	protected void clearBuild(int which) {
 		compareData[which] = null;
@@ -3468,13 +3513,15 @@ public class MainPanel extends BasePanel {
 
 			types = new TreeMap<DamageType, DamageHolder>();
 			skillDamages = new TreeMap<DamageSource, DamageHolder>();
-
+			shooterDamages = new TreeMap<String, DamageHolder>();
+			
 			this.exportData = new ExportData();
 			this.exportData.data = data;
 			this.exportData.output = damage;
 			this.exportData.skills = skills;
 			this.exportData.types = types;
 			this.exportData.skillDamages = skillDamages;
+			this.exportData.shooterDamages = shooterDamages;
 			this.exportData.multiple = new Vector<MultipleSummary>();
 			this.exportData.sentryBaseDps = calculator.getSentryDps();
 			this.exportData.bp = bp.getBp();
@@ -3532,6 +3579,7 @@ public class MainPanel extends BasePanel {
 				}
 
 				DamageHolder th = skillDamages.get(source);
+				DamageHolder sh = shooterDamages.get(d.shooter);
 
 				if (h == null) {
 					h = new DamageHolder();
@@ -3552,6 +3600,16 @@ public class MainPanel extends BasePanel {
 				} else {
 					th.damage += d.totalDamage;
 					th.attacks = Math.max(d.qty, th.attacks);
+				}
+
+				if (sh == null) {
+					sh = new DamageHolder();
+					sh.damage = d.totalDamage;
+					sh.attacks = d.qty;
+					shooterDamages.put(d.shooter, sh);
+				} else {
+					sh.damage += d.totalDamage;
+					sh.attacks = Math.max(d.qty, sh.attacks);
 				}
 			}
 
@@ -3596,6 +3654,8 @@ public class MainPanel extends BasePanel {
 		this.captionPanelTypeSummary.setCaptionHTML("Damage Type Summary ("
 				+ eliteString + " " + FiringData.DURATION + " seconds)");
 		this.captionPanelSkillSummary.setCaptionHTML("Skill Damage Summary ("
+				+ eliteString + " " + FiringData.DURATION + " seconds)");
+		this.captionPanelShooterSummary.setCaptionHTML("Shooter Damage Summary ("
 				+ eliteString + " " + FiringData.DURATION + " seconds)");
 
 		for (int row = 0; row < damage.length; row++) {
@@ -3649,7 +3709,7 @@ public class MainPanel extends BasePanel {
 				b2.setWordWrap(false);
 				b2.setHref("http://us.battle.net/d3/en/class/demon-hunter/active/preparation#a+");
 				damageLog.setWidget(row + 1, 2, b2);
-			} else if (d.shooter.equals("Companion")) {
+			} else if (d.shooter.equals("Companion") && d.hatred != 0) {
 				Anchor b = new Anchor("Companion");
 				b.setTarget("_blank");
 				b.setWordWrap(false);
@@ -3819,6 +3879,46 @@ public class MainPanel extends BasePanel {
 			row++;
 		}
 
+		row = 1;
+		for (Map.Entry<String, DamageHolder> e : shooterDamages.entrySet()) {
+			if ((row % 2) == 0)
+				shooterSummary.getRowFormatter().addStyleName(row, "evenRow");
+			else
+				shooterSummary.getRowFormatter().addStyleName(row, "oddRow");
+
+			Label a = new Label(e.getKey());
+			a.setWordWrap(false);
+			shooterSummary.setWidget(row, 0, a);
+
+			int attacks = e.getValue().attacks;
+			double d = e.getValue().damage;
+			double da = Math.round((d / attacks));
+
+			Label label1 = new Label(String.valueOf(attacks), false);
+			label1.addStyleName("dpsCol");
+			shooterSummary.setWidget(row, 1, label1);
+
+			Label label2 = new Label(Util.format(da * eliteBonus), false);
+			label2.addStyleName("dpsCol");
+			shooterSummary.setWidget(row, 2, label2);
+
+			Label damageLabel = new Label(Util.format(Math
+					.round(d * eliteBonus)), false);
+			damageLabel.addStyleName("dpsCol");
+			shooterSummary.setWidget(row, 3, damageLabel);
+
+			Label dpsLabel = new Label(Util.format(Math.round((d * eliteBonus)
+					/ FiringData.DURATION)), false);
+			dpsLabel.addStyleName("dpsCol");
+			shooterSummary.setWidget(row, 4, dpsLabel);
+
+			double pct = Math.round((d / total) * 10000.0) / 100.0;
+			Label pctLabel = new Label(String.valueOf(pct) + "%", false);
+			pctLabel.addStyleName("dpsCol");
+			shooterSummary.setWidget(row, 5, pctLabel);
+			row++;
+		}
+		
 		double dps = Math.round(total / FiringData.DURATION);
 		double aps = data.getSentryAps();
 		BreakPoint bp = BreakPoint.ALL[data.getBp() - 1];

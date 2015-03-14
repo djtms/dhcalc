@@ -105,18 +105,22 @@ public class ExportExcel {
 		HSSFSheet damageLog = wb.createSheet("DamageLogNonElite");
 		HSSFSheet typeSummary = wb.createSheet("DamageTypeSummaryNonElite");
 		HSSFSheet skillSummary = wb.createSheet("SkillSummaryNonElite");
+		HSSFSheet shooterSummary = wb.createSheet("ShooterSummaryNonElite");
 		HSSFSheet damageLogElite = wb.createSheet("DamageLogElite");
 		HSSFSheet typeSummaryElite = wb.createSheet("DamageTypeSummaryElite");
 		HSSFSheet skillSummaryElite = wb.createSheet("SkillSummaryElite");
+		HSSFSheet shooterSummaryElite = wb.createSheet("ShooterSummaryElite");
 
 		addInputs();
 		addSummary();
 		addDamageLog(damageLog, false);
 		addTypeSummary(typeSummary, false);
 		addSkillSummary(skillSummary, false);
+		addShooterSummary(shooterSummary, false);
 		addDamageLog(damageLogElite, true);
 		addTypeSummary(typeSummaryElite, true);
 		addSkillSummary(skillSummaryElite, true);
+		addShooterSummary(shooterSummaryElite, true);
 
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
@@ -193,6 +197,39 @@ public class ExportExcel {
 
 		for (i = 0; i < 6; i++) {
 			skillSummary.autoSizeColumn(i, true);
+		}
+	}
+
+	private void addShooterSummary(HSSFSheet shooterSummary, boolean elite) {
+		createTableHeader(shooterSummary, 0, "Shooter");
+		createTableHeader(shooterSummary, 1, "# Attacks");
+		createTableHeader(shooterSummary, 2, "Per Attack");
+		createTableHeader(shooterSummary, 3, "Total");
+		createTableHeader(shooterSummary, 4, "DPS");
+		createTableHeader(shooterSummary, 5, "% of Total");
+		
+		double eliteBonus = 1.0 + (elite ? data.data.getTotalEliteDamage() : 0.0);
+		
+		double total = 0;
+		for (Damage d : data.output) {
+			total += d.totalDamage;
+		}
+		
+		int i = 1;
+		for (Map.Entry<String, DamageHolder> e : data.shooterDamages.entrySet()) {
+			Row row = shooterSummary.createRow(i++);
+			DamageHolder d = e.getValue();
+			addTableCell(row, 0, e.getKey());
+			addTableCell(row, 1, d.attacks);
+			addTableCell(row, 2, Math.round((d.damage * eliteBonus) / d.attacks));
+			addTableCell(row, 3, d.damage * eliteBonus);
+			addTableCell(row, 4, Math.round((d.damage  * eliteBonus) / FiringData.DURATION));
+			addTableCell(row, 5, Math.round(10000.0 * d.damage / total) / 10000.0, pctStyle);
+			
+		}
+
+		for (i = 0; i < 6; i++) {
+			shooterSummary.autoSizeColumn(i, true);
 		}
 	}
 

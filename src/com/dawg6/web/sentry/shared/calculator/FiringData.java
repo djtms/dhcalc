@@ -113,7 +113,7 @@ public class FiringData {
 					list.addAll(DamageFunction.getDamages(true, false, "Player", new DamageSource(skill, rune), qty, data));
 					
 					if ((data.getNumMarauders() >= 4) && (skill.getSkillType() == SkillType.Spender)) {
-						list.addAll(DamageFunction.getDamages(false, true, "Sentry-M4", new DamageSource(skill, rune), qty, data));
+						list.addAll(DamageFunction.getDamages(false, true, "Sentry", new DamageSource(skill, rune), qty, data));
 						totalSpender += qty;
 					}
 				}
@@ -125,15 +125,15 @@ public class FiringData {
 		
 		if (boltQty > 0) {
 			list.addAll(DamageFunction.getDamages(false, true, "Sentry", new DamageSource(ActiveSkill.SENTRY, sentryRune), boltQty, data));
-			list.addAll(DamageFunction.getDamages(false, true, "Sentry-Bolt", new DamageSource(ActiveSkill.BOLT, sentryRune), boltQty, data));
+			list.addAll(DamageFunction.getDamages(false, true, "Sentry", new DamageSource(ActiveSkill.BOLT, sentryRune), boltQty, data));
 		}
 		
 		for (Rune r : ActiveSkill.Companion.getRunes()) {
-			list.addAll(DamageFunction.getDamages(false, false, r.getLongName(), new DamageSource(ActiveSkill.Companion, r), 30, data));
+			list.addAll(DamageFunction.getDamages(false, false, "Companion", new DamageSource(ActiveSkill.Companion, r), 30, data));
 		}
 		
 		// gem procs
-		list.addAll(DamageFunction.getDamages(false, false, "Gems", null, FiringData.DURATION, data));
+		list.addAll(DamageFunction.getDamages(false, false, "Player", null, FiringData.DURATION, data));
 
 		if (numPrep > 0) {
 			Damage d = new Damage();
