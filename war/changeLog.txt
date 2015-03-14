@@ -2,7 +2,7 @@ Change Log:
 
 **3/14/15**
 
-Added damage summary table by Shooter (Player, Sentry, Companion)
+* Added damage summary table by Shooter (Player, Sentry, Companion)
 
 **3/13/15**
 
