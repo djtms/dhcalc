@@ -38,15 +38,19 @@ public class HatredPanel extends Composite {
 		
 		flexTable.setWidget(1, 1, hatredPerSecond);
 		
+		Label lblNewLabel_1 = new Label("Only include Hatred per Second from items. Do not include Hatred per Second from skills (e.g. Archery).");
+		flexTable.setWidget(2, 0, lblNewLabel_1);
+		
 		Anchor label = new Anchor("Hatred per Second:");
 		label.setTarget("_blank");
 		label.setHref("http://us.battle.net/d3/en/class/demon-hunter/active/preparation#a+");
 		label.setText("Preparation/Punishment:");
 		label.setHTML("Preparation/Punishment:");
-		flexTable.setWidget(2, 0, label);
+		flexTable.setWidget(3, 0, label);
 		
 		preparationPunishment = new SimpleCheckBox();
-		flexTable.setWidget(2, 1, preparationPunishment);
+		flexTable.setWidget(3, 1, preparationPunishment);
+		flexTable.getFlexCellFormatter().setColSpan(2, 0, 2);
 	}
 
 

@@ -3409,11 +3409,19 @@ public class MainPanel extends BasePanel {
 					.getPercentAbove75().getValue() / 100.0);
 			data.setTargetSpacing(this.situational.getTargetSpacing()
 					.getValue());
+			data.setEquipIas(calculator.getEquipIAS());
+
 			data.setWeaponDamage(calculator.getAverageWeaponDamage());
+			data.setWeaponType(calculator.getWeaponType());
+			data.setWeaponIas(calculator.getWeaponIAS());
+			
+			data.setOffHand_weaponDamage(calculator.getOffHandAverageWeaponDamage());
+			data.setOffHand_weaponType(calculator.getOffHandWeaponType());
+			data.setOffHand_weaponIas(calculator.getOffHandWeaponIAS());
+			
 			data.setArchery(calculator.getArchery());
 			data.setCustomEngineering(passives.getCustomEngineering()
 					.getValue());
-			data.setWeaponType(calculator.getWeaponType());
 			data.setGogok(gemPanel.getGogok().getValue());
 			data.setGogokLevel(gemPanel.getGogokLevel().getValue());
 			data.setGogokStacks(gemPanel.getGogokStacks().getValue());
@@ -3506,8 +3514,6 @@ public class MainPanel extends BasePanel {
 					.getValue() / 100.0);
 			data.setOdysseysEndUptime(itemPanel.getOdysseysEndUptime()
 					.getValue() / 100.0);
-			data.setEquipIas(calculator.getEquipIAS());
-			data.setWeaponIas(calculator.getWeaponIAS());
 
 			Map<ActiveSkill, Rune> skills = getSkills();
 			// SkillSet skillSet = getSkillSet(skills);

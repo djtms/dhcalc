@@ -18,18 +18,26 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SimpleCheckBox;
 
-public class DPSCalculator extends BasePanel {
+public class DPSCalculator2 extends BasePanel {
+	private final Label minDamage;
+	private final Label maxDamage;
+	private final ListBox weaponType;
 	private final NumberSpinner minJewelDamage;
 	private final NumberSpinner dexterity;
 	private final DoubleSpinner critChance;
 	private final NumberSpinner critDamage;
+	private final NumberSpinner weaponIAS;
 	private final NumberSpinner equipIAS;
 	private final SimpleCheckBox archery;
 	private final Label dps;
 	private final Label aps;
 	private final NumberSpinner maxJewelDamage;
+	private final NumberSpinner weaponDamage;
+	private final Label weaponDps;
+	private final Label weaponAps;
 	private final Label actualCC;
 	private final Label actualCD;
+	private final Label avgWeaponDamage;
 	private final NumberSpinner tntPercent;
 	private final Label petAps;
 	private final Label breakpoint;
@@ -48,7 +56,13 @@ public class DPSCalculator extends BasePanel {
 	private double petIasValue;
 	private final Label prevBP;
 	private double averageWeaponDamage;
+	private final DoubleSpinner baseMin;
+	private final DoubleSpinner baseMax;
+	private final DoubleSpinner addMin;
+	private final DoubleSpinner addMax;
 	private boolean disableListeners;
+	private double min;
+	private double max;
 	private final SimpleCheckBox steadyAim;
 	private final ParagonPanel paragonPanel;
 	private final BuffPanel buffPanel;
@@ -74,26 +88,193 @@ public class DPSCalculator extends BasePanel {
 	private double painEnhancerIas;
 	private final Label dexterityLabel;
 	private final NumberSpinner heroLevel;
-	private final WeaponPanel mainHand;
-	private final WeaponPanel offHand;
 
-	public DPSCalculator() {
+	public DPSCalculator2() {
 
 		FlexTable grid = new FlexTable();
 		grid.setBorderWidth(0);
 		grid.setCellPadding(5);
 		initWidget(grid);
-		
-		mainHand = new WeaponPanel("Main Hand");
-		grid.setWidget(0, 0, mainHand);
-		mainHand.setWidth("100%");
-		
-		offHand = new WeaponPanel("Off Hand");
-		grid.setWidget(1, 0, offHand);
-		offHand.setWidth("100%");
+
+		CaptionPanel cptnpnlNewPanel_1 = new CaptionPanel("Weapon");
+		grid.setWidget(0, 0, cptnpnlNewPanel_1);
+
+		FlexTable flexTable_1 = new FlexTable();
+		flexTable_1.setCellPadding(2);
+		cptnpnlNewPanel_1.setContentWidget(flexTable_1);
+
+		Label lblNewLabel_2 = new Label("Weapon Type:");
+		flexTable_1.setWidget(0, 0, lblNewLabel_2);
+		lblNewLabel_2.setWordWrap(false);
+		weaponType = new ListBox();
+		flexTable_1.setWidget(0, 1, weaponType);
+
+		weaponType.setSelectedIndex(0);
+
+		Label lblBaseDamage = new Label("Base (Physical) Damage:");
+		lblBaseDamage.setWordWrap(false);
+		flexTable_1.setWidget(1, 0, lblBaseDamage);
+
+		baseMin = new DoubleSpinner();
+		baseMin.box
+				.setTitle("This number is not displayed in-game. It is imported from hero import.");
+		baseMin.setVisibleLength(8);
+		baseMin.setText("0");
+		flexTable_1.setWidget(1, 1, baseMin);
+
+		baseMin.addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				updateTooltipDamage();
+			}
+		});
+
+		Label label = new Label(" to ");
+		label.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		flexTable_1.setWidget(1, 2, label);
+
+		baseMax = new DoubleSpinner();
+		baseMax.box
+				.setTitle("This number is not displayed in-game. It is imported from hero import.");
+		baseMax.setVisibleLength(8);
+		baseMax.setText("0");
+		flexTable_1.setWidget(1, 3, baseMax);
+		baseMax.addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				updateTooltipDamage();
+			}
+		});
+
+		Label lblNewLabel = new Label("Tooltip Damage:");
+		lblNewLabel.setStyleName("boldText");
+		flexTable_1.setWidget(1, 4, lblNewLabel);
+		lblNewLabel.setWordWrap(false);
+
+		minDamage = new Label();
+		minDamage.setTitle("Shown as \"white\" damage on weapon tooltip.");
+		flexTable_1.setWidget(1, 5, minDamage);
+		minDamage.setText("0");
+		minDamage.setStyleName("boldText");
+
+		Label label_4 = new Label(" to ");
+		label_4.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		flexTable_1.setWidget(1, 6, label_4);
+
+		maxDamage = new Label();
+		maxDamage.setTitle("Shown as \"white\" damage on weapon tooltip.");
+		flexTable_1.setWidget(1, 7, maxDamage);
+		maxDamage.setText("0");
+		maxDamage.setStyleName("boldText");
+
+		Label lblAddedDamage = new Label("Added (Elemental) Damage:");
+		lblAddedDamage.setWordWrap(false);
+		flexTable_1.setWidget(2, 0, lblAddedDamage);
+
+		addMin = new DoubleSpinner();
+		addMin.box.setTitle("Shown as primary stat on weapon.");
+		addMin.setVisibleLength(8);
+		addMin.setText("0");
+		flexTable_1.setWidget(2, 1, addMin);
+		addMin.addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				updateTooltipDamage();
+			}
+		});
+
+		Label label_2 = new Label(" to ");
+		label_2.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		flexTable_1.setWidget(2, 2, label_2);
+
+		addMax = new DoubleSpinner();
+		addMax.box.setTitle("Shown as primary stat on weapon.");
+		addMax.setVisibleLength(8);
+		addMax.setText("0");
+		flexTable_1.setWidget(2, 3, addMax);
+		addMax.addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				updateTooltipDamage();
+			}
+		});
+
+		Label lblWeaponDamage = new Label("Average Weapon Damage:");
+		flexTable_1.setWidget(2, 4, lblWeaponDamage);
+		lblWeaponDamage.setWordWrap(false);
+		lblWeaponDamage.setStyleName("boldText");
+
+		avgWeaponDamage = new Label("0.0");
+		flexTable_1.setWidget(2, 5, avgWeaponDamage);
+		avgWeaponDamage
+				.setTitle("Average weapon damage used for Sentry calculations");
+		avgWeaponDamage.setStyleName("boldText");
+
+		Label lblNewLabel_2a = new Label("Weapon IAS (%):");
+		flexTable_1.setWidget(3, 0, lblNewLabel_2a);
+		lblNewLabel_2a.setWordWrap(false);
+
+		weaponIAS = new NumberSpinner();
+		weaponIAS.box
+				.setTitle("Increased attack speed as a primary attribute on the weapon.");
+		flexTable_1.setWidget(3, 1, weaponIAS);
+		weaponIAS.setVisibleLength(6);
+
+		weaponIAS.addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				updateTooltipDamage();
+			}
+		});
+
+		Label lblNewLabel_7c = new Label("Weapon DPS:");
+		flexTable_1.setWidget(3, 4, lblNewLabel_7c);
+		lblNewLabel_7c.setWordWrap(false);
+		lblNewLabel_7c.setStyleName("boldText");
+
+		weaponDps = new Label("0.0");
+		weaponDps.setTitle("Shown as dps on weapon tooltip.");
+		flexTable_1.setWidget(3, 5, weaponDps);
+		weaponDps.setStyleName("boldText");
+
+		Label lblNewLabel_2d = new Label("Weapon Increased Damage (%):");
+		flexTable_1.setWidget(4, 0, lblNewLabel_2d);
+		lblNewLabel_2d.setWordWrap(false);
+
+		weaponDamage = new NumberSpinner();
+		weaponDamage.box
+				.setTitle("Increased damage as a primary attribute on the weapon.");
+		flexTable_1.setWidget(4, 1, weaponDamage);
+		weaponDamage.setVisibleLength(6);
+
+		weaponDamage.addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				updateTooltipDamage();
+			}
+		});
+
+		Label lblNewLabel_7d = new Label("Weapon APS:");
+		flexTable_1.setWidget(4, 4, lblNewLabel_7d);
+		lblNewLabel_7d.setWordWrap(false);
+		lblNewLabel_7d.setStyleName("boldText");
+
+		weaponAps = new Label("0.0");
+		weaponAps.setTitle("As shown on weapon tooltip");
+		flexTable_1.setWidget(4, 5, weaponAps);
+		weaponAps.setStyleName("boldText");
+		flexTable_1.getFlexCellFormatter().setColSpan(4, 5, 3);
+		flexTable_1.getFlexCellFormatter().setColSpan(2, 5, 3);
+		flexTable_1.getFlexCellFormatter().setColSpan(3, 5, 3);
 
 		FlexTable flexTable_3 = new FlexTable();
-		grid.setWidget(2, 0, flexTable_3);
+		grid.setWidget(1, 0, flexTable_3);
 
 		CaptionPanel cptnpnlNewPanel_2 = new CaptionPanel("Equipment");
 		flexTable_3.setWidget(0, 0, cptnpnlNewPanel_2);
@@ -216,8 +397,20 @@ public class DPSCalculator extends BasePanel {
 			}
 		});
 
+		for (WeaponType t : WeaponType.values()) {
+			weaponType.addItem(t.getName(), t.name());
+		}
+
+		weaponType.addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				DPSCalculator2.this.updateTooltipDamage();
+			}
+		});
+
 		FlexTable flexTable_7 = new FlexTable();
-		grid.setWidget(2, 1, flexTable_7);
+		grid.setWidget(1, 1, flexTable_7);
 
 		paragonPanel = new ParagonPanel();
 		flexTable_7.setWidget(0, 0, paragonPanel);
@@ -286,9 +479,7 @@ public class DPSCalculator extends BasePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (!disableListeners) {
-					calculate();
-				}
+				updateTooltipDamage();
 			}
 		});
 
@@ -318,9 +509,7 @@ public class DPSCalculator extends BasePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (!disableListeners) {
-					calculate();
-				}
+				updateTooltipDamage();
 			}
 		});
 
@@ -328,9 +517,7 @@ public class DPSCalculator extends BasePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (!disableListeners) {
-					calculate();
-				}
+				updateTooltipDamage();
 			}
 		});
 
@@ -338,9 +525,7 @@ public class DPSCalculator extends BasePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (!disableListeners) {
-					calculate();
-				}
+				updateTooltipDamage();
 			}
 		});
 
@@ -596,7 +781,7 @@ public class DPSCalculator extends BasePanel {
 		});
 
 		CaptionPanel cptnpnlNewPanel_6 = new CaptionPanel("Calculator");
-		grid.setWidget(3, 0, cptnpnlNewPanel_6);
+		grid.setWidget(2, 0, cptnpnlNewPanel_6);
 
 		FlexTable flexTable_6 = new FlexTable();
 		flexTable_6.setCellPadding(5);
@@ -752,21 +937,23 @@ public class DPSCalculator extends BasePanel {
 				HasVerticalAlignment.ALIGN_TOP);
 		flexTable_6.getCellFormatter().setHorizontalAlignment(0, 4,
 				HasHorizontalAlignment.ALIGN_LEFT);
-		grid.getCellFormatter().setHorizontalAlignment(2, 1,
+		grid.getCellFormatter().setHorizontalAlignment(1, 1,
 				HasHorizontalAlignment.ALIGN_LEFT);
-		grid.getCellFormatter().setVerticalAlignment(2, 1,
+		grid.getCellFormatter().setVerticalAlignment(1, 1,
 				HasVerticalAlignment.ALIGN_TOP);
-		grid.getCellFormatter().setHorizontalAlignment(2, 0,
+		grid.getCellFormatter().setHorizontalAlignment(1, 0,
 				HasHorizontalAlignment.ALIGN_LEFT);
-		grid.getCellFormatter().setVerticalAlignment(2, 0,
+		grid.getCellFormatter().setVerticalAlignment(1, 0,
 				HasVerticalAlignment.ALIGN_TOP);
 
 		for (IasType t : IasType.values()) {
 			iasType.addItem(t.getDescription(), t.name());
 		}
-		grid.getFlexCellFormatter().setColSpan(3, 0, 2);
 		grid.getFlexCellFormatter().setColSpan(0, 0, 2);
-		grid.getFlexCellFormatter().setColSpan(1, 0, 2);
+		grid.getFlexCellFormatter().setColSpan(2, 0, 2);
+
+		this.weaponIAS.setMax(7);
+		this.weaponDamage.setMax(10);
 		this.gogokStacks.setMax(15);
 		this.bbvUptime.setMax(100.0);
 		this.valorUptime.setMax(100.0);
@@ -787,6 +974,38 @@ public class DPSCalculator extends BasePanel {
 				calculate();
 			}
 		});
+
+	}
+
+	protected void updateTooltipDamage() {
+
+		if (!disableListeners) {
+
+			double wpnDamage = (double) this.weaponDamage.getValue() / 100.0;
+
+			this.min = (baseMin.getValue() + addMin.getValue())
+					* (1.0 + wpnDamage);
+			this.max = (baseMax.getValue() + addMax.getValue())
+					* (1.0 + wpnDamage);
+
+			minDamage.setText(Util.format(min));
+			maxDamage.setText(Util.format(max));
+
+			WeaponType type = getWeaponType();
+
+			double weaponAps = type.getAps()
+					* (1.0 + (getValue(this.weaponIAS) / 100.0));
+
+			double weaponDps = Math.round(((min + max) / 2.0) * weaponAps
+					* 10.0) / 10.0;
+
+			this.weaponDps
+					.setText(Util.format((Math.round(weaponDps * 10.0) / 10.0)));
+			this.weaponAps
+					.setText(Util.format((Math.round(weaponAps * 100.0) / 100.0)));
+
+			calculate();
+		}
 
 	}
 
@@ -908,28 +1127,18 @@ public class DPSCalculator extends BasePanel {
 
 		this.disableListeners = false;
 
-		calculate();
+		this.updateTooltipDamage();
 	}
 
 	@Override
 	public Field[] getFields() {
 		return new Field[] {
-				new Field(this.mainHand.getWeaponType(), "calc.WeaponType",
+				new Field(this.weaponType, "calc.WeaponType",
 						WeaponType.HandCrossbow.name()),
-				new Field(this.mainHand.getBaseMin(), "calc.MinDamage", "100"),
-				new Field(this.mainHand.getBaseMax(), "calc.MaxDamage", "200"),
-				new Field(this.mainHand.getAddMin(), "calc.AddMinDamage", "0"),
-				new Field(this.mainHand.getAddMax(), "calc.AddMaxDamage", "0"),
-				new Field(this.mainHand.getWeaponIAS(), "calc.WeaponIAS", "0"),
-				new Field(this.mainHand.getWeaponDamage(), "calc.WeaponDamage", "0"),
-				new Field(this.offHand.getWeaponType(), "calc.offHand.WeaponType",
-						""),
-				new Field(this.offHand.getBaseMin(), "calc.offHand.MinDamage", "0"),
-				new Field(this.offHand.getBaseMax(), "calc.offHand.MaxDamage", "0"),
-				new Field(this.offHand.getAddMin(), "calc.offHand.AddMinDamage", "0"),
-				new Field(this.offHand.getAddMax(), "calc.offHand.AddMaxDamage", "0"),
-				new Field(this.offHand.getWeaponIAS(), "calc.offHand.WeaponIAS", "0"),
-				new Field(this.offHand.getWeaponDamage(), "calc.offHand.WeaponDamage", "0"),
+				new Field(this.baseMin, "calc.MinDamage", "100"),
+				new Field(this.baseMax, "calc.MaxDamage", "200"),
+				new Field(this.addMin, "calc.AddMinDamage", "0"),
+				new Field(this.addMax, "calc.AddMaxDamage", "0"),
 				new Field(this.gogokLevel, "calc.GogokLevel", "0"),
 				new Field(this.painEnhancerLevel, "calc.PainEnhancerLevel", "0"),
 				new Field(this.gogokStacks, "calc.GogokStacks", "0"),
@@ -937,6 +1146,7 @@ public class DPSCalculator extends BasePanel {
 						"0"),
 				new Field(this.minJewelDamage, "calc.MinJewelDamage", "0"),
 				new Field(this.maxJewelDamage, "calc.MaxJewelDamage", "0"),
+				new Field(this.weaponIAS, "calc.WeaponIAS", "0"),
 				new Field(this.equipIAS, "calc.EquipIAS", "0"),
 				new Field(this.paragonPanel.getParagonIAS(), "calc.ParagonIAS",
 						"0"),
@@ -959,6 +1169,7 @@ public class DPSCalculator extends BasePanel {
 				new Field(this.critDamage, "calc.CritDamage", "0"),
 				new Field(this.archery, "calc.Archery", "0"),
 				new Field(this.steadyAim, "calc.SteadyAim", "0"),
+				new Field(this.weaponDamage, "calc.WeaponDamage", "0"),
 
 				new Field(this.buffPanel.getFocusedMind(), "calc.FocusedMind",
 						Boolean.FALSE.toString()),
@@ -980,12 +1191,9 @@ public class DPSCalculator extends BasePanel {
 	public void calculate() {
 
 		WeaponType type = getWeaponType();
-		WeaponType offHand_type = getOffHandWeaponType();
-		
-		double min = this.mainHand.getWeaponMin() + getValue(this.minJewelDamage);
-		double max = this.mainHand.getWeaponMax() + getValue(this.maxJewelDamage);
-		double offHand_min = this.offHand.getWeaponMin() + getValue(this.minJewelDamage);
-		double offHand_max = this.offHand.getWeaponMax() + getValue(this.maxJewelDamage);
+
+		double min = this.min + getValue(this.minJewelDamage);
+		double max = this.max + getValue(this.maxJewelDamage);
 		double dex = getValue(this.dexterity) + (paragonPanel.getParagonDexterity().getValue() * 5) + 217;
 		double pCC = (getValue(this.paragonPanel.getParagonCC()) * 0.1) / 100.0;
 		double pCD = (getValue(this.paragonPanel.getParagonCHD()) * 1.0) / 100.0;
@@ -1027,8 +1235,7 @@ public class DPSCalculator extends BasePanel {
 		double critDamage = getValue(this.critDamage) / 100.0 + pCD + aCD;
 
 		this.eIas = (getValue(this.equipIAS)) / 100.0;
-		this.wIas = (getValue(this.mainHand.getWeaponIAS())) / 100.0;
-		double offHand_wIas = (getValue(this.offHand.getWeaponIAS())) / 100.0;
+		this.wIas = (getValue(this.weaponIAS)) / 100.0;
 		this.pIas = getValue(this.paragonPanel.getParagonIAS()) * 0.002;
 		focusedMind = (buffPanel.getFocusedMind().getValue() ? 0.03
 				: 0.0);
@@ -1042,11 +1249,8 @@ public class DPSCalculator extends BasePanel {
 				* (1.0 + wIas)
 				* (1.0 + eIas + pIas + focusedMind + gogokIas + painEnhancerIas + buffIas);
 
-		double offHand_aps = (offHand_type == null) ? 0.0 : (offHand_type.getAps()
-				* (1.0 + offHand_wIas)
-				* (1.0 + eIas + pIas + focusedMind + gogokIas + painEnhancerIas + buffIas));
-
 		double averageDamage = ((min + max) / 2.0);
+		this.averageWeaponDamage = averageDamage;
 
 		double dps = averageDamage * aps * (1.0 + critChance * critDamage)
 				* (1.0 + (dex / 100.0)) * (1.0 + aDam);
@@ -1061,6 +1265,8 @@ public class DPSCalculator extends BasePanel {
 		this.actualCC.setText(Util.format(critChance * 100.0) + "%");
 		this.actualCD.setText(Util.format(critDamage * 100.0) + "%");
 
+		this.avgWeaponDamage.setText(Util.format(Math
+				.round(100.0 * averageWeaponDamage) / 100.0));
 
 		this.petIasValue = tnt.getValue() ? (tntPercent.getValue() / 100.0)
 				: 0.0;
@@ -1088,34 +1294,30 @@ public class DPSCalculator extends BasePanel {
 	}
 
 	public WeaponType getWeaponType() {
-		return mainHand.getWeaponTypeEnum();
+		int i = this.weaponType.getSelectedIndex();
+		String value = this.weaponType.getValue(i);
+
+		return WeaponType.valueOf(value);
 	}
 
 	public void importHero(String server, String profile, int tag, int id,
 			CharacterData data) {
 
-		this.mainHand.setWeaponTypeEnum(data.getWeaponType());
-		this.offHand.setWeaponTypeEnum(data.getOffHand_weaponType());
-
+		this.setWeaponType(data.getWeaponType());
 		this.disableListeners = true;
 
-		this.mainHand.getBaseMin().setValue(data.getBaseMin());
-		this.mainHand.getBaseMax().setValue(data.getBaseMax());
-		this.mainHand.getAddMin().setValue(data.getAddMin());
-		this.mainHand.getAddMax().setValue(data.getAddMax());
-		this.mainHand.getWeaponIAS().setValue((int)(Math.round(data.getWeaponIas() * 100.0)));
-		this.mainHand.getWeaponDamage().setValue((int) Math.round(data.getWeaponDamagePercent() * 100.0));
-		this.offHand.getBaseMin().setValue(data.getOffHand_baseMin());
-		this.offHand.getBaseMax().setValue(data.getOffHand_baseMax());
-		this.offHand.getAddMin().setValue(data.getOffHand_addMin());
-		this.offHand.getAddMax().setValue(data.getOffHand_addMax());
-		this.offHand.getWeaponIAS().setValue((int)(Math.round(data.getOffHand_weaponIas() * 100.0)));
-		this.offHand.getWeaponDamage().setValue((int) Math.round(data.getOffHand_weaponDamagePercent() * 100.0));
+		this.baseMin.setValue(data.getBaseMin());
+		this.baseMax.setValue(data.getBaseMax());
+		this.addMin.setValue(data.getAddMin());
+		this.addMax.setValue(data.getAddMax());
+
 
 		this.critChance.setValue(Math.round(data.getEquipCritChance() * 10000.0) / 100.0);
 		this.critDamage.setValue((int) Math.round(data.getEquipCritDamage()
 				* 100.0));
+		this.weaponIAS.setValue((int)(Math.round(data.getWeaponIas() * 100.0)));
 		this.equipIAS.setValue((int)(Math.round(data.getEquipIas() * 100.0)));
+		this.weaponDamage.setValue((int) Math.round(data.getWeaponDamagePercent() * 100.0));
 		this.dexterity.setValue(data.getEquipmentDexterity());
 		this.tnt.setValue(data.isTnt());
 		this.tntPercent.setValue((int)(Math.round(data.getTntPercent() * 100.0)));
@@ -1126,22 +1328,28 @@ public class DPSCalculator extends BasePanel {
 
 		this.disableListeners = false;
 
-		calculate();
+		this.updateTooltipDamage();
 
 		saveForm();
 	}
 
 	@Override
 	protected void setFieldValue(ListBox field, String value) {
-		if (field == mainHand.getWeaponType()) {
-			mainHand.setWeaponTypeString(value);
-		} else if (field == offHand.getWeaponType()) {
-			offHand.setWeaponTypeString(value);
+		if (field == weaponType) {
+			WeaponType type = WeaponType.valueOf(value);
+			setWeaponType(type);
 		}
 	}
 
 	private void setWeaponType(WeaponType type) {
-		mainHand.setWeaponTypeEnum(type);
+		for (int i = 0; i < this.weaponType.getItemCount(); i++) {
+			String value = this.weaponType.getValue(i);
+
+			if (value.equals(type.name())) {
+				weaponType.setSelectedIndex(i);
+				return;
+			}
+		}
 	}
 
 	public void setParagonPoints(int ias, int dex, int cdr, int cc, int cd, int hatred, int rcr) {
@@ -1158,7 +1366,7 @@ public class DPSCalculator extends BasePanel {
 
 		this.disableListeners = false;
 
-		this.calculate();
+		this.updateTooltipDamage();
 	}
 
 	public double getAps() {
@@ -1378,7 +1586,7 @@ public class DPSCalculator extends BasePanel {
 	}
 	
 	public double getWeaponIAS() {
-		return this.mainHand.getWeaponIAS().getValue() / 100.0;
+		return this.weaponIAS.getValue() / 100.0;
 	}
 
 	public Integer getParagonDexterity() {
@@ -1395,17 +1603,5 @@ public class DPSCalculator extends BasePanel {
 
 	public void setHatred(int value) {
 		this.paragonPanel.getParagonHatred().setValue(value);
-	}
-
-	public double getOffHandAverageWeaponDamage() {
-		return offHand.getAverageWeaponDamage();
-	}
-
-	public WeaponType getOffHandWeaponType() {
-		return offHand.getWeaponTypeEnum();
-	}
-
-	public double getOffHandWeaponIAS() {
-		return offHand.getWeaponIAS().getValue() / 100.0;
 	}
 }

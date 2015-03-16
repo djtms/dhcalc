@@ -103,12 +103,20 @@ public class ProfileHelper {
 		WeaponType type = data.getWeaponType();
 
 		double weaponAps = type.getAps() * (1.0 + data.getWeaponIas());
-
 		double weaponDps = Math.round(((min + max) / 2.0) * weaponAps * 10.0) / 10.0;
-
 		data.setWeaponAps(weaponAps);
 		data.setWeaponDps(weaponDps);
 
+		WeaponType offHand_type = data.getOffHand_weaponType();
+		
+		double offHand_wpnDamage = data.getOffHand_weaponDamagePercent();
+		double offHand_min = (data.getOffHand_baseMin() + data.getOffHand_addMin()) * (1.0 + offHand_wpnDamage);
+		double offHand_max = (data.getOffHand_baseMax() + data.getOffHand_addMax()) * (1.0 + offHand_wpnDamage);
+		double offHand_weaponAps = (offHand_type == null) ? 0.0 : (offHand_type.getAps() * (1.0 + data.getOffHand_weaponIas()));
+		double offHand_weaponDps = (offHand_type == null) ? 0.0 : (Math.round(((offHand_min + offHand_max) / 2.0) * offHand_weaponAps * 10.0) / 10.0);
+		data.setOffHand_weaponAps(offHand_weaponAps);
+		data.setOffHand_weaponDps(offHand_weaponDps);
+		
 		min += data.getJewelMin();
 		max += data.getJewelMax();
 		double dex = data.getDexterity();
@@ -147,11 +155,10 @@ public class ProfileHelper {
 
 		double aps = type.getAps() * (1.0 + wIas)
 				* (1.0 + eIas + pIas + gogokIas + painEnhancerIas);
+		
+		double averageWeaponDamage = ((min + max) / 2.0);
 
-		double averageDamage = ((min + max) / 2.0);
-		double averageWeaponDamage = averageDamage;
-
-		double dps = averageDamage * aps * (1.0 + critChance * critDamage)
+		double dps = averageWeaponDamage * aps * (1.0 + critChance * critDamage)
 				* (1.0 + (dex / 100.0)) * (1.0 + aDam);
 
 		double sheetDps = Math.round(dps * 10.0) / 10.0;
@@ -164,11 +171,25 @@ public class ProfileHelper {
 		data.setCritHitDamage(critDamage);
 		data.setWeaponDamage(averageWeaponDamage);
 
+		double offHand_wIas = data.getOffHand_weaponIas();
+		double offHand_aps = (offHand_type == null) ? 0.0 : (offHand_type.getAps() * (1.0 + offHand_wIas)
+				* (1.0 + eIas + pIas + gogokIas + painEnhancerIas));
+		data.setOffHand_aps(offHand_aps);
+
+		double offHand_averageWeaponDamage = ((min + max) / 2.0);
+
+		double offHand_dps = offHand_averageWeaponDamage * offHand_aps * (1.0 + critChance * critDamage)
+				* (1.0 + (dex / 100.0)) * (1.0 + aDam);
+
+		double offHand_sheetDps = Math.round(offHand_dps * 10.0) / 10.0;
+
+		data.setOffHand_dps(offHand_sheetDps);
+
 		BreakPoint bp = BreakPoint.get(petApsValue);
 		data.setBp(bp.getBp());
 
 		double sentryAps = bp.getQty() / FiringData.DURATION;
-		double sentryDpsValue = averageDamage * sentryAps
+		double sentryDpsValue = averageWeaponDamage * sentryAps
 				* (1.0 + critChance * critDamage) * (1.0 + (dex / 100.0))
 				* (1.0 + aDam);
 		data.setSentryDps(sentryDpsValue);
@@ -463,19 +484,26 @@ public class ProfileHelper {
 
 		double critChance = 0.05;
 		double critDamage = 0.5;
-		WeaponType type = WeaponType.Crossbow;
+		WeaponType type = null;
 		int weaponIas = 0;
+		WeaponType offHand_type = null;
+		int offHand_weaponIas = 0;
 		int equipIas = 0;
 		double wpnDamage = 0.0;
+		double offHand_wpnDamage = 0.0;
 		double minJewelry = 0.0;
 		double maxJewelry = 0.0;
 		double baseMin = 0.0;
 		double baseDelta = 0.0;
 		double addMin = 0.0;
 		double addDelta = 0.0;
+		double offHand_baseMin = 0.0;
+		double offHand_baseDelta = 0.0;
+		double offHand_addMin = 0.0;
+		double offHand_addDelta = 0.0;
 		int equipmentDexterity = 0;
 		
-		ItemInformation bow = hero.items.get(Const.MAIN_HAND);
+		ItemInformation bow = hero.items.get(Slot.MainHand.getSlot());
 
 		if (bow != null) {
 			String bowType = bow.type.id;
@@ -487,13 +515,31 @@ public class ProfileHelper {
 			} else if (bowType.equalsIgnoreCase(Const.CROSSBOW)) {
 				type = WeaponType.Crossbow;
 			} else {
-				// ????
+				type = null;
 			}
 		}
 
 		data.setWeaponType(type);
 
-		if (bow != null) {
+		ItemInformation offHand = hero.items.get(Slot.OffHand.getSlot());
+
+		if (offHand != null) {
+			String bowType = offHand.type.id;
+
+			if (bowType.equalsIgnoreCase(Const.HANDXBOW)) {
+				offHand_type = WeaponType.HandCrossbow;
+			} else if (bowType.equalsIgnoreCase(Const.BOW)) {
+				offHand_type = WeaponType.Bow;
+			} else if (bowType.equalsIgnoreCase(Const.CROSSBOW)) {
+				offHand_type = WeaponType.Crossbow;
+			} else {
+				offHand_type = null;
+			}
+		}
+
+		data.setOffHand_weaponType(offHand_type);
+		
+		if ((bow != null) && (type != null)) {
 
 			for (Map.Entry<String, Value<Float>> e : bow.attributesRaw
 					.entrySet()) {
@@ -530,7 +576,45 @@ public class ProfileHelper {
 			data.setAddMin(addMin);
 			data.setAddMax(addMin + addDelta);
 		}
+		
+		if ((offHand != null) && (offHand_type != null)) {
 
+			for (Map.Entry<String, Value<Float>> e : offHand.attributesRaw
+					.entrySet()) {
+				String name = e.getKey();
+				double value = e.getValue().min;
+
+				if (name.startsWith(Const.DAMAGE_WEAPON_MIN)) {
+
+					if (name.contains(Const.PHYSICAL))
+						offHand_baseMin = value;
+					else
+						offHand_addMin += value;
+
+				} else if (name.startsWith(Const.DAMAGE_WEAPON_DELTA)) {
+
+					if (name.contains(Const.PHYSICAL))
+						offHand_baseDelta = value;
+					else
+						offHand_addDelta += value;
+
+				} else if (name.startsWith(Const.DAMAGE_WEAPON_BONUS_MIN)) {
+					offHand_addMin += value;
+				} else if (name.startsWith(Const.DAMAGE_WEAPON_BONUS_DELTA)) {
+					offHand_addDelta += value;
+				} else if (name.startsWith(Const.DAMAGE_WEAPON_PERCENT))
+					offHand_wpnDamage = value;
+				else if (name.equals(Const.WEAPON_IAS)) {
+					offHand_weaponIas = (int) Math.round(value * 100.0);
+				}
+			}
+
+			data.setOffHand_baseMin(offHand_baseMin);
+			data.setOffHand_baseMax(offHand_baseMin + offHand_baseDelta);
+			data.setOffHand_addMin(offHand_addMin);
+			data.setOffHand_addMax(offHand_addMin + offHand_addDelta);
+		}
+		
 		// StringBuffer log = new StringBuffer();
 
 		for (ItemInformation i : hero.items.values()) {
@@ -570,7 +654,7 @@ public class ProfileHelper {
 				}
 			}
 
-			if (i != bow) {
+			if ((i != bow) && ((i != offHand) || (offHand_type == null))) {
 
 				if (i.attributesRaw != null) {
 					Value<Float> min = i.attributesRaw
@@ -642,8 +726,10 @@ public class ProfileHelper {
 		data.setEquipCritChance(critChance);
 		data.setEquipCritDamage(critDamage);
 		data.setWeaponIas(weaponIas / 100.0);
+		data.setOffHand_weaponIas(offHand_weaponIas / 100.0);
 		data.setEquipIas(equipIas / 100.0);
 		data.setWeaponDamagePercent(wpnDamage);
+		data.setOffHand_weaponDamagePercent(offHand_wpnDamage);
 		data.setEquipmentDexterity(equipmentDexterity);
 		
 		if (paragonDexterity != null)
@@ -654,6 +740,7 @@ public class ProfileHelper {
 		
 		data.setJewelMin(minJewelry);
 		data.setJewelMax(maxJewelry);
+		
 	}
 
 	public static void setSkillDamage(HeroProfile hero, CharacterData data) {

@@ -26,6 +26,8 @@ public class CharacterData implements Serializable {
 	private int paragonRCR;
 	private double sheetDps;
 	private double aps;
+	private double offHand_aps;
+	private double offHand_dps;
 	private double coldDamage;
 	private double fireDamage;
 	private double lightDamage;
@@ -92,8 +94,8 @@ public class CharacterData implements Serializable {
 	private int distanceToTarget;
 	private boolean ambush;
 	private boolean archery;
-	private WeaponType weaponType;
 	private double weaponDamage;
+	private double offHand_weaponDamage;
 	private int targetSpacing;
 	private boolean gogok;
 	private int gogokLevel;
@@ -159,18 +161,26 @@ public class CharacterData implements Serializable {
 	private double leoricsPercent;
 	private boolean pridesFall;
 	private GemLevel diamond;
+	private WeaponType weaponType;
 	private double baseMin;
 	private double baseMax;
 	private double addMin;
 	private double addMax;
+	private double weaponDamagePercent;
+	private double weaponIas;
+	private WeaponType offHand_weaponType;
+	private double offHand_baseMin;
+	private double offHand_baseMax;
+	private double offHand_addMin;
+	private double offHand_addMax;
+	private double offHand_weaponDamagePercent;
+	private double offHand_weaponIas;
 	private double jewelMin;
 	private double jewelMax;
 	private boolean royalRing;
 	private Map<String, Integer> setCounts;
 	private Map<String, D3Set> sets;
-	private double weaponIas;
 	private double equipIas;
-	private double weaponDamagePercent;
 	private int paragon;
 	private String heroName;
 	private boolean seasonal;
@@ -179,6 +189,8 @@ public class CharacterData implements Serializable {
 	private int level;
 	private double weaponDps;
 	private double weaponAps;
+	private double offHand_weaponDps;
+	private double offHand_weaponAps;
 	private int bp;
 	private double sentryDps;
 	private double equipCritChance;
@@ -1835,6 +1847,102 @@ public class CharacterData implements Serializable {
 
 	public void setHelltrapper(boolean helltrapper) {
 		this.helltrapper = helltrapper;
+	}
+
+	public WeaponType getOffHand_weaponType() {
+		return offHand_weaponType;
+	}
+
+	public void setOffHand_weaponType(WeaponType offHand_weaponType) {
+		this.offHand_weaponType = offHand_weaponType;
+	}
+
+	public double getOffHand_baseMin() {
+		return offHand_baseMin;
+	}
+
+	public void setOffHand_baseMin(double offHand_baseMin) {
+		this.offHand_baseMin = offHand_baseMin;
+	}
+
+	public double getOffHand_baseMax() {
+		return offHand_baseMax;
+	}
+
+	public void setOffHand_baseMax(double offHand_baseMax) {
+		this.offHand_baseMax = offHand_baseMax;
+	}
+
+	public double getOffHand_addMin() {
+		return offHand_addMin;
+	}
+
+	public void setOffHand_addMin(double offHand_addMin) {
+		this.offHand_addMin = offHand_addMin;
+	}
+
+	public double getOffHand_addMax() {
+		return offHand_addMax;
+	}
+
+	public void setOffHand_addMax(double offHand_addMax) {
+		this.offHand_addMax = offHand_addMax;
+	}
+
+	public double getOffHand_weaponDamagePercent() {
+		return offHand_weaponDamagePercent;
+	}
+
+	public void setOffHand_weaponDamagePercent(double offHand_weaponDamagePercent) {
+		this.offHand_weaponDamagePercent = offHand_weaponDamagePercent;
+	}
+
+	public double getOffHand_weaponIas() {
+		return offHand_weaponIas;
+	}
+
+	public void setOffHand_weaponIas(double offHand_weaponIas) {
+		this.offHand_weaponIas = offHand_weaponIas;
+	}
+
+	public double getOffHand_weaponDamage() {
+		return offHand_weaponDamage;
+	}
+
+	public void setOffHand_weaponDamage(double offHand_weaponDamage) {
+		this.offHand_weaponDamage = offHand_weaponDamage;
+	}
+
+	public double getOffHand_weaponAps() {
+		return offHand_weaponAps;
+	}
+
+	public void setOffHand_weaponAps(double offHand_weaponAps) {
+		this.offHand_weaponAps = offHand_weaponAps;
+	}
+
+	public double getOffHand_weaponDps() {
+		return offHand_weaponDps;
+	}
+
+	public void setOffHand_weaponDps(double offHand_weaponDps) {
+		this.offHand_weaponDps = offHand_weaponDps;
+	}
+
+	public double getOffHand_aps() {
+		return offHand_aps;
+	}
+
+	public void setOffHand_aps(double offHand_aps) {
+		this.offHand_aps = offHand_aps;
+	}
+
+	public double getOffHand_dps() {
+		return offHand_dps;
+	}
+
+	public void setOffHand_dps(double offHand_dps) {
+		this.offHand_dps = offHand_dps;
 	}
 
 }

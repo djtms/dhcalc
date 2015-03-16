@@ -5,6 +5,7 @@
 * Confirm: Sentries will fire bolts only when not firing spenders? (currently assumes if a Sentry can fire X bolts over 30 seconds, and the player fires Y spenders, then the Sentry will actually fire X - Y bolts over 30 seconds)
 * Confirm: Companion DPS mechanics (see http://us.battle.net/d3/en/forum/topic/16542805158)
 
+* Add support ruby socketed in weapon(s)
 * Add support for more than two spenders/generators
 * re-enable player/build statistics
 * Support dual wield for hand crossbows
