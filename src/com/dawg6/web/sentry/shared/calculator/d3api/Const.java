@@ -118,4 +118,5 @@ public class Const {
 	public static final String ODYSSEYS_END_PERCENT = "Item_Power_Passive#P2_ItemPassive_Unique_Ring_023";
 	public static final String PREPARATION = "Preparation";
 	public static final String PUNISHMENT = "Punishment";
+	public static final String HELLTRAPPER = "Helltrapper";
 }

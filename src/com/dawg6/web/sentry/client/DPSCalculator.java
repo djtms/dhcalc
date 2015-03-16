@@ -1401,7 +1401,7 @@ public class DPSCalculator extends BasePanel {
 		return this.getValue(this.paragonPanel.getParagonCC());
 	}
 
-	public int getParagonCD() {
+	public int getParagonCHD() {
 		return this.getValue(this.paragonPanel.getParagonCHD());
 	}
 
@@ -1599,5 +1599,9 @@ public class DPSCalculator extends BasePanel {
 	
 	public int getHeroLevel() {
 		return heroLevel.getValue();
+	}
+
+	public void setHatred(int value) {
+		this.paragonPanel.getParagonHatred().setValue(value);
 	}
 }

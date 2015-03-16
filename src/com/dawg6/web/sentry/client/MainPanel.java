@@ -315,15 +315,16 @@ public class MainPanel extends BasePanel {
 			}
 		});
 
-		this.paragonPanel.getParagonDexterity().addChangeHandler(new ChangeHandler() {
+		this.paragonPanel.getParagonDexterity().addChangeHandler(
+				new ChangeHandler() {
 
-			@Override
-			public void onChange(ChangeEvent event) {
+					@Override
+					public void onChange(ChangeEvent event) {
 
-				if (!disableListeners)
-					updateDps();
-			}
-		});
+						if (!disableListeners)
+							updateDps();
+					}
+				});
 
 		this.paragonPanel.getParagonHatred().addChangeHandler(
 				new ChangeHandler() {
@@ -333,6 +334,7 @@ public class MainPanel extends BasePanel {
 
 						if (!disableListeners) {
 							updateHatred();
+							calculator.setHatred(paragonPanel.getParagonHatred().getValue());
 						}
 					}
 				});
@@ -1423,7 +1425,7 @@ public class MainPanel extends BasePanel {
 		label_6.setStyleName("dpsHeader");
 		label_6.setWordWrap(false);
 		skillSummary.setWidget(0, 5, label_6);
-		
+
 		captionPanelShooterSummary = new CaptionPanel("Shooter Summary");
 		horizontalPanel_9.add(captionPanelShooterSummary);
 
@@ -1463,7 +1465,7 @@ public class MainPanel extends BasePanel {
 		label_6b.setStyleName("dpsHeader");
 		label_6b.setWordWrap(false);
 		shooterSummary.setWidget(0, 5, label_6b);
-		
+
 		skillSummary.getColumnFormatter().addStyleName(3, "dpsCol");
 		skillSummary.getRowFormatter().addStyleName(0, "headerRow");
 		summary.getColumnFormatter().addStyleName(3, "dpsCol");
@@ -1801,7 +1803,8 @@ public class MainPanel extends BasePanel {
 		this.paragonPanel.getParagonCHD().setValue(entry.getParagon_chd());
 		this.paragonPanel.getParagonCDR().setValue(entry.getParagon_cdr());
 		this.paragonPanel.getParagonIAS().setValue(entry.getParagon_ias());
-		this.paragonPanel.getParagonDexterity().setValue(entry.getParagon_dex());
+		this.paragonPanel.getParagonDexterity()
+				.setValue(entry.getParagon_dex());
 		this.paragonPanel.getParagonHatred()
 				.setValue(entry.getParagon_hatred());
 		this.paragonPanel.getParagonRCR().setValue(entry.getParagon_rcr());
@@ -2218,10 +2221,10 @@ public class MainPanel extends BasePanel {
 							MainPanel.this.paragonPanel.getParagonCC()
 									.setValue(calculator.getParagonCC());
 							MainPanel.this.paragonPanel.getParagonCHD()
-									.setValue(calculator.getParagonCD());
-							MainPanel.this.paragonPanel.getParagonCHD()
+									.setValue(calculator.getParagonCHD());
+							MainPanel.this.paragonPanel.getParagonHatred()
 									.setValue(calculator.getParagonHatred());
-							MainPanel.this.paragonPanel.getParagonCHD()
+							MainPanel.this.paragonPanel.getParagonRCR()
 									.setValue(calculator.getParagonRCR());
 							MainPanel.this.passives.getArchery().setValue(
 									calculator.getArchery());
@@ -2253,6 +2256,7 @@ public class MainPanel extends BasePanel {
 									calculator.getTntPercent());
 
 							updateDpsLabels();
+							updateHatred();
 
 							MainPanel.this.disableListeners = false;
 
@@ -2427,13 +2431,15 @@ public class MainPanel extends BasePanel {
 		}
 	}
 
-	protected void importHeroData(Integer paragonDexterity, AsyncTaskHandler handler) {
+	protected void importHeroData(Integer paragonDexterity,
+			AsyncTaskHandler handler) {
 		data = ProfileHelper.importHero(hero, paragonDexterity);
 
 		if (paragonDexterity == null) {
-			paragonPanel.getParagonDexterity().setValue(data.getParagonDexterity() / 5);
+			paragonPanel.getParagonDexterity().setValue(
+					data.getParagonDexterity() / 5);
 		}
-		
+
 		data.setRealm(realm);
 		data.setProfile(profile);
 		data.setTag(tag);
@@ -2826,6 +2832,7 @@ public class MainPanel extends BasePanel {
 				(int) (Math.round(data.getTntPercent() * 100.0)));
 		this.itemPanel.getCalamity().setValue(data.isCalamityMdf());
 		this.itemPanel.getBombadiers().setValue(data.isHasBombardiers());
+		this.itemPanel.getHelltrapper().setValue(data.isHelltrapper());
 		this.itemPanel.getOdysseysEnd().setValue(data.isOdysseysEnd());
 		this.itemPanel.getOdysseysEndPercent().setValue(
 				(int) Math.round(data.getOdysseysEndPercent() * 100.0));
@@ -3035,7 +3042,8 @@ public class MainPanel extends BasePanel {
 				new Field(this.battleTag, "BattleTag", "BnetName"),
 				new Field(this.tagNumber, "BattleTagNumber", "1234"),
 				new Field(this.paragonPanel.getParagonIAS(), "ParagonIas", "0"),
-				new Field(this.paragonPanel.getParagonDexterity(), "ParagonDex", "0"),
+				new Field(this.paragonPanel.getParagonDexterity(),
+						"ParagonDex", "0"),
 				new Field(this.paragonPanel.getParagonCDR(), "ParagonCDR", "0"),
 				new Field(this.paragonPanel.getParagonCC(), "ParagonCC", "0"),
 				new Field(this.paragonPanel.getParagonCHD(), "ParagonCD", "0"),
@@ -3047,6 +3055,8 @@ public class MainPanel extends BasePanel {
 				new Field(this.itemPanel.getCalamity(), "Calamity",
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getBombadiers(), "Bombadiers",
+						Boolean.FALSE.toString()),
+				new Field(this.itemPanel.getHelltrapper(), "Helltrapper",
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getSpines(), "Spines",
 						Boolean.FALSE.toString()),
@@ -3334,7 +3344,8 @@ public class MainPanel extends BasePanel {
 			data.setParagonIAS(paragonPanel.getParagonIAS().getValue());
 			data.setParagonCHD(paragonPanel.getParagonCHD().getValue());
 			data.setParagonCDR(paragonPanel.getParagonCDR().getValue());
-			data.setParagonDexterity(paragonPanel.getParagonDexterity().getValue() * 5);
+			data.setParagonDexterity(paragonPanel.getParagonDexterity()
+					.getValue() * 5);
 			data.setHeroLevel(calculator.getHeroLevel());
 			data.setParagonHatred(paragonPanel.getParagonHatred().getValue());
 			data.setParagonRCR(paragonPanel.getParagonRCR().getValue());
@@ -3382,6 +3393,7 @@ public class MainPanel extends BasePanel {
 			data.setGrenadier(this.passives.getGrenadier().getValue());
 			data.setCalamityMdf(itemPanel.getCalamity().getValue());
 			data.setHasBombardiers(itemPanel.getBombadiers().getValue());
+			data.setHelltrapper(itemPanel.getHelltrapper().getValue());
 			data.setNumMarauders(itemPanel.getMarauders().getValue());
 			data.setMarked(skills.getMfd().getValue());
 			data.setSteadyAim(this.passives.getSteadyAim().getValue());
@@ -3514,7 +3526,7 @@ public class MainPanel extends BasePanel {
 			types = new TreeMap<DamageType, DamageHolder>();
 			skillDamages = new TreeMap<DamageSource, DamageHolder>();
 			shooterDamages = new TreeMap<String, DamageHolder>();
-			
+
 			this.exportData = new ExportData();
 			this.exportData.data = data;
 			this.exportData.output = damage;
@@ -3559,10 +3571,10 @@ public class MainPanel extends BasePanel {
 	private void calculateData() {
 		total = 0.0;
 		nonStacking = 0.0;
-		
+
 		String prevShooter = null;
 		DamageSource prev = null;
-		
+
 		for (Damage d : damage) {
 
 			total += d.totalDamage;
@@ -3612,16 +3624,17 @@ public class MainPanel extends BasePanel {
 					shooterDamages.put(d.shooter, sh);
 				} else {
 					sh.damage += d.totalDamage;
-					
-					if ((prev == null) || !prev.equals(d.source) || !prevShooter.equals(d.shooter)) {
+
+					if ((prev == null) || !prev.equals(d.source)
+							|| !prevShooter.equals(d.shooter)) {
 						sh.attacks += d.qty;
 					}
-					
+
 					sh.attacks = Math.max(d.qty, sh.attacks);
 				}
 
 			}
-			
+
 			prev = d.source;
 			prevShooter = d.shooter;
 		}
@@ -3666,8 +3679,9 @@ public class MainPanel extends BasePanel {
 				+ eliteString + " " + FiringData.DURATION + " seconds)");
 		this.captionPanelSkillSummary.setCaptionHTML("Skill Damage Summary ("
 				+ eliteString + " " + FiringData.DURATION + " seconds)");
-		this.captionPanelShooterSummary.setCaptionHTML("Shooter Damage Summary ("
-				+ eliteString + " " + FiringData.DURATION + " seconds)");
+		this.captionPanelShooterSummary
+				.setCaptionHTML("Shooter Damage Summary (" + eliteString + " "
+						+ FiringData.DURATION + " seconds)");
 
 		for (int row = 0; row < damage.length; row++) {
 			if ((row % 2) == 0)
@@ -3929,7 +3943,7 @@ public class MainPanel extends BasePanel {
 			shooterSummary.setWidget(row, 5, pctLabel);
 			row++;
 		}
-		
+
 		double dps = Math.round(total / FiringData.DURATION);
 		double aps = data.getSentryAps();
 		BreakPoint bp = BreakPoint.ALL[data.getBp() - 1];
@@ -4259,9 +4273,11 @@ public class MainPanel extends BasePanel {
 					@Override
 					public void dialogBoxResult(int result) {
 						if (result == ApplicationPanel.APPLY_CHANGES) {
-							
-							AsyncTaskHandler dialog = ApplicationPanel.showWaitDialogBox("Please Wait", "Calculatin...");
-							
+
+							AsyncTaskHandler dialog = ApplicationPanel
+									.showWaitDialogBox("Please Wait",
+											"Calculatin...");
+
 							Map<Slot, ItemInformation> items = gearPanel
 									.getItems();
 
@@ -4276,7 +4292,8 @@ public class MainPanel extends BasePanel {
 									}
 								}
 
-								importHeroData(data.getParagonDexterity(), dialog);
+								importHeroData(data.getParagonDexterity(),
+										dialog);
 							}
 						}
 					}

@@ -682,6 +682,7 @@ public class ProfileHelper {
 		boolean hexingPants = false;
 		double hexingPantsPercent = 0.0;
 		boolean bombadiers = false;
+		boolean helltrapper = false;
 		boolean reapersWraps = false;
 		double reapersWrapsPercent = 0.0;
 		boolean kridershot = false;
@@ -773,6 +774,8 @@ public class ProfileHelper {
 					strongarmPercent = 0.20;
 			} else if (i.name.equals(Const.BOMBADIERS)) {
 				bombadiers = true;
+			} else if (i.name.equals(Const.HELLTRAPPER)) {
+				helltrapper = true;
 			} else if (i.name.equals(Const.HARRINGTON)) {
 				Value<Float> value = i.attributesRaw
 						.get(Const.HARRINGTON_PERCENT);
@@ -957,6 +960,7 @@ public class ProfileHelper {
 		data.setHarringtonPercent(harringtonPercent);
 		
 		data.setHasBombardiers(bombadiers);
+		data.setHelltrapper(helltrapper);
 		
 		data.setKridershot(kridershot);
 		data.setKridershotHatred(kridershotHatred);

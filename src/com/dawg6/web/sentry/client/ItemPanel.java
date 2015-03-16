@@ -38,6 +38,7 @@ public class ItemPanel extends Composite {
 	private final SimpleCheckBox odysseysEnd;
 	private final NumberSpinner odysseysEndPercent;
 	private final NumberSpinner odysseysEndUptime;
+	private final SimpleCheckBox helltrapper;
 
 	public ItemPanel() {
 
@@ -294,31 +295,45 @@ public class ItemPanel extends Composite {
 		cindercoat = new SimpleCheckBox();
 		flexTable.setWidget(16, 1, cindercoat);
 		
-		Label label_12 = new Label("Percent:");
-		flexTable.setWidget(16, 2, label_12);
+		Label lblRcrPercent = new Label("RCR Percent:");
+		flexTable.setWidget(16, 2, lblRcrPercent);
 		
 		cindercoatPercent = new NumberSpinner();
 		cindercoatPercent.setVisibleLength(2);
 		cindercoatPercent.setText("25");
 		flexTable.setWidget(16, 3, cindercoatPercent);
 		
+		Anchor anchor_12 = new Anchor("Bombadier's Rucksack");
+		anchor_12.setWordWrap(false);
+		anchor_12.setText("Helltrapper");
+		anchor_12.setTarget("_blank");
+		anchor_12.setHTML("Helltrapper");
+		anchor_12.setHref("http://us.battle.net/d3/en/item/helltrapper-3tfdaj");
+		flexTable.setWidget(17, 0, anchor_12);
+		
+		helltrapper = new SimpleCheckBox();
+		flexTable.setWidget(17, 1, helltrapper);
+		
+		Label lblassumesExtra = new Label("(+2 extra sentries)");
+		flexTable.setWidget(17, 2, lblassumesExtra);
+		
 		Label label_1 = new Label("Elite Damage +%:");
 		label_1.setWordWrap(false);
 		label_1.setTitle("The Elite Damage percentage, as shown in-in game in the character details screen under offense. Subtract 15% if Bane of the Powerful is level 25 or more (it will be added automatically if selected).");
-		flexTable.setWidget(17, 0, label_1);
-		flexTable.getFlexCellFormatter().setColSpan(17, 0, 3);
+		flexTable.setWidget(18, 0, label_1);
+		flexTable.getFlexCellFormatter().setColSpan(18, 0, 3);
 
 		eliteDamagePercent = new NumberSpinner();
 		eliteDamagePercent.setVisibleLength(2);
 		eliteDamagePercent
 				.setTitle("The Elite Damage percentage, as shown in-in game in the character details screen under offense. Subtract 15% if Bane of the Powerful is level 25 or more (it will be added automatically if selected).");
-		flexTable.setWidget(17, 1, eliteDamagePercent);
+		flexTable.setWidget(18, 1, eliteDamagePercent);
 		
 		Label lblNoteSubtract = new Label("Note: subtract 15% from the value displayed in-game if Bane of the Powerful is rank 25 or more.");
 		lblNoteSubtract.setStyleName("boldText");
 		lblNoteSubtract.setWidth("300px");
-		flexTable.setWidget(18, 0, lblNoteSubtract);
-		flexTable.getFlexCellFormatter().setColSpan(18, 0, 4);
+		flexTable.setWidget(19, 0, lblNoteSubtract);
+		flexTable.getFlexCellFormatter().setColSpan(19, 0, 4);
 		flexTable.getFlexCellFormatter().setColSpan(7, 0, 3);
 		flexTable.getCellFormatter().setHorizontalAlignment(7, 0, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(6, 2, HasHorizontalAlignment.ALIGN_RIGHT);
@@ -336,6 +351,7 @@ public class ItemPanel extends Composite {
 		flexTable.getCellFormatter().setHorizontalAlignment(14, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(15, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(16, 2, HasHorizontalAlignment.ALIGN_RIGHT);
+		flexTable.getFlexCellFormatter().setColSpan(17, 2, 2);
 		
 		this.tntPercent.setMin(40);
 		this.tntPercent.setMax(50);
@@ -481,6 +497,10 @@ public class ItemPanel extends Composite {
 
 	public NumberSpinner getOdysseysEndUptime() {
 		return odysseysEndUptime;
+	}
+
+	public SimpleCheckBox getHelltrapper() {
+		return helltrapper;
 	}
 
 }

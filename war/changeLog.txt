@@ -3,6 +3,9 @@ Change Log:
 **3/16/15**
 
 * Updated Companion DPS formula to account for Weapon APS and TnT Pet IAS
+* Fixed paragon Hatred points not updating correctly
+* Fixed paragon CHD and RCR fields being overwritten by wrong values after pressing "OK" in calculator dialog
+* Added Helltrapper (+2 sentries)
 
 **3/14/15**
 

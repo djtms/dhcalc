@@ -582,6 +582,8 @@ public class ExportExcel {
 				"Calamity Uptime", pctStyle);
 		createInput(inputs, data.data.isHasBombardiers(),
 				"Bombadier's Rucksack");
+		createInput(inputs, data.data.isHelltrapper(),
+				"Helltrapper");
 		createInput(inputs, data.data.isReapersWraps(),
 				"Reapers Wraps");
 		createInput(inputs, data.data.getReapersWrapsPercent(),

@@ -207,6 +207,7 @@ public class CharacterData implements Serializable {
 	private boolean preparationPunishment;
 	private int equipmentDexterity;
 	private int paragonDexterity;
+	private boolean helltrapper;
 	
 	public int getNumMarauders() {
 		return numMarauders;
@@ -1537,7 +1538,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public int getNumSentries() {
-		return 2 + (hasBombardiers ? 2 : 0) + (customEngineering ? 1 : 0);
+		return 2 + (hasBombardiers ? 2 : 0) + (customEngineering ? 1 : 0) + (helltrapper ? 2 : 0);
 	}
 
 	public boolean isHasBombardiers() {
@@ -1826,6 +1827,14 @@ public class CharacterData implements Serializable {
 
 	public void setHeroLevel(int heroLevel) {
 		this.heroLevel = heroLevel;
+	}
+
+	public boolean isHelltrapper() {
+		return helltrapper;
+	}
+
+	public void setHelltrapper(boolean helltrapper) {
+		this.helltrapper = helltrapper;
 	}
 
 }
