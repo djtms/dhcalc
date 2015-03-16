@@ -280,16 +280,21 @@ public enum DamageMultiplier {
 					@Override
 					public Double getValue(CharacterData data) {
 						return (
-								data.getWeaponIas() + 
 								data.getEquipIas() + 
 								(data.getParagonIAS() * 0.002) + 
-								(data.isTnt() ? data.getTntPercent() : 0.0) + 
 								(data.isGogok()? (data.getGogokStacks() * 0.01) : 0.0) +
 								(data.isFocusedMind() ? 0.03 : 0.0) + 
 								(data.isRetribution() ? (0.1 * data.getRetributionUptime()) : 0.0)
 								);
 				}
-			}), Caltrops(
+			}), APS("APS", DamageAccumulator.Multiplicative,
+					"Weapon APS bonus for Companions",
+					new Test<CharacterData, Double>() {
+						@Override
+						public Double getValue(CharacterData data) {
+							return (data.getWeaponType().getAps() * (1.0 + data.getWeaponIas())) - 1.0;
+					}
+				}), Caltrops(
 			"Caltrops",
 			DamageAccumulator.Special,
 			"Caltrops/Bait the Trap active bonus (10% Crit Chance while active)",

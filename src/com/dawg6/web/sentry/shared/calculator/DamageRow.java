@@ -106,6 +106,7 @@ public class DamageRow {
 			this.multipliers.add(DamageMultiplier.SteadyAim);
 		} else {
 			this.multipliers.add(DamageMultiplier.Enforcer);
+			this.multipliers.add(DamageMultiplier.APS);
 			this.multipliers.add(DamageMultiplier.IAS);
 			this.multipliers.add(DamageMultiplier.Companion);
 		}

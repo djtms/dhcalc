@@ -129,7 +129,12 @@ public class FiringData {
 		}
 		
 		for (Rune r : ActiveSkill.Companion.getRunes()) {
-			list.addAll(DamageFunction.getDamages(false, false, "Companion", new DamageSource(ActiveSkill.Companion, r), 30, data));
+			double attacks = FiringData.DURATION;
+			
+			if (data.isTnt())
+				attacks = FiringData.DURATION * (1 + data.getTntPercent());
+			
+			list.addAll(DamageFunction.getDamages(false, false, "Companion", new DamageSource(ActiveSkill.Companion, r), (int)Math.round(attacks), data));
 		}
 		
 		// gem procs

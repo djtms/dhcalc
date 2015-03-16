@@ -1,5 +1,9 @@
 Change Log:
 
+**3/16/15**
+
+* Updated Companion DPS formula to account for Weapon APS and TnT Pet IAS
+
 **3/14/15**
 
 * Added damage summary table by Shooter (Player, Sentry, Companion)
