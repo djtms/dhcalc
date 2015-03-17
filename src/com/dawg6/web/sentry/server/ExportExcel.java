@@ -476,6 +476,9 @@ public class ExportExcel {
 			}
 		}
 
+		createInput(inputs, data.data.isCompanion(), "Companion");
+		createInput(inputs, data.data.getCompanionRune().getLongName(), "Companion Rune");
+
 		createInputHeader(inputs, "Active Skills");
 		createInput(inputs, data.data.isCaltrops(),
 				"Caltrops/Bait the Trap");
