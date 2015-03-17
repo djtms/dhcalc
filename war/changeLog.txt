@@ -4,6 +4,7 @@ Change Log:
 
 * Added support for dual-wield hand crossbows (need help testing/verifying calculations)
 * Item list is now saved in browser after character import
+* Companion and Sentry bolt damage are now based off dual wield average weapon damage (if dual wielding)
 
 **3/16/15**
 

@@ -156,7 +156,7 @@ public class FiringData {
 			if (data.isTnt())
 				attacks = FiringData.DURATION * (1 + data.getTntPercent());
 
-			list.addAll(DamageFunction.getDamages(false, false, "Companion",
+			list.addAll(DamageFunction.getDamages(false, false, ActiveSkill.Companion.getLongName(),
 					new DamageSource(ActiveSkill.Companion, r),
 					(int) Math.round(attacks), data));
 		}

@@ -4025,8 +4025,8 @@ public class MainPanel extends BasePanel {
 			double dwDamage = (data.getWeaponDamage() + data.getOffHand_weaponDamage()) / 2.0;
 			dw_weaponDamage.setText(Util.format(Math.round(dwDamage * 100.0) / 100.0));
 		} else {
-			offHand_weaponDamage.setText("0");
-			dw_weaponDamage.setText(weaponDamage.getText());
+			offHand_weaponDamage.setText("N/A");
+			dw_weaponDamage.setText("N/A");
 
 		}
 
