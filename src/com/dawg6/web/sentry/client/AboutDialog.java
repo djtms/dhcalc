@@ -110,13 +110,13 @@ public class AboutDialog extends ApplicationPanel {
 		Anchor anchor_3 = new Anchor("New label");
 		anchor_3.setText("Change Log");
 		anchor_3.setTarget("_blank");
-		anchor_3.setHref("changeLog.txt");
+		anchor_3.setHref("changeLog.txt?v2");
 		horizontalPanel_4.add(anchor_3);
 		
 		Anchor anchor_4 = new Anchor("New label");
 		anchor_4.setText("To-do List");
 		anchor_4.setTarget("_blank");
-		anchor_4.setHref("todo.txt");
+		anchor_4.setHref("todo.txt?v2");
 		horizontalPanel_4.add(anchor_4);
 		flexTable.getCellFormatter().setHorizontalAlignment(7, 0, HasHorizontalAlignment.ALIGN_CENTER);
 		
