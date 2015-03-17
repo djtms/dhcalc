@@ -1552,7 +1552,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public int getNumSentries() {
-		return 2 + (hasBombardiers ? 2 : 0) + (customEngineering ? 1 : 0) + (helltrapper ? 2 : 0);
+		return 2 + (hasBombardiers ? 2 : 0) + (customEngineering ? 1 : 0);
 	}
 
 	public boolean isHasBombardiers() {

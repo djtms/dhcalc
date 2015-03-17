@@ -303,7 +303,7 @@ public class ItemPanel extends Composite {
 		cindercoatPercent.setText("25");
 		flexTable.setWidget(16, 3, cindercoatPercent);
 		
-		Anchor anchor_12 = new Anchor("Bombadier's Rucksack");
+		Anchor anchor_12 = new Anchor("Helltrapper");
 		anchor_12.setWordWrap(false);
 		anchor_12.setText("Helltrapper");
 		anchor_12.setTarget("_blank");
@@ -313,9 +313,6 @@ public class ItemPanel extends Composite {
 		
 		helltrapper = new SimpleCheckBox();
 		flexTable.setWidget(17, 1, helltrapper);
-		
-		Label lblassumesExtra = new Label("(+2 extra sentries)");
-		flexTable.setWidget(17, 2, lblassumesExtra);
 		
 		Label label_1 = new Label("Elite Damage +%:");
 		label_1.setWordWrap(false);
@@ -351,7 +348,6 @@ public class ItemPanel extends Composite {
 		flexTable.getCellFormatter().setHorizontalAlignment(14, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(15, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(16, 2, HasHorizontalAlignment.ALIGN_RIGHT);
-		flexTable.getFlexCellFormatter().setColSpan(17, 2, 2);
 		
 		this.tntPercent.setMin(40);
 		this.tntPercent.setMax(50);
