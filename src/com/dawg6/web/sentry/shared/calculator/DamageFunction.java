@@ -244,6 +244,8 @@ public class DamageFunction {
 					Integer.MAX_VALUE, "DoT", DamageType.Physical,
 					DamageMultiplier.DoT),
 
+			new DamageRow(ActiveSkill.Companion, Rune.None, 1.0, true, 0,
+					DamageType.Physical),
 			new DamageRow(ActiveSkill.Companion, Rune.Spider, 1.0, true, 0,
 					DamageType.Physical),
 			new DamageRow(ActiveSkill.Companion, Rune.Bat, 1.0, true, 0,

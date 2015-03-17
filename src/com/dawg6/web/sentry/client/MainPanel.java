@@ -177,6 +177,9 @@ public class MainPanel extends BasePanel {
 	private FlexTable shooterSummary;
 	private Label offHand_weaponDamage;
 	private Label dw_weaponDamage;
+	private SimpleCheckBox companion;
+	private ListBox companionRunes;
+	private Anchor crLabel;
 
 	public MainPanel() {
 		VerticalPanel panel = new VerticalPanel();
@@ -838,6 +841,34 @@ public class MainPanel extends BasePanel {
 		// grid.setWidget(3, 3, rune3);
 		// rune3.setTitle("Selected rune for this Hatred Spender.");
 
+		Anchor cLabel = new Anchor("Companion:");
+		cLabel.setHref(ActiveSkill.Companion.getUrl());
+		cLabel.setTarget("_blank");
+		grid.setWidget(3, 0, cLabel);
+		
+		companion = new SimpleCheckBox();
+		grid.setWidget(3, 1, companion);
+		
+		crLabel = new Anchor("Rune:");
+		crLabel.setHref(ActiveSkill.Companion.getUrl());
+		crLabel.setTarget("_blank");
+		grid.setWidget(3, 2, crLabel);
+		
+		companionRunes = new ListBox();
+		grid.setWidget(3, 3, companionRunes);
+		
+		for (Rune r : ActiveSkill.Companion.getRunes()) {
+			companionRunes.addItem(r.getLongName(), r.name());
+		}
+		companionRunes.setSelectedIndex(0);
+
+		companionRunes.addChangeHandler(new ChangeHandler(){
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				setCompanionRuneLabel();
+			}});
+		
 		skills = new SkillsPanel();
 		verticalPanel_1.add(skills);
 
@@ -1755,6 +1786,15 @@ public class MainPanel extends BasePanel {
 																// rune3Label };
 	}
 
+	protected void setCompanionRuneLabel() {
+		Rune rune = getRune(companionRunes);
+
+		if ((rune != null) && (rune != Rune.None))
+			crLabel.setHref(ActiveSkill.Companion.getUrl() + "#" + rune.getSlug() + "+");
+		else
+			crLabel.setHref(ActiveSkill.Companion.getUrl());
+	}
+
 	protected void updateHatred() {
 		hatredPanel.getMaxHatred().setValue(
 				125.0
@@ -2505,7 +2545,7 @@ public class MainPanel extends BasePanel {
 		data.setParagonCHD(paragonPanel.getParagonCHD().getValue());
 		data.setParagonHatred(paragonPanel.getParagonHatred().getValue());
 		data.setParagonRCR(paragonPanel.getParagonRCR().getValue());
-
+		
 		ProfileHelper.updateCdr(data);
 		ProfileHelper.updateWeaponDamage(data);
 
@@ -2585,6 +2625,9 @@ public class MainPanel extends BasePanel {
 				setRune(field, Rune.valueOf(value));
 			} else if (field == cdrPanel.getDiamond()) {
 				cdrPanel.setDiamond(GemLevel.valueOf(value));
+			} else if (field == companionRunes) {
+				setRune(field, Rune.valueOf(value));
+				this.setCompanionRuneLabel();
 			} else if (field == targetType) {
 				if ((value == null) || value.equals(Boolean.FALSE.toString()))
 					field.setSelectedIndex(0);
@@ -3033,6 +3076,8 @@ public class MainPanel extends BasePanel {
 		this.passives.getCustomEngineering().setValue(
 				data.isCustomEngineering());
 		this.passives.getArchery().setValue(data.isArchery());
+		this.companion.setValue(data.isCompanion());
+		this.setRune(companionRunes, data.getCompanionRune());
 	}
 
 	private void setSkillAndRune(Anchor skillLabel, Anchor runeLabel,
@@ -3271,6 +3316,8 @@ public class MainPanel extends BasePanel {
 				new Field(this.skill1, "Skill1", ""),
 				new Field(this.skill2, "Skill2", ""),
 				// new Field(this.skill3, "Skill3", ""),
+				new Field(this.companion, "Companion", Boolean.TRUE.toString()),
+				new Field(this.companionRunes, "CompanionRune", Rune.Wolf.name()),
 				new Field(this.rune1, "Rune1", Rune.None.name()),
 				new Field(this.rune2, "Rune2", Rune.None.name()),
 				// new Field(this.rune3, "Rune3", Rune.None.name()),
@@ -3570,7 +3617,9 @@ public class MainPanel extends BasePanel {
 					.getValue() / 100.0);
 			data.setOdysseysEndUptime(itemPanel.getOdysseysEndUptime()
 					.getValue() / 100.0);
-
+			data.setCompanion(companion.getValue());
+			data.setCompanionRune(getRune(companionRunes));
+			
 			Map<ActiveSkill, Rune> skills = getSkills();
 			// SkillSet skillSet = getSkillSet(skills);
 
@@ -3807,6 +3856,18 @@ public class MainPanel extends BasePanel {
 				b2.setTarget("_blank");
 				b2.setWordWrap(false);
 				b2.setHref("http://us.battle.net/d3/en/class/demon-hunter/active/companion#d+");
+				damageLog.setWidget(row + 1, 2, b2);
+			} else if (d.shooter.equals("MFD") && d.hatred != 0) {
+				Anchor b = new Anchor("MfD");
+				b.setTarget("_blank");
+				b.setWordWrap(false);
+				b.setHref("http://us.battle.net/d3/en/class/demon-hunter/active/marked-for-death");
+				damageLog.setWidget(row + 1, 1, b);
+
+				Anchor b2 = new Anchor("Mortal Enemy");
+				b2.setTarget("_blank");
+				b2.setWordWrap(false);
+				b2.setHref("http://us.battle.net/d3/en/class/demon-hunter/active/marked-for-death#d+");
 				damageLog.setWidget(row + 1, 2, b2);
 			}
 
@@ -4142,6 +4203,7 @@ public class MainPanel extends BasePanel {
 			// setRuneLabel(this.rune3Label, skill3, rune3);
 			setSkillLabel(this.skill1Label, skill1);
 			setSkillLabel(this.skill2Label, skill2);
+			setCompanionRuneLabel();
 			// setSkillLabel(this.skill3Label, skill3);
 			
 			

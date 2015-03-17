@@ -5,6 +5,9 @@ Change Log:
 * Added support for dual-wield hand crossbows (need help testing/verifying calculations)
 * Item list is now saved in browser after character import
 * Companion and Sentry bolt damage are now based off dual wield average weapon damage (if dual wielding)
+* Added Companion rune (for less than 2pc Marauder's)
+* Added Raven Companion damage 
+* Added hatred generation from Marked for Death/Mortal Enemy
 
 **3/16/15**
 

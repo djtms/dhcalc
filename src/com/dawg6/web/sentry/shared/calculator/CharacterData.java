@@ -220,6 +220,8 @@ public class CharacterData implements Serializable {
 	private int equipmentDexterity;
 	private int paragonDexterity;
 	private boolean helltrapper;
+	private boolean companion;
+	private Rune companionRune;
 	
 	public int getNumMarauders() {
 		return numMarauders;
@@ -1943,6 +1945,22 @@ public class CharacterData implements Serializable {
 
 	public void setOffHand_dps(double offHand_dps) {
 		this.offHand_dps = offHand_dps;
+	}
+
+	public boolean isCompanion() {
+		return companion;
+	}
+
+	public void setCompanion(boolean companion) {
+		this.companion = companion;
+	}
+
+	public Rune getCompanionRune() {
+		return companionRune;
+	}
+
+	public void setCompanionRune(Rune companionRune) {
+		this.companionRune = companionRune;
 	}
 
 }

@@ -8,8 +8,7 @@
 * Confirm: Does Attack Speed on off-hand weapon apply to sentry breakpoint calculations?
 * Confirm: Dual Wield Sheet APS and DPS calculations
 
-* Add Companion rune (for less than 2pc Marauder's)
-* Add hatred generation from Marked for Death/Mortal Enemy
+* Fix Helltrapper logic (it's no longer +2 sentries)
 * Add support ruby socketed in weapon(s)
 * Add support for more than two spenders/generators
 * re-enable player/build statistics

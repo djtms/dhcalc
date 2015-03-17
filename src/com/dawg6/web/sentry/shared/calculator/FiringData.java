@@ -58,6 +58,8 @@ public class FiringData {
 		int numHealthGlobes = 0;
 		double healthGlobeHatred = 0.0;
 		double regenHatred = 0.0;
+		int numMarked = 0;
+		double markedHatred = 0;
 
 		while (t < DURATION) {
 
@@ -89,10 +91,12 @@ public class FiringData {
 				numPrep++;
 			}
 
-			if (((maxHatred - hatred) >= 50.0) && (batAvail <= t)) {
-				hatred += 50.0;
-				batAvail = t + batCd;
-				numBat++;
+			if (data.isCompanion() && ((data.getNumMarauders() >= 2) || (data.getCompanionRune() == Rune.Bat))) {
+				if (((maxHatred - hatred) >= 50.0) && (batAvail <= t)) {
+					hatred += 50.0;
+					batAvail = t + batCd;
+					numBat++;
+				}
 			}
 
 			for (SkillAndRune skr : skills) {
@@ -103,7 +107,23 @@ public class FiringData {
 					skillQty.put(skr, n);
 					hatred = Math.min(maxHatred, hatred + h);
 
+					if (data.isMarked() && (data.getMfdRune() == Rune.Mortal_Enemy)) {
+						
+						numMarked++;
+						double mh = (4.0 * data.getMfdUptime()) + (4.0 * data.getNumAdditional() * data.getMfdAddUptime());
+
+						if (hatred > (maxHatred - mh)) {
+							mh = maxHatred - mh;
+						}
+						
+						if (mh > 0) {
+							hatred += mh;
+							markedHatred += mh;
+						}
+					}
+
 					break;
+					
 				}
 			}
 
@@ -150,15 +170,24 @@ public class FiringData {
 					data));
 		}
 
-		for (Rune r : ActiveSkill.Companion.getRunes()) {
-			double attacks = FiringData.DURATION;
+		if (data.isCompanion()) {
+			
+			Rune[] companionRunes = new Rune[] { data.getCompanionRune() };
+			
+			if (data.getNumMarauders() >= 2)
+				companionRunes = ActiveSkill.Companion.getRunes();
 
+			double attacks = FiringData.DURATION;
+			
 			if (data.isTnt())
 				attacks = FiringData.DURATION * (1 + data.getTntPercent());
 
-			list.addAll(DamageFunction.getDamages(false, false, ActiveSkill.Companion.getLongName(),
-					new DamageSource(ActiveSkill.Companion, r),
-					(int) Math.round(attacks), data));
+			for (Rune r : companionRunes) {
+				
+				list.addAll(DamageFunction.getDamages(false, false, ActiveSkill.Companion.getLongName(),
+						new DamageSource(ActiveSkill.Companion, r),
+						(int) Math.round(attacks), data));
+			}
 		}
 
 		// gem procs
@@ -189,6 +218,14 @@ public class FiringData {
 			list.add(d);
 		}
 
+		if (numMarked > 0) {
+			Damage d = new Damage();
+			d.shooter = "MFD";
+			d.hatred = markedHatred;
+			d.qty = numMarked;
+			list.add(d);
+		}
+		
 		Damage d = new Damage();
 		d.shooter = "Hatred Regen";
 		d.hatred = regenHatred;
