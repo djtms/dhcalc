@@ -39,6 +39,7 @@ public class ItemPanel extends Composite {
 	private final NumberSpinner odysseysEndPercent;
 	private final NumberSpinner odysseysEndUptime;
 	private final SimpleCheckBox helltrapper;
+	private final NumberSpinner helltrapperPercent;
 
 	public ItemPanel() {
 
@@ -314,6 +315,14 @@ public class ItemPanel extends Composite {
 		helltrapper = new SimpleCheckBox();
 		flexTable.setWidget(17, 1, helltrapper);
 		
+		Label label_12 = new Label("Percent:");
+		flexTable.setWidget(17, 2, label_12);
+		
+		helltrapperPercent = new NumberSpinner();
+		helltrapperPercent.setVisibleLength(2);
+		helltrapperPercent.setText("25");
+		flexTable.setWidget(17, 3, helltrapperPercent);
+		
 		Label label_1 = new Label("Elite Damage +%:");
 		label_1.setWordWrap(false);
 		label_1.setTitle("The Elite Damage percentage, as shown in-in game in the character details screen under offense. Subtract 15% if Bane of the Powerful is level 25 or more (it will be added automatically if selected).");
@@ -348,6 +357,7 @@ public class ItemPanel extends Composite {
 		flexTable.getCellFormatter().setHorizontalAlignment(14, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(15, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(16, 2, HasHorizontalAlignment.ALIGN_RIGHT);
+		flexTable.getCellFormatter().setHorizontalAlignment(17, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		
 		this.tntPercent.setMin(40);
 		this.tntPercent.setMax(50);
@@ -377,6 +387,8 @@ public class ItemPanel extends Composite {
 		odysseysEndPercent.setMax(25);
 		odysseysEndUptime.setMin(0);
 		odysseysEndUptime.setMax(100);
+		helltrapperPercent.setMin(7);
+		helltrapperPercent.setMax(10);
 	}
 
 	public SimpleCheckBox getTnt() {
@@ -497,6 +509,10 @@ public class ItemPanel extends Composite {
 
 	public SimpleCheckBox getHelltrapper() {
 		return helltrapper;
+	}
+
+	public NumberSpinner getHelltrapperPercent() {
+		return helltrapperPercent;
 	}
 
 }

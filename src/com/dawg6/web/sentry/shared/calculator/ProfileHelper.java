@@ -779,9 +779,9 @@ public class ProfileHelper {
 				ActiveSkill.MS, ActiveSkill.CHAK, ActiveSkill.IMP,
 				ActiveSkill.SENTRY, ActiveSkill.HA, ActiveSkill.ES,
 				ActiveSkill.BOLAS, ActiveSkill.EF, ActiveSkill.GRENADE,
-				ActiveSkill.Companion };
+				ActiveSkill.Companion, ActiveSkill.ST };
 
-		int[] damage = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		int[] damage = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		int petSpeed = 0;
 		boolean tnt = false;
 		boolean calamity = false;
@@ -802,6 +802,7 @@ public class ProfileHelper {
 		double hexingPantsPercent = 0.0;
 		boolean bombadiers = false;
 		boolean helltrapper = false;
+		double helltrapperPercent = 0.0;
 		boolean reapersWraps = false;
 		double reapersWrapsPercent = 0.0;
 		boolean kridershot = false;
@@ -893,6 +894,14 @@ public class ProfileHelper {
 				bombadiers = true;
 			} else if (i.name.equals(Const.HELLTRAPPER)) {
 				helltrapper = true;
+				Value<Float> value = i.attributesRaw
+						.get(Const.HELLTRAPPER_PERCENT);
+				
+				if (value != null) {
+					helltrapperPercent = value.min;
+				} else {
+					helltrapperPercent = 0.07;
+				}
 			} else if (i.name.equals(Const.HARRINGTON)) {
 				Value<Float> value = i.attributesRaw
 						.get(Const.HARRINGTON_PERCENT);
@@ -978,6 +987,7 @@ public class ProfileHelper {
 		data.setEfDamage(damage[n++] / 100.0);
 		data.setGrenadeDamage(damage[n++] / 100.0);
 		data.setCompanionDamage(damage[n++] / 100.0);
+		data.setSpikeTrapDamage(damage[n++] / 100.0);
 
 		ItemInformation helm = hero.items.get(Const.HEAD);
 
@@ -1078,6 +1088,7 @@ public class ProfileHelper {
 
 		data.setHasBombardiers(bombadiers);
 		data.setHelltrapper(helltrapper);
+		data.setHelltrapperPercent(helltrapperPercent);
 
 		data.setKridershot(kridershot);
 		data.setKridershotHatred(kridershotHatred);

@@ -101,9 +101,13 @@ public class DamageRow {
 			this.multipliers.add(DamageMultiplier.Ambush);
 			this.multipliers.add(DamageMultiplier.ArcheryDamage);
 			this.multipliers.add(DamageMultiplier.Hysteria);
-			this.multipliers.add(DamageMultiplier.Zeis);
 			this.multipliers.add(DamageMultiplier.HexingPants);
-			this.multipliers.add(DamageMultiplier.SteadyAim);
+
+			if (source.skill != ActiveSkill.ST) {
+				this.multipliers.add(DamageMultiplier.Zeis);
+				this.multipliers.add(DamageMultiplier.SteadyAim);
+			}
+			
 		} else {
 			this.multipliers.add(DamageMultiplier.Enforcer);
 			this.multipliers.add(DamageMultiplier.APS);

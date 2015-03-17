@@ -256,6 +256,8 @@ public class DamageFunction {
 					DamageType.Physical),
 			new DamageRow(ActiveSkill.Companion, Rune.Wolf, 1.0, true, 0,
 					DamageType.Physical),
+					
+			new DamageRow(ActiveSkill.ST, Rune.None, 3.4, true, Integer.MAX_VALUE, 0, 8, DamageType.Fire),
 
 	};
 

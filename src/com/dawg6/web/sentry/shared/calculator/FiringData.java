@@ -53,13 +53,13 @@ public class FiringData {
 		double batCd = 30.0 * (1.0 - cdr);
 		double batAvail = 0;
 		int numBat = 0;
-		double batHatred = 0.0;
 		int numPrep = 0;
 		int numHealthGlobes = 0;
 		double healthGlobeHatred = 0.0;
 		double regenHatred = 0.0;
 		int numMarked = 0;
 		double markedHatred = 0;
+		int totalHits = 0;
 
 		while (t < DURATION) {
 
@@ -144,6 +144,9 @@ public class FiringData {
 				int qty = skillQty.get(skr);
 
 				if (qty > 0) {
+					
+					totalHits += qty;
+					
 					list.addAll(DamageFunction.getDamages(true, false,
 							"Player", new DamageSource(skill, rune), qty, data));
 
@@ -170,6 +173,16 @@ public class FiringData {
 					data));
 		}
 
+		if (data.isHelltrapper()) {
+			int num = (int) Math.round(totalHits * data.getHelltrapperPercent() * 0.5);
+			
+			if (num > 0) {
+				list.addAll(DamageFunction.getDamages(false, false, "Helltrapper",
+						new DamageSource(ActiveSkill.ST, Rune.None), num * 3,
+						data));
+			}
+		}
+		
 		if (data.isCompanion()) {
 			
 			Rune[] companionRunes = new Rune[] { data.getCompanionRune() };

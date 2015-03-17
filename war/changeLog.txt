@@ -9,6 +9,7 @@ Change Log:
 * Added Raven Companion damage 
 * Added hatred generation from Marked for Death/Mortal Enemy
 * Helltrapper no longer adds 2 sentries
+* Helltrapper now includes Spike Trap damage (no rune currently) 
 
 **3/16/15**
 

@@ -39,6 +39,7 @@ public class CharacterData implements Serializable {
 	private double caDamage;
 	private double impDamage;
 	private double haDamage;
+	private double spikeTrapDamage;
 	private double companionDamage;
 	private double esDamage;
 	private double bolasDamage;
@@ -220,6 +221,7 @@ public class CharacterData implements Serializable {
 	private int equipmentDexterity;
 	private int paragonDexterity;
 	private boolean helltrapper;
+	private double helltrapperPercent;
 	private boolean companion;
 	private Rune companionRune;
 	
@@ -1961,6 +1963,22 @@ public class CharacterData implements Serializable {
 
 	public void setCompanionRune(Rune companionRune) {
 		this.companionRune = companionRune;
+	}
+
+	public double getSpikeTrapDamage() {
+		return spikeTrapDamage;
+	}
+
+	public void setSpikeTrapDamage(double spikeTrapDamage) {
+		this.spikeTrapDamage = spikeTrapDamage;
+	}
+
+	public double getHelltrapperPercent() {
+		return helltrapperPercent;
+	}
+
+	public void setHelltrapperPercent(double helltrapperPercent) {
+		this.helltrapperPercent = helltrapperPercent;
 	}
 
 }

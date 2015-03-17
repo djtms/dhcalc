@@ -42,25 +42,27 @@ public enum ActiveSkill {
 			Rune.Polar_Station, Rune.Guardian_Turret },
 			"http://us.battle.net/d3/en/class/demon-hunter/active/sentry"),
 
-	HA(SkillType.Primary, "HA", "Hungering Arrow", 3, null,
+	HA(SkillType.Primary, "HA", "Hungering Arrow", 3, DamageMultiplier.HA,
 			new Rune[] { Rune.None, Rune.Puncturing_Arrow, Rune.Serrated_Arrow, Rune.Shatter_Shot, Rune.Devouring_Arrow, Rune.Spray_of_Teeth },
 			"http://us.battle.net/d3/en/class/demon-hunter/active/hungering-arrow"),
-	ES(SkillType.Primary, "ES", "Entangling Shot", 3, null,
+	ES(SkillType.Primary, "ES", "Entangling Shot", 3, DamageMultiplier.ES,
 			new Rune[] { Rune.None, Rune.Chain_Gang, Rune.Shock_Collar, Rune.Heavy_Burden, Rune.Justice_is_Served, Rune.Bounty_Hunter },
 			"http://us.battle.net/d3/en/class/demon-hunter/active/entangling-shot"),
-	BOLAS(SkillType.Primary, "BOLAS", "Bolas", 3, null,
+	BOLAS(SkillType.Primary, "BOLAS", "Bolas", 3, DamageMultiplier.BOLAS,
 			new Rune[] { Rune.None, Rune.Volatile_Exolosives, Rune.Thunder_Ball, Rune.Freezing_Strike, Rune.Bitter_Pill, Rune.Imminent_Doom },
 			"http://us.battle.net/d3/en/class/demon-hunter/active/bolas"),
-	EF(SkillType.Primary, "EF", "Evasive Fire", 4, null,
+	EF(SkillType.Primary, "EF", "Evasive Fire", 4, DamageMultiplier.EF,
 			new Rune[] { Rune.None, Rune.Hardened, Rune.Parting_Gift, Rune.Covering_Fire, Rune.Focus, Rune.Surge },
 			"http://us.battle.net/d3/en/class/demon-hunter/active/evasive-fire"),
-	GRENADE(SkillType.Primary, "GRENADE", "Grenade", 3, null,
+	GRENADE(SkillType.Primary, "GRENADE", "Grenade", 3, DamageMultiplier.GRENADE,
 			new Rune[] { Rune.None, Rune.Tinkerer, Rune.Cluster_Grenades, Rune.Grenade_Cache, Rune.Stun_Grenade, Rune.Cold_Grenade },
 			"http://us.battle.net/d3/en/class/demon-hunter/active/grenade"),
 
 	Companion(SkillType.Cooldown, "Companion", "Companion", 0, null, new Rune[] {
 			Rune.None, Rune.Bat, Rune.Spider, Rune.Wolf, Rune.Boar, Rune.Ferret
 		}, "http://us.battle.net/d3/en/class/demon-hunter/active/companion"),
+		
+	ST(SkillType.Cooldown, "ST", "Spike Trap", 30, DamageMultiplier.ST, new Rune[] { Rune. None }, "http://us.battle.net/d3/en/class/demon-hunter/active/spike-trap"),
 		
 	Any(SkillType.NA, "Any Skill", "Any Skill", 0, null, new Rune[0], null);
 

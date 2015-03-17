@@ -21,6 +21,7 @@ public class SkillDamagePanel extends Composite {
 	private final NumberSpinner efDamage;
 	private final NumberSpinner grenadeDamage;
 	private final NumberSpinner companionDamage;
+	private final NumberSpinner stDamage;
 	
 	public SkillDamagePanel() {
 		
@@ -175,7 +176,7 @@ public class SkillDamagePanel extends Composite {
 		
 		haDamage = new NumberSpinner();
 		haDamage.setVisibleLength(3);
-		haDamage.setTitle("Additional damage done by the Impale skill (as a percent), as shown in-game in the Character details screen under offense.");
+		haDamage.setTitle("Additional damage done by the Hungering Arrow skill (as a percent), as shown in-game in the Character details screen under offense.");
 		flexTable.setWidget(6, 1, haDamage);
 		
 		HorizontalPanel horizontalPanel_7 = new HorizontalPanel();
@@ -197,7 +198,7 @@ public class SkillDamagePanel extends Composite {
 		
 		esDamage = new NumberSpinner();
 		esDamage.setVisibleLength(3);
-		esDamage.setTitle("Additional damage done by the Impale skill (as a percent), as shown in-game in the Character details screen under offense.");
+		esDamage.setTitle("Additional damage done by the Entangling Shot skill (as a percent), as shown in-game in the Character details screen under offense.");
 		flexTable.setWidget(7, 1, esDamage);
 		
 		HorizontalPanel horizontalPanel_8 = new HorizontalPanel();
@@ -219,7 +220,7 @@ public class SkillDamagePanel extends Composite {
 		
 		bolasDamage = new NumberSpinner();
 		bolasDamage.setVisibleLength(3);
-		bolasDamage.setTitle("Additional damage done by the Impale skill (as a percent), as shown in-game in the Character details screen under offense.");
+		bolasDamage.setTitle("Additional damage done by the Bolas skill (as a percent), as shown in-game in the Character details screen under offense.");
 		flexTable.setWidget(8, 1, bolasDamage);
 		
 		HorizontalPanel horizontalPanel_9 = new HorizontalPanel();
@@ -241,7 +242,7 @@ public class SkillDamagePanel extends Composite {
 		
 		efDamage = new NumberSpinner();
 		efDamage.setVisibleLength(3);
-		efDamage.setTitle("Additional damage done by the Impale skill (as a percent), as shown in-game in the Character details screen under offense.");
+		efDamage.setTitle("Additional damage done by the Evasive Fire skill (as a percent), as shown in-game in the Character details screen under offense.");
 		flexTable.setWidget(9, 1, efDamage);
 		
 		HorizontalPanel horizontalPanel_10 = new HorizontalPanel();
@@ -263,7 +264,7 @@ public class SkillDamagePanel extends Composite {
 		
 		grenadeDamage = new NumberSpinner();
 		grenadeDamage.setVisibleLength(3);
-		grenadeDamage.setTitle("Additional damage done by the Impale skill (as a percent), as shown in-game in the Character details screen under offense.");
+		grenadeDamage.setTitle("Additional damage done by the Grenade skill (as a percent), as shown in-game in the Character details screen under offense.");
 		flexTable.setWidget(10, 1, grenadeDamage);
 		
 		HorizontalPanel horizontalPanel_11 = new HorizontalPanel();
@@ -285,8 +286,30 @@ public class SkillDamagePanel extends Composite {
 		
 		companionDamage = new NumberSpinner();
 		companionDamage.setVisibleLength(3);
-		companionDamage.setTitle("Additional damage done by the Impale skill (as a percent), as shown in-game in the Character details screen under offense.");
+		companionDamage.setTitle("Additional damage done by the Companion skill (as a percent), as shown in-game in the Character details screen under offense.");
 		flexTable.setWidget(11, 1, companionDamage);
+		
+		HorizontalPanel horizontalPanel_12 = new HorizontalPanel();
+		horizontalPanel_12.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		horizontalPanel_12.setSpacing(5);
+		flexTable.setWidget(12, 0, horizontalPanel_12);
+		
+		Anchor anchor_12 = new Anchor("Spike Trap:");
+		anchor_12.setWordWrap(false);
+		anchor_12.setText("Spike Trap");
+		anchor_12.setTarget("_blank");
+		anchor_12.setHTML("Spike Trap");
+		anchor_12.setHref("http://us.battle.net/d3/en/class/demon-hunter/active/spike-trap");
+		horizontalPanel_12.add(anchor_12);
+		
+		Label label_12 = new Label("Damage +%:");
+		label_12.setWordWrap(false);
+		horizontalPanel_12.add(label_12);
+		
+		stDamage = new NumberSpinner();
+		stDamage.setVisibleLength(3);
+		stDamage.setTitle("Additional damage done by the Spike Trap skill (as a percent), as shown in-game in the Character details screen under offense.");
+		flexTable.setWidget(12, 1, stDamage);
 	}
 	public NumberSpinner getSentryDamage() {
 		return sentryDamage;
@@ -323,6 +346,9 @@ public class SkillDamagePanel extends Composite {
 	}
 	public NumberSpinner getCompanionDamage() {
 		return companionDamage;
+	}
+	public NumberSpinner getStDamage() {
+		return stDamage;
 	}
 
 }

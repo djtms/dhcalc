@@ -549,6 +549,8 @@ public class ExportExcel {
 		createInput(inputs, data.data.getBolasDamage(), "Bolas Damage", pctStyle);
 		createInput(inputs, data.data.getEfDamage(), "EF Damage", pctStyle);
 		createInput(inputs, data.data.getGrenadeDamage(), "Grenade Damage", pctStyle);
+		createInput(inputs, data.data.getSpikeTrapDamage(), "ST Damage", pctStyle);
+		createInput(inputs, data.data.getCompanionDamage(), "Companion Damage", pctStyle);
 
 		createInputHeader(inputs, "Item Data");
 		createInput(inputs, data.data.getEliteDamage(),
@@ -587,6 +589,8 @@ public class ExportExcel {
 				"Bombadier's Rucksack");
 		createInput(inputs, data.data.isHelltrapper(),
 				"Helltrapper");
+		createInput(inputs, data.data.getHelltrapperPercent(),
+				"Helltrapper Percent", pctStyle);
 		createInput(inputs, data.data.isReapersWraps(),
 				"Reapers Wraps");
 		createInput(inputs, data.data.getReapersWrapsPercent(),

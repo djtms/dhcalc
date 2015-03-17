@@ -2931,6 +2931,7 @@ public class MainPanel extends BasePanel {
 		this.itemPanel.getCalamity().setValue(data.isCalamityMdf());
 		this.itemPanel.getBombadiers().setValue(data.isHasBombardiers());
 		this.itemPanel.getHelltrapper().setValue(data.isHelltrapper());
+		this.itemPanel.getHelltrapperPercent().setValue((int)Math.round(data.getHelltrapperPercent() * 100));
 		this.itemPanel.getOdysseysEnd().setValue(data.isOdysseysEnd());
 		this.itemPanel.getOdysseysEndPercent().setValue(
 				(int) Math.round(data.getOdysseysEndPercent() * 100.0));
@@ -2986,6 +2987,8 @@ public class MainPanel extends BasePanel {
 				(int) Math.round(data.getGrenadeDamage() * 100.0));
 		this.skillDamage.getCompanionDamage().setValue(
 				(int) Math.round(data.getCompanionDamage() * 100.0));
+		this.skillDamage.getStDamage().setValue(
+				(int) Math.round(data.getSpikeTrapDamage() * 100.0));
 	}
 
 	private void getSetSetCDR(SimpleCheckBox field,
@@ -3158,6 +3161,8 @@ public class MainPanel extends BasePanel {
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getHelltrapper(), "Helltrapper",
 						Boolean.FALSE.toString()),
+				new Field(this.itemPanel.getHelltrapperPercent(), "HelltrapperPercent",
+						"7"),
 				new Field(this.itemPanel.getSpines(), "Spines",
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getKridershot(), "Kridershot",
@@ -3247,6 +3252,8 @@ public class MainPanel extends BasePanel {
 				new Field(this.skillDamage.getHaDamage(), "HA", "0"),
 				new Field(this.skillDamage.getCompanionDamage(),
 						"CompanionDamage", "0"),
+				new Field(this.skillDamage.getStDamage(),
+						"SpikeTrapDamage", "0"),
 				new Field(this.skillDamage.getEsDamage(), "ES", "0"),
 				new Field(this.skillDamage.getBolasDamage(), "Bolas", "0"),
 				new Field(this.skillDamage.getEfDamage(), "EF", "0"),
@@ -3462,6 +3469,8 @@ public class MainPanel extends BasePanel {
 			data.setHaDamage(getValue(this.skillDamage.getHaDamage()) / 100.0);
 			data.setCompanionDamage(getValue(this.skillDamage
 					.getCompanionDamage()) / 100.0);
+			data.setSpikeTrapDamage(getValue(this.skillDamage
+					.getStDamage()) / 100.0);
 			data.setEsDamage(getValue(this.skillDamage.getEsDamage()) / 100.0);
 			data.setBolasDamage(getValue(this.skillDamage.getBolasDamage()) / 100.0);
 			data.setEfDamage(getValue(this.skillDamage.getEfDamage()) / 100.0);
@@ -3496,6 +3505,7 @@ public class MainPanel extends BasePanel {
 			data.setCalamityMdf(itemPanel.getCalamity().getValue());
 			data.setHasBombardiers(itemPanel.getBombadiers().getValue());
 			data.setHelltrapper(itemPanel.getHelltrapper().getValue());
+			data.setHelltrapperPercent(itemPanel.getHelltrapperPercent().getValue() / 100.0);
 			data.setNumMarauders(itemPanel.getMarauders().getValue());
 			data.setMarked(skills.getMfd().getValue());
 			data.setSteadyAim(this.passives.getSteadyAim().getValue());

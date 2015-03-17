@@ -241,6 +241,12 @@ public enum DamageMultiplier {
 				public Double getValue(CharacterData data) {
 					return data.getGrenadeDamage();
 				}
+			}), ST("ST", DamageAccumulator.Additive,
+			"Spike Trap Damage Bonus", new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return data.getSpikeTrapDamage();
+				}
 			}), CtW("CtW", DamageAccumulator.Multiplicative,
 			"Cull the Weak passive bonus (20% to chilled/frozen)",
 			new Test<CharacterData, Double>() {
