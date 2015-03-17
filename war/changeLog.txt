@@ -8,7 +8,7 @@ Change Log:
 * Added Companion rune (for less than 2pc Marauder's)
 * Added Raven Companion damage 
 * Added hatred generation from Marked for Death/Mortal Enemy
-* Helltrapper no longer addds 2 sentries
+* Helltrapper no longer adds 2 sentries
 
 **3/16/15**
 
