@@ -1,7 +1,19 @@
 package com.dawg6.web.sentry.shared.calculator;
 
 public enum DamageMultiplier {
-	WD("WD", DamageAccumulator.Multiplicative, "Average Weapon Damage", null), NumGrenades(
+	WD("WD", DamageAccumulator.Multiplicative, "Average Weapon Damage (Main Hand Only)", new Test<CharacterData, Double>() {
+
+		@Override
+		public Double getValue(CharacterData data) {
+			return data.getWeaponDamage();
+		}}), 
+	DWWD("DWWD", DamageAccumulator.Multiplicative, "Average Weapon Damage (Dual-Wield)",  new Test<CharacterData, Double>() {
+
+		@Override
+		public Double getValue(CharacterData data) {
+			return (data.getWeaponDamage() + data.getOffHand_weaponDamage()) / 2.0;
+		}}), 
+	NumGrenades(
 			"#Grenades", DamageAccumulator.Multiplicative,
 			"# of Grenades per Target", null), Fire("Fire",
 			DamageAccumulator.ElementalAdditive, "Fire Elemental Damage Bonus",

@@ -1,5 +1,10 @@
 Change Log:
 
+**3/17/15**
+
+* Added support for dual-wield hand crossbows (need help testing/verifying calculations)
+* Item list is now saved in browser after character import
+
 **3/16/15**
 
 * Updated Companion DPS formula to account for Weapon APS and TnT Pet IAS

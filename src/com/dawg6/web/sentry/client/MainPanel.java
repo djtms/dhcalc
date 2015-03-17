@@ -175,6 +175,8 @@ public class MainPanel extends BasePanel {
 	private SkillData skillData;
 	private GearPanel gearPanel;
 	private FlexTable shooterSummary;
+	private Label offHand_weaponDamage;
+	private Label dw_weaponDamage;
 
 	public MainPanel() {
 		VerticalPanel panel = new VerticalPanel();
@@ -334,7 +336,8 @@ public class MainPanel extends BasePanel {
 
 						if (!disableListeners) {
 							updateHatred();
-							calculator.setHatred(paragonPanel.getParagonHatred().getValue());
+							calculator.setHatred(paragonPanel
+									.getParagonHatred().getValue());
 						}
 					}
 				});
@@ -1172,7 +1175,7 @@ public class MainPanel extends BasePanel {
 		outputHeader.setCellPadding(2);
 		verticalPanel_5.add(outputHeader);
 
-		Label lblNewLabel_27 = new Label("Average Weapon Damage:");
+		Label lblNewLabel_27 = new Label("Average Weapon Damage (Main Hand):");
 		outputHeader.setWidget(0, 0, lblNewLabel_27);
 		lblNewLabel_27.setWordWrap(false);
 
@@ -1180,93 +1183,109 @@ public class MainPanel extends BasePanel {
 		outputHeader.setWidget(0, 1, weaponDamage);
 		weaponDamage.setStyleName("boldText");
 
+		Label lblNewLabel_27a = new Label("(Off Hand):");
+		outputHeader.setWidget(0, 2, lblNewLabel_27a);
+		lblNewLabel_27a.setWordWrap(false);
+
+		offHand_weaponDamage = new Label("00000");
+		outputHeader.setWidget(0, 3, offHand_weaponDamage);
+		offHand_weaponDamage.setStyleName("boldText");
+
+		Label lblNewLabel_27b = new Label("(Dual Wield):");
+		outputHeader.setWidget(0, 4, lblNewLabel_27b);
+		lblNewLabel_27b.setWordWrap(false);
+
+		dw_weaponDamage = new Label("00000");
+		outputHeader.setWidget(0, 5, dw_weaponDamage);
+		dw_weaponDamage.setStyleName("boldText");
+
 		Label lblNewLabel_3 = new Label("Pet APS:");
-		outputHeader.setWidget(0, 2, lblNewLabel_3);
+		outputHeader.setWidget(1, 0, lblNewLabel_3);
 		lblNewLabel_3.setWordWrap(false);
 
 		sentryAps = new Label("00000");
-		outputHeader.setWidget(0, 3, sentryAps);
+		outputHeader.setWidget(1, 1, sentryAps);
 		sentryAps.setStyleName("boldText");
 		sentryAps.setWordWrap(false);
 
 		Label lblNewLabel_4 = new Label("Break Point:");
-		outputHeader.setWidget(0, 4, lblNewLabel_4);
+		outputHeader.setWidget(1, 2, lblNewLabel_4);
 		lblNewLabel_4.setWordWrap(false);
 
 		breakPoint = new Label("000000");
-		outputHeader.setWidget(0, 5, breakPoint);
+		outputHeader.setWidget(1, 3, breakPoint);
 		breakPoint.setStyleName("boldText");
 		breakPoint.setWordWrap(false);
 
 		Label lblNewLabel_29 = new Label("Sentry APS:");
-		outputHeader.setWidget(0, 6, lblNewLabel_29);
-
-		Label lblNewLabel_29a = new Label("# Sentries:");
-		outputHeader.setWidget(1, 6, lblNewLabel_29a);
+		outputHeader.setWidget(1, 4, lblNewLabel_29);
 
 		actualAps = new Label("00000");
-		outputHeader.setWidget(0, 7, actualAps);
+		outputHeader.setWidget(1, 5, actualAps);
 		actualAps.setStyleName("boldText");
 
 		lblNewLabel_5 = new Label("Attacks Per " + FiringData.DURATION
 				+ " Seconds:");
-		outputHeader.setWidget(0, 8, lblNewLabel_5);
+		outputHeader.setWidget(1, 6, lblNewLabel_5);
 		lblNewLabel_5.setWordWrap(false);
 
 		aps30 = new Label("00000");
-		outputHeader.setWidget(0, 9, aps30);
+		outputHeader.setWidget(1, 7, aps30);
 		aps30.setStyleName("boldText");
 		aps30.setWordWrap(false);
 
 		Label lblNewLabel_6 = new Label("Total (Non-Elite) Damage over "
 				+ FiringData.DURATION + " seconds:");
-		outputHeader.setWidget(1, 0, lblNewLabel_6);
+		outputHeader.setWidget(2, 0, lblNewLabel_6);
 		lblNewLabel_6.setWordWrap(false);
 
 		totalDamage = new Label("00000");
-		outputHeader.setWidget(1, 1, totalDamage);
+		outputHeader.setWidget(2, 1, totalDamage);
 		totalDamage.setStyleName("boldText");
 
 		Label lblNewLabel_7 = new Label("(Non-Elite) DPS:");
-		outputHeader.setWidget(1, 2, lblNewLabel_7);
+		outputHeader.setWidget(2, 2, lblNewLabel_7);
 		lblNewLabel_7.setWordWrap(false);
 
 		dps = new Label("00000");
-		outputHeader.setWidget(1, 3, dps);
+		outputHeader.setWidget(2, 3, dps);
 		dps.setStyleName("boldText");
+
+		Label lblNewLabel_29a = new Label("# Sentries:");
+		outputHeader.setWidget(2, 6, lblNewLabel_29a);
 
 		Label lblNewLabel_6a = new Label("Total (Elite) Damage over "
 				+ FiringData.DURATION + " seconds:");
-		outputHeader.setWidget(2, 0, lblNewLabel_6a);
+		outputHeader.setWidget(3, 0, lblNewLabel_6a);
 		lblNewLabel_6a.setWordWrap(false);
 
 		totalEliteDamage = new Label("00000");
-		outputHeader.setWidget(2, 1, totalEliteDamage);
+		outputHeader.setWidget(3, 1, totalEliteDamage);
 		totalEliteDamage.setStyleName("boldText");
 
 		Label lblNewLabel_7a = new Label("(Elite) DPS:");
-		outputHeader.setWidget(2, 2, lblNewLabel_7a);
+		outputHeader.setWidget(3, 2, lblNewLabel_7a);
 		lblNewLabel_7a.setWordWrap(false);
 
 		Label lblNewLabel_7b = new Label("Elite Damage:");
-		outputHeader.setWidget(2, 4, lblNewLabel_7b);
+		outputHeader.setWidget(3, 4, lblNewLabel_7b);
 		lblNewLabel_7b.setWordWrap(false);
 
 		eliteDps = new Label("00000");
-		outputHeader.setWidget(2, 3, eliteDps);
+		outputHeader.setWidget(3, 3, eliteDps);
 		eliteDps.setStyleName("boldText");
 
 		eliteDamage = new Label("00000");
-		outputHeader.setWidget(2, 5, eliteDamage);
+		outputHeader.setWidget(3, 5, eliteDamage);
 		eliteDamage.setStyleName("boldText");
 
 		Label label_13 = new Label("Show Details for Damage against: ");
 		label_13.setWordWrap(false);
-		outputHeader.setWidget(3, 0, label_13);
+		outputHeader.setWidget(4, 0, label_13);
 
 		targetType = new ListBox();
 		targetType.setWidth("100%");
-		outputHeader.setWidget(3, 1, targetType);
+		outputHeader.setWidget(4, 1, targetType);
 
 		targetType.addItem("Non-Elite", Boolean.FALSE.toString());
 		targetType.addItem("Elite", Boolean.TRUE.toString());
@@ -2105,6 +2124,18 @@ public class MainPanel extends BasePanel {
 
 		this.heroList.setSelectedIndex(0);
 
+		if ((data.items != null) && (data.items.size() > 0)) {
+			if (gearPanel == null) {
+				gearPanel = new GearPanel();
+			}
+
+			gearPanel.restoreData(data.items);
+		} else {
+			
+			if (gearPanel != null)
+				gearPanel.clearData();
+		}
+		
 		calculator.saveForm();
 		this.saveForm();
 
@@ -2113,12 +2144,36 @@ public class MainPanel extends BasePanel {
 
 	}
 
+	
+	private static final String SLOT_PREFIX = "gear.";
+	
+	@Override
+	protected void saveFields(Field... fields) {
+		super.saveFields(fields);
+		
+		if (gearPanel != null) {
+			Map<Slot, ItemInformation> items = gearPanel.getItems();
+			
+			for (Slot s : Slot.values()) {
+				ItemInformation item = items.get(s);
+				
+				if ((item != null) && (item.tooltipParams != null)) {
+					this.saveField(SLOT_PREFIX + s.getSlot(), item.tooltipParams);
+				}
+			}
+		}
+	}
+	
 	private FormData getFormData() {
 		FormData data = new FormData();
 
 		super.populateFormData(data.main);
 		calculator.populateFormData(data.calculator);
 
+		if (gearPanel != null) {
+			gearPanel.populateFormData(data.items);
+		}
+		
 		data.version = Version.getVersion();
 
 		// Having a problem with non UTF-8 encoding in these
@@ -2746,7 +2801,7 @@ public class MainPanel extends BasePanel {
 
 	protected void updateDpsLabels() {
 		this.sheetDps.setText(Util.format(calculator.getSheetDps()));
-		this.aps.setText(Util.format(calculator.getAps()));
+		this.aps.setText(Util.format(calculator.getSheetAps()));
 		this.itemPanel.getTntPercent().setValue(calculator.getTntPercent());
 		this.itemPanel.getTnt().setValue(calculator.getTnt());
 		this.gemPanel.getGogok().setValue(calculator.getGogok());
@@ -2763,10 +2818,10 @@ public class MainPanel extends BasePanel {
 		this.critDamage.setText(Util.format(Math.round(calculator
 				.getCritDamage() * 100.0)) + "%");
 		this.avgWeaponDamage.setText(Util.format(calculator
-				.getAverageWeaponDamage()));
+				.getTotalAverageWeaponDamage()));
 		this.passives.getArchery().setValue(calculator.getArchery());
 		this.passives.getSteadyAim().setValue(calculator.getSteadyAim());
-		double aps = this.calculator.getAps();
+		double aps = this.calculator.getSheetAps();
 		double petIas = (this.itemPanel.getTnt().getValue() ? (this.itemPanel
 				.getTntPercent().getValue() / 100.0) : 0.0);
 		double petAps = aps * (1.0 + petIas);
@@ -3350,7 +3405,7 @@ public class MainPanel extends BasePanel {
 			data.setParagonHatred(paragonPanel.getParagonHatred().getValue());
 			data.setParagonRCR(paragonPanel.getParagonRCR().getValue());
 			data.setSheetDps(calculator.getSheetDps());
-			data.setAps(calculator.getAps());
+			data.setAps(calculator.getSheetAps());
 			data.setCaDamage(getValue(this.skillDamage.getCaDamage()) / 100.0);
 			data.setChakDamage(getValue(this.skillDamage.getChakDamage()) / 100.0);
 			data.setColdDamage(getValue(this.typeDamage.getColdDamage()) / 100.0);
@@ -3411,14 +3466,15 @@ public class MainPanel extends BasePanel {
 					.getValue());
 			data.setEquipIas(calculator.getEquipIAS());
 
-			data.setWeaponDamage(calculator.getAverageWeaponDamage());
-			data.setWeaponType(calculator.getWeaponType());
+			data.setWeaponDamage(calculator.getMainHandAverageWeaponDamage());
+			data.setWeaponType(calculator.getMainHandWeaponType());
 			data.setWeaponIas(calculator.getWeaponIAS());
-			
-			data.setOffHand_weaponDamage(calculator.getOffHandAverageWeaponDamage());
+
+			data.setOffHand_weaponDamage(calculator
+					.getOffHandAverageWeaponDamage());
 			data.setOffHand_weaponType(calculator.getOffHandWeaponType());
 			data.setOffHand_weaponIas(calculator.getOffHandWeaponIAS());
-			
+
 			data.setArchery(calculator.getArchery());
 			data.setCustomEngineering(passives.getCustomEngineering()
 					.getValue());
@@ -3664,7 +3720,7 @@ public class MainPanel extends BasePanel {
 
 		Label ns = new Label("" + data.getNumSentries());
 		ns.addStyleName("boldText");
-		outputHeader.setWidget(1, 7, ns);
+		outputHeader.setWidget(2, 7, ns);
 
 		if (isElite && (elite > 1.0)) {
 			eliteLog = " X " + DamageMultiplier.Elite.getAbbreviation() + "("
@@ -3963,6 +4019,17 @@ public class MainPanel extends BasePanel {
 		weaponDamage
 				.setText(Util.format(Math.round(data.getWeaponDamage() * 100.0) / 100.0));
 
+		if (data.getOffHand_weaponType() != null) {
+			offHand_weaponDamage.setText(Util.format(Math.round(data
+					.getOffHand_weaponDamage() * 100.0) / 100.0));
+			double dwDamage = (data.getWeaponDamage() + data.getOffHand_weaponDamage()) / 2.0;
+			dw_weaponDamage.setText(Util.format(Math.round(dwDamage * 100.0) / 100.0));
+		} else {
+			offHand_weaponDamage.setText("0");
+			dw_weaponDamage.setText(weaponDamage.getText());
+
+		}
+
 		row = 1;
 
 		// double dpsActual = total / FiringData.DURATION;
@@ -4035,6 +4102,16 @@ public class MainPanel extends BasePanel {
 	protected void onLoad() {
 		super.onLoad();
 
+		
+		Map<String, String> items = new TreeMap<String, String>();
+		
+		for (Slot s : Slot.values()) {
+			String value = this.getFieldValue(SLOT_PREFIX + s.getSlot(), null);
+			
+			if (value != null)
+				items.put(s.getSlot(), value);
+		}
+		
 		disableListeners = true;
 
 		if (!Beans.isDesignTime()) {
@@ -4066,6 +4143,20 @@ public class MainPanel extends BasePanel {
 			setSkillLabel(this.skill1Label, skill1);
 			setSkillLabel(this.skill2Label, skill2);
 			// setSkillLabel(this.skill3Label, skill3);
+			
+			
+			if (items.size() > 0) {
+				
+				if (gearPanel == null) {
+					gearPanel = new GearPanel();
+				}
+
+				gearPanel.restoreData(items);
+			} else {
+				if (gearPanel != null) 
+					gearPanel.clearData();
+				
+			}
 		}
 
 		disableListeners = false;

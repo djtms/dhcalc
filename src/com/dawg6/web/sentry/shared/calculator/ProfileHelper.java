@@ -153,8 +153,10 @@ public class ProfileHelper {
 				.getPainEnhancerLevel() >= 25) ? (data.getPainEnhancerStacks() * 0.03)
 				: 0.0;
 
+		double dwIas = (offHand_type != null) ? 0.15 : 0.0;
+		
 		double aps = type.getAps() * (1.0 + wIas)
-				* (1.0 + eIas + pIas + gogokIas + painEnhancerIas);
+				* (1.0 + eIas + pIas + gogokIas + painEnhancerIas + dwIas);
 		
 		double averageWeaponDamage = ((min + max) / 2.0);
 
@@ -173,7 +175,7 @@ public class ProfileHelper {
 
 		double offHand_wIas = data.getOffHand_weaponIas();
 		double offHand_aps = (offHand_type == null) ? 0.0 : (offHand_type.getAps() * (1.0 + offHand_wIas)
-				* (1.0 + eIas + pIas + gogokIas + painEnhancerIas));
+				* (1.0 + eIas + pIas + gogokIas + painEnhancerIas + dwIas));
 		data.setOffHand_aps(offHand_aps);
 
 		double offHand_averageWeaponDamage = ((min + max) / 2.0);

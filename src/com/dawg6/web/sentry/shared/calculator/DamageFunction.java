@@ -248,6 +248,14 @@ public class DamageFunction {
 		int index = 0;
 		int numShooters = isSentry ? data.getNumSentries() : 1;
 		boolean first = true;
+		WeaponType offHand_type = data.getOffHand_weaponType();
+		DamageMultiplier wDMult = DamageMultiplier.WD;
+		
+		if (isPlayer && (offHand_type != null)) {
+			wDMult = DamageMultiplier.DWWD;
+		}
+		
+		double baseWd = wDMult.getValue(data);
 		
 		for (DamageRow dr : ALL) {
 			if (dr.source.test(source, data)) {
@@ -290,7 +298,7 @@ public class DamageFunction {
 					if (((target == Target.Primary) && dr.primary)
 							|| ((target == Target.Additional) && (add > 0))) {
 
-						double wd = data.getWeaponDamage();
+						double wd = baseWd;
 
 						double m = dr.scalar;
 						
@@ -357,7 +365,7 @@ public class DamageFunction {
 
 						multBuf.append(" x " + Util.format(scalar));
 						
-						multBuf.append(" x WD");
+						multBuf.append(" x " + wDMult.getAbbreviation());
 
 //						if (dr.source.skill != ActiveSkill.Companion) {
 							double cc = DamageMultiplier.CC.getValue(data);

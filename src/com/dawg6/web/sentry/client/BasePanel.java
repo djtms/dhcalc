@@ -27,6 +27,17 @@ public class BasePanel extends ApplicationPanel {
 			loadCookies();
 	}
 
+	protected String getFieldValue(String field, String defaultValue) {
+		if (Storage.isLocalStorageSupported()) {
+			Storage storage = Storage.getLocalStorageIfSupported();
+			String value = storage.getItem(field);
+
+			return (value != null) ? value : defaultValue;
+		} else {
+			return getCookie(field, defaultValue);
+		}
+	}
+
 	private boolean loadStorage() {
 
 		boolean result = false;
@@ -86,8 +97,7 @@ public class BasePanel extends ApplicationPanel {
 			Storage storage = Storage.getLocalStorageIfSupported();
 
 			for (Field f : fields) {
-				String value = getFieldValue(f);
-				storage.setItem(f.name, value);
+				saveField(storage, f);
 			}
 			
 		} else {
@@ -97,6 +107,20 @@ public class BasePanel extends ApplicationPanel {
 		}
 	}
 	
+	protected void saveField(String field, String value) {
+		if (Storage.isLocalStorageSupported()) {
+			Storage storage = Storage.getLocalStorageIfSupported();
+			storage.setItem(field, value);
+		} else {
+			saveCookie(value, field);
+		}
+	}
+
+	protected void saveField(Storage storage, Field f) {
+		String value = getFieldValue(f);
+		storage.setItem(f.name, value);
+	}
+
 	protected Field getField(Widget w) {
 		
 		for (Field f : getFields()) {

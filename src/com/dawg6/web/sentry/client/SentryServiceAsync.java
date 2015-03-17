@@ -26,7 +26,7 @@ public interface SentryServiceAsync {
 	void getHero(Realm realm, String profile, int tag, int id,
 			AsyncCallback<HeroProfile> callback);
 
-	void serializeFormData(FormData data, AsyncCallback<String> callback);
+//	void serializeFormData(FormData data, AsyncCallback<String> callback);
 
 	void getClientData(String client, AsyncCallback<FormData> callback);
 
@@ -34,9 +34,9 @@ public interface SentryServiceAsync {
 
 	void getVersion(AsyncCallback<Version> callback);
 
-	void toJson(JsonObject object, AsyncCallback<String> callback);
+//	void toJson(JsonObject object, AsyncCallback<String> callback);
 
-	void fromJson(String json, String type, AsyncCallback<JsonObject> callback);
+//	void fromJson(String json, String type, AsyncCallback<JsonObject> callback);
 
 	void logData(CharacterData data,
 			AsyncCallback<Void> callback);

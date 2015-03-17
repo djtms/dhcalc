@@ -6,11 +6,11 @@ import com.dawg6.gwt.client.ApplicationPanel;
 import com.dawg6.gwt.common.util.AsyncTaskHandler;
 import com.dawg6.gwt.common.util.DefaultCallback;
 import com.dawg6.web.sentry.shared.calculator.FormData;
-import com.dawg6.web.sentry.shared.calculator.JsonObject;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
@@ -236,21 +236,9 @@ public class SavePanel extends Composite {
 
 					FormData data = listener.getFormData();
 
-					Service.getInstance().toJson(data,
-							new DefaultCallback<String>() {
-
-								@Override
-								protected void doOnSuccess(String result) {
-
-									if (result == null) {
-										ApplicationPanel
-												.showErrorDialog("Unable to serialize Form Data.\nCheck server log for details.");
-									} else {
-										textArea.setText(result);
-										textArea.selectAll();
-									}
-								}
-							});
+					JSONObject obj = JsonUtil.toJSONObject(data);
+					textArea.setText(obj.toString());
+					textArea.selectAll();
 				}
 
 			}
@@ -266,22 +254,10 @@ public class SavePanel extends Composite {
 				if (listener != null) {
 					String text = textArea.getText();
 
-					Service.getInstance().fromJson(text,
-							FormData.class.getName(),
-							new DefaultCallback<JsonObject>() {
-
-								@Override
-								protected void doOnSuccess(JsonObject result) {
-
-									if (result == null) {
-										ApplicationPanel
-												.showErrorDialog("Unable to parse Text.\nCheck server log for details.");
-									} else {
-										listener.setFormData((FormData) result);
-										textArea.setText("");
-									}
-								}
-							});
+					FormData data = JsonUtil.parseFormData(text);
+					
+					listener.setFormData(data);
+					textArea.setText("");
 				}
 
 			}
@@ -372,16 +348,9 @@ public class SavePanel extends Composite {
 
 				if (listener != null) {
 
-					Service.getInstance().fromJson(json,
-							FormData.class.getName(),
-							new DefaultCallback<JsonObject>() {
-
-								@Override
-								protected void doOnSuccess(JsonObject result) {
-
-									listener.setFormData((FormData) result);
-								}
-							});
+					FormData data = JsonUtil.parseFormData(json);
+					listener.setFormData(data);
+					
 				}
 			}
 		}
@@ -399,15 +368,11 @@ public class SavePanel extends Composite {
 				if (listener != null) {
 					final FormData data = listener.getFormData();
 
-					Service.getInstance().toJson(data,
-							new DefaultCallback<String>() {
-
-								@Override
-								protected void doOnSuccess(String result) {
-									String key = storageList.getValue(i);
-									s.setItem(key, result);
-								}
-							});
+					JSONObject obj = JsonUtil.toJSONObject(data);
+					String key = storageList.getValue(i);
+					s.setItem(key, obj.toString());
+					
+					ApplicationPanel.showInfoDialog("Configuration Saved.");
 				}
 			}
 		}
@@ -431,15 +396,13 @@ public class SavePanel extends Composite {
 				} else {
 					final FormData data = listener.getFormData();
 
-					Service.getInstance().toJson(data,
-							new DefaultCallback<String>() {
-
-								@Override
-								protected void doOnSuccess(String result) {
-									s.setItem(key, result);
-									storageList.addItem(name, key);
-								}
-							});
+					JSONObject obj = JsonUtil.toJSONObject(data);
+					s.setItem(key, obj.toString());
+					storageList.addItem(name, key);
+					
+					storageList.setSelectedIndex(storageList.getItemCount() - 1);
+					
+					ApplicationPanel.showInfoDialog("Configuration Saved");
 				}
 			}
 		}
@@ -543,15 +506,10 @@ public class SavePanel extends Composite {
 		if (listener != null) {
 			final FormData data = listener.getFormData();
 
-			Service.getInstance().serializeFormData(data,
-					new DefaultCallback<String>() {
-
-						@Override
-						protected void doOnSuccess(String result) {
-							MainPanel.saveFormData("sentry-dps-calc.json",
-									result);
-						}
-					});
+			JSONObject obj = JsonUtil.toJSONObject(data);
+			MainPanel.saveFormData("sentry-dps-calc.json",
+					obj.toString());
+			
 		}
 	}
 

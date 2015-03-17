@@ -47,7 +47,6 @@ public class DPSCalculator extends BasePanel {
 	private double pIas;
 	private double petIasValue;
 	private final Label prevBP;
-	private double averageWeaponDamage;
 	private boolean disableListeners;
 	private final SimpleCheckBox steadyAim;
 	private final ParagonPanel paragonPanel;
@@ -79,6 +78,24 @@ public class DPSCalculator extends BasePanel {
 
 	public DPSCalculator() {
 
+		ChangeHandler handler = new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				if (!disableListeners)
+					calculate();
+			}
+			
+		};
+		
+		ClickHandler clickHandler = new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				calculate();
+			}
+		};
+		
 		FlexTable grid = new FlexTable();
 		grid.setBorderWidth(0);
 		grid.setCellPadding(5);
@@ -110,13 +127,7 @@ public class DPSCalculator extends BasePanel {
 		minJewelDamage.box.setTitle("Total of all jewelry damage");
 		flexTable_2.setWidget(0, 1, minJewelDamage);
 		minJewelDamage.setVisibleLength(6);
-		minJewelDamage.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				calculate();
-			}
-		});
+		minJewelDamage.addChangeHandler(handler);
 
 		Label label_1 = new Label(" to ");
 		flexTable_2.setWidget(0, 2, label_1);
@@ -126,13 +137,7 @@ public class DPSCalculator extends BasePanel {
 		maxJewelDamage.box.setTitle("Total of all jewelry damage");
 		flexTable_2.setWidget(0, 3, maxJewelDamage);
 		maxJewelDamage.setVisibleLength(6);
-		maxJewelDamage.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				calculate();
-			}
-		});
+		maxJewelDamage.addChangeHandler(handler);
 
 		Label lblNewLabel_2b = new Label("Equipment IAS (%):");
 		flexTable_2.setWidget(1, 0, lblNewLabel_2b);
@@ -143,13 +148,7 @@ public class DPSCalculator extends BasePanel {
 				.setTitle("Increased attack speed from equipment, except Weapon");
 		flexTable_2.setWidget(1, 1, equipIAS);
 		equipIAS.setVisibleLength(6);
-		equipIAS.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				calculate();
-			}
-		});
+		equipIAS.addChangeHandler(handler);
 
 		Anchor lblPetAttackSpeed = new Anchor("Tasker and Theo (%):");
 		lblPetAttackSpeed.setTarget("_blank");
@@ -172,13 +171,7 @@ public class DPSCalculator extends BasePanel {
 		flexTable_2.setWidget(2, 3, tntPercent);
 		tntPercent.setVisibleLength(6);
 		tntPercent.setText("0");
-		tntPercent.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				calculate();
-			}
-		});
+		tntPercent.addChangeHandler(handler);
 		this.tntPercent.setMax(40);
 		this.tntPercent.setMax(50);
 
@@ -191,13 +184,7 @@ public class DPSCalculator extends BasePanel {
 				.setTitle("Increased Crit Chance from equipment and set bonuses");
 		flexTable_2.setWidget(3, 1, critChance);
 		critChance.setVisibleLength(6);
-		critChance.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				calculate();
-			}
-		});
+		critChance.addChangeHandler(handler);
 
 		Label lblNewLabel_5 = new Label("Crit Hit Damage (%):");
 		flexTable_2.setWidget(4, 0, lblNewLabel_5);
@@ -208,13 +195,7 @@ public class DPSCalculator extends BasePanel {
 				.setTitle("Increased Crit Hit Damage from equipment and set bonuses");
 		flexTable_2.setWidget(4, 1, critDamage);
 		critDamage.setVisibleLength(6);
-		critDamage.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				calculate();
-			}
-		});
+		critDamage.addChangeHandler(handler);
 
 		FlexTable flexTable_7 = new FlexTable();
 		grid.setWidget(2, 1, flexTable_7);
@@ -222,37 +203,10 @@ public class DPSCalculator extends BasePanel {
 		paragonPanel = new ParagonPanel();
 		flexTable_7.setWidget(0, 0, paragonPanel);
 
-		paragonPanel.getParagonIAS().addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				calculate();
-			}
-		});
-
-		paragonPanel.getParagonDexterity().addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				calculate();
-			}
-		});
-
-		paragonPanel.getParagonCC().addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				calculate();
-			}
-		});
-
-		paragonPanel.getParagonCHD().addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				calculate();
-			}
-		});
+		paragonPanel.getParagonIAS().addChangeHandler(handler);
+		paragonPanel.getParagonDexterity().addChangeHandler(handler);
+		paragonPanel.getParagonCC().addChangeHandler(handler);
+		paragonPanel.getParagonCHD().addChangeHandler(handler);
 
 		buffPanel = new BuffPanel();
 		flexTable_7.setWidget(2, 0, buffPanel);
@@ -282,15 +236,7 @@ public class DPSCalculator extends BasePanel {
 		archery = new SimpleCheckBox();
 		flexTable_5.setWidget(0, 1, archery);
 
-		archery.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (!disableListeners) {
-					calculate();
-				}
-			}
-		});
+		archery.addClickHandler(clickHandler);
 
 		Anchor anchor = new Anchor("Steady Aim:");
 		anchor.setText("Steady Aim:");
@@ -306,43 +252,10 @@ public class DPSCalculator extends BasePanel {
 		flexTable_7.getCellFormatter().setVerticalAlignment(3, 0,
 				HasVerticalAlignment.ALIGN_TOP);
 
-		steadyAim.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				calculate();
-			}
-		});
-
-		buffPanel.getAnatomy().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (!disableListeners) {
-					calculate();
-				}
-			}
-		});
-
-		buffPanel.getFocusedMind().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (!disableListeners) {
-					calculate();
-				}
-			}
-		});
-
-		buffPanel.getHysteria().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (!disableListeners) {
-					calculate();
-				}
-			}
-		});
+		steadyAim.addClickHandler(clickHandler);
+		buffPanel.getAnatomy().addClickHandler(clickHandler);
+		buffPanel.getFocusedMind().addClickHandler(clickHandler);
+		buffPanel.getHysteria().addClickHandler(clickHandler);
 
 		CaptionPanel cptnpnlNewPanel_4 = new CaptionPanel("Character");
 		flexTable_3.setWidget(1, 0, cptnpnlNewPanel_4);
@@ -362,12 +275,7 @@ public class DPSCalculator extends BasePanel {
 		heroLevel.setMax(70);
 		flexTable_4.setWidget(0, 1, heroLevel);
 		
-		heroLevel.addChangeHandler(new ChangeHandler(){
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				calculate();
-			}});
+		heroLevel.addChangeHandler(handler);
 
 		Label lblNewLabel_3 = new Label("Dexterity from Items:");
 		flexTable_4.setWidget(1, 0, lblNewLabel_3);
@@ -509,91 +417,19 @@ public class DPSCalculator extends BasePanel {
 		flexTable_3.getCellFormatter().setVerticalAlignment(3, 0,
 				HasVerticalAlignment.ALIGN_TOP);
 
-		gogok.addClickHandler(new ClickHandler() {
+		gogok.addClickHandler(clickHandler);
+		bbv.addClickHandler(clickHandler);
+		valor.addClickHandler(clickHandler);
+		retribution.addClickHandler(clickHandler);
+		painEnhancer.addClickHandler(clickHandler);
 
-			@Override
-			public void onClick(ClickEvent event) {
-				calculate();
-			}
-		});
-		bbv.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				calculate();
-			}
-		});
-		valor.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				calculate();
-			}
-		});
-		retribution.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				calculate();
-			}
-		});
-		painEnhancer.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				calculate();
-			}
-		});
-
-		gogokStacks.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				calculate();
-			}
-		});
-		bbvUptime.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				calculate();
-			}
-		});
-		valorUptime.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				calculate();
-			}
-		});
-		retributionUptime.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				calculate();
-			}
-		});
-		painEnhancerStacks.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				calculate();
-			}
-		});
-		painEnhancerLevel.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				calculate();
-			}
-		});
-		dexterity.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				calculate();
-			}
-		});
+		gogokStacks.addChangeHandler(handler);
+		bbvUptime.addChangeHandler(handler);
+		valorUptime.addChangeHandler(handler);
+		retributionUptime.addChangeHandler(handler);
+		painEnhancerStacks.addChangeHandler(handler);
+		painEnhancerLevel.addChangeHandler(handler);
+		dexterity.addChangeHandler(handler);
 
 		CaptionPanel cptnpnlNewPanel_6 = new CaptionPanel("Calculator");
 		grid.setWidget(3, 0, cptnpnlNewPanel_6);
@@ -661,13 +497,7 @@ public class DPSCalculator extends BasePanel {
 		prevBP.setWordWrap(false);
 		prevBP.setStyleName("boldText");
 
-		iasType.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				iasTypeChanged();
-			}
-		});
+		iasType.addChangeHandler(handler);
 
 		Label lblNewLabel_7b = new Label("Player APS:");
 		flexTable_6.setWidget(1, 0, lblNewLabel_7b);
@@ -772,22 +602,24 @@ public class DPSCalculator extends BasePanel {
 		this.valorUptime.setMax(100.0);
 		this.retributionUptime.setMax(100.0);
 
-		this.tnt.addClickHandler(new ClickHandler() {
+		this.tnt.addClickHandler(clickHandler);
+		this.gogok.addClickHandler(clickHandler);
+		
+		mainHand.getWeaponType().addChangeHandler(handler);
+		mainHand.getBaseMin().addChangeHandler(handler);
+		mainHand.getBaseMax().addChangeHandler(handler);
+		mainHand.getAddMin().addChangeHandler(handler);
+		mainHand.getAddMax().addChangeHandler(handler);
+		mainHand.getWeaponIAS().addChangeHandler(handler);
+		mainHand.getWeaponDamage().addChangeHandler(handler);
 
-			@Override
-			public void onClick(ClickEvent event) {
-				calculate();
-			}
-		});
-
-		this.gogok.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				calculate();
-			}
-		});
-
+		offHand.getWeaponType().addChangeHandler(handler);
+		offHand.getBaseMin().addChangeHandler(handler);
+		offHand.getBaseMax().addChangeHandler(handler);
+		offHand.getAddMin().addChangeHandler(handler);
+		offHand.getAddMax().addChangeHandler(handler);
+		offHand.getWeaponIAS().addChangeHandler(handler);
+		offHand.getWeaponDamage().addChangeHandler(handler);
 	}
 
 	protected void iasTypeChanged() {
@@ -979,7 +811,7 @@ public class DPSCalculator extends BasePanel {
 
 	public void calculate() {
 
-		WeaponType type = getWeaponType();
+		WeaponType type = getMainHandWeaponType();
 		WeaponType offHand_type = getOffHandWeaponType();
 		
 		double min = this.mainHand.getWeaponMin() + getValue(this.minJewelDamage);
@@ -1038,22 +870,38 @@ public class DPSCalculator extends BasePanel {
 				.getValue() >= 25) ? (this.painEnhancerStacks.getValue() * 0.03)
 				: 0.0;
 
+		double dwIas = (offHand_type != null) ? 0.15 : 0.0;
+
 		double aps = type.getAps()
 				* (1.0 + wIas)
-				* (1.0 + eIas + pIas + focusedMind + gogokIas + painEnhancerIas + buffIas);
+				* (1.0 + eIas + pIas + focusedMind + gogokIas + painEnhancerIas + buffIas + dwIas);
 
 		double offHand_aps = (offHand_type == null) ? 0.0 : (offHand_type.getAps()
 				* (1.0 + offHand_wIas)
-				* (1.0 + eIas + pIas + focusedMind + gogokIas + painEnhancerIas + buffIas));
+				* (1.0 + eIas + pIas + focusedMind + gogokIas + painEnhancerIas + buffIas + dwIas));
 
 		double averageDamage = ((min + max) / 2.0);
 
-		double dps = averageDamage * aps * (1.0 + critChance * critDamage)
+		double offHand_averageDamage = ((offHand_min + offHand_max) / 2.0);
+
+		double mainHand_dps = averageDamage * aps * (1.0 + critChance * critDamage)
 				* (1.0 + (dex / 100.0)) * (1.0 + aDam);
 
-		this.sheetDps = Math.round(dps * 10.0) / 10.0;
+		double offHand_dps = (offHand_type == null) ? 0.0 : (offHand_averageDamage * offHand_aps * (1.0 + critChance * critDamage)
+				* (1.0 + (dex / 100.0)) * (1.0 + aDam));
+
+		
+		double dw_aps = (aps + offHand_aps) / 2.0;
+		double dw_averageDamage = (averageDamage + offHand_averageDamage) / 2.0;
+		double totalDps = (offHand_type == null) ? (averageDamage * aps * (1.0 + critChance * critDamage)
+				* (1.0 + (dex / 100.0)) * (1.0 + aDam))
+				: (dw_averageDamage * dw_aps * (1.0 + critChance * critDamage)
+				* (1.0 + (dex / 100.0)) * (1.0 + aDam))
+				;
+		
+		this.sheetDps = Math.round(totalDps * 10.0) / 10.0;
 		this.dps.setText(Util.format(sheetDps));
-		this.sheetAps = aps;
+		this.sheetAps = (offHand_type == null) ? aps : dw_aps;
 		this.aps.setText(Util.format((Math.round(sheetAps * 1000.0) / 1000.0)));
 
 		this.totalCC = critChance;
@@ -1087,7 +935,7 @@ public class DPSCalculator extends BasePanel {
 		return this.sentryDpsValue;
 	}
 
-	public WeaponType getWeaponType() {
+	public WeaponType getMainHandWeaponType() {
 		return mainHand.getWeaponTypeEnum();
 	}
 
@@ -1161,7 +1009,7 @@ public class DPSCalculator extends BasePanel {
 		this.calculate();
 	}
 
-	public double getAps() {
+	public double getSheetAps() {
 		return sheetAps;
 	}
 
@@ -1205,8 +1053,8 @@ public class DPSCalculator extends BasePanel {
 		return this.getValue(this.paragonPanel.getParagonRCR());
 	}
 
-	public double getAverageWeaponDamage() {
-		return this.averageWeaponDamage;
+	public double getMainHandAverageWeaponDamage() {
+		return mainHand.getAverageWeaponDamage();
 	}
 
 	public void setArchery(boolean archery) {
@@ -1220,7 +1068,7 @@ public class DPSCalculator extends BasePanel {
 
 	public double getDamageBonus() {
 		if (this.archery.getValue()) {
-			WeaponType type = getWeaponType();
+			WeaponType type = getMainHandWeaponType();
 
 			if (type == WeaponType.Bow)
 				return 0.08;
@@ -1407,5 +1255,14 @@ public class DPSCalculator extends BasePanel {
 
 	public double getOffHandWeaponIAS() {
 		return offHand.getWeaponIAS().getValue() / 100.0;
+	}
+
+	public double getTotalAverageWeaponDamage() {
+
+		WeaponType t = offHand.getWeaponTypeEnum();
+		double main = mainHand.getAverageWeaponDamage();
+		double oh = offHand.getAverageWeaponDamage();
+		
+		return (t == null) ? main : ((main + oh) / 2.0);
 	}
 }

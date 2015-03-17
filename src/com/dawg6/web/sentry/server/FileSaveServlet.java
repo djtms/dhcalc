@@ -63,9 +63,9 @@ public class FileSaveServlet extends HttpServlet {
 					if (filename == null)
 						filename = "filename";
 					
-					Object data = ClientBuffer.getInstance().get(key);
-
-					if (data != null) {
+//					Object data = ClientBuffer.getInstance().get(key);
+//
+//					if (data != null) {
 						
 						resp.setContentType("application/octet-stream");
 						resp.setHeader("Content-Disposition",
@@ -73,13 +73,14 @@ public class FileSaveServlet extends HttpServlet {
 						
 						ServletOutputStream out = resp.getOutputStream();
 						
-						out.write((byte[])data);
+//						out.write((byte[])data);
+						out.write(key.getBytes());
 						
 						out.flush();
 						out.close();
-					} else {
-						log.warning("Unable to find client data: " + key);
-					}
+//					} else {
+//						log.warning("Unable to find client data: " + key);
+//					}
 					
 				} else {
 					log.warning("No Key");

@@ -184,7 +184,6 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 		return IO.getInstance().readItemInformation(server, tooltipParams);
 	}
 
-	@Override
 	public String serializeFormData(FormData data) {
 		try {
 			String key = String.valueOf(Math.random() + "." + Math.random()
@@ -249,7 +248,6 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 		return Version.getVersion();
 	}
 
-	@Override
 	public String toJson(JsonObject object) {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
@@ -265,7 +263,6 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 		}
 	}
 
-	@Override
 	public JsonObject fromJson(String json, String type) {
 		try {
 			ObjectMapper mapper = new ObjectMapper();

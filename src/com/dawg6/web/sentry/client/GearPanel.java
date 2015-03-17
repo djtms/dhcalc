@@ -40,7 +40,7 @@ public class GearPanel extends Composite {
 
 		HorizontalPanel panel = new HorizontalPanel();
 		initWidget(panel);
-		
+
 		VerticalPanel verticalPanel_1 = new VerticalPanel();
 		panel.add(verticalPanel_1);
 
@@ -49,7 +49,7 @@ public class GearPanel extends Composite {
 
 		FlexTable table = new FlexTable();
 		captionPanel.add(table);
-		
+
 		CaptionPanel cptnpnlNewPanel = new CaptionPanel("Saved Items");
 		panel.add(cptnpnlNewPanel);
 
@@ -104,15 +104,16 @@ public class GearPanel extends Composite {
 			status.setHref("javascript: return false;");
 			table.setWidget(row, 1, status);
 			labels.put(slot, status);
-			status.addClickHandler(new ClickHandler(){
+			status.addClickHandler(new ClickHandler() {
 
 				@Override
 				public void onClick(ClickEvent event) {
 					event.preventDefault();
 					clickItem(thisSlot);
-					
-				}});
-			
+
+				}
+			});
+
 			Button saveButton = new Button("save");
 			table.setWidget(row, 2, saveButton);
 			saveButton.addClickHandler(new ClickHandler() {
@@ -168,16 +169,19 @@ public class GearPanel extends Composite {
 
 	protected void clickItem(Slot slot) {
 		ItemInformation item = items.get(slot);
-		
+
 		if (item != null) {
-			Window.open("json?realm=US&item=" + URL.encodeQueryString(item.tooltipParams), "_blank", "");
+			Window.open(
+					"json?realm=US&item="
+							+ URL.encodeQueryString(item.tooltipParams),
+					"_blank", "");
 		}
 	}
 
 	protected void clearSlot(Slot slot) {
 		setItem(slot, null);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	protected void deleteItem() {
 		int i = savedItems.getSelectedIndex();
@@ -406,5 +410,54 @@ public class GearPanel extends Composite {
 
 	public Map<Slot, ItemInformation> getItems() {
 		return new TreeMap<Slot, ItemInformation>(items);
+	}
+
+	public void populateFormData(Map<String, String> data) {
+		Map<Slot, ItemInformation> items = getItems();
+
+		data.clear();
+
+		for (Slot s : Slot.values()) {
+			ItemInformation item = items.get(s);
+
+			if ((item != null) && (item.tooltipParams != null)) {
+				data.put(s.getSlot(), item.tooltipParams);
+			}
+		}
+	}
+
+	public void restoreData(Map<String, String> items) {
+		for (Slot s : Slot.values()) {
+			final Slot slot = s;
+			String item = items.get(s.getSlot());
+
+			if (item != null) {
+				Service.getInstance().getItem(Realm.US, item,
+						new DefaultCallback<ItemInformation>() {
+
+							@Override
+							protected void doOnSuccess(
+									final ItemInformation itemData) {
+
+								if ((itemData == null)
+										|| (itemData.code != null)) {
+									ApplicationPanel
+											.showErrorDialog("Error loading item");
+									return;
+								}
+
+								setItem(slot, itemData);
+							}
+						});
+			} else {
+				setItem(slot, null);
+			}
+		}
+	}
+
+	public void clearData() {
+		
+		for (Slot s : Slot.values())
+			setItem(s, null);
 	}
 }

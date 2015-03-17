@@ -4,7 +4,6 @@ import com.dawg6.web.sentry.shared.calculator.ActiveSkill;
 import com.dawg6.web.sentry.shared.calculator.CharacterData;
 import com.dawg6.web.sentry.shared.calculator.ExportData;
 import com.dawg6.web.sentry.shared.calculator.FormData;
-import com.dawg6.web.sentry.shared.calculator.JsonObject;
 import com.dawg6.web.sentry.shared.calculator.Rune;
 import com.dawg6.web.sentry.shared.calculator.Version;
 import com.dawg6.web.sentry.shared.calculator.d3api.CareerProfile;
@@ -25,15 +24,15 @@ public interface SentryService extends RemoteService {
 	HeroProfile getHero(Realm realm, String profile, int tag, int id);
 	ItemInformation getItem(Realm realm, String item);
 	
-	String serializeFormData(FormData data);
+//	String serializeFormData(FormData data);
 	String exportData(ExportData data);
 	
 	FormData getClientData(String client);
 	
 	Version getVersion();
 	
-	String toJson(JsonObject object);
-	JsonObject fromJson(String json, String type);
+//	String toJson(JsonObject object);
+//	JsonObject fromJson(String json, String type);
 	
 	void logData(CharacterData data);
 	

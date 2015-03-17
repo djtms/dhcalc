@@ -8,7 +8,6 @@ import com.dawg6.web.sentry.shared.calculator.ActiveSkill;
 import com.dawg6.web.sentry.shared.calculator.CharacterData;
 import com.dawg6.web.sentry.shared.calculator.ExportData;
 import com.dawg6.web.sentry.shared.calculator.FormData;
-import com.dawg6.web.sentry.shared.calculator.JsonObject;
 import com.dawg6.web.sentry.shared.calculator.Rune;
 import com.dawg6.web.sentry.shared.calculator.Version;
 import com.dawg6.web.sentry.shared.calculator.d3api.CareerProfile;
@@ -135,19 +134,19 @@ public class Service implements SentryServiceAsync {
 
 	}
 
-	@Override
-	public void serializeFormData(final FormData data,
-			final AsyncCallback<String> callback) {
-		execute(new AsyncTask() {
-
-			@Override
-			public void run(AsyncTaskHandler handler) {
-				SERVICE.serializeFormData(data, new DelegateCallback<String>(
-						handler, callback));
-			}
-		});
-
-	}
+//	@Override
+//	public void serializeFormData(final FormData data,
+//			final AsyncCallback<String> callback) {
+//		execute(new AsyncTask() {
+//
+//			@Override
+//			public void run(AsyncTaskHandler handler) {
+//				SERVICE.serializeFormData(data, new DelegateCallback<String>(
+//						handler, callback));
+//			}
+//		});
+//
+//	}
 
 	@Override
 	public void getClientData(final String client,
@@ -187,31 +186,31 @@ public class Service implements SentryServiceAsync {
 		});
 	}
 
-	@Override
-	public void toJson(final JsonObject object,
-			final AsyncCallback<String> callback) {
-		execute(new AsyncTask() {
-
-			@Override
-			public void run(AsyncTaskHandler handler) {
-				SERVICE.toJson(object, new DelegateCallback<String>(handler,
-						callback));
-			}
-		});
-	}
-
-	@Override
-	public void fromJson(final String json, final String type,
-			final AsyncCallback<JsonObject> callback) {
-		execute(new AsyncTask() {
-
-			@Override
-			public void run(AsyncTaskHandler handler) {
-				SERVICE.fromJson(json, type, new DelegateCallback<JsonObject>(
-						handler, callback));
-			}
-		});
-	}
+//	@Override
+//	public void toJson(final JsonObject object,
+//			final AsyncCallback<String> callback) {
+//		execute(new AsyncTask() {
+//
+//			@Override
+//			public void run(AsyncTaskHandler handler) {
+//				SERVICE.toJson(object, new DelegateCallback<String>(handler,
+//						callback));
+//			}
+//		});
+//	}
+//
+//	@Override
+//	public void fromJson(final String json, final String type,
+//			final AsyncCallback<JsonObject> callback) {
+//		execute(new AsyncTask() {
+//
+//			@Override
+//			public void run(AsyncTaskHandler handler) {
+//				SERVICE.fromJson(json, type, new DelegateCallback<JsonObject>(
+//						handler, callback));
+//			}
+//		});
+//	}
 
 	private static class VersionCheck {
 		public boolean success;
