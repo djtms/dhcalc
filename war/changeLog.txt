@@ -1,5 +1,9 @@
 Change Log:
 
+**3/18/15**
+
+* Fixed Excel export 
+
 **3/17/15**
 
 * Added support for dual-wield hand crossbows (need help testing/verifying calculations)

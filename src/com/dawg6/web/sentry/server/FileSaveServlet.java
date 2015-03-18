@@ -1,6 +1,7 @@
 package com.dawg6.web.sentry.server;
 
 import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -31,6 +32,7 @@ public class FileSaveServlet extends HttpServlet {
 		try {
 			
 			MultipartParser parser = new MultipartParser(req, Integer.MAX_VALUE);
+			boolean isFile = false;
 			
 			Part part = parser.readNextPart();
 
@@ -50,6 +52,8 @@ public class FileSaveServlet extends HttpServlet {
 							key = ((ParamPart)part).getStringValue();
 						else if (part.getName().equals("filename"))
 							filename = ((ParamPart)part).getStringValue();
+						else if (part.getName().equals("isFile"))
+							isFile = Boolean.valueOf(((ParamPart)part).getStringValue());
 					} else {
 						log.info("Skipping part of type "
 								+ part.getClass().getName());
@@ -62,25 +66,30 @@ public class FileSaveServlet extends HttpServlet {
 					
 					if (filename == null)
 						filename = "filename";
+
+					Object data = null;
 					
-//					Object data = ClientBuffer.getInstance().get(key);
-//
-//					if (data != null) {
+					if (isFile) 
+						data = ClientBuffer.getInstance().get(key);
+
+					if (!isFile || (data != null)) {
 						
 						resp.setContentType("application/octet-stream");
 						resp.setHeader("Content-Disposition",
 								"attachment;filename=" + filename);
 						
 						ServletOutputStream out = resp.getOutputStream();
-						
-//						out.write((byte[])data);
-						out.write(key.getBytes());
+
+						if (isFile)
+							out.write((byte[])data);
+						else
+							out.write(key.getBytes());
 						
 						out.flush();
 						out.close();
-//					} else {
-//						log.warning("Unable to find client data: " + key);
-//					}
+					} else if (isFile) {
+						log.warning("Unable to find client data: " + key);
+					}
 					
 				} else {
 					log.warning("No Key");
@@ -88,8 +97,7 @@ public class FileSaveServlet extends HttpServlet {
 			}
 
 		} catch (Exception e) {
-			resp.setContentType("text/plain");
-			e.printStackTrace(resp.getWriter());
+			log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 

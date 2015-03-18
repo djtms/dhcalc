@@ -2126,7 +2126,7 @@ public class MainPanel extends BasePanel {
 					@Override
 					protected void doOnSuccess(String result) {
 						MainPanel.saveFormData("sentry-calculator-export.xls",
-								result);
+								result, "true");
 					}
 				});
 
@@ -4363,7 +4363,7 @@ public class MainPanel extends BasePanel {
 		skills.addItem(skill.getLongName(), skill.name());
 	}
 
-	public static native void saveFormData(String filename, String key)
+	public static native void saveFormData(String filename, String key, String isFile)
 	/*-{
 		var popupWindow = window.open('', '_self', '');
 		var form = document.createElement("form");
@@ -4380,8 +4380,13 @@ public class MainPanel extends BasePanel {
 		hiddenField2.setAttribute("type", "hidden");
 		hiddenField2.setAttribute("name", "filename");
 		hiddenField2.setAttribute("value", filename);
+		var hiddenField3 = document.createElement("input");
+		hiddenField3.setAttribute("type", "hidden");
+		hiddenField3.setAttribute("name", "isFile");
+		hiddenField3.setAttribute("value", isFile);
 		form.appendChild(hiddenField);
 		form.appendChild(hiddenField2);
+		form.appendChild(hiddenField3);
 		document.getElementsByTagName('body')[0].appendChild(form);
 		form.submit();
 
