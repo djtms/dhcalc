@@ -4450,7 +4450,7 @@ public class MainPanel extends BasePanel {
 
 							AsyncTaskHandler dialog = ApplicationPanel
 									.showWaitDialogBox("Please Wait",
-											"Calculatin...");
+											"Calculating...");
 
 							Map<Slot, ItemInformation> items = gearPanel
 									.getItems();
@@ -4468,6 +4468,8 @@ public class MainPanel extends BasePanel {
 
 								importHeroData(data.getParagonDexterity(),
 										dialog);
+							} else {
+								dialog.taskCompleted();
 							}
 						}
 					}
