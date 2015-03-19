@@ -173,13 +173,30 @@ public class FiringData {
 					data));
 		}
 
+		if (data.isCaltrops()) {
+			list.addAll(DamageFunction.getDamages(true, false, "Player",
+					new DamageSource(ActiveSkill.Caltrops, data.getCaltropsRune()), (int)(FiringData.DURATION * data.getCaltropsUptime()),
+					data));
+		}
+		
+		if (data.isSpikeTrap()) {
+			list.addAll(DamageFunction.getDamages(true, false, "Player",
+					new DamageSource(ActiveSkill.ST, data.getSpikeTrapRune()), data.getNumSpikeTraps() * 3,
+					data));
+		}
+		
 		if (data.isHelltrapper()) {
 			int num = (int) Math.round(totalHits * data.getHelltrapperPercent() * 0.5);
 			
 			if (num > 0) {
 				list.addAll(DamageFunction.getDamages(false, false, "Helltrapper",
-						new DamageSource(ActiveSkill.ST, Rune.None), num * 3,
+						new DamageSource(ActiveSkill.ST, (data.isSpikeTrap() ? data.getSpikeTrapRune() : Rune.None)), num * 3,
 						data));
+				
+				// Can't have double DoT
+//				list.addAll(DamageFunction.getDamages(false, false, "Helltrapper",
+//						new DamageSource(ActiveSkill.Caltrops, (data.isCaltrops() ? data.getCaltropsRune() : Rune.None)), 1,
+//						data));
 			}
 		}
 		

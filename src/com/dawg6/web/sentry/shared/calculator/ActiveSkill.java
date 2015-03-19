@@ -62,8 +62,12 @@ public enum ActiveSkill {
 			Rune.None, Rune.Bat, Rune.Spider, Rune.Wolf, Rune.Boar, Rune.Ferret
 		}, "http://us.battle.net/d3/en/class/demon-hunter/active/companion"),
 		
-	ST(SkillType.Cooldown, "ST", "Spike Trap", 30, DamageMultiplier.ST, new Rune[] { Rune. None }, "http://us.battle.net/d3/en/class/demon-hunter/active/spike-trap"),
+	ST(SkillType.Cooldown, "ST", "Spike Trap", 0, DamageMultiplier.ST, new Rune[] { 
+			Rune. None, Rune.Echoing_Blast, Rune.Sticky_Trap, Rune.Long_Fuse, Rune.Lightning_Rod, Rune.Scatter }, "http://us.battle.net/d3/en/class/demon-hunter/active/spike-trap"),
 		
+	Caltrops(SkillType.Cooldown, "Caltrops", "Caltrops", 0, null, new Rune[] { 
+			Rune. None, Rune.Hooked_Spines, Rune.Torturous_Ground, Rune.Jagged_Spikes, Rune.Carved_Stakes, Rune.Bait_the_Trap }, "http://us.battle.net/d3/en/class/demon-hunter/active/caltrops"),
+
 	Any(SkillType.NA, "Any Skill", "Any Skill", 0, null, new Rune[0], null);
 
 	private String name;

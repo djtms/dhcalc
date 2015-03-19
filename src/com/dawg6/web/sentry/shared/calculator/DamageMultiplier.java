@@ -312,14 +312,14 @@ public enum DamageMultiplier {
 						public Double getValue(CharacterData data) {
 							return (data.getWeaponType().getAps() * (1.0 + data.getWeaponIas())) - 1.0;
 					}
-				}), Caltrops(
+				}), CaltropsBT(
 			"Caltrops",
 			DamageAccumulator.Special,
 			"Caltrops/Bait the Trap active bonus (10% Crit Chance while active)",
 			new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
-					return data.isCaltrops() ? (0.1 * data.getCaltropsUptime())
+					return (data.isCaltrops() && (data.getCaltropsRune() == Rune.Bait_the_Trap))? (0.1 * data.getCaltropsUptime())
 							: 0.0;
 				}
 			}), Taeguk("Taeguk", DamageAccumulator.Additive,

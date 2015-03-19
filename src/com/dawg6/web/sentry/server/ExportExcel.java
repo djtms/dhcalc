@@ -481,9 +481,17 @@ public class ExportExcel {
 
 		createInputHeader(inputs, "Active Skills");
 		createInput(inputs, data.data.isCaltrops(),
-				"Caltrops/Bait the Trap");
+				"Caltrops");
+		createInput(inputs, data.data.getCaltropsRune().getLongName(),
+				"Caltrops Rune");
 		createInput(inputs, data.data.getCaltropsUptime(),
 				"Caltrops Uptime", pctStyle);
+		createInput(inputs, data.data.isSpikeTrap(),
+				"Spike Trap");
+		createInput(inputs, data.data.getSpikeTrapRune().getLongName(),
+				"Spike Trap Rune");
+		createInput(inputs, data.data.getNumSpikeTraps(),
+				"# Spike Traps");
 		createInput(inputs, data.data.isMarked(),
 				"Marked for Death");
 		createInput(inputs, data.data.getMfdRune().getLongName(),

@@ -177,9 +177,6 @@ public class MainPanel extends BasePanel {
 	private FlexTable shooterSummary;
 	private Label offHand_weaponDamage;
 	private Label dw_weaponDamage;
-	private SimpleCheckBox companion;
-	private ListBox companionRunes;
-	private Anchor crLabel;
 
 	public MainPanel() {
 		VerticalPanel panel = new VerticalPanel();
@@ -739,35 +736,6 @@ public class MainPanel extends BasePanel {
 		// rune3 = new ListBox();
 		// grid.setWidget(3, 3, rune3);
 		// rune3.setTitle("Selected rune for this Hatred Spender.");
-
-		Anchor cLabel = new Anchor("Companion:");
-		cLabel.setHref(ActiveSkill.Companion.getUrl());
-		cLabel.setTarget("_blank");
-		grid.setWidget(3, 0, cLabel);
-
-		companion = new SimpleCheckBox();
-		grid.setWidget(3, 1, companion);
-
-		crLabel = new Anchor("Rune:");
-		crLabel.setHref(ActiveSkill.Companion.getUrl());
-		crLabel.setTarget("_blank");
-		grid.setWidget(3, 2, crLabel);
-
-		companionRunes = new ListBox();
-		grid.setWidget(3, 3, companionRunes);
-
-		for (Rune r : ActiveSkill.Companion.getRunes()) {
-			companionRunes.addItem(r.getLongName(), r.name());
-		}
-		companionRunes.setSelectedIndex(0);
-
-		companionRunes.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				setCompanionRuneLabel();
-			}
-		});
 
 		skills = new SkillsPanel();
 		verticalPanel_1.add(skills);
@@ -1686,16 +1654,6 @@ public class MainPanel extends BasePanel {
 																// rune3Label };
 	}
 
-	protected void setCompanionRuneLabel() {
-		Rune rune = getRune(companionRunes);
-
-		if ((rune != null) && (rune != Rune.None))
-			crLabel.setHref(ActiveSkill.Companion.getUrl() + "#"
-					+ rune.getSlug() + "+");
-		else
-			crLabel.setHref(ActiveSkill.Companion.getUrl());
-	}
-
 	protected void updateHatred() {
 		hatredPanel.getMaxHatred().setValue(
 				125.0
@@ -2127,6 +2085,16 @@ public class MainPanel extends BasePanel {
 		updateDps();
 		calculate();
 
+		setRuneLabel(sentryRuneLabel, null, sentryRunes);
+		setRuneLabel(this.rune1Label, skill1, rune1);
+		setRuneLabel(this.rune2Label, skill2, rune2);
+		// setRuneLabel(this.rune3Label, skill3, rune3);
+		setSkillLabel(this.skill1Label, skill1);
+		setSkillLabel(this.skill2Label, skill2);
+		skills.setCompanionRuneLabel();
+		skills.setSpikeTrapRuneLabel();
+		skills.setCaltropsRuneLabel();
+		// setSkillLabel(this.skill3Label, skill3);
 	}
 
 	private static final String SLOT_PREFIX = "gear.";
@@ -2570,9 +2538,15 @@ public class MainPanel extends BasePanel {
 				setRune(field, Rune.valueOf(value));
 			} else if (field == cdrPanel.getDiamond()) {
 				cdrPanel.setDiamond(GemLevel.valueOf(value));
-			} else if (field == companionRunes) {
+			} else if (field == skills.getCompanionRunes()) {
 				setRune(field, Rune.valueOf(value));
-				this.setCompanionRuneLabel();
+				skills.setCompanionRuneLabel();
+			} else if (field == skills.getSpikeTrapRunes()) {
+				setRune(field, Rune.valueOf(value));
+				skills.setSpikeTrapRuneLabel();
+			} else if (field == skills.getCaltropsRunes()) {
+				setRune(field, Rune.valueOf(value));
+				skills.setCaltropsRuneLabel();
 			} else if (field == targetType) {
 				if ((value == null) || value.equals(Boolean.FALSE.toString()))
 					field.setSelectedIndex(0);
@@ -3022,11 +2996,14 @@ public class MainPanel extends BasePanel {
 		this.passives.getSingleOut().setValue(data.isSingleOut());
 		this.playerBuffPanel.getWolf().setValue(data.isWolf());
 		this.skills.getCaltrops().setValue(data.isCaltrops());
+		this.setRune(skills.getCaltropsRunes(), data.getCaltropsRune());
+		this.skills.getSpikeTrap().setValue(data.isSpikeTrap());
+		this.setRune(skills.getSpikeTrapRunes(), data.getSpikeTrapRune());
 		this.passives.getCustomEngineering().setValue(
 				data.isCustomEngineering());
 		this.passives.getArchery().setValue(data.isArchery());
-		this.companion.setValue(data.isCompanion());
-		this.setRune(companionRunes, data.getCompanionRune());
+		this.skills.getCompanion().setValue(data.isCompanion());
+		this.setRune(skills.getCompanionRunes(), data.getCompanionRune());
 	}
 
 	private void setSkillAndRune(Anchor skillLabel, Anchor runeLabel,
@@ -3136,12 +3113,20 @@ public class MainPanel extends BasePanel {
 						Boolean.FALSE.toString()),
 				new Field(this.skills.getCaltrops(), "Caltrops",
 						Boolean.FALSE.toString()),
+				new Field(this.skills.getCaltropsRunes(), "CaltropsRune",
+						Rune.None.name()),
+				new Field(this.skills.getSpikeTrap(), "SpikeTrap",
+						Boolean.FALSE.toString()),
+				new Field(this.skills.getSpikeTrapRunes(), "SpikeTrapRune",
+						Rune.None.name()),
 				new Field(this.skills.getMfdRune(), "MarkedForDeathRune",
 						Rune.None.name()),
 				new Field(this.skills.getMfdUptime(), "MarkedForDeathUptime",
 						"100"),
 				new Field(this.skills.getCaltropsUptime(), "CaltropsUptime",
 						"100"),
+				new Field(this.skills.getNumSpikeTraps(), "NumSpikeTraps",
+						"3"),
 				new Field(this.hatredPanel.getMaxHatred(), "MaxHatredValue",
 						"125"),
 				new Field(this.hatredPanel.getHatredPerSecond(),
@@ -3269,8 +3254,8 @@ public class MainPanel extends BasePanel {
 				new Field(this.skill1, "Skill1", ""),
 				new Field(this.skill2, "Skill2", ""),
 				// new Field(this.skill3, "Skill3", ""),
-				new Field(this.companion, "Companion", Boolean.TRUE.toString()),
-				new Field(this.companionRunes, "CompanionRune",
+				new Field(this.skills.getCompanion(), "Companion", Boolean.TRUE.toString()),
+				new Field(this.skills.getCompanionRunes(), "CompanionRune",
 						Rune.Wolf.name()),
 				new Field(this.rune1, "Rune1", Rune.None.name()),
 				new Field(this.rune2, "Rune2", Rune.None.name()),
@@ -3553,7 +3538,11 @@ public class MainPanel extends BasePanel {
 			data.setHexingPantsUptime(itemPanel.getHexingPantsUptime()
 					.getValue() / 100.0);
 			data.setCaltrops(skills.getCaltrops().getValue());
+			data.setCaltropsRune(this.getRune(skills.getCaltropsRunes()));
 			data.setCaltropsUptime(skills.getCaltropsUptime().getValue() / 100.0);
+			data.setSpikeTrap(skills.getSpikeTrap().getValue());
+			data.setSpikeTrapRune(this.getRune(skills.getSpikeTrapRunes()));
+			data.setNumSpikeTraps(skills.getNumSpikeTraps().getValue());
 			data.setMaxHatred(hatredPanel.getMaxHatred().getValue());
 			data.setHatredPerSecond(hatredPanel.getHatredPerSecond().getValue());
 			data.setPreparationPunishment(hatredPanel
@@ -3574,8 +3563,8 @@ public class MainPanel extends BasePanel {
 					.getValue() / 100.0);
 			data.setOdysseysEndUptime(itemPanel.getOdysseysEndUptime()
 					.getValue() / 100.0);
-			data.setCompanion(companion.getValue());
-			data.setCompanionRune(getRune(companionRunes));
+			data.setCompanion(skills.getCompanion().getValue());
+			data.setCompanionRune(getRune(skills.getCompanionRunes()));
 
 			Map<ActiveSkill, Rune> skills = getSkills();
 			// SkillSet skillSet = getSkillSet(skills);
@@ -4161,7 +4150,9 @@ public class MainPanel extends BasePanel {
 			// setRuneLabel(this.rune3Label, skill3, rune3);
 			setSkillLabel(this.skill1Label, skill1);
 			setSkillLabel(this.skill2Label, skill2);
-			setCompanionRuneLabel();
+			skills.setCompanionRuneLabel();
+			skills.setSpikeTrapRuneLabel();
+			skills.setCaltropsRuneLabel();
 			// setSkillLabel(this.skill3Label, skill3);
 
 			if (items.size() > 0) {

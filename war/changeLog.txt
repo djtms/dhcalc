@@ -1,5 +1,9 @@
 Change Log:
 
+**3/19/15**
+
+* Added spike trap and caltrops runes (effects damage from Helltrapper). 
+
 **3/18/15**
 
 * Fixed Excel export 

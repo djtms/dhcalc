@@ -258,7 +258,13 @@ public class DamageFunction {
 					DamageType.Physical),
 					
 			new DamageRow(ActiveSkill.ST, Rune.None, 3.4, true, Integer.MAX_VALUE, 0, 8, DamageType.Fire),
+			new DamageRow(ActiveSkill.ST, Rune.Echoing_Blast, 4.2, true, Integer.MAX_VALUE, 0, 8, DamageType.Cold),
+			new DamageRow(ActiveSkill.ST, Rune.Sticky_Trap, 8.0, true, Integer.MAX_VALUE, 0, 16, DamageType.Fire),
+			new DamageRow(ActiveSkill.ST, Rune.Long_Fuse, 5.2, true, Integer.MAX_VALUE, 0, 8, DamageType.Fire),
+			new DamageRow(ActiveSkill.ST, Rune.Lightning_Rod, 5, true, 2, DamageType.Lightning),
+			new DamageRow(ActiveSkill.ST, Rune.Scatter, 3.4, true, Integer.MAX_VALUE, 0, 8, DamageType.Fire),
 
+			new DamageRow(ActiveSkill.Caltrops, Rune.Jagged_Spikes, 2.7, true, Integer.MAX_VALUE, 0, 12, "DoT", DamageType.Physical, DamageMultiplier.DoT),
 	};
 
 	public static List<Damage> getDamages(boolean isPlayer, boolean isSentry,
@@ -350,9 +356,14 @@ public class DamageFunction {
 						if (numShooters > 1)
 							multBuf.append(numShooters + " x ");
 
-						if (dr.multipliers.contains(DamageMultiplier.DoT))
-							multBuf.append(FiringData.DURATION);
-						else
+						if (dr.multipliers.contains(DamageMultiplier.DoT)) {
+							
+							if ((dr.source != null) && (dr.source.skill == ActiveSkill.Caltrops)) {
+								multBuf.append(FiringData.DURATION * data.getCaltropsUptime());
+							} else {
+								multBuf.append(FiringData.DURATION);
+							}
+						} else
 							multBuf.append(qty);
 
 						if (target == Target.Additional) {
@@ -397,7 +408,7 @@ public class DamageFunction {
 						// if (dr.source.skill != ActiveSkill.Companion) {
 						double cc = DamageMultiplier.CC.getValue(data);
 						double cd = DamageMultiplier.CHD.getValue(data);
-						double caltrops = DamageMultiplier.Caltrops
+						double caltrops = DamageMultiplier.CaltropsBT
 								.getValue(data);
 						double singleOut = DamageMultiplier.SingleOut
 								.getValue(data);
@@ -434,7 +445,7 @@ public class DamageFunction {
 								if ((cc > 0.0) || (singleOut > 0.0))
 									ccStr.append(" + ");
 
-								ccStr.append(DamageMultiplier.Caltrops
+								ccStr.append(DamageMultiplier.CaltropsBT
 										.getAbbreviation()
 										+ "("
 										+ Util.format(caltrops) + ")");
@@ -528,10 +539,15 @@ public class DamageFunction {
 							d.hatred = 0;
 						}
 
-						if (dr.multipliers.contains(DamageMultiplier.DoT))
-							d.totalDamage = d.damage * FiringData.DURATION;
-						else
+						if (dr.multipliers.contains(DamageMultiplier.DoT)) {
+							if ((dr.source != null) && (dr.source.skill == ActiveSkill.Caltrops)) {
+								d.totalDamage = d.damage * FiringData.DURATION * data.getCaltropsUptime();
+							} else {
+								d.totalDamage = d.damage * FiringData.DURATION;
+							}
+						} else {
 							d.totalDamage = d.damage * d.qty;
+						}
 
 						d.log = multBuf.toString();
 

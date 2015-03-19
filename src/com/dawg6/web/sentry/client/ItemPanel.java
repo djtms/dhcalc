@@ -160,7 +160,7 @@ public class ItemPanel extends Composite {
 		hexingPantsUptime.setText("20");
 		flexTable.setWidget(7, 1, hexingPantsUptime);
 
-		Anchor anchor_1 = new Anchor("Calamity (Marked for Death)");
+		Anchor anchor_1 = new Anchor("Calamity");
 		anchor_1.setWordWrap(false);
 		anchor_1.setTarget("_blank");
 		anchor_1.setHref("http://us.battle.net/d3/en/item/calamity");
@@ -169,7 +169,7 @@ public class ItemPanel extends Composite {
 		calamity = new SimpleCheckBox();
 		flexTable.setWidget(8, 1, calamity);
 		
-		Label lblUptime = new Label("Uptime:");
+		Label lblUptime = new Label("MfD Uptime:");
 		flexTable.setWidget(8, 2, lblUptime);
 		
 		calamityUptime = new NumberSpinner();

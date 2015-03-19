@@ -92,6 +92,10 @@ public enum Rune {
 	Cold_Grenade("a", 0),
 	
 	// Caltrops
+	Jagged_Spikes("a", 0),
+	Hooked_Spines("b", 0),
+	Torturous_Ground("c", 0),
+	Carved_Stakes("d", 0),
 	Bait_the_Trap("e", 0),
 	
 	// Companion
@@ -99,7 +103,16 @@ public enum Rune {
 	Boar("b", 0),
 	Wolf("c", 0),
 	Bat("d", 0),
-	Ferret("e", 0);
+	Ferret("e", 0),
+
+	// Spike Trap
+	Long_Fuse("a", 0),
+	Echoing_Blast("b", 0),
+	Sticky_Trap("c", 0),
+	Scatter("d", 0),
+	Lightning_Rod("e", 0),
+
+	;
 	
 	private String slug;
 	private int hatred;

@@ -8,8 +8,6 @@
 * Confirm: Does Attack Speed on off-hand weapon apply to sentry breakpoint calculations?
 * Confirm: Dual Wield Sheet APS and DPS calculations
 
-* Add spike trap and caltrops with runes (also would effect damage from Helltrapper)
-* Add caltrops damage to Helltrapper
 * Add support ruby socketed in weapon(s)
 * Add support for more than two spenders/generators
 * re-enable player/build statistics

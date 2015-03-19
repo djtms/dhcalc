@@ -216,6 +216,9 @@ public class ProfileHelper {
 		Set<SkillAndRune> skills = new TreeSet<SkillAndRune>();
 		boolean companion = false;
 		Rune companionRune = Rune.None;
+		Rune caltropsRune = Rune.None;
+		Rune spikeTrapRune = Rune.None;
+		boolean spikeTrap = false;
 
 		for (HeroProfile.Skills.Active s : hero.skills.active) {
 
@@ -236,14 +239,40 @@ public class ProfileHelper {
 							}
 						}
 					}
+				} else if (s.skill.name.equals(Const.CALTROPS)) {
+						caltrops = true;
+
+						if (s.rune == null) {
+							caltropsRune = Rune.None;
+						} else {
+							String type = s.rune.type;
+
+							for (Rune r : ActiveSkill.Caltrops.getRunes()) {
+								if (r.getSlug().equals(type)) {
+									caltropsRune = r;
+									break;
+								}
+							}
+						}
+				} else if (s.skill.name.equals(Const.SPIKE_TRAP)) {
+					spikeTrap = true;
+
+					if (s.rune == null) {
+						spikeTrapRune = Rune.None;
+					} else {
+						String type = s.rune.type;
+
+						for (Rune r : ActiveSkill.ST.getRunes()) {
+							if (r.getSlug().equals(type)) {
+								spikeTrapRune = r;
+								break;
+							}
+						}
+					}
 				} else if (s.skill.name.equals(Const.PREPARATION)
 						&& (s.rune != null) && (s.rune.name != null)
 						&& (s.rune.name.equals(Const.PUNISHMENT))) {
 					preparationPunishment = true;
-				} else if (s.skill.name.equals(Const.CALTROPS)
-						&& (s.rune != null) && (s.rune.type != null)
-						&& (s.rune.type.equals(Rune.Bait_the_Trap.getSlug()))) {
-					caltrops = true;
 				} else if (s.skill.name
 
 				.equals(ActiveSkill.SENTRY.getLongName())) {
@@ -376,6 +405,9 @@ public class ProfileHelper {
 		data.setCompanion(companion);
 		data.setCompanionRune(companionRune);
 		data.setCaltrops(caltrops);
+		data.setCaltropsRune(caltropsRune);
+		data.setSpikeTrap(spikeTrap);
+		data.setSpikeTrapRune(spikeTrapRune);
 		data.setSentryRune(sentryRune);
 		data.setSkills(skills);
 		data.setCustomEngineering(customEngineering);

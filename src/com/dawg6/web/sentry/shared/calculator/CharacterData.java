@@ -81,6 +81,9 @@ public class CharacterData implements Serializable {
 	private boolean grenadier;
 	private boolean singleOut;
 	private boolean caltrops;
+	private Rune caltropsRune;
+	private boolean spikeTrap;
+	private Rune spikeTrapRune;
 	private int numTargets;
 	private int numAoeTargets;
 	private int weaponMin;
@@ -151,6 +154,7 @@ public class CharacterData implements Serializable {
 	private double hexingPantsPercent;
 	private double hexingPantsUptime;
 	private double caltropsUptime;
+	private int numSpikeTraps;
 	private Set<SkillAndRune> skills;
 	private Rune sentryRune;
 	private Map<String, Integer> cdrData;
@@ -269,6 +273,7 @@ public class CharacterData implements Serializable {
 		numHealthGlobes = 1;
 		delay = 50;
 		odysseysEndUptime = 1.0;
+		numSpikeTraps = 3;
 	}
 	
 	public CharacterData() {
@@ -1979,6 +1984,38 @@ public class CharacterData implements Serializable {
 
 	public void setHelltrapperPercent(double helltrapperPercent) {
 		this.helltrapperPercent = helltrapperPercent;
+	}
+
+	public Rune getCaltropsRune() {
+		return caltropsRune;
+	}
+
+	public void setCaltropsRune(Rune caltropsRune) {
+		this.caltropsRune = caltropsRune;
+	}
+
+	public boolean isSpikeTrap() {
+		return spikeTrap;
+	}
+
+	public void setSpikeTrap(boolean spikeTrap) {
+		this.spikeTrap = spikeTrap;
+	}
+
+	public Rune getSpikeTrapRune() {
+		return spikeTrapRune;
+	}
+
+	public void setSpikeTrapRune(Rune spikeTrapRune) {
+		this.spikeTrapRune = spikeTrapRune;
+	}
+
+	public int getNumSpikeTraps() {
+		return numSpikeTraps;
+	}
+
+	public void setNumSpikeTraps(int numSpikeTraps) {
+		this.numSpikeTraps = numSpikeTraps;
 	}
 
 }
