@@ -531,25 +531,6 @@ public class MainPanel extends BasePanel {
 		captionPanel.setContentWidget(compareTable);
 		compareTable.setCellPadding(2);
 
-		for (int i = 0; i < 3; i++) {
-			Anchor label_1 = new Anchor("Clear");
-			label_1.setHref("javascript: return false;");
-			label_1.setTitle("Click to clear this build");
-			compareTable.setWidget(6, (i * 2) + 1, label_1);
-			compareTable.getFlexCellFormatter().setWidth(6, (i * 2) + 2, "5px");
-			compareTable.getFlexCellFormatter().setHorizontalAlignment(6,
-					(i * 2) + 1, HasHorizontalAlignment.ALIGN_CENTER);
-			final int which = i;
-
-			label_1.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					clearBuild(which);
-				}
-			});
-		}
-
 		Button button_6 = new Button("Compare...");
 		compareTable.setWidget(0, 0, button_6);
 		button_6.setTitle("Click to see differences between each build");
@@ -563,175 +544,93 @@ public class MainPanel extends BasePanel {
 			}
 		});
 
-		Anchor button_3 = new Anchor("Set");
-		button_3.setHref("javascript: return false;");
-		button_3.setTitle("Click to store the current build for comparison");
-		compareTable.setWidget(0, 1, button_3);
-		compareTable.getFlexCellFormatter().setHorizontalAlignment(0, 1,
-				HasHorizontalAlignment.ALIGN_CENTER);
-
-		button_3.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				storeBuild(0);
-			}
-		});
-
-		Anchor button_4 = new Anchor("Restore");
-		button_4.setHref("javascript: return false;");
-		button_4.setTitle("Click to retrieve this build");
-		compareTable.setWidget(1, 0, button_4);
-		compareTable.getFlexCellFormatter().setHorizontalAlignment(1, 0,
-				HasHorizontalAlignment.ALIGN_CENTER);
-
-		button_4.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				loadBuild(0);
-			}
-		});
-
-		Anchor button_5 = new Anchor("Set");
-		button_5.setHref("javascript: return false;");
-		button_5.setTitle("Click to store the current build for comparison");
-		compareTable.setWidget(0, 3, button_5);
-		compareTable.getFlexCellFormatter().setHorizontalAlignment(0, 3,
-				HasHorizontalAlignment.ALIGN_CENTER);
-
-		button_5.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				storeBuild(1);
-			}
-		});
-
-		Anchor button = new Anchor("Restore");
-		button.setHref("javascript: return false;");
-		button.setTitle("Click to retrieve this build");
-		compareTable.setWidget(1, 2, button);
-		compareTable.getFlexCellFormatter().setHorizontalAlignment(1, 2,
-				HasHorizontalAlignment.ALIGN_CENTER);
-
-		button.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				loadBuild(1);
-			}
-		});
-
-		Anchor button_1 = new Anchor("Set");
-		button_1.setHref("javascript: return false;");
-		button_1.setTitle("Click to store the current build for comparison");
-		compareTable.setWidget(0, 5, button_1);
-		compareTable.getFlexCellFormatter().setHorizontalAlignment(0, 5,
-				HasHorizontalAlignment.ALIGN_CENTER);
-
-		button_1.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				storeBuild(2);
-			}
-		});
-
-		Anchor button_2 = new Anchor("Restore");
-		button_2.setHref("javascript: return false;");
-		button_2.setTitle("Click to retrieve this build");
-		compareTable.setWidget(1, 4, button_2);
-		compareTable.getFlexCellFormatter().setHorizontalAlignment(1, 4,
-				HasHorizontalAlignment.ALIGN_CENTER);
-
-		button_2.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				loadBuild(2);
-			}
-		});
-
-		Label label_8 = new Label("Base Sentry DPS:");
-		label_8.setWordWrap(false);
-		label_8.setStyleName("boldText");
-		compareTable.setWidget(2, 0, label_8);
-
-		Label lblNoData = new Label("No Data");
-		lblNoData.setWordWrap(false);
-		lblNoData.setStyleName("dpsCol");
-		compareTable.setWidget(2, 1, lblNoData);
-
-		Label lblNoData_1 = new Label("No Data");
-		lblNoData_1.setWordWrap(false);
-		lblNoData_1.setStyleName("dpsCol");
-		compareTable.setWidget(2, 3, lblNoData_1);
-
-		Label label_9 = new Label("No Data");
-		label_9.setWordWrap(false);
-		label_9.setStyleName("dpsCol");
-		compareTable.setWidget(2, 5, label_9);
 
 		Label label_11 = new Label("Break Point:");
 		label_11.setWordWrap(false);
 		label_11.setStyleName("boldText");
-		compareTable.setWidget(3, 0, label_11);
+		compareTable.setWidget(2, 0, label_11);
 
-		Label lblNoData_2 = new Label("No Data");
-		lblNoData_2.setWordWrap(false);
-		lblNoData_2.setStyleName("dpsCol");
-		compareTable.setWidget(3, 1, lblNoData_2);
+		Label label_8 = new Label("Weapon Damage:");
+		label_8.setWordWrap(false);
+		label_8.setStyleName("boldText");
+		compareTable.setWidget(3, 0, label_8);
 
-		Label lblNoData_3 = new Label("No Data");
-		lblNoData_3.setWordWrap(false);
-		lblNoData_3.setStyleName("dpsCol");
-		compareTable.setWidget(3, 3, lblNoData_3);
-
-		Label label_10 = new Label("No Data");
-		label_10.setWordWrap(false);
-		label_10.setStyleName("dpsCol");
-		compareTable.setWidget(3, 5, label_10);
-
-		Label label_14 = new Label("Total (Non-Elite) DPS:");
+		Label label_14 = new Label("(Non-Elite) DPS:");
 		label_14.setWordWrap(false);
 		label_14.setStyleName("boldText");
-		compareTable.setWidget(4, 0, label_14);
+		compareTable.setWidget(5, 0, label_14);
 
-		Label lblNoData_4 = new Label("No Data");
-		lblNoData_4.setWordWrap(false);
-		lblNoData_4.setStyleName("dpsCol");
-		compareTable.setWidget(4, 1, lblNoData_4);
-
-		Label lblNoData_5 = new Label("No Data");
-		lblNoData_5.setWordWrap(false);
-		lblNoData_5.setStyleName("dpsCol");
-		compareTable.setWidget(4, 3, lblNoData_5);
-
-		Label label_12 = new Label("No Data");
-		label_12.setWordWrap(false);
-		label_12.setStyleName("dpsCol");
-		compareTable.setWidget(4, 5, label_12);
-
-		Label label_14a = new Label("Total (Elite) DPS:");
+		Label label_14a = new Label("(Elite) DPS:");
 		label_14a.setWordWrap(false);
 		label_14a.setStyleName("boldText");
-		compareTable.setWidget(5, 0, label_14a);
+		compareTable.setWidget(7, 0, label_14a);
 
-		Label lblNoData_4a = new Label("No Data");
-		lblNoData_4a.setWordWrap(false);
-		lblNoData_4a.setStyleName("dpsCol");
-		compareTable.setWidget(5, 1, lblNoData_4a);
+		for (int j = 0; j < 3; j++) {
+			final int which = j;
+			int col = (j * 2) + 1;
 
-		Label lblNoData_5a = new Label("No Data");
-		lblNoData_5a.setWordWrap(false);
-		lblNoData_5a.setStyleName("dpsCol");
-		compareTable.setWidget(5, 3, lblNoData_5a);
+			Anchor button_3 = new Anchor("Set");
+			button_3.setHref("javascript: return false;");
+			button_3.setTitle("Click to store the current build for comparison");
+			compareTable.setWidget(0, col, button_3);
+			compareTable.getFlexCellFormatter().setHorizontalAlignment(0, col,
+					HasHorizontalAlignment.ALIGN_CENTER);
 
-		Label label_12a = new Label("No Data");
-		label_12a.setWordWrap(false);
-		label_12a.setStyleName("dpsCol");
-		compareTable.setWidget(5, 5, label_12a);
+			button_3.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					storeBuild(which);
+				}
+			});
+
+			Anchor button_4 = new Anchor("Restore");
+			button_4.setHref("javascript: return false;");
+			button_4.setTitle("Click to retrieve this build");
+			compareTable.setWidget(1, col - 1, button_4);
+			compareTable.getFlexCellFormatter().setHorizontalAlignment(1, col-1,
+					HasHorizontalAlignment.ALIGN_CENTER);
+
+			button_4.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					loadBuild(which);
+				}
+			});
+			
+			Anchor label_1 = new Anchor("Clear");
+			label_1.setHref("javascript: return false;");
+			label_1.setTitle("Click to clear this build");
+			compareTable.setWidget(9, col, label_1);
+			compareTable.getFlexCellFormatter().setWidth(9, col + 1, "5px");
+			compareTable.getFlexCellFormatter().setHorizontalAlignment(9,
+					col, HasHorizontalAlignment.ALIGN_CENTER);
+
+			label_1.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					clearBuild(which);
+				}
+			});
+
+			for (int i = 0; i < 4; i++) {
+				int row = 2 + ((i > 0) ? 1 + ((i-1) * 2) : 0);
+
+				Label l = new Label("No Data");
+				l.setWordWrap(false);
+				compareTable.setWidget(row, col, l);
+				compareTable.getFlexCellFormatter().setHorizontalAlignment(row, col, HasHorizontalAlignment.ALIGN_CENTER);
+
+				if (j > 0) {
+					Label pct = new Label("No Data");
+					pct.setWordWrap(false);
+					compareTable.setWidget(row + 1, col, pct);
+					compareTable.getFlexCellFormatter().setHorizontalAlignment(row + 1, col, HasHorizontalAlignment.ALIGN_CENTER);
+				}
+			}
+		}
 
 		calcDps.addClickHandler(new ClickHandler() {
 
@@ -845,30 +744,31 @@ public class MainPanel extends BasePanel {
 		cLabel.setHref(ActiveSkill.Companion.getUrl());
 		cLabel.setTarget("_blank");
 		grid.setWidget(3, 0, cLabel);
-		
+
 		companion = new SimpleCheckBox();
 		grid.setWidget(3, 1, companion);
-		
+
 		crLabel = new Anchor("Rune:");
 		crLabel.setHref(ActiveSkill.Companion.getUrl());
 		crLabel.setTarget("_blank");
 		grid.setWidget(3, 2, crLabel);
-		
+
 		companionRunes = new ListBox();
 		grid.setWidget(3, 3, companionRunes);
-		
+
 		for (Rune r : ActiveSkill.Companion.getRunes()) {
 			companionRunes.addItem(r.getLongName(), r.name());
 		}
 		companionRunes.setSelectedIndex(0);
 
-		companionRunes.addChangeHandler(new ChangeHandler(){
+		companionRunes.addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {
 				setCompanionRuneLabel();
-			}});
-		
+			}
+		});
+
 		skills = new SkillsPanel();
 		verticalPanel_1.add(skills);
 
@@ -1790,7 +1690,8 @@ public class MainPanel extends BasePanel {
 		Rune rune = getRune(companionRunes);
 
 		if ((rune != null) && (rune != Rune.None))
-			crLabel.setHref(ActiveSkill.Companion.getUrl() + "#" + rune.getSlug() + "+");
+			crLabel.setHref(ActiveSkill.Companion.getUrl() + "#"
+					+ rune.getSlug() + "+");
 		else
 			crLabel.setHref(ActiveSkill.Companion.getUrl());
 	}
@@ -1913,19 +1814,14 @@ public class MainPanel extends BasePanel {
 		return i > 0;
 	}
 
-	private static final int NUM_COMPARE_ROWS = 4;
+	private static final int NUM_COMPARE_ROWS = 7;
 	private CaptionPanel captionPanelShooterSummary;
 	private Map<String, DamageHolder> shooterDamages;
 
 	protected void clearBuild(int which) {
 		compareData[which] = null;
 
-		int col = which * 2 + 1;
-
-		for (int row = 0; row < NUM_COMPARE_ROWS; row++) {
-			Label label = (Label) compareTable.getWidget(row + 2, col);
-			label.setText("No Data");
-		}
+		showBuildData(which);
 	}
 
 	protected void compareBuilds() {
@@ -2089,28 +1985,77 @@ public class MainPanel extends BasePanel {
 						data.formData = formData;
 						data.exportData = exportData;
 
-						int col = which * 2 + 1;
-						int row = 2;
+						showBuildData(which);
 
-						Label baseDps = (Label) compareTable.getWidget(row++,
-								col);
-						Label bp = (Label) compareTable.getWidget(row++, col);
-						Label dps = (Label) compareTable.getWidget(row++, col);
-						Label edps = (Label) compareTable.getWidget(row++, col);
-
-						baseDps.setText(Util.format(Math
-								.round(data.exportData.sentryBaseDps)));
-						bp.setText(String.valueOf(data.exportData.bp));
-						dps.setText(Util.format(Math
-								.round(data.exportData.sentryDps)));
-						edps.setText(Util.format(Math
-								.round(data.exportData.sentryEliteDps)));
 						dialog.taskCompleted();
 					}
 				});
 			}
 		});
 
+	}
+
+	protected void showBuildData(int which) {
+		CompareData data = compareData[which];
+
+		int col = which * 2 + 1;
+
+		if (data == null) {
+
+			for (int row = 0; row < NUM_COMPARE_ROWS; row++) {
+				Label label = (Label) compareTable.getWidget(row + 2, col);
+				label.setText("No Data");
+			}
+
+		} else {
+			CompareData baseline = compareData[0];
+
+			int row = 2;
+
+			Label bp = (Label) compareTable.getWidget(row, col);
+			Label wd = (Label) compareTable.getWidget(row + 1, col);
+			Label dps = (Label) compareTable.getWidget(row + 3, col);
+			Label edps = (Label) compareTable.getWidget(row + 5, col);
+
+			bp.setText(String.valueOf(data.exportData.bp));
+			wd.setText(Util.format(Math.round(data.exportData.data
+					.getWeaponDamage())));
+			dps.setText(Util.format(Math.round(data.exportData.sentryDps)));
+			edps.setText(Util.format(Math.round(data.exportData.sentryEliteDps)));
+
+			if ((which > 0) && (baseline != null)) {
+
+				Label wdPctL = (Label) compareTable.getWidget(row + 2, col);
+				Label dpsPctL = (Label) compareTable.getWidget(row + 4, col);
+				Label edpsPctL = (Label) compareTable.getWidget(row + 6, col);
+
+				double wdPct = (data.exportData.data.getWeaponDamage() - baseline.exportData.data
+						.getWeaponDamage())
+						/ baseline.exportData.data.getWeaponDamage();
+				double dpsPct = (data.exportData.sentryDps - baseline.exportData.sentryDps)
+						/ baseline.exportData.sentryDps;
+				double edpsPct = (data.exportData.sentryEliteDps - baseline.exportData.sentryEliteDps)
+						/ baseline.exportData.sentryEliteDps;
+
+				wdPctL.setText("(" + ((wdPct >= 0) ? "+" : "")
+						+ Util.format(Math.round(wdPct * 1000.0) / 10.0)
+						+ "%)");
+				dpsPctL.setText("(" + ((dpsPct >= 0) ? "+" : "")
+						+ Util.format(Math.round(dpsPct * 1000.0) / 10.0)
+						+ "%)");
+				edpsPctL.setText("(" + ((edpsPct >= 0) ? "+" : "")
+						+ Util.format(Math.round(edpsPct * 1000.0) / 10.0)
+						+ "%)");
+
+			}
+
+		}
+
+		if (which == 0) {
+			for (int i = 1; i < compareData.length; i++) {
+				showBuildData(i);
+			}
+		}
 	}
 
 	protected void calculateWolfUptime() {
@@ -2171,11 +2116,11 @@ public class MainPanel extends BasePanel {
 
 			gearPanel.restoreData(data.items);
 		} else {
-			
+
 			if (gearPanel != null)
 				gearPanel.clearData();
 		}
-		
+
 		calculator.saveForm();
 		this.saveForm();
 
@@ -2184,26 +2129,26 @@ public class MainPanel extends BasePanel {
 
 	}
 
-	
 	private static final String SLOT_PREFIX = "gear.";
-	
+
 	@Override
 	protected void saveFields(Field... fields) {
 		super.saveFields(fields);
-		
+
 		if (gearPanel != null) {
 			Map<Slot, ItemInformation> items = gearPanel.getItems();
-			
+
 			for (Slot s : Slot.values()) {
 				ItemInformation item = items.get(s);
-				
+
 				if ((item != null) && (item.tooltipParams != null)) {
-					this.saveField(SLOT_PREFIX + s.getSlot(), item.tooltipParams);
+					this.saveField(SLOT_PREFIX + s.getSlot(),
+							item.tooltipParams);
 				}
 			}
 		}
 	}
-	
+
 	private FormData getFormData() {
 		FormData data = new FormData();
 
@@ -2213,7 +2158,7 @@ public class MainPanel extends BasePanel {
 		if (gearPanel != null) {
 			gearPanel.populateFormData(data.items);
 		}
-		
+
 		data.version = Version.getVersion();
 
 		// Having a problem with non UTF-8 encoding in these
@@ -2545,7 +2490,7 @@ public class MainPanel extends BasePanel {
 		data.setParagonCHD(paragonPanel.getParagonCHD().getValue());
 		data.setParagonHatred(paragonPanel.getParagonHatred().getValue());
 		data.setParagonRCR(paragonPanel.getParagonRCR().getValue());
-		
+
 		ProfileHelper.updateCdr(data);
 		ProfileHelper.updateWeaponDamage(data);
 
@@ -2931,7 +2876,8 @@ public class MainPanel extends BasePanel {
 		this.itemPanel.getCalamity().setValue(data.isCalamityMdf());
 		this.itemPanel.getBombadiers().setValue(data.isHasBombardiers());
 		this.itemPanel.getHelltrapper().setValue(data.isHelltrapper());
-		this.itemPanel.getHelltrapperPercent().setValue((int)Math.round(data.getHelltrapperPercent() * 100));
+		this.itemPanel.getHelltrapperPercent().setValue(
+				(int) Math.round(data.getHelltrapperPercent() * 100));
 		this.itemPanel.getOdysseysEnd().setValue(data.isOdysseysEnd());
 		this.itemPanel.getOdysseysEndPercent().setValue(
 				(int) Math.round(data.getOdysseysEndPercent() * 100.0));
@@ -3161,8 +3107,8 @@ public class MainPanel extends BasePanel {
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getHelltrapper(), "Helltrapper",
 						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getHelltrapperPercent(), "HelltrapperPercent",
-						"7"),
+				new Field(this.itemPanel.getHelltrapperPercent(),
+						"HelltrapperPercent", "7"),
 				new Field(this.itemPanel.getSpines(), "Spines",
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getKridershot(), "Kridershot",
@@ -3252,8 +3198,8 @@ public class MainPanel extends BasePanel {
 				new Field(this.skillDamage.getHaDamage(), "HA", "0"),
 				new Field(this.skillDamage.getCompanionDamage(),
 						"CompanionDamage", "0"),
-				new Field(this.skillDamage.getStDamage(),
-						"SpikeTrapDamage", "0"),
+				new Field(this.skillDamage.getStDamage(), "SpikeTrapDamage",
+						"0"),
 				new Field(this.skillDamage.getEsDamage(), "ES", "0"),
 				new Field(this.skillDamage.getBolasDamage(), "Bolas", "0"),
 				new Field(this.skillDamage.getEfDamage(), "EF", "0"),
@@ -3324,7 +3270,8 @@ public class MainPanel extends BasePanel {
 				new Field(this.skill2, "Skill2", ""),
 				// new Field(this.skill3, "Skill3", ""),
 				new Field(this.companion, "Companion", Boolean.TRUE.toString()),
-				new Field(this.companionRunes, "CompanionRune", Rune.Wolf.name()),
+				new Field(this.companionRunes, "CompanionRune",
+						Rune.Wolf.name()),
 				new Field(this.rune1, "Rune1", Rune.None.name()),
 				new Field(this.rune2, "Rune2", Rune.None.name()),
 				// new Field(this.rune3, "Rune3", Rune.None.name()),
@@ -3469,8 +3416,7 @@ public class MainPanel extends BasePanel {
 			data.setHaDamage(getValue(this.skillDamage.getHaDamage()) / 100.0);
 			data.setCompanionDamage(getValue(this.skillDamage
 					.getCompanionDamage()) / 100.0);
-			data.setSpikeTrapDamage(getValue(this.skillDamage
-					.getStDamage()) / 100.0);
+			data.setSpikeTrapDamage(getValue(this.skillDamage.getStDamage()) / 100.0);
 			data.setEsDamage(getValue(this.skillDamage.getEsDamage()) / 100.0);
 			data.setBolasDamage(getValue(this.skillDamage.getBolasDamage()) / 100.0);
 			data.setEfDamage(getValue(this.skillDamage.getEfDamage()) / 100.0);
@@ -3505,7 +3451,8 @@ public class MainPanel extends BasePanel {
 			data.setCalamityMdf(itemPanel.getCalamity().getValue());
 			data.setHasBombardiers(itemPanel.getBombadiers().getValue());
 			data.setHelltrapper(itemPanel.getHelltrapper().getValue());
-			data.setHelltrapperPercent(itemPanel.getHelltrapperPercent().getValue() / 100.0);
+			data.setHelltrapperPercent(itemPanel.getHelltrapperPercent()
+					.getValue() / 100.0);
 			data.setNumMarauders(itemPanel.getMarauders().getValue());
 			data.setMarked(skills.getMfd().getValue());
 			data.setSteadyAim(this.passives.getSteadyAim().getValue());
@@ -3629,7 +3576,7 @@ public class MainPanel extends BasePanel {
 					.getValue() / 100.0);
 			data.setCompanion(companion.getValue());
 			data.setCompanionRune(getRune(companionRunes));
-			
+
 			Map<ActiveSkill, Rune> skills = getSkills();
 			// SkillSet skillSet = getSkillSet(skills);
 
@@ -4093,8 +4040,10 @@ public class MainPanel extends BasePanel {
 		if (data.getOffHand_weaponType() != null) {
 			offHand_weaponDamage.setText(Util.format(Math.round(data
 					.getOffHand_weaponDamage() * 100.0) / 100.0));
-			double dwDamage = (data.getWeaponDamage() + data.getOffHand_weaponDamage()) / 2.0;
-			dw_weaponDamage.setText(Util.format(Math.round(dwDamage * 100.0) / 100.0));
+			double dwDamage = (data.getWeaponDamage() + data
+					.getOffHand_weaponDamage()) / 2.0;
+			dw_weaponDamage
+					.setText(Util.format(Math.round(dwDamage * 100.0) / 100.0));
 		} else {
 			offHand_weaponDamage.setText("N/A");
 			dw_weaponDamage.setText("N/A");
@@ -4173,16 +4122,15 @@ public class MainPanel extends BasePanel {
 	protected void onLoad() {
 		super.onLoad();
 
-		
 		Map<String, String> items = new TreeMap<String, String>();
-		
+
 		for (Slot s : Slot.values()) {
 			String value = this.getFieldValue(SLOT_PREFIX + s.getSlot(), null);
-			
+
 			if (value != null)
 				items.put(s.getSlot(), value);
 		}
-		
+
 		disableListeners = true;
 
 		if (!Beans.isDesignTime()) {
@@ -4215,19 +4163,18 @@ public class MainPanel extends BasePanel {
 			setSkillLabel(this.skill2Label, skill2);
 			setCompanionRuneLabel();
 			// setSkillLabel(this.skill3Label, skill3);
-			
-			
+
 			if (items.size() > 0) {
-				
+
 				if (gearPanel == null) {
 					gearPanel = new GearPanel();
 				}
 
 				gearPanel.restoreData(items);
 			} else {
-				if (gearPanel != null) 
+				if (gearPanel != null)
 					gearPanel.clearData();
-				
+
 			}
 		}
 
@@ -4363,7 +4310,8 @@ public class MainPanel extends BasePanel {
 		skills.addItem(skill.getLongName(), skill.name());
 	}
 
-	public static native void saveFormData(String filename, String key, String isFile)
+	public static native void saveFormData(String filename, String key,
+			String isFile)
 	/*-{
 		var popupWindow = window.open('', '_self', '');
 		var form = document.createElement("form");
