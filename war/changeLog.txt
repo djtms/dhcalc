@@ -3,6 +3,7 @@ Change Log:
 **3/19/15**
 
 * Added spike trap and caltrops runes (effects damage from Helltrapper). 
+* Added Stat Calculator (quick display of DPS change for +dex/CC/CHD/etc...).
 
 **3/18/15**
 

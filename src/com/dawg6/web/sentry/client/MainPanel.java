@@ -177,6 +177,7 @@ public class MainPanel extends BasePanel {
 	private FlexTable shooterSummary;
 	private Label offHand_weaponDamage;
 	private Label dw_weaponDamage;
+	private FlexTable statTable;
 
 	public MainPanel() {
 		VerticalPanel panel = new VerticalPanel();
@@ -1260,6 +1261,9 @@ public class MainPanel extends BasePanel {
 		HorizontalPanel horizontalPanel_9 = new HorizontalPanel();
 		outputPanel.add(horizontalPanel_9);
 
+		CaptionPanel cPanel = new CaptionPanel("Stat Calculator");
+		horizontalPanel_9.add(cPanel);
+
 		captionPanelTypeSummary = new CaptionPanel(
 				"Damage Type Summary (Non-Elite, " + FiringData.DURATION
 						+ " seconds)");
@@ -1503,6 +1507,52 @@ public class MainPanel extends BasePanel {
 
 		};
 
+
+
+		statTable = new FlexTable();
+		cPanel.setContentWidget(statTable);
+		statTable.setCellPadding(5);
+		statTable.setBorderWidth(1);
+		statTable.setStyleName("outputTable");
+		statTable.getRowFormatter().addStyleName(0, "headerRow");
+
+		Label l1 = new Label("Stat");
+		l1.setStyleName("dpsHeader");
+		l1.setWordWrap(false);
+		statTable.setWidget(0, 0, l1);
+
+		Label l4 = new Label("Total (Non-Elite)");
+		l4.setStyleName("dpsHeader");
+		l4.setWordWrap(false);
+		statTable.setWidget(0, 1, l4);
+
+		Label l2 = new Label("DPS (Non-Elite)");
+		l2.setStyleName("dpsHeader");
+		l2.setWordWrap(false);
+		statTable.setWidget(0, 2, l2);
+
+		Label l2a = new Label("%");
+		l2a.setStyleName("dpsHeader");
+		l2a.setWordWrap(false);
+		statTable.setWidget(0, 3, l2a);
+
+		Label l5 = new Label("Total (Elite)");
+		l5.setStyleName("dpsHeader");
+		l5.setWordWrap(false);
+		statTable.setWidget(0, 4, l5);
+
+		Label l3 = new Label("DPS (Elite)");
+		l3.setStyleName("dpsHeader");
+		l3.setWordWrap(false);
+		statTable.setWidget(0, 5, l3);
+
+		Label l3a = new Label("%");
+		l3a.setStyleName("dpsHeader");
+		l3a.setWordWrap(false);
+		statTable.setWidget(0, 6, l3a);
+
+		captionPanelDamageLog.setContentWidget(damageLog);
+		
 		paragonPanel.getParagonCDR().addChangeHandler(handler);
 		gemPanel.getGogok().addClickHandler(clickHandler);
 		gemPanel.getGogokLevel().addChangeHandler(handler);
@@ -3702,7 +3752,7 @@ public class MainPanel extends BasePanel {
 		this.exportData.sentryDps = dps;
 		this.exportData.sentryEliteDps = dps * elite;
 		this.exportData.totalDamage = total;
-		this.exportData.totalEliteDamage = total;
+		this.exportData.totalEliteDamage = total * elite;
 	}
 
 	private void updateOutput() {
@@ -3728,6 +3778,10 @@ public class MainPanel extends BasePanel {
 
 		for (int i = damageLog.getRowCount(); i > 1; --i) {
 			damageLog.removeRow(i - 1);
+		}
+
+		for (int i = statTable.getRowCount(); i > 1; --i) {
+			statTable.removeRow(i - 1);
 		}
 
 		this.captionPanelDamageLog.setCaptionHTML("Damage Log (" + eliteString
@@ -4043,13 +4097,82 @@ public class MainPanel extends BasePanel {
 
 		// double dpsActual = total / FiringData.DURATION;
 
+		double eDps = dps * elite;
 		this.dps.setText(Util.format(Math.round(dps)));
 		this.totalDamage.setText(Util.format(Math.round(total)));
-		this.eliteDps.setText(Util.format(Math.round(dps * elite)));
-		this.totalEliteDamage.setText(Util.format(Math.round(total * elite)));
+		this.eliteDps.setText(Util.format(Math.round(eDps)));
+		double eTotal = total * elite;
+		this.totalEliteDamage.setText(Util.format(Math.round(eTotal)));
 		this.eliteDamage.setText(Math.round(data.getTotalEliteDamage() * 100.0)
 				+ "%");
 
+		row = 1;
+		
+		Map<ActiveSkill, Rune> s = getSkills();
+		
+		for (Stat stat : Stat.values()) {
+
+			StatAdapter adapter = stat.getAdapter();
+			
+			if (adapter.test(data, types.keySet(), s.keySet())) {
+				if ((row % 2) == 0)
+					statTable.getRowFormatter().addStyleName(row, "evenRow");
+				else
+					statTable.getRowFormatter().addStyleName(row, "oddRow");
+				
+				String label = stat.getLabel();
+				
+				int col = 0;
+				Label l1 = new Label(label);
+				l1.setWordWrap(false);
+				statTable.setWidget(row, col++, l1);
+				
+				Object token = adapter.apply(data);
+				
+				Damage[] d = FiringData.calculateDamages(s, data);
+				
+				double totalRow = 0;
+				
+				for (Damage r : d) {
+					totalRow += r.totalDamage;
+				}
+				
+				double eliteDamageRow = totalRow * (1.0 + data.getTotalEliteDamage());
+				double dpsRow = totalRow / FiringData.DURATION;
+				double eDpsRow = eliteDamageRow / FiringData.DURATION;
+				
+				double pct = (totalRow - total) / total;
+				double ePct = (eliteDamageRow - eTotal) / eTotal;
+	
+				Label l2 = new Label(Util.format(Math.round(totalRow)));
+				l2.addStyleName("dpsCol");
+				statTable.setWidget(row, col++, l2);
+				
+				Label l3 = new Label(Util.format(Math.round(dpsRow)));
+				l3.addStyleName("dpsCol");
+				statTable.setWidget(row, col++, l3);
+	
+				Label l4 = new Label(((pct >= 0.0) ? "+" : "") + Util.format(Math.round(pct * 1000.0) / 10.0) + "%");
+				l4.addStyleName("dpsCol");
+				statTable.setWidget(row, col++, l4);
+	
+				Label l5 = new Label(Util.format(Math.round(eliteDamageRow)));
+				l5.addStyleName("dpsCol");
+				statTable.setWidget(row, col++, l5);
+				
+				Label l6 = new Label(Util.format(Math.round(eDpsRow)));
+				l6.addStyleName("dpsCol");
+				statTable.setWidget(row, col++, l6);
+	
+				Label l7 = new Label(((ePct >= 0.0) ? "+" : "") + Util.format(Math.round(ePct * 1000.0) / 10.0) + "%");
+				l7.addStyleName("dpsCol");
+				statTable.setWidget(row, col++, l7);
+	
+				adapter.unapply(data, token);
+				
+				row++;
+			}
+		}
 	}
 
 	private void addSkill(Map<ActiveSkill, Rune> skills, ListBox skillBox,

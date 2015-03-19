@@ -406,7 +406,7 @@ public class CharacterData implements Serializable {
 		this.critHitDamage = critHitDamage;
 	}
 
-	public double getDexterity() {
+	public int getDexterity() {
 		return equipmentDexterity + paragonDexterity + 7 + (heroLevel * 3);
 	}
 
