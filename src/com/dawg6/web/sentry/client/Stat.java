@@ -414,6 +414,165 @@ public enum Stat {
 			data.setGrenadeDamage((Double)token);
 		}}),
 		
+	HG("+1 Health Globe", new StatAdapter(){
+
+		@Override
+		public Object apply(CharacterData data) {
+			int value = data.getNumHealthGlobes();
+			data.setNumHealthGlobes(value + 1);
+			
+			return value;
+		}
+		
+		@Override
+		public boolean test(CharacterData data, Set<DamageType> types, Set<ActiveSkill> skills) {
+			return data.isReapersWraps() || data.isBloodVengeance();
+		}
+
+		@Override
+		public void unapply(CharacterData data, Object token) {
+			data.setNumHealthGlobes((Integer)token);
+		}}),
+		
+	BoT("+1 BoT Gem Level", new StatAdapter(){
+
+		@Override
+		public Object apply(CharacterData data) {
+			int value = data.getBaneOfTheTrappedLevel();
+			data.setBaneOfTheTrappedLevel(value + 1);
+			
+			return value;
+		}
+		
+		@Override
+		public boolean test(CharacterData data, Set<DamageType> types, Set<ActiveSkill> skills) {
+			return data.isUseBaneOfTheTrapped();
+		}
+
+		@Override
+		public void unapply(CharacterData data, Object token) {
+			data.setBaneOfTheTrappedLevel((Integer)token);
+		}}),
+		
+	Enforcer("+1 Enforcer Gem Level", new StatAdapter(){
+
+		@Override
+		public Object apply(CharacterData data) {
+			int value = data.getEnforcerLevel();
+			data.setEnforcerLevel(value + 1);
+			
+			return value;
+		}
+		
+		@Override
+		public boolean test(CharacterData data, Set<DamageType> types, Set<ActiveSkill> skills) {
+			return data.isUseEnforcer();
+		}
+
+		@Override
+		public void unapply(CharacterData data, Object token) {
+			data.setEnforcerLevel((Integer)token);
+		}}),
+
+	Zeis("+1 Zei's Gem Level", new StatAdapter(){
+
+		@Override
+		public Object apply(CharacterData data) {
+			int value = data.getZeisLevel();
+			data.setZeisLevel(value + 1);
+			
+			return value;
+		}
+		
+		@Override
+		public boolean test(CharacterData data, Set<DamageType> types, Set<ActiveSkill> skills) {
+			return data.isZeis();
+		}
+
+		@Override
+		public void unapply(CharacterData data, Object token) {
+			data.setZeisLevel((Integer)token);
+		}}),
+
+	Toxin("+1 Toxin Gem Level", new StatAdapter(){
+
+		@Override
+		public Object apply(CharacterData data) {
+			int value = data.getToxinLevel();
+			data.setToxinLevel(value + 1);
+			
+			return value;
+		}
+		
+		@Override
+		public boolean test(CharacterData data, Set<DamageType> types, Set<ActiveSkill> skills) {
+			return data.isToxin();
+		}
+
+		@Override
+		public void unapply(CharacterData data, Object token) {
+			data.setToxinLevel((Integer)token);
+		}}),
+			
+	PainEnhancer("+1 Pain Enhancer Gem Level", new StatAdapter(){
+
+		@Override
+		public Object apply(CharacterData data) {
+			int value = data.getPainEnhancerLevel();
+			data.setPainEnhancerLevel(value + 1);
+			
+			return value;
+		}
+		
+		@Override
+		public boolean test(CharacterData data, Set<DamageType> types, Set<ActiveSkill> skills) {
+			return data.isPainEnhancer();
+		}
+
+		@Override
+		public void unapply(CharacterData data, Object token) {
+			data.setPainEnhancerLevel((Integer)token);
+		}}),
+		
+//	Taeguk("+1 Taeguk Gem Level", new StatAdapter(){
+//
+//		@Override
+//		public Object apply(CharacterData data) {
+//			int value = data.getTaegukLevel();
+//			data.setTaegukLevel(value + 1);
+//			
+//			return value;
+//		}
+//		
+//		@Override
+//		public boolean test(CharacterData data, Set<DamageType> types, Set<ActiveSkill> skills) {
+//			return data.isTaeguk();
+//		}
+//
+//		@Override
+//		public void unapply(CharacterData data, Object token) {
+//			data.setTaegukLevel((Integer)token);
+//		}}),
+//		
+//	Gogok("+1 Gogok Gem Level", new StatAdapter(){
+//
+//		@Override
+//		public Object apply(CharacterData data) {
+//			int value = data.getGogokLevel();
+//			data.setGogokLevel(value + 1);
+//			
+//			return value;
+//		}
+//		
+//		@Override
+//		public boolean test(CharacterData data, Set<DamageType> types, Set<ActiveSkill> skills) {
+//			return data.isGogok();
+//		}
+//
+//		@Override
+//		public void unapply(CharacterData data, Object token) {
+//			data.setGogokLevel((Integer)token);
+//		}}),
 	;
 	
 	private String label;
