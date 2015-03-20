@@ -114,30 +114,57 @@ public class IO {
 
 	private final List<Long> requests = new LinkedList<Long>();
 
+	private long numRequests = 0;
+	private long blockTime;
+	
+	
+	public long getNumRequests() {
+		synchronized (requests) {
+			return numRequests;
+		}
+	}
+	
+	public double getAverageBlockTime() {
+		synchronized (requests) {
+			return (numRequests > 0) ?
+					((double)blockTime / (double)numRequests)
+					: 0.0;
+		}
+	}
+
 	public void throttle() {
 
+		long start = System.currentTimeMillis();
+		
 		synchronized (requests) {
-			long last = 0;
-
-			if (requests.size() > 0)
-				last = requests.get(0);
-
-			long now = System.currentTimeMillis();
-			long delta = now - last;
-
-			if (delta < 1050) {
-				// log.info("Throttling: " + (1050 - delta));
-				try {
-					Thread.sleep(1050 - delta);
-				} catch (Exception ie) {
+			
+			if (requests.size() >= maxRequests) {
+				long last = 0;
+	
+				if (requests.size() > 0)
+					last = requests.get(0);
+	
+				long now = System.currentTimeMillis();
+				long delta = now - last;
+	
+				if (delta < 1000) {
+					// log.info("Throttling: " + (1000 - delta));
+					try {
+						Thread.sleep(1000 - delta);
+					} catch (Exception ie) {
+					}
 				}
+	
+				while (requests.size() >= maxRequests)
+					requests.remove(0);
 			}
 
-			while (requests.size() >= maxRequests)
-				requests.remove(0);
+			long finish = System.currentTimeMillis();
 
-			requests.add(System.currentTimeMillis());
-		}
+			requests.add(finish);
+			numRequests++;
+			blockTime += (finish - start);
+		} 
 	}
 
 	public CareerProfile readCareerProfile(String string)

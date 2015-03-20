@@ -111,6 +111,8 @@
 		<%
 			long hits = IO.getInstance().getCacheHits();
 			long misses = IO.getInstance().getCacheMisses();
+			long requests = IO.getInstance().getNumRequests();
+			double wait = IO.getInstance().getAverageBlockTime();
 			long total = hits + misses;
 			double hitPercent = 0.0;
 			double missPercent = 0.0;
@@ -142,6 +144,14 @@
 			<td><%=SentryServiceImpl.DECIMAL_FORMAT.format(misses)%></td>
 			<td><%=SentryServiceImpl.DECIMAL_FORMAT.format(Math
 					.round(missPercent * 10000.0) / 100.0)%>%</td>
+		</tr>
+		<tr>
+			<td># Requests:</td>
+			<td colspan="2"><%= requests %></td>
+		</tr>
+		<tr>
+			<td>Avg Block Time:</td>
+			<td colspan="2"><%=(Math.round(wait * 1000.0) / 1000.0)%>ms</td>
 		</tr>
 	</table>
 	<br />
