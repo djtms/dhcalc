@@ -8,6 +8,9 @@
 * Confirm: Does Attack Speed on off-hand weapon apply to sentry breakpoint calculations?
 * Confirm: Dual Wield Sheet APS and DPS calculations
 
+* Add area damage
+* Add Haunt of Vaxo
+* Add resource regen to Hexing Pants
 * Add support ruby socketed in weapon(s)
 * Add support for more than two spenders/generators
 * re-enable player/build statistics
