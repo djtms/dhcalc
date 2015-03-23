@@ -37,6 +37,9 @@ public class ParagonPanel extends Composite {
 	private final NumberSpinner paragonDexterity;
 	private final Label dexLabel;
 	private final Label lblOffensePoints;
+	private final Label label_4;
+	private final NumberSpinner paragonAD;
+	private final Label adLabel;
 	
 	public ParagonPanel() {
 		
@@ -107,30 +110,51 @@ public class ParagonPanel extends Composite {
 		flexTable.setWidget(3, 1, paragonRCR);
 		paragonRCR.setMax(50);
 		
-				paragonRCR.addChangeHandler(new ChangeHandler(){
-		
-					@Override
-					public void onChange(ChangeEvent event) {
-						updateRCRLabel();
-					}});
+		paragonRCR.addChangeHandler(new ChangeHandler(){
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				updateRCRLabel();
+			}});
 		
 		rcrLabel = new Label("(0%)");
 		rcrLabel.setStyleName("boldText");
 		flexTable.setWidget(3, 2, rcrLabel);
 		
+		label_4 = new Label("Paragon Area Damage (points):");
+		label_4.setWordWrap(false);
+		flexTable.setWidget(4, 0, label_4);
+		
+		paragonAD = new NumberSpinner();
+		paragonAD.setVisibleLength(6);
+		paragonAD.setTitle("Each paragon AD point adds 1% Area Damage");
+		paragonAD.setText("0");
+		flexTable.setWidget(4, 1, paragonAD);
+		
+		paragonAD.addChangeHandler(new ChangeHandler(){
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				updateADLabel();
+			}});
+
+		adLabel = new Label("(0%)");
+		adLabel.setStyleName("boldText");
+		flexTable.setWidget(4, 2, adLabel);
+		
 		lblOffensePoints = new Label("Offense Points:");
 		lblOffensePoints.setWordWrap(false);
 		lblOffensePoints.addStyleName("boldText");
-		flexTable.setWidget(4, 0, lblOffensePoints);
+		flexTable.setWidget(5, 0, lblOffensePoints);
 		
 		Label label = new Label("Paragon IAS (points):");
 		label.setWordWrap(false);
-		flexTable.setWidget(5, 0, label);
+		flexTable.setWidget(6, 0, label);
 		
 		paragonIAS = new NumberSpinner();
 		paragonIAS.setTitle("Each paragon IAS point adds .2% IAS");
 		paragonIAS.setVisibleLength(6);
-		flexTable.setWidget(5, 1, paragonIAS);
+		flexTable.setWidget(6, 1, paragonIAS);
 		
 		paragonIAS.addChangeHandler(new ChangeHandler(){
 
@@ -142,16 +166,16 @@ public class ParagonPanel extends Composite {
 		
 		iasLabel = new Label("(0%)");
 		iasLabel.setStyleName("boldText");
-		flexTable.setWidget(5, 2, iasLabel);
+		flexTable.setWidget(6, 2, iasLabel);
 		
 		Label paragonCDRlabel = new Label("Paragon CDR (points):");
 		paragonCDRlabel.setWordWrap(false);
-		flexTable.setWidget(6, 0, paragonCDRlabel);
+		flexTable.setWidget(7, 0, paragonCDRlabel);
 		
 		paragonCDR = new NumberSpinner();
 		paragonCDR.setTitle("Each paragon CDR point adds .2% Cooldown Reduction");
 		paragonCDR.setVisibleLength(6);
-		flexTable.setWidget(6, 1, paragonCDR);
+		flexTable.setWidget(7, 1, paragonCDR);
 		
 		paragonCDR.addChangeHandler(new ChangeHandler(){
 
@@ -163,17 +187,17 @@ public class ParagonPanel extends Composite {
 
 		cdrLabel = new Label("(0%)");
 		cdrLabel.setStyleName("boldText");
-		flexTable.setWidget(6, 2, cdrLabel);
+		flexTable.setWidget(7, 2, cdrLabel);
 		
 		Label label_1 = new Label("Paragon CC  (points):");
 		label_1.setWordWrap(false);
-		flexTable.setWidget(7, 0, label_1);
+		flexTable.setWidget(8, 0, label_1);
 		
 		paragonCC = new NumberSpinner();
 		paragonCC.setTitle("Each paragon CC point adds .1 % Crit Chance");
 		paragonCC.setVisibleLength(6);
 		paragonCC.setText("0");
-		flexTable.setWidget(7, 1, paragonCC);
+		flexTable.setWidget(8, 1, paragonCC);
 		
 		paragonCC.addChangeHandler(new ChangeHandler(){
 
@@ -185,17 +209,17 @@ public class ParagonPanel extends Composite {
 		
 		ccLabel = new Label("(0%)");
 		ccLabel.setStyleName("boldText");
-		flexTable.setWidget(7, 2, ccLabel);
+		flexTable.setWidget(8, 2, ccLabel);
 		
 		Label label_2 = new Label("Paragon CHD (points):");
 		label_2.setWordWrap(false);
-		flexTable.setWidget(8, 0, label_2);
+		flexTable.setWidget(9, 0, label_2);
 		
 		paragonCHD = new NumberSpinner();
 		paragonCHD.setTitle("Each paragon CHD point add 1% Crit Hit Damage");
 		paragonCHD.setVisibleLength(6);
 		paragonCHD.setText("0");
-		flexTable.setWidget(8, 1, paragonCHD);
+		flexTable.setWidget(9, 1, paragonCHD);
 		
 		paragonCHD.addChangeHandler(new ChangeHandler(){
 
@@ -208,12 +232,12 @@ public class ParagonPanel extends Composite {
 		
 		chdLabel = new Label("(0%)");
 		chdLabel.setStyleName("boldText");
-		flexTable.setWidget(8, 2, chdLabel);
+		flexTable.setWidget(9, 2, chdLabel);
 		
 		horizontalPanel = new HorizontalPanel();
 		horizontalPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		horizontalPanel.setSpacing(2);
-		flexTable.setWidget(9, 0, horizontalPanel);
+		flexTable.setWidget(10, 0, horizontalPanel);
 		
 		lblTotal = new Label("Total Offense Points:");
 		horizontalPanel.add(lblTotal);
@@ -234,15 +258,16 @@ public class ParagonPanel extends Composite {
 		label_3 = new Label(")");
 		label_3.setWordWrap(false);
 		horizontalPanel.add(label_3);
-		flexTable.getCellFormatter().setHorizontalAlignment(9, 0, HasHorizontalAlignment.ALIGN_RIGHT);
-		flexTable.getFlexCellFormatter().setColSpan(9, 0, 3);
+		flexTable.getCellFormatter().setHorizontalAlignment(10, 0, HasHorizontalAlignment.ALIGN_RIGHT);
+		flexTable.getFlexCellFormatter().setColSpan(10, 0, 3);
 		flexTable.getFlexCellFormatter().setColSpan(0, 0, 3);
-		flexTable.getFlexCellFormatter().setColSpan(4, 0, 3);
+		flexTable.getFlexCellFormatter().setColSpan(5, 0, 3);
 		
 		paragonIAS.setMax(50);
 		paragonCC.setMax(50);
 		paragonCHD.setMax(50);
 		paragonCDR.setMax(50);
+		paragonAD.setMax(50);
 	}
 	
 	protected void updateTotal() {
@@ -269,6 +294,10 @@ public class ParagonPanel extends Composite {
 
 	protected void updateRCRLabel() {
 		rcrLabel.setText("(" + Util.format((double)paragonRCR.getValue() * .2) + "%)");
+	}
+
+	protected void updateADLabel() {
+		adLabel.setText("(" + Util.format(paragonAD.getValue()) + "%)");
 	}
 
 	protected void updateHatredLabel() {
@@ -299,6 +328,10 @@ public class ParagonPanel extends Composite {
 
 	public NumberSpinner getParagonRCR() {
 		return paragonRCR;
+	}
+
+	public NumberSpinner getParagonAD() {
+		return paragonAD;
 	}
 
 	public NumberSpinner getParagonDexterity() {

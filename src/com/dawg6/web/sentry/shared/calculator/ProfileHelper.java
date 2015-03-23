@@ -563,6 +563,7 @@ public class ProfileHelper {
 		double offHand_addMin = 0.0;
 		double offHand_addDelta = 0.0;
 		int equipmentDexterity = 0;
+		double areaDamage = 0.0;
 
 		ItemInformation bow = hero.items.get(Slot.MainHand.getSlot());
 
@@ -692,6 +693,12 @@ public class ProfileHelper {
 				equipmentDexterity += v.min;
 			}
 
+			v = i.attributesRaw.get(Const.AREA_DAMAGE);
+
+			if (v != null) {
+				areaDamage += v.min;
+			}
+
 			v = i.attributesRaw.get(Const.CRIT_DAMAGE_RAW);
 
 			if (v != null) {
@@ -768,6 +775,12 @@ public class ProfileHelper {
 							equipmentDexterity += v.min;
 						}
 
+						v = r.attributesRaw.get(Const.AREA_DAMAGE);
+
+						if (v != null) {
+							areaDamage += v.min;
+						}
+
 						v = r.attributesRaw.get(Const.CRIT_DAMAGE_RAW);
 
 						if (v != null) {
@@ -792,7 +805,7 @@ public class ProfileHelper {
 		data.setWeaponDamagePercent(wpnDamage);
 		data.setOffHand_weaponDamagePercent(offHand_wpnDamage);
 		data.setEquipmentDexterity(equipmentDexterity);
-
+		
 		if (paragonDexterity != null)
 			data.setParagonDexterity(paragonDexterity);
 		else {
@@ -800,6 +813,7 @@ public class ProfileHelper {
 					- (equipmentDexterity + 7 + (hero.level * 3)));
 		}
 
+		data.setAreaDamageEquipment(areaDamage);
 		data.setJewelMin(minJewelry);
 		data.setJewelMax(maxJewelry);
 
@@ -844,7 +858,8 @@ public class ProfileHelper {
 		double hatredPerSecond = 5.0;
 		boolean cindercoat = false;
 		double cindercoatPercent = 0.0;
-
+		boolean vaxo = false;
+		
 		for (ItemInformation i : hero.items.values()) {
 
 			if (i.attributesRaw != null) {
@@ -924,6 +939,8 @@ public class ProfileHelper {
 					strongarmPercent = 0.20;
 			} else if (i.name.equals(Const.BOMBADIERS)) {
 				bombadiers = true;
+			} else if (i.name.equals(Const.VAXO)) {
+				vaxo = true;
 			} else if (i.name.equals(Const.HELLTRAPPER)) {
 				helltrapper = true;
 				Value<Float> value = i.attributesRaw
@@ -1119,6 +1136,7 @@ public class ProfileHelper {
 		data.setHarringtonPercent(harringtonPercent);
 
 		data.setHasBombardiers(bombadiers);
+		data.setVaxo(vaxo);
 		data.setHelltrapper(helltrapper);
 		data.setHelltrapperPercent(helltrapperPercent);
 

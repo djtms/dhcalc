@@ -228,6 +228,9 @@ public class CharacterData implements Serializable {
 	private double helltrapperPercent;
 	private boolean companion;
 	private Rune companionRune;
+	private boolean vaxo;
+	private double areaDamageEquipment;
+	private int paragonAD;
 	
 	public int getNumMarauders() {
 		return numMarauders;
@@ -2018,4 +2021,31 @@ public class CharacterData implements Serializable {
 		this.numSpikeTraps = numSpikeTraps;
 	}
 
+	public boolean isVaxo() {
+		return vaxo;
+	}
+
+	public void setVaxo(boolean vaxo) {
+		this.vaxo = vaxo;
+	}
+
+	public double getAreaDamageEquipment() {
+		return areaDamageEquipment;
+	}
+
+	public void setAreaDamageEquipment(double areaDamageEquipment) {
+		this.areaDamageEquipment = areaDamageEquipment;
+	}
+
+	public int getParagonAD() {
+		return paragonAD;
+	}
+
+	public void setParagonAD(int paragonAD) {
+		this.paragonAD = paragonAD;
+	}
+
+	public double getAreaDamage() {
+		return areaDamageEquipment + (paragonAD * .01);
+	}
 }

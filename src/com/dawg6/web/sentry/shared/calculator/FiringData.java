@@ -39,6 +39,12 @@ public class FiringData {
 						&& (data.getWeaponType() == WeaponType.HandCrossbow) && (data
 						.getOffHand_weaponType() == WeaponType.HandCrossbow)) ? 1.0
 						: 0.0);
+		
+		if (data.isHexingPants()) {
+			regen = regen +  (regen * data.getHexingPantsUptime() * .25) -
+					(regen * (1.0 - data.getHexingPantsUptime()) * data.getHexingPantsPercent());
+		}
+		
 		double t = 0.0;
 		double aps = data.getAps();
 		double interval = (1.0 / aps) + (data.getDelay() / 1000.0);
@@ -60,7 +66,7 @@ public class FiringData {
 		int numMarked = 0;
 		double markedHatred = 0;
 		int totalHits = 0;
-
+		
 		while (t < DURATION) {
 
 			if (t >= nextHealthGlobe) {

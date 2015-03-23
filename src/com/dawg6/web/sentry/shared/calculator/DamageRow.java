@@ -91,6 +91,7 @@ public class DamageRow {
 		this.multipliers.add(type.getMultiplier());
 		this.multipliers.add(DamageMultiplier.Dexterity);
 		this.multipliers.add(DamageMultiplier.MfD);
+		this.multipliers.add(DamageMultiplier.Vaxo);
 		this.multipliers.add(DamageMultiplier.Calamity);
 		this.multipliers.add(DamageMultiplier.Toxicity);
 

@@ -1776,6 +1776,7 @@ public class MainPanel extends BasePanel {
 		this.paragonPanel.getParagonHatred()
 				.setValue(entry.getParagon_hatred());
 		this.paragonPanel.getParagonRCR().setValue(entry.getParagon_rcr());
+		this.paragonPanel.getParagonAD().setValue(entry.getParagon_ad());
 
 		this.fetchHeros(new AsyncTaskHandler() {
 
@@ -2284,6 +2285,8 @@ public class MainPanel extends BasePanel {
 									.setValue(calculator.getParagonHatred());
 							MainPanel.this.paragonPanel.getParagonRCR()
 									.setValue(calculator.getParagonRCR());
+							MainPanel.this.paragonPanel.getParagonAD()
+									.setValue(calculator.getParagonAD());
 							MainPanel.this.passives.getArchery().setValue(
 									calculator.getArchery());
 							MainPanel.this.passives.getSteadyAim().setValue(
@@ -2508,6 +2511,7 @@ public class MainPanel extends BasePanel {
 		data.setParagonCHD(paragonPanel.getParagonCHD().getValue());
 		data.setParagonHatred(paragonPanel.getParagonHatred().getValue());
 		data.setParagonRCR(paragonPanel.getParagonRCR().getValue());
+		data.setParagonAD(paragonPanel.getParagonAD().getValue());
 
 		ProfileHelper.updateCdr(data);
 		ProfileHelper.updateWeaponDamage(data);
@@ -2577,7 +2581,9 @@ public class MainPanel extends BasePanel {
 				getValue(MainPanel.this.paragonPanel.getParagonCC()),
 				getValue(MainPanel.this.paragonPanel.getParagonCHD()),
 				getValue(MainPanel.this.paragonPanel.getParagonHatred()),
-				getValue(MainPanel.this.paragonPanel.getParagonRCR()));
+				getValue(MainPanel.this.paragonPanel.getParagonRCR()),
+				getValue(MainPanel.this.paragonPanel.getParagonAD())
+				);
 		this.calculator.saveForm();
 	}
 
@@ -2899,6 +2905,7 @@ public class MainPanel extends BasePanel {
 				(int) (Math.round(data.getTntPercent() * 100.0)));
 		this.itemPanel.getCalamity().setValue(data.isCalamityMdf());
 		this.itemPanel.getBombadiers().setValue(data.isHasBombardiers());
+		this.itemPanel.getVaxo().setValue(data.isVaxo());
 		this.itemPanel.getHelltrapper().setValue(data.isHelltrapper());
 		this.itemPanel.getHelltrapperPercent().setValue(
 				(int) Math.round(data.getHelltrapperPercent() * 100));
@@ -2919,6 +2926,8 @@ public class MainPanel extends BasePanel {
 		this.itemPanel.getMarauders().setValue(data.getNumMarauders());
 		this.itemPanel.getEliteDamagePercent().setValue(
 				(int) Math.round(data.getEliteDamage() * 100.0));
+		this.itemPanel.getAreaDamageEquipment().setValue(
+				(int) Math.round(data.getAreaDamageEquipment() * 100.0));
 		this.itemPanel.getMeticulousBolts().setValue(data.isMeticulousBolts());
 		this.itemPanel.getMeticulousBoltsPercent().setValue(
 				(int) (Math.round(data.getMeticulousBoltsPercent() * 100.0)));
@@ -3126,11 +3135,14 @@ public class MainPanel extends BasePanel {
 				new Field(this.paragonPanel.getParagonHatred(),
 						"ParagonHatred", "0"),
 				new Field(this.paragonPanel.getParagonRCR(), "ParagonRCR", "0"),
+				new Field(this.paragonPanel.getParagonAD(), "ParagonAD", "0"),
 				new Field(this.itemPanel.getTnt(), "TnT",
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getCalamity(), "Calamity",
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getBombadiers(), "Bombadiers",
+						Boolean.FALSE.toString()),
+				new Field(this.itemPanel.getVaxo(), "HauntOfVaxo",
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getHelltrapper(), "Helltrapper",
 						Boolean.FALSE.toString()),
@@ -3291,6 +3303,8 @@ public class MainPanel extends BasePanel {
 
 				new Field(this.itemPanel.getEliteDamagePercent(),
 						"EliteDamage", "0"),
+				new Field(this.itemPanel.getAreaDamageEquipment(),
+						"AreaDamageEquipment", "0"),
 				new Field(this.gemPanel.getBotp(), "BotP",
 						Boolean.FALSE.toString()),
 				new Field(this.gemPanel.getBotpLevel(), "BotPLevel", "0"),
@@ -3440,6 +3454,7 @@ public class MainPanel extends BasePanel {
 			data.setHeroLevel(calculator.getHeroLevel());
 			data.setParagonHatred(paragonPanel.getParagonHatred().getValue());
 			data.setParagonRCR(paragonPanel.getParagonRCR().getValue());
+			data.setParagonAD(paragonPanel.getParagonAD().getValue());
 			data.setSheetDps(calculator.getSheetDps());
 			data.setAps(calculator.getSheetAps());
 			data.setCaDamage(getValue(this.skillDamage.getCaDamage()) / 100.0);
@@ -3479,12 +3494,14 @@ public class MainPanel extends BasePanel {
 			data.setChillDamage(this.passives.getCtw().getValue() ? 0.2 : 0.0);
 			data.setCullTheWeak(this.passives.getCtw().getValue());
 			data.setEliteDamage(getValue(this.itemPanel.getEliteDamagePercent()) / 100.0);
+			data.setAreaDamageEquipment(getValue(this.itemPanel.getAreaDamageEquipment()) / 100.0);
 			data.setBotp(this.gemPanel.getBotp().getValue());
 			data.setBotpLevel(getValue(this.gemPanel.getBotpLevel()));
 			data.setBotpUptime(getValue(this.gemPanel.getBotpUptime()) / 100.0);
 			data.setGrenadier(this.passives.getGrenadier().getValue());
 			data.setCalamityMdf(itemPanel.getCalamity().getValue());
 			data.setHasBombardiers(itemPanel.getBombadiers().getValue());
+			data.setVaxo(itemPanel.getVaxo().getValue());
 			data.setHelltrapper(itemPanel.getHelltrapper().getValue());
 			data.setHelltrapperPercent(itemPanel.getHelltrapperPercent()
 					.getValue() / 100.0);

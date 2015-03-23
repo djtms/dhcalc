@@ -35,6 +35,7 @@ public class DpsTableEntry extends DocumentBase implements Serializable {
 	protected Integer paragon_chd;
 	protected Integer paragon_hatred;
 	protected Integer paragon_rcr;
+	protected Integer paragon_ad;
 	protected Build build;
 	protected Integer bp;
 	protected Double sentryDps;
@@ -275,5 +276,13 @@ public class DpsTableEntry extends DocumentBase implements Serializable {
 
 	public void setParagon_dex(Integer paragon_dex) {
 		this.paragon_dex = paragon_dex;
+	}
+
+	public Integer getParagon_ad() {
+		return paragon_ad;
+	}
+
+	public void setParagon_ad(Integer paragon_ad) {
+		this.paragon_ad = paragon_ad;
 	}
 }

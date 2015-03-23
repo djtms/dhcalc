@@ -1,5 +1,11 @@
 Change Log:
 
+**3/23/15**
+
+* Added resource regen from Hexing Pants
+* Added Haunt of Vaxo (Marked for Death/Valley of Death)
+* Added area damage
+
 **3/19/15**
 
 * Added spike trap and caltrops runes (effects damage from Helltrapper). 

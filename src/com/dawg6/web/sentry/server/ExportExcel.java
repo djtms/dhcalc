@@ -431,7 +431,7 @@ public class ExportExcel {
 		createInput(inputs, data.data.getCritHitDamage(),
 				"Crit Hit Damage ", pctStyle);
 		createInput(inputs, data.data.getWeaponDamage(), "Weapon Damage");
-		createInput(inputs, (int)data.data.getDexterity(), "Total Dexterity");
+		createInput(inputs, data.data.getDexterity(), "Total Dexterity");
 		createInput(inputs, data.data.getEquipmentDexterity(), "Equipment Dexterity");
 		createInput(inputs, data.data.getLevel(), "Level");
 		createInput(inputs, data.data.getCdr(), "Effective CDR", this.pctStyle);
@@ -461,6 +461,7 @@ public class ExportExcel {
 		createInput(inputs, data.data.getParagonCDR(), "Paragon CDR");
 		createInput(inputs, data.data.getParagonHatred(), "Paragon Hatred");
 		createInput(inputs, data.data.getParagonRCR(), "Paragon RCR");
+		createInput(inputs, data.data.getParagonAD(), "Paragon Area Damage");
 		
 		createInputHeader(inputs, "Sentry Skills");
 		createInput(inputs, data.data.getSentryRune().getLongName(),
@@ -563,6 +564,8 @@ public class ExportExcel {
 		createInputHeader(inputs, "Item Data");
 		createInput(inputs, data.data.getEliteDamage(),
 				"Equipment Elite Damage (minus BotP passive)", pctStyle);
+		createInput(inputs, data.data.getAreaDamageEquipment(),
+				"Equipment Area Damage", pctStyle);
 		createInput(inputs, data.data.isTnt(),
 				"Tasker and Theo");
 		createInput(inputs, data.data.getTntPercent(),
@@ -595,6 +598,8 @@ public class ExportExcel {
 				"Calamity Uptime", pctStyle);
 		createInput(inputs, data.data.isHasBombardiers(),
 				"Bombadier's Rucksack");
+		createInput(inputs, data.data.isVaxo(),
+				"Haunt of Vaxo");
 		createInput(inputs, data.data.isHelltrapper(),
 				"Helltrapper");
 		createInput(inputs, data.data.getHelltrapperPercent(),

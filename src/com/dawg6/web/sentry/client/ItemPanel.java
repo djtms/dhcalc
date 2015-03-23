@@ -40,6 +40,8 @@ public class ItemPanel extends Composite {
 	private final NumberSpinner odysseysEndUptime;
 	private final SimpleCheckBox helltrapper;
 	private final NumberSpinner helltrapperPercent;
+	private final SimpleCheckBox vaxo;
+	private final NumberSpinner areaDamageEquipment;
 
 	public ItemPanel() {
 
@@ -204,39 +206,48 @@ public class ItemPanel extends Composite {
 		bombadiers = new SimpleCheckBox();
 		flexTable.setWidget(10, 1, bombadiers);
 		
+		Anchor anchor_13 = new Anchor("Haunt of Vaxo");
+		anchor_13.setWordWrap(false);
+		anchor_13.setTarget("_blank");
+		anchor_13.setHref("http://us.battle.net/d3/en/item/haunt-of-vaxo");
+		flexTable.setWidget(11, 0, anchor_13);
+		
+		vaxo = new SimpleCheckBox();
+		flexTable.setWidget(11, 1, vaxo);
+		
 		Anchor anchor_7 = new Anchor("Spines of Seething Hatred");
 		anchor_7.setWordWrap(false);
 		anchor_7.setTarget("_blank");
 		anchor_7.setHref("http://us.battle.net/d3/en/item/spines-of-seething-hatred");
-		flexTable.setWidget(11, 0, anchor_7);
+		flexTable.setWidget(12, 0, anchor_7);
 		
 		spines = new SimpleCheckBox();
-		flexTable.setWidget(11, 1, spines);
+		flexTable.setWidget(12, 1, spines);
 		
 		Label label_9 = new Label("Hatred:");
-		flexTable.setWidget(11, 2, label_9);
+		flexTable.setWidget(12, 2, label_9);
 		
 		spinesHatred = new NumberSpinner();
 		spinesHatred.setVisibleLength(2);
 		spinesHatred.setText("6");
-		flexTable.setWidget(11, 3, spinesHatred);
+		flexTable.setWidget(12, 3, spinesHatred);
 		
 		Anchor anchor_8 = new Anchor("Kridershot");
 		anchor_8.setWordWrap(false);
 		anchor_8.setTarget("_blank");
 		anchor_8.setHref("http://us.battle.net/d3/en/item/kridershot");
-		flexTable.setWidget(12, 0, anchor_8);
+		flexTable.setWidget(13, 0, anchor_8);
 		
 		kridershot = new SimpleCheckBox();
-		flexTable.setWidget(12, 1, kridershot);
+		flexTable.setWidget(13, 1, kridershot);
 		
 		Label label_10 = new Label("Hatred:");
-		flexTable.setWidget(12, 2, label_10);
+		flexTable.setWidget(13, 2, label_10);
 		
 		kridershotHatred = new NumberSpinner();
 		kridershotHatred.setVisibleLength(2);
 		kridershotHatred.setText("6");
-		flexTable.setWidget(12, 3, kridershotHatred);
+		flexTable.setWidget(13, 3, kridershotHatred);
 		
 		Anchor anchor_11 = new Anchor("Kridershot");
 		anchor_11.setText("Odyssey's End");
@@ -244,27 +255,27 @@ public class ItemPanel extends Composite {
 		anchor_11.setWordWrap(false);
 		anchor_11.setTarget("_blank");
 		anchor_11.setHref("http://us.battle.net/d3/en/item/odysseys-end");
-		flexTable.setWidget(13, 0, anchor_11);
+		flexTable.setWidget(14, 0, anchor_11);
 		
 		odysseysEnd = new SimpleCheckBox();
-		flexTable.setWidget(13, 1, odysseysEnd);
+		flexTable.setWidget(14, 1, odysseysEnd);
 		
 		Label label_13 = new Label("Percent:");
-		flexTable.setWidget(13, 2, label_13);
+		flexTable.setWidget(14, 2, label_13);
 		
 		odysseysEndPercent = new NumberSpinner();
 		odysseysEndPercent.setVisibleLength(2);
 		odysseysEndPercent.setText("30");
-		flexTable.setWidget(13, 3, odysseysEndPercent);
+		flexTable.setWidget(14, 3, odysseysEndPercent);
 		
 		Label label_14 = new Label("Uptime:");
-		flexTable.setWidget(14, 2, label_14);
+		flexTable.setWidget(15, 2, label_14);
 		
 		odysseysEndUptime = new NumberSpinner();
 		odysseysEndUptime.setVisibleLength(2);
 		odysseysEndUptime.setTitle("Percent of the time Odyssey's End debuff will be applied to targets.");
 		odysseysEndUptime.setText("100");
-		flexTable.setWidget(14, 3, odysseysEndUptime);
+		flexTable.setWidget(15, 3, odysseysEndUptime);
 		
 		Anchor anchor_9 = new Anchor("Bombadier's Rucksack");
 		anchor_9.setText("Reaper's Wraps");
@@ -272,18 +283,18 @@ public class ItemPanel extends Composite {
 		anchor_9.setWordWrap(false);
 		anchor_9.setTarget("_blank");
 		anchor_9.setHref("http://us.battle.net/d3/en/artisan/blacksmith/recipe/reapers-wraps");
-		flexTable.setWidget(15, 0, anchor_9);
+		flexTable.setWidget(16, 0, anchor_9);
 		
 		reapersWraps = new SimpleCheckBox();
-		flexTable.setWidget(15, 1, reapersWraps);
+		flexTable.setWidget(16, 1, reapersWraps);
 		
 		Label label_11 = new Label("Percent:");
-		flexTable.setWidget(15, 2, label_11);
+		flexTable.setWidget(16, 2, label_11);
 		
 		reapersWrapsPercent = new NumberSpinner();
 		reapersWrapsPercent.setVisibleLength(2);
 		reapersWrapsPercent.setText("25");
-		flexTable.setWidget(15, 3, reapersWrapsPercent);
+		flexTable.setWidget(16, 3, reapersWrapsPercent);
 		
 		Anchor anchor_10 = new Anchor("Bombadier's Rucksack");
 		anchor_10.setWordWrap(false);
@@ -291,18 +302,18 @@ public class ItemPanel extends Composite {
 		anchor_10.setTarget("_blank");
 		anchor_10.setHTML("Cindercoat");
 		anchor_10.setHref("http://us.battle.net/d3/en/item/cindercoat");
-		flexTable.setWidget(16, 0, anchor_10);
+		flexTable.setWidget(17, 0, anchor_10);
 		
 		cindercoat = new SimpleCheckBox();
-		flexTable.setWidget(16, 1, cindercoat);
+		flexTable.setWidget(17, 1, cindercoat);
 		
 		Label lblRcrPercent = new Label("RCR Percent:");
-		flexTable.setWidget(16, 2, lblRcrPercent);
+		flexTable.setWidget(17, 2, lblRcrPercent);
 		
 		cindercoatPercent = new NumberSpinner();
 		cindercoatPercent.setVisibleLength(2);
 		cindercoatPercent.setText("25");
-		flexTable.setWidget(16, 3, cindercoatPercent);
+		flexTable.setWidget(17, 3, cindercoatPercent);
 		
 		Anchor anchor_12 = new Anchor("Helltrapper");
 		anchor_12.setWordWrap(false);
@@ -310,36 +321,46 @@ public class ItemPanel extends Composite {
 		anchor_12.setTarget("_blank");
 		anchor_12.setHTML("Helltrapper");
 		anchor_12.setHref("http://us.battle.net/d3/en/item/helltrapper-3tfdaj");
-		flexTable.setWidget(17, 0, anchor_12);
+		flexTable.setWidget(18, 0, anchor_12);
 		
 		helltrapper = new SimpleCheckBox();
-		flexTable.setWidget(17, 1, helltrapper);
+		flexTable.setWidget(18, 1, helltrapper);
 		
 		Label label_12 = new Label("Percent:");
-		flexTable.setWidget(17, 2, label_12);
+		flexTable.setWidget(18, 2, label_12);
 		
 		helltrapperPercent = new NumberSpinner();
 		helltrapperPercent.setVisibleLength(2);
 		helltrapperPercent.setText("25");
-		flexTable.setWidget(17, 3, helltrapperPercent);
+		flexTable.setWidget(18, 3, helltrapperPercent);
 		
+		Label label_15 = new Label("Area Damage +%:");
+		label_15.setWordWrap(false);
+		label_15.setTitle("The Area Damage percentage from Equipment only.");
+		flexTable.setWidget(19, 0, label_15);
+		
+		areaDamageEquipment = new NumberSpinner();
+		areaDamageEquipment.setVisibleLength(2);
+		areaDamageEquipment.setText("0");
+		flexTable.setWidget(19, 1, areaDamageEquipment);
+
 		Label label_1 = new Label("Elite Damage +%:");
 		label_1.setWordWrap(false);
 		label_1.setTitle("The Elite Damage percentage, as shown in-in game in the character details screen under offense. Subtract 15% if Bane of the Powerful is level 25 or more (it will be added automatically if selected).");
-		flexTable.setWidget(18, 0, label_1);
-		flexTable.getFlexCellFormatter().setColSpan(18, 0, 3);
+		flexTable.setWidget(20, 0, label_1);
+		flexTable.getFlexCellFormatter().setColSpan(20, 0, 3);
 
 		eliteDamagePercent = new NumberSpinner();
 		eliteDamagePercent.setVisibleLength(2);
 		eliteDamagePercent
 				.setTitle("The Elite Damage percentage, as shown in-in game in the character details screen under offense. Subtract 15% if Bane of the Powerful is level 25 or more (it will be added automatically if selected).");
-		flexTable.setWidget(18, 1, eliteDamagePercent);
+		flexTable.setWidget(20, 1, eliteDamagePercent);
 		
 		Label lblNoteSubtract = new Label("Note: subtract 15% from the value displayed in-game if Bane of the Powerful is rank 25 or more.");
 		lblNoteSubtract.setStyleName("boldText");
 		lblNoteSubtract.setWidth("300px");
-		flexTable.setWidget(19, 0, lblNoteSubtract);
-		flexTable.getFlexCellFormatter().setColSpan(19, 0, 4);
+		flexTable.setWidget(21, 0, lblNoteSubtract);
+		flexTable.getFlexCellFormatter().setColSpan(21, 0, 4);
 		flexTable.getFlexCellFormatter().setColSpan(7, 0, 3);
 		flexTable.getCellFormatter().setHorizontalAlignment(7, 0, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(6, 2, HasHorizontalAlignment.ALIGN_RIGHT);
@@ -351,13 +372,14 @@ public class ItemPanel extends Composite {
 		flexTable.getCellFormatter().setHorizontalAlignment(2, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(3, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(9, 1, HasHorizontalAlignment.ALIGN_RIGHT);
-		flexTable.getCellFormatter().setHorizontalAlignment(11, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(12, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(13, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(14, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(15, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(16, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(17, 2, HasHorizontalAlignment.ALIGN_RIGHT);
+		flexTable.getCellFormatter().setHorizontalAlignment(18, 2, HasHorizontalAlignment.ALIGN_RIGHT);
+		flexTable.getFlexCellFormatter().setColSpan(19, 0, 3);
 		
 		this.tntPercent.setMin(40);
 		this.tntPercent.setMax(50);
@@ -513,6 +535,14 @@ public class ItemPanel extends Composite {
 
 	public NumberSpinner getHelltrapperPercent() {
 		return helltrapperPercent;
+	}
+
+	public SimpleCheckBox getVaxo() {
+		return vaxo;
+	}
+
+	public NumberSpinner getAreaDamageEquipment() {
+		return areaDamageEquipment;
 	}
 
 }

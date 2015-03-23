@@ -120,5 +120,7 @@ public class Const {
 	public static final String PUNISHMENT = "Punishment";
 	public static final String HELLTRAPPER = "Helltrapper";
 	public static final String HELLTRAPPER_PERCENT = "Item_Power_Passive#ItemPassive_Unique_Ring_646_x1";
-	public static final Object SPIKE_TRAP = "Spike Trap";
+	public static final String SPIKE_TRAP = "Spike Trap";
+	public static final String VAXO = "Haunt of Vaxo";
+	public static final String AREA_DAMAGE = "Splash_Damage_Effect_Percent";
 }

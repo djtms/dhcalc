@@ -1,20 +1,24 @@
 package com.dawg6.web.sentry.shared.calculator;
 
 public enum DamageMultiplier {
-	WD("WD", DamageAccumulator.Multiplicative, "Average Weapon Damage (Main Hand Only)", new Test<CharacterData, Double>() {
+	WD("WD", DamageAccumulator.Multiplicative,
+			"Average Weapon Damage (Main Hand Only)",
+			new Test<CharacterData, Double>() {
 
-		@Override
-		public Double getValue(CharacterData data) {
-			return data.getWeaponDamage();
-		}}), 
-	DWWD("DWWD", DamageAccumulator.Multiplicative, "Average Weapon Damage (Dual-Wield)",  new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return data.getWeaponDamage();
+				}
+			}), DWWD("DWWD", DamageAccumulator.Multiplicative,
+			"Average Weapon Damage (Dual-Wield)",
+			new Test<CharacterData, Double>() {
 
-		@Override
-		public Double getValue(CharacterData data) {
-			return (data.getWeaponDamage() + data.getOffHand_weaponDamage()) / 2.0;
-		}}), 
-	NumGrenades(
-			"#Grenades", DamageAccumulator.Multiplicative,
+				@Override
+				public Double getValue(CharacterData data) {
+					return (data.getWeaponDamage() + data
+							.getOffHand_weaponDamage()) / 2.0;
+				}
+			}), NumGrenades("#Grenades", DamageAccumulator.Multiplicative,
 			"# of Grenades per Target", null), Fire("Fire",
 			DamageAccumulator.ElementalAdditive, "Fire Elemental Damage Bonus",
 			new Test<CharacterData, Double>() {
@@ -163,13 +167,13 @@ public enum DamageMultiplier {
 					return data.isHysteria() ? 0.03 : 0.0;
 				}
 			}), OdysseysEnd("OE", DamageAccumulator.Additive,
-				"Odyssey's End Damage Bonus",
-				new Test<CharacterData, Double>() {
-					@Override
-					public Double getValue(CharacterData data) {
-						return data.isOdysseysEnd() ? (data.getOdysseysEndPercent() * data.getOdysseysEndUptime()) : 0.0;
-					}
-				}), EA("EA", DamageAccumulator.Additive,
+			"Odyssey's End Damage Bonus", new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return data.isOdysseysEnd() ? (data.getOdysseysEndPercent() * data
+							.getOdysseysEndUptime()) : 0.0;
+				}
+			}), EA("EA", DamageAccumulator.Additive,
 			"Elemental Arrow Skill Damage Bonus",
 			new Test<CharacterData, Double>() {
 				@Override
@@ -209,13 +213,12 @@ public enum DamageMultiplier {
 					return data.getHaDamage();
 				}
 			}), Companion("Companion", DamageAccumulator.Additive,
-				"Companion Skill Damage Bonus",
-				new Test<CharacterData, Double>() {
-					@Override
-					public Double getValue(CharacterData data) {
-						return data.getCompanionDamage();
-					}
-				}), ES("ES", DamageAccumulator.Additive,
+			"Companion Skill Damage Bonus", new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return data.getCompanionDamage();
+				}
+			}), ES("ES", DamageAccumulator.Additive,
 			"Entangling Shot Skill Damage Bonus",
 			new Test<CharacterData, Double>() {
 				@Override
@@ -241,8 +244,8 @@ public enum DamageMultiplier {
 				public Double getValue(CharacterData data) {
 					return data.getGrenadeDamage();
 				}
-			}), ST("ST", DamageAccumulator.Additive,
-			"Spike Trap Damage Bonus", new Test<CharacterData, Double>() {
+			}), ST("ST", DamageAccumulator.Additive, "Spike Trap Damage Bonus",
+			new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
 					return data.getSpikeTrapDamage();
@@ -293,34 +296,35 @@ public enum DamageMultiplier {
 					return data.isBotp() ? (0.2 * data.getBotpUptime()) : 0.0;
 				}
 			}), IAS("IAS", DamageAccumulator.Multiplicative,
-				"Character IAS bonus for Companions",
-				new Test<CharacterData, Double>() {
-					@Override
-					public Double getValue(CharacterData data) {
-						return (
-								data.getEquipIas() + 
-								(data.getParagonIAS() * 0.002) + 
-								(data.isGogok()? (data.getGogokStacks() * 0.01) : 0.0) +
-								(data.isFocusedMind() ? 0.03 : 0.0) + 
-								(data.isRetribution() ? (0.1 * data.getRetributionUptime()) : 0.0)
-								);
+			"Character IAS bonus for Companions",
+			new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return (data.getEquipIas()
+							+ (data.getParagonIAS() * 0.002)
+							+ (data.isGogok() ? (data.getGogokStacks() * 0.01)
+									: 0.0)
+							+ (data.isFocusedMind() ? 0.03 : 0.0) + (data
+							.isRetribution() ? (0.1 * data
+							.getRetributionUptime()) : 0.0));
 				}
 			}), APS("APS", DamageAccumulator.Multiplicative,
-					"Weapon APS bonus for Companions",
-					new Test<CharacterData, Double>() {
-						@Override
-						public Double getValue(CharacterData data) {
-							return (data.getWeaponType().getAps() * (1.0 + data.getWeaponIas())) - 1.0;
-					}
-				}), CaltropsBT(
+			"Weapon APS bonus for Companions",
+			new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return (data.getWeaponType().getAps() * (1.0 + data
+							.getWeaponIas())) - 1.0;
+				}
+			}), CaltropsBT(
 			"Caltrops",
 			DamageAccumulator.Special,
 			"Caltrops/Bait the Trap active bonus (10% Crit Chance while active)",
 			new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
-					return (data.isCaltrops() && (data.getCaltropsRune() == Rune.Bait_the_Trap))? (0.1 * data.getCaltropsUptime())
-							: 0.0;
+					return (data.isCaltrops() && (data.getCaltropsRune() == Rune.Bait_the_Trap)) ? (0.1 * data
+							.getCaltropsUptime()) : 0.0;
 				}
 			}), Taeguk("Taeguk", DamageAccumulator.Additive,
 			"Taeguk active gem bonus (0.5% per stack)",
@@ -445,6 +449,24 @@ public enum DamageMultiplier {
 					}
 
 					return (scalar * upTime) + (aoe * aoeUpTime);
+				}
+			}), Vaxo(
+			"Vaxo",
+			DamageAccumulator.Additive,
+			"Haunt of Vaxo Marked for Death bonus (15% for 15 seconds/30 seconds)",
+			new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return data.isVaxo() ? (0.15 * 0.5) : 0.0;
+				}
+			}), AD(
+			"Area",
+			DamageAccumulator.Additive,
+			"Area Damage (20% chance)",
+			new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return ((data.getNumAdditional() > 0) && (data.getTargetSpacing() <= 10)) ? (0.2 * data.getAreaDamage()) : 0.0;
 				}
 			}), Calamity("Calamity", DamageAccumulator.Additive,
 			"Calamity Marked for Death bonus (20% while applied)",

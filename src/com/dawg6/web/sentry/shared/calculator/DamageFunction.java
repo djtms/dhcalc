@@ -474,6 +474,9 @@ public class DamageFunction {
 								&& ((skillType == SkillType.Spender) || (skillType == SkillType.Primary))) {
 							dlist.add(DamageMultiplier.M6);
 						}
+						
+						if (isPlayer)
+							dlist.add(DamageMultiplier.AD);
 
 						for (DamageMultiplier dw : dlist) {
 
@@ -500,12 +503,26 @@ public class DamageFunction {
 													+ "(" + Util.format(v)
 													+ ")");
 										} else {
-											a += v;
-
-											addBuf.append(" + "
-													+ dw.getAbbreviation()
-													+ "(" + Util.format(v)
-													+ ")");
+											
+											if (dw != DamageMultiplier.AD) {
+												a += v;
+	
+												addBuf.append(" + "
+														+ dw.getAbbreviation()
+														+ "(" + Util.format(v)
+														+ ")");
+											} else {
+												int n = data.getNumAdditional();
+												
+												if (n > 0) {
+													a += (v * n);
+													
+													addBuf.append(" + "
+															+ dw.getAbbreviation()
+															+ "(" + n + " X " + Util.format(v)
+															+ ")");
+												}
+											}
 
 										}
 									}

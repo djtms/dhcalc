@@ -784,6 +784,8 @@ public class DPSCalculator extends BasePanel {
 						"0"),
 				new Field(this.paragonPanel.getParagonRCR(), "calc.ParagonRCR",
 						"0"),
+				new Field(this.paragonPanel.getParagonAD(), "calc.ParagonAD",
+						"0"),
 				new Field(this.tntPercent, "calc.PetIAS", "0"),
 				new Field(this.dexterity, "calc.EquipmentDexterity", "0"),
 				new Field(this.heroLevel, "calc.HeroLevel", "70"),
@@ -992,7 +994,7 @@ public class DPSCalculator extends BasePanel {
 		mainHand.setWeaponTypeEnum(type);
 	}
 
-	public void setParagonPoints(int ias, int dex, int cdr, int cc, int cd, int hatred, int rcr) {
+	public void setParagonPoints(int ias, int dex, int cdr, int cc, int cd, int hatred, int rcr, int ad) {
 
 		this.disableListeners = true;
 
@@ -1003,6 +1005,7 @@ public class DPSCalculator extends BasePanel {
 		this.paragonPanel.getParagonCHD().setValue(cd);
 		this.paragonPanel.getParagonHatred().setValue(hatred);
 		this.paragonPanel.getParagonRCR().setValue(rcr);
+		this.paragonPanel.getParagonAD().setValue(ad);
 
 		this.disableListeners = false;
 
@@ -1051,6 +1054,10 @@ public class DPSCalculator extends BasePanel {
 
 	public Integer getParagonRCR() {
 		return this.getValue(this.paragonPanel.getParagonRCR());
+	}
+
+	public Integer getParagonAD() {
+		return this.getValue(this.paragonPanel.getParagonAD());
 	}
 
 	public double getMainHandAverageWeaponDamage() {

@@ -194,6 +194,26 @@ public enum Stat {
 			data.setSentryDamage((Double)token);
 		}}),
 		
+	Area("+1% Area Damage", new StatAdapter(){
+
+		@Override
+		public Object apply(CharacterData data) {
+			double value = data.getAreaDamageEquipment();
+			data.setAreaDamageEquipment(value + 0.01);
+			
+			return value;
+		}
+
+		@Override
+		public boolean test(CharacterData data, Set<DamageType> types, Set<ActiveSkill> skills) {
+			return (data.getNumAdditional() > 0) && (data.getTargetSpacing() <= 10);
+		}
+
+		@Override
+		public void unapply(CharacterData data, Object token) {
+			data.setAreaDamageEquipment((Double)token);
+		}}),	
+			
 //	Companion("+1% Companion Damage", new StatAdapter(){
 //
 //		@Override
