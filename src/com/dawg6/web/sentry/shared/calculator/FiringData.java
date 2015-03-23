@@ -33,6 +33,11 @@ public class FiringData {
 
 		double maxHatred = data.getMaxHatred();
 		double hatred = maxHatred;
+		double batAmount = 50.0;
+		double prepAmount = 75.0;
+		double bvAmount = 30.0;
+		double markedAmount = (4.0 * data.getMfdUptime()) + (4.0 * data.getNumAdditional() * data.getMfdAddUptime());
+		double reaperAmount = maxHatred * data.getReapersWrapsPercent();
 		double regen = data.getHatredPerSecond()
 				+ (data.isInspire() ? 1.0 : 0.0)
 				+ ((data.isArchery()
@@ -43,6 +48,16 @@ public class FiringData {
 		if (data.isHexingPants()) {
 			regen = regen +  (regen * data.getHexingPantsUptime() * .25) -
 					(regen * (1.0 - data.getHexingPantsUptime()) * data.getHexingPantsPercent());
+			batAmount = batAmount +  (batAmount * data.getHexingPantsUptime() * .25) -
+					(batAmount * (1.0 - data.getHexingPantsUptime()) * data.getHexingPantsPercent());
+			prepAmount = prepAmount +  (prepAmount * data.getHexingPantsUptime() * .25) -
+					(prepAmount * (1.0 - data.getHexingPantsUptime()) * data.getHexingPantsPercent());
+			bvAmount = bvAmount +  (bvAmount * data.getHexingPantsUptime() * .25) -
+					(bvAmount * (1.0 - data.getHexingPantsUptime()) * data.getHexingPantsPercent());
+			reaperAmount = reaperAmount +  (reaperAmount * data.getHexingPantsUptime() * .25) -
+					(reaperAmount * (1.0 - data.getHexingPantsUptime()) * data.getHexingPantsPercent());
+			markedAmount = markedAmount +  (markedAmount * data.getHexingPantsUptime() * .25) -
+					(markedAmount * (1.0 - data.getHexingPantsUptime()) * data.getHexingPantsPercent());
 		}
 		
 		double t = 0.0;
@@ -74,32 +89,30 @@ public class FiringData {
 				numHealthGlobes++;
 
 				if (data.isBloodVengeance()) {
-					healthGlobeHatred += Math.min(30.0, maxHatred - hatred);
-					hatred = Math.min(maxHatred, hatred + 30.0);
+					healthGlobeHatred += Math.min(bvAmount, maxHatred - hatred);
+					hatred = Math.min(maxHatred, hatred + bvAmount);
 				}
 
 				if (data.isReapersWraps()) {
 					healthGlobeHatred += Math.min(
-							maxHatred * data.getReapersWrapsPercent(),
+							reaperAmount,
 							maxHatred - hatred);
 					hatred = Math.min(
 							maxHatred,
-							hatred
-									+ (maxHatred * data
-											.getReapersWrapsPercent()));
+							hatred + reaperAmount);
 				}
 			}
 
 			if (data.isPreparationPunishment()
-					&& ((maxHatred - hatred) >= 75.0) && (prepAvail <= t)) {
-				hatred += 75.0;
+					&& ((maxHatred - hatred) >= prepAmount) && (prepAvail <= t)) {
+				hatred += prepAmount;
 				prepAvail = t + prepCd;
 				numPrep++;
 			}
 
 			if (data.isCompanion() && ((data.getNumMarauders() >= 2) || (data.getCompanionRune() == Rune.Bat))) {
-				if (((maxHatred - hatred) >= 50.0) && (batAvail <= t)) {
-					hatred += 50.0;
+				if (((maxHatred - hatred) >= batAmount) && (batAvail <= t)) {
+					hatred += batAmount;
 					batAvail = t + batCd;
 					numBat++;
 				}
@@ -116,7 +129,7 @@ public class FiringData {
 					if (data.isMarked() && (data.getMfdRune() == Rune.Mortal_Enemy)) {
 						
 						numMarked++;
-						double mh = (4.0 * data.getMfdUptime()) + (4.0 * data.getNumAdditional() * data.getMfdAddUptime());
+						double mh = markedAmount;
 
 						if (hatred > (maxHatred - mh)) {
 							mh = maxHatred - mh;
@@ -233,7 +246,7 @@ public class FiringData {
 		if (numPrep > 0) {
 			Damage d = new Damage();
 			d.shooter = "Preparation";
-			d.hatred = numPrep * 75.0;
+			d.hatred = numPrep * prepAmount;
 			d.qty = numPrep;
 			list.add(d);
 		}
@@ -241,7 +254,7 @@ public class FiringData {
 		if (numBat > 0) {
 			Damage d = new Damage();
 			d.shooter = "Companion";
-			d.hatred = numBat * 50.0;
+			d.hatred = numBat * batAmount;
 			d.qty = numBat;
 			list.add(d);
 		}

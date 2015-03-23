@@ -2,9 +2,10 @@ Change Log:
 
 **3/23/15**
 
-* Added resource regen from Hexing Pants
+* Added resource generation from Hexing Pants
 * Added Haunt of Vaxo (Marked for Death/Valley of Death)
 * Added area damage
+* Hexing pants now effects all hatred generation (generators, Bat, etc...)
 
 **3/19/15**
 

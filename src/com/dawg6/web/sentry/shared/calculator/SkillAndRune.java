@@ -33,10 +33,12 @@ public class SkillAndRune implements Serializable, Comparable<SkillAndRune> {
 
 	public double getHatred(CharacterData data) {
 		
+		double h = 0.0;
+		
 		if ((skill == ActiveSkill.CHAK) && data.isSpines())
-			return data.getSpinesHatred();
+			h = data.getSpinesHatred();
 		if ((skill == ActiveSkill.EA) && data.isKridershot())
-			return data.getKridershotHatred();
+			h = data.getKridershotHatred();
 		else {
 			double hatred = skill.getHatred() + rune.getHatred();
 			
@@ -61,8 +63,15 @@ public class SkillAndRune implements Serializable, Comparable<SkillAndRune> {
 				hatred += 4;
 			}
 
-			return hatred;
+			h = hatred;
 		}
+		
+		if ((h > 0) && data.isHexingPants()) {
+			h = h +  (h * data.getHexingPantsUptime() * .25) -
+					(h * (1.0 - data.getHexingPantsUptime()) * data.getHexingPantsPercent());
+		}
+		
+		return h;
 	}
 	
 	public SkillAndRune(ActiveSkill skill, Rune rune) {
