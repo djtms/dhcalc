@@ -342,6 +342,7 @@ public class ItemPanel extends Composite {
 		areaDamageEquipment = new NumberSpinner();
 		areaDamageEquipment.setVisibleLength(2);
 		areaDamageEquipment.setText("0");
+		areaDamageEquipment.setTitle("The Area Damage percentage from Equipment only.");
 		flexTable.setWidget(19, 1, areaDamageEquipment);
 
 		Label label_1 = new Label("Elite Damage +%:");
