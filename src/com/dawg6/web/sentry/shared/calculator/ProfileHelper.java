@@ -1207,6 +1207,8 @@ public class ProfileHelper {
 
 			if ((i >= 2) && (data.isRoyalRing()))
 				i++;
+		} else {
+			i = 0;
 		}
 
 		return i;
