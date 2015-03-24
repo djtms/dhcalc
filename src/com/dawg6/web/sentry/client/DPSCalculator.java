@@ -778,7 +778,7 @@ public class DPSCalculator extends BasePanel {
 						"0"),
 				new Field(this.paragonPanel.getParagonCC(), "calc.ParagonCC",
 						"0"),
-				new Field(this.paragonPanel.getParagonCC(), "calc.ParagonCD",
+				new Field(this.paragonPanel.getParagonCHD(), "calc.ParagonCHD",
 						"0"),
 				new Field(this.paragonPanel.getParagonHatred(), "calc.ParagonHatred",
 						"0"),
