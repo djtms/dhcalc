@@ -101,6 +101,7 @@ public class Const {
 	public static final String BOMBADIERS = "Bombardier's Rucksack";
 	public static final String CUSTOM_ENGINEERING = "Custom Engineering";
 	public static final String MARAUDERS = "embodiment-of-the-marauder";
+	public static final String NATS = "natalyas-vengeance";
 	public static final String SPINES = "Spines of Seething Hatred";
 	public static final String SPINES_HATRED = "Item_Power_Passive#ItemPassive_Unique_Ring_750_x1";
 	public static final String KRIDERSHOT = "Kridershot";
@@ -123,4 +124,5 @@ public class Const {
 	public static final String SPIKE_TRAP = "Spike Trap";
 	public static final String VAXO = "Haunt of Vaxo";
 	public static final String AREA_DAMAGE = "Splash_Damage_Effect_Percent";
+	public static final String RAIN_OF_VENGEANCE = "Rain of Vengeance";
 }

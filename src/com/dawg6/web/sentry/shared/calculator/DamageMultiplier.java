@@ -250,6 +250,13 @@ public enum DamageMultiplier {
 				public Double getValue(CharacterData data) {
 					return data.getSpikeTrapDamage();
 				}
+			}), RoV("RoV", DamageAccumulator.Additive,
+			"Rain of Vengeance Skill Damage Bonus",
+			new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return data.getRovDamage();
+				}
 			}), CtW("CtW", DamageAccumulator.Multiplicative,
 			"Cull the Weak passive bonus (20% to chilled/frozen)",
 			new Test<CharacterData, Double>() {
@@ -459,14 +466,13 @@ public enum DamageMultiplier {
 				public Double getValue(CharacterData data) {
 					return data.isVaxo() ? (0.15 * 0.5) : 0.0;
 				}
-			}), AD(
-			"Area",
-			DamageAccumulator.Additive,
-			"Area Damage (20% chance)",
-			new Test<CharacterData, Double>() {
+			}), AD("Area", DamageAccumulator.Additive,
+			"Area Damage (20% chance)", new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
-					return ((data.getNumAdditional() > 0) && (data.getTargetSpacing() <= 10)) ? (0.2 * data.getAreaDamage()) : 0.0;
+					return ((data.getNumAdditional() > 0) && (data
+							.getTargetSpacing() <= 10)) ? (0.2 * data
+							.getAreaDamage()) : 0.0;
 				}
 			}), Calamity("Calamity", DamageAccumulator.Additive,
 			"Calamity Marked for Death bonus (20% while applied)",

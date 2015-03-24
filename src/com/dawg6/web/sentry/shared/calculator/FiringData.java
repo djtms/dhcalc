@@ -81,9 +81,29 @@ public class FiringData {
 		int numMarked = 0;
 		double markedHatred = 0;
 		int totalHits = 0;
+		double rovCd = (30.0 * (1 - cdr));
+		double rovTime = 5.0;
+		Rune rovRune = data.getRovRune();
+		
+		if (rovRune == Rune.Dark_Cloud)
+			rovTime = 8.0;
+		else if (rovRune == Rune.Stampede)
+			rovTime = 6.0;
+		
+		if (data.getNumNats() >= 4) {
+			rovCd = Math.max(rovTime, rovCd - (2.0 * data.getRovKilled()));
+		}
+		
+		int numRov = 0;
+		double nextRov = 0;
 		
 		while (t < DURATION) {
 
+			if (data.isRov() && (t >= nextRov)) {
+				numRov++;
+				nextRov += rovCd;
+			}
+			
 			if (t >= nextHealthGlobe) {
 				nextHealthGlobe += healthGlobeInterval;
 				numHealthGlobes++;
@@ -183,6 +203,12 @@ public class FiringData {
 		BreakPoint bp = BreakPoint.getBp(data.getBp());
 		int boltQty = Math.max(0, bp.getQty() - totalSpender);
 
+		if (numRov > 0) {
+			list.addAll(DamageFunction.getDamages(true, false, "Player",
+					new DamageSource(ActiveSkill.RoV, data.getRovRune()), numRov,
+					data));
+		}
+		
 		if (boltQty > 0) {
 			list.addAll(DamageFunction.getDamages(false, true, "Sentry",
 					new DamageSource(ActiveSkill.SENTRY, sentryRune), boltQty,

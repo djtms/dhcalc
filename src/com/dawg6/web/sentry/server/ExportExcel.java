@@ -493,6 +493,12 @@ public class ExportExcel {
 				"Spike Trap Rune");
 		createInput(inputs, data.data.getNumSpikeTraps(),
 				"# Spike Traps");
+		createInput(inputs, data.data.isRov(),
+				"Rain of Vengeance");
+		createInput(inputs, data.data.getRovRune().getLongName(),
+				"RoV Rune");
+		createInput(inputs, data.data.getRovKilled(),
+				"RoV Killed");
 		createInput(inputs, data.data.isMarked(),
 				"Marked for Death");
 		createInput(inputs, data.data.getMfdRune().getLongName(),
@@ -560,6 +566,7 @@ public class ExportExcel {
 		createInput(inputs, data.data.getGrenadeDamage(), "Grenade Damage", pctStyle);
 		createInput(inputs, data.data.getSpikeTrapDamage(), "ST Damage", pctStyle);
 		createInput(inputs, data.data.getCompanionDamage(), "Companion Damage", pctStyle);
+		createInput(inputs, data.data.getRovDamage(), "RoV Damage", pctStyle);
 
 		createInputHeader(inputs, "Item Data");
 		createInput(inputs, data.data.getEliteDamage(),
@@ -628,6 +635,10 @@ public class ExportExcel {
 				"Spines of Seething Hatred - Hatred Value");
 		createInput(inputs, data.data.getKridershotHatred(),
 				"Kridershot - Hatred Value");
+		createInput(inputs, data.data.getNumMarauders(),
+				"# Marauder's Embodiment");
+		createInput(inputs, data.data.getNumNats(),
+				"# Natalay's Vengeance");
 
 		createInputHeader(inputs, "Legendary Gems");
 		createInput(inputs, data.data.isUseBaneOfTheTrapped(),

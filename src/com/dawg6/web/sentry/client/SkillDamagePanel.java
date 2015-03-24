@@ -1,5 +1,6 @@
 package com.dawg6.web.sentry.client;
 
+import com.dawg6.web.sentry.shared.calculator.ActiveSkill;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
@@ -22,6 +23,7 @@ public class SkillDamagePanel extends Composite {
 	private final NumberSpinner grenadeDamage;
 	private final NumberSpinner companionDamage;
 	private final NumberSpinner stDamage;
+	private final NumberSpinner rovDamage;
 	
 	public SkillDamagePanel() {
 		
@@ -299,7 +301,7 @@ public class SkillDamagePanel extends Composite {
 		anchor_12.setText("Spike Trap");
 		anchor_12.setTarget("_blank");
 		anchor_12.setHTML("Spike Trap");
-		anchor_12.setHref("http://us.battle.net/d3/en/class/demon-hunter/active/spike-trap");
+		anchor_12.setHref(ActiveSkill.ST.getUrl());
 		horizontalPanel_12.add(anchor_12);
 		
 		Label label_12 = new Label("Damage +%:");
@@ -310,6 +312,27 @@ public class SkillDamagePanel extends Composite {
 		stDamage.setVisibleLength(3);
 		stDamage.setTitle("Additional damage done by the Spike Trap skill (as a percent), as shown in-game in the Character details screen under offense.");
 		flexTable.setWidget(12, 1, stDamage);
+		
+		HorizontalPanel horizontalPanel_13 = new HorizontalPanel();
+		horizontalPanel_13.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		horizontalPanel_13.setSpacing(5);
+		flexTable.setWidget(13, 0, horizontalPanel_13);
+		
+		Anchor anchor_13 = new Anchor();
+		anchor_13.setWordWrap(false);
+		anchor_13.setText("Rain of Vengeance");
+		anchor_13.setTarget("_blank");
+		anchor_13.setHref(ActiveSkill.RoV.getUrl());
+		horizontalPanel_13.add(anchor_13);
+		
+		Label label_13 = new Label("Damage +%:");
+		label_13.setWordWrap(false);
+		horizontalPanel_13.add(label_13);
+		
+		rovDamage = new NumberSpinner();
+		rovDamage.setVisibleLength(3);
+		rovDamage.setTitle("Additional damage done by the Rain of Vengeance skill (as a percent), as shown in-game in the Character details screen under offense.");
+		flexTable.setWidget(13, 1, rovDamage);
 	}
 	public NumberSpinner getSentryDamage() {
 		return sentryDamage;
@@ -349,6 +372,9 @@ public class SkillDamagePanel extends Composite {
 	}
 	public NumberSpinner getStDamage() {
 		return stDamage;
+	}
+	public NumberSpinner getRovDamage() {
+		return rovDamage;
 	}
 
 }

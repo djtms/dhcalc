@@ -63,10 +63,13 @@ public enum ActiveSkill {
 		}, "http://us.battle.net/d3/en/class/demon-hunter/active/companion"),
 		
 	ST(SkillType.Cooldown, "ST", "Spike Trap", 0, DamageMultiplier.ST, new Rune[] { 
-			Rune. None, Rune.Echoing_Blast, Rune.Sticky_Trap, Rune.Long_Fuse, Rune.Lightning_Rod, Rune.Scatter }, "http://us.battle.net/d3/en/class/demon-hunter/active/spike-trap"),
+			Rune.None, Rune.Echoing_Blast, Rune.Sticky_Trap, Rune.Long_Fuse, Rune.Lightning_Rod, Rune.Scatter }, "http://us.battle.net/d3/en/class/demon-hunter/active/spike-trap"),
 		
 	Caltrops(SkillType.Cooldown, "Caltrops", "Caltrops", 0, null, new Rune[] { 
-			Rune. None, Rune.Hooked_Spines, Rune.Torturous_Ground, Rune.Jagged_Spikes, Rune.Carved_Stakes, Rune.Bait_the_Trap }, "http://us.battle.net/d3/en/class/demon-hunter/active/caltrops"),
+			Rune.None, Rune.Hooked_Spines, Rune.Torturous_Ground, Rune.Jagged_Spikes, Rune.Carved_Stakes, Rune.Bait_the_Trap }, "http://us.battle.net/d3/en/class/demon-hunter/active/caltrops"),
+
+	RoV(SkillType.Cooldown, "RoV", "Rain of Vengeance", 0, DamageMultiplier.RoV, new Rune[] { 
+			Rune.None, Rune.Dark_Cloud, Rune.Shade, Rune.Stampede, Rune.Anathema, Rune.Flying_Strike }, "http://us.battle.net/d3/en/class/demon-hunter/active/rain-of-vengeance"),
 
 	Any(SkillType.NA, "Any Skill", "Any Skill", 0, null, new Rune[0], null);
 

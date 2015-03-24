@@ -112,6 +112,13 @@ public enum Rune {
 	Scatter("d", 0),
 	Lightning_Rod("e", 0),
 
+	// Rain of Vengeance
+	Shade("a", 0),
+	Dark_Cloud("b", 0),
+	Anathema("c", 0),
+	Flying_Strike("d", 0),
+	Stampede("e", 0),
+	
 	;
 	
 	private String slug;

@@ -265,6 +265,13 @@ public class DamageFunction {
 			new DamageRow(ActiveSkill.ST, Rune.Scatter, 3.4, true, Integer.MAX_VALUE, 0, 8, DamageType.Fire),
 
 			new DamageRow(ActiveSkill.Caltrops, Rune.Jagged_Spikes, 2.7, true, Integer.MAX_VALUE, 0, 12, "DoT", DamageType.Physical, DamageMultiplier.DoT),
+
+			new DamageRow(ActiveSkill.RoV, Rune.None, 15.0, true, Integer.MAX_VALUE, DamageType.Physical),
+			new DamageRow(ActiveSkill.RoV, Rune.Dark_Cloud, 35.0, true, Integer.MAX_VALUE, DamageType.Physical),
+			new DamageRow(ActiveSkill.RoV, Rune.Shade, 28.0, true, Integer.MAX_VALUE, DamageType.Lightning),
+			new DamageRow(ActiveSkill.RoV, Rune.Stampede, 46.0, true, Integer.MAX_VALUE, DamageType.Fire),
+			new DamageRow(ActiveSkill.RoV, Rune.Anathema, 58.0, true, Integer.MAX_VALUE, DamageType.Fire),
+			new DamageRow(ActiveSkill.RoV, Rune.Flying_Strike, 38.0, true, Integer.MAX_VALUE, DamageType.Cold),
 	};
 
 	public static List<Damage> getDamages(boolean isPlayer, boolean isSentry,

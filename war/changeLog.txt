@@ -1,5 +1,11 @@
 Change Log:
 
+
+**3/24/15**
+
+* Added support for Rain of Vengeance
+* Added support for Nat's 4 piece set bonus (RoV CDR)
+
 **3/23/15**
 
 * Added resource generation from Hexing Pants

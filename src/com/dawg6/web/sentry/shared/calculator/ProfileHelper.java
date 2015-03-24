@@ -219,6 +219,8 @@ public class ProfileHelper {
 		Rune caltropsRune = Rune.None;
 		Rune spikeTrapRune = Rune.None;
 		boolean spikeTrap = false;
+		boolean rov = false;
+		Rune rovRune = Rune.None;
 
 		for (HeroProfile.Skills.Active s : hero.skills.active) {
 
@@ -288,6 +290,18 @@ public class ProfileHelper {
 						for (Rune r : MarkedForDeath.RUNES) {
 							if (r.getSlug().equals(s.rune.type)) {
 								mfdRune = r;
+								break;
+							}
+						}
+					}
+
+				} else if (s.skill.name.equals(Const.RAIN_OF_VENGEANCE)) {
+					rov = true;
+
+					if ((s.rune != null) && (s.rune.type != null)) {
+						for (Rune r : ActiveSkill.RoV.getRunes()) {
+							if (r.getSlug().equals(s.rune.type)) {
+								rovRune = r;
 								break;
 							}
 						}
@@ -416,6 +430,8 @@ public class ProfileHelper {
 		data.setNightStalker(nightStalker);
 		data.setPreparationPunishment(preparationPunishment);
 		data.setHeroLevel(hero.level);
+		data.setRov(rov);
+		data.setRovRune(rovRune);
 	}
 
 	public static Rune lookupRune(ActiveSkill skill, String name) {
@@ -825,9 +841,9 @@ public class ProfileHelper {
 				ActiveSkill.MS, ActiveSkill.CHAK, ActiveSkill.IMP,
 				ActiveSkill.SENTRY, ActiveSkill.HA, ActiveSkill.ES,
 				ActiveSkill.BOLAS, ActiveSkill.EF, ActiveSkill.GRENADE,
-				ActiveSkill.Companion, ActiveSkill.ST };
+				ActiveSkill.Companion, ActiveSkill.ST, ActiveSkill.RoV };
 
-		int[] damage = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		int[] damage = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		int petSpeed = 0;
 		boolean tnt = false;
 		boolean calamity = false;
@@ -1037,6 +1053,7 @@ public class ProfileHelper {
 		data.setGrenadeDamage(damage[n++] / 100.0);
 		data.setCompanionDamage(damage[n++] / 100.0);
 		data.setSpikeTrapDamage(damage[n++] / 100.0);
+		data.setRovDamage(damage[n++] / 100.0);
 
 		ItemInformation helm = hero.items.get(Const.HEAD);
 
@@ -1072,8 +1089,10 @@ public class ProfileHelper {
 				Const.CAPTAIN_CRIMSON, 3));
 
 		int m = getSetCount(data, Const.MARAUDERS);
+		int nats = getSetCount(data, Const.NATS);
 
 		data.setNumMarauders(m);
+		data.setNumNats(nats);
 		data.setCdrData(cdrData);
 		data.setRcrData(rcrData);
 

@@ -40,6 +40,7 @@ public class CharacterData implements Serializable {
 	private double impDamage;
 	private double haDamage;
 	private double spikeTrapDamage;
+	private double rovDamage;
 	private double companionDamage;
 	private double esDamage;
 	private double bolasDamage;
@@ -231,6 +232,10 @@ public class CharacterData implements Serializable {
 	private boolean vaxo;
 	private double areaDamageEquipment;
 	private int paragonAD;
+	private boolean rov;
+	private Rune rovRune;
+	private int rovKilled;
+	private int numNats;
 	
 	public int getNumMarauders() {
 		return numMarauders;
@@ -277,6 +282,7 @@ public class CharacterData implements Serializable {
 		delay = 50;
 		odysseysEndUptime = 1.0;
 		numSpikeTraps = 3;
+		rovKilled = 0;
 	}
 	
 	public CharacterData() {
@@ -2047,5 +2053,45 @@ public class CharacterData implements Serializable {
 
 	public double getAreaDamage() {
 		return areaDamageEquipment + (paragonAD * .01);
+	}
+
+	public boolean isRov() {
+		return rov;
+	}
+
+	public void setRov(boolean rov) {
+		this.rov = rov;
+	}
+
+	public Rune getRovRune() {
+		return rovRune;
+	}
+
+	public void setRovRune(Rune rovRune) {
+		this.rovRune = rovRune;
+	}
+
+	public double getRovDamage() {
+		return rovDamage;
+	}
+
+	public void setRovDamage(double rovDamage) {
+		this.rovDamage = rovDamage;
+	}
+
+	public int getRovKilled() {
+		return rovKilled;
+	}
+
+	public void setRovKilled(int rovKilled) {
+		this.rovKilled = rovKilled;
+	}
+
+	public int getNumNats() {
+		return numNats;
+	}
+
+	public void setNumNats(int numNats) {
+		this.numNats = numNats;
 	}
 }

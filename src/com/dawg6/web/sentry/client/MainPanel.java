@@ -802,7 +802,6 @@ public class MainPanel extends BasePanel {
 		});
 
 		passives = new PassivesPanel();
-		verticalPanel_3.add(passives);
 
 		this.passives.getBloodVengeance().addClickHandler(new ClickHandler() {
 
@@ -940,6 +939,7 @@ public class MainPanel extends BasePanel {
 
 		buffPanel = new BuffPanel();
 		vpanel.add(buffPanel);
+		vpanel.add(passives);
 
 		buffPanel.getAnatomy().addClickHandler(new ClickHandler() {
 
@@ -2144,6 +2144,7 @@ public class MainPanel extends BasePanel {
 		setSkillLabel(this.skill2Label, skill2);
 		skills.setCompanionRuneLabel();
 		skills.setSpikeTrapRuneLabel();
+		skills.setRoVRuneLabel();
 		skills.setCaltropsRuneLabel();
 		// setSkillLabel(this.skill3Label, skill3);
 	}
@@ -2600,6 +2601,9 @@ public class MainPanel extends BasePanel {
 			} else if (field == skills.getSpikeTrapRunes()) {
 				setRune(field, Rune.valueOf(value));
 				skills.setSpikeTrapRuneLabel();
+			} else if (field == skills.getRovRunes()) {
+				setRune(field, Rune.valueOf(value));
+				skills.setRoVRuneLabel();
 			} else if (field == skills.getCaltropsRunes()) {
 				setRune(field, Rune.valueOf(value));
 				skills.setCaltropsRuneLabel();
@@ -2924,6 +2928,7 @@ public class MainPanel extends BasePanel {
 		this.itemPanel.getKridershotHatred().setValue(
 				data.getKridershotHatred());
 		this.itemPanel.getMarauders().setValue(data.getNumMarauders());
+		this.itemPanel.getNumNats().setValue(data.getNumNats());
 		this.itemPanel.getEliteDamagePercent().setValue(
 				(int) Math.round(data.getEliteDamage() * 100.0));
 		this.itemPanel.getAreaDamageEquipment().setValue(
@@ -2968,6 +2973,8 @@ public class MainPanel extends BasePanel {
 				(int) Math.round(data.getCompanionDamage() * 100.0));
 		this.skillDamage.getStDamage().setValue(
 				(int) Math.round(data.getSpikeTrapDamage() * 100.0));
+		this.skillDamage.getRovDamage().setValue(
+				(int) Math.round(data.getRovDamage() * 100.0));
 	}
 
 	private void getSetSetCDR(SimpleCheckBox field,
@@ -3057,7 +3064,10 @@ public class MainPanel extends BasePanel {
 		this.skills.getCaltrops().setValue(data.isCaltrops());
 		this.setRune(skills.getCaltropsRunes(), data.getCaltropsRune());
 		this.skills.getSpikeTrap().setValue(data.isSpikeTrap());
+		this.skills.getRov().setValue(data.isRov());
+		this.skills.getRovKilled().setValue(data.getRovKilled());
 		this.setRune(skills.getSpikeTrapRunes(), data.getSpikeTrapRune());
+		this.setRune(skills.getRovRunes(), data.getRovRune());
 		this.passives.getCustomEngineering().setValue(
 				data.isCustomEngineering());
 		this.passives.getArchery().setValue(data.isArchery());
@@ -3157,6 +3167,7 @@ public class MainPanel extends BasePanel {
 				new Field(this.itemPanel.getKridershotHatred(),
 						"KridershotHatred", Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getMarauders(), "Marauders", "6"),
+				new Field(this.itemPanel.getNumNats(), "Nats", "0"),
 				new Field(this.itemPanel.getReapersWraps(), "ReapersWraps",
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getReapersWrapsPercent(),
@@ -3179,7 +3190,13 @@ public class MainPanel extends BasePanel {
 						Rune.None.name()),
 				new Field(this.skills.getSpikeTrap(), "SpikeTrap",
 						Boolean.FALSE.toString()),
+				new Field(this.skills.getRov(), "RoV",
+						Boolean.FALSE.toString()),
+				new Field(this.skills.getRovKilled(), "RoVKilled",
+						"0"),
 				new Field(this.skills.getSpikeTrapRunes(), "SpikeTrapRune",
+						Rune.None.name()),
+				new Field(this.skills.getRovRunes(), "RoVRune",
 						Rune.None.name()),
 				new Field(this.skills.getMfdRune(), "MarkedForDeathRune",
 						Rune.None.name()),
@@ -3246,6 +3263,8 @@ public class MainPanel extends BasePanel {
 				new Field(this.skillDamage.getCompanionDamage(),
 						"CompanionDamage", "0"),
 				new Field(this.skillDamage.getStDamage(), "SpikeTrapDamage",
+						"0"),
+				new Field(this.skillDamage.getRovDamage(), "RoVDamage",
 						"0"),
 				new Field(this.skillDamage.getEsDamage(), "ES", "0"),
 				new Field(this.skillDamage.getBolasDamage(), "Bolas", "0"),
@@ -3467,6 +3486,7 @@ public class MainPanel extends BasePanel {
 			data.setCompanionDamage(getValue(this.skillDamage
 					.getCompanionDamage()) / 100.0);
 			data.setSpikeTrapDamage(getValue(this.skillDamage.getStDamage()) / 100.0);
+			data.setRovDamage(getValue(this.skillDamage.getRovDamage()) / 100.0);
 			data.setEsDamage(getValue(this.skillDamage.getEsDamage()) / 100.0);
 			data.setBolasDamage(getValue(this.skillDamage.getBolasDamage()) / 100.0);
 			data.setEfDamage(getValue(this.skillDamage.getEfDamage()) / 100.0);
@@ -3506,6 +3526,7 @@ public class MainPanel extends BasePanel {
 			data.setHelltrapperPercent(itemPanel.getHelltrapperPercent()
 					.getValue() / 100.0);
 			data.setNumMarauders(itemPanel.getMarauders().getValue());
+			data.setNumNats(itemPanel.getNumNats().getValue());
 			data.setMarked(skills.getMfd().getValue());
 			data.setSteadyAim(this.passives.getSteadyAim().getValue());
 			data.setPercentAtLeast10Yards((double) this.situational
@@ -3609,6 +3630,9 @@ public class MainPanel extends BasePanel {
 			data.setCaltropsUptime(skills.getCaltropsUptime().getValue() / 100.0);
 			data.setSpikeTrap(skills.getSpikeTrap().getValue());
 			data.setSpikeTrapRune(this.getRune(skills.getSpikeTrapRunes()));
+			data.setRov(skills.getRov().getValue());
+			data.setRovKilled(skills.getRovKilled().getValue());
+			data.setRovRune(this.getRune(skills.getRovRunes()));
 			data.setNumSpikeTraps(skills.getNumSpikeTraps().getValue());
 			data.setMaxHatred(hatredPanel.getMaxHatred().getValue());
 			data.setHatredPerSecond(hatredPanel.getHatredPerSecond().getValue());
@@ -4292,6 +4316,7 @@ public class MainPanel extends BasePanel {
 			setSkillLabel(this.skill2Label, skill2);
 			skills.setCompanionRuneLabel();
 			skills.setSpikeTrapRuneLabel();
+			skills.setRoVRuneLabel();
 			skills.setCaltropsRuneLabel();
 			// setSkillLabel(this.skill3Label, skill3);
 

@@ -34,6 +34,12 @@ public class SkillsPanel extends Composite {
 	private final NumberSpinner numSpikeTraps;
 	private final ListBox spikeTrapRunes;
 	private final SimpleCheckBox spikeTrap;
+	private final Anchor anchor_2;
+	private final SimpleCheckBox rov;
+	private final Anchor rovRuneLabel;
+	private final ListBox rovRunes;
+	private final Label label_2;
+	private final NumberSpinner rovKilled;
 
 	public SkillsPanel() {
 
@@ -44,37 +50,64 @@ public class SkillsPanel extends Composite {
 		flexTable.setCellPadding(2);
 		captionPanel.setContentWidget(flexTable);
 
-		Anchor anchor_1 = new Anchor("Caltrops/Bait the Trap", false,
-				"http://us.battle.net/d3/en/class/demon-hunter/active/caltrops#e+");
+		anchor_2 = new Anchor();
+		anchor_2.setWordWrap(false);
+		anchor_2.setText("Rain of Vengeance");
+		anchor_2.setTarget("_blank");
+		anchor_2.setHref(ActiveSkill.RoV.getUrl());
+		flexTable.setWidget(0, 0, anchor_2);
+
+		rov = new SimpleCheckBox();
+		flexTable.setWidget(0, 1, rov);
+
+		rovRuneLabel = new Anchor("Rune:");
+		rovRuneLabel.setTarget("_blank");
+		rovRuneLabel.setHref(ActiveSkill.RoV.getUrl());
+		flexTable.setWidget(0, 2, rovRuneLabel);
+
+		rovRunes = new ListBox();
+		rovRunes.setSelectedIndex(0);
+		flexTable.setWidget(0, 3, rovRunes);
+		rovRunes.setWidth("100%");
+		
+		label_2 = new Label("# Killed:");
+		label_2.setWordWrap(false);
+		flexTable.setWidget(1, 2, label_2);
+		
+		rovKilled = new NumberSpinner();
+		rovKilled.setVisibleLength(3);
+		rovKilled.setTitle("# of enemies killed during RoV Cooldown");
+		flexTable.setWidget(1, 3, rovKilled);
+
+		Anchor anchor_1 = new Anchor();
 		anchor_1.setText("Caltrops");
-		anchor_1.setHref("http://us.battle.net/d3/en/class/demon-hunter/active/caltrops");
-		anchor_1.setHTML("Caltrops");
+		anchor_1.setHref(ActiveSkill.Caltrops.getUrl());
 		anchor_1.setWordWrap(false);
 		anchor_1.setTarget("_blank");
-		flexTable.setWidget(0, 0, anchor_1);
+		flexTable.setWidget(2, 0, anchor_1);
 
 		caltrops = new SimpleCheckBox();
-		flexTable.setWidget(0, 1, caltrops);
+		flexTable.setWidget(2, 1, caltrops);
 
 		caltropsRuneLabel = new Anchor("Rune:");
 		caltropsRuneLabel.setTarget("_blank");
-		caltropsRuneLabel.setHref("http://us.battle.net/d3/en/class/demon-hunter/active/caltrops");
-		flexTable.setWidget(0, 2, caltropsRuneLabel);
+		caltropsRuneLabel.setHref(ActiveSkill.Caltrops.getUrl());
+		flexTable.setWidget(2, 2, caltropsRuneLabel);
 
 		caltropsRunes = new ListBox();
 		caltropsRunes.setSelectedIndex(0);
-		flexTable.setWidget(0, 3, caltropsRunes);
+		flexTable.setWidget(2, 3, caltropsRunes);
 		caltropsRunes.setWidth("100%");
 
 		Label label = new Label("Uptime:");
 		label.setWordWrap(false);
-		flexTable.setWidget(1, 2, label);
+		flexTable.setWidget(3, 2, label);
 
 		caltropsUptime = new NumberSpinner();
 		caltropsUptime.setVisibleLength(3);
 		caltropsUptime
 				.setTitle("Percent of the time primary target will have active Caltrops applied.");
-		flexTable.setWidget(1, 3, caltropsUptime);
+		flexTable.setWidget(3, 3, caltropsUptime);
 		caltropsUptime.setMax(100);
 
 		Anchor anchor_3 = new Anchor("Caltrops/Bait the Trap", false,
@@ -83,47 +116,47 @@ public class SkillsPanel extends Composite {
 		anchor_3.setWordWrap(false);
 		anchor_3.setTarget("_blank");
 		anchor_3.setHTML("Spike Trap");
-		anchor_3.setHref("http://us.battle.net/d3/en/class/demon-hunter/active/spike-trap");
-		flexTable.setWidget(2, 0, anchor_3);
+		anchor_3.setHref(ActiveSkill.ST.getUrl());
+		flexTable.setWidget(4, 0, anchor_3);
 
 		spikeTrap = new SimpleCheckBox();
-		flexTable.setWidget(2, 1, spikeTrap);
+		flexTable.setWidget(4, 1, spikeTrap);
 
 		spikeTrapRuneLabel = new Anchor("Rune:");
 		spikeTrapRuneLabel.setTarget("_blank");
-		spikeTrapRuneLabel.setHref("http://us.battle.net/d3/en/class/demon-hunter/active/spike-trap");
-		flexTable.setWidget(2, 2, spikeTrapRuneLabel);
+		spikeTrapRuneLabel.setHref(ActiveSkill.ST.getUrl());
+		flexTable.setWidget(4, 2, spikeTrapRuneLabel);
 
 		spikeTrapRunes = new ListBox();
 		spikeTrapRunes.setSelectedIndex(0);
-		flexTable.setWidget(2, 3, spikeTrapRunes);
+		flexTable.setWidget(4, 3, spikeTrapRunes);
 		spikeTrapRunes.setWidth("100%");
 
 		label_1 = new Label("# Spike Traps:");
 		label_1.setWordWrap(false);
-		flexTable.setWidget(3, 2, label_1);
+		flexTable.setWidget(5, 2, label_1);
 
 		numSpikeTraps = new NumberSpinner();
 		numSpikeTraps.setVisibleLength(3);
-		numSpikeTraps
-				.setTitle("# of Spike Traps deployed during " + FiringData.DURATION + " second fight");
-		flexTable.setWidget(3, 3, numSpikeTraps);
+		numSpikeTraps.setTitle("# of Spike Traps deployed during "
+				+ FiringData.DURATION + " second fight");
+		flexTable.setWidget(5, 3, numSpikeTraps);
 
 		Anchor cLabel = new Anchor("Companion:");
 		cLabel.setHref(ActiveSkill.Companion.getUrl());
 		cLabel.setTarget("_blank");
-		flexTable.setWidget(4, 0, cLabel);
+		flexTable.setWidget(6, 0, cLabel);
 
 		companion = new SimpleCheckBox();
-		flexTable.setWidget(4, 1, companion);
+		flexTable.setWidget(6, 1, companion);
 
 		crLabel = new Anchor("Rune:");
 		crLabel.setHref(ActiveSkill.Companion.getUrl());
 		crLabel.setTarget("_blank");
-		flexTable.setWidget(4, 2, crLabel);
+		flexTable.setWidget(6, 2, crLabel);
 
 		companionRunes = new ListBox();
-		flexTable.setWidget(4, 3, companionRunes);
+		flexTable.setWidget(6, 3, companionRunes);
 		companionRunes.setWidth("100%");
 		companionRunes.setSelectedIndex(0);
 
@@ -139,77 +172,80 @@ public class SkillsPanel extends Composite {
 				MarkedForDeath.url);
 		anchor.setWordWrap(false);
 		anchor.setTarget("_blank");
-		flexTable.setWidget(5, 0, anchor);
+		flexTable.setWidget(7, 0, anchor);
 
 		mfd = new SimpleCheckBox();
-		flexTable.setWidget(5, 1, mfd);
+		flexTable.setWidget(7, 1, mfd);
 
 		mfdRuneAnchor = new Anchor("Rune:");
 		mfdRuneAnchor.setHref(MarkedForDeath.url);
 		mfdRuneAnchor.setTarget("_blank");
 		mfdRuneAnchor.setWordWrap(false);
-		flexTable.setWidget(5, 2, mfdRuneAnchor);
+		flexTable.setWidget(7, 2, mfdRuneAnchor);
 
 		mfdRune = new ListBox();
-		flexTable.setWidget(5, 3, mfdRune);
+		flexTable.setWidget(7, 3, mfdRune);
 		mfdRune.setWidth("100%");
-		
-				Label lblUptime = new Label("Primary Target Uptime:");
-				lblUptime.setWordWrap(false);
-				flexTable.setWidget(6, 0, lblUptime);
+
+		Label lblUptime = new Label("Primary Target Uptime:");
+		lblUptime.setWordWrap(false);
+		flexTable.setWidget(8, 0, lblUptime);
 
 		mfdUptime = new NumberSpinner();
 		mfdUptime
 				.setTitle("Percent of the time primary target will have active MfD applied.");
 		mfdUptime.setVisibleLength(3);
-		flexTable.setWidget(6, 1, mfdUptime);
+		flexTable.setWidget(8, 1, mfdUptime);
 
 		for (Rune rune : MarkedForDeath.RUNES) {
 			mfdRune.addItem(rune.getLongName(), rune.name());
 		}
 
 		mfdRune.setSelectedIndex(0);
-		flexTable.getCellFormatter().setVerticalAlignment(8, 0,
+		flexTable.getCellFormatter().setVerticalAlignment(10, 0,
 				HasVerticalAlignment.ALIGN_TOP);
-		flexTable.getCellFormatter().setHorizontalAlignment(8, 0,
+		flexTable.getCellFormatter().setHorizontalAlignment(10, 0,
 				HasHorizontalAlignment.ALIGN_LEFT);
-		
-				Label lblAdditionalTargetsUptime = new Label(
-						"Additional Targets Uptime:");
-				lblAdditionalTargetsUptime.setWordWrap(false);
-				flexTable.setWidget(7, 0, lblAdditionalTargetsUptime);
+
+		Label lblAdditionalTargetsUptime = new Label(
+				"Additional Targets Uptime:");
+		lblAdditionalTargetsUptime.setWordWrap(false);
+		flexTable.setWidget(9, 0, lblAdditionalTargetsUptime);
 
 		mfdAddUptime = new NumberSpinner();
 		mfdAddUptime.setVisibleLength(3);
 		mfdAddUptime
 				.setTitle("Percent of the time additional targets will have active MfD applied.");
-		flexTable.setWidget(7, 1, mfdAddUptime);
-		flexTable.getCellFormatter().setHorizontalAlignment(1, 2,
+		flexTable.setWidget(9, 1, mfdAddUptime);
+		flexTable.getCellFormatter().setHorizontalAlignment(3, 2,
 				HasHorizontalAlignment.ALIGN_RIGHT);
-		flexTable.getCellFormatter().setHorizontalAlignment(6, 0,
+		flexTable.getCellFormatter().setHorizontalAlignment(8, 0,
 				HasHorizontalAlignment.ALIGN_RIGHT);
-		flexTable.getCellFormatter().setHorizontalAlignment(7, 0,
+		flexTable.getCellFormatter().setHorizontalAlignment(9, 0,
 				HasHorizontalAlignment.ALIGN_RIGHT);
-		flexTable.getCellFormatter().setHorizontalAlignment(5, 2,
+		flexTable.getCellFormatter().setHorizontalAlignment(7, 2,
 				HasHorizontalAlignment.ALIGN_RIGHT);
-		flexTable.getCellFormatter().setHorizontalAlignment(4, 2,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		flexTable.getCellFormatter().setHorizontalAlignment(0, 2,
+		flexTable.getCellFormatter().setHorizontalAlignment(6, 2,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(2, 2,
 				HasHorizontalAlignment.ALIGN_RIGHT);
-		flexTable.getCellFormatter().setHorizontalAlignment(3, 2,
+		flexTable.getCellFormatter().setHorizontalAlignment(4, 2,
 				HasHorizontalAlignment.ALIGN_RIGHT);
-		
-				Label lblNoteThisStacks = new Label(
-						"Note: This stacks with Calamity's MfD");
-				lblNoteThisStacks.setWordWrap(false);
-				lblNoteThisStacks.setStyleName("boldText");
-				flexTable.setWidget(8, 0, lblNoteThisStacks);
-				lblNoteThisStacks.setWidth("168px");
-				flexTable.getFlexCellFormatter().setColSpan(6, 0, 3);
-				flexTable.getFlexCellFormatter().setColSpan(7, 0, 3);
-				flexTable.getFlexCellFormatter().setColSpan(8, 0, 4);
+		flexTable.getCellFormatter().setHorizontalAlignment(5, 2,
+				HasHorizontalAlignment.ALIGN_RIGHT);
+
+		Label lblNoteThisStacks = new Label(
+				"Note: This stacks with Calamity's MfD");
+		lblNoteThisStacks.setWordWrap(false);
+		lblNoteThisStacks.setStyleName("boldText");
+		flexTable.setWidget(10, 0, lblNoteThisStacks);
+		lblNoteThisStacks.setWidth("168px");
+		flexTable.getFlexCellFormatter().setColSpan(8, 0, 3);
+		flexTable.getFlexCellFormatter().setColSpan(9, 0, 3);
+		flexTable.getFlexCellFormatter().setColSpan(10, 0, 4);
+		flexTable.getCellFormatter().setHorizontalAlignment(0, 2,
+				HasHorizontalAlignment.ALIGN_RIGHT);
+		flexTable.getCellFormatter().setHorizontalAlignment(1, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		FlexTableHelper.fixRowSpan(flexTable);
 
 		mfdRune.addChangeHandler(new ChangeHandler() {
@@ -235,7 +271,11 @@ public class SkillsPanel extends Composite {
 		for (Rune r : ActiveSkill.ST.getRunes()) {
 			spikeTrapRunes.addItem(r.getLongName(), r.name());
 		}
-		
+
+		for (Rune r : ActiveSkill.RoV.getRunes()) {
+			rovRunes.addItem(r.getLongName(), r.name());
+		}
+
 		caltropsRunes.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -251,6 +291,15 @@ public class SkillsPanel extends Composite {
 				setSpikeTrapRuneLabel();
 			}
 		});
+
+		rovRunes.addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				setRoVRuneLabel();
+			}
+		});
+
 	}
 
 	public void setCompanionRuneLabel() {
@@ -261,8 +310,13 @@ public class SkillsPanel extends Composite {
 		this.setRuneLabel(spikeTrapRunes, ActiveSkill.ST, spikeTrapRuneLabel);
 	}
 
+	public void setRoVRuneLabel() {
+		this.setRuneLabel(rovRunes, ActiveSkill.RoV, rovRuneLabel);
+	}
+
 	public void setCaltropsRuneLabel() {
-		this.setRuneLabel(caltropsRunes, ActiveSkill.Caltrops, caltropsRuneLabel);
+		this.setRuneLabel(caltropsRunes, ActiveSkill.Caltrops,
+				caltropsRuneLabel);
 	}
 
 	protected void updateMfdRuneAnchor() {
@@ -365,6 +419,18 @@ public class SkillsPanel extends Composite {
 
 	public SimpleCheckBox getSpikeTrap() {
 		return spikeTrap;
+	}
+
+	public SimpleCheckBox getRov() {
+		return rov;
+	}
+
+	public ListBox getRovRunes() {
+		return rovRunes;
+	}
+
+	public NumberSpinner getRovKilled() {
+		return rovKilled;
 	}
 
 }
