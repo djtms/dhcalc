@@ -1,19 +1,18 @@
 function(doc){
 	if (doc.type == 'DPS') {
-		var build = {};
+		var build = '';
 		
 		if (doc.build) {
-			if (doc.build.sentryRune)	
-				build.Sentry = doc.build.sentryRune;
+			build += doc.build.sentryRune;
+			build += '/';
+			
 			
 			if (doc.build.skills) {
 				doc.build.skills.forEach(function(r){
-					
-					if (r.skill)
-						build[r.skill] = true;
-					
-					if (r.rune && (r.rune != 'None'))
-						build[r.rune] = true;
+					build += r.skill;
+					build += '.';
+					build += r.rune;
+					build += '/';
 				});
 			}
 		}

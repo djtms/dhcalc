@@ -402,15 +402,23 @@ public class CouchDBSentryDatabase {
 	public DBStats getStatistics(Build build) {
 		
 		if (build != null) {
-			JsonObject key = new JsonObject();
-			key.addProperty("Sentry", build.getSentryRune().name());
+			
+			StringBuilder sb = new StringBuilder();
+			
+			sb.append(build.getSentryRune().name());
+			sb.append("/");
 			
 			for (SkillAndRune skr : build.getSkills()) {
-				key.addProperty(skr.getSkill().name(), "true");
-				key.addProperty(skr.getRune().name(), "true");
+				sb.append(skr.getSkill().name());
+				sb.append(".");
+				sb.append(skr.getRune().name());
+				sb.append("/");
 			}
 			
-			log.info("Build = " + key.toString());
+			String key = sb.toString();
+			
+			
+			log.info("Build = " + key);
 			
 			return this.reduce(DBStats.class, DpsTableEntry.DPS_SUMMARY, key);
 		} else {
