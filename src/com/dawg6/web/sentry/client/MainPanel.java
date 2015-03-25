@@ -273,7 +273,7 @@ public class MainPanel extends BasePanel {
 		profileLink = new Anchor("battle.net profile");
 		profileLinks.add(profileLink);
 		profileLink.setText("battle.net profile");
-		profileLink.setHref("javascript: return false;");
+		profileLink.setHref("javascript:void(0)");
 		profileLink.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -284,7 +284,7 @@ public class MainPanel extends BasePanel {
 
 		Anchor anchor = new Anchor("paperdoll");
 		anchor.setText("paperdoll");
-		anchor.setHref("javascript: return false;");
+		anchor.setHref("javascript:void(0)");
 		profileLinks.add(anchor);
 
 		anchor.addClickHandler(new ClickHandler() {
@@ -569,7 +569,7 @@ public class MainPanel extends BasePanel {
 			int col = (j * 2) + 1;
 
 			Anchor button_3 = new Anchor("Set");
-			button_3.setHref("javascript: return false;");
+			button_3.setHref("javascript:void(0)");
 			button_3.setTitle("Click to store the current build for comparison");
 			compareTable.setWidget(0, col, button_3);
 			compareTable.getFlexCellFormatter().setHorizontalAlignment(0, col,
@@ -584,7 +584,7 @@ public class MainPanel extends BasePanel {
 			});
 
 			Anchor button_4 = new Anchor("Restore");
-			button_4.setHref("javascript: return false;");
+			button_4.setHref("javascript:void(0)");
 			button_4.setTitle("Click to retrieve this build");
 			compareTable.setWidget(1, col - 1, button_4);
 			compareTable.getFlexCellFormatter().setHorizontalAlignment(1, col-1,
@@ -599,7 +599,7 @@ public class MainPanel extends BasePanel {
 			});
 			
 			Anchor label_1 = new Anchor("Clear");
-			label_1.setHref("javascript: return false;");
+			label_1.setHref("javascript:void(0)");
 			label_1.setTitle("Click to clear this build");
 			compareTable.setWidget(9, col, label_1);
 			compareTable.getFlexCellFormatter().setWidth(9, col + 1, "5px");
@@ -2025,7 +2025,9 @@ public class MainPanel extends BasePanel {
 
 			for (int row = 0; row < NUM_COMPARE_ROWS; row++) {
 				Label label = (Label) compareTable.getWidget(row + 2, col);
-				label.setText("No Data");
+				
+				if (label != null)
+					label.setText("No Data");
 			}
 
 		} else {
@@ -2252,7 +2254,7 @@ public class MainPanel extends BasePanel {
 			else
 				label.setHref(skill.getUrl());
 		} else {
-			label.setHref("javascript: return false;");
+			label.setHref("javascript:void(0)");
 			label.setTarget("_self");
 		}
 	}
@@ -2264,7 +2266,7 @@ public class MainPanel extends BasePanel {
 			label.setHref(skill.getUrl());
 			label.setTarget("_blank");
 		} else {
-			label.setHref("javascript: return false;");
+			label.setHref("javascript:void(0)");
 			label.setTarget("_self");
 		}
 	}
