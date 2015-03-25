@@ -13,7 +13,6 @@ public class FiringData {
 	public static Damage[] calculateDamages(Map<ActiveSkill, Rune> runes,
 			CharacterData data) {
 		List<Damage> list = new Vector<Damage>();
-		List<Damage> hatredLog = new Vector<Damage>();
 
 		List<SkillAndRune> skills = new Vector<SkillAndRune>();
 		Map<SkillAndRune, Integer> skillQty = new TreeMap<SkillAndRune, Integer>();
@@ -189,7 +188,7 @@ public class FiringData {
 					list.addAll(DamageFunction.getDamages(true, false,
 							"Player", new DamageSource(skill, rune), qty, data));
 
-					if ((data.getNumMarauders() >= 4)
+					if ((data.getNumMarauders() >= 4) && data.isSentry() 
 							&& (skill.getSkillType() == SkillType.Spender)) {
 						list.addAll(DamageFunction.getDamages(false, true,
 								"Sentry", new DamageSource(skill, rune), qty,
@@ -209,7 +208,7 @@ public class FiringData {
 					data));
 		}
 		
-		if (boltQty > 0) {
+		if (data.isSentry() && (boltQty > 0)) {
 			list.addAll(DamageFunction.getDamages(false, true, "Sentry",
 					new DamageSource(ActiveSkill.SENTRY, sentryRune), boltQty,
 					data));

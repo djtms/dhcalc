@@ -178,6 +178,7 @@ public class MainPanel extends BasePanel {
 	private Label offHand_weaponDamage;
 	private Label dw_weaponDamage;
 	private FlexTable statTable;
+	private SimpleCheckBox sentry;
 
 	public MainPanel() {
 		VerticalPanel panel = new VerticalPanel();
@@ -234,7 +235,7 @@ public class MainPanel extends BasePanel {
 		horizontalPanel_7.add(tagNumber);
 
 		Button fetchButton = new Button("New button");
-		fetchButton.setText("Fetch");
+		fetchButton.setText("Get Hero List");
 		horizontalPanel_7.add(fetchButton);
 		fetchButton.addClickHandler(new ClickHandler() {
 
@@ -674,14 +675,23 @@ public class MainPanel extends BasePanel {
 		grid.setCellPadding(2);
 		cptnpnlNewPanel_1.setContentWidget(grid);
 
-		sentryRuneLabel = new Anchor("Sentry Rune:");
+		Anchor sentryLabel = new Anchor("Sentry:");
+		sentryLabel.setWordWrap(false);
+		sentryLabel.setTarget("_blank");
+		sentryLabel.setHref(ActiveSkill.SENTRY.getUrl());
+		grid.setWidget(0, 0, sentryLabel);
+		
+		sentry = new SimpleCheckBox();
+		grid.setWidget(0, 1, sentry);
+		
+		sentryRuneLabel = new Anchor("Rune:");
 		sentryRuneLabel.setWordWrap(false);
 		sentryRuneLabel.setTarget("_blank");
-		grid.setWidget(0, 0, sentryRuneLabel);
+		grid.setWidget(0, 2, sentryRuneLabel);
 
 		sentryRunes = new ListBox();
 		sentryRunes.setSelectedIndex(0);
-		grid.setWidget(0, 1, sentryRunes);
+		grid.setWidget(0, 3, sentryRunes);
 		sentryRunes.setTitle("The selected Rune for the Sentry skill.");
 
 		skill1Label = new Anchor("Skill 1:");
@@ -1716,6 +1726,7 @@ public class MainPanel extends BasePanel {
 
 		this.disableListeners = true;
 
+		this.sentry.setValue(build.isSentry());
 		this.setFieldValue(this.sentryRunes, build.getSentryRune().name());
 
 		for (int i = 0; i < skillBoxes.length; i++) {
@@ -1737,6 +1748,7 @@ public class MainPanel extends BasePanel {
 	protected Build getBuild() {
 
 		Build build = new Build();
+		build.setSentry(this.sentry.getValue());
 		build.setSentryRune(this.getRune(this.sentryRunes));
 		build.setSkills(new TreeSet<SkillAndRune>());
 
@@ -2156,14 +2168,14 @@ public class MainPanel extends BasePanel {
 		super.saveFields(fields);
 
 		if (gearPanel != null) {
-			Map<Slot, ItemInformation> items = gearPanel.getItems();
+			Map<Slot, GearPanel.ItemHolder> items = gearPanel.getItems();
 
 			for (Slot s : Slot.values()) {
-				ItemInformation item = items.get(s);
+				GearPanel.ItemHolder item = items.get(s);
 
-				if ((item != null) && (item.tooltipParams != null)) {
+				if ((item != null) && (item.getTooltip() != null)) {
 					this.saveField(SLOT_PREFIX + s.getSlot(),
-							item.tooltipParams);
+							item.getTooltip());
 				}
 			}
 		}
@@ -2542,6 +2554,7 @@ public class MainPanel extends BasePanel {
 
 	private void setSkills() {
 
+		sentry.setValue(data.isSentry());
 		Rune sentryRune = data.getSentryRune();
 
 		this.setSentryRune(sentryRune.getLongName());
@@ -3334,6 +3347,7 @@ public class MainPanel extends BasePanel {
 				new Field(this.situational.getDistance(), "TargetDistance",
 						"50"),
 				new Field(this.sentryRunes, "SentryRune", Rune.None.name()),
+				new Field(this.sentry, "HasSentry", Boolean.TRUE.toString()),
 				new Field(this.skill1, "Skill1", ""),
 				new Field(this.skill2, "Skill2", ""),
 				// new Field(this.skill3, "Skill3", ""),
@@ -3350,7 +3364,7 @@ public class MainPanel extends BasePanel {
 				new Field(this.situational.getTargetSpacing(), "TargetSpacing",
 						"10"),
 				new Field(this.situational.getPercentAbove75(),
-						"PercentAbove75Health", "100"),
+						"PercentHealthAbove75", "25"),
 
 				new Field(this.cdrPanel.getAmulet(), "CDR.Amulet", "0"),
 				new Field(this.cdrPanel.getBelt(), "CDR.Belt", "0"),
@@ -3499,6 +3513,7 @@ public class MainPanel extends BasePanel {
 			data.setNightStalker(this.passives.getNightStalker().getValue());
 			data.setSentryDamage(getValue(this.skillDamage.getSentryDamage()) / 100.0);
 			data.setSentryRune(this.getRune(sentryRunes));
+			data.setSentry(sentry.getValue());
 			data.setCritChance(calculator.getCritChance());
 			data.setCritHitDamage(calculator.getCritDamage());
 			data.setPoisonDamage(getValue(this.typeDamage.getPoisonDamage()) / 100.0);
@@ -3700,8 +3715,11 @@ public class MainPanel extends BasePanel {
 		SkillSet skillSet = new SkillSet(skills.keySet());
 
 		Rune rune = getRune(this.sentryRunes);
-		skills.put(ActiveSkill.SENTRY, rune);
-		skills.put(ActiveSkill.BOLT, rune);
+		
+		if (sentry.getValue()) {
+			skills.put(ActiveSkill.SENTRY, rune);
+			skills.put(ActiveSkill.BOLT, rune);
+		}
 
 		return skillSet;
 	}
@@ -4544,29 +4562,44 @@ public class MainPanel extends BasePanel {
 			gearPanel = new GearPanel();
 		}
 
+		gearPanel.setVisible(true);
+		gearPanel.updateLabels();
+		
 		ApplicationPanel.showDialogBox("Items", gearPanel,
 				ApplicationPanel.APPLY_CHANGES | ApplicationPanel.CANCEL,
 				new DialogBoxResultHandler() {
 
 					@Override
 					public void dialogBoxResult(int result) {
+						
+						gearPanel.setVisible(false);
+						
 						if (result == ApplicationPanel.APPLY_CHANGES) {
 
 							AsyncTaskHandler dialog = ApplicationPanel
 									.showWaitDialogBox("Please Wait",
 											"Calculating...");
 
-							Map<Slot, ItemInformation> items = gearPanel
+							Map<Slot, GearPanel.ItemHolder> items = gearPanel
 									.getItems();
 
 							if ((hero != null) && (hero.items != null)) {
 								for (Slot s : Slot.values()) {
-									ItemInformation item = items.get(s);
+									final Slot slot = s;
+									GearPanel.ItemHolder item = items.get(s);
 
 									if (item == null) {
 										hero.items.remove(s.getSlot());
 									} else {
-										hero.items.put(s.getSlot(), item);
+										item.getInfo(new DefaultCallback<ItemInformation>(){
+
+											@Override
+											protected void doOnSuccess(
+													ItemInformation result) {
+												hero.items.put(slot.getSlot(), result);
+											}
+											
+										});
 									}
 								}
 

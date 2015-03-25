@@ -237,7 +237,7 @@ public class SavePanel extends Composite {
 					FormData data = listener.getFormData();
 
 					JSONObject obj = JsonUtil.toJSONObject(data);
-					textArea.setText(obj.toString());
+					textArea.setText(JsonUtil.formatJsonText(obj.toString()));
 					textArea.selectAll();
 				}
 
@@ -508,7 +508,7 @@ public class SavePanel extends Composite {
 
 			JSONObject obj = JsonUtil.toJSONObject(data);
 			MainPanel.saveFormData("sentry-dps-calc.json",
-					obj.toString(), "false");
+					JsonUtil.formatJsonText(obj.toString()), "false");
 			
 		}
 	}
@@ -522,4 +522,5 @@ public class SavePanel extends Composite {
 
 		void setFormData(FormData data);
 	}
+	
 }

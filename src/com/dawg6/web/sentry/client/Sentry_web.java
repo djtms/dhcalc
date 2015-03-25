@@ -27,7 +27,7 @@ public class Sentry_web implements EntryPoint {
 			}
 		});
 
-		Window.setTitle("Sentry Damage Calculator ("
+		Window.setTitle("DH Damage Calculator ("
 				+ Version.getShortVersionString() + ")");
 
 		Service.getInstance().execute(new AsyncTask() {

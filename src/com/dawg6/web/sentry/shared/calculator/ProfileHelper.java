@@ -211,6 +211,7 @@ public class ProfileHelper {
 		boolean mfd = false;
 		Rune mfdRune = Rune.None;
 		boolean caltrops = false;
+		boolean sentry = false;
 		Rune sentryRune = Rune.None;
 		boolean preparationPunishment = false;
 		Set<SkillAndRune> skills = new TreeSet<SkillAndRune>();
@@ -242,20 +243,20 @@ public class ProfileHelper {
 						}
 					}
 				} else if (s.skill.name.equals(Const.CALTROPS)) {
-						caltrops = true;
+					caltrops = true;
 
-						if (s.rune == null) {
-							caltropsRune = Rune.None;
-						} else {
-							String type = s.rune.type;
+					if (s.rune == null) {
+						caltropsRune = Rune.None;
+					} else {
+						String type = s.rune.type;
 
-							for (Rune r : ActiveSkill.Caltrops.getRunes()) {
-								if (r.getSlug().equals(type)) {
-									caltropsRune = r;
-									break;
-								}
+						for (Rune r : ActiveSkill.Caltrops.getRunes()) {
+							if (r.getSlug().equals(type)) {
+								caltropsRune = r;
+								break;
 							}
 						}
+					}
 				} else if (s.skill.name.equals(Const.SPIKE_TRAP)) {
 					spikeTrap = true;
 
@@ -278,6 +279,8 @@ public class ProfileHelper {
 				} else if (s.skill.name
 
 				.equals(ActiveSkill.SENTRY.getLongName())) {
+
+					sentry = true;
 
 					if (s.rune != null) {
 						sentryRune = lookupRune(ActiveSkill.SENTRY, s.rune.name);
@@ -422,6 +425,7 @@ public class ProfileHelper {
 		data.setCaltropsRune(caltropsRune);
 		data.setSpikeTrap(spikeTrap);
 		data.setSpikeTrapRune(spikeTrapRune);
+		data.setSentry(sentry);
 		data.setSentryRune(sentryRune);
 		data.setSkills(skills);
 		data.setCustomEngineering(customEngineering);
@@ -821,7 +825,7 @@ public class ProfileHelper {
 		data.setWeaponDamagePercent(wpnDamage);
 		data.setOffHand_weaponDamagePercent(offHand_wpnDamage);
 		data.setEquipmentDexterity(equipmentDexterity);
-		
+
 		if (paragonDexterity != null)
 			data.setParagonDexterity(paragonDexterity);
 		else {
@@ -875,7 +879,7 @@ public class ProfileHelper {
 		boolean cindercoat = false;
 		double cindercoatPercent = 0.0;
 		boolean vaxo = false;
-		
+
 		for (ItemInformation i : hero.items.values()) {
 
 			if (i.attributesRaw != null) {
@@ -961,7 +965,7 @@ public class ProfileHelper {
 				helltrapper = true;
 				Value<Float> value = i.attributesRaw
 						.get(Const.HELLTRAPPER_PERCENT);
-				
+
 				if (value != null) {
 					helltrapperPercent = value.min;
 				} else {

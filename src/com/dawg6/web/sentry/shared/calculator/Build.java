@@ -9,6 +9,7 @@ public class Build extends JsonObject  implements Comparable<Build> {
 
 	private static final long serialVersionUID = 4903862888670789419L;
 
+	private boolean sentry;
 	private Rune sentryRune;
 	private Set<SkillAndRune> skills;
 	@JsonIgnore
@@ -141,5 +142,13 @@ public class Build extends JsonObject  implements Comparable<Build> {
 		}
 		
 		return null;
+	}
+
+	public boolean isSentry() {
+		return sentry;
+	}
+
+	public void setSentry(boolean sentry) {
+		this.sentry = sentry;
 	}
 }

@@ -17,6 +17,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
@@ -31,7 +32,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class GearPanel extends Composite {
 
 	private final Map<Slot, Anchor> labels = new TreeMap<Slot, Anchor>();
-	private final Map<Slot, ItemInformation> items = new TreeMap<Slot, ItemInformation>();
+	private final Map<Slot, ItemHolder> items = new TreeMap<Slot, ItemHolder>();
 	private final String SAVED_ITEMS = "SAVED_ITEMS";
 	private final ListBox savedItems;
 
@@ -165,15 +166,17 @@ public class GearPanel extends Composite {
 			}
 
 		}
+		
+		setVisible(false);
 	}
 
 	protected void clickItem(Slot slot) {
-		ItemInformation item = items.get(slot);
+		ItemHolder item = items.get(slot);
 
 		if (item != null) {
 			Window.open(
 					"json?realm=US&item="
-							+ URL.encodeQueryString(item.tooltipParams),
+							+ URL.encodeQueryString(item.tooltip),
 					"_blank", "");
 		}
 	}
@@ -182,7 +185,6 @@ public class GearPanel extends Composite {
 		setItem(slot, null);
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void deleteItem() {
 		int i = savedItems.getSelectedIndex();
 
@@ -259,31 +261,23 @@ public class GearPanel extends Composite {
 
 		if (i >= 0) {
 			String value = savedItems.getValue(i);
-
-			Service.getInstance().getItem(Realm.US, value,
-					new DefaultCallback<ItemInformation>() {
-
-						@Override
-						protected void doOnSuccess(final ItemInformation item) {
-
-							if ((item == null) || (item.code != null)) {
-								ApplicationPanel
-										.showErrorDialog("Error loading item");
-								return;
-							}
-
-							setItem(slot, item);
-						}
-					});
+			ItemHolder item = new ItemHolder(value);
+			setItem(slot, item);
 		}
-
 	}
 
 	protected void saveSlot(Slot slot) {
-		ItemInformation item = items.get(slot);
+		ItemHolder item = items.get(slot);
 
 		if (item != null) {
-			saveItem(item.name, item);
+			
+			item.getInfo(new DefaultCallback<ItemInformation>(){
+
+				@Override
+				protected void doOnSuccess(ItemInformation result) {
+					saveItem(result.name, result);
+				}});
+			
 		}
 	}
 
@@ -326,7 +320,6 @@ public class GearPanel extends Composite {
 			entry.setName(name);
 			entry.setItem(item.tooltipParams);
 
-			String data = storage.getItem(SAVED_ITEMS);
 			JsoArray<Entry> list = getSavedItems();
 
 			list.push(entry);
@@ -344,30 +337,60 @@ public class GearPanel extends Composite {
 		if ((hero != null) && (hero.items != null)) {
 			for (Slot slot : Slot.values()) {
 				ItemInformation item = hero.items.get(slot.getSlot());
-				setItem(slot, item);
+				setItem(slot, new ItemHolder(item));
 			}
 		}
 
 	}
 
-	private void setItem(Slot slot, ItemInformation item) {
-		Anchor label = labels.get(slot);
+	private void setItem(Slot slot, final ItemHolder item) {
+		final Anchor label = labels.get(slot);
 
 		String text = "unloaded";
 		String url = "javascript: return false;";
 
 		if (item != null) {
-			text = item.name;
 			items.put(slot, item);
-			url = "http://us.battle.net/d3/en/itemData/" + item.tooltipParams;
+			url = "http://us.battle.net/d3/en/itemData/" + item.getTooltip();
+			
+			if (this.isVisible()) {
+				item.getInfo(new DefaultCallback<ItemInformation>(){
+	
+					@Override
+					protected void doOnSuccess(ItemInformation result) {
+						label.setText(result.name);
+					}
+					
+				});
+			}
+			
 		} else {
 			items.remove(slot);
+			label.setText(text);
 		}
 
-		label.setText(text);
 		label.setHref(url);
 	}
 
+	public void updateLabels() {
+		for (Slot s : Slot.values()) {
+			final Anchor label = labels.get(s);
+			ItemHolder item = items.get(s);
+			String url = "http://us.battle.net/d3/en/itemData/" + item.getTooltip();
+			label.setHref(url);
+
+			item.getInfo(new DefaultCallback<ItemInformation>(){
+				
+				@Override
+				protected void doOnSuccess(ItemInformation result) {
+					label.setText(result.name);
+				}
+				
+			});
+		}
+	}
+	
+	
 	private static class Entry extends JavaScriptObject {
 
 		protected Entry() {
@@ -408,20 +431,21 @@ public class GearPanel extends Composite {
 		return s;
 	}
 
-	public Map<Slot, ItemInformation> getItems() {
-		return new TreeMap<Slot, ItemInformation>(items);
+	public Map<Slot, ItemHolder> getItems() {
+		return new TreeMap<Slot, ItemHolder>(items);
 	}
 
 	public void populateFormData(Map<String, String> data) {
-		Map<Slot, ItemInformation> items = getItems();
+		Map<Slot, ItemHolder> items = getItems();
 
 		data.clear();
 
 		for (Slot s : Slot.values()) {
-			ItemInformation item = items.get(s);
+			
+			ItemHolder item = items.get(s);
 
-			if ((item != null) && (item.tooltipParams != null)) {
-				data.put(s.getSlot(), item.tooltipParams);
+			if ((item != null) && (item.getTooltip() != null)) {
+				data.put(s.getSlot(), item.getTooltip());
 			}
 		}
 	}
@@ -432,23 +456,7 @@ public class GearPanel extends Composite {
 			String item = items.get(s.getSlot());
 
 			if (item != null) {
-				Service.getInstance().getItem(Realm.US, item,
-						new DefaultCallback<ItemInformation>() {
-
-							@Override
-							protected void doOnSuccess(
-									final ItemInformation itemData) {
-
-								if ((itemData == null)
-										|| (itemData.code != null)) {
-									ApplicationPanel
-											.showErrorDialog("Error loading item");
-									return;
-								}
-
-								setItem(slot, itemData);
-							}
-						});
+				setItem(slot, new ItemHolder(item));
 			} else {
 				setItem(slot, null);
 			}
@@ -459,5 +467,41 @@ public class GearPanel extends Composite {
 		
 		for (Slot s : Slot.values())
 			setItem(s, null);
+	}
+	
+	public static class ItemHolder {
+		private final String tooltip;
+		private ItemInformation info;
+		
+		public ItemHolder(String tooltip) {
+			this.tooltip = tooltip;
+			this.info = null;
+		}
+		
+		public ItemHolder(ItemInformation info) {
+			this.tooltip = info.tooltipParams;
+			this.info = info;
+		}
+
+		public String getTooltip() {
+			return tooltip;
+		}
+		
+		public void getInfo(AsyncCallback<ItemInformation> callback) {
+			if (info == null) {
+				
+				Service.getInstance().getItem(Realm.US, tooltip,
+						new DefaultCallback<ItemInformation>(callback) {
+
+							@Override
+							protected void doOnSuccess(ItemInformation result) {
+								info = result;
+							}
+					
+				});
+			} else {
+				callback.onSuccess(info);
+			}
+		}
 	}
 }

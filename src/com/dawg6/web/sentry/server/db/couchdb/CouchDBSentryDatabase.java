@@ -405,8 +405,10 @@ public class CouchDBSentryDatabase {
 			
 			StringBuilder sb = new StringBuilder();
 			
-			sb.append(build.getSentryRune().name());
-			sb.append("/");
+			if (build.isSentry()) {
+				sb.append(build.getSentryRune().name());
+				sb.append("/");
+			}
 			
 			for (SkillAndRune skr : build.getSkills()) {
 				sb.append(skr.getSkill().name());
@@ -514,6 +516,7 @@ public class CouchDBSentryDatabase {
 			System.out.println("Start Time = " + since);
 			
 			Build build = new Build();
+			build.setSentry(true);
 			build.setSentryRune(Rune.Polar_Station);
 			Set<SkillAndRune> skills = new TreeSet<SkillAndRune>();
 			skills.add(new SkillAndRune(ActiveSkill.CA, Rune.Maelstrom));

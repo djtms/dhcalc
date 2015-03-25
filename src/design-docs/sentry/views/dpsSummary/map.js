@@ -3,9 +3,11 @@ function(doc){
 		var build = '';
 		
 		if (doc.build) {
-			build += doc.build.sentryRune;
-			build += '/';
 			
+			if (doc.build.sentry) {
+				build += doc.build.sentryRune;
+				build += '/';
+			}
 			
 			if (doc.build.skills) {
 				doc.build.skills.forEach(function(r){

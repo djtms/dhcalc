@@ -298,6 +298,7 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 		Map<ActiveSkill, Rune> skillMap = new TreeMap<ActiveSkill, Rune>();
 
 		Build build = new Build();
+		build.setSentry(data.isSentry());
 		build.setSentryRune(data.getSentryRune());
 		build.setSkills(new HashSet<SkillAndRune>(data.getSkills()));
 

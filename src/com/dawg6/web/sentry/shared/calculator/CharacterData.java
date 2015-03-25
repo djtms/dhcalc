@@ -157,6 +157,7 @@ public class CharacterData implements Serializable {
 	private double caltropsUptime;
 	private int numSpikeTraps;
 	private Set<SkillAndRune> skills;
+	private boolean sentry;
 	private Rune sentryRune;
 	private Map<String, Integer> cdrData;
 	private Map<String, Integer> rcrData;
@@ -2093,5 +2094,13 @@ public class CharacterData implements Serializable {
 
 	public void setNumNats(int numNats) {
 		this.numNats = numNats;
+	}
+
+	public boolean isSentry() {
+		return sentry;
+	}
+
+	public void setSentry(boolean sentry) {
+		this.sentry = sentry;
 	}
 }

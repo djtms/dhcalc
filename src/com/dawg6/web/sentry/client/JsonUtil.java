@@ -131,4 +131,10 @@ public class JsonUtil {
 
 		return obj;
 	}
+	
+	public static native String formatJsonText(String text) 
+	/*-{
+		var object = JSON.parse(text);
+		return JSON.stringify(object, null, 4);
+	}-*/;
 }

@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimpleCheckBox;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -37,6 +38,7 @@ public class StatsPanel extends Composite {
 	private final Label totalLabel;
 	private final FlexTable mainTable;
 	private final FlexTable filterTable;
+	private final SimpleCheckBox sentry;
 	private final ListBox sentryRune;
 	private final ListBox skill1;
 //	private final ListBox rune3;
@@ -133,13 +135,21 @@ public class StatsPanel extends Composite {
 		verticalPanel.add(panel3);
 		panel3.setHeight("80px");
 
-		Label lblNewLabel_2 = new Label("Sentry Rune:");
+		Label sentryLabel = new Label("Sentry:");
+		sentryLabel.setWordWrap(false);
+		sentryLabel.setStyleName("boldText");
+		filterTable.setWidget(0, 0, sentryLabel);
+		
+		sentry = new SimpleCheckBox();
+		filterTable.setWidget(0, 1, sentry);
+		
+		Label lblNewLabel_2 = new Label("Rune:");
 		lblNewLabel_2.setWordWrap(false);
 		lblNewLabel_2.setStyleName("boldText");
-		filterTable.setWidget(0, 0, lblNewLabel_2);
+		filterTable.setWidget(0, 2, lblNewLabel_2);
 
 		sentryRune = new ListBox();
-		filterTable.setWidget(0, 1, sentryRune);
+		filterTable.setWidget(0, 3, sentryRune);
 
 		Label lblSkill = new Label("Skill 1:");
 		lblSkill.setWordWrap(false);
@@ -384,6 +394,7 @@ public class StatsPanel extends Composite {
 
 	private void setBuild(Build build) {
 		this.selectRune(this.sentryRune, build.getSentryRune());
+		this.sentry.setValue(build.isSentry());
 
 		this.disableListeners = true;
 

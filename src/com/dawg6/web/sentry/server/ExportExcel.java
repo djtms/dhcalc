@@ -464,6 +464,8 @@ public class ExportExcel {
 		createInput(inputs, data.data.getParagonAD(), "Paragon Area Damage");
 		
 		createInputHeader(inputs, "Sentry Skills");
+		createInput(inputs, data.data.isSentry(),
+				"Sentry");
 		createInput(inputs, data.data.getSentryRune().getLongName(),
 				"Sentry Rune");
 
