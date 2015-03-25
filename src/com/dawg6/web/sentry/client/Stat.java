@@ -190,6 +190,11 @@ public enum Stat {
 		}
 		
 		@Override
+		public boolean test(CharacterData data, Set<DamageType> types, Set<ActiveSkill> skills) {
+			return data.isSentry();
+		}
+
+		@Override
 		public void unapply(CharacterData data, Object token) {
 			data.setSentryDamage((Double)token);
 		}}),
@@ -486,7 +491,7 @@ public enum Stat {
 		
 		@Override
 		public boolean test(CharacterData data, Set<DamageType> types, Set<ActiveSkill> skills) {
-			return data.isUseEnforcer();
+			return data.isUseEnforcer() && (data.isSentry() || data.isCompanion());
 		}
 
 		@Override

@@ -3843,6 +3843,10 @@ public class MainPanel extends BasePanel {
 			statTable.removeRow(i - 1);
 		}
 
+		for (int i = shooterSummary.getRowCount(); i > 1; --i) {
+			shooterSummary.removeRow(i - 1);
+		}
+
 		this.captionPanelDamageLog.setCaptionHTML("Damage Log (" + eliteString
 				+ " " + FiringData.DURATION + " seconds)");
 		this.captionPanelTypeSummary.setCaptionHTML("Damage Type Summary ("
