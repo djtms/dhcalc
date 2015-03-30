@@ -445,15 +445,14 @@ public class ExportExcel {
 		createInput(inputs, bp.getQty(), "Attacks per 30 Seconds");
 		createInput(inputs, 8.0 * (1 - data.data.getCdr()), "Sentry Cooldown (sec)", timeStyle);
 		
-		if (data.data.isPreparationPunishment())
-			createInput(inputs, 20.0 * (1 - data.data.getCdr()), "Preparation Cooldown (sec)", timeStyle);
-		
 		createInput(inputs, 8.0 * (1 - data.data.getCdr()), "Sentry Cooldown (sec)", timeStyle);
 		createInput(inputs, bp.getQty(), "Attacks per 30 Seconds");
 		createInput(inputs, data.data.getTotalEliteDamage(), "Total Elite Damage", pctStyle);
 		createInput(inputs, data.data.getMaxHatred(), "Max Hatred");
 		createInput(inputs, data.data.getHatredPerSecond(), "Hatred Per Second");
-		createInput(inputs, data.data.isPreparationPunishment(), "Preparation/Punishment");
+		createInput(inputs, data.data.getEquipmentDiscipline(), "Equipment +Max Discipline");
+		createInput(inputs, data.data.isPreparation(), "Preparation");
+		createInput(inputs, data.data.getPreparationRune().name(), "Preparation Rune");
 		createInput(inputs, data.data.getParagonDexterity() / 5, "Paragon Dexterity");
 		createInput(inputs, data.data.getParagonIAS(), "Paragon IAS");
 		createInput(inputs, data.data.getParagonCC(), "Paragon CC");

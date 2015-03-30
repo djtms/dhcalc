@@ -140,8 +140,8 @@ public class MainPanel extends BasePanel {
 	private Label totalEliteDamage;
 	private Label eliteDps;
 	private Label eliteDamage;
-	private Label smokeCDLabel;
-	private double smokeCD;
+	private Label sentryCDLabel;
+	private double sentryCD;
 	private CaptionPanel captionPanelTypeSummary;
 	private CaptionPanel captionPanelSkillSummary;
 	private CaptionPanel captionPanelDamageLog;
@@ -234,8 +234,7 @@ public class MainPanel extends BasePanel {
 		tagNumber.setVisibleLength(8);
 		horizontalPanel_7.add(tagNumber);
 
-		Button fetchButton = new Button("New button");
-		fetchButton.setText("Get Hero List");
+		Button fetchButton = new Button("Get Hero List");
 		horizontalPanel_7.add(fetchButton);
 		fetchButton.addClickHandler(new ClickHandler() {
 
@@ -337,7 +336,6 @@ public class MainPanel extends BasePanel {
 					public void onChange(ChangeEvent event) {
 
 						if (!disableListeners) {
-							updateHatred();
 							calculator.setHatred(paragonPanel
 									.getParagonHatred().getValue());
 						}
@@ -479,17 +477,17 @@ public class MainPanel extends BasePanel {
 		lblPunishmentCooldown.setWordWrap(false);
 		grid_1.setWidget(5, 2, lblPunishmentCooldown);
 
-		Label lblSmokeCooldown = new Label("Smoke Screen Cooldown:");
-		lblSmokeCooldown.setWordWrap(false);
-		grid_1.setWidget(6, 2, lblSmokeCooldown);
+		Label sentryCooldown = new Label("Sentry Cooldown:");
+		sentryCooldown.setWordWrap(false);
+		grid_1.setWidget(6, 2, sentryCooldown);
 
 		punishmentCDLabel = new Label("0.0 sec", false);
 		punishmentCDLabel.setStyleName("boldText");
 		grid_1.setWidget(5, 3, punishmentCDLabel);
 
-		smokeCDLabel = new Label("0.0 sec", false);
-		smokeCDLabel.setStyleName("boldText");
-		grid_1.setWidget(6, 3, smokeCDLabel);
+		sentryCDLabel = new Label("0.0 sec", false);
+		sentryCDLabel.setStyleName("boldText");
+		grid_1.setWidget(6, 3, sentryCDLabel);
 
 		Label label_3 = new Label("Sentry APS:");
 		grid_1.setWidget(6, 0, label_3);
@@ -812,16 +810,6 @@ public class MainPanel extends BasePanel {
 		});
 
 		passives = new PassivesPanel();
-
-		this.passives.getBloodVengeance().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (!disableListeners) {
-					updateHatred();
-				}
-			}
-		});
 
 		passives.getArchery().addClickHandler(new ClickHandler() {
 
@@ -1714,14 +1702,6 @@ public class MainPanel extends BasePanel {
 																// rune3Label };
 	}
 
-	protected void updateHatred() {
-		hatredPanel.getMaxHatred().setValue(
-				125.0
-						+ (paragonPanel.getParagonHatred().getValue() * 0.5)
-						+ (this.passives.getBloodVengeance().getValue() ? 25
-								: 0));
-	}
-
 	protected void setBuild(Build build) {
 
 		this.disableListeners = true;
@@ -2160,6 +2140,7 @@ public class MainPanel extends BasePanel {
 		skills.setSpikeTrapRuneLabel();
 		skills.setRoVRuneLabel();
 		skills.setCaltropsRuneLabel();
+		skills.setPreparationRuneLabel();
 		// setSkillLabel(this.skill3Label, skill3);
 	}
 
@@ -2332,7 +2313,6 @@ public class MainPanel extends BasePanel {
 									calculator.getTntPercent());
 
 							updateDpsLabels();
-							updateHatred();
 
 							MainPanel.this.disableListeners = false;
 
@@ -2585,8 +2565,7 @@ public class MainPanel extends BasePanel {
 		}
 
 		hatredPanel.getHatredPerSecond().setValue(data.getHatredPerSecond());
-		hatredPanel.getPreparationPunishment().setValue(
-				data.isPreparationPunishment());
+		hatredPanel.getEquipmentDiscipline().setValue(data.getEquipmentDiscipline());
 	}
 
 	private void updateParagonPoints() {
@@ -2622,6 +2601,9 @@ public class MainPanel extends BasePanel {
 			} else if (field == skills.getCaltropsRunes()) {
 				setRune(field, Rune.valueOf(value));
 				skills.setCaltropsRuneLabel();
+			} else if (field == skills.getPreparationRunes()) {
+				setRune(field, Rune.valueOf(value));
+				skills.setPreparationRuneLabel();
 			} else if (field == targetType) {
 				if ((value == null) || value.equals(Boolean.FALSE.toString()))
 					field.setSelectedIndex(0);
@@ -2821,7 +2803,7 @@ public class MainPanel extends BasePanel {
 		this.rawCdr = rawCdr;
 		this.effCdr = effCdr;
 		this.punishmentCD = 20.0 * (1 - effCdr);
-		this.smokeCD = 2.0 * (1 - effCdr);
+		this.sentryCD = 8.0 * (1 - effCdr);
 
 		this.rawCDRLabel
 				.setText(Util.format(Math.round(rawCdr * 10000.0) / 100.0)
@@ -2831,8 +2813,8 @@ public class MainPanel extends BasePanel {
 						+ "%");
 		this.punishmentCDLabel.setText(Util.format(Math
 				.round(punishmentCD * 100.0) / 100.0) + " sec");
-		this.smokeCDLabel
-				.setText(Util.format(Math.round(smokeCD * 100.0) / 100.0)
+		this.sentryCDLabel
+				.setText(Util.format(Math.round(sentryCD * 100.0) / 100.0)
 						+ " sec");
 	}
 
@@ -3077,7 +3059,9 @@ public class MainPanel extends BasePanel {
 		this.passives.getSingleOut().setValue(data.isSingleOut());
 		this.playerBuffPanel.getWolf().setValue(data.isWolf());
 		this.skills.getCaltrops().setValue(data.isCaltrops());
+		this.skills.getPreparation().setValue(data.isPreparation());
 		this.setRune(skills.getCaltropsRunes(), data.getCaltropsRune());
+		this.setRune(skills.getPreparationRunes(), data.getPreparationRune());
 		this.skills.getSpikeTrap().setValue(data.isSpikeTrap());
 		this.skills.getRov().setValue(data.isRov());
 		this.skills.getRovKilled().setValue(data.getRovKilled());
@@ -3088,6 +3072,12 @@ public class MainPanel extends BasePanel {
 		this.passives.getArchery().setValue(data.isArchery());
 		this.skills.getCompanion().setValue(data.isCompanion());
 		this.setRune(skills.getCompanionRunes(), data.getCompanionRune());
+		this.skills.setCaltropsRuneLabel();
+		this.skills.setPreparationRuneLabel();
+		this.skills.setRoVRuneLabel();
+		this.skills.setCompanionRuneLabel();
+		this.skills.setSpikeTrapRuneLabel();
+		this.skills.updateMfdRuneAnchor();
 	}
 
 	private void setSkillAndRune(Anchor skillLabel, Anchor runeLabel,
@@ -3201,7 +3191,11 @@ public class MainPanel extends BasePanel {
 						Boolean.FALSE.toString()),
 				new Field(this.skills.getCaltrops(), "Caltrops",
 						Boolean.FALSE.toString()),
+				new Field(this.skills.getPreparation(), "Preparation",
+						Boolean.FALSE.toString()),
 				new Field(this.skills.getCaltropsRunes(), "CaltropsRune",
+						Rune.None.name()),
+				new Field(this.skills.getPreparationRunes(), "PreparationRune",
 						Rune.None.name()),
 				new Field(this.skills.getSpikeTrap(), "SpikeTrap",
 						Boolean.FALSE.toString()),
@@ -3221,12 +3215,10 @@ public class MainPanel extends BasePanel {
 						"100"),
 				new Field(this.skills.getNumSpikeTraps(), "NumSpikeTraps",
 						"3"),
-				new Field(this.hatredPanel.getMaxHatred(), "MaxHatredValue",
-						"125"),
 				new Field(this.hatredPanel.getHatredPerSecond(),
-						"HatredPerSecond", "5.0"),
-				new Field(this.hatredPanel.getPreparationPunishment(),
-						"PreparationPunishment", Boolean.FALSE.toString()),
+						"EquipHatredPerSecond", "0.0"),
+				new Field(this.hatredPanel.getEquipmentDiscipline(),
+						"EquipDiscipline", "0.0"),
 				new Field(this.skills.getMfdAddUptime(),
 						"MarkedForDeathAddUptime", "100"),
 				new Field(this.itemPanel.getTntPercent(), "TnTPercent", "35"),
@@ -3644,6 +3636,8 @@ public class MainPanel extends BasePanel {
 					.getValue() / 100.0);
 			data.setCaltrops(skills.getCaltrops().getValue());
 			data.setCaltropsRune(this.getRune(skills.getCaltropsRunes()));
+			data.setPreparation(skills.getPreparation().getValue());
+			data.setPreparationRune(this.getRune(skills.getPreparationRunes()));
 			data.setCaltropsUptime(skills.getCaltropsUptime().getValue() / 100.0);
 			data.setSpikeTrap(skills.getSpikeTrap().getValue());
 			data.setSpikeTrapRune(this.getRune(skills.getSpikeTrapRunes()));
@@ -3651,10 +3645,8 @@ public class MainPanel extends BasePanel {
 			data.setRovKilled(skills.getRovKilled().getValue());
 			data.setRovRune(this.getRune(skills.getRovRunes()));
 			data.setNumSpikeTraps(skills.getNumSpikeTraps().getValue());
-			data.setMaxHatred(hatredPanel.getMaxHatred().getValue());
 			data.setHatredPerSecond(hatredPanel.getHatredPerSecond().getValue());
-			data.setPreparationPunishment(hatredPanel
-					.getPreparationPunishment().getValue());
+			data.setEquipmentDiscipline(hatredPanel.getEquipmentDiscipline().getValue());
 			data.setSpines(itemPanel.getSpines().getValue());
 			data.setKridershot(itemPanel.getKridershot().getValue());
 			data.setSpinesHatred(itemPanel.getSpinesHatred().getValue());
@@ -4342,6 +4334,7 @@ public class MainPanel extends BasePanel {
 			skills.setSpikeTrapRuneLabel();
 			skills.setRoVRuneLabel();
 			skills.setCaltropsRuneLabel();
+			skills.setPreparationRuneLabel();
 			// setSkillLabel(this.skill3Label, skill3);
 
 			if (items.size() > 0) {

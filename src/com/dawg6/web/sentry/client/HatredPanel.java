@@ -1,61 +1,44 @@
 package com.dawg6.web.sentry.client;
 
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimpleCheckBox;
 
 public class HatredPanel extends Composite {
-	private final DoubleSpinner maxHatred;
 	private final DoubleSpinner hatredPerSecond;
-	private final SimpleCheckBox preparationPunishment;
-	
+	private final NumberSpinner equipmentDiscipline;
+
 	public HatredPanel() {
 		
-		CaptionPanel captionPanel = new CaptionPanel("Hatred");
+		CaptionPanel captionPanel = new CaptionPanel("Hatred/Discipline");
 		initWidget(captionPanel);
 		
 		FlexTable flexTable = new FlexTable();
 		flexTable.setCellPadding(2);
 		captionPanel.setContentWidget(flexTable);
 		
-		Label lblNewLabel = new Label("Maximum Hatred:");
-		flexTable.setWidget(0, 0, lblNewLabel);
-		
-		maxHatred = new DoubleSpinner();
-		maxHatred.setVisibleLength(5);
-		flexTable.setWidget(0, 1, maxHatred);
-		
-		Label lblHatredPerSecond = new Label("Hatred per Second:");
-		flexTable.setWidget(1, 0, lblHatredPerSecond);
+		Label lblHatredPerSecond = new Label("+ Hatred per Second:");
+		flexTable.setWidget(0, 0, lblHatredPerSecond);
 		
 		hatredPerSecond = new DoubleSpinner();
 		hatredPerSecond.setVisibleLength(5);
-		maxHatred.setMin(125.0);
-		maxHatred.setMax(200.0);
 		
-		flexTable.setWidget(1, 1, hatredPerSecond);
+		flexTable.setWidget(0, 1, hatredPerSecond);
 		
-		Label lblNewLabel_1 = new Label("Only include Hatred per Second from items. Do not include Hatred per Second from skills (e.g. Archery).");
+		Label label = new Label("+ Maximum Discipline:");
+		flexTable.setWidget(1, 0, label);
+		
+		equipmentDiscipline = new NumberSpinner();
+		equipmentDiscipline.setVisibleLength(5);
+		flexTable.setWidget(1, 1, equipmentDiscipline);
+		
+		Label lblNewLabel_1 = new Label("Only include increased Hatred per Second and Max Discipline from items. Do not include gains from skills (e.g. Archery) or buffs (e.g. Inspire).");
+		lblNewLabel_1.setWordWrap(true);
+		lblNewLabel_1.addStyleName("boldText");
 		flexTable.setWidget(2, 0, lblNewLabel_1);
-		
-		Anchor label = new Anchor("Hatred per Second:");
-		label.setTarget("_blank");
-		label.setHref("http://us.battle.net/d3/en/class/demon-hunter/active/preparation#a+");
-		label.setText("Preparation/Punishment:");
-		label.setHTML("Preparation/Punishment:");
-		flexTable.setWidget(3, 0, label);
-		
-		preparationPunishment = new SimpleCheckBox();
-		flexTable.setWidget(3, 1, preparationPunishment);
 		flexTable.getFlexCellFormatter().setColSpan(2, 0, 2);
-	}
-
-
-	public DoubleSpinner getMaxHatred() {
-		return maxHatred;
+		lblNewLabel_1.setWidth("400px");
 	}
 
 
@@ -63,8 +46,8 @@ public class HatredPanel extends Composite {
 		return hatredPerSecond;
 	}
 
-	public SimpleCheckBox getPreparationPunishment() {
-		return preparationPunishment;
-	}
 
+	public NumberSpinner getEquipmentDiscipline() {
+		return equipmentDiscipline;
+	}
 }

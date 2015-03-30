@@ -30,7 +30,6 @@ public class CDRPanel extends Composite {
 		
 		CaptionPanel cptnpnlCooldownReduction = new CaptionPanel("Cooldown Reduction");
 		initWidget(cptnpnlCooldownReduction);
-		cptnpnlCooldownReduction.setSize("100%", "100%");
 
 		FlexTable flexTable = new FlexTable();
 		flexTable.setCellPadding(2);

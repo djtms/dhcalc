@@ -1,24 +1,22 @@
 **TO DO:**
 
-* Confirm: Does M6 bonus also apply to sentry spenders/generators or only those from player? (currently assumes only to player)
-* Confirm: M6 bonus is Multiplicative? (currently assumes yes)
 * Confirm: Sentries will fire bolts only when not firing spenders? (currently assumes if a Sentry can fire X bolts over 30 seconds, and the player fires Y spenders, then the Sentry will actually fire X - Y bolts over 30 seconds)
-* Confirm: Companion DPS mechanics (see http://us.battle.net/d3/en/forum/topic/16542805158)
 * Confirm: Does dual-wield attack speed bonus apply to sentry breakpoint calculations?
 * Confirm: Does Attack Speed on off-hand weapon apply to sentry breakpoint calculations?
 * Confirm: Dual Wield Sheet APS and DPS calculations
 * Conform: Area damage is additive?
 
+* Implement Patch 2.2. changes:
+- Add Max Discipline from skills
+- Add Focus/Restraint Set bonus
+- Add Convention of the Elements ring
+- Add Iceblink gem
+- Add Crashing Rain belt
+- Add Nat's Slayer RoV bonus (should work as is, need to verify)
+- Add 2.2 Nat's set bonuses
+- Add Omryn's Chain belt
+- Add UE Set bonuses
+
 * Add support ruby socketed in weapon(s)
 * Add support for more than two spenders/generators
 * re-enable player/build statistics
-* Check other set bonuses that need import logic to handle royal ring
-* Improve logic for selecting # of AoE targets
-* Verify/fix Chakram targeting logic
-* Improve ability to compare damage/dps between multiple builds
-* Add build recommendations based on gear
-* Add undo
-* Model monster HP and fight duration
-* Add translation/localization
-* Improve appearance (colors, styles, etc....)
-* Add skill/rune icons

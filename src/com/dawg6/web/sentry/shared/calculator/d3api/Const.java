@@ -125,4 +125,5 @@ public class Const {
 	public static final String VAXO = "Haunt of Vaxo";
 	public static final String AREA_DAMAGE = "Splash_Damage_Effect_Percent";
 	public static final String RAIN_OF_VENGEANCE = "Rain of Vengeance";
+	public static final String MAX_DISCIPLINE = "Resource_Max_Bonus#Discipline";
 }

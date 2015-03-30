@@ -205,7 +205,6 @@ public class CharacterData implements Serializable {
 	private boolean hasBombardiers;
 	private boolean customEngineering;
 	private double hatredPerSecond;
-	private double maxHatred;
 	private int numMarauders;
 	private boolean kridershot;
 	private boolean spines;
@@ -223,7 +222,8 @@ public class CharacterData implements Serializable {
 	private boolean odysseysEnd;
 	private double odysseysEndPercent;
 	private double odysseysEndUptime;
-	private boolean preparationPunishment;
+	private boolean preparation;
+	private Rune preparationRune;
 	private int equipmentDexterity;
 	private int paragonDexterity;
 	private boolean helltrapper;
@@ -237,6 +237,7 @@ public class CharacterData implements Serializable {
 	private Rune rovRune;
 	private int rovKilled;
 	private int numNats;
+	private int equipmentDiscipline;
 	
 	public int getNumMarauders() {
 		return numMarauders;
@@ -1597,11 +1598,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public double getMaxHatred() {
-		return maxHatred;
-	}
-
-	public void setMaxHatred(double maxHatred) {
-		this.maxHatred = maxHatred;
+		return 125 + (this.paragonHatred * 0.5) + (this.isBloodVengeance() ? 25 : 0);
 	}
 
 	public boolean isKridershot() {
@@ -1820,14 +1817,6 @@ public class CharacterData implements Serializable {
 		this.odysseysEndUptime = odysseysEndUptime;
 	}
 	
-	public boolean isPreparationPunishment() {
-		return preparationPunishment;
-	}
-
-	public void setPreparationPunishment(boolean preparationPunishment) {
-		this.preparationPunishment = preparationPunishment;
-	}
-
 	public double getCompanionDamage() {
 		return companionDamage;
 	}
@@ -2102,5 +2091,29 @@ public class CharacterData implements Serializable {
 
 	public void setSentry(boolean sentry) {
 		this.sentry = sentry;
+	}
+
+	public boolean isPreparation() {
+		return preparation;
+	}
+
+	public void setPreparation(boolean preparation) {
+		this.preparation = preparation;
+	}
+
+	public Rune getPreparationRune() {
+		return preparationRune;
+	}
+
+	public void setPreparationRune(Rune preparationRune) {
+		this.preparationRune = preparationRune;
+	}
+
+	public int getEquipmentDiscipline() {
+		return equipmentDiscipline;
+	}
+
+	public void setEquipmentDiscipline(int equipmentDiscipline) {
+		this.equipmentDiscipline = equipmentDiscipline;
 	}
 }

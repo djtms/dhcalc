@@ -37,7 +37,7 @@ public class FiringData {
 		double bvAmount = 30.0;
 		double markedAmount = (4.0 * data.getMfdUptime()) + (4.0 * data.getNumAdditional() * data.getMfdAddUptime());
 		double reaperAmount = maxHatred * data.getReapersWrapsPercent();
-		double regen = data.getHatredPerSecond()
+		double regen = 5.0 + data.getHatredPerSecond()
 				+ (data.isInspire() ? 1.0 : 0.0)
 				+ ((data.isArchery()
 						&& (data.getWeaponType() == WeaponType.HandCrossbow) && (data
@@ -122,7 +122,7 @@ public class FiringData {
 				}
 			}
 
-			if (data.isPreparationPunishment()
+			if (data.isPreparation() && (data.getPreparationRune() == Rune.Punishment)
 					&& ((maxHatred - hatred) >= prepAmount) && (prepAvail <= t)) {
 				hatred += prepAmount;
 				prepAvail = t + prepCd;

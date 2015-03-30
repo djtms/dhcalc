@@ -25,7 +25,6 @@ public class RCRPanel extends Composite {
 		
 		CaptionPanel cptnpnlResourceReduction = new CaptionPanel("Resource Cost Reduction");
 		initWidget(cptnpnlResourceReduction);
-		cptnpnlResourceReduction.setSize("100%", "100%");
 
 		FlexTable flexTable = new FlexTable();
 		flexTable.setCellPadding(2);

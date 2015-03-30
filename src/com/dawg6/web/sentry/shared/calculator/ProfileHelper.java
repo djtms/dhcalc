@@ -213,7 +213,8 @@ public class ProfileHelper {
 		boolean caltrops = false;
 		boolean sentry = false;
 		Rune sentryRune = Rune.None;
-		boolean preparationPunishment = false;
+		boolean preparation = false;
+		Rune preparationRune = Rune.None;
 		Set<SkillAndRune> skills = new TreeSet<SkillAndRune>();
 		boolean companion = false;
 		Rune companionRune = Rune.None;
@@ -272,10 +273,21 @@ public class ProfileHelper {
 							}
 						}
 					}
-				} else if (s.skill.name.equals(Const.PREPARATION)
-						&& (s.rune != null) && (s.rune.name != null)
-						&& (s.rune.name.equals(Const.PUNISHMENT))) {
-					preparationPunishment = true;
+				} else if (s.skill.name.equals(Const.PREPARATION)) {
+					preparation = true;
+
+					if (s.rune == null) {
+						preparationRune = Rune.None;
+					} else {
+						String type = s.rune.type;
+	
+						for (Rune r : ActiveSkill.Preparation.getRunes()) {
+							if (r.getSlug().equals(type)) {
+								preparationRune = r;
+								break;
+							}
+						}
+					}
 				} else if (s.skill.name
 
 				.equals(ActiveSkill.SENTRY.getLongName())) {
@@ -432,7 +444,8 @@ public class ProfileHelper {
 		data.setArchery(archery);
 		data.setBloodVengeance(bloodVengeance);
 		data.setNightStalker(nightStalker);
-		data.setPreparationPunishment(preparationPunishment);
+		data.setPreparation(preparation);
+		data.setPreparationRune(preparationRune);
 		data.setHeroLevel(hero.level);
 		data.setRov(rov);
 		data.setRovRune(rovRune);
@@ -875,7 +888,8 @@ public class ProfileHelper {
 		boolean spines = false;
 		int kridershotHatred = 0;
 		int spinesHatred = 0;
-		double hatredPerSecond = 5.0;
+		double hatredPerSecond = 0.0;
+		int discipline = 0;
 		boolean cindercoat = false;
 		double cindercoatPercent = 0.0;
 		boolean vaxo = false;
@@ -899,6 +913,12 @@ public class ProfileHelper {
 
 				if (v != null) {
 					hatredPerSecond += v.min;
+				}
+
+				v = i.attributesRaw.get(Const.MAX_DISCIPLINE);
+
+				if (v != null) {
+					discipline += v.min;
 				}
 			}
 
@@ -1169,6 +1189,7 @@ public class ProfileHelper {
 		data.setSpinesHatred(spinesHatred);
 
 		data.setHatredPerSecond(hatredPerSecond);
+		data.setEquipmentDiscipline(discipline);
 
 		data.setReapersWraps(reapersWraps);
 		data.setReapersWrapsPercent(reapersWrapsPercent);

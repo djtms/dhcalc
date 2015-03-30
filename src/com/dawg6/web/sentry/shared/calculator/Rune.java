@@ -3,7 +3,7 @@ package com.dawg6.web.sentry.shared.calculator;
 
 public enum Rune {
 
-	None("a", 0),
+	None("", 0),
 	
 	// Impale
 	Impact("b", 0),
@@ -119,6 +119,12 @@ public enum Rune {
 	Flying_Strike("d", 0),
 	Stampede("e", 0),
 	
+	// Preparation
+	Invigoration("b", 0),
+	Punishment("a", 0),
+	Battle_Scars("d", 0),
+	Focused_Mind("c", 0),
+	Backup_Plan("e", 0)
 	;
 	
 	private String slug;
