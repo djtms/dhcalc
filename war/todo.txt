@@ -4,17 +4,16 @@
 * Confirm: Does dual-wield attack speed bonus apply to sentry breakpoint calculations?
 * Confirm: Does Attack Speed on off-hand weapon apply to sentry breakpoint calculations?
 * Confirm: Dual Wield Sheet APS and DPS calculations
-* Conform: Area damage is additive?
+* Confirm: Area damage is additive?
+* Confirm: When using Spines or Kridershot, do Chakram/Elemental Arrow get both bonuses from Bastions of Will, or only the Generator bonus?
+* Confirm: Bastions of Will bonuses are multiplicative
 
 * Implement Patch 2.2. changes:
 - Add Max Discipline from skills
-- Add Focus/Restraint Set bonus
 - Add Convention of the Elements ring
-- Add Iceblink gem
 - Add Crashing Rain belt
 - Add Nat's Slayer RoV bonus (should work as is, need to verify)
 - Add 2.2 Nat's set bonuses
-- Add Omryn's Chain belt
 - Add UE Set bonuses
 
 * Add support ruby socketed in weapon(s)

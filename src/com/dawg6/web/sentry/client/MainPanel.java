@@ -2675,9 +2675,11 @@ public class MainPanel extends BasePanel {
 
 		this.gemPanel.getBot().setValue(data.isUseBaneOfTheTrapped());
 		this.gemPanel.getEnforcer().setValue(data.isUseEnforcer());
+		this.gemPanel.getIceblink().setValue(data.isIceblink());
 		this.gemPanel.getBotp().setValue(data.isBotp());
 		this.gemPanel.getBotLevel().setValue(data.getBaneOfTheTrappedLevel());
 		this.gemPanel.getEnforcerLevel().setValue(data.getEnforcerLevel());
+		this.gemPanel.getIceblinkLevel().setValue(data.getIceblinkLevel());
 		this.gemPanel.getBotpLevel().setValue(data.getBotpLevel());
 		this.gemPanel.getZeis().setValue(data.isZeis());
 		this.gemPanel.getZeisLevel().setValue(data.getZeisLevel());
@@ -2906,6 +2908,7 @@ public class MainPanel extends BasePanel {
 				(int) (Math.round(data.getTntPercent() * 100.0)));
 		this.itemPanel.getCalamity().setValue(data.isCalamityMdf());
 		this.itemPanel.getBombadiers().setValue(data.isHasBombardiers());
+		this.itemPanel.getBastions().setValue(data.isBastions());
 		this.itemPanel.getVaxo().setValue(data.isVaxo());
 		this.itemPanel.getHelltrapper().setValue(data.isHelltrapper());
 		this.itemPanel.getHelltrapperPercent().setValue(
@@ -3157,6 +3160,8 @@ public class MainPanel extends BasePanel {
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getBombadiers(), "Bombadiers",
 						Boolean.FALSE.toString()),
+				new Field(this.itemPanel.getBastions(), "BastionsOfWill",
+						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getVaxo(), "HauntOfVaxo",
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getHelltrapper(), "Helltrapper",
@@ -3310,6 +3315,8 @@ public class MainPanel extends BasePanel {
 						Boolean.FALSE.toString()),
 				new Field(this.gemPanel.getEnforcer(), "Enforcer",
 						Boolean.FALSE.toString()),
+				new Field(this.gemPanel.getIceblink(), "Iceblinnk",
+						Boolean.FALSE.toString()),
 				new Field(this.gemPanel.getBotLevel(), "BoTLevel", "0"),
 				new Field(this.gemPanel.getGogokLevel(), "GogokLevel", "0"),
 				new Field(this.gemPanel.getTaegukLevel(), "TaegukLevel", "0"),
@@ -3318,6 +3325,8 @@ public class MainPanel extends BasePanel {
 				new Field(this.gemPanel.getPainEnhancerStacks(),
 						"PainEnhancerStacks", "0"),
 				new Field(this.gemPanel.getEnforcerLevel(), "EnforcerLevel",
+						"0"),
+				new Field(this.gemPanel.getIceblinkLevel(), "IceblinkLevel",
 						"0"),
 				new Field(this.gemPanel.getToxin(), "Toxin",
 						Boolean.FALSE.toString()),
@@ -3512,14 +3521,16 @@ public class MainPanel extends BasePanel {
 			data.setCritHitDamage(calculator.getCritDamage());
 			data.setPoisonDamage(getValue(this.typeDamage.getPoisonDamage()) / 100.0);
 			data.setPercentSlowedChilled((double) this.situational
-					.getPercentControlled().getValue() / 100.0);
+					.getPercentSlowedChilled().getValue() / 100.0);
 			data.setPercentControlled((double) this.situational
 					.getPercentSlowedChilled().getValue() / 100.0);
 			data.setNumAdditional(getValue(this.situational.getAdditional()));
 			data.setUseBaneOfTheTrapped(this.gemPanel.getBot().getValue());
 			data.setUseEnforcer(this.gemPanel.getEnforcer().getValue());
+			data.setIceblink(this.gemPanel.getIceblink().getValue());
 			data.setBaneOfTheTrappedLevel(getValue(this.gemPanel.getBotLevel()));
 			data.setEnforcerLevel(getValue(this.gemPanel.getEnforcerLevel()));
+			data.setIceblinkLevel(getValue(this.gemPanel.getIceblinkLevel()));
 			data.setChillDamage(this.passives.getCtw().getValue() ? 0.2 : 0.0);
 			data.setCullTheWeak(this.passives.getCtw().getValue());
 			data.setEliteDamage(getValue(this.itemPanel.getEliteDamagePercent()) / 100.0);
@@ -3530,6 +3541,7 @@ public class MainPanel extends BasePanel {
 			data.setGrenadier(this.passives.getGrenadier().getValue());
 			data.setCalamityMdf(itemPanel.getCalamity().getValue());
 			data.setHasBombardiers(itemPanel.getBombadiers().getValue());
+			data.setBastions(itemPanel.getBastions().getValue());
 			data.setVaxo(itemPanel.getVaxo().getValue());
 			data.setHelltrapper(itemPanel.getHelltrapper().getValue());
 			data.setHelltrapperPercent(itemPanel.getHelltrapperPercent()

@@ -238,6 +238,9 @@ public class CharacterData implements Serializable {
 	private int rovKilled;
 	private int numNats;
 	private int equipmentDiscipline;
+	private boolean bastions;
+	private boolean iceblink;
+	private int iceblinkLevel;
 	
 	public int getNumMarauders() {
 		return numMarauders;
@@ -2116,4 +2119,48 @@ public class CharacterData implements Serializable {
 	public void setEquipmentDiscipline(int equipmentDiscipline) {
 		this.equipmentDiscipline = equipmentDiscipline;
 	}
+
+	public boolean isBastions() {
+		return bastions;
+	}
+
+	public void setBastions(boolean bastions) {
+		this.bastions = bastions;
+	}
+
+	public boolean hasGenerator() {
+		
+		for (SkillAndRune s : this.getSkills()) {
+			if ((s.getSkill() != null) && ((s.getSkill().getSkillType() == SkillType.Primary) || (s.getHatred(this) > 0)))
+				return true;
+		}
+
+		return false;
+	}
+
+	public boolean hasSpender() {
+		for (SkillAndRune s : this.getSkills()) {
+			if ((s.getSkill() != null) && (s.getSkill().getSkillType() == SkillType.Spender) && (s.getHatred(this) < 0))
+				return true;
+		}
+
+		return false;
+	}
+
+	public int getIceblinkLevel() {
+		return iceblinkLevel;
+	}
+
+	public void setIceblinkLevel(int iceblinkLevel) {
+		this.iceblinkLevel = iceblinkLevel;
+	}
+
+	public boolean isIceblink() {
+		return iceblink;
+	}
+
+	public void setIceblink(boolean iceblink) {
+		this.iceblink = iceblink;
+	}
+
 }

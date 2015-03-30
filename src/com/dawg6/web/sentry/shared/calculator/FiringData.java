@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.Vector;
 
 public class FiringData {
@@ -29,7 +30,8 @@ public class FiringData {
 		}
 
 		Collections.sort(skills, new SkillAndRune.HatredSorter(data));
-
+		data.setSkills(new TreeSet<SkillAndRune>(skills));
+		
 		double maxHatred = data.getMaxHatred();
 		double hatred = maxHatred;
 		double batAmount = 50.0;

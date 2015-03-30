@@ -640,6 +640,8 @@ public class ExportExcel {
 				"# Marauder's Embodiment");
 		createInput(inputs, data.data.getNumNats(),
 				"# Natalay's Vengeance");
+		createInput(inputs, data.data.isBastions(),
+				"Bastions of Will");
 
 		createInputHeader(inputs, "Legendary Gems");
 		createInput(inputs, data.data.isUseBaneOfTheTrapped(),
@@ -648,6 +650,8 @@ public class ExportExcel {
 				"Bane of the Trapped Level");
 		createInput(inputs, data.data.isUseEnforcer(), "Enforcer");
 		createInput(inputs, data.data.getEnforcerLevel(), "Enforcer Level");
+		createInput(inputs, data.data.isIceblink(), "Iceblink");
+		createInput(inputs, data.data.getIceblinkLevel(), "Iceblink Level");
 		createInput(inputs, data.data.isBotp(), "Bane of the Powerful");
 		createInput(inputs, data.data.getBotpLevel(),
 				"Bane of the Powerful Level");

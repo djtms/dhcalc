@@ -40,6 +40,7 @@ public class Const {
 	public static final String BANE_OF_THE_TRAPPED = "Bane of the Trapped";
 	public static final String JEWEL_RANK = "Jewel_Rank";
 	public static final String ENFORCER = "Enforcer";
+	public static final String ICEBLINK = "Iceblink";
 	public static final String PET_ATTACK_SPEED = "Increase attack speed of your pets by ";
 	public static final String BOTP = "Bane of the Powerful";
 	public static final String GRENADIER = "Grenadier";
@@ -126,4 +127,5 @@ public class Const {
 	public static final String AREA_DAMAGE = "Splash_Damage_Effect_Percent";
 	public static final String RAIN_OF_VENGEANCE = "Rain of Vengeance";
 	public static final String MAX_DISCIPLINE = "Resource_Max_Bonus#Discipline";
+	public static final String BASTIONS_OF_WILL = "bastions-of-will";
 }

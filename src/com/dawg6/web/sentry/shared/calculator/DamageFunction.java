@@ -414,13 +414,18 @@ public class DamageFunction {
 
 						// if (dr.source.skill != ActiveSkill.Companion) {
 						double cc = DamageMultiplier.CC.getValue(data);
+						double iced = 0.0;
+						
+						if (Version.PATCH_VERSION >= 2.2)
+							iced = DamageMultiplier.Iced.getValue(data);
+						
 						double cd = DamageMultiplier.CHD.getValue(data);
 						double caltrops = DamageMultiplier.CaltropsBT
 								.getValue(data);
 						double singleOut = DamageMultiplier.SingleOut
 								.getValue(data);
 
-						if (((cc > 0.0) || (singleOut > 0.0) || (caltrops > 0.0))
+						if (((cc > 0.0) || (singleOut > 0.0) || (caltrops > 0.0) || (iced > 0.0))
 								&& (cd > 0.0)) {
 							StringBuffer ccStr = new StringBuffer();
 
@@ -461,10 +466,23 @@ public class DamageFunction {
 									ccStr.append(")");
 							}
 
+							if (iced > 0.0) {
+								if ((cc > 0.0) || (singleOut > 0.0) || (caltrops > 0.0))
+									ccStr.append(" + ");
+
+								ccStr.append(DamageMultiplier.Iced
+										.getAbbreviation()
+										+ "("
+										+ Util.format(iced) + ")");
+
+								if ((cc > 0.0) || (singleOut > 0.0) || (caltrops > 0.0))
+									ccStr.append(")");
+							}
+
 							multBuf.append(" x (1 + (" + ccStr.toString()
 									+ " x CHD(" + Util.format(cd) + ")))");
 
-							m *= (1.0 + ((cc + singleOut + caltrops) * cd));
+							m *= (1.0 + ((cc + singleOut + caltrops + iced) * cd));
 						}
 						// }
 

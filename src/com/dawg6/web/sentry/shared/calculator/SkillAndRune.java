@@ -35,11 +35,11 @@ public class SkillAndRune implements Serializable, Comparable<SkillAndRune> {
 		
 		double h = 0.0;
 		
-		if ((skill == ActiveSkill.CHAK) && data.isSpines())
+		if ((skill == ActiveSkill.CHAK) && data.isSpines()) {
 			h = data.getSpinesHatred();
-		if ((skill == ActiveSkill.EA) && data.isKridershot())
+		} else if ((skill == ActiveSkill.EA) && data.isKridershot()) {
 			h = data.getKridershotHatred();
-		else {
+		} else {
 			double hatred = skill.getHatred() + rune.getHatred();
 			
 			if (hatred < 0) {

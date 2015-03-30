@@ -29,6 +29,8 @@ public class GemsPanel extends Composite {
 	private final NumberSpinner taegukLevel;
 	private final NumberSpinner taegukStacks;
 	private final NumberSpinner botpUptime;
+	private final SimpleCheckBox iceblink;
+	private final NumberSpinner iceblinkLevel;
 
 	public GemsPanel() {
 
@@ -69,139 +71,155 @@ public class GemsPanel extends Composite {
 		enforcerLevel = new NumberSpinner();
 		enforcerLevel.setVisibleLength(2);
 		flexTable.setWidget(1, 3, enforcerLevel);
+		
+		Anchor anchor_8 = new Anchor("Iceblink");
+		anchor_8.setWordWrap(false);
+		anchor_8.setTarget("_blank");
+		anchor_8.setHref("http://us.battle.net/d3/en/item/iceblink");
+		flexTable.setWidget(2, 0, anchor_8);
+		
+		iceblink = new SimpleCheckBox();
+		flexTable.setWidget(2, 1, iceblink);
+		
+		Label label_7 = new Label("Level:");
+		flexTable.setWidget(2, 2, label_7);
+		
+		iceblinkLevel = new NumberSpinner();
+		iceblinkLevel.setVisibleLength(2);
+		flexTable.setWidget(2, 3, iceblinkLevel);
 
 		Anchor anchor_2 = new Anchor("Bane of the Powerful");
 		anchor_2.setWordWrap(false);
 		anchor_2.setTarget("_blank");
 		anchor_2.setHref("http://us.battle.net/d3/en/item/bane-of-the-powerful");
-		flexTable.setWidget(2, 0, anchor_2);
+		flexTable.setWidget(3, 0, anchor_2);
 
 		botp = new SimpleCheckBox();
-		flexTable.setWidget(2, 1, botp);
+		flexTable.setWidget(3, 1, botp);
 
 		Label label_2 = new Label("Level:");
-		flexTable.setWidget(2, 2, label_2);
+		flexTable.setWidget(3, 2, label_2);
 
 		botpLevel = new NumberSpinner();
 		botpLevel.setVisibleLength(2);
-		flexTable.setWidget(2, 3, botpLevel);
+		flexTable.setWidget(3, 3, botpLevel);
 		
 		Label lblUptime = new Label("% Uptime:");
 		lblUptime.setWordWrap(false);
-		flexTable.setWidget(2, 4, lblUptime);
+		flexTable.setWidget(3, 4, lblUptime);
 		
 		botpUptime = new NumberSpinner();
 		botpUptime.setVisibleLength(2);
 		botpUptime.setTitle("% of time BotP's active buff is up.");
-		flexTable.setWidget(2, 5, botpUptime);
+		flexTable.setWidget(3, 5, botpUptime);
 
 		Anchor anchor_3 = new Anchor("Zei's Stone of Vengeance");
 		anchor_3.setWordWrap(false);
 		anchor_3.setTarget("_blank");
 		anchor_3.setHref("http://us.battle.net/d3/en/item/zeis-stone-of-vengeance");
-		flexTable.setWidget(3, 0, anchor_3);
+		flexTable.setWidget(4, 0, anchor_3);
 
 		zeis = new SimpleCheckBox();
-		flexTable.setWidget(3, 1, zeis);
+		flexTable.setWidget(4, 1, zeis);
 
 		Label label_3 = new Label("Level:");
-		flexTable.setWidget(3, 2, label_3);
+		flexTable.setWidget(4, 2, label_3);
 
 		zeisLevel = new NumberSpinner();
 		zeisLevel.setVisibleLength(2);
-		flexTable.setWidget(3, 3, zeisLevel);
+		flexTable.setWidget(4, 3, zeisLevel);
 		
 		Anchor anchor_5 = new Anchor(GemSkill.Toxin.getDisplayName());
 		anchor_5.setWordWrap(false);
 		anchor_5.setTarget("_blank");
 		anchor_5.setHref(GemSkill.Toxin.getUrl());
-		flexTable.setWidget(4, 0, anchor_5);
+		flexTable.setWidget(5, 0, anchor_5);
 		
 		toxin = new SimpleCheckBox();
-		flexTable.setWidget(4, 1, toxin);
+		flexTable.setWidget(5, 1, toxin);
 		
 		Label label_5 = new Label("Level:");
-		flexTable.setWidget(4, 2, label_5);
+		flexTable.setWidget(5, 2, label_5);
 		
 		toxinLevel = new NumberSpinner();
 		toxinLevel.setVisibleLength(2);
-		flexTable.setWidget(4, 3, toxinLevel);
+		flexTable.setWidget(5, 3, toxinLevel);
 		
 		Anchor anchor_6 = new Anchor(GemSkill.PainEnhancer.getDisplayName());
 		anchor_6.setWordWrap(false);
 		anchor_6.setTarget("_blank");
 		anchor_6.setHref(GemSkill.PainEnhancer.getUrl());
-		flexTable.setWidget(5, 0, anchor_6);
+		flexTable.setWidget(6, 0, anchor_6);
 		
 		painEnhancer = new SimpleCheckBox();
-		flexTable.setWidget(5, 1, painEnhancer);
+		flexTable.setWidget(6, 1, painEnhancer);
 		
 		Label label_6 = new Label("Level:");
-		flexTable.setWidget(5, 2, label_6);
+		flexTable.setWidget(6, 2, label_6);
 		
 		painEnhancerLevel = new NumberSpinner();
 		painEnhancerLevel.setVisibleLength(2);
-		flexTable.setWidget(5, 3, painEnhancerLevel);
+		flexTable.setWidget(6, 3, painEnhancerLevel);
 		
 		Label lblBleeding = new Label("# Bleeding:");
 		lblBleeding.setWordWrap(false);
-		flexTable.setWidget(5, 4, lblBleeding);
+		flexTable.setWidget(6, 4, lblBleeding);
 		
 		painEnhancerStacks = new NumberSpinner();
 		painEnhancerStacks.setVisibleLength(2);
 		painEnhancerStacks.setTitle("# of bleeding enemies within 20 yards");
-		flexTable.setWidget(5, 5, painEnhancerStacks);
+		flexTable.setWidget(6, 5, painEnhancerStacks);
 		
 		Anchor anchor_4 = new Anchor("Gogok of Swiftness");
 		anchor_4.setWordWrap(false);
 		anchor_4.setTarget("_blank");
 		anchor_4.setHref("http://us.battle.net/d3/en/item/gogok-of-swiftness");
-		flexTable.setWidget(6, 0, anchor_4);
+		flexTable.setWidget(7, 0, anchor_4);
 		
 		gogok = new SimpleCheckBox();
-		flexTable.setWidget(6, 1, gogok);
+		flexTable.setWidget(7, 1, gogok);
 		
 		Label label_4 = new Label("Level:");
-		flexTable.setWidget(6, 2, label_4);
+		flexTable.setWidget(7, 2, label_4);
 		
 		gogokLevel = new NumberSpinner();
 		gogokLevel.setVisibleLength(2);
-		flexTable.setWidget(6, 3, gogokLevel);
+		flexTable.setWidget(7, 3, gogokLevel);
 		
 		Label lblStacks = new Label("# Stacks:");
 		lblStacks.setWordWrap(false);
-		flexTable.setWidget(6, 4, lblStacks);
+		flexTable.setWidget(7, 4, lblStacks);
 		
 		gogokStacks = new NumberSpinner();
 		gogokStacks.setTitle("Average # of stacks during fight");
 		gogokStacks.setVisibleLength(2);
 		gogokStacks.setMax(15);
-		flexTable.setWidget(6, 5, gogokStacks);
+		flexTable.setWidget(7, 5, gogokStacks);
 		
 		Anchor anchor_7 = new Anchor("Taeguk");
 		anchor_7.setWordWrap(false);
 		anchor_7.setTarget("_blank");
 		anchor_7.setHref("http://us.battle.net/d3/en/item/taeguk");
-		flexTable.setWidget(7, 0, anchor_7);
+		flexTable.setWidget(8, 0, anchor_7);
 		
 		taeguk = new SimpleCheckBox();
-		flexTable.setWidget(7, 1, taeguk);
+		flexTable.setWidget(8, 1, taeguk);
 		
 		Label label_8 = new Label("Level:");
-		flexTable.setWidget(7, 2, label_8);
+		flexTable.setWidget(8, 2, label_8);
 		
 		taegukLevel = new NumberSpinner();
 		taegukLevel.setVisibleLength(2);
-		flexTable.setWidget(7, 3, taegukLevel);
+		flexTable.setWidget(8, 3, taegukLevel);
 		
 		Label lblStacks_1 = new Label("# Stacks:");
 		lblStacks_1.setWordWrap(false);
-		flexTable.setWidget(7, 4, lblStacks_1);
+		flexTable.setWidget(8, 4, lblStacks_1);
 		
 		taegukStacks = new NumberSpinner();
 		taegukStacks.setVisibleLength(2);
 		taegukStacks.setTitle("Average # of stacks during fight");
-		flexTable.setWidget(7, 5, taegukStacks);
+		flexTable.setWidget(8, 5, taegukStacks);
 		
 		this.botLevel.setMax(100);
 		this.enforcerLevel.setMax(100);
@@ -290,6 +308,14 @@ public class GemsPanel extends Composite {
 
 	public NumberSpinner getBotpUptime() {
 		return botpUptime;
+	}
+
+	public SimpleCheckBox getIceblink() {
+		return iceblink;
+	}
+
+	public NumberSpinner getIceblinkLevel() {
+		return iceblinkLevel;
 	}
 
 }

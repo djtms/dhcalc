@@ -140,6 +140,20 @@ public enum DamageMultiplier {
 					return (data.isArchery() && (data.getWeaponType() == WeaponType.Bow)) ? 0.08
 							: 0.0;
 				}
+			}), BW1("BWg", DamageAccumulator.Multiplicative,
+				"Bastions of Will Generator Bonus (50%)",
+				new Test<CharacterData, Double>() {
+					@Override
+					public Double getValue(CharacterData data) {
+						return (data.isBastions() && data.hasGenerator()) ? 0.5 : 0.0;
+					}
+			}), BW2("BWs", DamageAccumulator.Multiplicative,
+				"Bastions of Will Spender Bonus (50%)",
+				new Test<CharacterData, Double>() {
+					@Override
+					public Double getValue(CharacterData data) {
+						return (data.isBastions() && data.hasSpender()) ? 0.5 : 0.0;
+					}
 			}), Dexterity("Dex", DamageAccumulator.Multiplicative,
 			"Dexterity bonus (1% damage per dex)",
 			new Test<CharacterData, Double>() {
@@ -498,16 +512,23 @@ public enum DamageMultiplier {
 					return data.isAmbush() ? (0.4 * data.getPercentAbove75())
 							: 0.0;
 				}
+			}), Iced("Iced", DamageAccumulator.Special,
+				"Iceblink rank 25 bonus (10% Crit Chance to enemies chilled/frozen)",
+				new Test<CharacterData, Double>() {
+					@Override
+					public Double getValue(CharacterData data) {
+						return (data.isIceblink() && (data.getIceblinkLevel() >= 25)) ? (0.1 * data.getPercentSlowedChilled()) : 0.0;
+					}
 			}), SingleOut(
-			"SingleOut",
-			DamageAccumulator.Special,
-			"Single Out (25% Crit Chance to enemies more than 20 yards away from other enemies)",
-			new Test<CharacterData, Double>() {
-				@Override
-				public Double getValue(CharacterData data) {
-					return (data.isSingleOut() && (data.getTargetSpacing() >= 20)) ? 0.25
-							: 0.0;
-				}
+				"SingleOut",
+				DamageAccumulator.Special,
+				"Single Out (25% Crit Chance to enemies more than 20 yards away from other enemies)",
+				new Test<CharacterData, Double>() {
+					@Override
+					public Double getValue(CharacterData data) {
+						return (data.isSingleOut() && (data.getTargetSpacing() >= 20)) ? 0.25
+								: 0.0;
+					}
 			});
 
 	private String abbrev;

@@ -497,9 +497,11 @@ public class ProfileHelper {
 	public static void setGemDamage(HeroProfile hero, CharacterData data) {
 
 		boolean enforcer = false;
+		boolean iceblink = false;
 		boolean bot = false;
 		boolean botp = false;
 		int enforcerLevel = 0;
+		int iceblinkLevel = 0;
 		int botLevel = 0;
 		int botpLevel = 0;
 		boolean zeis = false;
@@ -525,6 +527,10 @@ public class ProfileHelper {
 							enforcer = true;
 							float rank = g.jewelRank;
 							enforcerLevel = (int) rank;
+						} else if (g.item.name.equals(Const.ICEBLINK)) {
+							iceblink = true;
+							float rank = g.jewelRank;
+							iceblinkLevel = (int) rank;
 						} else if (g.item.name.equals(Const.BOTP)) {
 							botp = true;
 							float rank = g.jewelRank;
@@ -556,6 +562,9 @@ public class ProfileHelper {
 
 		data.setUseEnforcer(enforcer);
 		data.setEnforcerLevel(enforcerLevel);
+
+		data.setIceblink(iceblink);
+		data.setIceblinkLevel(iceblinkLevel);
 
 		data.setBotp(botp);
 		data.setBotpLevel(botpLevel);
@@ -1114,9 +1123,12 @@ public class ProfileHelper {
 
 		int m = getSetCount(data, Const.MARAUDERS);
 		int nats = getSetCount(data, Const.NATS);
-
+		int bastions = getSetCount(data, Const.BASTIONS_OF_WILL);
+		
 		data.setNumMarauders(m);
 		data.setNumNats(nats);
+		data.setBastions(bastions >= 2);
+		
 		data.setCdrData(cdrData);
 		data.setRcrData(rcrData);
 

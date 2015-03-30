@@ -6,6 +6,8 @@ Change Log:
 * Changed Preparation/Punishment to Preparation with Rune selection (preparing for 2.2)
 * Removed Max Hatred input field (calculated from paragon and blood vengeance)
 * Changed Hatred per Second field value to be just Hatred per Second from equipment (i.e. does not include the default 5 per second)
+* Added Bastions of Will Set bonus (patch 2.2)
+* Added Iceblink gem (patch 2.2)
 
 **3/24/15**
 
