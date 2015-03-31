@@ -128,12 +128,10 @@ public class MainPanel extends BasePanel {
 	private double rawCdr;
 	private double effCdr;
 	private double punishmentCD;
-	private final Label sentryApsLabel;
-	private final Label bpLabel;
-	private final Label petApsLabel;
+	private final Label rovCDLabel;
+	private final Label wolfCDLabel;
 	private final BuffPanel buffPanel;
 	private final SavePanel savePanel;
-	private Label sentryDps;
 	private PlayerBuffPanel playerBuffPanel;
 	private FlexTable compareTable;
 	private final CompareData[] compareData = { null, null, null };
@@ -466,12 +464,12 @@ public class MainPanel extends BasePanel {
 		effectiveRCRLabel.setStyleName("boldText");
 		grid_1.setWidget(4, 3, effectiveRCRLabel);
 
-		Label lblPetAps = new Label("Pet APS:");
+		Label lblPetAps = new Label("Companion Cooldown:");
 		grid_1.setWidget(5, 0, lblPetAps);
 
-		petApsLabel = new Label("0.0", false);
-		petApsLabel.setStyleName("boldText");
-		grid_1.setWidget(5, 1, petApsLabel);
+		wolfCDLabel = new Label("0.0", false);
+		wolfCDLabel.setStyleName("boldText");
+		grid_1.setWidget(5, 1, wolfCDLabel);
 
 		Label lblPunishmentCooldown = new Label("Punishment Cooldown:");
 		lblPunishmentCooldown.setWordWrap(false);
@@ -489,36 +487,19 @@ public class MainPanel extends BasePanel {
 		sentryCDLabel.setStyleName("boldText");
 		grid_1.setWidget(6, 3, sentryCDLabel);
 
-		Label label_3 = new Label("Sentry APS:");
+		Label label_3 = new Label("RoV Cooldown:");
 		grid_1.setWidget(6, 0, label_3);
 
-		sentryApsLabel = new Label("0.0", false);
-		sentryApsLabel.setStyleName("boldText");
-		grid_1.setWidget(6, 1, sentryApsLabel);
-
-		Label label_4 = new Label("Break Point:");
-		label_4.setWordWrap(false);
-		grid_1.setWidget(7, 2, label_4);
-
-		bpLabel = new Label("1", false);
-		bpLabel.setStyleName("boldText");
-		grid_1.setWidget(7, 3, bpLabel);
-
-		Label label_7 = new Label("Sentry Base DPS:");
-		label_7.setWordWrap(false);
-		grid_1.setWidget(7, 0, label_7);
-
-		sentryDps = new Label("0");
-		sentryDps.setTitle("Base Sentry DPS (includes Crit, Dex)");
-		sentryDps.setStyleName("boldText");
-		grid_1.setWidget(7, 1, sentryDps);
+		rovCDLabel = new Label("0.0", false);
+		rovCDLabel.setStyleName("boldText");
+		grid_1.setWidget(6, 1, rovCDLabel);
 
 		Button calcDps = new Button("Calculator...");
-		grid_1.setWidget(8, 2, calcDps);
-		grid_1.getFlexCellFormatter().setColSpan(8, 2, 2);
-		grid_1.getCellFormatter().setHorizontalAlignment(8, 2,
+		grid_1.setWidget(7, 2, calcDps);
+		grid_1.getFlexCellFormatter().setColSpan(7, 2, 2);
+		grid_1.getCellFormatter().setHorizontalAlignment(7, 2,
 				HasHorizontalAlignment.ALIGN_RIGHT);
-		grid_1.getCellFormatter().setVerticalAlignment(8, 2,
+		grid_1.getCellFormatter().setVerticalAlignment(7, 2,
 				HasVerticalAlignment.ALIGN_MIDDLE);
 
 		CaptionPanel captionPanel = new CaptionPanel("Compare Builds");
@@ -1262,10 +1243,13 @@ public class MainPanel extends BasePanel {
 		CaptionPanel cPanel = new CaptionPanel("Stat Calculator");
 		horizontalPanel_9.add(cPanel);
 
+		VerticalPanel panel_1 = new VerticalPanel();
+		horizontalPanel_9.add(panel_1);
+		
 		captionPanelTypeSummary = new CaptionPanel(
 				"Damage Type Summary (Non-Elite, " + FiringData.DURATION
 						+ " seconds)");
-		horizontalPanel_9.add(captionPanelTypeSummary);
+		panel_1.add(captionPanelTypeSummary);
 
 		summary = new FlexTable();
 		summary.setCellPadding(5);
@@ -1307,7 +1291,7 @@ public class MainPanel extends BasePanel {
 		captionPanelSkillSummary = new CaptionPanel(
 				"Skill Damage Summary (Non-Elite, " + FiringData.DURATION
 						+ " seconds)");
-		horizontalPanel_9.add(captionPanelSkillSummary);
+		panel_1.add(captionPanelSkillSummary);
 
 		skillSummary = new FlexTable();
 		skillSummary.setStyleName("outputTable");
@@ -1347,7 +1331,7 @@ public class MainPanel extends BasePanel {
 		skillSummary.setWidget(0, 5, label_6);
 
 		captionPanelShooterSummary = new CaptionPanel("Shooter Summary");
-		horizontalPanel_9.add(captionPanelShooterSummary);
+		panel_1.add(captionPanelShooterSummary);
 
 		shooterSummary = new FlexTable();
 		captionPanelShooterSummary.setContentWidget(shooterSummary);
@@ -1571,6 +1555,8 @@ public class MainPanel extends BasePanel {
 		cdrPanel.getQuiver().addChangeHandler(handler);
 		cdrPanel.getBorn().addClickHandler(clickHandler);
 		cdrPanel.getCrimson().addClickHandler(clickHandler);
+		itemPanel.getNumNats().addChangeHandler(handler);
+		skills.getRovKilled().addChangeHandler(handler);
 
 		paragonPanel.getParagonRCR().addChangeHandler(handler2);
 		rcrPanel.getPridesFall().addClickHandler(clickHandler2);
@@ -2806,6 +2792,11 @@ public class MainPanel extends BasePanel {
 		this.effCdr = effCdr;
 		this.punishmentCD = 20.0 * (1 - effCdr);
 		this.sentryCD = 8.0 * (1 - effCdr);
+		double wolfCD = 30.0 * (1 - effCdr);
+		double rovCD = 30.0 * (1 - effCdr);
+		
+		if (itemPanel.getNumNats().getValue() >= 4)
+			rovCD = Math.max(0.0, rovCD - (skills.getRovKilled().getValue() * 2.0));
 
 		this.rawCDRLabel
 				.setText(Util.format(Math.round(rawCdr * 10000.0) / 100.0)
@@ -2818,6 +2809,10 @@ public class MainPanel extends BasePanel {
 		this.sentryCDLabel
 				.setText(Util.format(Math.round(sentryCD * 100.0) / 100.0)
 						+ " sec");
+		this.wolfCDLabel.setText(Util.format(Math.round(wolfCD * 100.0) / 100.0)
+				+ " sec");
+		this.rovCDLabel.setText(Util.format(Math.round(rovCD * 100.0) / 100.0)
+				+ " sec");
 	}
 
 	protected void updateDpsLabels() {
@@ -2845,15 +2840,6 @@ public class MainPanel extends BasePanel {
 		double aps = this.calculator.getSheetAps();
 		double petIas = (this.itemPanel.getTnt().getValue() ? (this.itemPanel
 				.getTntPercent().getValue() / 100.0) : 0.0);
-		double petAps = aps * (1.0 + petIas);
-		this.petApsLabel.setText(Util.format(petAps));
-
-		BreakPoint bp = BreakPoint.get(petAps);
-		this.bpLabel.setText(String.valueOf(bp.getBp()));
-		double sentryAps = (double) bp.getQty() / (double) FiringData.DURATION;
-		this.sentryApsLabel.setText(Util.format(sentryAps));
-		this.sentryDps
-				.setText(Util.format(Math.round(calculator.getSentryDps())));
 
 		this.playerBuffPanel.getBbv().setValue(calculator.getBbv().getValue());
 		this.playerBuffPanel.getBbvUptime().setValue(
@@ -3954,10 +3940,12 @@ public class MainPanel extends BasePanel {
 			damageLog.setWidget(row + 1, 5, new Label(String.valueOf(d.qty),
 					false));
 
-			Label hatredLabel = new Label(Util.format(Math.round(d.hatred)),
-					false);
-			hatredLabel.addStyleName("dpsCol");
-			damageLog.setWidget(row + 1, 6, hatredLabel);
+			if (d.hatred != 0) {
+				Label hatredLabel = new Label(Util.format(Math.round(d.hatred)),
+						false);
+				hatredLabel.addStyleName("dpsCol");
+				damageLog.setWidget(row + 1, 6, hatredLabel);
+			}
 
 			if (d.totalDamage > 0) {
 				Label totalLabel = new Label(Util.format(Math

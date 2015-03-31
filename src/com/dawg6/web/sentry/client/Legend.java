@@ -47,7 +47,7 @@ public class Legend extends ApplicationPanel {
 
 			@Override
 			public int compare(DamageMultiplier o1, DamageMultiplier o2) {
-				return o1.getAbbreviation().compareTo(o2.getAbbreviation());
+				return o1.getAbbreviation().toLowerCase().compareTo(o2.getAbbreviation().toLowerCase());
 			}});
 		
 		for (DamageMultiplier d : sortedList) {

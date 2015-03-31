@@ -169,10 +169,10 @@ public class FiringData {
 
 			t += interval;
 
-			if (t < FiringData.DURATION) {
-				regenHatred += Math.min(interval * regen, maxHatred - hatred);
-				hatred = Math.min(maxHatred, hatred + (interval * regen));
-			}
+			double tick = (t <= FiringData.DURATION) ? interval : (t - FiringData.DURATION);
+			double regenTick = Math.min(tick * regen, maxHatred - hatred);
+			regenHatred += regenTick;
+			hatred += regenTick;
 		}
 
 		for (SkillAndRune skr : skills) {
@@ -304,7 +304,7 @@ public class FiringData {
 		
 		Damage d = new Damage();
 		d.shooter = "Hatred Regen";
-		d.hatred = regenHatred;
+		d.hatred = regen * FiringData.DURATION;
 		d.qty = FiringData.DURATION;
 		list.add(d);
 
