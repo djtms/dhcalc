@@ -199,6 +199,26 @@ public enum Stat {
 			data.setSentryDamage((Double)token);
 		}}),
 		
+	RoV("+1% RoV Damage", new StatAdapter(){
+
+		@Override
+		public Object apply(CharacterData data) {
+			double value = data.getRovDamage();
+			data.setRovDamage(value + 0.01);
+			
+			return value;
+		}
+		
+		@Override
+		public boolean test(CharacterData data, Set<DamageType> types, Set<ActiveSkill> skills) {
+			return data.isRov();
+		}
+
+		@Override
+		public void unapply(CharacterData data, Object token) {
+			data.setRovDamage((Double)token);
+		}}),
+			
 	Area("+1% Area Damage", new StatAdapter(){
 
 		@Override

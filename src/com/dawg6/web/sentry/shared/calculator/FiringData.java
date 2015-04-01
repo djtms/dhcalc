@@ -215,7 +215,7 @@ public class FiringData {
 			
 			if (data.isCrashingRain()) {
 				list.addAll(DamageFunction.getDamages(true, false, "Player",
-						new DamageSource(ActiveSkill.CR, Rune.None), numRov,
+						new DamageSource(ActiveSkill.CR, data.getRovRune()), numRov,
 						data));
 			}
 		}

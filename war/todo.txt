@@ -5,15 +5,7 @@
 * Confirm: Does Attack Speed on off-hand weapon apply to sentry breakpoint calculations?
 * Confirm: Dual Wield Sheet APS and DPS calculations
 * Confirm: Area damage is additive?
-* Confirm: When using Spines or Kridershot, do Chakram/Elemental Arrow get both bonuses from Bastions of Will, or only the Generator bonus?
-* Confirm: Bastions of Will bonuses are multiplicative
-* Confirm: Crashing Rain gets Rain of Vengeance % damage bonus from items?
-* Confirm: Crashing Rain damage type is always Physical?
-* Confirm: Crashing Rain damage applies to single target only?
-* Confirm: Nat's 6 piece bonus is Multiplicative?
-* Confirm: Nat's 4 piece bonus is Multiplicative?
-* Confirm: Nat's 4 piece bonus applies to Crashing Rain?
-* Confirm: Nat's 6 piece bonus applies to initial RoV?
+* Confirm: Crashing Rain damage applies to single target only or 12 yard radius?
 
 * Implement Patch 2.2. changes:
 - Add Max Discipline from skills

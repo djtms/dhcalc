@@ -6,6 +6,7 @@ Change Log:
 * Displays Companion and Rain of Vengeance cooldowns 
 * Added Crashing Rain belt
 * Changed Nat's set bonuses to 2.2 version (note that importing will still use the current set bonus for +dexterity, disc and crit; this should be fixed automatically when 2.2 goes live)
+* Updated Crashing Rain damage to use damage type from RoV Rune
 
 **3/30/15**
 

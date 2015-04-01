@@ -274,6 +274,11 @@ public class DamageFunction {
 			new DamageRow(ActiveSkill.RoV, Rune.Flying_Strike, 38.0, true, Integer.MAX_VALUE, DamageType.Cold),
 			
 			new DamageRow(ActiveSkill.CR, Rune.None, 35.0, true, 0, DamageType.Physical),
+			new DamageRow(ActiveSkill.CR, Rune.Dark_Cloud, 35.0, true, 0, DamageType.Physical),
+			new DamageRow(ActiveSkill.CR, Rune.Shade, 35.0, true, 0, DamageType.Lightning),
+			new DamageRow(ActiveSkill.CR, Rune.Stampede, 35.0, true, 0, DamageType.Fire),
+			new DamageRow(ActiveSkill.CR, Rune.Anathema, 35.0, true, 0, DamageType.Fire),
+			new DamageRow(ActiveSkill.CR, Rune.Flying_Strike, 35.0, true, 0, DamageType.Cold),
 	};
 
 	public static List<Damage> getDamages(boolean isPlayer, boolean isSentry,

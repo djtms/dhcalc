@@ -3889,6 +3889,9 @@ public class MainPanel extends BasePanel {
 					b.setTarget("_blank");
 					b.setWordWrap(false);
 
+					if (d.source.skill == ActiveSkill.CR)
+						url = ActiveSkill.RoV.getUrl();
+					
 					if (d.source.rune != Rune.None)
 						url += ("#" + d.source.rune.getSlug() + "+");
 
