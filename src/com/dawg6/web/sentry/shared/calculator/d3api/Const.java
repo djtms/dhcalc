@@ -128,4 +128,5 @@ public class Const {
 	public static final String RAIN_OF_VENGEANCE = "Rain of Vengeance";
 	public static final String MAX_DISCIPLINE = "Resource_Max_Bonus#Discipline";
 	public static final String BASTIONS_OF_WILL = "bastions-of-will";
+	public static final String CRASHING_RAIN = "Crashing Rain";
 }

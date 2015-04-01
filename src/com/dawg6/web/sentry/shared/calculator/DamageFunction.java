@@ -272,6 +272,8 @@ public class DamageFunction {
 			new DamageRow(ActiveSkill.RoV, Rune.Stampede, 46.0, true, Integer.MAX_VALUE, DamageType.Fire),
 			new DamageRow(ActiveSkill.RoV, Rune.Anathema, 58.0, true, Integer.MAX_VALUE, DamageType.Fire),
 			new DamageRow(ActiveSkill.RoV, Rune.Flying_Strike, 38.0, true, Integer.MAX_VALUE, DamageType.Cold),
+			
+			new DamageRow(ActiveSkill.CR, Rune.None, 35.0, true, 0, DamageType.Physical),
 	};
 
 	public static List<Damage> getDamages(boolean isPlayer, boolean isSentry,
@@ -414,11 +416,7 @@ public class DamageFunction {
 
 						// if (dr.source.skill != ActiveSkill.Companion) {
 						double cc = DamageMultiplier.CC.getValue(data);
-						double iced = 0.0;
-						
-						if (Version.PATCH_VERSION >= 2.2)
-							iced = DamageMultiplier.Iced.getValue(data);
-						
+						double iced = DamageMultiplier.Iced.getValue(data);
 						double cd = DamageMultiplier.CHD.getValue(data);
 						double caltrops = DamageMultiplier.CaltropsBT
 								.getValue(data);

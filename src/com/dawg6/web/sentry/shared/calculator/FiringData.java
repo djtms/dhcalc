@@ -83,17 +83,17 @@ public class FiringData {
 		double markedHatred = 0;
 		int totalHits = 0;
 		double rovCd = (30.0 * (1 - cdr));
-		double rovTime = 5.0;
-		Rune rovRune = data.getRovRune();
+//		double rovTime = 5.0;
+//		Rune rovRune = data.getRovRune();
+//		
+//		if (rovRune == Rune.Dark_Cloud)
+//			rovTime = 8.0;
+//		else if (rovRune == Rune.Stampede)
+//			rovTime = 6.0;
 		
-		if (rovRune == Rune.Dark_Cloud)
-			rovTime = 8.0;
-		else if (rovRune == Rune.Stampede)
-			rovTime = 6.0;
-		
-		if (data.getNumNats() >= 4) {
-			rovCd = Math.max(rovTime, rovCd - (2.0 * data.getRovKilled()));
-		}
+//		if (data.getNumNats() >= 4) {
+//			rovCd = Math.max(rovTime, rovCd - (2.0 * data.getRovKilled()));
+//		}
 		
 		int numRov = 0;
 		double nextRov = 0;
@@ -162,6 +162,10 @@ public class FiringData {
 						}
 					}
 
+					if (data.getNumNats() >= 2) {
+						nextRov -= 2.0;
+					}
+					
 					break;
 					
 				}
@@ -208,6 +212,12 @@ public class FiringData {
 			list.addAll(DamageFunction.getDamages(true, false, "Player",
 					new DamageSource(ActiveSkill.RoV, data.getRovRune()), numRov,
 					data));
+			
+			if (data.isCrashingRain()) {
+				list.addAll(DamageFunction.getDamages(true, false, "Player",
+						new DamageSource(ActiveSkill.CR, Rune.None), numRov,
+						data));
+			}
 		}
 		
 		if (data.isSentry() && (boltQty > 0)) {
@@ -304,7 +314,7 @@ public class FiringData {
 		
 		Damage d = new Damage();
 		d.shooter = "Hatred Regen";
-		d.hatred = regen * FiringData.DURATION;
+		d.hatred = regenHatred;
 		d.qty = FiringData.DURATION;
 		list.add(d);
 

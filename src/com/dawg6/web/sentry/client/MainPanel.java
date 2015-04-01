@@ -1556,7 +1556,7 @@ public class MainPanel extends BasePanel {
 		cdrPanel.getBorn().addClickHandler(clickHandler);
 		cdrPanel.getCrimson().addClickHandler(clickHandler);
 		itemPanel.getNumNats().addChangeHandler(handler);
-		skills.getRovKilled().addChangeHandler(handler);
+//		skills.getRovKilled().addChangeHandler(handler);
 
 		paragonPanel.getParagonRCR().addChangeHandler(handler2);
 		rcrPanel.getPridesFall().addClickHandler(clickHandler2);
@@ -2299,6 +2299,7 @@ public class MainPanel extends BasePanel {
 									calculator.getTntPercent());
 
 							updateDpsLabels();
+							updateCDRLabels();
 
 							MainPanel.this.disableListeners = false;
 
@@ -2454,15 +2455,15 @@ public class MainPanel extends BasePanel {
 									@Override
 									public void taskCompleted() {
 
-										Service.getInstance().logData(data,
-												new DefaultCallback<Void>() {
-
-													@Override
-													public void doOnSuccess(
-															Void result) {
-														// nothing to do
-													}
-												});
+//										Service.getInstance().logData(data,
+//												new DefaultCallback<Void>() {
+//
+//													@Override
+//													public void doOnSuccess(
+//															Void result) {
+//														// nothing to do
+//													}
+//												});
 									}
 								});
 							}
@@ -2795,8 +2796,14 @@ public class MainPanel extends BasePanel {
 		double wolfCD = 30.0 * (1 - effCdr);
 		double rovCD = 30.0 * (1 - effCdr);
 		
-		if (itemPanel.getNumNats().getValue() >= 4)
-			rovCD = Math.max(0.0, rovCD - (skills.getRovKilled().getValue() * 2.0));
+//		if (itemPanel.getNumNats().getValue() >= 4)
+//			rovCD = Math.max(0.0, rovCD - (skills.getRovKilled().getValue() * 2.0));
+
+		if (itemPanel.getNumNats().getValue() >= 2) {
+			double interval = (1.0 / calculator.getSheetAps()) + (situational.getFiringDelay().getValue() / 1000.0);
+			double numAttacks = rovCD / (interval + 2.0);
+			rovCD = numAttacks * interval;
+		}
 
 		this.rawCDRLabel
 				.setText(Util.format(Math.round(rawCdr * 10000.0) / 100.0)
@@ -2895,6 +2902,7 @@ public class MainPanel extends BasePanel {
 		this.itemPanel.getCalamity().setValue(data.isCalamityMdf());
 		this.itemPanel.getBombadiers().setValue(data.isHasBombardiers());
 		this.itemPanel.getBastions().setValue(data.isBastions());
+		this.itemPanel.getCrashingRain().setValue(data.isCrashingRain());
 		this.itemPanel.getVaxo().setValue(data.isVaxo());
 		this.itemPanel.getHelltrapper().setValue(data.isHelltrapper());
 		this.itemPanel.getHelltrapperPercent().setValue(
@@ -3053,7 +3061,7 @@ public class MainPanel extends BasePanel {
 		this.setRune(skills.getPreparationRunes(), data.getPreparationRune());
 		this.skills.getSpikeTrap().setValue(data.isSpikeTrap());
 		this.skills.getRov().setValue(data.isRov());
-		this.skills.getRovKilled().setValue(data.getRovKilled());
+//		this.skills.getRovKilled().setValue(data.getRovKilled());
 		this.setRune(skills.getSpikeTrapRunes(), data.getSpikeTrapRune());
 		this.setRune(skills.getRovRunes(), data.getRovRune());
 		this.passives.getCustomEngineering().setValue(
@@ -3148,6 +3156,8 @@ public class MainPanel extends BasePanel {
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getBastions(), "BastionsOfWill",
 						Boolean.FALSE.toString()),
+				new Field(this.itemPanel.getCrashingRain(), "CrashingRain",
+						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getVaxo(), "HauntOfVaxo",
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getHelltrapper(), "Helltrapper",
@@ -3192,8 +3202,8 @@ public class MainPanel extends BasePanel {
 						Boolean.FALSE.toString()),
 				new Field(this.skills.getRov(), "RoV",
 						Boolean.FALSE.toString()),
-				new Field(this.skills.getRovKilled(), "RoVKilled",
-						"0"),
+//				new Field(this.skills.getRovKilled(), "RoVKilled",
+//						"0"),
 				new Field(this.skills.getSpikeTrapRunes(), "SpikeTrapRune",
 						Rune.None.name()),
 				new Field(this.skills.getRovRunes(), "RoVRune",
@@ -3528,6 +3538,7 @@ public class MainPanel extends BasePanel {
 			data.setCalamityMdf(itemPanel.getCalamity().getValue());
 			data.setHasBombardiers(itemPanel.getBombadiers().getValue());
 			data.setBastions(itemPanel.getBastions().getValue());
+			data.setCrashingRain(itemPanel.getCrashingRain().getValue());
 			data.setVaxo(itemPanel.getVaxo().getValue());
 			data.setHelltrapper(itemPanel.getHelltrapper().getValue());
 			data.setHelltrapperPercent(itemPanel.getHelltrapperPercent()
@@ -3640,7 +3651,7 @@ public class MainPanel extends BasePanel {
 			data.setSpikeTrap(skills.getSpikeTrap().getValue());
 			data.setSpikeTrapRune(this.getRune(skills.getSpikeTrapRunes()));
 			data.setRov(skills.getRov().getValue());
-			data.setRovKilled(skills.getRovKilled().getValue());
+//			data.setRovKilled(skills.getRovKilled().getValue());
 			data.setRovRune(this.getRune(skills.getRovRunes()));
 			data.setNumSpikeTraps(skills.getNumSpikeTraps().getValue());
 			data.setHatredPerSecond(hatredPanel.getHatredPerSecond().getValue());

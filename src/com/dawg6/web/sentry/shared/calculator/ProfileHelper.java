@@ -889,6 +889,7 @@ public class ProfileHelper {
 		boolean hexingPants = false;
 		double hexingPantsPercent = 0.0;
 		boolean bombadiers = false;
+		boolean crashingRain = false;
 		boolean helltrapper = false;
 		double helltrapperPercent = 0.0;
 		boolean reapersWraps = false;
@@ -988,6 +989,8 @@ public class ProfileHelper {
 					strongarmPercent = 0.20;
 			} else if (i.name.equals(Const.BOMBADIERS)) {
 				bombadiers = true;
+			} else if (i.name.equals(Const.CRASHING_RAIN)) {
+				crashingRain = true;
 			} else if (i.name.equals(Const.VAXO)) {
 				vaxo = true;
 			} else if (i.name.equals(Const.HELLTRAPPER)) {
@@ -1191,6 +1194,7 @@ public class ProfileHelper {
 		data.setHarringtonPercent(harringtonPercent);
 
 		data.setHasBombardiers(bombadiers);
+		data.setCrashingRain(crashingRain);
 		data.setVaxo(vaxo);
 		data.setHelltrapper(helltrapper);
 		data.setHelltrapperPercent(helltrapperPercent);

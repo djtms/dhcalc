@@ -280,11 +280,43 @@ public enum DamageMultiplier {
 							.getPercentSlowedChilled()) : 0.0;
 				}
 			}), M6("M6", DamageAccumulator.Multiplicative,
-			"Marauder's 6 piece bonus", new Test<CharacterData, Double>() {
+			"Marauder's 6 piece bonus (+100% per Sentry)", new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
 					return (data.getNumMarauders() >= 6) ? (double) (data
 							.getNumSentries()) : 0;
+				}
+			}), N4("N4", DamageAccumulator.Multiplicative,
+			"Nat's 4 piece bonus (+100% to RoV)", new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return (data.getNumNats() >= 4) ? 1.0 : 0;
+				}
+			}), RoVN6("N6RoV", DamageAccumulator.Multiplicative,
+			"Nat's 6 piece bonus to RoV (+400% damage for 5 seconds after RoV)", new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return (data.getNumNats() >= 6) ? 4.0 : 0;
+				}
+			}), N6("N6", DamageAccumulator.Multiplicative,
+			"Nat's 6 piece bonus to other skills(+400% damage for 5 seconds after RoV)", new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					// TODO do we need to calculate uptime?
+					
+					if (data.getNumNats() < 6)
+						return 0.0;
+					
+					double interval = (1.0 / data.getAps()) + (data.getDelay()  / 1000.0);
+					double cdr = data.getCdr();
+					double rovCD = 30.0 * (1.0 - cdr);
+					double numAttacks = rovCD / (interval + 2.0);
+					rovCD = numAttacks * interval;
+					
+					if (rovCD <= 5.0)
+						return 4.0;
+					else
+						return Math.round(400.0 * (5.0 / rovCD)) / 100.0;
 				}
 			}), Elite("Elite", DamageAccumulator.Multiplicative,
 			"Elite damage bonus (includes BotP if rank 25+)",

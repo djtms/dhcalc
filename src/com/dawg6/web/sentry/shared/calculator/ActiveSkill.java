@@ -73,6 +73,8 @@ public enum ActiveSkill {
 
 	RoV(SkillType.Cooldown, "RoV", "Rain of Vengeance", 0, DamageMultiplier.RoV, new Rune[] { 
 			Rune.None, Rune.Dark_Cloud, Rune.Shade, Rune.Stampede, Rune.Anathema, Rune.Flying_Strike }, "http://us.battle.net/d3/en/class/demon-hunter/active/rain-of-vengeance"),
+	CR(SkillType.Cooldown, "CR", "Crashing Rain", 0, DamageMultiplier.RoV, new Rune[] { 
+			Rune.None }, "http://us.battle.net/d3/en/item/crashing-rain"),
 
 	Any(SkillType.NA, "Any Skill", "Any Skill", 0, null, new Rune[0], null);
 

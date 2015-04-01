@@ -94,13 +94,16 @@ public class DamageRow {
 		this.multipliers.add(DamageMultiplier.Vaxo);
 		this.multipliers.add(DamageMultiplier.Calamity);
 		this.multipliers.add(DamageMultiplier.Toxicity);
-		
-		
-		if (Version.PATCH_VERSION >= 2.2) {
-			this.multipliers.add(DamageMultiplier.BW1);
-			this.multipliers.add(DamageMultiplier.BW2);
-		}
+		this.multipliers.add(DamageMultiplier.BW1);
+		this.multipliers.add(DamageMultiplier.BW2);
 
+		if ((source.skill == ActiveSkill.RoV) || (source.skill == ActiveSkill.CR)) {
+			this.multipliers.add(DamageMultiplier.N4);
+			this.multipliers.add(DamageMultiplier.RoVN6);
+		} else {
+			this.multipliers.add(DamageMultiplier.N6);
+		}
+		
 		if (source.skill != ActiveSkill.Companion) {
 			this.multipliers.add(DamageMultiplier.Taeguk);
 			this.multipliers.add(DamageMultiplier.Harrington);

@@ -498,8 +498,8 @@ public class ExportExcel {
 				"Rain of Vengeance");
 		createInput(inputs, data.data.getRovRune().getLongName(),
 				"RoV Rune");
-		createInput(inputs, data.data.getRovKilled(),
-				"RoV Killed");
+//		createInput(inputs, data.data.getRovKilled(),
+//				"RoV Killed");
 		createInput(inputs, data.data.isMarked(),
 				"Marked for Death");
 		createInput(inputs, data.data.getMfdRune().getLongName(),
@@ -642,6 +642,8 @@ public class ExportExcel {
 				"# Natalay's Vengeance");
 		createInput(inputs, data.data.isBastions(),
 				"Bastions of Will");
+		createInput(inputs, data.data.isCrashingRain(),
+				"Crashing Rain");
 
 		createInputHeader(inputs, "Legendary Gems");
 		createInput(inputs, data.data.isUseBaneOfTheTrapped(),

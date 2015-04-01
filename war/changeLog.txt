@@ -1,9 +1,11 @@
 Change Log:
 
-**3/31/15**
+**4/1/15**
 * Added Bastions of Will Set bonus (patch 2.2)
 * Added Iceblink gem (patch 2.2)
-* Displays Companion and Rain of Vengeance cooldown
+* Displays Companion and Rain of Vengeance cooldowns 
+* Added Crashing Rain belt
+* Changed Nat's set bonuses to 2.2 version (note that importing will still use the current set bonus for +dexterity, disc and crit; this should be fixed automatically when 2.2 goes live)
 
 **3/30/15**
 

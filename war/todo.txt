@@ -7,15 +7,21 @@
 * Confirm: Area damage is additive?
 * Confirm: When using Spines or Kridershot, do Chakram/Elemental Arrow get both bonuses from Bastions of Will, or only the Generator bonus?
 * Confirm: Bastions of Will bonuses are multiplicative
+* Confirm: Crashing Rain gets Rain of Vengeance % damage bonus from items?
+* Confirm: Crashing Rain damage type is always Physical?
+* Confirm: Crashing Rain damage applies to single target only?
+* Confirm: Nat's 6 piece bonus is Multiplicative?
+* Confirm: Nat's 4 piece bonus is Multiplicative?
+* Confirm: Nat's 4 piece bonus applies to Crashing Rain?
+* Confirm: Nat's 6 piece bonus applies to initial RoV?
 
 * Implement Patch 2.2. changes:
 - Add Max Discipline from skills
 - Add Convention of the Elements ring
-- Add Crashing Rain belt
-- Add Nat's Slayer RoV bonus (should work as is, need to verify)
-- Add 2.2 Nat's set bonuses
+- Add import of Nat's Slayer RoV bonus (should work as is, need to verify)
 - Add UE Set bonuses
 
-* Add support ruby socketed in weapon(s)
+* Add support for channeled skills (strafe, rapid fire)
+* Add support for ruby socketed in weapon(s)
 * Add support for more than two spenders/generators
 * re-enable player/build statistics

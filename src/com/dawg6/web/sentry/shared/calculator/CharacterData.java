@@ -235,12 +235,13 @@ public class CharacterData implements Serializable {
 	private int paragonAD;
 	private boolean rov;
 	private Rune rovRune;
-	private int rovKilled;
+//	private int rovKilled;
 	private int numNats;
 	private int equipmentDiscipline;
 	private boolean bastions;
 	private boolean iceblink;
 	private int iceblinkLevel;
+	private boolean crashingRain;
 	
 	public int getNumMarauders() {
 		return numMarauders;
@@ -287,7 +288,7 @@ public class CharacterData implements Serializable {
 		delay = 50;
 		odysseysEndUptime = 1.0;
 		numSpikeTraps = 3;
-		rovKilled = 0;
+//		rovKilled = 0;
 	}
 	
 	public CharacterData() {
@@ -2072,14 +2073,14 @@ public class CharacterData implements Serializable {
 		this.rovDamage = rovDamage;
 	}
 
-	public int getRovKilled() {
-		return rovKilled;
-	}
-
-	public void setRovKilled(int rovKilled) {
-		this.rovKilled = rovKilled;
-	}
-
+//	public int getRovKilled() {
+//		return rovKilled;
+//	}
+//
+//	public void setRovKilled(int rovKilled) {
+//		this.rovKilled = rovKilled;
+//	}
+//
 	public int getNumNats() {
 		return numNats;
 	}
@@ -2161,6 +2162,14 @@ public class CharacterData implements Serializable {
 
 	public void setIceblink(boolean iceblink) {
 		this.iceblink = iceblink;
+	}
+
+	public boolean isCrashingRain() {
+		return crashingRain;
+	}
+
+	public void setCrashingRain(boolean crashingRain) {
+		this.crashingRain = crashingRain;
 	}
 
 }
