@@ -1,12 +1,15 @@
 package com.dawg6.web.sentry.client;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import com.dawg6.web.sentry.shared.calculator.FormData;
 import com.dawg6.web.sentry.shared.calculator.Version;
 import com.dawg6.web.sentry.shared.calculator.d3api.CareerProfile;
 import com.dawg6.web.sentry.shared.calculator.d3api.HeroProfile;
+import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
@@ -115,6 +118,58 @@ public class JsonUtil {
 			String value = e.getValue();
 			
 			obj.put(key, new JSONString(value));
+		}
+		
+		return obj;
+	}
+
+	public static <T extends Enum<T>> Set<T> parseSet(Class<T> clazz, String text) {
+		if ((text == null) || (text.trim().length() == 0))
+			return null;
+		
+		Set<T> set = new TreeSet<T>();
+
+		JSONValue value = JSONParser.parseLenient(text);
+
+		JSONArray array = value.isArray();
+		
+		if (array == null)
+			return null;
+		
+		for (int i = 0; i < array.size(); i++) {
+			JSONValue e = array.get(i);
+			
+			if (e  != null) {
+				JSONString str = e.isString();
+				
+				if (str != null) {
+					String name = str.stringValue();
+					
+					if (name != null) {
+						T elem = Enum.valueOf(clazz, name);
+						
+						if (elem != null) {
+							set.add(elem);
+						}
+					}
+				}
+			}
+		}
+		
+		
+		return set;
+	}
+	
+	public static <T extends Enum<T>> JSONArray toJSONObject(Set<T> set) {
+		if (set == null)
+			return null;
+		
+		JSONArray obj = new JSONArray();
+		
+		int i = 0;
+		
+		for (T t : set) {
+			obj.set(i++, new JSONString(t.name()));
 		}
 		
 		return obj;

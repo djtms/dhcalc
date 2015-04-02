@@ -3,6 +3,7 @@ package com.dawg6.web.sentry.client;
 import com.dawg6.web.sentry.shared.calculator.BreakPoint;
 import com.dawg6.web.sentry.shared.calculator.CharacterData;
 import com.dawg6.web.sentry.shared.calculator.FiringData;
+import com.dawg6.web.sentry.shared.calculator.Passive;
 import com.dawg6.web.sentry.shared.calculator.Util;
 import com.dawg6.web.sentry.shared.calculator.WeaponType;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -24,7 +25,6 @@ public class DPSCalculator extends BasePanel {
 	private final DoubleSpinner critChance;
 	private final NumberSpinner critDamage;
 	private final NumberSpinner equipIAS;
-	private final SimpleCheckBox archery;
 	private final Label dps;
 	private final Label aps;
 	private final NumberSpinner maxJewelDamage;
@@ -48,7 +48,6 @@ public class DPSCalculator extends BasePanel {
 	private double petIasValue;
 	private final Label prevBP;
 	private boolean disableListeners;
-	private final SimpleCheckBox steadyAim;
 	private final ParagonPanel paragonPanel;
 	private final BuffPanel buffPanel;
 	private final NumberSpinner gogokStacks;
@@ -75,6 +74,7 @@ public class DPSCalculator extends BasePanel {
 	private final NumberSpinner heroLevel;
 	private final WeaponPanel mainHand;
 	private final WeaponPanel offHand;
+	private final PassivesPanel passives;
 
 	public DPSCalculator() {
 
@@ -209,54 +209,28 @@ public class DPSCalculator extends BasePanel {
 		paragonPanel.getParagonCHD().addChangeHandler(handler);
 
 		buffPanel = new BuffPanel();
-		flexTable_7.setWidget(2, 0, buffPanel);
-		flexTable_7.getCellFormatter().setVerticalAlignment(2, 0,
+		flexTable_3.setWidget(4, 0, buffPanel);
+		flexTable_3.getCellFormatter().setVerticalAlignment(4, 0,
 				HasVerticalAlignment.ALIGN_TOP);
-		flexTable_7.getCellFormatter().setHorizontalAlignment(2, 0,
+		flexTable_3.getCellFormatter().setHorizontalAlignment(4, 0,
 				HasHorizontalAlignment.ALIGN_LEFT);
 		flexTable_7.getCellFormatter().setVerticalAlignment(0, 0,
 				HasVerticalAlignment.ALIGN_TOP);
 		flexTable_7.getCellFormatter().setHorizontalAlignment(0, 0,
 				HasHorizontalAlignment.ALIGN_LEFT);
 
-		CaptionPanel cptnpnlNewPanel_5 = new CaptionPanel("Passives");
-		flexTable_7.setWidget(3, 0, cptnpnlNewPanel_5);
-
-		FlexTable flexTable_5 = new FlexTable();
-		flexTable_5.setCellPadding(2);
-		cptnpnlNewPanel_5.setContentWidget(flexTable_5);
-
-		Anchor lblNewLabel_6 = new Anchor("Archery:");
-		lblNewLabel_6.setTarget("_blank");
-		flexTable_5.setWidget(0, 0, lblNewLabel_6);
-		lblNewLabel_6
-				.setHref("http://us.battle.net/d3/en/class/demon-hunter/passive/archery");
-		lblNewLabel_6.setWordWrap(false);
-
-		archery = new SimpleCheckBox();
-		flexTable_5.setWidget(0, 1, archery);
-
-		archery.addClickHandler(clickHandler);
-
-		Anchor anchor = new Anchor("Steady Aim:");
-		anchor.setText("Steady Aim:");
-		anchor.setTarget("_blank");
-		anchor.setWordWrap(false);
-		anchor.setHref("http://us.battle.net/d3/en/class/demon-hunter/passive/steady-aim");
-		flexTable_5.setWidget(0, 2, anchor);
-
-		steadyAim = new SimpleCheckBox();
-		flexTable_5.setWidget(0, 3, steadyAim);
-		flexTable_7.getCellFormatter().setHorizontalAlignment(3, 0,
-				HasHorizontalAlignment.ALIGN_LEFT);
-		flexTable_7.getCellFormatter().setVerticalAlignment(3, 0,
-				HasVerticalAlignment.ALIGN_TOP);
-
-		steadyAim.addClickHandler(clickHandler);
 		buffPanel.getAnatomy().addClickHandler(clickHandler);
 		buffPanel.getFocusedMind().addClickHandler(clickHandler);
 		buffPanel.getHysteria().addClickHandler(clickHandler);
 
+		passives = new PassivesPanel();
+		flexTable_7.setWidget(2, 0, passives);
+		flexTable_7.getCellFormatter().setVerticalAlignment(2, 0,
+				HasVerticalAlignment.ALIGN_TOP);
+		flexTable_7.getCellFormatter().setHorizontalAlignment(2, 0,
+				HasHorizontalAlignment.ALIGN_LEFT);
+		passives.addChangeHandler(handler);
+		
 		CaptionPanel cptnpnlNewPanel_4 = new CaptionPanel("Character");
 		flexTable_3.setWidget(1, 0, cptnpnlNewPanel_4);
 
@@ -791,8 +765,6 @@ public class DPSCalculator extends BasePanel {
 				new Field(this.heroLevel, "calc.HeroLevel", "70"),
 				new Field(this.critChance, "calc.CritChance", "0"),
 				new Field(this.critDamage, "calc.CritDamage", "0"),
-				new Field(this.archery, "calc.Archery", "0"),
-				new Field(this.steadyAim, "calc.SteadyAim", "0"),
 
 				new Field(this.buffPanel.getFocusedMind(), "calc.FocusedMind",
 						Boolean.FALSE.toString()),
@@ -814,6 +786,10 @@ public class DPSCalculator extends BasePanel {
 	public void calculate() {
 
 		WeaponType type = getMainHandWeaponType();
+		
+		if (type == null)
+			type = WeaponType.Bow;
+		
 		WeaponType offHand_type = getOffHandWeaponType();
 		
 		double min = this.mainHand.getWeaponMin() + getValue(this.minJewelDamage);
@@ -840,7 +816,7 @@ public class DPSCalculator extends BasePanel {
 			buffIas += 0.08;
 		}
 
-		if (this.archery.getValue()) {
+		if (this.passives.getPassives().contains(Passive.Archery)) {
 			if (type == WeaponType.HandCrossbow) {
 				aCC += 0.05;
 			} else if (type == WeaponType.Bow) {
@@ -850,7 +826,7 @@ public class DPSCalculator extends BasePanel {
 			}
 		}
 
-		if (this.steadyAim.getValue()) {
+		if (this.passives.getPassives().contains(Passive.Steady_Aim)) {
 			aDam += .2;
 		}
 
@@ -969,8 +945,7 @@ public class DPSCalculator extends BasePanel {
 		this.dexterity.setValue(data.getEquipmentDexterity());
 		this.tnt.setValue(data.isTnt());
 		this.tntPercent.setValue((int)(Math.round(data.getTntPercent() * 100.0)));
-		this.archery.setValue(data.isArchery());
-		this.steadyAim.setValue(data.isSteadyAim());
+		this.passives.setPassives(data.getPassives());
 		this.minJewelDamage.setValue((int) Math.round(data.getJewelMin()));
 		this.maxJewelDamage.setValue((int) Math.round(data.getJewelMax()));
 
@@ -1028,10 +1003,6 @@ public class DPSCalculator extends BasePanel {
 		return totalCD;
 	}
 
-	public Boolean isArchery() {
-		return archery.getValue();
-	}
-
 	public Integer getTntPercent() {
 		return getValue(this.tntPercent);
 	}
@@ -1064,17 +1035,12 @@ public class DPSCalculator extends BasePanel {
 		return mainHand.getAverageWeaponDamage();
 	}
 
-	public void setArchery(boolean archery) {
-		this.archery.setValue(archery);
-		this.calculate();
-	}
-
 	public int getTotalDexterity() {
 		return getValue(this.dexterity) + (paragonPanel.getParagonDexterity().getValue() * 5) + 7 + (getHeroLevel() * 3);
 	}
 
 	public double getDamageBonus() {
-		if (this.archery.getValue()) {
+		if (this.passives.getPassives().contains(Passive.Archery)) {
 			WeaponType type = getMainHandWeaponType();
 
 			if (type == WeaponType.Bow)
@@ -1082,10 +1048,6 @@ public class DPSCalculator extends BasePanel {
 		}
 
 		return 0.0;
-	}
-
-	public boolean getArchery() {
-		return this.archery.getValue();
 	}
 
 	public boolean isDisableListeners() {
@@ -1096,15 +1058,10 @@ public class DPSCalculator extends BasePanel {
 		this.disableListeners = disableListeners;
 	}
 
-	public boolean getSteadyAim() {
-		return this.steadyAim.getValue();
+	public PassivesPanel getPassives() {
+		return this.passives;
 	}
-
-	public void setSteadyAim(boolean steadyAim) {
-		this.steadyAim.setValue(steadyAim);
-		this.calculate();
-	}
-
+	
 	public Integer getParagonCDR() {
 		return paragonPanel.getParagonCDR().getValue();
 	}
@@ -1271,5 +1228,29 @@ public class DPSCalculator extends BasePanel {
 		double oh = offHand.getAverageWeaponDamage();
 		
 		return (t == null) ? main : ((main + oh) / 2.0);
+	}
+
+	public WeaponPanel getMainHand() {
+		return mainHand;
+	}
+
+	public WeaponPanel getOffHand() {
+		return offHand;
+	}
+
+	public double getEquipmentCritDamage() {
+		return this.critDamage.getValue() / 100.0;
+	}
+
+	public double getEquipmentCritChance() {
+		return this.critChance.getValue() / 100.0;
+	}
+
+	public double getJewelMin() {
+		return this.minJewelDamage.getValue();
+	}
+
+	public double getJewelMax() {
+		return this.maxJewelDamage.getValue();
 	}
 }

@@ -3,8 +3,10 @@ package com.dawg6.web.sentry.client;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
+import java.util.Set;
 
 import com.dawg6.gwt.client.ApplicationPanel;
+import com.dawg6.web.sentry.shared.calculator.Passive;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.storage.client.Storage;
@@ -132,11 +134,11 @@ public class BasePanel extends ApplicationPanel {
 	}
 	
 	protected class Field {
-		public Widget field;
+		public Object field;
 		public String name;
 		public String defaultValue;
 
-		public Field(Widget field, String name, String defaultValue) {
+		public Field(Object field, String name, String defaultValue) {
 			this.field = field;
 			this.name = name;
 			this.defaultValue = defaultValue;
@@ -263,7 +265,7 @@ public class BasePanel extends ApplicationPanel {
 	}
 
 	protected String getFieldValue(Field f) {
-		Widget field = f.field;
+		Object field = f.field;
 		String defaultValue = f.defaultValue;
 
 		if (field instanceof TextBox)
@@ -280,8 +282,18 @@ public class BasePanel extends ApplicationPanel {
 			return getFieldValue((SimpleCheckBox) field, defaultValue);
 		else if (field instanceof ListBox)
 			return getFieldValue((ListBox) field, defaultValue);
+		else if (field instanceof PassivesPanel)
+			return getFieldValue(((PassivesPanel)field).getPassives(), defaultValue);
 		else
 			return defaultValue;
+	}
+
+	private String getFieldValue(Set<Passive> passives, String defaultValue) {
+
+		if (passives == null)
+			return defaultValue;
+		
+		return JsonUtil.toJSONObject(passives).toString();
 	}
 
 	protected String getFieldValue(ListBox field, String defaultValue) {
@@ -363,7 +375,7 @@ public class BasePanel extends ApplicationPanel {
 
 	protected void setFieldValue(Field f, String value) {
 
-		Widget field = f.field;
+		Object field = f.field;
 
 		if (value == null)
 			value = f.defaultValue;
@@ -382,6 +394,14 @@ public class BasePanel extends ApplicationPanel {
 			setFieldValue((SimpleCheckBox) field, value);
 		else if (field instanceof ListBox)
 			setFieldValue((ListBox) field, value);
+		else if (field instanceof PassivesPanel)
+			setFieldValue((PassivesPanel)field, value);
+	}
+
+	private void setFieldValue(PassivesPanel field, String value) {
+		Set<Passive> set = JsonUtil.parseSet(Passive.class, value);
+		
+		field.setPassives(set);
 	}
 
 	protected void setFieldValue(ListBox field, String value) {

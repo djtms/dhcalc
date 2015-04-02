@@ -1,6 +1,12 @@
 Change Log:
 
+**4/2/15**
+
+* Now imports all Passive skills (including any on Hellfire Amulet)
+* Properly handles cases where some gear slots are empty
+
 **4/1/15**
+
 * Added Bastions of Will Set bonus (patch 2.2)
 * Added Iceblink gem (patch 2.2)
 * Displays Companion and Rain of Vengeance cooldowns 

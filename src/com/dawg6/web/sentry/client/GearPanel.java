@@ -337,7 +337,12 @@ public class GearPanel extends Composite {
 		if ((hero != null) && (hero.items != null)) {
 			for (Slot slot : Slot.values()) {
 				ItemInformation item = hero.items.get(slot.getSlot());
-				setItem(slot, new ItemHolder(item));
+				
+				
+				if (item != null)
+					setItem(slot, new ItemHolder(item));
+				else
+					setItem(slot, null);
 			}
 		}
 
@@ -376,17 +381,23 @@ public class GearPanel extends Composite {
 		for (Slot s : Slot.values()) {
 			final Anchor label = labels.get(s);
 			ItemHolder item = items.get(s);
-			String url = "http://us.battle.net/d3/en/itemData/" + item.getTooltip();
-			label.setHref(url);
-
-			item.getInfo(new DefaultCallback<ItemInformation>(){
-				
-				@Override
-				protected void doOnSuccess(ItemInformation result) {
-					label.setText(result.name);
-				}
-				
-			});
+			
+			if (item != null) {
+				String url = "http://us.battle.net/d3/en/itemData/" + item.getTooltip();
+				label.setHref(url);
+	
+				item.getInfo(new DefaultCallback<ItemInformation>(){
+					
+					@Override
+					protected void doOnSuccess(ItemInformation result) {
+						label.setText(result.name);
+					}
+					
+				});
+			} else {
+				label.setHref("javascript:void(0)");
+				label.setText("Empty");
+			}
 		}
 	}
 	

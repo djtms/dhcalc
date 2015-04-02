@@ -13,6 +13,7 @@
 - Add import of Nat's Slayer RoV bonus (should work as is, need to verify)
 - Add UE Set bonuses
 
+* Add Pierce mechanics
 * Add support for channeled skills (strafe, rapid fire)
 * Add support for ruby socketed in weapon(s)
 * Add support for more than two spenders/generators

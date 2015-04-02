@@ -792,31 +792,6 @@ public class MainPanel extends BasePanel {
 
 		passives = new PassivesPanel();
 
-		passives.getArchery().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-				if (!disableListeners) {
-					calculator.setArchery(passives.getArchery().getValue());
-					calculator.saveForm();
-					updateDpsLabels();
-				}
-			}
-		});
-
-		passives.getSteadyAim().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (!disableListeners) {
-					calculator.setSteadyAim(passives.getSteadyAim().getValue());
-					calculator.saveForm();
-					updateDpsLabels();
-				}
-			}
-		});
-
 		playerBuffPanel.getBbv().addClickHandler(new ClickHandler() {
 
 			@Override
@@ -1454,6 +1429,31 @@ public class MainPanel extends BasePanel {
 		damageLog.getRowFormatter().addStyleName(0, "headerRow");
 
 		calculator = new DPSCalculator();
+
+		passives.addChangeHandler(new ChangeHandler(){
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				if (!disableListeners) {
+					disableListeners = true;
+					calculator.getPassives().setPassives(passives.getPassives());
+					calculator.saveForm();
+					updateDpsLabels();
+					disableListeners = false;
+				}
+			}});
+
+		calculator.getPassives().addChangeHandler(new ChangeHandler(){
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				if (!disableListeners) {
+					disableListeners = true;
+					passives.setPassives(calculator.getPassives().getPassives());
+					updateDpsLabels();
+					disableListeners = false;
+				}
+			}});
 
 		ChangeHandler handler = new ChangeHandler() {
 
@@ -2269,10 +2269,6 @@ public class MainPanel extends BasePanel {
 									.setValue(calculator.getParagonRCR());
 							MainPanel.this.paragonPanel.getParagonAD()
 									.setValue(calculator.getParagonAD());
-							MainPanel.this.passives.getArchery().setValue(
-									calculator.getArchery());
-							MainPanel.this.passives.getSteadyAim().setValue(
-									calculator.getSteadyAim());
 							MainPanel.this.buffPanel.getAnatomy().setValue(
 									calculator.getAnatomy());
 							MainPanel.this.buffPanel.getFocusedMind().setValue(
@@ -2511,10 +2507,6 @@ public class MainPanel extends BasePanel {
 		calculator.importHero(server, profile, tag, heroId, data);
 
 		calculator.saveForm();
-
-		MainPanel.this.passives.getArchery().setValue(calculator.isArchery());
-		MainPanel.this.passives.getSteadyAim().setValue(
-				calculator.getSteadyAim());
 
 		updateDps();
 
@@ -2842,8 +2834,6 @@ public class MainPanel extends BasePanel {
 				.getCritDamage() * 100.0)) + "%");
 		this.avgWeaponDamage.setText(Util.format(calculator
 				.getTotalAverageWeaponDamage()));
-		this.passives.getArchery().setValue(calculator.getArchery());
-		this.passives.getSteadyAim().setValue(calculator.getSteadyAim());
 		double aps = this.calculator.getSheetAps();
 		double petIas = (this.itemPanel.getTnt().getValue() ? (this.itemPanel
 				.getTntPercent().getValue() / 100.0) : 0.0);
@@ -3044,16 +3034,9 @@ public class MainPanel extends BasePanel {
 
 	protected void setHeroSkills() {
 
-		this.passives.getBallistics().setValue(data.isBallistics());
-		this.passives.getBloodVengeance().setValue(data.isBloodVengeance());
-		this.passives.getNightStalker().setValue(data.isNightStalker());
-		this.passives.getCtw().setValue(data.isCullTheWeak());
-		this.passives.getGrenadier().setValue(data.isGrenadier());
+		this.passives.setPassives(data.getPassives());
 		this.skills.getMfd().setValue(data.isMfdSkill());
 		this.skills.setMarkedForDeathRune(data.getMfdRune());
-		this.passives.getSteadyAim().setValue(data.isSteadyAim());
-		this.passives.getAmbush().setValue(data.isAmbush());
-		this.passives.getSingleOut().setValue(data.isSingleOut());
 		this.playerBuffPanel.getWolf().setValue(data.isWolf());
 		this.skills.getCaltrops().setValue(data.isCaltrops());
 		this.skills.getPreparation().setValue(data.isPreparation());
@@ -3064,9 +3047,6 @@ public class MainPanel extends BasePanel {
 //		this.skills.getRovKilled().setValue(data.getRovKilled());
 		this.setRune(skills.getSpikeTrapRunes(), data.getSpikeTrapRune());
 		this.setRune(skills.getRovRunes(), data.getRovRune());
-		this.passives.getCustomEngineering().setValue(
-				data.isCustomEngineering());
-		this.passives.getArchery().setValue(data.isArchery());
 		this.skills.getCompanion().setValue(data.isCompanion());
 		this.setRune(skills.getCompanionRunes(), data.getCompanionRune());
 		this.skills.setCaltropsRuneLabel();
@@ -3282,22 +3262,6 @@ public class MainPanel extends BasePanel {
 						TargetSize.Small.name()),
 				new Field(this.situational.getPercentAtLeast10Yards(),
 						"PercentAtleast10Yards", "100"),
-				new Field(this.passives.getArchery(), "Archery",
-						Boolean.FALSE.toString()),
-				new Field(this.passives.getCustomEngineering(),
-						"CustomEngineering", Boolean.FALSE.toString()),
-				new Field(this.passives.getBallistics(), "Ballistics",
-						Boolean.FALSE.toString()),
-				new Field(this.passives.getBloodVengeance(), "BloodVengeance",
-						Boolean.FALSE.toString()),
-				new Field(this.passives.getNightStalker(), "NightStalker",
-						Boolean.FALSE.toString()),
-				new Field(this.passives.getSteadyAim(), "SteadyAim",
-						Boolean.FALSE.toString()),
-				new Field(this.passives.getGrenadier(), "Grenadier",
-						Boolean.FALSE.toString()),
-				new Field(this.passives.getCtw(), "CtW",
-						Boolean.FALSE.toString()),
 				new Field(this.typeDamage.getColdDamage(), "Cold", "0"),
 				new Field(this.typeDamage.getFireDamage(), "Fire", "0"),
 				new Field(this.typeDamage.getLightningDamage(), "Light", "0"),
@@ -3356,10 +3320,6 @@ public class MainPanel extends BasePanel {
 				new Field(this.rune1, "Rune1", Rune.None.name()),
 				new Field(this.rune2, "Rune2", Rune.None.name()),
 				// new Field(this.rune3, "Rune3", Rune.None.name()),
-				new Field(this.passives.getAmbush(), "Ambush",
-						Boolean.FALSE.toString()),
-				new Field(this.passives.getSingleOut(), "SingleOut",
-						Boolean.FALSE.toString()),
 				new Field(this.situational.getTargetSpacing(), "TargetSpacing",
 						"10"),
 				new Field(this.situational.getPercentAbove75(),
@@ -3449,6 +3409,7 @@ public class MainPanel extends BasePanel {
 						"0"),
 				new Field(this.playerBuffPanel.getRetributionUptime(),
 						"RetributionUptime", "0"),
+				new Field(this.passives, "Passives", null)
 
 		};
 
@@ -3507,9 +3468,7 @@ public class MainPanel extends BasePanel {
 			data.setLightDamage(getValue(this.typeDamage.getLightningDamage()) / 100.0);
 			data.setMsDamage(getValue(this.skillDamage.getMsDamage()) / 100.0);
 			data.setPhysDamage(getValue(this.typeDamage.getPhysicalDamage()) / 100.0);
-			data.setBallistics(this.passives.getBallistics().getValue());
-			data.setBloodVengeance(this.passives.getBloodVengeance().getValue());
-			data.setNightStalker(this.passives.getNightStalker().getValue());
+			data.setPassives(passives.getPassives());
 			data.setSentryDamage(getValue(this.skillDamage.getSentryDamage()) / 100.0);
 			data.setSentryRune(this.getRune(sentryRunes));
 			data.setSentry(sentry.getValue());
@@ -3527,14 +3486,11 @@ public class MainPanel extends BasePanel {
 			data.setBaneOfTheTrappedLevel(getValue(this.gemPanel.getBotLevel()));
 			data.setEnforcerLevel(getValue(this.gemPanel.getEnforcerLevel()));
 			data.setIceblinkLevel(getValue(this.gemPanel.getIceblinkLevel()));
-			data.setChillDamage(this.passives.getCtw().getValue() ? 0.2 : 0.0);
-			data.setCullTheWeak(this.passives.getCtw().getValue());
 			data.setEliteDamage(getValue(this.itemPanel.getEliteDamagePercent()) / 100.0);
 			data.setAreaDamageEquipment(getValue(this.itemPanel.getAreaDamageEquipment()) / 100.0);
 			data.setBotp(this.gemPanel.getBotp().getValue());
 			data.setBotpLevel(getValue(this.gemPanel.getBotpLevel()));
 			data.setBotpUptime(getValue(this.gemPanel.getBotpUptime()) / 100.0);
-			data.setGrenadier(this.passives.getGrenadier().getValue());
 			data.setCalamityMdf(itemPanel.getCalamity().getValue());
 			data.setHasBombardiers(itemPanel.getBombadiers().getValue());
 			data.setBastions(itemPanel.getBastions().getValue());
@@ -3546,33 +3502,40 @@ public class MainPanel extends BasePanel {
 			data.setNumMarauders(itemPanel.getMarauders().getValue());
 			data.setNumNats(itemPanel.getNumNats().getValue());
 			data.setMarked(skills.getMfd().getValue());
-			data.setSteadyAim(this.passives.getSteadyAim().getValue());
 			data.setPercentAtLeast10Yards((double) this.situational
 					.getPercentAtLeast10Yards().getValue() / 100.0);
 			data.setZeis(this.gemPanel.getZeis().getValue());
 			data.setZeisLevel(this.getValue(this.gemPanel.getZeisLevel()));
 			data.setDistanceToTarget(this.getValue(this.situational
 					.getDistance()));
-			data.setAmbush(this.passives.getAmbush().getValue());
-			data.setSingleOut(this.passives.getSingleOut().getValue());
 			data.setPercentAbove75((double) this.situational
 					.getPercentAbove75().getValue() / 100.0);
 			data.setTargetSpacing(this.situational.getTargetSpacing()
 					.getValue());
 			data.setEquipIas(calculator.getEquipIAS());
-
+			data.setEquipCritDamage(calculator.getEquipmentCritDamage());
+			data.setEquipCritChance(calculator.getEquipmentCritChance());
+			data.setJewelMin(calculator.getJewelMin());
+			data.setJewelMax(calculator.getJewelMax());
 			data.setWeaponDamage(calculator.getMainHandAverageWeaponDamage());
-			data.setWeaponType(calculator.getMainHandWeaponType());
+			data.setWeaponDamagePercent(calculator.getMainHand().getWeaponDamage().getValue() / 100.0);
+			data.setBaseMin(calculator.getMainHand().getBaseMin().getValue());
+			data.setBaseMax(calculator.getMainHand().getBaseMax().getValue());
+			data.setAddMin(calculator.getMainHand().getAddMin().getValue());
+			data.setAddMax(calculator.getMainHand().getAddMax().getValue());
 			data.setWeaponIas(calculator.getWeaponIAS());
+			data.setWeaponType(calculator.getMainHandWeaponType());
 
+			data.setOffHand_weaponDamagePercent(calculator.getOffHand().getWeaponDamage().getValue() / 100.0);
 			data.setOffHand_weaponDamage(calculator
 					.getOffHandAverageWeaponDamage());
 			data.setOffHand_weaponType(calculator.getOffHandWeaponType());
 			data.setOffHand_weaponIas(calculator.getOffHandWeaponIAS());
+			data.setOffHand_baseMin(calculator.getOffHand().getBaseMin().getValue());
+			data.setOffHand_baseMax(calculator.getOffHand().getBaseMax().getValue());
+			data.setOffHand_addMin(calculator.getOffHand().getAddMin().getValue());
+			data.setOffHand_addMax(calculator.getOffHand().getAddMax().getValue());
 
-			data.setArchery(calculator.getArchery());
-			data.setCustomEngineering(passives.getCustomEngineering()
-					.getValue());
 			data.setGogok(gemPanel.getGogok().getValue());
 			data.setGogokLevel(gemPanel.getGogokLevel().getValue());
 			data.setGogokStacks(gemPanel.getGogokStacks().getValue());

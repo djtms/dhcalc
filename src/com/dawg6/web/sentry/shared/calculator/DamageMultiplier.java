@@ -366,7 +366,12 @@ public enum DamageMultiplier {
 			new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
-					return (data.getWeaponType().getAps() * (1.0 + data
+					WeaponType type = data.getWeaponType();
+					
+					if (type == null)
+						type = WeaponType.Bow;
+					
+					return (type.getAps() * (1.0 + data
 							.getWeaponIas())) - 1.0;
 				}
 			}), CaltropsBT(

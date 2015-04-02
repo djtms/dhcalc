@@ -1,22 +1,30 @@
 package com.dawg6.web.sentry.client;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.Vector;
+
+import com.dawg6.web.sentry.shared.calculator.Passive;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.SimpleCheckBox;
+import com.google.gwt.user.client.ui.ListBox;
 
 public class PassivesPanel extends Composite {
-	private final SimpleCheckBox ballistics;
-	private final SimpleCheckBox ctw;
-	private final SimpleCheckBox grenadier;
-	private final SimpleCheckBox singleOut;
-	private final SimpleCheckBox ambush;
-	private final SimpleCheckBox steadyAim;
-	private final SimpleCheckBox archery;
-	private final SimpleCheckBox customEngineering;
-	private final SimpleCheckBox nightStalker;
-	private final SimpleCheckBox bloodVengeance;
+	
+	private final List<ChangeHandler> handlers = new Vector<ChangeHandler>();
+	private final List<ListBox> listBoxes = new Vector<ListBox>();
+	private final List<Anchor> anchors = new Vector<Anchor>();
+	
+	private boolean disableListeners = false;
+	
+	public static final int NUM_PASSIVES = 5;
 	
 	public PassivesPanel() {
 		
@@ -27,146 +35,151 @@ public class PassivesPanel extends Composite {
 		flexTable.setCellPadding(2);
 		captionPanel.setContentWidget(flexTable);
 		
-		Anchor anchor = new Anchor("Ballistics:");
-		anchor.setWordWrap(false);
-		anchor.setTarget("_blank");
-		anchor.setHref("http://us.battle.net/d3/en/class/demon-hunter/passive/ballistics");
-		flexTable.setWidget(0, 0, anchor);
+		List<Passive> list = new Vector<Passive>();
+		for (Passive p : Passive.values())
+			list.add(p);
+		Collections.sort(list, new Comparator<Passive>(){
+
+			@Override
+			public int compare(Passive a, Passive b) {
+				return a.getLongName().compareTo(b.getLongName());
+			}});
 		
-		ballistics = new SimpleCheckBox();
-		flexTable.setWidget(0, 1, ballistics);
-		
-		Anchor anchor_1 = new Anchor("Archery:");
-		anchor_1.setWordWrap(false);
-		anchor_1.setText("Steady Aim:");
-		anchor_1.setTarget("_blank");
-		anchor_1.setHTML("Steady Aim:");
-		anchor_1.setHref("http://us.battle.net/d3/en/class/demon-hunter/passive/steady-aim");
-		flexTable.setWidget(0, 2, anchor_1);
-		
-		steadyAim = new SimpleCheckBox();
-		flexTable.setWidget(0, 3, steadyAim);
-		
-		Anchor anchor_3 = new Anchor("Cull the Weak:");
-		anchor_3.setWordWrap(false);
-		anchor_3.setTarget("_blank");
-		anchor_3.setHref("http://us.battle.net/d3/en/class/demon-hunter/passive/cull-the-weak");
-		flexTable.setWidget(1, 0, anchor_3);
-		
-		ctw = new SimpleCheckBox();
-		flexTable.setWidget(1, 1, ctw);
-		
-		Anchor anchor_8 = new Anchor("Night Stalker:");
-		anchor_8.setWordWrap(false);
-		anchor_8.setText("Night Stalker:");
-		anchor_8.setTarget("_blank");
-		anchor_8.setHTML("Night Stalker:");
-		anchor_8.setHref("http://us.battle.net/d3/en/class/demon-hunter/passive/night-stalker");
-		flexTable.setWidget(1, 2, anchor_8);
-		
-		nightStalker = new SimpleCheckBox();
-		flexTable.setWidget(1, 3, nightStalker);
-		
-		Anchor anchor_5 = new Anchor("Grenadier:");
-		anchor_5.setWordWrap(false);
-		anchor_5.setTarget("_blank");
-		anchor_5.setHref("http://us.battle.net/d3/en/class/demon-hunter/passive/grenadier");
-		flexTable.setWidget(2, 0, anchor_5);
-		
-		grenadier = new SimpleCheckBox();
-		flexTable.setWidget(2, 1, grenadier);
-		
-		Anchor anchor_6 = new Anchor("Single Out:");
-		anchor_6.setWordWrap(false);
-		anchor_6.setText("Single Out:");
-		anchor_6.setTarget("_blank");
-		anchor_6.setHTML("Single Out:");
-		anchor_6.setHref("http://us.battle.net/d3/en/class/demon-hunter/passive/single-out");
-		flexTable.setWidget(2, 2, anchor_6);
-		
-		singleOut = new SimpleCheckBox();
-		flexTable.setWidget(2, 3, singleOut);
-		
-		Anchor anchor_2 = new Anchor("Archery:");
-		anchor_2.setWordWrap(false);
-		anchor_2.setHref("http://us.battle.net/d3/en/class/demon-hunter/passive/archery");
-		flexTable.setWidget(3, 0, anchor_2);
-		
-		archery = new SimpleCheckBox();
-		flexTable.setWidget(3, 1, archery);
-		
-		Anchor anchor_7 = new Anchor("Custom Engineering:");
-		anchor_7.setWordWrap(false);
-		anchor_7.setText("Custom Engineering:");
-		anchor_7.setTarget("_blank");
-		anchor_7.setHTML("Custom Engineering:");
-		anchor_7.setHref("http://us.battle.net/d3/en/class/demon-hunter/passive/custom-engineering");
-		flexTable.setWidget(3, 2, anchor_7);
-		
-		customEngineering = new SimpleCheckBox();
-		flexTable.setWidget(3, 3, customEngineering);
-		
-		Anchor anchor_4 = new Anchor("Ambush:");
-		anchor_4.setWordWrap(false);
-		anchor_4.setText("Ambush:");
-		anchor_4.setTarget("_blank");
-		anchor_4.setHTML("Ambush:");
-		anchor_4.setHref("http://us.battle.net/d3/en/class/demon-hunter/passive/ambush");
-		flexTable.setWidget(4, 0, anchor_4);
-		
-		ambush = new SimpleCheckBox();
-		flexTable.setWidget(4, 1, ambush);
-		
-		Anchor anchor_9 = new Anchor("Blood Vengeance:");
-		anchor_9.setWordWrap(false);
-		anchor_9.setText("Blood Vengeance:");
-		anchor_9.setTarget("_blank");
-		anchor_9.setHTML("Blood Vengeance:");
-		anchor_9.setHref("http://us.battle.net/d3/en/class/demon-hunter/passive/blood-vengeance");
-		flexTable.setWidget(4, 2, anchor_9);
-		
-		 bloodVengeance = new SimpleCheckBox();
-		flexTable.setWidget(4, 3, bloodVengeance);
+		for (int i = 0; i < NUM_PASSIVES; i++) {
+			final ListBox lb = new ListBox();
+			lb.setWidth("100%");
+			flexTable.setWidget(i, 1, lb);
+			
+			final Anchor anchor = new Anchor("passive " + (i + 1));
+			anchor.setWordWrap(false);
+			anchor.setTarget("_blank");
+			anchor.setHref("javascript:void(0)");
+			flexTable.setWidget(i, 0, anchor);
+			
+			lb.addItem("None", "");
+			
+			for (Passive p : list) {
+				lb.addItem(p.getLongName(), p.name());
+			}
+			
+			lb.setSelectedIndex(0);
+			
+			lb.addChangeHandler(new ChangeHandler(){
+
+				@Override
+				public void onChange(ChangeEvent event) {
+					setTooltip(lb, anchor);
+					passivesChanged(event);
+				}});
+			
+			listBoxes.add(lb);
+			anchors.add(anchor);
+		}
 	}
 
-	public SimpleCheckBox getBallistics() {
-		return ballistics;
+	protected void setTooltip(ListBox lb, Anchor anchor) {
+		Passive p = getPassive(lb);
+		setTooltip(anchor, p);
 	}
 
-	public SimpleCheckBox getCtw() {
-		return ctw;
+	private void setTooltip(Anchor anchor, Passive p) {
+		anchor.setHref((p == null)?"javascript:void(0)":p.getUrl());
 	}
 
-	public SimpleCheckBox getGrenadier() {
-		return grenadier;
+	protected void passivesChanged(ChangeEvent event) {
+		
+		if (!disableListeners) {
+			for (ChangeHandler h : handlers)
+				h.onChange(event);
+		}
+		
 	}
 
-	public SimpleCheckBox getSingleOut() {
-		return singleOut;
+	public void addChangeHandler(ChangeHandler handler) {
+		this.handlers.add(handler);
+	}
+	
+	public void setPassives(Set<Passive> list) {
+		disableListeners = true;
+	
+		boolean changed = false;
+		
+		int n = 0;
+		
+		if (list != null) {
+			for (Passive p : list) {
+				
+				if (n < NUM_PASSIVES) {
+					Anchor a = anchors.get(n);
+					ListBox lb = listBoxes.get(n++);
+					
+					int before = lb.getSelectedIndex();
+					
+					setPassive(lb, p);
+					setTooltip(a, p);
+					
+					changed |= (lb.getSelectedIndex() != before);
+				}
+			}
+		}
+		
+		while (n < NUM_PASSIVES) {
+			Anchor a = anchors.get(n);
+			ListBox lb = listBoxes.get(n++);
+
+			int before = lb.getSelectedIndex();
+			
+			setPassive(lb, (Passive)null);
+			setTooltip(a, null);
+			
+			changed |= (0 != before);
+		}
+		
+		disableListeners = false;
+		
+		if (changed)
+			passivesChanged(null);
+	}
+	
+	public Set<Passive> getPassives() {
+		Set<Passive> set = new TreeSet<Passive>();
+		
+		for (ListBox lb : listBoxes) {
+			Passive p = getPassive(lb);
+			
+			if (p != null)
+				set.add(p);
+		}
+		
+		return set;
 	}
 
-	public SimpleCheckBox getAmbush() {
-		return ambush;
+	private Passive getPassive(ListBox lb) {
+		int i = lb.getSelectedIndex();
+		String value = lb.getValue(i);
+		
+		return (value.length() == 0) ? null : Passive.valueOf(value);
 	}
 
-	public SimpleCheckBox getSteadyAim() {
-		return steadyAim;
+	private void setPassive(ListBox lb, Passive p) {
+		setPassive(lb, (p == null) ? null : p.name());
 	}
 
-	public SimpleCheckBox getArchery() {
-		return archery;
+	private void setPassive(ListBox lb, String name) {
+		int n = lb.getItemCount();
+		
+		if ((name != null) && (name.length() > 0)) {
+			for (int i = 0; i < n; i++) {
+				String value = lb.getValue(i);
+				
+				if (value.equals(name)) {
+					lb.setSelectedIndex(i);
+					return;
+				}
+				
+			}
+		}
+		
+		lb.setSelectedIndex(0);
 	}
-
-	public SimpleCheckBox getCustomEngineering() {
-		return customEngineering;
-	}
-
-	public SimpleCheckBox getNightStalker() {
-		return nightStalker;
-	}
-
-	public SimpleCheckBox getBloodVengeance() {
-		return bloodVengeance;
-	}
-
 }

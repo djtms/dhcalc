@@ -103,6 +103,9 @@ public class ProfileHelper {
 
 		WeaponType type = data.getWeaponType();
 
+		if (type == null)
+			type = WeaponType.Bow;
+		
 		double weaponAps = type.getAps() * (1.0 + data.getWeaponIas());
 		double weaponDps = Math.round(((min + max) / 2.0) * weaponAps * 10.0) / 10.0;
 		data.setWeaponAps(weaponAps);
@@ -343,41 +346,15 @@ public class ProfileHelper {
 			}
 		}
 
-		boolean ballistics = false;
-		boolean cullTheWeak = false;
-		boolean grenadier = false;
-		boolean steadyAim = false;
-		boolean ambush = false;
-		boolean singleOut = false;
-		boolean customEngineering = false;
-		boolean archery = false;
-		boolean bloodVengeance = false;
-		boolean nightStalker = false;
-
+		Set<Passive> passives = new TreeSet<Passive>();
+		
 		for (HeroProfile.Skills.Passive p : hero.skills.passive) {
 
-			if ((p != null) && (p.skill != null) && (p.skill.name != null)) {
-				if (p.skill.name.equals(Const.BALLISTICS)) {
-					ballistics = true;
-				} else if (p.skill.name.equals(Const.CULL_THE_WEEK)) {
-					cullTheWeak = true;
-				} else if (p.skill.name.equals(Const.GRENADIER)) {
-					grenadier = true;
-				} else if (p.skill.name.equals(Const.STEADY_AIM)) {
-					steadyAim = true;
-				} else if (p.skill.name.equals(Const.AMBUSH)) {
-					ambush = true;
-				} else if (p.skill.name.equals(Const.SINGLE_OUT)) {
-					singleOut = true;
-				} else if (p.skill.name.equals(Const.ARCHERY)) {
-					archery = true;
-				} else if (p.skill.name.equals(Const.BLOOD_VENGEANCE)) {
-					bloodVengeance = true;
-				} else if (p.skill.name.equals(Const.NIGHT_STALKER)) {
-					nightStalker = true;
-				} else if (p.skill.name.equals(Const.CUSTOM_ENGINEERING)) {
-					customEngineering = true;
-				}
+			if ((p != null) && (p.skill != null) && (p.skill.slug != null)) {
+				Passive passive = Passive.fromSlug(p.skill.slug);
+				
+				if (passive != null)
+					passives.add(passive);
 			}
 		}
 
@@ -395,26 +372,10 @@ public class ProfileHelper {
 							pname = pname.substring(0, pname.length()
 									- Const.PASSIVE.length());
 
-							if (pname.equals(Const.BALLISTICS)) {
-								ballistics = true;
-							} else if (pname.equals(Const.CULL_THE_WEEK)) {
-								cullTheWeak = true;
-							} else if (pname.equals(Const.GRENADIER)) {
-								grenadier = true;
-							} else if (pname.equals(Const.STEADY_AIM)) {
-								steadyAim = true;
-							} else if (pname.equals(Const.AMBUSH)) {
-								ambush = true;
-							} else if (pname.equals(Const.SINGLE_OUT)) {
-								singleOut = true;
-							} else if (pname.equals(Const.ARCHERY)) {
-								archery = true;
-							} else if (pname.equals(Const.BLOOD_VENGEANCE)) {
-								bloodVengeance = true;
-							} else if (pname.equals(Const.NIGHT_STALKER)) {
-								nightStalker = true;
-							} else if (pname.equals(Const.CUSTOM_ENGINEERING)) {
-								customEngineering = true;
+							Passive passive = Passive.fromName(pname);
+							
+							if (passive != null) {
+								passives.add(passive);
 							}
 						}
 
@@ -423,14 +384,9 @@ public class ProfileHelper {
 			}
 		}
 
-		data.setBallistics(ballistics);
-		data.setCullTheWeak(cullTheWeak);
-		data.setGrenadier(grenadier);
+		data.setPassives(passives);
 		data.setMfdSkill(mfd);
 		data.setMfdRune(mfdRune);
-		data.setSteadyAim(steadyAim);
-		data.setAmbush(ambush);
-		data.setSingleOut(singleOut);
 		data.setCompanion(companion);
 		data.setCompanionRune(companionRune);
 		data.setCaltrops(caltrops);
@@ -440,10 +396,6 @@ public class ProfileHelper {
 		data.setSentry(sentry);
 		data.setSentryRune(sentryRune);
 		data.setSkills(skills);
-		data.setCustomEngineering(customEngineering);
-		data.setArchery(archery);
-		data.setBloodVengeance(bloodVengeance);
-		data.setNightStalker(nightStalker);
 		data.setPreparation(preparation);
 		data.setPreparationRune(preparationRune);
 		data.setHeroLevel(hero.level);

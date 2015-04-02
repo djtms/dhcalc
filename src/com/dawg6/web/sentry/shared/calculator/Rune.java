@@ -124,7 +124,57 @@ public enum Rune {
 	Punishment("a", 0),
 	Battle_Scars("d", 0),
 	Focused_Mind("c", 0),
-	Backup_Plan("e", 0)
+	Backup_Plan("e", 0),
+	
+	// Rapid Fire
+	Withering_Fire("d", 0),
+	Frost_Shots("e", 0),
+	Fire_Support("c", 0),
+	High_Velocity("b", 0),
+	Bombardment("a", 0),
+	
+	// Smoke Screen
+	Displacement("e", 0),
+	Lingering_Fog("b", 0),
+	Healing_Vapors("c", 0),
+	Special_Recipe("d", 0),
+	Vanishing_Powder("a", 0),
+	
+	// Vault
+	Action_Shot("c", 0),
+	Rattling_Roll("e", 0),
+	Tumble("d", 0),
+	Acrobatics("b", 0),
+	Trail_of_Cinders("a", 0),
+	
+	// Fan of Knives
+	Pinpoint_Accuracy("d", 0),
+	Bladed_Armor("e", 0),
+	Knives_Expert("a", 0),
+	Fan_of_Daggers("c", 0),
+	Assassins_Knives("b", 0),
+	
+	// Shadow Power
+	Night_Bane("a", 0),
+	Blood_Moon("e", 0),
+	Well_of_Darkness("d", 0),
+	Gloom("c", 0),
+	Shadow_Glide("b", 0),
+	
+	// Strafe
+	Icy_Trail("b", 0),
+	Drifting_Shadow("d", 0),
+	Stinging_Steel("e", 0),
+	Rocket_Storm("c", 0),
+	Demolition("a", 0),
+	
+	//  Vengeance
+	Personal_Mortar("c", 0),
+	Dark_Heart("b", 0),
+	Side_Cannons("d", 0),
+	Seethe("e", 0),
+	From_the_Shadows("a", 0),
+	
 	;
 	
 	private String slug;

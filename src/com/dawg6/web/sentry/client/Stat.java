@@ -5,6 +5,7 @@ import java.util.Set;
 import com.dawg6.web.sentry.shared.calculator.ActiveSkill;
 import com.dawg6.web.sentry.shared.calculator.CharacterData;
 import com.dawg6.web.sentry.shared.calculator.DamageType;
+import com.dawg6.web.sentry.shared.calculator.ProfileHelper;
 
 public enum Stat {
 
@@ -83,6 +84,23 @@ public enum Stat {
 			data.setRcr((Double)token);
 		}}),		
 		
+	IAS("+1% IAS", new StatAdapter(){
+
+		@Override
+		public Object apply(CharacterData data) {
+			double value = data.getEquipIas();
+			data.setEquipIas( value + 0.01);
+			ProfileHelper.updateWeaponDamage(data);
+			
+			return value;
+		}
+
+		@Override
+		public void unapply(CharacterData data, Object token) {
+			data.setEquipIas((Double)token);
+			ProfileHelper.updateWeaponDamage(data);
+		}}),		
+			
 	HPS("+1 Hatred per Second", new StatAdapter(){
 
 		@Override
@@ -605,6 +623,7 @@ public enum Stat {
 //		public Object apply(CharacterData data) {
 //			int value = data.getGogokLevel();
 //			data.setGogokLevel(value + 1);
+//			ProfileHelper.updateWeaponDamage(data);
 //			
 //			return value;
 //		}
@@ -617,6 +636,7 @@ public enum Stat {
 //		@Override
 //		public void unapply(CharacterData data, Object token) {
 //			data.setGogokLevel((Integer)token);
+//			ProfileHelper.updateWeaponDamage(data);
 //		}}),
 	;
 	

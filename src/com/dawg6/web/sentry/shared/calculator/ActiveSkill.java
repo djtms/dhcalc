@@ -32,7 +32,7 @@ public enum ActiveSkill {
 			Rune.Boomerang, Rune.Shuriken_Cloud },
 			"http://us.battle.net/d3/en/class/demon-hunter/active/chakram"),
 
-	BOLT(SkillType.Sentry, "Bolt", "Sentry-Bolt", 0, null, new Rune[] { Rune.None,
+	BOLT(SkillType.NA, "Bolt", "Sentry-Bolt", 0, null, new Rune[] { Rune.None,
 			Rune.Spitfire_Turret, Rune.Impaling_Bolt, Rune.Chain_of_Torment,
 			Rune.Polar_Station, Rune.Guardian_Turret },
 			"http://us.battle.net/d3/en/class/demon-hunter/active/sentry"),
@@ -73,8 +73,36 @@ public enum ActiveSkill {
 
 	RoV(SkillType.Cooldown, "RoV", "Rain of Vengeance", 0, DamageMultiplier.RoV, new Rune[] { 
 			Rune.None, Rune.Dark_Cloud, Rune.Shade, Rune.Stampede, Rune.Anathema, Rune.Flying_Strike }, "http://us.battle.net/d3/en/class/demon-hunter/active/rain-of-vengeance"),
-	CR(SkillType.Cooldown, "CR", "Crashing Rain", 0, DamageMultiplier.RoV, new Rune[] { 
-			Rune.None }, "http://us.battle.net/d3/en/item/crashing-rain"),
+	
+	CR(SkillType.NA, "CR", "Crashing Rain", 0, DamageMultiplier.RoV, new Rune[0], "http://us.battle.net/d3/en/item/crashing-rain"),
+
+	SS(SkillType.Cooldown, "SS", "Smoke Screen", 0, null, 
+			new Rune[] { Rune.None, Rune.Displacement, Rune.Lingering_Fog, Rune.Healing_Vapors, Rune.Special_Recipe, Rune.Vanishing_Powder }, 
+			"http://us.battle.net/d3/en/class/demon-hunter/active/smoke-screen"),
+	
+	Vault(SkillType.Cooldown, "Vault", "Vault", 0, null, 
+			new Rune[] { Rune.None, Rune.Action_Shot, Rune.Rattling_Roll, Rune.Tumble, Rune.Acrobatics, Rune.Trail_of_Cinders }, 
+			"http://us.battle.net/d3/en/class/demon-hunter/active/vault"),
+
+	FoK(SkillType.Cooldown, "FoK", "Fan of Knives", 0, null, 
+			new Rune[] { Rune.None, Rune.Pinpoint_Accuracy, Rune.Bladed_Armor, Rune.Knives_Expert, Rune.Fan_of_Daggers, Rune.Assassins_Knives }, 
+			"http://us.battle.net/d3/en/class/demon-hunter/active/fan-of-knives"),
+
+	SP(SkillType.Cooldown, "SP", "Shadow Power", 0, null, 
+			new Rune[] { Rune.None, Rune.Night_Bane, Rune.Blood_Moon, Rune.Well_of_Darkness, Rune.Gloom, Rune.Shadow_Glide }, 
+			"http://us.battle.net/d3/en/class/demon-hunter/active/shadow-power"),
+
+	Strafe(SkillType.Channeled, "Strafe", "Strafe", 0, null, 
+			new Rune[] { Rune.None, Rune.Icy_Trail, Rune.Drifting_Shadow, Rune.Stinging_Steel, Rune.Rocket_Storm, Rune.Demolition }, 
+			"http://us.battle.net/d3/en/class/demon-hunter/active/strafe"),
+
+	Vengeance(SkillType.Cooldown, "Ven", "Vengeance", 0, null, 
+			new Rune[] { Rune.None, Rune.Personal_Mortar, Rune.Dark_Heart, Rune.Side_Cannons, Rune.Seethe, Rune.From_the_Shadows }, 
+			"http://us.battle.net/d3/en/class/demon-hunter/active/vengeance"),
+
+	RF(SkillType.Channeled, "RF", "Rapid Fire", 0, null, 
+			new Rune[] { Rune.None, Rune.Withering_Fire, Rune.Frost_Shots, Rune.Fire_Support, Rune.High_Velocity, Rune.Bombardment }, 
+			"http://us.battle.net/d3/en/class/demon-hunter/active/rapid-fire"),
 
 	Any(SkillType.NA, "Any Skill", "Any Skill", 0, null, new Rune[0], null);
 

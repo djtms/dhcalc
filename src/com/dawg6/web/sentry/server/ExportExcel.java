@@ -26,6 +26,7 @@ import com.dawg6.web.sentry.shared.calculator.ExportData;
 import com.dawg6.web.sentry.shared.calculator.FiringData;
 import com.dawg6.web.sentry.shared.calculator.GemSkill;
 import com.dawg6.web.sentry.shared.calculator.MultipleSummary;
+import com.dawg6.web.sentry.shared.calculator.Passive;
 import com.dawg6.web.sentry.shared.calculator.Rune;
 import com.dawg6.web.sentry.shared.calculator.Target;
 import com.dawg6.web.sentry.shared.calculator.Util;
@@ -512,15 +513,10 @@ public class ExportExcel {
 				"# of Sentries");
 
 		createInputHeader(inputs, "Passive Skills");
-		createInput(inputs, data.data.isBallistics(), "Ballistics");
-		createInput(inputs, data.data.isCullTheWeak(), "Cull the Weak");
-		createInput(inputs, data.data.isGrenadier(), "Grenadier");
-		createInput(inputs, data.data.isSteadyAim(), "Steady Aim");
-		createInput(inputs, data.data.isAmbush(), "Ambush");
-		createInput(inputs, data.data.isSingleOut(), "Single Out");
-		createInput(inputs, data.data.isArchery(), "Archery");
-		createInput(inputs, data.data.isBloodVengeance(), "Blood Vengeance");
-		createInput(inputs, data.data.isNightStalker(), "Night Stalker");
+		
+		for (Passive p : data.data.getPassives()) {
+			createInput(inputs, Boolean.TRUE, p.getLongName());
+		}
 
 		createInputHeader(inputs, "Situational");
 		createInput(inputs, data.data.getPercentSlowedChilled(), "Percent Slowed/Chilled", pctStyle);

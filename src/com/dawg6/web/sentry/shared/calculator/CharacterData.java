@@ -47,13 +47,11 @@ public class CharacterData implements Serializable {
 	private double efDamage;
 	private double grenadeDamage;
 	private double chakDamage;
-	private double chillDamage;
 	private double critChance;
 	private double critHitDamage;
 	private double eliteDamage;
 	private boolean useEnforcer;
 	private int enforcerLevel;
-	private boolean steadyAim;
 	private boolean mfdSkill;
 	private boolean wolf;
 	private boolean hexingPants;
@@ -77,10 +75,6 @@ public class CharacterData implements Serializable {
 	private boolean calamityMdf;
 	private boolean zeis;
 	private int zeisLevel;
-	private boolean cullTheWeak;
-	private boolean Ballistics;
-	private boolean grenadier;
-	private boolean singleOut;
 	private boolean caltrops;
 	private Rune caltropsRune;
 	private boolean spikeTrap;
@@ -97,8 +91,6 @@ public class CharacterData implements Serializable {
 	private int baneOfTheTrappedLevel;
 	private boolean marked;
 	private int distanceToTarget;
-	private boolean ambush;
-	private boolean archery;
 	private double weaponDamage;
 	private double offHand_weaponDamage;
 	private int targetSpacing;
@@ -203,15 +195,12 @@ public class CharacterData implements Serializable {
 	private double equipCritChance;
 	private double equipCritDamage;
 	private boolean hasBombardiers;
-	private boolean customEngineering;
 	private double hatredPerSecond;
 	private int numMarauders;
 	private boolean kridershot;
 	private boolean spines;
 	private int kridershotHatred;
 	private int spinesHatred;
-	private boolean bloodVengeance;
-	private boolean nightStalker;
 	private boolean reapersWraps;
 	private double reapersWrapsPercent;
 	private int numHealthGlobes;
@@ -242,6 +231,7 @@ public class CharacterData implements Serializable {
 	private boolean iceblink;
 	private int iceblinkLevel;
 	private boolean crashingRain;
+	private Set<Passive> passives;
 	
 	public int getNumMarauders() {
 		return numMarauders;
@@ -450,11 +440,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isSteadyAim() {
-		return steadyAim;
-	}
-
-	public void setSteadyAim(boolean steadyAim) {
-		this.steadyAim = steadyAim;
+		return passives.contains(Passive.Steady_Aim);
 	}
 
 	public boolean isMfdSkill() {
@@ -634,35 +620,18 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isCullTheWeak() {
-		return cullTheWeak;
-	}
-
-	public void setCullTheWeak(boolean cullOfTheWeak) {
-		this.cullTheWeak = cullOfTheWeak;
+		return passives.contains(Passive.Cull_the_Weak);
 	}
 
 	public boolean isBallistics() {
-		return Ballistics;
+		return passives.contains(Passive.Ballistics);
 	}
-
-	public void setBallistics(boolean ballistics) {
-		Ballistics = ballistics;
-	}
-
 	public boolean isGrenadier() {
-		return grenadier;
-	}
-
-	public void setGrenadier(boolean grenadier) {
-		this.grenadier = grenadier;
+		return passives.contains(Passive.Grenadier);
 	}
 
 	public boolean isSingleOut() {
-		return singleOut;
-	}
-
-	public void setSingleOut(boolean singleOut) {
-		this.singleOut = singleOut;
+		return passives.contains(Passive.Single_Out);
 	}
 
 	public boolean isCaltrops() {
@@ -737,14 +706,6 @@ public class CharacterData implements Serializable {
 		this.numAdditional = numAdditional;
 	}
 
-	public double getChillDamage() {
-		return chillDamage;
-	}
-
-	public void setChillDamage(double chillDamage) {
-		this.chillDamage = chillDamage;
-	}
-
 	public boolean isUseBaneOfTheTrapped() {
 		return useBaneOfTheTrapped;
 	}
@@ -786,19 +747,11 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isAmbush() {
-		return ambush;
-	}
-
-	public void setAmbush(boolean ambush) {
-		this.ambush = ambush;
+		return passives.contains(Passive.Ambush);
 	}
 
 	public boolean isArchery() {
-		return archery;
-	}
-
-	public void setArchery(boolean archery) {
-		this.archery = archery;
+		return passives.contains(Passive.Archery);
 	}
 
 	public WeaponType getWeaponType() {
@@ -1574,7 +1527,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public int getNumSentries() {
-		return 2 + (hasBombardiers ? 2 : 0) + (customEngineering ? 1 : 0);
+		return 2 + (hasBombardiers ? 2 : 0) + (isCustomEngineering() ? 1 : 0);
 	}
 
 	public boolean isHasBombardiers() {
@@ -1586,11 +1539,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isCustomEngineering() {
-		return customEngineering;
-	}
-
-	public void setCustomEngineering(boolean customEngineering) {
-		this.customEngineering = customEngineering;
+		return passives.contains(Passive.Custom_Engineering);
 	}
 
 	public double getHatredPerSecond() {
@@ -1726,19 +1675,11 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isBloodVengeance() {
-		return bloodVengeance;
-	}
-
-	public void setBloodVengeance(boolean bloodVengeance) {
-		this.bloodVengeance = bloodVengeance;
+		return passives.contains(Passive.Blood_Vengeance);
 	}
 
 	public boolean isNightStalker() {
-		return nightStalker;
-	}
-
-	public void setNightStalker(boolean nightStalker) {
-		this.nightStalker = nightStalker;
+		return passives.contains(Passive.Night_Stalker);
 	}
 
 	public boolean isReapersWraps() {
@@ -2170,6 +2111,14 @@ public class CharacterData implements Serializable {
 
 	public void setCrashingRain(boolean crashingRain) {
 		this.crashingRain = crashingRain;
+	}
+
+	public Set<Passive> getPassives() {
+		return passives;
+	}
+
+	public void setPassives(Set<Passive> passives) {
+		this.passives = passives;
 	}
 
 }
