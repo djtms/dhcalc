@@ -71,7 +71,7 @@ public enum ActiveSkill {
 	Caltrops(SkillType.Cooldown, "Caltrops", "Caltrops", 0, null, new Rune[] { 
 			Rune.None, Rune.Hooked_Spines, Rune.Torturous_Ground, Rune.Jagged_Spikes, Rune.Carved_Stakes, Rune.Bait_the_Trap }, "http://us.battle.net/d3/en/class/demon-hunter/active/caltrops"),
 
-	RoV(SkillType.Cooldown, "RoV", "Rain of Vengeance", 0, DamageMultiplier.RoV, new Rune[] { 
+	RoV(SkillType.Cooldown, "RoV", "Rain Of Vengeance", 0, DamageMultiplier.RoV, new Rune[] { 
 			Rune.None, Rune.Dark_Cloud, Rune.Shade, Rune.Stampede, Rune.Anathema, Rune.Flying_Strike }, "http://us.battle.net/d3/en/class/demon-hunter/active/rain-of-vengeance"),
 	
 	CR(SkillType.NA, "CR", "Crashing Rain", 0, DamageMultiplier.RoV, new Rune[0], "http://us.battle.net/d3/en/item/crashing-rain"),
@@ -84,7 +84,7 @@ public enum ActiveSkill {
 			new Rune[] { Rune.None, Rune.Action_Shot, Rune.Rattling_Roll, Rune.Tumble, Rune.Acrobatics, Rune.Trail_of_Cinders }, 
 			"http://us.battle.net/d3/en/class/demon-hunter/active/vault"),
 
-	FoK(SkillType.Cooldown, "FoK", "Fan of Knives", 0, DamageMultiplier.FoK, 
+	FoK(SkillType.Cooldown, "FoK", "Fan Of Knives", 0, DamageMultiplier.FoK, 
 			new Rune[] { Rune.None, Rune.Pinpoint_Accuracy, Rune.Bladed_Armor, Rune.Knives_Expert, Rune.Fan_of_Daggers, Rune.Assassins_Knives }, 
 			"http://us.battle.net/d3/en/class/demon-hunter/active/fan-of-knives"),
 

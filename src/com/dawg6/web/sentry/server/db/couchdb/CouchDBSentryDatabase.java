@@ -1,5 +1,7 @@
 package com.dawg6.web.sentry.server.db.couchdb;
 
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,14 +28,17 @@ import com.dawg6.web.sentry.shared.calculator.CharacterData;
 import com.dawg6.web.sentry.shared.calculator.ProfileHelper;
 import com.dawg6.web.sentry.shared.calculator.Rune;
 import com.dawg6.web.sentry.shared.calculator.SkillAndRune;
+import com.dawg6.web.sentry.shared.calculator.d3api.CareerProfile;
+import com.dawg6.web.sentry.shared.calculator.d3api.Hero;
 import com.dawg6.web.sentry.shared.calculator.d3api.HeroProfile;
+import com.dawg6.web.sentry.shared.calculator.d3api.ItemInformation;
+import com.dawg6.web.sentry.shared.calculator.d3api.ItemInformation.Gem;
 import com.dawg6.web.sentry.shared.calculator.d3api.Realm;
 import com.dawg6.web.sentry.shared.calculator.stats.DBStatistics;
 import com.dawg6.web.sentry.shared.calculator.stats.DocumentBase;
 import com.dawg6.web.sentry.shared.calculator.stats.DpsTableEntry;
 import com.dawg6.web.sentry.shared.calculator.stats.StatCategory;
 import com.dawg6.web.sentry.shared.calculator.stats.Statistics;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 public class CouchDBSentryDatabase {
@@ -511,22 +516,26 @@ public class CouchDBSentryDatabase {
 	
 	public static void main(String[] args) {
 		try {
+			getAttributes();
 			CouchDBSentryDatabase db = CouchDBSentryDatabase.getInstance();
-			long since = System.currentTimeMillis();
-			System.out.println("Start Time = " + since);
 			
-			Build build = new Build();
-			build.setSentry(true);
-			build.setSentryRune(Rune.Polar_Station);
-			Set<SkillAndRune> skills = new TreeSet<SkillAndRune>();
-			skills.add(new SkillAndRune(ActiveSkill.CA, Rune.Maelstrom));
-			skills.add(new SkillAndRune(ActiveSkill.EF, Rune.Focus));
-			build.setSkills(skills);
+			List<DpsTableEntry> list = db.findAll(DpsTableEntry.class);
 			
-			DBStats stats = db.getStatistics(build);
-
-			Gson gson = new Gson();
-			System.out.println("Stats = " + gson.toJson(stats));
+//			long since = System.currentTimeMillis();
+//			System.out.println("Start Time = " + since);
+//			
+//			Build build = new Build();
+//			build.setSentry(true);
+//			build.setSentryRune(Rune.Polar_Station);
+//			Set<SkillAndRune> skills = new TreeSet<SkillAndRune>();
+//			skills.add(new SkillAndRune(ActiveSkill.CA, Rune.Maelstrom));
+//			skills.add(new SkillAndRune(ActiveSkill.EF, Rune.Focus));
+//			build.setSkills(skills);
+//			
+//			DBStats stats = db.getStatistics(build);
+//
+//			Gson gson = new Gson();
+//			System.out.println("Stats = " + gson.toJson(stats));
 	//		Long start = (long)0;
 	//		List<DpsTableEntry> list = db.viewRange(DpsTableEntry.class, DpsTableEntry.BY_TIME, start, since);
 	//		
@@ -537,5 +546,122 @@ public class CouchDBSentryDatabase {
 		} finally {
 			System.out.println("End Time = " + System.currentTimeMillis());
 		}
+	}
+	
+	private static class Profile {
+		public Realm realm;
+		public String profile;
+		public Integer tag;
+		
+		public Profile(DpsTableEntry e) {
+			this.realm = e.getRealm();
+			this.profile = e.getProfile().toLowerCase();
+			this.tag = e.getTag();
+		}
+		
+		@Override
+		public String toString() {
+			return realm.name() + "/" + profile + "-" + tag;
+		}
+		
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result
+					+ ((profile == null) ? 0 : profile.hashCode());
+			result = prime * result + ((realm == null) ? 0 : realm.hashCode());
+			result = prime * result + ((tag == null) ? 0 : tag.hashCode());
+			return result;
+		}
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Profile other = (Profile) obj;
+			if (profile == null) {
+				if (other.profile != null)
+					return false;
+			} else if (!profile.equals(other.profile))
+				return false;
+			if (realm != other.realm)
+				return false;
+			if (tag == null) {
+				if (other.tag != null)
+					return false;
+			} else if (!tag.equals(other.tag))
+				return false;
+			return true;
+		}
+		
+	}
+	
+	private static void getAttributes() {
+		try {
+			CouchDBSentryDatabase db = CouchDBSentryDatabase.getInstance();
+			Set<String> attributes = new TreeSet<String>();
+			SentryServiceImpl service = new SentryServiceImpl();
+			
+			Collection<Profile> profiles = db.getAllProfiles();
+			
+			int n = 0;
+			
+			for (Profile p : profiles) {
+				n++;
+				
+				System.out.println("Profile " + n + "/" + profiles.size());
+
+				CareerProfile career = service.getProfile(p.realm, p.profile, p.tag);
+				
+				System.out.println(career.heroes.length + " Heroes");
+				
+				for (Hero h : career.heroes) {
+					HeroProfile hp = service.getHero(p.realm, p.profile, p.tag, h.id);
+					
+					if (hp.items != null) {
+						for (ItemInformation i : hp.items.values()) {
+							attributes.addAll(i.attributesRaw.keySet());
+							
+							if (i.gems != null) {
+								for (Gem g : i.gems) {
+									attributes.addAll(g.attributesRaw.keySet());
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			FileOutputStream stream = new FileOutputStream("attributes.txt");
+			PrintWriter writer = new PrintWriter(stream);
+			
+			for (String s : attributes) {
+				System.out.println(s);
+				writer.println(s);
+			}
+			
+			writer.flush();
+			stream.close();
+				
+		} catch (Exception e) {
+			log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+
+	public Collection<Profile> getAllProfiles() {
+		Set<Profile> profiles = new HashSet<Profile>();
+
+		List<DpsTableEntry> list = this.findAll(DpsTableEntry.class);
+		
+		for (DpsTableEntry e : list) {
+			Profile p = new Profile(e);
+			profiles.add(p);
+		}
+		
+		return profiles;
 	}
 }
