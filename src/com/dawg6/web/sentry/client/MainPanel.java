@@ -27,6 +27,7 @@ import com.dawg6.web.sentry.shared.calculator.FormData;
 import com.dawg6.web.sentry.shared.calculator.GemLevel;
 import com.dawg6.web.sentry.shared.calculator.GemSkill;
 import com.dawg6.web.sentry.shared.calculator.MultipleSummary;
+import com.dawg6.web.sentry.shared.calculator.Passive;
 import com.dawg6.web.sentry.shared.calculator.ProfileHelper;
 import com.dawg6.web.sentry.shared.calculator.Rune;
 import com.dawg6.web.sentry.shared.calculator.SkillAndRune;
@@ -1863,6 +1864,10 @@ public class MainPanel extends BasePanel {
 			Map<String, String> map = new TreeMap<String, String>();
 			map.putAll(list.get(i).formData.main);
 
+			Util.putAll(map, "passives.", list.get(i).formData.passives);
+			Util.putAll(map, "elemental.", list.get(i).formData.elementalDamage);
+			Util.putAll(map, "skill.", list.get(i).formData.skillDamage);
+
 			for (Map.Entry<String, String> e : list.get(i).formData.calculator
 					.entrySet()) {
 				String key = e.getKey();
@@ -1884,17 +1889,23 @@ public class MainPanel extends BasePanel {
 
 			formData.add(map);
 		}
+		
+		Set<String> keys = new TreeSet<String>();
+		
+		for (Map<String, String> map : formData) {
+			keys.addAll(map.keySet());
+		}
 
-		for (Map.Entry<String, String> e : formData.get(0).entrySet()) {
+		for (String key : keys) {
 			List<String> values = new Vector<String>();
-			String key = e.getKey();
-			values.add(e.getValue());
+			String first = formData.get(0).get(key);
+			values.add(first);
 			boolean diff = false;
 
 			for (int i = 1; i < count; i++) {
 				String value = formData.get(i).get(key);
 				values.add(value);
-				if (!diff && ((value == null) || !value.equals(e.getValue())))
+				if (!diff && ((value == null) || !value.equals(first)))
 					diff = true;
 			}
 
@@ -2109,6 +2120,10 @@ public class MainPanel extends BasePanel {
 			if (gearPanel != null)
 				gearPanel.clearData();
 		}
+		
+		this.typeDamage.setValues(Util.createMap(DamageType.class, data.elementalDamage));
+		this.skillDamage.setValues(Util.createMap(ActiveSkill.class, data.skillDamage));
+		this.passives.setPassives(Util.createSet(Passive.class, data.passives));
 
 		calculator.saveForm();
 		this.saveForm();
@@ -2160,6 +2175,10 @@ public class MainPanel extends BasePanel {
 			gearPanel.populateFormData(data.items);
 		}
 
+		data.passives = Util.createMap(passives.getPassives());
+		data.skillDamage = Util.createMap(this.skillDamage.getValues());
+		data.elementalDamage = Util.createMap(this.typeDamage.getValues());
+		
 		data.version = Version.getVersion();
 
 		// Having a problem with non UTF-8 encoding in these
@@ -3352,9 +3371,6 @@ public class MainPanel extends BasePanel {
 						"0"),
 				new Field(this.playerBuffPanel.getRetributionUptime(),
 						"RetributionUptime", "0"),
-				new Field(this.passives, "Passives", null),
-				new Field(this.skillDamage, "SkillDamages", null),
-				new Field(this.typeDamage, "ElementalDamages", null),
 
 		};
 
@@ -4174,6 +4190,15 @@ public class MainPanel extends BasePanel {
 	}
 
 	@Override
+	protected void saveForm() {
+		super.saveForm();
+	
+		super.saveField("passives", super.getFieldValue(passives.getPassives(), null));
+		super.saveField("elemental.Damage", super.getFieldValue(this.typeDamage.getValues(), null));
+		super.saveField("skill.Damage", super.getFieldValue(this.skillDamage.getValues(), null));
+	}
+	
+	@Override
 	protected void loadForm() {
 		super.loadForm();
 
@@ -4189,6 +4214,10 @@ public class MainPanel extends BasePanel {
 				.getValue());
 		calculator.saveForm();
 		calculator.calculate();
+		
+		super.setFieldValue(passives, super.getFieldValue("passives", null));
+		super.setFieldValue(typeDamage, super.getFieldValue("elemental.Damage", null));
+		super.setFieldValue(skillDamage, super.getFieldValue("skill.Damage", null));
 	}
 
 	@Override

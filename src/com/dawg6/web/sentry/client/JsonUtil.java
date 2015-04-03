@@ -27,6 +27,9 @@ public class JsonUtil {
 		obj.put("version", JsonUtil.toJSONObject(data.version));
 		obj.put("main", JsonUtil.toJSONObject(data.main));
 		obj.put("calculator", JsonUtil.toJSONObject(data.calculator));
+		obj.put("passives", JsonUtil.toJSONObject(data.passives));
+		obj.put("elementalDamage", JsonUtil.toJSONObject(data.elementalDamage));
+		obj.put("skillDamage", JsonUtil.toJSONObject(data.skillDamage));
 		obj.put("items", JsonUtil.toJSONObject(data.items));
 		obj.put("hero", JsonUtil.toJSONObject(data.hero));
 		obj.put("career", JsonUtil.toJSONObject(data.career));
@@ -37,20 +40,27 @@ public class JsonUtil {
 	public static FormData parseFormData(String text) {
 		FormData data = new FormData();
 		
+		if ((text != null) && (text.trim().length() > 0)) {
 		
-		JSONValue value = JSONParser.parseLenient(text);
-		
-		if (value != null) {
-			JSONObject obj = value.isObject();
-		
-			if (obj != null) {
-				data.version = JsonUtil.parseVersion(obj.get("version"));
-				data.main = JsonUtil.parseMap(obj.get("main"));
-				data.calculator = JsonUtil.parseMap(obj.get("calculator"));
-				data.items = JsonUtil.parseMap(obj.get("items"));
-				data.hero = null;
-				data.career = null;
+			JSONValue value = JSONParser.parseLenient(text);
+			
+			if (value != null) {
+				JSONObject obj = value.isObject();
+			
+				if (obj != null) {
+					data.version = JsonUtil.parseVersion(obj.get("version"));
+					data.main = JsonUtil.parseMap(obj.get("main"));
+					data.calculator = JsonUtil.parseMap(obj.get("calculator"));
+					data.items = JsonUtil.parseMap(obj.get("items"));
+					data.passives = JsonUtil.parseMap(obj.get("passives"));
+					data.elementalDamage = JsonUtil.parseMap(obj.get("elementalDamage"));
+					data.skillDamage = JsonUtil.parseMap(obj.get("skillDamage"));
+					data.hero = null;
+					data.career = null;
+				}
 			}
+			
+			
 		}
 		
 		return data;

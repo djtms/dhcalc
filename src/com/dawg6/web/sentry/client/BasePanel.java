@@ -42,7 +42,7 @@ public class BasePanel extends ApplicationPanel {
 		}
 	}
 
-	private boolean loadStorage() {
+	protected boolean loadStorage() {
 
 		boolean result = false;
 
@@ -294,14 +294,14 @@ public class BasePanel extends ApplicationPanel {
 			return defaultValue;
 	}
 
-	private <K, V> String getFieldValue(Map<K, V> map, String defaultValue) {
+	protected <K, V> String getFieldValue(Map<K, V> map, String defaultValue) {
 		if (map == null)
 			return defaultValue;
 		
 		return JsonUtil.toJSONObject(JsonUtil.createStringMap(map)).toString();
 	}
 	
-	private String getFieldValue(Set<Passive> passives, String defaultValue) {
+	protected String getFieldValue(Set<Passive> passives, String defaultValue) {
 
 		if (passives == null)
 			return defaultValue;
@@ -415,18 +415,18 @@ public class BasePanel extends ApplicationPanel {
 			setFieldValue((SkillDamagePanel)field, value);
 	}
 
-	private void setFieldValue(PassivesPanel field, String value) {
+	protected void setFieldValue(PassivesPanel field, String value) {
 		Set<Passive> set = JsonUtil.parseSet(Passive.class, value);
 		
 		field.setPassives(set);
 	}
 
-	private void setFieldValue(DamageTypePanel field, String value) {
+	protected void setFieldValue(DamageTypePanel field, String value) {
 		Map<DamageType, Double> map = JsonUtil.parseMap(DamageType.class, value);
 		field.setValues(map);
 	}
 	
-	private void setFieldValue(SkillDamagePanel field, String value) {
+	protected void setFieldValue(SkillDamagePanel field, String value) {
 		Map<ActiveSkill, Double> map = JsonUtil.parseMap(ActiveSkill.class, value);
 		field.setValues(map);
 	}
