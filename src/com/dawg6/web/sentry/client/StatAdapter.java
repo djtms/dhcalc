@@ -15,4 +15,70 @@ public abstract class StatAdapter {
 	public boolean test(CharacterData data, Set<DamageType> types, Set<ActiveSkill> skills) {
 		return true;
 	}
-}
+	
+	
+	public static class ElementalDamage extends StatAdapter {
+
+		private final DamageType type;
+
+		public ElementalDamage(DamageType type) {
+			this.type = type;
+		}
+		
+		@Override
+		public Object apply(CharacterData data) {
+			double value = data.getElementalDamage(type);
+			data.getElementalDamage().put(type, value + 0.01);
+			
+			return value;
+		}
+
+		@Override
+		public boolean test(CharacterData data, Set<DamageType> types, Set<ActiveSkill> skills) {
+			return types.contains(type);
+		}
+		
+		@Override
+		public void unapply(CharacterData data, Object token) {
+			data.getElementalDamage().put(type, (Double)token);
+		}
+		
+	}
+	
+	public static class SkillDamage extends StatAdapter {
+
+		private final ActiveSkill type;
+
+		public SkillDamage(ActiveSkill type) {
+			this.type = type;
+		}
+		
+		@Override
+		public Object apply(CharacterData data) {
+			double value = data.getSkillDamage(type);
+			data.getSkillDamage().put(type, value + 0.01);
+			
+			return value;
+		}
+
+		@Override
+		public boolean test(CharacterData data, Set<DamageType> types, Set<ActiveSkill> skills) {
+			
+			if (type == ActiveSkill.SENTRY)
+				return data.isSentry();
+			else if (type == ActiveSkill.RoV)
+				return data.isRov();
+			else if (type == ActiveSkill.ST)
+				return data.isSpikeTrap();
+			else if (type == ActiveSkill.Companion)
+				return data.isCompanion();
+			else 
+				return skills.contains(type);
+		}
+		
+		@Override
+		public void unapply(CharacterData data, Object token) {
+			data.getSkillDamage().put(type, (Double)token);
+		}
+		
+	}}

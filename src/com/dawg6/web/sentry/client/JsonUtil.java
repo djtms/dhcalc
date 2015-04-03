@@ -56,6 +56,17 @@ public class JsonUtil {
 		return data;
 	}
 
+	
+	public static <K, V> Map<String, String> createStringMap(Map<K, V> map) {
+		Map<String, String> smap = new TreeMap<String, String>();
+		
+		for (Map.Entry<K, V> e : map.entrySet()) {
+			smap.put(e.getKey().toString(), e.getValue().toString());
+		}
+		
+		return smap;
+	}
+	
 	public static Map<String, String> parseMap(JSONValue jsonValue) {
 		JSONObject obj = jsonValue.isObject();
 		Map<String, String> map = new TreeMap<String, String>();
@@ -192,4 +203,27 @@ public class JsonUtil {
 		var object = JSON.parse(text);
 		return JSON.stringify(object, null, 4);
 	}-*/;
+
+	public static <T extends Enum<T>> Map<T, Double> parseMap(Class<T> clazz,
+			String text) {
+		
+		if (text == null) {
+			return new TreeMap<T, Double>();
+		} else {
+		
+			JSONValue v = JSONParser.parseLenient(text);
+			Map<String, String> smap = JsonUtil.parseMap(v);
+
+			Map<T, Double> map = new TreeMap<T, Double>();
+
+			for (Map.Entry<String, String> e : smap.entrySet()) {
+				T type = Enum.valueOf(clazz, e.getKey());
+				Double d = Double.parseDouble(e.getValue());
+				
+				map.put(type, d);
+			}
+
+			return map;
+		}
+	}
 }

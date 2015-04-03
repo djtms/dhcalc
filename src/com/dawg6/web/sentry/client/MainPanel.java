@@ -2930,35 +2930,7 @@ public class MainPanel extends BasePanel {
 		this.itemPanel.getHarringtonPercent().setValue(
 				(int) Math.round(data.getHarringtonPercent() * 100.0));
 
-		this.skillDamage.getSentryDamage().setValue(
-				(int) Math.round(data.getSentryDamage() * 100.0));
-		this.skillDamage.getEaDamage().setValue(
-				(int) Math.round(data.getEaDamage() * 100.0));
-		this.skillDamage.getChakDamage().setValue(
-				(int) Math.round(data.getChakDamage() * 100.0));
-		this.skillDamage.getImpDamage().setValue(
-				(int) Math.round(data.getImpDamage() * 100.0));
-		this.skillDamage.getMsDamage().setValue(
-				(int) Math.round(data.getMsDamage() * 100.0));
-		this.skillDamage.getCaDamage().setValue(
-				(int) Math.round(data.getCaDamage() * 100.0));
-
-		this.skillDamage.getHaDamage().setValue(
-				(int) Math.round(data.getHaDamage() * 100.0));
-		this.skillDamage.getEsDamage().setValue(
-				(int) Math.round(data.getEsDamage() * 100.0));
-		this.skillDamage.getBolasDamage().setValue(
-				(int) Math.round(data.getBolasDamage() * 100.0));
-		this.skillDamage.getEfDamage().setValue(
-				(int) Math.round(data.getEfDamage() * 100.0));
-		this.skillDamage.getGrenadeDamage().setValue(
-				(int) Math.round(data.getGrenadeDamage() * 100.0));
-		this.skillDamage.getCompanionDamage().setValue(
-				(int) Math.round(data.getCompanionDamage() * 100.0));
-		this.skillDamage.getStDamage().setValue(
-				(int) Math.round(data.getSpikeTrapDamage() * 100.0));
-		this.skillDamage.getRovDamage().setValue(
-				(int) Math.round(data.getRovDamage() * 100.0));
+		this.skillDamage.setValues(data.getSkillDamage());
 	}
 
 	private void getSetSetCDR(SimpleCheckBox field,
@@ -3021,15 +2993,8 @@ public class MainPanel extends BasePanel {
 
 	protected void setElementalDamage() {
 
-		typeDamage.getColdDamage().setValue((int) (data.getColdDamage() * 100));
-		typeDamage.getFireDamage().setValue((int) (data.getFireDamage() * 100));
-		typeDamage.getPoisonDamage().setValue(
-				(int) (data.getPoisonDamage() * 100));
-		typeDamage.getPhysicalDamage().setValue(
-				(int) (data.getPhysDamage() * 100));
-		typeDamage.getLightningDamage().setValue(
-				(int) (data.getLightDamage() * 100));
-
+		typeDamage.setValues(data.getElementalDamage());
+		
 	}
 
 	protected void setHeroSkills() {
@@ -3241,32 +3206,10 @@ public class MainPanel extends BasePanel {
 				new Field(this.situational.getPercentControlled(),
 						"PercentControlled", "100"),
 				new Field(this.situational.getAdditional(), "Additional", "5"),
-				new Field(this.skillDamage.getSentryDamage(), "Sentry", "0"),
-				new Field(this.skillDamage.getEaDamage(), "EA", "0"),
-				new Field(this.skillDamage.getMsDamage(), "MS", "0"),
-				new Field(this.skillDamage.getCaDamage(), "CA", "0"),
-				new Field(this.skillDamage.getChakDamage(), "CHAK", "0"),
-				new Field(this.skillDamage.getImpDamage(), "IMP", "0"),
-				new Field(this.skillDamage.getHaDamage(), "HA", "0"),
-				new Field(this.skillDamage.getCompanionDamage(),
-						"CompanionDamage", "0"),
-				new Field(this.skillDamage.getStDamage(), "SpikeTrapDamage",
-						"0"),
-				new Field(this.skillDamage.getRovDamage(), "RoVDamage",
-						"0"),
-				new Field(this.skillDamage.getEsDamage(), "ES", "0"),
-				new Field(this.skillDamage.getBolasDamage(), "Bolas", "0"),
-				new Field(this.skillDamage.getEfDamage(), "EF", "0"),
-				new Field(this.skillDamage.getGrenadeDamage(), "Grenade", "0"),
 				new Field(this.situational.getTargetSize(), "TargetSize",
 						TargetSize.Small.name()),
 				new Field(this.situational.getPercentAtLeast10Yards(),
 						"PercentAtleast10Yards", "100"),
-				new Field(this.typeDamage.getColdDamage(), "Cold", "0"),
-				new Field(this.typeDamage.getFireDamage(), "Fire", "0"),
-				new Field(this.typeDamage.getLightningDamage(), "Light", "0"),
-				new Field(this.typeDamage.getPhysicalDamage(), "Phys", "0"),
-				new Field(this.typeDamage.getPoisonDamage(), "Psn", "0"),
 				new Field(this.gemPanel.getBot(), "BoT",
 						Boolean.FALSE.toString()),
 				new Field(this.gemPanel.getGogok(), "Gogok",
@@ -3409,7 +3352,9 @@ public class MainPanel extends BasePanel {
 						"0"),
 				new Field(this.playerBuffPanel.getRetributionUptime(),
 						"RetributionUptime", "0"),
-				new Field(this.passives, "Passives", null)
+				new Field(this.passives, "Passives", null),
+				new Field(this.skillDamage, "SkillDamages", null),
+				new Field(this.typeDamage, "ElementalDamages", null),
 
 		};
 
@@ -3450,31 +3395,13 @@ public class MainPanel extends BasePanel {
 			data.setParagonAD(paragonPanel.getParagonAD().getValue());
 			data.setSheetDps(calculator.getSheetDps());
 			data.setAps(calculator.getSheetAps());
-			data.setCaDamage(getValue(this.skillDamage.getCaDamage()) / 100.0);
-			data.setChakDamage(getValue(this.skillDamage.getChakDamage()) / 100.0);
-			data.setColdDamage(getValue(this.typeDamage.getColdDamage()) / 100.0);
-			data.setEaDamage(getValue(this.skillDamage.getEaDamage()) / 100.0);
-			data.setFireDamage(getValue(this.typeDamage.getFireDamage()) / 100.0);
-			data.setImpDamage(getValue(this.skillDamage.getImpDamage()) / 100.0);
-			data.setHaDamage(getValue(this.skillDamage.getHaDamage()) / 100.0);
-			data.setCompanionDamage(getValue(this.skillDamage
-					.getCompanionDamage()) / 100.0);
-			data.setSpikeTrapDamage(getValue(this.skillDamage.getStDamage()) / 100.0);
-			data.setRovDamage(getValue(this.skillDamage.getRovDamage()) / 100.0);
-			data.setEsDamage(getValue(this.skillDamage.getEsDamage()) / 100.0);
-			data.setBolasDamage(getValue(this.skillDamage.getBolasDamage()) / 100.0);
-			data.setEfDamage(getValue(this.skillDamage.getEfDamage()) / 100.0);
-			data.setGrenadeDamage(getValue(this.skillDamage.getGrenadeDamage()) / 100.0);
-			data.setLightDamage(getValue(this.typeDamage.getLightningDamage()) / 100.0);
-			data.setMsDamage(getValue(this.skillDamage.getMsDamage()) / 100.0);
-			data.setPhysDamage(getValue(this.typeDamage.getPhysicalDamage()) / 100.0);
+			data.setElementalDamage(this.typeDamage.getValues());
+			data.setSkillDamage(skillDamage.getValues());
 			data.setPassives(passives.getPassives());
-			data.setSentryDamage(getValue(this.skillDamage.getSentryDamage()) / 100.0);
 			data.setSentryRune(this.getRune(sentryRunes));
 			data.setSentry(sentry.getValue());
 			data.setCritChance(calculator.getCritChance());
 			data.setCritHitDamage(calculator.getCritDamage());
-			data.setPoisonDamage(getValue(this.typeDamage.getPoisonDamage()) / 100.0);
 			data.setPercentSlowedChilled((double) this.situational
 					.getPercentSlowedChilled().getValue() / 100.0);
 			data.setPercentControlled((double) this.situational

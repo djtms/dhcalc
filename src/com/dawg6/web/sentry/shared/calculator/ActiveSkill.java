@@ -32,12 +32,12 @@ public enum ActiveSkill {
 			Rune.Boomerang, Rune.Shuriken_Cloud },
 			"http://us.battle.net/d3/en/class/demon-hunter/active/chakram"),
 
-	BOLT(SkillType.NA, "Bolt", "Sentry-Bolt", 0, null, new Rune[] { Rune.None,
+	BOLT(SkillType.NA, "Bolt", "Sentry-Bolt", 0, DamageMultiplier.Sentry, new Rune[] { Rune.None,
 			Rune.Spitfire_Turret, Rune.Impaling_Bolt, Rune.Chain_of_Torment,
 			Rune.Polar_Station, Rune.Guardian_Turret },
 			"http://us.battle.net/d3/en/class/demon-hunter/active/sentry"),
 
-	SENTRY(SkillType.Sentry, "Sentry", "Sentry", -20, null, new Rune[] { Rune.None,
+	SENTRY(SkillType.Sentry, "Sentry", "Sentry", -20, DamageMultiplier.Sentry, new Rune[] { Rune.None,
 			Rune.Spitfire_Turret, Rune.Impaling_Bolt, Rune.Chain_of_Torment,
 			Rune.Polar_Station, Rune.Guardian_Turret },
 			"http://us.battle.net/d3/en/class/demon-hunter/active/sentry"),
@@ -58,7 +58,7 @@ public enum ActiveSkill {
 			new Rune[] { Rune.None, Rune.Tinkerer, Rune.Cluster_Grenades, Rune.Grenade_Cache, Rune.Stun_Grenade, Rune.Cold_Grenade },
 			"http://us.battle.net/d3/en/class/demon-hunter/active/grenade"),
 
-	Companion(SkillType.Cooldown, "Companion", "Companion", 0, null, new Rune[] {
+	Companion(SkillType.Cooldown, "Companion", "Companion", 0, DamageMultiplier.Companion, new Rune[] {
 			Rune.None, Rune.Bat, Rune.Spider, Rune.Wolf, Rune.Boar, Rune.Ferret
 		}, "http://us.battle.net/d3/en/class/demon-hunter/active/companion"),
 		
@@ -84,7 +84,7 @@ public enum ActiveSkill {
 			new Rune[] { Rune.None, Rune.Action_Shot, Rune.Rattling_Roll, Rune.Tumble, Rune.Acrobatics, Rune.Trail_of_Cinders }, 
 			"http://us.battle.net/d3/en/class/demon-hunter/active/vault"),
 
-	FoK(SkillType.Cooldown, "FoK", "Fan of Knives", 0, null, 
+	FoK(SkillType.Cooldown, "FoK", "Fan of Knives", 0, DamageMultiplier.FoK, 
 			new Rune[] { Rune.None, Rune.Pinpoint_Accuracy, Rune.Bladed_Armor, Rune.Knives_Expert, Rune.Fan_of_Daggers, Rune.Assassins_Knives }, 
 			"http://us.battle.net/d3/en/class/demon-hunter/active/fan-of-knives"),
 
@@ -92,15 +92,15 @@ public enum ActiveSkill {
 			new Rune[] { Rune.None, Rune.Night_Bane, Rune.Blood_Moon, Rune.Well_of_Darkness, Rune.Gloom, Rune.Shadow_Glide }, 
 			"http://us.battle.net/d3/en/class/demon-hunter/active/shadow-power"),
 
-	Strafe(SkillType.Channeled, "Strafe", "Strafe", 0, null, 
+	Strafe(SkillType.Channeled, "Strafe", "Strafe", 0, DamageMultiplier.Strafe, 
 			new Rune[] { Rune.None, Rune.Icy_Trail, Rune.Drifting_Shadow, Rune.Stinging_Steel, Rune.Rocket_Storm, Rune.Demolition }, 
 			"http://us.battle.net/d3/en/class/demon-hunter/active/strafe"),
 
-	Vengeance(SkillType.Cooldown, "Ven", "Vengeance", 0, null, 
+	Vengeance(SkillType.Cooldown, "Ven", "Vengeance", 0, DamageMultiplier.Vengeance, 
 			new Rune[] { Rune.None, Rune.Personal_Mortar, Rune.Dark_Heart, Rune.Side_Cannons, Rune.Seethe, Rune.From_the_Shadows }, 
 			"http://us.battle.net/d3/en/class/demon-hunter/active/vengeance"),
 
-	RF(SkillType.Channeled, "RF", "Rapid Fire", 0, null, 
+	RF(SkillType.Channeled, "RF", "Rapid Fire", 0, DamageMultiplier.RF, 
 			new Rune[] { Rune.None, Rune.Withering_Fire, Rune.Frost_Shots, Rune.Fire_Support, Rune.High_Velocity, Rune.Bombardment }, 
 			"http://us.battle.net/d3/en/class/demon-hunter/active/rapid-fire"),
 
@@ -115,8 +115,7 @@ public enum ActiveSkill {
 	private String url;
 	private int hatred;
 	private SkillType skillType;
-	
-	
+	private String slug;	
 	private ActiveSkill(SkillType skillType, String shortName, String name, int hatred,
 			DamageMultiplier multiplier, Rune[] runes, String url) {
 		this.name = name;
@@ -126,14 +125,23 @@ public enum ActiveSkill {
 		this.url = url;
 		this.hatred = hatred;
 		this.skillType = skillType;
+		this.slug = name.replaceAll(" ", "");
 	}
 
+	public boolean doesDamage() {
+		return multiplier != null;
+	}
+	
 	public String getUrl() {
 		return url;
 	}
 
 	public SkillType getSkillType() {
 		return skillType;
+	}
+	
+	public String getSlug() {
+		return slug;
 	}
 	
 	public int getHatred() {

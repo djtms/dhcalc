@@ -222,7 +222,7 @@ public class FiringData {
 		
 		if (data.isSentry() && (boltQty > 0)) {
 			list.addAll(DamageFunction.getDamages(false, true, "Sentry",
-					new DamageSource(ActiveSkill.SENTRY, sentryRune), boltQty,
+					new DamageSource(ActiveSkill.SENTRY, sentryRune), bp.getQty(),
 					data));
 			list.addAll(DamageFunction.getDamages(false, true, "Sentry",
 					new DamageSource(ActiveSkill.BOLT, sentryRune), boltQty,

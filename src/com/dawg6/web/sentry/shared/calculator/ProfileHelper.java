@@ -416,34 +416,30 @@ public class ProfileHelper {
 
 	public static void setElementalDamage(HeroProfile hero, CharacterData data) {
 
-		String[] elements = { Const.COLD, Const.FIRE, Const.LIGHTNING,
-				Const.Poison, Const.PHYSICAL };
+		Map<DamageType, Double> damage = new TreeMap<DamageType, Double>();
+		
+		for (DamageType t : DamageType.values()) {
+			double d = 0.0;
+			String e = t.getSlug();
+			String attr = Const.ELEMENTAL_DAMAGE_BONUS + e;
 
-		int[] damage = { 0, 0, 0, 0, 0 };
+			for (ItemInformation i : hero.items.values()) {
 
-		for (ItemInformation i : hero.items.values()) {
-			for (ItemInformation.Attributes.Attribute a : i.attributes.primary) {
-				String text = a.text;
-
-				for (int n = 0; n < elements.length; n++) {
-					if (text.startsWith(elements[n]
-							+ Const.ELEMENTAL_SKILL_DAMAGE)) {
-						int j = text.indexOf('%');
-						String value = text.substring(elements[n].length()
-								+ Const.ELEMENTAL_SKILL_DAMAGE.length(), j);
-						damage[n] += Integer.valueOf(value);
-						break;
-					}
+				Value<Float> f = i.attributesRaw.get(attr);
+				
+				if (f != null) {
+					
+					d += f.min;
 				}
+				
+			}
+
+			if (d > 0.0) {
+				damage.put(t, d);
 			}
 		}
 
-		int n = 0;
-		data.setColdDamage(damage[n++] / 100.0);
-		data.setFireDamage(damage[n++] / 100.0);
-		data.setLightDamage(damage[n++] / 100.0);
-		data.setPoisonDamage(damage[n++] / 100.0);
-		data.setPhysDamage(damage[n++] / 100.0);
+		data.setElementalDamage(damage);
 	}
 
 	public static void setGemDamage(HeroProfile hero, CharacterData data) {
@@ -815,13 +811,8 @@ public class ProfileHelper {
 
 	public static void setSkillDamage(HeroProfile hero, CharacterData data) {
 
-		ActiveSkill[] skills = { ActiveSkill.EA, ActiveSkill.CA,
-				ActiveSkill.MS, ActiveSkill.CHAK, ActiveSkill.IMP,
-				ActiveSkill.SENTRY, ActiveSkill.HA, ActiveSkill.ES,
-				ActiveSkill.BOLAS, ActiveSkill.EF, ActiveSkill.GRENADE,
-				ActiveSkill.Companion, ActiveSkill.ST, ActiveSkill.RoV };
-
-		int[] damage = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		Map<ActiveSkill, Double> damage = new TreeMap<ActiveSkill, Double>();
+		
 		int petSpeed = 0;
 		boolean tnt = false;
 		boolean calamity = false;
@@ -975,21 +966,6 @@ public class ProfileHelper {
 					hexingPantsPercent = 0.20;
 			}
 
-			for (ItemInformation.Attributes.Attribute a : i.attributes.primary) {
-				String text = a.text;
-
-				for (int n = 0; n < skills.length; n++) {
-					String phrase = Const.INCREASES + skills[n].getLongName()
-							+ Const.DAMAGE_BY;
-					if (text.startsWith(phrase)) {
-						int j = text.indexOf('%');
-						String value = text.substring(phrase.length(), j);
-						damage[n] += Integer.valueOf(value);
-						break;
-					}
-				}
-			}
-
 			for (ItemInformation.Attributes.Attribute a : i.attributes.passive) {
 				if (a.text.startsWith(Const.PET_ATTACK_SPEED)) {
 					int j = a.text.indexOf('%');
@@ -1027,21 +1003,27 @@ public class ProfileHelper {
 		data.setRoyalRing(royalRing);
 		data.setSetCounts(setCounts);
 
-		int n = 0;
-		data.setEaDamage(damage[n++] / 100.0);
-		data.setCaDamage(damage[n++] / 100.0);
-		data.setMsDamage(damage[n++] / 100.0);
-		data.setChakDamage(damage[n++] / 100.0);
-		data.setImpDamage(damage[n++] / 100.0);
-		data.setSentryDamage(damage[n++] / 100.0);
-		data.setHaDamage(damage[n++] / 100.0);
-		data.setEsDamage(damage[n++] / 100.0);
-		data.setBolasDamage(damage[n++] / 100.0);
-		data.setEfDamage(damage[n++] / 100.0);
-		data.setGrenadeDamage(damage[n++] / 100.0);
-		data.setCompanionDamage(damage[n++] / 100.0);
-		data.setSpikeTrapDamage(damage[n++] / 100.0);
-		data.setRovDamage(damage[n++] / 100.0);
+		for (ActiveSkill skill : ActiveSkill.values()) {
+			String slug = skill.getSlug();
+			String attr = Const.SKILL_DAMAGE_BONUS + slug;
+			double d = 0.0;
+			
+			for (ItemInformation i : hero.items.values()) {
+
+				Value<Float> f = i.attributesRaw.get(attr);
+				
+				if (f != null) {
+					d += f.min;
+				}
+				
+			}
+
+			if (d > 0.0) {
+				damage.put(skill, d);
+			}
+		}
+
+		data.setSkillDamage(damage);
 
 		ItemInformation helm = hero.items.get(Const.HEAD);
 

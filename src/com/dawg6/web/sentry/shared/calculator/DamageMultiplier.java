@@ -141,19 +141,20 @@ public enum DamageMultiplier {
 							: 0.0;
 				}
 			}), BW1("BWg", DamageAccumulator.Multiplicative,
-				"Bastions of Will Generator Bonus (50%)",
-				new Test<CharacterData, Double>() {
-					@Override
-					public Double getValue(CharacterData data) {
-						return (data.isBastions() && data.hasGenerator()) ? 0.5 : 0.0;
-					}
+			"Bastions of Will Generator Bonus (50%)",
+			new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return (data.isBastions() && data.hasGenerator()) ? 0.5
+							: 0.0;
+				}
 			}), BW2("BWs", DamageAccumulator.Multiplicative,
-				"Bastions of Will Spender Bonus (50%)",
-				new Test<CharacterData, Double>() {
-					@Override
-					public Double getValue(CharacterData data) {
-						return (data.isBastions() && data.hasSpender()) ? 0.5 : 0.0;
-					}
+			"Bastions of Will Spender Bonus (50%)",
+			new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return (data.isBastions() && data.hasSpender()) ? 0.5 : 0.0;
+				}
 			}), Dexterity("Dex", DamageAccumulator.Multiplicative,
 			"Dexterity bonus (1% damage per dex)",
 			new Test<CharacterData, Double>() {
@@ -264,6 +265,34 @@ public enum DamageMultiplier {
 				public Double getValue(CharacterData data) {
 					return data.getSpikeTrapDamage();
 				}
+			}), FoK("FoK", DamageAccumulator.Additive,
+			"Fan of Knives Skill Damage Bonus",
+			new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return data.getFokDamage();
+				}
+			}), Vengeance("Ven", DamageAccumulator.Additive,
+			"Vengeance Skill Damage Bonus",
+			new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return data.getVengeanceDamage();
+				}
+			}), Strafe("Strafe", DamageAccumulator.Additive,
+			"Strafe Skill Damage Bonus",
+			new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return data.getStrafeDamage();
+				}
+			}), RF("RF", DamageAccumulator.Additive,
+			"Rapid Fire Skill Damage Bonus",
+			new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return data.getRFDamage();
+				}
 			}), RoV("RoV", DamageAccumulator.Additive,
 			"Rain of Vengeance Skill Damage Bonus",
 			new Test<CharacterData, Double>() {
@@ -280,39 +309,48 @@ public enum DamageMultiplier {
 							.getPercentSlowedChilled()) : 0.0;
 				}
 			}), M6("M6", DamageAccumulator.Multiplicative,
-			"Marauder's 6 piece bonus (+100% per Sentry)", new Test<CharacterData, Double>() {
+			"Marauder's 6 piece bonus (+100% per Sentry)",
+			new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
 					return (data.getNumMarauders() >= 6) ? (double) (data
 							.getNumSentries()) : 0;
 				}
 			}), N4("N4", DamageAccumulator.Multiplicative,
-			"Nat's 4 piece bonus (+100% to RoV)", new Test<CharacterData, Double>() {
+			"Nat's 4 piece bonus (+100% to RoV)",
+			new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
 					return (data.getNumNats() >= 4) ? 1.0 : 0;
 				}
-			}), RoVN6("N6RoV", DamageAccumulator.Multiplicative,
-			"Nat's 6 piece bonus to RoV (+400% damage for 5 seconds after RoV)", new Test<CharacterData, Double>() {
+			}), RoVN6(
+			"N6RoV",
+			DamageAccumulator.Multiplicative,
+			"Nat's 6 piece bonus to RoV (+400% damage for 5 seconds after RoV)",
+			new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
 					return (data.getNumNats() >= 6) ? 4.0 : 0;
 				}
-			}), N6("N6", DamageAccumulator.Multiplicative,
-			"Nat's 6 piece bonus to other skills(+400% damage for 5 seconds after RoV)", new Test<CharacterData, Double>() {
+			}), N6(
+			"N6",
+			DamageAccumulator.Multiplicative,
+			"Nat's 6 piece bonus to other skills(+400% damage for 5 seconds after RoV)",
+			new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
 					// TODO do we need to calculate uptime?
-					
+
 					if (data.getNumNats() < 6)
 						return 0.0;
-					
-					double interval = (1.0 / data.getAps()) + (data.getDelay()  / 1000.0);
+
+					double interval = (1.0 / data.getAps())
+							+ (data.getDelay() / 1000.0);
 					double cdr = data.getCdr();
 					double rovCD = 30.0 * (1.0 - cdr);
 					double numAttacks = rovCD / (interval + 2.0);
 					rovCD = numAttacks * interval;
-					
+
 					if (rovCD <= 5.0)
 						return 4.0;
 					else
@@ -367,12 +405,11 @@ public enum DamageMultiplier {
 				@Override
 				public Double getValue(CharacterData data) {
 					WeaponType type = data.getWeaponType();
-					
+
 					if (type == null)
 						type = WeaponType.Bow;
-					
-					return (type.getAps() * (1.0 + data
-							.getWeaponIas())) - 1.0;
+
+					return (type.getAps() * (1.0 + data.getWeaponIas())) - 1.0;
 				}
 			}), CaltropsBT(
 			"Caltrops",
@@ -549,23 +586,26 @@ public enum DamageMultiplier {
 					return data.isAmbush() ? (0.4 * data.getPercentAbove75())
 							: 0.0;
 				}
-			}), Iced("Iced", DamageAccumulator.Special,
-				"Iceblink rank 25 bonus (10% Crit Chance to enemies chilled/frozen)",
-				new Test<CharacterData, Double>() {
-					@Override
-					public Double getValue(CharacterData data) {
-						return (data.isIceblink() && (data.getIceblinkLevel() >= 25)) ? (0.1 * data.getPercentSlowedChilled()) : 0.0;
-					}
+			}), Iced(
+			"Iced",
+			DamageAccumulator.Special,
+			"Iceblink rank 25 bonus (10% Crit Chance to enemies chilled/frozen)",
+			new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return (data.isIceblink() && (data.getIceblinkLevel() >= 25)) ? (0.1 * data
+							.getPercentSlowedChilled()) : 0.0;
+				}
 			}), SingleOut(
-				"SingleOut",
-				DamageAccumulator.Special,
-				"Single Out (25% Crit Chance to enemies more than 20 yards away from other enemies)",
-				new Test<CharacterData, Double>() {
-					@Override
-					public Double getValue(CharacterData data) {
-						return (data.isSingleOut() && (data.getTargetSpacing() >= 20)) ? 0.25
-								: 0.0;
-					}
+			"SingleOut",
+			DamageAccumulator.Special,
+			"Single Out (25% Crit Chance to enemies more than 20 yards away from other enemies)",
+			new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return (data.isSingleOut() && (data.getTargetSpacing() >= 20)) ? 0.25
+							: 0.0;
+				}
 			});
 
 	private String abbrev;

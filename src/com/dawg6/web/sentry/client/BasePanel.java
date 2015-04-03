@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 import com.dawg6.gwt.client.ApplicationPanel;
+import com.dawg6.web.sentry.shared.calculator.ActiveSkill;
+import com.dawg6.web.sentry.shared.calculator.DamageType;
 import com.dawg6.web.sentry.shared.calculator.Passive;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -284,10 +286,21 @@ public class BasePanel extends ApplicationPanel {
 			return getFieldValue((ListBox) field, defaultValue);
 		else if (field instanceof PassivesPanel)
 			return getFieldValue(((PassivesPanel)field).getPassives(), defaultValue);
+		else if (field instanceof DamageTypePanel)
+			return getFieldValue(((DamageTypePanel)field).getValues(), defaultValue);
+		else if (field instanceof SkillDamagePanel)
+			return getFieldValue(((SkillDamagePanel)field).getValues(), defaultValue);
 		else
 			return defaultValue;
 	}
 
+	private <K, V> String getFieldValue(Map<K, V> map, String defaultValue) {
+		if (map == null)
+			return defaultValue;
+		
+		return JsonUtil.toJSONObject(JsonUtil.createStringMap(map)).toString();
+	}
+	
 	private String getFieldValue(Set<Passive> passives, String defaultValue) {
 
 		if (passives == null)
@@ -396,12 +409,26 @@ public class BasePanel extends ApplicationPanel {
 			setFieldValue((ListBox) field, value);
 		else if (field instanceof PassivesPanel)
 			setFieldValue((PassivesPanel)field, value);
+		else if (field instanceof DamageTypePanel)
+			setFieldValue((DamageTypePanel)field, value);
+		else if (field instanceof SkillDamagePanel)
+			setFieldValue((SkillDamagePanel)field, value);
 	}
 
 	private void setFieldValue(PassivesPanel field, String value) {
 		Set<Passive> set = JsonUtil.parseSet(Passive.class, value);
 		
 		field.setPassives(set);
+	}
+
+	private void setFieldValue(DamageTypePanel field, String value) {
+		Map<DamageType, Double> map = JsonUtil.parseMap(DamageType.class, value);
+		field.setValues(map);
+	}
+	
+	private void setFieldValue(SkillDamagePanel field, String value) {
+		Map<ActiveSkill, Double> map = JsonUtil.parseMap(ActiveSkill.class, value);
+		field.setValues(map);
 	}
 
 	protected void setFieldValue(ListBox field, String value) {

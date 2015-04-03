@@ -16,4 +16,17 @@ public enum DamageType {
 	public DamageMultiplier getMultiplier() {
 		return multiplier;
 	}
+	
+	public String getLongName() {
+		return name();
+	}
+	
+	public String getSlug() {
+		return name();
+	}
+	
+	@Override
+	public String toString() {
+		return name();
+	}
 }

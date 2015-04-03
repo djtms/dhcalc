@@ -536,34 +536,18 @@ public class ExportExcel {
 		createInput(inputs, data.data.getDelay(),
 				"Player Action Delay");
 
-		createInputHeader(inputs, "Damage Type Modifiers");
-		createInput(inputs, data.data.getColdDamage(), "Cold Damage", pctStyle);
-		createInput(inputs, data.data.getFireDamage(), "Fire Damage", pctStyle);
-		createInput(inputs, data.data.getLightDamage(),
-				"Lightning Damage", pctStyle);
-		createInput(inputs, data.data.getPhysDamage(),
-				"Physical Damage", pctStyle);
-		createInput(inputs, data.data.getPoisonDamage(),
-				"Poison Damage", pctStyle);
+		createInputHeader(inputs, "Elemental Damage Modifiers");
+		for (Map.Entry<DamageType, Double> e : data.data.getElementalDamage().entrySet()) {
+			createInput(inputs, e.getValue(),
+					e.getKey().getLongName(), pctStyle);
+		}
 
 		createInputHeader(inputs, "Skill Damage Modifiers");
-		createInput(inputs, data.data.getSentryDamage(),
-				"Sentry Damage", pctStyle);
-		createInput(inputs, data.data.getEaDamage(), "EA Damage", pctStyle);
-		createInput(inputs, data.data.getMsDamage(), "MS Damage", pctStyle);
-		createInput(inputs, data.data.getCaDamage(), "CA Damage", pctStyle);
-		createInput(inputs, data.data.getChakDamage(),
-				"Chakram Damage", pctStyle);
-		createInput(inputs, data.data.getImpDamage(),
-				"Impale Damage", pctStyle);
-		createInput(inputs, data.data.getHaDamage(), "HA Damage", pctStyle);
-		createInput(inputs, data.data.getEsDamage(), "ES Damage", pctStyle);
-		createInput(inputs, data.data.getBolasDamage(), "Bolas Damage", pctStyle);
-		createInput(inputs, data.data.getEfDamage(), "EF Damage", pctStyle);
-		createInput(inputs, data.data.getGrenadeDamage(), "Grenade Damage", pctStyle);
-		createInput(inputs, data.data.getSpikeTrapDamage(), "ST Damage", pctStyle);
-		createInput(inputs, data.data.getCompanionDamage(), "Companion Damage", pctStyle);
-		createInput(inputs, data.data.getRovDamage(), "RoV Damage", pctStyle);
+		
+		for (Map.Entry<ActiveSkill, Double> e : data.data.getSkillDamage().entrySet()) {
+			createInput(inputs, e.getValue(),
+					e.getKey().getLongName(), pctStyle);
+		}
 
 		createInputHeader(inputs, "Item Data");
 		createInput(inputs, data.data.getEliteDamage(),

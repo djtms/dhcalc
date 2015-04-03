@@ -28,25 +28,6 @@ public class CharacterData implements Serializable {
 	private double aps;
 	private double offHand_aps;
 	private double offHand_dps;
-	private double coldDamage;
-	private double fireDamage;
-	private double lightDamage;
-	private double physDamage;
-	private double poisonDamage;
-	private double sentryDamage;
-	private double eaDamage;
-	private double msDamage;
-	private double caDamage;
-	private double impDamage;
-	private double haDamage;
-	private double spikeTrapDamage;
-	private double rovDamage;
-	private double companionDamage;
-	private double esDamage;
-	private double bolasDamage;
-	private double efDamage;
-	private double grenadeDamage;
-	private double chakDamage;
 	private double critChance;
 	private double critHitDamage;
 	private double eliteDamage;
@@ -232,6 +213,8 @@ public class CharacterData implements Serializable {
 	private int iceblinkLevel;
 	private boolean crashingRain;
 	private Set<Passive> passives;
+	private Map<DamageType, Double> elementalDamage;
+	private Map<ActiveSkill, Double> skillDamage;
 	
 	public int getNumMarauders() {
 		return numMarauders;
@@ -302,83 +285,55 @@ public class CharacterData implements Serializable {
 	}
 
 	public double getColdDamage() {
-		return coldDamage;
+		return getElementalDamage(DamageType.Cold);
 	}
 
-	public void setColdDamage(double coldDamage) {
-		this.coldDamage = coldDamage;
+	public double getElementalDamage(DamageType type) {
+		Double d = elementalDamage.get(type);
+		
+		return (d == null) ? 0.0 : d;
 	}
-
+	
 	public double getSentryDamage() {
-		return sentryDamage;
+		return getSkillDamage(ActiveSkill.SENTRY);
 	}
 
-	public void setSentryDamage(double sentryDamage) {
-		this.sentryDamage = sentryDamage;
+	public double getSkillDamage(ActiveSkill skill) {
+		Double d = skillDamage.get(skill);
+		
+		return (d == null) ? 0.0 : d;
 	}
-
+	
 	public double getEaDamage() {
-		return eaDamage;
-	}
-
-	public void setEaDamage(double eaDamage) {
-		this.eaDamage = eaDamage;
+		return getSkillDamage(ActiveSkill.EA);
 	}
 
 	public double getMsDamage() {
-		return msDamage;
-	}
-
-	public void setMsDamage(double msDamage) {
-		this.msDamage = msDamage;
+		return getSkillDamage(ActiveSkill.MS);
 	}
 
 	public double getCaDamage() {
-		return caDamage;
-	}
-
-	public void setCaDamage(double caDamage) {
-		this.caDamage = caDamage;
+		return getSkillDamage(ActiveSkill.CA);
 	}
 
 	public double getImpDamage() {
-		return impDamage;
-	}
-
-	public void setImpDamage(double impDamage) {
-		this.impDamage = impDamage;
+		return getSkillDamage(ActiveSkill.IMP);
 	}
 
 	public double getChakDamage() {
-		return chakDamage;
-	}
-
-	public void setChakDamage(double chakDamage) {
-		this.chakDamage = chakDamage;
+		return getSkillDamage(ActiveSkill.CHAK);
 	}
 	
 	public double getFireDamage() {
-		return fireDamage;
-	}
-
-	public void setFireDamage(double fireDamage) {
-		this.fireDamage = fireDamage;
+		return getElementalDamage(DamageType.Fire);
 	}
 
 	public double getLightDamage() {
-		return lightDamage;
-	}
-
-	public void setLightDamage(double lightDamage) {
-		this.lightDamage = lightDamage;
+		return getElementalDamage(DamageType.Lightning);
 	}
 
 	public double getPhysDamage() {
-		return physDamage;
-	}
-
-	public void setPhysDamage(double physDamage) {
-		this.physDamage = physDamage;
+		return getElementalDamage(DamageType.Physical);
 	}
 
 	public double getSentryAps() {
@@ -396,11 +351,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public double getPoisonDamage() {
-		return poisonDamage;
-	}
-
-	public void setPoisonDamage(double poisonDamage) {
-		this.poisonDamage = poisonDamage;
+		return getElementalDamage(DamageType.Poison);
 	}
 
 	public double getCritHitDamage() {
@@ -1587,45 +1538,24 @@ public class CharacterData implements Serializable {
 	}
 
 	public double getHaDamage() {
-		return haDamage;
-	}
-
-	public void setHaDamage(double haDamage) {
-		this.haDamage = haDamage;
+		return getSkillDamage(ActiveSkill.HA);
 	}
 
 	public double getEsDamage() {
-		return esDamage;
-	}
-
-	public void setEsDamage(double esDamage) {
-		this.esDamage = esDamage;
+		return getSkillDamage(ActiveSkill.ES);
 	}
 
 	public double getBolasDamage() {
-		return bolasDamage;
-	}
-
-	public void setBolasDamage(double bolasDamage) {
-		this.bolasDamage = bolasDamage;
+		return getSkillDamage(ActiveSkill.BOLAS);
 	}
 
 	public double getEfDamage() {
-		return efDamage;
-	}
-
-	public void setEfDamage(double efDamage) {
-		this.efDamage = efDamage;
+		return getSkillDamage(ActiveSkill.EF);
 	}
 
 	public double getGrenadeDamage() {
-		return grenadeDamage;
+		return getSkillDamage(ActiveSkill.GRENADE);
 	}
-
-	public void setGrenadeDamage(double grenadeDamage) {
-		this.grenadeDamage = grenadeDamage;
-	}
-
 	public int getParagonHatred() {
 		return paragonHatred;
 	}
@@ -1763,11 +1693,7 @@ public class CharacterData implements Serializable {
 	}
 	
 	public double getCompanionDamage() {
-		return companionDamage;
-	}
-
-	public void setCompanionDamage(double companionDamage) {
-		this.companionDamage = companionDamage;
+		return getSkillDamage(ActiveSkill.Companion);
 	}
 
 	public int getParagonDexterity() {
@@ -1915,11 +1841,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public double getSpikeTrapDamage() {
-		return spikeTrapDamage;
-	}
-
-	public void setSpikeTrapDamage(double spikeTrapDamage) {
-		this.spikeTrapDamage = spikeTrapDamage;
+		return getSkillDamage(ActiveSkill.ST);
 	}
 
 	public double getHelltrapperPercent() {
@@ -2007,11 +1929,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public double getRovDamage() {
-		return rovDamage;
-	}
-
-	public void setRovDamage(double rovDamage) {
-		this.rovDamage = rovDamage;
+		return getSkillDamage(ActiveSkill.RoV);
 	}
 
 //	public int getRovKilled() {
@@ -2119,6 +2037,38 @@ public class CharacterData implements Serializable {
 
 	public void setPassives(Set<Passive> passives) {
 		this.passives = passives;
+	}
+
+	public Map<DamageType, Double> getElementalDamage() {
+		return elementalDamage;
+	}
+
+	public void setElementalDamage(Map<DamageType, Double> elementalDamage) {
+		this.elementalDamage = elementalDamage;
+	}
+
+	public Map<ActiveSkill, Double> getSkillDamage() {
+		return skillDamage;
+	}
+
+	public void setSkillDamage(Map<ActiveSkill, Double> skillDamage) {
+		this.skillDamage = skillDamage;
+	}
+
+	public Double getFokDamage() {
+		return this.getSkillDamage(ActiveSkill.FoK);
+	}
+
+	public Double getRFDamage() {
+		return this.getSkillDamage(ActiveSkill.RF);
+	}
+
+	public Double getStrafeDamage() {
+		return this.getSkillDamage(ActiveSkill.Strafe);
+	}
+
+	public Double getVengeanceDamage() {
+		return this.getSkillDamage(ActiveSkill.Vengeance);
 	}
 
 }

@@ -129,4 +129,6 @@ public class Const {
 	public static final String MAX_DISCIPLINE = "Resource_Max_Bonus#Discipline";
 	public static final String BASTIONS_OF_WILL = "bastions-of-will";
 	public static final String CRASHING_RAIN = "Crashing Rain";
+	public static final String ELEMENTAL_DAMAGE_BONUS = "Damage_Dealt_Percent_Bonus#";
+	public static final String SKILL_DAMAGE_BONUS = "Power_Damage_Percent_Bonus#DemonHunter_";
 }
