@@ -1,8 +1,8 @@
 package com.dawg6.web.sentry.shared.calculator;
 
 public enum DamageType {
-	Fire(DamageMultiplier.Fire),
 	Cold(DamageMultiplier.Cold),
+	Fire(DamageMultiplier.Fire),
 	Lightning(DamageMultiplier.Lightning),
 	Physical(DamageMultiplier.Physical),
 	Poison(DamageMultiplier.Poison);

@@ -1,9 +1,14 @@
 package com.dawg6.web.sentry.client;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Vector;
 
 import com.dawg6.web.sentry.shared.calculator.ActiveSkill;
+import com.dawg6.web.sentry.shared.calculator.SkillType;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
@@ -25,9 +30,24 @@ public class SkillDamagePanel extends Composite {
 
 		int n = 0;
 		
+		List<ActiveSkill> list = new Vector<ActiveSkill>(ActiveSkill.values().length);
+		
 		for (ActiveSkill skill: ActiveSkill.values()) {
+			if (skill.doesDamage() && (skill != ActiveSkill.BOLT) && (skill.getSkillType() != SkillType.NA)) {
+				list.add(skill);
+			}
+		}
+		
+		Collections.sort(list, new Comparator<ActiveSkill>(){
 
-			if (skill.doesDamage() && (skill != ActiveSkill.BOLT)) {
+			@Override
+			public int compare(ActiveSkill o1, ActiveSkill o2) {
+				return o1.getLongName().compareTo(o2.getLongName());
+			}});
+		
+		for (ActiveSkill skill: list) {
+
+			if (skill.doesDamage() && (skill != ActiveSkill.BOLT) && (skill.getSkillType() != SkillType.NA)) {
 				
 				HorizontalPanel row = new HorizontalPanel();
 				row.setSpacing(5);
