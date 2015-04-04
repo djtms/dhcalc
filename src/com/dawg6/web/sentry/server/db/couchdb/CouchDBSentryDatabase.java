@@ -612,27 +612,33 @@ public class CouchDBSentryDatabase {
 			
 			for (Profile p : profiles) {
 				n++;
-				
-				System.out.println("Profile " + n + "/" + profiles.size());
 
-				CareerProfile career = service.getProfile(p.realm, p.profile, p.tag);
-				
-				System.out.println(career.heroes.length + " Heroes");
-				
-				for (Hero h : career.heroes) {
-					HeroProfile hp = service.getHero(p.realm, p.profile, p.tag, h.id);
+				try {
+					System.out.println("Profile " + n + "/" + profiles.size());
+	
+					CareerProfile career = service.getProfile(p.realm, p.profile, p.tag);
 					
-					if (hp.items != null) {
-						for (ItemInformation i : hp.items.values()) {
-							attributes.addAll(i.attributesRaw.keySet());
+					if (career.heroes != null) {
+						System.out.println(career.heroes.length + " Heroes");
+						
+						for (Hero h : career.heroes) {
+							HeroProfile hp = service.getHero(p.realm, p.profile, p.tag, h.id);
 							
-							if (i.gems != null) {
-								for (Gem g : i.gems) {
-									attributes.addAll(g.attributesRaw.keySet());
+							if (hp.items != null) {
+								for (ItemInformation i : hp.items.values()) {
+									attributes.addAll(i.attributesRaw.keySet());
+									
+									if (i.gems != null) {
+										for (Gem g : i.gems) {
+											attributes.addAll(g.attributesRaw.keySet());
+										}
+									}
 								}
 							}
 						}
 					}
+				} catch (Exception e) {
+					log.log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 			
