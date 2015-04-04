@@ -4,25 +4,24 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.Vector;
 
 public class FiringData {
 
 	public static final int DURATION = 30;
 
-	public static Damage[] calculateDamages(Map<ActiveSkill, Rune> runes,
-			CharacterData data) {
+	public static Damage[] calculateDamages(CharacterData data) {
 		List<Damage> list = new Vector<Damage>();
 
 		List<SkillAndRune> skills = new Vector<SkillAndRune>();
 		Map<SkillAndRune, Integer> skillQty = new TreeMap<SkillAndRune, Integer>();
 
-		for (Map.Entry<ActiveSkill, Rune> e : runes.entrySet()) {
+		for (Map.Entry<ActiveSkill, Rune> e : data.getSkills().entrySet()) {
 			ActiveSkill skill = e.getKey();
-			Rune rune = e.getValue();
-
-			if ((skill != ActiveSkill.SENTRY) && (skill != ActiveSkill.BOLT)) {
+			SkillType type = skill.getSkillType();
+			
+			if ((type == SkillType.Primary) || (type == SkillType.Spender)) {
+				Rune rune = e.getValue();
 				SkillAndRune skr = new SkillAndRune(skill, rune);
 				skills.add(skr);
 				skillQty.put(skr, 0);
@@ -30,7 +29,6 @@ public class FiringData {
 		}
 
 		Collections.sort(skills, new SkillAndRune.HatredSorter(data));
-		data.setSkills(new TreeSet<SkillAndRune>(skills));
 		
 		double maxHatred = data.getMaxHatred();
 		double hatred = maxHatred;
@@ -65,7 +63,11 @@ public class FiringData {
 		double aps = data.getAps();
 		double interval = (1.0 / aps) + (data.getDelay() / 1000.0);
 		int totalSpender = 0;
-		Rune sentryRune = data.getSentryRune();
+		Rune sentryRune = Rune.None;
+		
+		if (data.isSentry())
+			sentryRune = data.getSentryRune();
+		
 		double healthGlobeInterval = (data.getNumHealthGlobes() > 0) ? (FiringData.DURATION / (data
 				.getNumHealthGlobes() + 1.0)) : (FiringData.DURATION * 2.0);
 		double nextHealthGlobe = healthGlobeInterval;

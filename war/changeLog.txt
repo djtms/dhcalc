@@ -1,10 +1,12 @@
 Change Log:
 
-**4/3/15**
+**4/4/15**
 
 * Now imports all Passive skills from profile (including any on Hellfire Amulet)
-* Now imports all Active Skill Damage bonuses from profile. 
-** Note: I changed the logic for parsing these, so if you find one or more bonuses are not being imported properly, please let me know!
+* Now imports all Active Skills and Active Skill Damage bonuses from profile. 
+** Note: I changed the logic for parsing these, so if you find one or more bonuses are not being 
+** Note: not all Active Skills are implemented in damage calculations. Check to-do list to see which ones are not.
+imported properly, please let me know!
 * Properly handles cases where some gear slots are empty
 * Fixed Sentry/Spitfire # of rockets to be equal to total breakpoint quantity
 

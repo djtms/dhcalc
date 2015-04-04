@@ -28,6 +28,7 @@ public class JsonUtil {
 		obj.put("main", JsonUtil.toJSONObject(data.main));
 		obj.put("calculator", JsonUtil.toJSONObject(data.calculator));
 		obj.put("passives", JsonUtil.toJSONObject(data.passives));
+		obj.put("skills", JsonUtil.toJSONObject(data.skills));
 		obj.put("elementalDamage", JsonUtil.toJSONObject(data.elementalDamage));
 		obj.put("skillDamage", JsonUtil.toJSONObject(data.skillDamage));
 		obj.put("items", JsonUtil.toJSONObject(data.items));
@@ -53,6 +54,7 @@ public class JsonUtil {
 					data.calculator = JsonUtil.parseMap(obj.get("calculator"));
 					data.items = JsonUtil.parseMap(obj.get("items"));
 					data.passives = JsonUtil.parseMap(obj.get("passives"));
+					data.skills = JsonUtil.parseMap(obj.get("skills"));
 					data.elementalDamage = JsonUtil.parseMap(obj.get("elementalDamage"));
 					data.skillDamage = JsonUtil.parseMap(obj.get("skillDamage"));
 					data.hero = null;
@@ -67,6 +69,16 @@ public class JsonUtil {
 	}
 
 	
+	public static <K extends Enum<K>, V extends Enum<V>> Map<String, String> createEnumStringMap(Map<K, V> map) {
+		Map<String, String> smap = new TreeMap<String, String>();
+		
+		for (Map.Entry<K, V> e : map.entrySet()) {
+			smap.put(e.getKey().name(), e.getValue().name());
+		}
+		
+		return smap;
+	}
+
 	public static <K, V> Map<String, String> createStringMap(Map<K, V> map) {
 		Map<String, String> smap = new TreeMap<String, String>();
 		
@@ -231,6 +243,28 @@ public class JsonUtil {
 				Double d = Double.parseDouble(e.getValue());
 				
 				map.put(type, d);
+			}
+
+			return map;
+		}
+	}
+
+	public static <K extends Enum<K>, V extends Enum<V>> Map<K, V> parseMap(Class<K> keyClass,
+			Class<V> valueClass, String text) {
+		if (text == null) {
+			return new TreeMap<K, V>();
+		} else {
+		
+			JSONValue v = JSONParser.parseLenient(text);
+			Map<String, String> smap = JsonUtil.parseMap(v);
+
+			Map<K, V> map = new TreeMap<K, V>();
+
+			for (Map.Entry<String, String> e : smap.entrySet()) {
+				K key = Enum.valueOf(keyClass, e.getKey());
+				V value = Enum.valueOf(valueClass, e.getValue());
+				
+				map.put(key, value);
 			}
 
 			return map;

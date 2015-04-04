@@ -138,8 +138,8 @@ public class Stat {
 		}
 
 		@Override
-		public boolean test(CharacterData data, Set<DamageType> types,
-				Set<ActiveSkill> skills) {
+		public boolean test(CharacterData data, Set<DamageType> types) {
+				
 			return (data.getNumAdditional() > 0)
 					&& (data.getTargetSpacing() <= 10);
 		}
@@ -161,8 +161,8 @@ public class Stat {
 		}
 
 		@Override
-		public boolean test(CharacterData data, Set<DamageType> types,
-				Set<ActiveSkill> skills) {
+		public boolean test(CharacterData data, Set<DamageType> types) {
+				
 			return data.isReapersWraps() || data.isBloodVengeance();
 		}
 
@@ -183,8 +183,8 @@ public class Stat {
 		}
 
 		@Override
-		public boolean test(CharacterData data, Set<DamageType> types,
-				Set<ActiveSkill> skills) {
+		public boolean test(CharacterData data, Set<DamageType> types) {
+				
 			return data.isUseBaneOfTheTrapped();
 		}
 
@@ -205,8 +205,8 @@ public class Stat {
 		}
 
 		@Override
-		public boolean test(CharacterData data, Set<DamageType> types,
-				Set<ActiveSkill> skills) {
+		public boolean test(CharacterData data, Set<DamageType> types) {
+				
 			return data.isUseEnforcer()
 					&& (data.isSentry() || data.isCompanion());
 		}
@@ -228,8 +228,8 @@ public class Stat {
 		}
 
 		@Override
-		public boolean test(CharacterData data, Set<DamageType> types,
-				Set<ActiveSkill> skills) {
+		public boolean test(CharacterData data, Set<DamageType> types) {
+				
 			return data.isZeis();
 		}
 
@@ -250,8 +250,8 @@ public class Stat {
 		}
 
 		@Override
-		public boolean test(CharacterData data, Set<DamageType> types,
-				Set<ActiveSkill> skills) {
+		public boolean test(CharacterData data, Set<DamageType> types) {
+				
 			return data.isToxin();
 		}
 
@@ -272,8 +272,8 @@ public class Stat {
 		}
 
 		@Override
-		public boolean test(CharacterData data, Set<DamageType> types,
-				Set<ActiveSkill> skills) {
+		public boolean test(CharacterData data, Set<DamageType> types) {
+				
 			return data.isPainEnhancer();
 		}
 
@@ -305,29 +305,32 @@ public class Stat {
 	public String toString() {
 		return label;
 	}
-	
+
 	private static List<Stat> values;
-	
+
 	public static List<Stat> values() {
-		
+
 		if (values == null) {
-			values = new Vector<Stat>(fixed.length + ActiveSkill.values().length + DamageType.values().length);
-			
+			values = new Vector<Stat>(fixed.length
+					+ ActiveSkill.values().length + DamageType.values().length);
+
 			for (Stat s : fixed)
 				values.add(s);
-			
+
 			for (DamageType t : DamageType.values()) {
-				values.add(new Stat("+1% " + t.getLongName() + " Damage", new StatAdapter.ElementalDamage(t)));
+				values.add(new Stat("+1% " + t.getLongName() + " Damage",
+						new StatAdapter.ElementalDamage(t)));
 			}
 
 			for (ActiveSkill s : ActiveSkill.values()) {
-				
+
 				if (s.doesDamage() && (s != ActiveSkill.BOLT)) {
-					values.add(new Stat("+1% " + s.getLongName() + " Damage", new StatAdapter.SkillDamage(s)));
+					values.add(new Stat("+1% " + s.getLongName() + " Damage",
+							new StatAdapter.SkillDamage(s)));
 				}
 			}
 		}
-		
+
 		return values;
 	}
 

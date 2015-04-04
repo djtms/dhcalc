@@ -33,7 +33,6 @@ public class CharacterData implements Serializable {
 	private double eliteDamage;
 	private boolean useEnforcer;
 	private int enforcerLevel;
-	private boolean mfdSkill;
 	private boolean wolf;
 	private boolean hexingPants;
 	private boolean charmed;
@@ -56,10 +55,6 @@ public class CharacterData implements Serializable {
 	private boolean calamityMdf;
 	private boolean zeis;
 	private int zeisLevel;
-	private boolean caltrops;
-	private Rune caltropsRune;
-	private boolean spikeTrap;
-	private Rune spikeTrapRune;
 	private int numTargets;
 	private int numAoeTargets;
 	private int weaponMin;
@@ -70,7 +65,6 @@ public class CharacterData implements Serializable {
 	private int numAdditional;
 	private boolean useBaneOfTheTrapped;
 	private int baneOfTheTrappedLevel;
-	private boolean marked;
 	private int distanceToTarget;
 	private double weaponDamage;
 	private double offHand_weaponDamage;
@@ -110,7 +104,6 @@ public class CharacterData implements Serializable {
 	private boolean tnt;
 	private double tntPercent;
 	private TargetSize targetSize;
-	private Rune mfdRune;
 	private double mfdUptime;
 	private double mfdAddUptime;
 	private double calamityUptime;
@@ -129,9 +122,7 @@ public class CharacterData implements Serializable {
 	private double hexingPantsUptime;
 	private double caltropsUptime;
 	private int numSpikeTraps;
-	private Set<SkillAndRune> skills;
-	private boolean sentry;
-	private Rune sentryRune;
+	private Map<ActiveSkill, Rune> skills;
 	private Map<String, Integer> cdrData;
 	private Map<String, Integer> rcrData;
 	private boolean bornsCdr;
@@ -192,19 +183,13 @@ public class CharacterData implements Serializable {
 	private boolean odysseysEnd;
 	private double odysseysEndPercent;
 	private double odysseysEndUptime;
-	private boolean preparation;
-	private Rune preparationRune;
 	private int equipmentDexterity;
 	private int paragonDexterity;
 	private boolean helltrapper;
 	private double helltrapperPercent;
-	private boolean companion;
-	private Rune companionRune;
 	private boolean vaxo;
 	private double areaDamageEquipment;
 	private int paragonAD;
-	private boolean rov;
-	private Rune rovRune;
 //	private int rovKilled;
 	private int numNats;
 	private int equipmentDiscipline;
@@ -394,14 +379,6 @@ public class CharacterData implements Serializable {
 		return passives.contains(Passive.Steady_Aim);
 	}
 
-	public boolean isMfdSkill() {
-		return mfdSkill;
-	}
-
-	public void setMfdSkill(boolean mfdSkill) {
-		this.mfdSkill = mfdSkill;
-	}
-
 	public boolean isWolf() {
 		return wolf;
 	}
@@ -585,14 +562,6 @@ public class CharacterData implements Serializable {
 		return passives.contains(Passive.Single_Out);
 	}
 
-	public boolean isCaltrops() {
-		return caltrops;
-	}
-
-	public void setCaltrops(boolean caltrops) {
-		this.caltrops = caltrops;
-	}
-
 	public int getNumTargets() {
 		return numTargets;
 	}
@@ -671,14 +640,6 @@ public class CharacterData implements Serializable {
 
 	public void setBaneOfTheTrappedLevel(int baneOfTheTrappedLevel) {
 		this.baneOfTheTrappedLevel = baneOfTheTrappedLevel;
-	}
-
-	public boolean isMarked() {
-		return marked;
-	}
-
-	public void setMarked(boolean marked) {
-		this.marked = marked;
 	}
 
 	public int getDistanceToTarget() {
@@ -1005,14 +966,6 @@ public class CharacterData implements Serializable {
 		return eliteDamage + ((botp && (botpLevel >= 25)) ? 0.15 : 0.0);
 	}
 
-	public Rune getMfdRune() {
-		return mfdRune;
-	}
-
-	public void setMfdRune(Rune mfdRune) {
-		this.mfdRune = mfdRune;
-	}
-
 	public double getMfdUptime() {
 		return mfdUptime;
 	}
@@ -1221,20 +1174,12 @@ public class CharacterData implements Serializable {
 		this.caltropsUptime = caltropsUptime;
 	}
 
-	public Set<SkillAndRune> getSkills() {
+	public Map<ActiveSkill, Rune> getSkills() {
 		return skills;
 	}
 
-	public void setSkills(Set<SkillAndRune> skills) {
+	public void setSkills(Map<ActiveSkill, Rune> skills) {
 		this.skills = skills;
-	}
-
-	public Rune getSentryRune() {
-		return sentryRune;
-	}
-
-	public void setSentryRune(Rune sentryRune) {
-		this.sentryRune = sentryRune;
 	}
 
 	public Map<String, Integer> getCdrData() {
@@ -1824,22 +1769,6 @@ public class CharacterData implements Serializable {
 		this.offHand_dps = offHand_dps;
 	}
 
-	public boolean isCompanion() {
-		return companion;
-	}
-
-	public void setCompanion(boolean companion) {
-		this.companion = companion;
-	}
-
-	public Rune getCompanionRune() {
-		return companionRune;
-	}
-
-	public void setCompanionRune(Rune companionRune) {
-		this.companionRune = companionRune;
-	}
-
 	public double getSpikeTrapDamage() {
 		return getSkillDamage(ActiveSkill.ST);
 	}
@@ -1850,30 +1779,6 @@ public class CharacterData implements Serializable {
 
 	public void setHelltrapperPercent(double helltrapperPercent) {
 		this.helltrapperPercent = helltrapperPercent;
-	}
-
-	public Rune getCaltropsRune() {
-		return caltropsRune;
-	}
-
-	public void setCaltropsRune(Rune caltropsRune) {
-		this.caltropsRune = caltropsRune;
-	}
-
-	public boolean isSpikeTrap() {
-		return spikeTrap;
-	}
-
-	public void setSpikeTrap(boolean spikeTrap) {
-		this.spikeTrap = spikeTrap;
-	}
-
-	public Rune getSpikeTrapRune() {
-		return spikeTrapRune;
-	}
-
-	public void setSpikeTrapRune(Rune spikeTrapRune) {
-		this.spikeTrapRune = spikeTrapRune;
 	}
 
 	public int getNumSpikeTraps() {
@@ -1912,22 +1817,6 @@ public class CharacterData implements Serializable {
 		return areaDamageEquipment + (paragonAD * .01);
 	}
 
-	public boolean isRov() {
-		return rov;
-	}
-
-	public void setRov(boolean rov) {
-		this.rov = rov;
-	}
-
-	public Rune getRovRune() {
-		return rovRune;
-	}
-
-	public void setRovRune(Rune rovRune) {
-		this.rovRune = rovRune;
-	}
-
 	public double getRovDamage() {
 		return getSkillDamage(ActiveSkill.RoV);
 	}
@@ -1948,30 +1837,6 @@ public class CharacterData implements Serializable {
 		this.numNats = numNats;
 	}
 
-	public boolean isSentry() {
-		return sentry;
-	}
-
-	public void setSentry(boolean sentry) {
-		this.sentry = sentry;
-	}
-
-	public boolean isPreparation() {
-		return preparation;
-	}
-
-	public void setPreparation(boolean preparation) {
-		this.preparation = preparation;
-	}
-
-	public Rune getPreparationRune() {
-		return preparationRune;
-	}
-
-	public void setPreparationRune(Rune preparationRune) {
-		this.preparationRune = preparationRune;
-	}
-
 	public int getEquipmentDiscipline() {
 		return equipmentDiscipline;
 	}
@@ -1990,8 +1855,15 @@ public class CharacterData implements Serializable {
 
 	public boolean hasGenerator() {
 		
-		for (SkillAndRune s : this.getSkills()) {
-			if ((s.getSkill() != null) && ((s.getSkill().getSkillType() == SkillType.Primary) || (s.getHatred(this) > 0)))
+		for (Map.Entry<ActiveSkill,Rune> e : this.getSkills().entrySet()) {
+			ActiveSkill s = e.getKey();
+			
+			if (s.getSkillType() == SkillType.Primary)
+				return true;
+			
+			SkillAndRune skr = new SkillAndRune(s, e.getValue());
+			
+			if (skr.getHatred(this) > 0)
 				return true;
 		}
 
@@ -1999,8 +1871,11 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean hasSpender() {
-		for (SkillAndRune s : this.getSkills()) {
-			if ((s.getSkill() != null) && (s.getSkill().getSkillType() == SkillType.Spender) && (s.getHatred(this) < 0))
+		for (Map.Entry<ActiveSkill,Rune> e : this.getSkills().entrySet()) {
+			ActiveSkill s = e.getKey();
+			SkillAndRune skr = new SkillAndRune(s, e.getValue());
+			
+			if ((s.getSkillType() == SkillType.Spender) && (skr.getHatred(this) < 0))
 				return true;
 		}
 
@@ -2069,6 +1944,62 @@ public class CharacterData implements Serializable {
 
 	public Double getVengeanceDamage() {
 		return this.getSkillDamage(ActiveSkill.Vengeance);
+	}
+
+	public boolean isSentry() {
+		return skills.containsKey(ActiveSkill.SENTRY);
+	}
+
+	public Rune getSentryRune() {
+		return skills.get(ActiveSkill.SENTRY);
+	}
+
+	public boolean isRov() {
+		return skills.containsKey(ActiveSkill.RoV);
+	}
+
+	public boolean isPreparation() {
+		return skills.containsKey(ActiveSkill.Preparation);
+	}
+
+	public Rune getPreparationRune() {
+		return skills.get(ActiveSkill.Preparation);
+	}
+
+	public boolean isCompanion() {
+		return skills.containsKey(ActiveSkill.Companion);
+	}
+
+	public Rune getCompanionRune() {
+		return skills.get(ActiveSkill.Companion);
+	}
+
+	public boolean isMarked() {
+		return skills.containsKey(ActiveSkill.MFD);
+	}
+
+	public Rune getMfdRune() {
+		return skills.get(ActiveSkill.MFD);
+	}
+
+	public Rune getRovRune() {
+		return skills.get(ActiveSkill.RoV);
+	}
+
+	public boolean isCaltrops() {
+		return skills.containsKey(ActiveSkill.Caltrops);
+	}
+
+	public Rune getCaltropsRune() {
+		return skills.get(ActiveSkill.Caltrops);
+	}
+
+	public boolean isSpikeTrap() {
+		return skills.containsKey(ActiveSkill.ST);
+	}
+
+	public Rune getSpikeTrapRune() {
+		return skills.get(ActiveSkill.ST);
 	}
 
 }

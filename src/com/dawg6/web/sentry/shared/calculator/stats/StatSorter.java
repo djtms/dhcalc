@@ -2,37 +2,35 @@ package com.dawg6.web.sentry.shared.calculator.stats;
 
 import java.util.Comparator;
 
-import com.dawg6.web.sentry.shared.calculator.SkillAndRune;
-
 public interface StatSorter extends Comparator<StatHolder> {
 
-	public static final StatSorter SENTRY_RUNE = new StatSorter() {
-
-		@Override
-		public int compare(StatHolder o1, StatHolder o2) {
-			return o1.build.getSentryRune().compareTo(o2.build.getSentryRune());
-		}
-	};
-
-	public static final StatSorter SKILLS = new StatSorter() {
-
-		@Override
-		public int compare(StatHolder o1, StatHolder o2) {
-			
-			for (int i = 0; i < 3; i++) {
-				SkillAndRune s1 = o1.build.getSkill(i);
-				SkillAndRune s2 = o2.build.getSkill(i);
-
-				int d = SkillAndRune.compare(s1, s2);
-				
-				if (d != 0)
-					return d;
-			}
-			
-			return 0;
-		}
-		
-	};
+//	public static final StatSorter SENTRY_RUNE = new StatSorter() {
+//
+//		@Override
+//		public int compare(StatHolder o1, StatHolder o2) {
+//			return o1.build.getSentryRune().compareTo(o2.build.getSentryRune());
+//		}
+//	};
+//
+//	public static final StatSorter SKILLS = new StatSorter() {
+//
+//		@Override
+//		public int compare(StatHolder o1, StatHolder o2) {
+//			
+//			for (int i = 0; i < 3; i++) {
+//				SkillAndRune s1 = o1.build.getSkill(i);
+//				SkillAndRune s2 = o2.build.getSkill(i);
+//
+//				int d = SkillAndRune.compare(s1, s2);
+//				
+//				if (d != 0)
+//					return d;
+//			}
+//			
+//			return 0;
+//		}
+//		
+//	};
 	
 	public static final StatSorter COUNT = new StatSorter(){
 

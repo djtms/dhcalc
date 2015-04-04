@@ -8,7 +8,6 @@ import com.dawg6.gwt.common.util.DefaultCallback;
 import com.dawg6.web.sentry.shared.calculator.ActiveSkill;
 import com.dawg6.web.sentry.shared.calculator.Build;
 import com.dawg6.web.sentry.shared.calculator.Rune;
-import com.dawg6.web.sentry.shared.calculator.SkillAndRune;
 import com.dawg6.web.sentry.shared.calculator.Util;
 import com.dawg6.web.sentry.shared.calculator.stats.DBStatistics;
 import com.dawg6.web.sentry.shared.calculator.stats.DpsTableEntry;
@@ -242,7 +241,7 @@ public class StatsPanel extends Composite {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				sortStats(StatSorter.SENTRY_RUNE);
+//				sortStats(StatSorter.SENTRY_RUNE);
 			}
 		});
 
@@ -256,7 +255,7 @@ public class StatsPanel extends Composite {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				sortStats(StatSorter.SKILLS);
+//				sortStats(StatSorter.SKILLS);
 			}
 		});
 		buildTable.getCellFormatter().setHorizontalAlignment(0, 1,
@@ -393,8 +392,8 @@ public class StatsPanel extends Composite {
 	}
 
 	private void setBuild(Build build) {
-		this.selectRune(this.sentryRune, build.getSentryRune());
-		this.sentry.setValue(build.isSentry());
+//		this.selectRune(this.sentryRune, build.getSentryRune());
+//		this.sentry.setValue(build.isSentry());
 
 		this.disableListeners = true;
 
@@ -404,12 +403,12 @@ public class StatsPanel extends Composite {
 		}
 
 		int n = 0;
-		for (SkillAndRune sk : build.getSkills()) {
-			this.selectSkill(skills[n], sk.getSkill());
-			this.populateRunes(runes[n], sk.getSkill());
-			this.selectRune(runes[n], sk.getRune());
-			n++;
-		}
+//		for (SkillAndRune sk : build.getSkills()) {
+//			this.selectSkill(skills[n], sk.getSkill());
+//			this.populateRunes(runes[n], sk.getSkill());
+//			this.selectRune(runes[n], sk.getRune());
+//			n++;
+//		}
 
 		this.disableListeners = false;
 	}
@@ -497,58 +496,58 @@ public class StatsPanel extends Composite {
 			final Build build = h.build;
 			Statistics s = h.stats;
 
-			Rune r = build.getSentryRune();
-			Anchor runeLabel = new Anchor(r.getLongName());
-			runeLabel.setWordWrap(false);
-			runeLabel.addStyleName("center");
-			runeLabel.setTarget("_blank");
+//			Rune r = build.getSentryRune();
+//			Anchor runeLabel = new Anchor(r.getLongName());
+//			runeLabel.setWordWrap(false);
+//			runeLabel.addStyleName("center");
+//			runeLabel.setTarget("_blank");
+//
+//			if (r != Rune.None)
+//				runeLabel.setHref(ActiveSkill.SENTRY.getUrl() + "#"
+//						+ r.getSlug() + "+");
+//			else
+//				runeLabel.setHref(ActiveSkill.SENTRY.getUrl());
 
-			if (r != Rune.None)
-				runeLabel.setHref(ActiveSkill.SENTRY.getUrl() + "#"
-						+ r.getSlug() + "+");
-			else
-				runeLabel.setHref(ActiveSkill.SENTRY.getUrl());
-
-			buildTable.setWidget((row * 4) - 3, 0, runeLabel);
-			buildTable.getFlexCellFormatter().setRowSpan((row * 4) - 3, 0, 4);
-			buildTable.getFlexCellFormatter().setHorizontalAlignment((row * 4) - 3, 0, HasHorizontalAlignment.ALIGN_CENTER);
-
-			SkillAndRune[] slist = build.getSkillsAsArray();
-
-			int col = 1;
-			int subRow = 3;
-			
-			for (int n = 0; n < 3; n++) {
-
-				if (n < slist.length) {
-					ActiveSkill skill = slist[n].getSkill();
-					Rune rune = slist[n].getRune();
-
-					String url = skill.getUrl();
-
-					if ((rune != null) && (rune != Rune.None)) {
-						url += ("#" + rune.getSlug() + "+");
-					}
-
-					Anchor slabel = new Anchor(slist[n].getSkill()
-							.getShortName() + "/" + rune.getLongName());
-					slabel.setWordWrap(false);
-					slabel.addStyleDependentName("center");
-					slabel.setTarget("_blank");
-					slabel.setHref(url);
-					buildTable.setWidget((row * 4) - subRow, (n == 0) ? 1 : 0, slabel);
-
-				} else if (n == 0) {
-					Label slabel = new Label("None");
-					slabel.setWordWrap(false);
-					slabel.addStyleDependentName("center");
-					buildTable.setWidget((row * 4) - subRow, (n == 0) ? 1 : 0, slabel);
-				}
-
-				buildTable.getFlexCellFormatter().setHorizontalAlignment((row * 4) - subRow, (n == 0) ? 1 : 0, HasHorizontalAlignment.ALIGN_CENTER);
-
-				subRow--;
-			}
+//			buildTable.setWidget((row * 4) - 3, 0, runeLabel);
+//			buildTable.getFlexCellFormatter().setRowSpan((row * 4) - 3, 0, 4);
+//			buildTable.getFlexCellFormatter().setHorizontalAlignment((row * 4) - 3, 0, HasHorizontalAlignment.ALIGN_CENTER);
+//
+//			SkillAndRune[] slist = build.getSkillsAsArray();
+//
+//			int col = 1;
+//			int subRow = 3;
+//			
+//			for (int n = 0; n < 3; n++) {
+//
+//				if (n < slist.length) {
+//					ActiveSkill skill = slist[n].getSkill();
+//					Rune rune = slist[n].getRune();
+//
+//					String url = skill.getUrl();
+//
+//					if ((rune != null) && (rune != Rune.None)) {
+//						url += ("#" + rune.getSlug() + "+");
+//					}
+//
+//					Anchor slabel = new Anchor(slist[n].getSkill()
+//							.getShortName() + "/" + rune.getLongName());
+//					slabel.setWordWrap(false);
+//					slabel.addStyleDependentName("center");
+//					slabel.setTarget("_blank");
+//					slabel.setHref(url);
+//					buildTable.setWidget((row * 4) - subRow, (n == 0) ? 1 : 0, slabel);
+//
+//				} else if (n == 0) {
+//					Label slabel = new Label("None");
+//					slabel.setWordWrap(false);
+//					slabel.addStyleDependentName("center");
+//					buildTable.setWidget((row * 4) - subRow, (n == 0) ? 1 : 0, slabel);
+//				}
+//
+//				buildTable.getFlexCellFormatter().setHorizontalAlignment((row * 4) - subRow, (n == 0) ? 1 : 0, HasHorizontalAlignment.ALIGN_CENTER);
+//
+//				subRow--;
+//			}
 
 			Anchor copy = new Anchor("copy this build");
 			copy.setHref("javascript: return false;");
@@ -568,58 +567,58 @@ public class StatsPanel extends Composite {
 
 				}
 			});
-
-			col++;
-			Label label = new Label(Util.format(s.total));
-			label.addStyleName("right");
-			buildTable.setWidget((row * 4) - 3, col, label);
-			buildTable.getFlexCellFormatter().setRowSpan((row * 4) - 3, col, 4);
-
-			col++;
-			for (StatCategory c : StatCategory.values()) {
-
-				Double avg = s.average.get(c);
-				Label valueLabel1 = new Label(Util.format(Math.round(avg)) + "(avg)");
-				valueLabel1.addStyleName("right");
-				buildTable.setWidget((row * 4) - 3, col, valueLabel1);
-
-				final DpsTableEntry entry = s.max.get(c);
-				double value = c.getValue(entry);
-				Label valueLabel = new Label(Util.format(Math.round(value)) + "(max)");
-				valueLabel.addStyleName("right");
-				buildTable.setWidget((row * 4) - 2, col - 2, valueLabel);
-
-				String name = entry.getRealm() + "/" + entry.getProfile() + "-" + entry.getTag();
-				Anchor anchor = new Anchor(name);
-				anchor.setWordWrap(false);
-				anchor.setTitle("View this profile on battle.net");
-				anchor.setTarget("_blank");
-				anchor.addStyleName("center");
-				anchor.setHref(ClientUtils.getProfileUrl(entry));
-				buildTable.setWidget((row * 4) - 1, col - 2, anchor);
-				buildTable.getFlexCellFormatter().setHorizontalAlignment(
-						(row * 4) - 1, col - 2,
-						HasHorizontalAlignment.ALIGN_CENTER);
-
-				Anchor imp = new Anchor("import");
-				imp.setWordWrap(false);
-				imp.setTitle("Import this profile");
-				imp.setHref("javascript: return false;");
-				imp.addStyleName("center");
-				buildTable.setWidget(row * 4, col - 2, imp);
-				buildTable.getFlexCellFormatter().setHorizontalAlignment(
-						row * 4, col - 2, HasHorizontalAlignment.ALIGN_CENTER);
-
-				imp.addClickHandler(new ClickHandler() {
-
-					@Override
-					public void onClick(ClickEvent event) {
-						importEntry(entry);
-
-					}
-				});
-				col++;
-			}
+//
+//			col++;
+//			Label label = new Label(Util.format(s.total));
+//			label.addStyleName("right");
+//			buildTable.setWidget((row * 4) - 3, col, label);
+//			buildTable.getFlexCellFormatter().setRowSpan((row * 4) - 3, col, 4);
+//
+//			col++;
+//			for (StatCategory c : StatCategory.values()) {
+//
+//				Double avg = s.average.get(c);
+//				Label valueLabel1 = new Label(Util.format(Math.round(avg)) + "(avg)");
+//				valueLabel1.addStyleName("right");
+//				buildTable.setWidget((row * 4) - 3, col, valueLabel1);
+//
+//				final DpsTableEntry entry = s.max.get(c);
+//				double value = c.getValue(entry);
+//				Label valueLabel = new Label(Util.format(Math.round(value)) + "(max)");
+//				valueLabel.addStyleName("right");
+//				buildTable.setWidget((row * 4) - 2, col - 2, valueLabel);
+//
+//				String name = entry.getRealm() + "/" + entry.getProfile() + "-" + entry.getTag();
+//				Anchor anchor = new Anchor(name);
+//				anchor.setWordWrap(false);
+//				anchor.setTitle("View this profile on battle.net");
+//				anchor.setTarget("_blank");
+//				anchor.addStyleName("center");
+//				anchor.setHref(ClientUtils.getProfileUrl(entry));
+//				buildTable.setWidget((row * 4) - 1, col - 2, anchor);
+//				buildTable.getFlexCellFormatter().setHorizontalAlignment(
+//						(row * 4) - 1, col - 2,
+//						HasHorizontalAlignment.ALIGN_CENTER);
+//
+//				Anchor imp = new Anchor("import");
+//				imp.setWordWrap(false);
+//				imp.setTitle("Import this profile");
+//				imp.setHref("javascript: return false;");
+//				imp.addStyleName("center");
+//				buildTable.setWidget(row * 4, col - 2, imp);
+//				buildTable.getFlexCellFormatter().setHorizontalAlignment(
+//						row * 4, col - 2, HasHorizontalAlignment.ALIGN_CENTER);
+//
+//				imp.addClickHandler(new ClickHandler() {
+//
+//					@Override
+//					public void onClick(ClickEvent event) {
+//						importEntry(entry);
+//
+//					}
+//				});
+//				col++;
+//			}
 
 			row++;
 		}

@@ -12,7 +12,7 @@ public abstract class StatAdapter {
 	
 	public abstract void unapply(CharacterData data, Object token);
 	
-	public boolean test(CharacterData data, Set<DamageType> types, Set<ActiveSkill> skills) {
+	public boolean test(CharacterData data, Set<DamageType> types) {
 		return true;
 	}
 	
@@ -34,7 +34,7 @@ public abstract class StatAdapter {
 		}
 
 		@Override
-		public boolean test(CharacterData data, Set<DamageType> types, Set<ActiveSkill> skills) {
+		public boolean test(CharacterData data, Set<DamageType> types) {
 			return types.contains(type);
 		}
 		
@@ -62,18 +62,8 @@ public abstract class StatAdapter {
 		}
 
 		@Override
-		public boolean test(CharacterData data, Set<DamageType> types, Set<ActiveSkill> skills) {
-			
-			if (type == ActiveSkill.SENTRY)
-				return data.isSentry();
-			else if (type == ActiveSkill.RoV)
-				return data.isRov();
-			else if (type == ActiveSkill.ST)
-				return data.isSpikeTrap();
-			else if (type == ActiveSkill.Companion)
-				return data.isCompanion();
-			else 
-				return skills.contains(type);
+		public boolean test(CharacterData data, Set<DamageType> types) {
+			return data.getSkills().containsKey(type);
 		}
 		
 		@Override

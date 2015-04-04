@@ -1,9 +1,16 @@
 package com.dawg6.web.sentry.client;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Vector;
+
 import com.dawg6.web.sentry.shared.calculator.ActiveSkill;
 import com.dawg6.web.sentry.shared.calculator.FiringData;
-import com.dawg6.web.sentry.shared.calculator.MarkedForDeath;
 import com.dawg6.web.sentry.shared.calculator.Rune;
+import com.dawg6.web.sentry.shared.calculator.SkillType;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Anchor;
@@ -11,39 +18,21 @@ import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.SimpleCheckBox;
 
 public class SkillsPanel extends Composite {
-	private final SimpleCheckBox mfd;
-	private final ListBox mfdRune;
 	private final NumberSpinner mfdUptime;
-	private final Anchor mfdRuneAnchor;
 	private final NumberSpinner mfdAddUptime;
-	private final SimpleCheckBox caltrops;
 	private final NumberSpinner caltropsUptime;
-	private final SimpleCheckBox companion;
-	private final ListBox companionRunes;
-	private final Anchor crLabel;
-	private final Anchor caltropsRuneLabel;
-	private final ListBox caltropsRunes;
-	private final Anchor spikeTrapRuneLabel;
-	private final Label label_1;
 	private final NumberSpinner numSpikeTraps;
-	private final ListBox spikeTrapRunes;
-	private final SimpleCheckBox spikeTrap;
-	private final Anchor anchor_2;
-	private final SimpleCheckBox rov;
-	private final Anchor rovRuneLabel;
-	private final ListBox rovRunes;
-//	private final Label label_2;
-//	private final NumberSpinner rovKilled;
-	private final Anchor anchor_4;
-	private final SimpleCheckBox preparation;
-	private final Anchor preparationRuneLabel;
-	private final ListBox preparationRunes;
+	private final List<Anchor> skillAnchors = new Vector<Anchor>(NUM_SKILLS);
+	private final List<ListBox> skillBoxes = new Vector<ListBox>(NUM_SKILLS);
+	private final List<Anchor> runeAnchors = new Vector<Anchor>(NUM_SKILLS);
+	private final List<ListBox> runeBoxes = new Vector<ListBox>(NUM_SKILLS);
+
+	public static final int NUM_SKILLS = 6;
+	private boolean disableListeners = false;
 
 	public SkillsPanel() {
 
@@ -51,435 +40,399 @@ public class SkillsPanel extends Composite {
 		initWidget(captionPanel);
 
 		FlexTable flexTable = new FlexTable();
-		flexTable.setCellPadding(2);
 		captionPanel.setContentWidget(flexTable);
 
-		anchor_2 = new Anchor();
-		anchor_2.setWordWrap(false);
-		anchor_2.setText("Rain of Vengeance");
-		anchor_2.setTarget("_blank");
-		anchor_2.setHref(ActiveSkill.RoV.getUrl());
-		flexTable.setWidget(0, 0, anchor_2);
+		int row = 0;
 
-		rov = new SimpleCheckBox();
-		flexTable.setWidget(0, 1, rov);
+		List<ActiveSkill> skills = new Vector<ActiveSkill>();
 
-		rovRuneLabel = new Anchor("Rune:");
-		rovRuneLabel.setTarget("_blank");
-		rovRuneLabel.setHref(ActiveSkill.RoV.getUrl());
-		flexTable.setWidget(0, 2, rovRuneLabel);
+		for (ActiveSkill s : ActiveSkill.values()) {
+			if (s.getSkillType() != SkillType.NA)
+				skills.add(s);
+		}
+		Collections.sort(skills, new Comparator<ActiveSkill>() {
 
-		rovRunes = new ListBox();
-		rovRunes.setSelectedIndex(0);
-		flexTable.setWidget(0, 3, rovRunes);
-		rovRunes.setWidth("100%");
-		
-//		label_2 = new Label("# Killed:");
-//		label_2.setWordWrap(false);
-//		flexTable.setWidget(1, 2, label_2);
-//		
-//		rovKilled = new NumberSpinner();
-//		rovKilled.setVisibleLength(3);
-//		rovKilled.setTitle("# of enemies killed during RoV Cooldown");
-//		flexTable.setWidget(1, 3, rovKilled);
-		
-		anchor_4 = new Anchor();
-		anchor_4.setWordWrap(false);
-		anchor_4.setText("Preparation");
-		anchor_4.setTarget("_blank");
-		anchor_4.setHref(ActiveSkill.Preparation.getUrl());
-		flexTable.setWidget(1, 0, anchor_4);
-		
-		preparation = new SimpleCheckBox();
-		flexTable.setWidget(1, 1, preparation);
-		
-		preparationRuneLabel = new Anchor("Rune:");
-		preparationRuneLabel.setTarget("_blank");
-		preparationRuneLabel.setHref(ActiveSkill.Preparation.getUrl());
-		flexTable.setWidget(1, 2, preparationRuneLabel);
-		
-		preparationRunes = new ListBox();
-		preparationRunes.setSelectedIndex(0);
-		flexTable.setWidget(1, 3, preparationRunes);
-		preparationRunes.setWidth("100%");
+			@Override
+			public int compare(ActiveSkill o1, ActiveSkill o2) {
+				return o1.getLongName().toLowerCase()
+						.compareTo(o2.getLongName().toLowerCase());
+			}
+		});
 
-		Anchor anchor_1 = new Anchor();
-		anchor_1.setText("Caltrops");
-		anchor_1.setHref(ActiveSkill.Caltrops.getUrl());
-		anchor_1.setWordWrap(false);
-		anchor_1.setTarget("_blank");
-		flexTable.setWidget(2, 0, anchor_1);
+		for (int i = 0; i < NUM_SKILLS; i++) {
+			final Anchor anchor = new Anchor("Skill " + (i + 1) + ":");
+			anchor.setHref("javascript:void(0)");
+			anchor.setTarget("_blank");
+			anchor.setWordWrap(false);
+			skillAnchors.add(anchor);
+			flexTable.setWidget(row, 0, anchor);
 
-		caltrops = new SimpleCheckBox();
-		flexTable.setWidget(2, 1, caltrops);
+			final ListBox list = new ListBox();
 
-		caltropsRuneLabel = new Anchor("Rune:");
-		caltropsRuneLabel.setTarget("_blank");
-		caltropsRuneLabel.setHref(ActiveSkill.Caltrops.getUrl());
-		flexTable.setWidget(2, 2, caltropsRuneLabel);
+			list.addItem("None", "");
 
-		caltropsRunes = new ListBox();
-		caltropsRunes.setSelectedIndex(0);
-		flexTable.setWidget(2, 3, caltropsRunes);
-		caltropsRunes.setWidth("100%");
+			for (ActiveSkill s : skills) {
+				list.addItem(s.getLongName(), s.name());
+			}
 
-		Label label = new Label("Uptime:");
+			list.setSelectedIndex(0);
+			skillBoxes.add(list);
+			list.setWidth("100%");
+			flexTable.setWidget(row, 1, list);
+
+			final Anchor anchor2 = new Anchor("Rune:");
+			anchor2.setHref("javascript:void(0)");
+			anchor2.setTarget("_blank");
+			anchor2.setWordWrap(false);
+			runeAnchors.add(anchor2);
+			flexTable.setWidget(row, 2, anchor2);
+
+			final ListBox list2 = new ListBox();
+
+			list2.addItem("None", Rune.None.name());
+			list2.setSelectedIndex(0);
+			list2.setWidth("100%");
+			flexTable.setWidget(row, 3, list2);
+			runeBoxes.add(list2);
+
+			list.addChangeHandler(new ChangeHandler() {
+
+				@Override
+				public void onChange(ChangeEvent event) {
+
+					if (!disableListeners) {
+						skillChanged(anchor, list, anchor2, list2);
+					}
+				}
+			});
+
+			list2.addChangeHandler(new ChangeHandler() {
+
+				@Override
+				public void onChange(ChangeEvent event) {
+
+					if (!disableListeners) {
+						runeChanged(list, anchor2, list2);
+					}
+				}
+			});
+
+			row++;
+		}
+
+		Label label = new Label("Caltrops Uptime:");
 		label.setWordWrap(false);
-		flexTable.setWidget(3, 2, label);
+		flexTable.setWidget(row, 0, label);
+		flexTable.getFlexCellFormatter().setColSpan(row, 0, 2);
+		flexTable.getFlexCellFormatter().setHorizontalAlignment(row, 0,
+				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		caltropsUptime = new NumberSpinner();
 		caltropsUptime.setVisibleLength(3);
 		caltropsUptime
 				.setTitle("Percent of the time primary target will have active Caltrops applied.");
-		flexTable.setWidget(3, 3, caltropsUptime);
+		flexTable.setWidget(row, 1, caltropsUptime);
+		flexTable.getFlexCellFormatter().setColSpan(row, 1, 2);
 		caltropsUptime.setMax(100);
 
-		Anchor anchor_3 = new Anchor("Caltrops/Bait the Trap", false,
-				"http://us.battle.net/d3/en/class/demon-hunter/active/caltrops#e+");
-		anchor_3.setText("Spike Trap");
-		anchor_3.setWordWrap(false);
-		anchor_3.setTarget("_blank");
-		anchor_3.setHTML("Spike Trap");
-		anchor_3.setHref(ActiveSkill.ST.getUrl());
-		flexTable.setWidget(4, 0, anchor_3);
+		row++;
 
-		spikeTrap = new SimpleCheckBox();
-		flexTable.setWidget(4, 1, spikeTrap);
-
-		spikeTrapRuneLabel = new Anchor("Rune:");
-		spikeTrapRuneLabel.setTarget("_blank");
-		spikeTrapRuneLabel.setHref(ActiveSkill.ST.getUrl());
-		flexTable.setWidget(4, 2, spikeTrapRuneLabel);
-
-		spikeTrapRunes = new ListBox();
-		spikeTrapRunes.setSelectedIndex(0);
-		flexTable.setWidget(4, 3, spikeTrapRunes);
-		spikeTrapRunes.setWidth("100%");
-
-		label_1 = new Label("# Spike Traps:");
+		Label label_1 = new Label("# Spike Traps:");
 		label_1.setWordWrap(false);
-		flexTable.setWidget(5, 2, label_1);
+		flexTable.setWidget(row, 0, label_1);
+		flexTable.getFlexCellFormatter().setColSpan(row, 0, 2);
+		flexTable.getFlexCellFormatter().setHorizontalAlignment(row, 0,
+				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		numSpikeTraps = new NumberSpinner();
 		numSpikeTraps.setVisibleLength(3);
 		numSpikeTraps.setTitle("# of Spike Traps deployed during "
 				+ FiringData.DURATION + " second fight");
-		flexTable.setWidget(5, 3, numSpikeTraps);
+		flexTable.setWidget(row, 1, numSpikeTraps);
+		flexTable.getFlexCellFormatter().setColSpan(row, 1, 2);
 
-		Anchor cLabel = new Anchor("Companion:");
-		cLabel.setHref(ActiveSkill.Companion.getUrl());
-		cLabel.setTarget("_blank");
-		flexTable.setWidget(6, 0, cLabel);
+		row++;
 
-		companion = new SimpleCheckBox();
-		flexTable.setWidget(6, 1, companion);
-
-		crLabel = new Anchor("Rune:");
-		crLabel.setHref(ActiveSkill.Companion.getUrl());
-		crLabel.setTarget("_blank");
-		flexTable.setWidget(6, 2, crLabel);
-
-		companionRunes = new ListBox();
-		flexTable.setWidget(6, 3, companionRunes);
-		companionRunes.setWidth("100%");
-		companionRunes.setSelectedIndex(0);
-
-		companionRunes.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				setCompanionRuneLabel();
-			}
-		});
-
-		Anchor anchor = new Anchor("Marked for Death", false,
-				MarkedForDeath.url);
-		anchor.setWordWrap(false);
-		anchor.setTarget("_blank");
-		flexTable.setWidget(7, 0, anchor);
-
-		mfd = new SimpleCheckBox();
-		flexTable.setWidget(7, 1, mfd);
-
-		mfdRuneAnchor = new Anchor("Rune:");
-		mfdRuneAnchor.setHref(MarkedForDeath.url);
-		mfdRuneAnchor.setTarget("_blank");
-		mfdRuneAnchor.setWordWrap(false);
-		flexTable.setWidget(7, 2, mfdRuneAnchor);
-
-		mfdRune = new ListBox();
-		flexTable.setWidget(7, 3, mfdRune);
-		mfdRune.setWidth("100%");
-
-		Label lblUptime = new Label("Primary Target Uptime:");
+		Label lblUptime = new Label("Primary Target MfD Uptime:");
 		lblUptime.setWordWrap(false);
-		flexTable.setWidget(8, 0, lblUptime);
+		flexTable.setWidget(row, 0, lblUptime);
+		flexTable.getFlexCellFormatter().setColSpan(row, 0, 2);
+		flexTable.getFlexCellFormatter().setHorizontalAlignment(row, 0,
+				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		mfdUptime = new NumberSpinner();
 		mfdUptime
 				.setTitle("Percent of the time primary target will have active MfD applied.");
 		mfdUptime.setVisibleLength(3);
-		flexTable.setWidget(8, 1, mfdUptime);
+		flexTable.setWidget(row, 1, mfdUptime);
+		flexTable.getFlexCellFormatter().setColSpan(row, 1, 2);
 
-		for (Rune rune : MarkedForDeath.RUNES) {
-			mfdRune.addItem(rune.getLongName(), rune.name());
-		}
-
-		mfdRune.setSelectedIndex(0);
-		flexTable.getCellFormatter().setVerticalAlignment(10, 0,
-				HasVerticalAlignment.ALIGN_TOP);
-		flexTable.getCellFormatter().setHorizontalAlignment(10, 0,
-				HasHorizontalAlignment.ALIGN_LEFT);
+		row++;
 
 		Label lblAdditionalTargetsUptime = new Label(
-				"Additional Targets Uptime:");
+				"Additional Targets MfD Uptime:");
 		lblAdditionalTargetsUptime.setWordWrap(false);
-		flexTable.setWidget(9, 0, lblAdditionalTargetsUptime);
+		flexTable.setWidget(row, 0, lblAdditionalTargetsUptime);
+		flexTable.getFlexCellFormatter().setColSpan(row, 0, 2);
+		flexTable.getFlexCellFormatter().setHorizontalAlignment(row, 0,
+				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		mfdAddUptime = new NumberSpinner();
 		mfdAddUptime.setVisibleLength(3);
 		mfdAddUptime
 				.setTitle("Percent of the time additional targets will have active MfD applied.");
-		flexTable.setWidget(9, 1, mfdAddUptime);
-		flexTable.getCellFormatter().setHorizontalAlignment(3, 2,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		flexTable.getCellFormatter().setHorizontalAlignment(8, 0,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		flexTable.getCellFormatter().setHorizontalAlignment(9, 0,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		flexTable.getCellFormatter().setHorizontalAlignment(7, 2,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		flexTable.getCellFormatter().setHorizontalAlignment(6, 2,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		flexTable.getCellFormatter().setHorizontalAlignment(2, 2,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		flexTable.getCellFormatter().setHorizontalAlignment(4, 2,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		flexTable.getCellFormatter().setHorizontalAlignment(5, 2,
-				HasHorizontalAlignment.ALIGN_RIGHT);
+		flexTable.setWidget(row, 1, mfdAddUptime);
+		flexTable.getFlexCellFormatter().setColSpan(row, 1, 2);
+
+		row++;
 
 		Label lblNoteThisStacks = new Label(
 				"Note: This stacks with Calamity's MfD");
 		lblNoteThisStacks.setWordWrap(false);
 		lblNoteThisStacks.setStyleName("boldText");
-		flexTable.setWidget(10, 0, lblNoteThisStacks);
-		lblNoteThisStacks.setWidth("168px");
-		flexTable.getFlexCellFormatter().setColSpan(8, 0, 3);
-		flexTable.getFlexCellFormatter().setColSpan(9, 0, 3);
-		flexTable.getFlexCellFormatter().setColSpan(10, 0, 4);
-		flexTable.getCellFormatter().setHorizontalAlignment(0, 2,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		flexTable.getCellFormatter().setHorizontalAlignment(1, 2, HasHorizontalAlignment.ALIGN_RIGHT);
-		FlexTableHelper.fixRowSpan(flexTable);
+		flexTable.setWidget(row, 0, lblNoteThisStacks);
+		flexTable.getFlexCellFormatter().setColSpan(row, 0, 4);
 
-		mfdRune.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				updateMfdRuneAnchor();
-			}
-		});
+		row++;
 
 		mfdUptime.setMax(100);
 		mfdAddUptime.setMax(100);
 		numSpikeTraps.setMax(10);
+		caltropsUptime.setMax(100);
 
-		for (Rune r : ActiveSkill.Companion.getRunes()) {
-			companionRunes.addItem(r.getLongName(), r.name());
+	}
+
+	protected void runeChanged(ListBox list, Anchor anchor2, ListBox list2) {
+
+		ActiveSkill skill = getSelectedSkill(list);
+		Rune rune = getSelectedRune(list2);
+		setRuneAnchor(skill, anchor2, rune);
+
+	}
+
+	private void setRuneAnchor(ActiveSkill skill, Anchor anchor2, Rune rune) {
+
+		if (skill == null) {
+			anchor2.setHref("javascript:void(0)");
+		} else if ((rune == null) || (rune == Rune.None)) {
+			anchor2.setHref(skill.getUrl());
+		} else {
+			anchor2.setHref(skill.getUrl() + "#" + rune.getSlug() + "+");
 		}
+	}
 
-		for (Rune r : ActiveSkill.Caltrops.getRunes()) {
-			caltropsRunes.addItem(r.getLongName(), r.name());
-		}
+	private Rune getSelectedRune(ListBox list) {
 
-		for (Rune r : ActiveSkill.Preparation.getRunes()) {
-			preparationRunes.addItem(r.getLongName(), r.name());
-		}
+		int i = list.getSelectedIndex();
 
-		for (Rune r : ActiveSkill.ST.getRunes()) {
-			spikeTrapRunes.addItem(r.getLongName(), r.name());
-		}
+		if (i <= 0)
+			return Rune.None;
 
-		for (Rune r : ActiveSkill.RoV.getRunes()) {
-			rovRunes.addItem(r.getLongName(), r.name());
-		}
+		String value = list.getValue(i);
 
-		caltropsRunes.addChangeHandler(new ChangeHandler() {
+		return Rune.valueOf(value);
+	}
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				setCaltropsRuneLabel();
+	protected void skillChanged(Anchor anchor, ListBox list, Anchor anchor2,
+			ListBox list2) {
+		ActiveSkill skill = getSelectedSkill(list);
+
+		setRunes(anchor2, list2, skill);
+		setSkillAnchor(anchor, skill);
+
+		checkDuplicate(list);
+	}
+
+	private void checkDuplicate(ListBox lb) {
+		int selected = lb.getSelectedIndex();
+
+		boolean prev = disableListeners;
+		disableListeners = true;
+
+		for (int i = 0; i < NUM_SKILLS; i++) {
+			ListBox l = skillBoxes.get(i);
+
+			if ((l != lb) && (l.getSelectedIndex() == selected)) {
+				l.setSelectedIndex(0);
+				setRunes(runeAnchors.get(i), runeBoxes.get(i), null);
+				setSkillAnchor(skillAnchors.get(i), null);
 			}
-		});
+		}
 
-		preparationRunes.addChangeHandler(new ChangeHandler() {
+		disableListeners = prev;
+	}
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				setPreparationRuneLabel();
+	private void setSkillAnchor(Anchor anchor, ActiveSkill skill) {
+
+		if (skill == null) {
+			anchor.setHref("javascript:void(0)");
+		} else {
+			anchor.setHref(skill.getUrl());
+		}
+	}
+
+	private void setRunes(Anchor anchor2, ListBox list2, ActiveSkill skill) {
+
+		list2.clear();
+
+		list2.addItem("None", Rune.None.name());
+
+		if (skill != null) {
+			for (Rune r : skill.getRunes()) {
+				list2.addItem(r.getLongName(), r.name());
 			}
-		});
+		}
 
-		spikeTrapRunes.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				setSpikeTrapRuneLabel();
-			}
-		});
-
-		rovRunes.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				setRoVRuneLabel();
-			}
-		});
-
+		list2.setSelectedIndex(0);
+		setRuneAnchor(skill, anchor2, Rune.None);
 	}
 
-	public void setCompanionRuneLabel() {
-		this.setRuneLabel(companionRunes, ActiveSkill.Companion, crLabel);
-	}
+	private ActiveSkill getSelectedSkill(ListBox list) {
 
-	public void setSpikeTrapRuneLabel() {
-		this.setRuneLabel(spikeTrapRunes, ActiveSkill.ST, spikeTrapRuneLabel);
-	}
+		int i = list.getSelectedIndex();
 
-	public void setRoVRuneLabel() {
-		this.setRuneLabel(rovRunes, ActiveSkill.RoV, rovRuneLabel);
-	}
+		if (i <= 0)
+			return null;
 
-	public void setCaltropsRuneLabel() {
-		this.setRuneLabel(caltropsRunes, ActiveSkill.Caltrops,
-				caltropsRuneLabel);
-	}
+		String value = list.getValue(i);
 
-	public void setPreparationRuneLabel() {
-		this.setRuneLabel(preparationRunes, ActiveSkill.Preparation,
-				preparationRuneLabel);
-	}
-
-	protected void updateMfdRuneAnchor() {
-		Rune rune = getMarkedForDeathRune();
-		String url = MarkedForDeath.url;
-
-		if (rune != Rune.None)
-			url += ("#" + rune.getSlug() + "+");
-
-		mfdRuneAnchor.setHref(url);
-	}
-
-	public SimpleCheckBox getMfd() {
-		return mfd;
-	}
-
-	public ListBox getMfdRune() {
-		return mfdRune;
+		return ActiveSkill.valueOf(value);
 	}
 
 	public NumberSpinner getMfdUptime() {
 		return mfdUptime;
 	}
 
-	public Rune getMarkedForDeathRune() {
-		int index = mfdRune.getSelectedIndex();
-		String value = mfdRune.getValue(index);
-		return Rune.valueOf(value);
-	}
-
-	public void setMarkedForDeathRune(Rune rune) {
-		try {
-			for (int i = 0; i < mfdRune.getItemCount(); i++) {
-				String value = mfdRune.getValue(i);
-
-				if (value.equals(rune.name())) {
-					mfdRune.setSelectedIndex(i);
-					return;
-				}
-			}
-
-			mfdRune.setSelectedIndex(0);
-		} finally {
-			updateMfdRuneAnchor();
-		}
-	}
-
 	public NumberSpinner getMfdAddUptime() {
 		return mfdAddUptime;
-	}
-
-	public SimpleCheckBox getCaltrops() {
-		return caltrops;
 	}
 
 	public NumberSpinner getCaltropsUptime() {
 		return caltropsUptime;
 	}
 
-	public SimpleCheckBox getCompanion() {
-		return companion;
-	}
-
-	public ListBox getCompanionRunes() {
-		return companionRunes;
-	}
-
-	private Rune getRune(ListBox runes) {
-		int index = runes.getSelectedIndex();
-
-		if (index < 0)
-			return null;
-
-		String value = runes.getValue(index);
-		Rune rune = Rune.valueOf(value);
-
-		return rune;
-	}
-
-	private void setRuneLabel(ListBox runes, ActiveSkill skill, Anchor anchor) {
-		Rune rune = getRune(runes);
-
-		if ((rune != null) && (rune != Rune.None))
-			anchor.setHref(skill.getUrl() + "#" + rune.getSlug() + "+");
-		else
-			anchor.setHref(skill.getUrl());
-	}
-
-	public ListBox getCaltropsRunes() {
-		return caltropsRunes;
-	}
-
 	public NumberSpinner getNumSpikeTraps() {
 		return numSpikeTraps;
 	}
 
-	public ListBox getSpikeTrapRunes() {
-		return spikeTrapRunes;
+	public Map<ActiveSkill, Rune> getSkills() {
+		Map<ActiveSkill, Rune> map = new TreeMap<ActiveSkill, Rune>();
+
+		for (int i = 0; i < NUM_SKILLS; i++) {
+			ActiveSkill s = getSelectedSkill(skillBoxes.get(i));
+
+			if (s != null) {
+				Rune r = getSelectedRune(runeBoxes.get(i));
+
+				map.put(s, r);
+			}
+		}
+
+		return map;
 	}
 
-	public SimpleCheckBox getSpikeTrap() {
-		return spikeTrap;
+	public void setSkills(Map<ActiveSkill, Rune> skills) {
+
+		disableListeners = true;
+		boolean changed = false;
+
+		int i = 0;
+
+		for (Map.Entry<ActiveSkill, Rune> e : skills.entrySet()) {
+			if (i < NUM_SKILLS) {
+				ActiveSkill skill = e.getKey();
+				Rune rune = e.getValue();
+
+				ListBox list = skillBoxes.get(i);
+				ListBox list2 = runeBoxes.get(i);
+				Anchor anchor2 = runeAnchors.get(i);
+
+				ActiveSkill s1 = getSelectedSkill(list);
+
+				if (skill != s1) {
+					Anchor anchor = skillAnchors.get(i);
+					changed = true;
+
+					selectSkill(anchor, list, skill, anchor2, list2);
+				}
+
+				Rune r1 = getSelectedRune(list2);
+
+				if (rune != r1) {
+					changed = true;
+					selectRune(skill, anchor2, list2, rune);
+				}
+
+				i++;
+			}
+		}
+
+		while (i < NUM_SKILLS) {
+
+			ListBox list = skillBoxes.get(i);
+
+			ActiveSkill skill = getSelectedSkill(list);
+
+			if (skill != null) {
+				ListBox list2 = runeBoxes.get(i);
+				Anchor anchor = skillAnchors.get(i);
+				Anchor anchor2 = runeAnchors.get(i);
+
+				changed = true;
+				selectSkill(anchor, list, null, anchor2, list2);
+			}
+
+			i++;
+		}
+
+		disableListeners = false;
+
+		if (changed) {
+			// TODO
+		}
 	}
 
-	public SimpleCheckBox getRov() {
-		return rov;
+	private void selectRune(ActiveSkill skill, Anchor anchor2, ListBox list2,
+			Rune rune) {
+
+		if (rune == null) {
+			list2.setSelectedIndex(0);
+		} else {
+			int n = list2.getItemCount();
+
+			for (int i = 0; i < n; i++) {
+				String value = list2.getValue(i);
+
+				if (value.equals(rune.name())) {
+					list2.setSelectedIndex(i);
+					break;
+				}
+			}
+		}
+
+		this.setRuneAnchor(skill, anchor2, rune);
 	}
 
-	public ListBox getRovRunes() {
-		return rovRunes;
-	}
+	private void selectSkill(Anchor anchor, ListBox list, ActiveSkill skill,
+			Anchor anchor2, ListBox list2) {
 
-//	public NumberSpinner getRovKilled() {
-//		return rovKilled;
-//	}
-//
-	public SimpleCheckBox getPreparation() {
-		return preparation;
-	}
+		if (skill == null) {
+			list.setSelectedIndex(0);
+		} else {
+			int n = list.getItemCount();
 
-	public ListBox getPreparationRunes() {
-		return preparationRunes;
+			for (int i = 0; i < n; i++) {
+				String value = list.getValue(i);
+
+				if (value.equals(skill.name())) {
+					list.setSelectedIndex(i);
+					break;
+				}
+			}
+		}
+
+		this.setSkillAnchor(anchor, skill);
+		this.setRunes(anchor2, list2, skill);
 	}
 
 }

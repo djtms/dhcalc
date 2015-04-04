@@ -30,8 +30,6 @@ import com.dawg6.web.sentry.shared.calculator.MultipleSummary;
 import com.dawg6.web.sentry.shared.calculator.Passive;
 import com.dawg6.web.sentry.shared.calculator.ProfileHelper;
 import com.dawg6.web.sentry.shared.calculator.Rune;
-import com.dawg6.web.sentry.shared.calculator.SkillAndRune;
-import com.dawg6.web.sentry.shared.calculator.SkillSet;
 import com.dawg6.web.sentry.shared.calculator.Slot;
 import com.dawg6.web.sentry.shared.calculator.Target;
 import com.dawg6.web.sentry.shared.calculator.TargetSize;
@@ -70,11 +68,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class MainPanel extends BasePanel {
 	private final Label sheetDps;
 	private final Label aps;
-	private final ListBox skill1;
-	private final ListBox rune1;
-	// private final ListBox skill3;
-	// private final ListBox rune3;
-	private final ListBox sentryRunes;
 	private final Label sentryAps;
 	private final Label breakPoint;
 	private final Label lblNewLabel_5;
@@ -95,12 +88,6 @@ public class MainPanel extends BasePanel {
 	private final Label actualAps;
 	private final DPSCalculator calculator;
 	private final FlexTable skillSummary;
-	private final Anchor skill1Label;
-	// private final Anchor skill2Label;
-	// private final Anchor skill3Label;
-	private final Anchor rune1Label;
-	// private final Anchor rune3Label;
-	private final Anchor sentryRuneLabel;
 	private final ListBox realms;
 	private final Anchor profileLink;
 	protected CareerProfile career;
@@ -153,16 +140,8 @@ public class MainPanel extends BasePanel {
 	private CharacterData data = new CharacterData();
 	private boolean firstTimeStats;
 	protected DialogBox statsDialog;
-	private ListBox[] skillBoxes;
-	private ListBox[] runeBoxes;
-	private Anchor[] skillLabels;
-	private Anchor[] runeLabels;
 	private FlexTable outputHeader;
 	private HatredPanel hatredPanel;
-	private Anchor skill2Label;
-	private Anchor rune2Label;
-	private ListBox skill2;
-	private ListBox rune2;
 	private Label rawRCRLabel;
 	private Label effectiveRCRLabel;
 	private double rawRcr;
@@ -177,7 +156,6 @@ public class MainPanel extends BasePanel {
 	private Label offHand_weaponDamage;
 	private Label dw_weaponDamage;
 	private FlexTable statTable;
-	private SimpleCheckBox sentry;
 
 	public MainPanel() {
 		VerticalPanel panel = new VerticalPanel();
@@ -647,86 +625,6 @@ public class MainPanel extends BasePanel {
 
 		VerticalPanel verticalPanel_1 = new VerticalPanel();
 		horizontalPanel_4.add(verticalPanel_1);
-
-		CaptionPanel cptnpnlNewPanel_1 = new CaptionPanel("Sentry Skills");
-		verticalPanel_1.add(cptnpnlNewPanel_1);
-
-		FlexTable grid = new FlexTable();
-		grid.setCellPadding(2);
-		cptnpnlNewPanel_1.setContentWidget(grid);
-
-		Anchor sentryLabel = new Anchor("Sentry:");
-		sentryLabel.setWordWrap(false);
-		sentryLabel.setTarget("_blank");
-		sentryLabel.setHref(ActiveSkill.SENTRY.getUrl());
-		grid.setWidget(0, 0, sentryLabel);
-		
-		sentry = new SimpleCheckBox();
-		grid.setWidget(0, 1, sentry);
-		
-		sentryRuneLabel = new Anchor("Rune:");
-		sentryRuneLabel.setWordWrap(false);
-		sentryRuneLabel.setTarget("_blank");
-		grid.setWidget(0, 2, sentryRuneLabel);
-
-		sentryRunes = new ListBox();
-		sentryRunes.setSelectedIndex(0);
-		grid.setWidget(0, 3, sentryRunes);
-		sentryRunes.setTitle("The selected Rune for the Sentry skill.");
-
-		skill1Label = new Anchor("Skill 1:");
-		skill1Label.setWordWrap(false);
-		skill1Label.setTarget("_blank");
-		grid.setWidget(1, 0, skill1Label);
-
-		skill1 = new ListBox();
-		grid.setWidget(1, 1, skill1);
-		skill1.setTitle("Hatred Spender/Generator.");
-
-		rune1Label = new Anchor("Rune:");
-		rune1Label.setWordWrap(false);
-		rune1Label.setTarget("_blank");
-		grid.setWidget(1, 2, rune1Label);
-
-		rune1 = new ListBox();
-		grid.setWidget(1, 3, rune1);
-		rune1.setTitle("Selected rune for this Hatred Spender.");
-
-		skill2Label = new Anchor("Skill 2:");
-		skill2Label.setWordWrap(false);
-		skill2Label.setTarget("_blank");
-		grid.setWidget(2, 0, skill2Label);
-
-		skill2 = new ListBox();
-		grid.setWidget(2, 1, skill2);
-		skill2.setTitle("Hatred Spender/Generator.");
-
-		rune2Label = new Anchor("Rune:");
-		rune2Label.setWordWrap(false);
-		rune2Label.setTarget("_blank");
-		grid.setWidget(2, 2, rune2Label);
-
-		rune2 = new ListBox();
-		grid.setWidget(2, 3, rune2);
-		rune2.setTitle("Selected rune for this Hatred Spender.");
-		//
-		// skill3Label = new Anchor("Skill 3:");
-		// skill3Label.setWordWrap(false);
-		// skill3Label.setTarget("_blank");
-		// grid.setWidget(3, 0, skill3Label);
-		//
-		// skill3 = new ListBox();
-		// grid.setWidget(3, 1, skill3);
-		// skill3.setTitle("Hatred Spender.");
-		//
-		// rune3Label = new Anchor("Rune:");
-		// rune3Label.setWordWrap(false);
-		// rune3Label.setTarget("_blank");
-		// grid.setWidget(3, 2, rune3Label);
-		//
-		// rune3 = new ListBox();
-		// grid.setWidget(3, 3, rune3);
-		// rune3.setTitle("Selected rune for this Hatred Spender.");
 
 		skills = new SkillsPanel();
 		verticalPanel_1.add(skills);
@@ -1678,14 +1576,6 @@ public class MainPanel extends BasePanel {
 			realms.addItem(r.getDisplayName(), r.name());
 		}
 
-		skillBoxes = new ListBox[] { skill1, skill2 }; // , skill2, skill3 };
-		runeBoxes = new ListBox[] { rune1, rune2 }; // , rune2, rune3 };
-
-		skillLabels = new Anchor[] { skill1Label, skill2Label }; // ,
-																	// skill2Label,
-																	// skill3Label
-																	// };
-		runeLabels = new Anchor[] { rune1Label, rune2Label }; // , rune2Label,
 																// rune3Label };
 	}
 
@@ -1693,21 +1583,21 @@ public class MainPanel extends BasePanel {
 
 		this.disableListeners = true;
 
-		this.sentry.setValue(build.isSentry());
-		this.setFieldValue(this.sentryRunes, build.getSentryRune().name());
-
-		for (int i = 0; i < skillBoxes.length; i++) {
-			this.setFieldValue(this.skillBoxes[i], null);
-			this.setFieldValue(this.runeBoxes[i], Rune.None.name());
-		}
-
-		int n = 0;
-
-		for (SkillAndRune sk : build.getSkills()) {
-			this.setFieldValue(this.skillBoxes[n], sk.getSkill().name());
-			this.setFieldValue(this.runeBoxes[n], sk.getRune().name());
-			n++;
-		}
+//		this.sentry.setValue(build.isSentry());
+//		this.setFieldValue(this.sentryRunes, build.getSentryRune().name());
+//
+//		for (int i = 0; i < skillBoxes.length; i++) {
+//			this.setFieldValue(this.skillBoxes[i], null);
+//			this.setFieldValue(this.runeBoxes[i], Rune.None.name());
+//		}
+//
+//		int n = 0;
+//
+//		for (SkillAndRune sk : build.getSkills()) {
+//			this.setFieldValue(this.skillBoxes[n], sk.getSkill().name());
+//			this.setFieldValue(this.runeBoxes[n], sk.getRune().name());
+//			n++;
+//		}
 
 		this.disableListeners = false;
 	}
@@ -1715,21 +1605,21 @@ public class MainPanel extends BasePanel {
 	protected Build getBuild() {
 
 		Build build = new Build();
-		build.setSentry(this.sentry.getValue());
-		build.setSentryRune(this.getRune(this.sentryRunes));
-		build.setSkills(new TreeSet<SkillAndRune>());
-
-		for (int i = 0; i < skillBoxes.length; i++) {
-			ActiveSkill skill = this.getSkill(skillBoxes[i]);
-
-			if (skill != null) {
-				Rune rune = this.getRune(runeBoxes[i]);
-				SkillAndRune sk = new SkillAndRune();
-				sk.setSkill(skill);
-				sk.setRune(rune);
-				build.getSkills().add(sk);
-			}
-		}
+//		build.setSentry(this.sentry.getValue());
+//		build.setSentryRune(this.getRune(this.sentryRunes));
+//		build.setSkills(new TreeSet<SkillAndRune>());
+//
+//		for (int i = 0; i < skillBoxes.length; i++) {
+//			ActiveSkill skill = this.getSkill(skillBoxes[i]);
+//
+//			if (skill != null) {
+//				Rune rune = this.getRune(runeBoxes[i]);
+//				SkillAndRune sk = new SkillAndRune();
+//				sk.setSkill(skill);
+//				sk.setRune(rune);
+//				build.getSkills().add(sk);
+//			}
+//		}
 
 		return build;
 	}
@@ -1865,8 +1755,9 @@ public class MainPanel extends BasePanel {
 			map.putAll(list.get(i).formData.main);
 
 			Util.putAll(map, "passives.", list.get(i).formData.passives);
-			Util.putAll(map, "elemental.", list.get(i).formData.elementalDamage);
-			Util.putAll(map, "skill.", list.get(i).formData.skillDamage);
+			Util.putAll(map, "skills.", list.get(i).formData.skills);
+			Util.putAll(map, "elementalDamages.", list.get(i).formData.elementalDamage);
+			Util.putAll(map, "skillDamages.", list.get(i).formData.skillDamage);
 
 			for (Map.Entry<String, String> e : list.get(i).formData.calculator
 					.entrySet()) {
@@ -2124,6 +2015,7 @@ public class MainPanel extends BasePanel {
 		this.typeDamage.setValues(Util.createMap(DamageType.class, data.elementalDamage));
 		this.skillDamage.setValues(Util.createMap(ActiveSkill.class, data.skillDamage));
 		this.passives.setPassives(Util.createSet(Passive.class, data.passives));
+		this.skills.setSkills(Util.createEnumMap(ActiveSkill.class, Rune.class, data.skills));
 
 		calculator.saveForm();
 		this.saveForm();
@@ -2131,18 +2023,6 @@ public class MainPanel extends BasePanel {
 		updateDps();
 		calculate();
 
-		setRuneLabel(sentryRuneLabel, null, sentryRunes);
-		setRuneLabel(this.rune1Label, skill1, rune1);
-		setRuneLabel(this.rune2Label, skill2, rune2);
-		// setRuneLabel(this.rune3Label, skill3, rune3);
-		setSkillLabel(this.skill1Label, skill1);
-		setSkillLabel(this.skill2Label, skill2);
-		skills.setCompanionRuneLabel();
-		skills.setSpikeTrapRuneLabel();
-		skills.setRoVRuneLabel();
-		skills.setCaltropsRuneLabel();
-		skills.setPreparationRuneLabel();
-		// setSkillLabel(this.skill3Label, skill3);
 	}
 
 	private static final String SLOT_PREFIX = "gear.";
@@ -2178,6 +2058,7 @@ public class MainPanel extends BasePanel {
 		data.passives = Util.createMap(passives.getPassives());
 		data.skillDamage = Util.createMap(this.skillDamage.getValues());
 		data.elementalDamage = Util.createMap(this.typeDamage.getValues());
+		data.skills = Util.createEnumMap(skills.getSkills());
 		
 		data.version = Version.getVersion();
 
@@ -2534,34 +2415,7 @@ public class MainPanel extends BasePanel {
 
 	private void setSkills() {
 
-		sentry.setValue(data.isSentry());
-		Rune sentryRune = data.getSentryRune();
-
-		this.setSentryRune(sentryRune.getLongName());
-
-		Set<SkillAndRune> skills = data.getSkills();
-
-		int n = 0;
-
-		for (SkillAndRune skr : skills) {
-			this.setSkillAndRune(skillLabels[n], runeLabels[n], skillBoxes[n],
-					runeBoxes[n], skr.getSkill(), skr.getRune().getLongName());
-			n++;
-
-			if (n >= skillLabels.length)
-				break;
-		}
-
-		if (n < 1) {
-			this.setSkillAndRune(skillLabels[0], runeLabels[0], skillBoxes[0],
-					runeBoxes[0], null, null);
-		}
-
-		if (n < 2) {
-			this.setSkillAndRune(skillLabels[1], runeLabels[1], skillBoxes[1],
-					runeBoxes[1], null, null);
-		}
-
+		skills.setSkills(data.getSkills());
 		hatredPanel.getHatredPerSecond().setValue(data.getHatredPerSecond());
 		hatredPanel.getEquipmentDiscipline().setValue(data.getEquipmentDiscipline());
 	}
@@ -2583,25 +2437,8 @@ public class MainPanel extends BasePanel {
 	@Override
 	protected void setFieldValue(ListBox field, String value) {
 		try {
-			if (field == this.sentryRunes) {
-				setRune(field, Rune.valueOf(value));
-			} else if (field == cdrPanel.getDiamond()) {
+			if (field == cdrPanel.getDiamond()) {
 				cdrPanel.setDiamond(GemLevel.valueOf(value));
-			} else if (field == skills.getCompanionRunes()) {
-				setRune(field, Rune.valueOf(value));
-				skills.setCompanionRuneLabel();
-			} else if (field == skills.getSpikeTrapRunes()) {
-				setRune(field, Rune.valueOf(value));
-				skills.setSpikeTrapRuneLabel();
-			} else if (field == skills.getRovRunes()) {
-				setRune(field, Rune.valueOf(value));
-				skills.setRoVRuneLabel();
-			} else if (field == skills.getCaltropsRunes()) {
-				setRune(field, Rune.valueOf(value));
-				skills.setCaltropsRuneLabel();
-			} else if (field == skills.getPreparationRunes()) {
-				setRune(field, Rune.valueOf(value));
-				skills.setPreparationRuneLabel();
 			} else if (field == targetType) {
 				if ((value == null) || value.equals(Boolean.FALSE.toString()))
 					field.setSelectedIndex(0);
@@ -2609,8 +2446,6 @@ public class MainPanel extends BasePanel {
 					field.setSelectedIndex(1);
 			} else if (field == situational.getTargetSize()) {
 				situational.setTargetSize(TargetSize.valueOf(value));
-			} else if (field == skills.getMfdRune()) {
-				skills.setMarkedForDeathRune(Rune.valueOf(value));
 			} else if (field == this.realms) {
 				for (int i = 0; i < realms.getItemCount(); i++) {
 					String v = realms.getValue(i);
@@ -2622,48 +2457,8 @@ public class MainPanel extends BasePanel {
 				}
 
 				realms.setSelectedIndex(0);
-
-			} else if (field == this.skill1 || (field == this.skill2)) // ||
-																		// (field
-																		// ==
-																		// this.skill3))
-			{
-
-				this.disableListeners = true;
-
-				if ((value == null) || (value.trim().length() == 0)) {
-					field.setSelectedIndex(0);
-				} else {
-					ActiveSkill skill = ActiveSkill.valueOf(value);
-
-					this.selectSkill(field, skill);
-					ListBox runes = rune1; // rune3;
-
-					if (field == this.skill1)
-						runes = rune1;
-					else if (field == this.skill2)
-						runes = rune2;
-
-					this.setRunes(runes, skill);
-				}
-
-				this.disableListeners = false;
-
-			} else if ((field == this.rune1) || (field == this.rune2))// ||
-																		// (field
-																		// ==
-																		// this.rune3))
-			{
-
-				Rune rune = Rune.None;
-
-				try {
-					rune = Rune.valueOf(value);
-				} catch (Exception e) {
-				}
-
-				this.setRune(field, rune);
 			}
+
 		} catch (Exception e) {
 			field.setSelectedIndex(0);
 		}
@@ -3017,67 +2812,8 @@ public class MainPanel extends BasePanel {
 	}
 
 	protected void setHeroSkills() {
-
 		this.passives.setPassives(data.getPassives());
-		this.skills.getMfd().setValue(data.isMfdSkill());
-		this.skills.setMarkedForDeathRune(data.getMfdRune());
 		this.playerBuffPanel.getWolf().setValue(data.isWolf());
-		this.skills.getCaltrops().setValue(data.isCaltrops());
-		this.skills.getPreparation().setValue(data.isPreparation());
-		this.setRune(skills.getCaltropsRunes(), data.getCaltropsRune());
-		this.setRune(skills.getPreparationRunes(), data.getPreparationRune());
-		this.skills.getSpikeTrap().setValue(data.isSpikeTrap());
-		this.skills.getRov().setValue(data.isRov());
-//		this.skills.getRovKilled().setValue(data.getRovKilled());
-		this.setRune(skills.getSpikeTrapRunes(), data.getSpikeTrapRune());
-		this.setRune(skills.getRovRunes(), data.getRovRune());
-		this.skills.getCompanion().setValue(data.isCompanion());
-		this.setRune(skills.getCompanionRunes(), data.getCompanionRune());
-		this.skills.setCaltropsRuneLabel();
-		this.skills.setPreparationRuneLabel();
-		this.skills.setRoVRuneLabel();
-		this.skills.setCompanionRuneLabel();
-		this.skills.setSpikeTrapRuneLabel();
-		this.skills.updateMfdRuneAnchor();
-	}
-
-	private void setSkillAndRune(Anchor skillLabel, Anchor runeLabel,
-			ListBox skills, ListBox runes, ActiveSkill skill, String rune) {
-
-		this.disableListeners = true;
-
-		this.selectSkill(skills, skill);
-		this.setRunes(runes, skill);
-		this.updateSkillLabel(skillLabel, skills);
-
-		if (skill != null) {
-			for (Rune r : skill.getRunes()) {
-				if (rune.equalsIgnoreCase(r.getLongName())) {
-					setRune(runes, r);
-					this.updateRuneLabel(runeLabel, skills, runes);
-					break;
-				}
-			}
-		} else {
-			runes.clear();
-			addRune(runes, Rune.None);
-			runes.setSelectedIndex(0);
-			this.updateRuneLabel(runeLabel, skills, runes);
-		}
-
-		this.disableListeners = false;
-
-	}
-
-	private void setSentryRune(String name) {
-
-		for (Rune r : ActiveSkill.SENTRY.getRunes()) {
-			if (name.equalsIgnoreCase(r.getLongName())) {
-				setRune(sentryRunes, r);
-				break;
-			}
-		}
-
 	}
 
 	protected void setValue(TextBox textBox, int value) {
@@ -3152,28 +2888,6 @@ public class MainPanel extends BasePanel {
 						"50"),
 				new Field(this.itemPanel.getCalamityUptime(), "CalamityUptime",
 						"100"),
-				new Field(this.skills.getMfd(), "MarkedForDeath",
-						Boolean.FALSE.toString()),
-				new Field(this.skills.getCaltrops(), "Caltrops",
-						Boolean.FALSE.toString()),
-				new Field(this.skills.getPreparation(), "Preparation",
-						Boolean.FALSE.toString()),
-				new Field(this.skills.getCaltropsRunes(), "CaltropsRune",
-						Rune.None.name()),
-				new Field(this.skills.getPreparationRunes(), "PreparationRune",
-						Rune.None.name()),
-				new Field(this.skills.getSpikeTrap(), "SpikeTrap",
-						Boolean.FALSE.toString()),
-				new Field(this.skills.getRov(), "RoV",
-						Boolean.FALSE.toString()),
-//				new Field(this.skills.getRovKilled(), "RoVKilled",
-//						"0"),
-				new Field(this.skills.getSpikeTrapRunes(), "SpikeTrapRune",
-						Rune.None.name()),
-				new Field(this.skills.getRovRunes(), "RoVRune",
-						Rune.None.name()),
-				new Field(this.skills.getMfdRune(), "MarkedForDeathRune",
-						Rune.None.name()),
 				new Field(this.skills.getMfdUptime(), "MarkedForDeathUptime",
 						"100"),
 				new Field(this.skills.getCaltropsUptime(), "CaltropsUptime",
@@ -3271,17 +2985,6 @@ public class MainPanel extends BasePanel {
 				new Field(this.gemPanel.getZeisLevel(), "Zei'sLevel", "0"),
 				new Field(this.situational.getDistance(), "TargetDistance",
 						"50"),
-				new Field(this.sentryRunes, "SentryRune", Rune.None.name()),
-				new Field(this.sentry, "HasSentry", Boolean.TRUE.toString()),
-				new Field(this.skill1, "Skill1", ""),
-				new Field(this.skill2, "Skill2", ""),
-				// new Field(this.skill3, "Skill3", ""),
-				new Field(this.skills.getCompanion(), "Companion", Boolean.TRUE.toString()),
-				new Field(this.skills.getCompanionRunes(), "CompanionRune",
-						Rune.Wolf.name()),
-				new Field(this.rune1, "Rune1", Rune.None.name()),
-				new Field(this.rune2, "Rune2", Rune.None.name()),
-				// new Field(this.rune3, "Rune3", Rune.None.name()),
 				new Field(this.situational.getTargetSpacing(), "TargetSpacing",
 						"10"),
 				new Field(this.situational.getPercentAbove75(),
@@ -3398,6 +3101,7 @@ public class MainPanel extends BasePanel {
 
 			this.formData = getFormData();
 
+			data.setSkills(skills.getSkills());
 			data.setEquipmentDexterity(calculator.getEquipmentDexterity());
 			data.setParagonCC(paragonPanel.getParagonCC().getValue());
 			data.setParagonIAS(paragonPanel.getParagonIAS().getValue());
@@ -3414,8 +3118,6 @@ public class MainPanel extends BasePanel {
 			data.setElementalDamage(this.typeDamage.getValues());
 			data.setSkillDamage(skillDamage.getValues());
 			data.setPassives(passives.getPassives());
-			data.setSentryRune(this.getRune(sentryRunes));
-			data.setSentry(sentry.getValue());
 			data.setCritChance(calculator.getCritChance());
 			data.setCritHitDamage(calculator.getCritDamage());
 			data.setPercentSlowedChilled((double) this.situational
@@ -3444,7 +3146,6 @@ public class MainPanel extends BasePanel {
 					.getValue() / 100.0);
 			data.setNumMarauders(itemPanel.getMarauders().getValue());
 			data.setNumNats(itemPanel.getNumNats().getValue());
-			data.setMarked(skills.getMfd().getValue());
 			data.setPercentAtLeast10Yards((double) this.situational
 					.getPercentAtLeast10Yards().getValue() / 100.0);
 			data.setZeis(this.gemPanel.getZeis().getValue());
@@ -3528,7 +3229,6 @@ public class MainPanel extends BasePanel {
 					.getMeticulousBoltsPercent().getValue() / 100.0);
 			data.setTargetSize(situational.getSelectedTargetSize());
 			data.setCalamityUptime(itemPanel.getCalamityUptime().getValue() / 100.0);
-			data.setMfdRune(skills.getMarkedForDeathRune());
 			data.setMfdUptime(skills.getMfdUptime().getValue() / 100.0);
 			data.setMfdAddUptime(skills.getMfdAddUptime().getValue() / 100.0);
 			data.setRetribution(playerBuffPanel.getRetribution().getValue());
@@ -3549,16 +3249,7 @@ public class MainPanel extends BasePanel {
 					.getValue() / 100.0);
 			data.setHexingPantsUptime(itemPanel.getHexingPantsUptime()
 					.getValue() / 100.0);
-			data.setCaltrops(skills.getCaltrops().getValue());
-			data.setCaltropsRune(this.getRune(skills.getCaltropsRunes()));
-			data.setPreparation(skills.getPreparation().getValue());
-			data.setPreparationRune(this.getRune(skills.getPreparationRunes()));
 			data.setCaltropsUptime(skills.getCaltropsUptime().getValue() / 100.0);
-			data.setSpikeTrap(skills.getSpikeTrap().getValue());
-			data.setSpikeTrapRune(this.getRune(skills.getSpikeTrapRunes()));
-			data.setRov(skills.getRov().getValue());
-//			data.setRovKilled(skills.getRovKilled().getValue());
-			data.setRovRune(this.getRune(skills.getRovRunes()));
 			data.setNumSpikeTraps(skills.getNumSpikeTraps().getValue());
 			data.setHatredPerSecond(hatredPanel.getHatredPerSecond().getValue());
 			data.setEquipmentDiscipline(hatredPanel.getEquipmentDiscipline().getValue());
@@ -3578,11 +3269,6 @@ public class MainPanel extends BasePanel {
 					.getValue() / 100.0);
 			data.setOdysseysEndUptime(itemPanel.getOdysseysEndUptime()
 					.getValue() / 100.0);
-			data.setCompanion(skills.getCompanion().getValue());
-			data.setCompanionRune(getRune(skills.getCompanionRunes()));
-
-			Map<ActiveSkill, Rune> skills = getSkills();
-			// SkillSet skillSet = getSkillSet(skills);
 
 			double gogokIas = data.isGogok() ? (data.getGogokStacks() / 100.0)
 					: 0.0;
@@ -3593,7 +3279,7 @@ public class MainPanel extends BasePanel {
 			BreakPoint bp = BreakPoint.get(petApsValue);
 			data.setBp(bp.getBp());
 
-			this.damage = FiringData.calculateDamages(skills, data);
+			this.damage = FiringData.calculateDamages(data);
 
 			types = new TreeMap<DamageType, DamageHolder>();
 			skillDamages = new TreeMap<DamageSource, DamageHolder>();
@@ -3602,7 +3288,7 @@ public class MainPanel extends BasePanel {
 			this.exportData = new ExportData();
 			this.exportData.data = data;
 			this.exportData.output = damage;
-			this.exportData.skills = skills;
+			this.exportData.skills = new TreeMap<ActiveSkill, Rune>(data.getSkills());
 			this.exportData.types = types;
 			this.exportData.skillDamages = skillDamages;
 			this.exportData.shooterDamages = shooterDamages;
@@ -3618,29 +3304,6 @@ public class MainPanel extends BasePanel {
 			if (dialog != null)
 				dialog.taskCompleted();
 		}
-	}
-
-	private SkillSet getSkillSet(Map<ActiveSkill, Rune> skills) {
-		SkillSet skillSet = new SkillSet(skills.keySet());
-
-		Rune rune = getRune(this.sentryRunes);
-		
-		if (sentry.getValue()) {
-			skills.put(ActiveSkill.SENTRY, rune);
-			skills.put(ActiveSkill.BOLT, rune);
-		}
-
-		return skillSet;
-	}
-
-	private Map<ActiveSkill, Rune> getSkills() {
-		Map<ActiveSkill, Rune> skills = new TreeMap<ActiveSkill, Rune>();
-
-		addSkill(skills, skill1, rune1);
-		addSkill(skills, skill2, rune2);
-		// addSkill(skills, skill3, rune3);
-
-		return skills;
 	}
 
 	private void calculateData() {
@@ -4085,13 +3748,11 @@ public class MainPanel extends BasePanel {
 
 		row = 1;
 		
-		Map<ActiveSkill, Rune> s = getSkills();
-		
 		for (Stat stat : Stat.values()) {
 
 			StatAdapter adapter = stat.getAdapter();
 			
-			if (adapter.test(data, types.keySet(), s.keySet())) {
+			if (adapter.test(data, types.keySet())) {
 				if ((row % 2) == 0)
 					statTable.getRowFormatter().addStyleName(row, "evenRow");
 				else
@@ -4106,7 +3767,7 @@ public class MainPanel extends BasePanel {
 				
 				Object token = adapter.apply(data);
 				
-				Damage[] d = FiringData.calculateDamages(s, data);
+				Damage[] d = FiringData.calculateDamages(data);
 				
 				double totalRow = 0;
 				
@@ -4196,6 +3857,7 @@ public class MainPanel extends BasePanel {
 		super.saveField("passives", super.getFieldValue(passives.getPassives(), null));
 		super.saveField("elemental.Damage", super.getFieldValue(this.typeDamage.getValues(), null));
 		super.saveField("skill.Damage", super.getFieldValue(this.skillDamage.getValues(), null));
+		super.saveField("skills", super.getFieldValue(this.skills.getSkills(), null));
 	}
 	
 	@Override
@@ -4215,6 +3877,7 @@ public class MainPanel extends BasePanel {
 		calculator.saveForm();
 		calculator.calculate();
 		
+		super.setFieldValue(skills, super.getFieldValue("skills", null));
 		super.setFieldValue(passives, super.getFieldValue("passives", null));
 		super.setFieldValue(typeDamage, super.getFieldValue("elemental.Damage", null));
 		super.setFieldValue(skillDamage, super.getFieldValue("skill.Damage", null));
@@ -4237,15 +3900,6 @@ public class MainPanel extends BasePanel {
 
 		if (!Beans.isDesignTime()) {
 
-			addSkills(skill1, rune1);
-			addSkills(skill2, rune2);
-			// addSkills(skill3, rune3);
-
-			addSkillHandler(skill1, rune1Label, rune1, skill2); // , skill2,
-																// skill3);
-			addSkillHandler(skill2, rune2Label, rune2, skill1); // , skill3);
-			// addSkillHandler(skill3, rune3Label, rune3, skill1, skill2);
-
 			calculator.loadForm();
 			loadForm();
 
@@ -4256,19 +3910,6 @@ public class MainPanel extends BasePanel {
 			calculator.setDisableListeners(false);
 
 			calculate();
-
-			setRuneLabel(sentryRuneLabel, null, sentryRunes);
-			setRuneLabel(this.rune1Label, skill1, rune1);
-			setRuneLabel(this.rune2Label, skill2, rune2);
-			// setRuneLabel(this.rune3Label, skill3, rune3);
-			setSkillLabel(this.skill1Label, skill1);
-			setSkillLabel(this.skill2Label, skill2);
-			skills.setCompanionRuneLabel();
-			skills.setSpikeTrapRuneLabel();
-			skills.setRoVRuneLabel();
-			skills.setCaltropsRuneLabel();
-			skills.setPreparationRuneLabel();
-			// setSkillLabel(this.skill3Label, skill3);
 
 			if (items.size() > 0) {
 
@@ -4285,135 +3926,6 @@ public class MainPanel extends BasePanel {
 		}
 
 		disableListeners = false;
-	}
-
-	private void addSkillHandler(final ListBox skills, final Anchor runeLabel,
-			final ListBox runes, final ListBox other1) { // , final ListBox
-															// other2) {
-		skills.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-
-				if (!disableListeners)
-					skillChanged(skills, runeLabel, runes, other1); // ,
-																	// other2);
-			}
-		});
-
-	}
-
-	protected void skillChanged(ListBox skills, Anchor runeLabel,
-			ListBox runes, ListBox other1) { // , ListBox other2) {
-
-		// ActiveSkill sk = getSkill(skills);
-		//
-		// removeSkill(other1, sk);
-		// removeSkill(other2, sk);
-
-		boolean save = this.disableListeners;
-		this.disableListeners = true;
-
-		setRunes(skills, runes);
-		updateRuneLabel(runeLabel, skills, runes);
-
-		this.disableListeners = save;
-	}
-
-	protected void removeSkill(ListBox skills, ActiveSkill s) {
-		for (int i = skills.getItemCount() - 1; i >= 0; i--) {
-			String value = skills.getValue(i);
-
-			if (value.equals(s.name()))
-				skills.removeItem(i);
-		}
-
-	}
-
-	private void addSkills(ListBox skills, ListBox runes) {
-		skills.clear();
-
-		skills.addItem("None", "");
-		skills.setSelectedIndex(0);
-		addSkill(skills, ActiveSkill.HA);
-		addSkill(skills, ActiveSkill.ES);
-		addSkill(skills, ActiveSkill.BOLAS);
-		addSkill(skills, ActiveSkill.EF);
-		addSkill(skills, ActiveSkill.GRENADE);
-		addSkill(skills, ActiveSkill.CA);
-		addSkill(skills, ActiveSkill.EA);
-		addSkill(skills, ActiveSkill.IMP);
-		addSkill(skills, ActiveSkill.CHAK);
-		addSkill(skills, ActiveSkill.MS);
-
-		setRunes(skills, runes);
-		setRunes(sentryRunes, ActiveSkill.SENTRY);
-	}
-
-	private void setRunes(ListBox skills, ListBox runes) {
-
-		int index = skills.getSelectedIndex();
-		String value = skills.getValue(index);
-
-		if (value.length() == 0) {
-			runes.clear();
-			addRune(runes, Rune.None);
-		} else {
-			ActiveSkill skill = ActiveSkill.valueOf(value);
-
-			setRunes(runes, skill);
-		}
-
-		runes.setSelectedIndex(0);
-	}
-
-	private void setRunes(ListBox runes, ActiveSkill skill) {
-		runes.clear();
-
-		if (skill != null) {
-			for (Rune rune : skill.getRunes())
-				addRune(runes, rune);
-
-		} else {
-
-		}
-	}
-
-	private void selectSkill(ListBox skills, ActiveSkill skill) {
-
-		if (skill != null) {
-			for (int i = 0; i < skills.getItemCount(); i++) {
-				String value = skills.getValue(i);
-
-				if (value.equals(skill.name())) {
-					skills.setSelectedIndex(i);
-					return;
-				}
-			}
-		}
-
-		skills.setSelectedIndex(0);
-	}
-
-	private void setRune(ListBox runes, Rune rune) {
-		for (int i = 0; i < runes.getItemCount(); i++) {
-			String value = runes.getValue(i);
-
-			if (value.equals(rune.name())) {
-				runes.setSelectedIndex(i);
-				return;
-			}
-		}
-
-		runes.setSelectedIndex(0);
-	}
-
-	private void addRune(ListBox runes, Rune rune) {
-		runes.addItem(rune.getLongName(), rune.name());
-	}
-
-	private void addSkill(ListBox skills, ActiveSkill skill) {
-		skills.addItem(skill.getLongName(), skill.name());
 	}
 
 	public static native void saveFormData(String filename, String key,

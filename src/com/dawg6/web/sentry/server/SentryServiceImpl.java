@@ -3,7 +3,6 @@ package com.dawg6.web.sentry.server;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Level;
@@ -12,7 +11,6 @@ import java.util.logging.Logger;
 import com.dawg6.web.sentry.client.SentryService;
 import com.dawg6.web.sentry.server.db.couchdb.CouchDBSentryDatabase;
 import com.dawg6.web.sentry.shared.calculator.ActiveSkill;
-import com.dawg6.web.sentry.shared.calculator.BreakPoint;
 import com.dawg6.web.sentry.shared.calculator.Build;
 import com.dawg6.web.sentry.shared.calculator.CharacterData;
 import com.dawg6.web.sentry.shared.calculator.Damage;
@@ -22,7 +20,6 @@ import com.dawg6.web.sentry.shared.calculator.FormData;
 import com.dawg6.web.sentry.shared.calculator.JsonObject;
 import com.dawg6.web.sentry.shared.calculator.ProfileHelper;
 import com.dawg6.web.sentry.shared.calculator.Rune;
-import com.dawg6.web.sentry.shared.calculator.SkillAndRune;
 import com.dawg6.web.sentry.shared.calculator.Util;
 import com.dawg6.web.sentry.shared.calculator.Version;
 import com.dawg6.web.sentry.shared.calculator.d3api.CareerProfile;
@@ -295,26 +292,9 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 	}
 
 	public DpsTableEntry calculateDps(CharacterData data) {
-		Map<ActiveSkill, Rune> skillMap = new TreeMap<ActiveSkill, Rune>();
 
 		Build build = new Build();
-		build.setSentry(data.isSentry());
-		build.setSentryRune(data.getSentryRune());
-		build.setSkills(new HashSet<SkillAndRune>(data.getSkills()));
-
-		int n = 0;
-		for (SkillAndRune sk : build.getSkills()) {
-
-			if (n < 3)
-				skillMap.put(sk.getSkill(), sk.getRune());
-
-			n++;
-		}
-
-		skillMap.put(ActiveSkill.SENTRY, data.getSentryRune());
-		skillMap.put(ActiveSkill.BOLT, data.getSentryRune());
-
-		BreakPoint bp = BreakPoint.ALL[data.getBp()-1];
+		build.setSkills(data.getSkills());
 
 		DpsTableEntry entry = new DpsTableEntry();
 
@@ -349,19 +329,18 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 		entry.setLevel(data.getLevel());
 
 		data.setNumAdditional(0);
-		calculateDamage(skillMap, data, entry);
+		calculateDamage(data, entry);
 		data.setNumAdditional(10);
-		calculateDamage(skillMap, data, entry);
+		calculateDamage(data, entry);
 
 		entry.setWhen(System.currentTimeMillis());
 
 		return entry;
 	}
 
-	private void calculateDamage(Map<ActiveSkill, Rune> skillMap,
-			CharacterData data, DpsTableEntry entry) {
+	private void calculateDamage(CharacterData data, DpsTableEntry entry) {
 
-		Damage[] damage = FiringData.calculateDamages(skillMap, data);
+		Damage[] damage = FiringData.calculateDamages(data);
 
 		double total = 0.0;
 		double totalElite = 0.0;

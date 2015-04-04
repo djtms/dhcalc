@@ -69,12 +69,31 @@ public class PassivesPanel extends Composite {
 				@Override
 				public void onChange(ChangeEvent event) {
 					setTooltip(lb, anchor);
+					checkDuplicate(lb);
 					passivesChanged(event);
 				}});
 			
 			listBoxes.add(lb);
 			anchors.add(anchor);
 		}
+	}
+
+	protected void checkDuplicate(ListBox lb) {
+		int selected = lb.getSelectedIndex();
+		
+		boolean prev = disableListeners;
+		disableListeners = true;
+
+		for (int i = 0; i < NUM_PASSIVES; i++) {
+			ListBox l = listBoxes.get(i);
+			
+			if ((l != lb) && (l.getSelectedIndex() == selected)) {
+				l.setSelectedIndex(0);
+				setTooltip(anchors.get(i), null);
+			}
+		}
+
+		disableListeners = prev;
 	}
 
 	protected void setTooltip(ListBox lb, Anchor anchor) {

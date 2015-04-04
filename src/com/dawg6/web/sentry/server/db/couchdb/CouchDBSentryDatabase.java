@@ -27,7 +27,6 @@ import com.dawg6.web.sentry.shared.calculator.Build;
 import com.dawg6.web.sentry.shared.calculator.CharacterData;
 import com.dawg6.web.sentry.shared.calculator.ProfileHelper;
 import com.dawg6.web.sentry.shared.calculator.Rune;
-import com.dawg6.web.sentry.shared.calculator.SkillAndRune;
 import com.dawg6.web.sentry.shared.calculator.d3api.CareerProfile;
 import com.dawg6.web.sentry.shared.calculator.d3api.Hero;
 import com.dawg6.web.sentry.shared.calculator.d3api.HeroProfile;
@@ -410,17 +409,19 @@ public class CouchDBSentryDatabase {
 			
 			StringBuilder sb = new StringBuilder();
 			
-			if (build.isSentry()) {
-				sb.append(build.getSentryRune().name());
-				sb.append("/");
-			}
+//			if (build.isSentry()) {
+//				sb.append(build.getSentryRune().name());
+//				sb.append("/");
+//			}
+//			
+//			for (SkillAndRune skr : build.getSkills()) {
+//				sb.append(skr.getSkill().name());
+//				sb.append(".");
+//				sb.append(skr.getRune().name());
+//				sb.append("/");
+//			}
 			
-			for (SkillAndRune skr : build.getSkills()) {
-				sb.append(skr.getSkill().name());
-				sb.append(".");
-				sb.append(skr.getRune().name());
-				sb.append("/");
-			}
+			sb.append(build.toString());
 			
 			String key = sb.toString();
 			
@@ -453,37 +454,37 @@ public class CouchDBSentryDatabase {
 
 				Build build = e.getBuild();
 
-				if ((sentryRune == Rune.All_Runes)
-						|| (sentryRune == build.getSentryRune())) {
-
-					int match = 0;
-
-					for (int i = 0; i < skills.length; i++) {
-						ActiveSkill s1 = skills[i];
-						Rune r2 = build.getRune(s1);
-
-						if ((s1 == ActiveSkill.Any) || (r2 != null)) {
-							Rune r1 = runes[i];
-
-							if ((r1 == Rune.All_Runes) || (r1 == r2)) {
-								match++;
-							}
-						}
-					}
-
-					if ((match == skillCount)
-							&& (build.getSkills().size() <= skillCount)) {
-
-						Statistics s = stats.builds.get(build);
-
-						if (s == null) {
-							s = new Statistics();
-							stats.builds.put(build, s);
-						}
-
-						addStatistics(s, e);
-					}
-				}
+//				if ((sentryRune == Rune.All_Runes)
+//						|| (sentryRune == build.getSentryRune())) {
+//
+//					int match = 0;
+//
+//					for (int i = 0; i < skills.length; i++) {
+//						ActiveSkill s1 = skills[i];
+//						Rune r2 = build.getRune(s1);
+//
+//						if ((s1 == ActiveSkill.Any) || (r2 != null)) {
+//							Rune r1 = runes[i];
+//
+//							if ((r1 == Rune.All_Runes) || (r1 == r2)) {
+//								match++;
+//							}
+//						}
+//					}
+//
+//					if ((match == skillCount)
+//							&& (build.getSkills().size() <= skillCount)) {
+//
+//						Statistics s = stats.builds.get(build);
+//
+//						if (s == null) {
+//							s = new Statistics();
+//							stats.builds.put(build, s);
+//						}
+//
+//						addStatistics(s, e);
+//					}
+//				}
 			}
 		}
 

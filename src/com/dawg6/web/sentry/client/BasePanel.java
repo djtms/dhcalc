@@ -9,6 +9,7 @@ import com.dawg6.gwt.client.ApplicationPanel;
 import com.dawg6.web.sentry.shared.calculator.ActiveSkill;
 import com.dawg6.web.sentry.shared.calculator.DamageType;
 import com.dawg6.web.sentry.shared.calculator.Passive;
+import com.dawg6.web.sentry.shared.calculator.Rune;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.storage.client.Storage;
@@ -286,12 +287,21 @@ public class BasePanel extends ApplicationPanel {
 			return getFieldValue((ListBox) field, defaultValue);
 		else if (field instanceof PassivesPanel)
 			return getFieldValue(((PassivesPanel)field).getPassives(), defaultValue);
+		else if (field instanceof SkillsPanel)
+			return getEnumFieldValue(((SkillsPanel)field).getSkills(), defaultValue);
 		else if (field instanceof DamageTypePanel)
 			return getFieldValue(((DamageTypePanel)field).getValues(), defaultValue);
 		else if (field instanceof SkillDamagePanel)
 			return getFieldValue(((SkillDamagePanel)field).getValues(), defaultValue);
 		else
 			return defaultValue;
+	}
+
+	protected <K extends Enum<K>, V extends Enum<V>> String getEnumFieldValue(Map<K, V> map, String defaultValue) {
+		if (map == null)
+			return defaultValue;
+		
+		return JsonUtil.toJSONObject(JsonUtil.createStringMap(map)).toString();
 	}
 
 	protected <K, V> String getFieldValue(Map<K, V> map, String defaultValue) {
@@ -409,6 +419,8 @@ public class BasePanel extends ApplicationPanel {
 			setFieldValue((ListBox) field, value);
 		else if (field instanceof PassivesPanel)
 			setFieldValue((PassivesPanel)field, value);
+		else if (field instanceof SkillsPanel)
+			setFieldValue((SkillsPanel)field, value);
 		else if (field instanceof DamageTypePanel)
 			setFieldValue((DamageTypePanel)field, value);
 		else if (field instanceof SkillDamagePanel)
@@ -419,6 +431,12 @@ public class BasePanel extends ApplicationPanel {
 		Set<Passive> set = JsonUtil.parseSet(Passive.class, value);
 		
 		field.setPassives(set);
+	}
+
+	protected void setFieldValue(SkillsPanel field, String value) {
+		Map<ActiveSkill, Rune> map = JsonUtil.parseMap(ActiveSkill.class, Rune.class, value);
+		
+		field.setSkills(map);
 	}
 
 	protected void setFieldValue(DamageTypePanel field, String value) {

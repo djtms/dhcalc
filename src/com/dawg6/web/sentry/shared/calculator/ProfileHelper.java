@@ -211,138 +211,30 @@ public class ProfileHelper {
 
 	public static void setHeroSkills(HeroProfile hero, CharacterData data) {
 
-		boolean mfd = false;
-		Rune mfdRune = Rune.None;
-		boolean caltrops = false;
-		boolean sentry = false;
-		Rune sentryRune = Rune.None;
-		boolean preparation = false;
-		Rune preparationRune = Rune.None;
-		Set<SkillAndRune> skills = new TreeSet<SkillAndRune>();
-		boolean companion = false;
-		Rune companionRune = Rune.None;
-		Rune caltropsRune = Rune.None;
-		Rune spikeTrapRune = Rune.None;
-		boolean spikeTrap = false;
-		boolean rov = false;
-		Rune rovRune = Rune.None;
+		Map<ActiveSkill, Rune> skills = new TreeMap<ActiveSkill, Rune>();
 
-		for (HeroProfile.Skills.Active s : hero.skills.active) {
+		if ((hero.skills != null) && (hero.skills.active != null)) {
+			for (HeroProfile.Skills.Active s : hero.skills.active) {
+				if ((s != null) && (s.skill != null) && (s.skill.slug != null)) {
 
-			if ((s != null) && (s.skill != null) && (s.skill.slug != null)) {
-
-				if (s.skill.slug.equals(ActiveSkill.Companion.getSlug())) {
-					companion = true;
-
-					if (s.rune == null) {
-						companionRune = Rune.None;
-					} else {
-						String type = s.rune.type;
-
-						for (Rune r : ActiveSkill.Companion.getRunes()) {
-							if (r.getSlug().equals(type)) {
-								companionRune = r;
-								break;
-							}
-						}
-					}
-				} else if (s.skill.slug.equals(ActiveSkill.Caltrops.getSlug())) {
-					caltrops = true;
-
-					if (s.rune == null) {
-						caltropsRune = Rune.None;
-					} else {
-						String type = s.rune.type;
-
-						for (Rune r : ActiveSkill.Caltrops.getRunes()) {
-							if (r.getSlug().equals(type)) {
-								caltropsRune = r;
-								break;
-							}
-						}
-					}
-				} else if (s.skill.slug.equals(ActiveSkill.ST.getSlug())) {
-					spikeTrap = true;
-
-					if (s.rune == null) {
-						spikeTrapRune = Rune.None;
-					} else {
-						String type = s.rune.type;
-
-						for (Rune r : ActiveSkill.ST.getRunes()) {
-							if (r.getSlug().equals(type)) {
-								spikeTrapRune = r;
-								break;
-							}
-						}
-					}
-				} else if (s.skill.slug.equals(ActiveSkill.Preparation.getSlug())) {
-					preparation = true;
-
-					if (s.rune == null) {
-						preparationRune = Rune.None;
-					} else {
-						String type = s.rune.type;
-	
-						for (Rune r : ActiveSkill.Preparation.getRunes()) {
-							if (r.getSlug().equals(type)) {
-								preparationRune = r;
-								break;
-							}
-						}
-					}
-				} else if (s.skill.slug
-
-				.equals(ActiveSkill.SENTRY.getSlug())) {
-
-					sentry = true;
-
-					if (s.rune != null) {
-						sentryRune = lookupRune(ActiveSkill.SENTRY, s.rune.name);
-					}
-
-				} else if (s.skill.slug.equals(ActiveSkill.MFD.getSlug())) {
-					mfd = true;
-
-					if ((s.rune != null) && (s.rune.type != null)) {
-						for (Rune r : MarkedForDeath.RUNES) {
-							if (r.getSlug().equals(s.rune.type)) {
-								mfdRune = r;
-								break;
-							}
-						}
-					}
-
-				} else if (s.skill.slug.equals(ActiveSkill.RoV.getSlug())) {
-					rov = true;
-
-					if ((s.rune != null) && (s.rune.type != null)) {
-						for (Rune r : ActiveSkill.RoV.getRunes()) {
-							if (r.getSlug().equals(s.rune.type)) {
-								rovRune = r;
-								break;
-							}
-						}
-					}
-
-				} else {
 					for (ActiveSkill sk : ActiveSkill.values()) {
-
+					
 						SkillType type = sk.getSkillType();
 						
-						if ((type == SkillType.Primary) || (type == SkillType.Spender)) {
+						if (type != SkillType.NA) {
 							if (s.skill.slug.equals(sk.getSlug())) {
 								Rune rune = Rune.None;
-								// String runeName = Rune.None.getLongName();
-	
-								if ((s.rune != null) && (s.rune.name != null))
-									rune = lookupRune(sk, s.rune.name);
-	
-								SkillAndRune sr = new SkillAndRune(sk, rune);
-								skills.add(sr);
-	
-								if (skills.size() >= 2)
-									break;
+								
+								if ((s.rune != null) && (s.rune.type != null)) {
+									for (Rune r : sk.getRunes()) {
+										if (r.getSlug().equals(s.rune.type)) {
+											rune = r;
+											break;
+										}
+									}
+								}
+								
+								skills.put(sk, rune);
 							}
 						}
 					}
@@ -389,22 +281,8 @@ public class ProfileHelper {
 		}
 
 		data.setPassives(passives);
-		data.setMfdSkill(mfd);
-		data.setMfdRune(mfdRune);
-		data.setCompanion(companion);
-		data.setCompanionRune(companionRune);
-		data.setCaltrops(caltrops);
-		data.setCaltropsRune(caltropsRune);
-		data.setSpikeTrap(spikeTrap);
-		data.setSpikeTrapRune(spikeTrapRune);
-		data.setSentry(sentry);
-		data.setSentryRune(sentryRune);
-		data.setSkills(skills);
-		data.setPreparation(preparation);
-		data.setPreparationRune(preparationRune);
 		data.setHeroLevel(hero.level);
-		data.setRov(rov);
-		data.setRovRune(rovRune);
+		data.setSkills(skills);
 	}
 
 	public static Rune lookupRune(ActiveSkill skill, String name) {
@@ -1153,10 +1031,6 @@ public class ProfileHelper {
 
 		data.setOdysseysEnd(odysseysEnd);
 		data.setOdysseysEndPercent(odysseysEndPercent);
-
-		data.setWolf(data.isCompanion()
-				&& ((data.getCompanionRune() == Rune.Wolf) || (data
-						.getNumMarauders() >= 2)));
 
 	}
 

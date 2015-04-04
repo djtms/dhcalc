@@ -452,8 +452,6 @@ public class ExportExcel {
 		createInput(inputs, data.data.getMaxHatred(), "Max Hatred");
 		createInput(inputs, data.data.getHatredPerSecond(), "Hatred Per Second");
 		createInput(inputs, data.data.getEquipmentDiscipline(), "Equipment +Max Discipline");
-		createInput(inputs, data.data.isPreparation(), "Preparation");
-		createInput(inputs, data.data.getPreparationRune().name(), "Preparation Rune");
 		createInput(inputs, data.data.getParagonDexterity() / 5, "Paragon Dexterity");
 		createInput(inputs, data.data.getParagonIAS(), "Paragon IAS");
 		createInput(inputs, data.data.getParagonCC(), "Paragon CC");
@@ -463,48 +461,16 @@ public class ExportExcel {
 		createInput(inputs, data.data.getParagonRCR(), "Paragon RCR");
 		createInput(inputs, data.data.getParagonAD(), "Paragon Area Damage");
 		
-		createInputHeader(inputs, "Sentry Skills");
-		createInput(inputs, data.data.isSentry(),
-				"Sentry");
-		createInput(inputs, data.data.getSentryRune().getLongName(),
-				"Sentry Rune");
-
-		int n = 1;
-		for (Map.Entry<ActiveSkill, Rune> e : data.skills.entrySet()) {
-
-			if (e.getKey() != ActiveSkill.SENTRY) {
-				createInput(inputs, e.getKey().getLongName(), "Skill" + n);
-				createInput(inputs, e.getValue().getLongName(), "Rune" + n);
-				n++;
-			}
+		createInputHeader(inputs, "Active Skills");
+		
+		for (Map.Entry<ActiveSkill, Rune> e : data.data.getSkills().entrySet()) {
+			createInput(inputs, e.getValue().getLongName(), e.getKey().getLongName());
 		}
 
-		createInput(inputs, data.data.isCompanion(), "Companion");
-		createInput(inputs, data.data.getCompanionRune().getLongName(), "Companion Rune");
-
-		createInputHeader(inputs, "Active Skills");
-		createInput(inputs, data.data.isCaltrops(),
-				"Caltrops");
-		createInput(inputs, data.data.getCaltropsRune().getLongName(),
-				"Caltrops Rune");
 		createInput(inputs, data.data.getCaltropsUptime(),
 				"Caltrops Uptime", pctStyle);
-		createInput(inputs, data.data.isSpikeTrap(),
-				"Spike Trap");
-		createInput(inputs, data.data.getSpikeTrapRune().getLongName(),
-				"Spike Trap Rune");
 		createInput(inputs, data.data.getNumSpikeTraps(),
 				"# Spike Traps");
-		createInput(inputs, data.data.isRov(),
-				"Rain of Vengeance");
-		createInput(inputs, data.data.getRovRune().getLongName(),
-				"RoV Rune");
-//		createInput(inputs, data.data.getRovKilled(),
-//				"RoV Killed");
-		createInput(inputs, data.data.isMarked(),
-				"Marked for Death");
-		createInput(inputs, data.data.getMfdRune().getLongName(),
-				"Marked for Death Rune");
 		createInput(inputs, data.data.getMfdUptime(),
 				"Marked for Death Primary Target Uptime", pctStyle);
 		createInput(inputs, data.data.getMfdAddUptime(),

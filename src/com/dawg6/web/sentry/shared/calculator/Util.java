@@ -100,4 +100,32 @@ public class Util {
 			map.put(prefix + e.getKey(), e.getValue());
 		}
 	}
+
+	public static <K extends Enum<K>, V extends Enum<V>> Map<String, String> createEnumMap(Map<K, V> map) {
+		Map<String, String> smap = new TreeMap<String, String>();
+		
+		if (map == null)
+			return smap;
+		
+		for (Map.Entry<K, V> e : map.entrySet()) {
+			smap.put(e.getKey().name(), e.getValue().name());
+		}
+		
+		return smap;
+	}
+
+	public static <K extends Enum<K>, V extends Enum<V>> Map<K, V> createEnumMap(
+			Class<K> keyClass, Class<V> valueClass,
+			Map<String, String> smap) {
+		
+		Map<K, V> map = new TreeMap<K, V>();
+		
+		for (Map.Entry<String, String> e : smap.entrySet()) {
+			K key = Enum.valueOf(keyClass, e.getKey());
+			V value = Enum.valueOf(valueClass, e.getValue());
+			map.put(key, value);
+		}
+		
+		return map;
+	}
 }
