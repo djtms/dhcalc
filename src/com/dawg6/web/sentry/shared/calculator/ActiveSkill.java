@@ -71,7 +71,7 @@ public enum ActiveSkill {
 	Caltrops(SkillType.Cooldown, "Caltrops", "Caltrops", 0, null, new Rune[] { 
 			Rune.None, Rune.Hooked_Spines, Rune.Torturous_Ground, Rune.Jagged_Spikes, Rune.Carved_Stakes, Rune.Bait_the_Trap }, "http://us.battle.net/d3/en/class/demon-hunter/active/caltrops"),
 
-	RoV(SkillType.Cooldown, "RoV", "Rain Of Vengeance", 0, DamageMultiplier.RoV, new Rune[] { 
+	RoV(SkillType.Cooldown, "RoV", "Rain of Vengeance", 0, DamageMultiplier.RoV, new Rune[] { 
 			Rune.None, Rune.Dark_Cloud, Rune.Shade, Rune.Stampede, Rune.Anathema, Rune.Flying_Strike }, "http://us.battle.net/d3/en/class/demon-hunter/active/rain-of-vengeance"),
 	
 	CR(SkillType.NA, "CR", "Crashing Rain", 0, DamageMultiplier.RoV, new Rune[0], "http://us.battle.net/d3/en/item/crashing-rain"),
@@ -84,7 +84,7 @@ public enum ActiveSkill {
 			new Rune[] { Rune.None, Rune.Action_Shot, Rune.Rattling_Roll, Rune.Tumble, Rune.Acrobatics, Rune.Trail_of_Cinders }, 
 			"http://us.battle.net/d3/en/class/demon-hunter/active/vault"),
 
-	FoK(SkillType.Cooldown, "FoK", "Fan Of Knives", 0, DamageMultiplier.FoK, 
+	FoK(SkillType.Cooldown, "FoK", "Fan of Knives", 0, DamageMultiplier.FoK, 
 			new Rune[] { Rune.None, Rune.Pinpoint_Accuracy, Rune.Bladed_Armor, Rune.Knives_Expert, Rune.Fan_of_Daggers, Rune.Assassins_Knives }, 
 			"http://us.battle.net/d3/en/class/demon-hunter/active/fan-of-knives"),
 
@@ -104,6 +104,10 @@ public enum ActiveSkill {
 			new Rune[] { Rune.None, Rune.Withering_Fire, Rune.Frost_Shots, Rune.Fire_Support, Rune.High_Velocity, Rune.Bombardment }, 
 			"http://us.battle.net/d3/en/class/demon-hunter/active/rapid-fire"),
 
+	MFD(SkillType.Cooldown, "MFD", "Marked for Death", 0, null, 
+			new Rune[] { Rune.None, Rune.Contagion, Rune.Valley_Of_Death, Rune.Grim_Reaper, Rune.Mortal_Enemy, Rune.Death_Toll }, 
+			"http://us.battle.net/d3/en/class/demon-hunter/active/marked-for-death"),
+
 	Any(SkillType.NA, "Any Skill", "Any Skill", 0, null, new Rune[0], null);
 
 	private String name;
@@ -115,7 +119,9 @@ public enum ActiveSkill {
 	private String url;
 	private int hatred;
 	private SkillType skillType;
-	private String slug;	
+	private String damageAttribute;	
+	private String slug;
+	
 	private ActiveSkill(SkillType skillType, String shortName, String name, int hatred,
 			DamageMultiplier multiplier, Rune[] runes, String url) {
 		this.name = name;
@@ -125,7 +131,12 @@ public enum ActiveSkill {
 		this.url = url;
 		this.hatred = hatred;
 		this.skillType = skillType;
-		this.slug = name.replaceAll(" ", "");
+		this.damageAttribute = name.replaceAll(" of ", "Of").replaceAll(" ", "");
+		this.slug = name.toLowerCase().replaceAll(" ", "-");
+	}
+
+	public String getSlug() {
+		return slug;
 	}
 
 	public boolean doesDamage() {
@@ -140,8 +151,8 @@ public enum ActiveSkill {
 		return skillType;
 	}
 	
-	public String getSlug() {
-		return slug;
+	public String getDamageAttribute() {
+		return damageAttribute;
 	}
 	
 	public int getHatred() {

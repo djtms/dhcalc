@@ -229,9 +229,9 @@ public class ProfileHelper {
 
 		for (HeroProfile.Skills.Active s : hero.skills.active) {
 
-			if ((s != null) && (s.skill != null) && (s.skill.name != null)) {
+			if ((s != null) && (s.skill != null) && (s.skill.slug != null)) {
 
-				if (s.skill.name.equals(Const.COMPANION)) {
+				if (s.skill.slug.equals(ActiveSkill.Companion.getSlug())) {
 					companion = true;
 
 					if (s.rune == null) {
@@ -246,7 +246,7 @@ public class ProfileHelper {
 							}
 						}
 					}
-				} else if (s.skill.name.equals(Const.CALTROPS)) {
+				} else if (s.skill.slug.equals(ActiveSkill.Caltrops.getSlug())) {
 					caltrops = true;
 
 					if (s.rune == null) {
@@ -261,7 +261,7 @@ public class ProfileHelper {
 							}
 						}
 					}
-				} else if (s.skill.name.equals(Const.SPIKE_TRAP)) {
+				} else if (s.skill.slug.equals(ActiveSkill.ST.getSlug())) {
 					spikeTrap = true;
 
 					if (s.rune == null) {
@@ -276,7 +276,7 @@ public class ProfileHelper {
 							}
 						}
 					}
-				} else if (s.skill.name.equals(Const.PREPARATION)) {
+				} else if (s.skill.slug.equals(ActiveSkill.Preparation.getSlug())) {
 					preparation = true;
 
 					if (s.rune == null) {
@@ -291,9 +291,9 @@ public class ProfileHelper {
 							}
 						}
 					}
-				} else if (s.skill.name
+				} else if (s.skill.slug
 
-				.equals(ActiveSkill.SENTRY.getLongName())) {
+				.equals(ActiveSkill.SENTRY.getSlug())) {
 
 					sentry = true;
 
@@ -301,7 +301,7 @@ public class ProfileHelper {
 						sentryRune = lookupRune(ActiveSkill.SENTRY, s.rune.name);
 					}
 
-				} else if (s.skill.name.equals(Const.MARKED_FOR_DEATH)) {
+				} else if (s.skill.slug.equals(ActiveSkill.MFD.getSlug())) {
 					mfd = true;
 
 					if ((s.rune != null) && (s.rune.type != null)) {
@@ -313,7 +313,7 @@ public class ProfileHelper {
 						}
 					}
 
-				} else if (s.skill.name.equals(Const.RAIN_OF_VENGEANCE)) {
+				} else if (s.skill.slug.equals(ActiveSkill.RoV.getSlug())) {
 					rov = true;
 
 					if ((s.rune != null) && (s.rune.type != null)) {
@@ -328,18 +328,22 @@ public class ProfileHelper {
 				} else {
 					for (ActiveSkill sk : ActiveSkill.values()) {
 
-						if (s.skill.name.equals(sk.getLongName())) {
-							Rune rune = Rune.None;
-							// String runeName = Rune.None.getLongName();
-
-							if ((s.rune != null) && (s.rune.name != null))
-								rune = lookupRune(sk, s.rune.name);
-
-							SkillAndRune sr = new SkillAndRune(sk, rune);
-							skills.add(sr);
-
-							if (skills.size() >= 2)
-								break;
+						SkillType type = sk.getSkillType();
+						
+						if ((type == SkillType.Primary) || (type == SkillType.Spender)) {
+							if (s.skill.slug.equals(sk.getSlug())) {
+								Rune rune = Rune.None;
+								// String runeName = Rune.None.getLongName();
+	
+								if ((s.rune != null) && (s.rune.name != null))
+									rune = lookupRune(sk, s.rune.name);
+	
+								SkillAndRune sr = new SkillAndRune(sk, rune);
+								skills.add(sr);
+	
+								if (skills.size() >= 2)
+									break;
+							}
 						}
 					}
 				}
@@ -1004,7 +1008,7 @@ public class ProfileHelper {
 		data.setSetCounts(setCounts);
 
 		for (ActiveSkill skill : ActiveSkill.values()) {
-			String slug = skill.getSlug();
+			String slug = skill.getDamageAttribute();
 			String attr = Const.SKILL_DAMAGE_BONUS + slug;
 			double d = 0.0;
 			
