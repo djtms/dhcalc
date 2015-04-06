@@ -102,7 +102,7 @@ public class GearPanel extends Composite {
 
 			Anchor status = new Anchor("unloaded");
 			status.setTarget("_blank");
-			status.setHref("javascript: return false;");
+			status.setHref("javascript:void(0);");
 			table.setWidget(row, 1, status);
 			labels.put(slot, status);
 			status.addClickHandler(new ClickHandler() {
@@ -352,7 +352,7 @@ public class GearPanel extends Composite {
 		final Anchor label = labels.get(slot);
 
 		String text = "unloaded";
-		String url = "javascript: return false;";
+		String url = "javascript:void(0);";
 
 		if (item != null) {
 			items.put(slot, item);

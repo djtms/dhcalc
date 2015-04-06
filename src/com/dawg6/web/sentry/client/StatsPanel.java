@@ -234,7 +234,7 @@ public class StatsPanel extends Composite {
 		Anchor lblSentryRune = new Anchor("Sentry Rune");
 		lblSentryRune.setWordWrap(false);
 		lblSentryRune.setStyleName("boldText");
-		lblSentryRune.setHref("javascript: return false;");
+		lblSentryRune.setHref("javascript:void(0);");
 		buildTable.setWidget(0, 0, lblSentryRune);
 
 		lblSentryRune.addClickHandler(new ClickHandler() {
@@ -246,7 +246,7 @@ public class StatsPanel extends Composite {
 		});
 
 		Anchor lblSkill_3 = new Anchor("Skills/Runes");
-		lblSkill_3.setHref("javascript: return false;");
+		lblSkill_3.setHref("javascript:void(0);");
 		lblSkill_3.setWordWrap(false);
 		lblSkill_3.setStyleName("boldText");
 		buildTable.setWidget(0, 1, lblSkill_3);
@@ -262,7 +262,7 @@ public class StatsPanel extends Composite {
 				HasHorizontalAlignment.ALIGN_CENTER);
 		
 				Anchor lblCount = new Anchor("Count");
-				lblCount.setHref("javascript: return false;");
+				lblCount.setHref("javascript:void(0);");
 				lblCount.setWordWrap(false);
 				lblCount.setStyleName("boldText");
 				buildTable.setWidget(0, 2, lblCount);
@@ -309,12 +309,12 @@ public class StatsPanel extends Composite {
 			
 			Anchor avg = new Anchor("Avg");
 			avg.setWordWrap(false);
-			avg.setHref("javascript: return false;");
+			avg.setHref("javascript:void(0);");
 			avg.setStyleName("boldText");
 			
 			Anchor max = new Anchor("Max");
 			max.setWordWrap(false);
-			max.setHref("javascript: return false;");
+			max.setHref("javascript:void(0);");
 			max.setStyleName("boldText");
 
 			Label split = new Label("/");
@@ -550,7 +550,7 @@ public class StatsPanel extends Composite {
 //			}
 
 			Anchor copy = new Anchor("copy this build");
-			copy.setHref("javascript: return false;");
+			copy.setHref("javascript:void(0);");
 			copy.setWordWrap(false);
 			copy.setTitle("Copy this build");
 			copy.addStyleName("center");
@@ -603,7 +603,7 @@ public class StatsPanel extends Composite {
 //				Anchor imp = new Anchor("import");
 //				imp.setWordWrap(false);
 //				imp.setTitle("Import this profile");
-//				imp.setHref("javascript: return false;");
+//				imp.setHref("javascript:void(0);");
 //				imp.addStyleName("center");
 //				buildTable.setWidget(row * 4, col - 2, imp);
 //				buildTable.getFlexCellFormatter().setHorizontalAlignment(
@@ -657,7 +657,7 @@ public class StatsPanel extends Composite {
 
 			Anchor imp = new Anchor("import");
 			imp.setTitle("Import this profile");
-			imp.setHref("javascript: return false;");
+			imp.setHref("javascript:void(0);");
 			imp.addClickHandler(new ClickHandler() {
 
 				@Override

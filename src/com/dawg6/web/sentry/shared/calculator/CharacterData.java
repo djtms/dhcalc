@@ -380,7 +380,12 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isWolf() {
-		return wolf;
+		if (wolf)
+			return true;
+
+		Rune r = skills.get(ActiveSkill.Companion);
+		
+		return (r == Rune.Wolf) || ((r != null) && this.numMarauders >= 2);
 	}
 
 	public void setWolf(boolean wolf) {
