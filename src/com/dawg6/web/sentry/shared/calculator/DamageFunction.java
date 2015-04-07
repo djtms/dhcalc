@@ -506,6 +506,13 @@ public class DamageFunction {
 						if (isPlayer)
 							dlist.add(DamageMultiplier.AD);
 
+						if (skill != null) {
+							
+							if ((data.getNumUe() >= 6) && ((source.skill == ActiveSkill.MS) || (new SkillAndRune(skill, dr.source.rune).getHatred(data) > 0))) {
+								dlist.add(DamageMultiplier.UE6);
+							}
+						}
+						
 						for (DamageMultiplier dw : dlist) {
 
 							if (((isSentry || (dw != DamageMultiplier.Sentry)) && (!isPlayer || (dw != DamageMultiplier.Enforcer)))) {

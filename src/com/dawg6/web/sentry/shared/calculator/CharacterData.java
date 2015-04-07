@@ -169,6 +169,7 @@ public class CharacterData implements Serializable {
 	private boolean hasBombardiers;
 	private double hatredPerSecond;
 	private int numMarauders;
+	private int numUe;
 	private boolean kridershot;
 	private boolean spines;
 	private int kridershotHatred;
@@ -2005,6 +2006,25 @@ public class CharacterData implements Serializable {
 
 	public Rune getSpikeTrapRune() {
 		return skills.get(ActiveSkill.ST);
+	}
+
+	public int getNumUe() {
+		return numUe;
+	}
+
+	public void setNumUe(int numUe) {
+		this.numUe = numUe;
+	}
+
+	public double getMaxDiscipline() {
+		double d = this.equipmentDiscipline + 25.0;
+		
+		Rune r = skills.get(ActiveSkill.Preparation);
+		
+		if (r == Rune.Invigoration)
+			d += 15.0;
+		
+		return d;
 	}
 
 }

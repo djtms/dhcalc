@@ -941,10 +941,12 @@ public class ProfileHelper {
 				Const.CAPTAIN_CRIMSON, 3));
 
 		int m = getSetCount(data, Const.MARAUDERS);
+		int ue  = getSetCount(data, Const.UE);
 		int nats = getSetCount(data, Const.NATS);
 		int bastions = getSetCount(data, Const.BASTIONS_OF_WILL);
 		
 		data.setNumMarauders(m);
+		data.setNumUe(ue);
 		data.setNumNats(nats);
 		data.setBastions(bastions >= 2);
 		

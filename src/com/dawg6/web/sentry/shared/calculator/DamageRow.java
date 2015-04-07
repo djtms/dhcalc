@@ -96,6 +96,7 @@ public class DamageRow {
 		this.multipliers.add(DamageMultiplier.Toxicity);
 		this.multipliers.add(DamageMultiplier.BW1);
 		this.multipliers.add(DamageMultiplier.BW2);
+		this.multipliers.add(DamageMultiplier.UE4);
 
 		if ((source.skill == ActiveSkill.RoV) || (source.skill == ActiveSkill.CR)) {
 			this.multipliers.add(DamageMultiplier.N4);

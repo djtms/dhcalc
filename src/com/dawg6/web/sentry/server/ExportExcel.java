@@ -584,6 +584,8 @@ public class ExportExcel {
 				"Kridershot - Hatred Value");
 		createInput(inputs, data.data.getNumMarauders(),
 				"# Marauder's Embodiment");
+		createInput(inputs, data.data.getNumUe(),
+				"# Unhallowed Essence");
 		createInput(inputs, data.data.getNumNats(),
 				"# Natalay's Vengeance");
 		createInput(inputs, data.data.isBastions(),

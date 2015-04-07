@@ -1,5 +1,11 @@
 Change Log:
 
+**4/7/15**
+- Added Max Discipline from Preparation/Invigoration
+- Added UE 4 and 6 piece Set bonuses
+** Note: UE6 currently assumes 100% max discipline (to-do list includes task to consider discipline usage during fight)
+** Note: UE4 based on "Percent of targets at least 10 yards away" situational variable
+
 **4/4/15**
 
 * Now imports all Passive skills from profile (including any on Hellfire Amulet)

@@ -74,7 +74,7 @@ public class SituationalPanel extends Composite {
 		percentAtLeast10Yards = new NumberSpinner();
 		percentAtLeast10Yards.setVisibleLength(4);
 		percentAtLeast10Yards
-				.setTitle("Percent of targets at least 10 yards away (apply Steady Aim).");
+				.setTitle("Percent of targets at least 10 yards away (apply Steady Aim/UE4).");
 		percentAtLeast10Yards.setText("0");
 		flexTable.setWidget(3, 1, percentAtLeast10Yards);
 

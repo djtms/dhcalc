@@ -629,6 +629,9 @@ public class MainPanel extends BasePanel {
 		skills = new SkillsPanel();
 		verticalPanel_1.add(skills);
 
+		passives = new PassivesPanel();
+		verticalPanel_1.add(passives);
+
 		situational = new SituationalPanel();
 		verticalPanel_1.add(situational);
 
@@ -688,8 +691,6 @@ public class MainPanel extends BasePanel {
 				calculateWolfUptime();
 			}
 		});
-
-		passives = new PassivesPanel();
 
 		playerBuffPanel.getBbv().addClickHandler(new ClickHandler() {
 
@@ -792,7 +793,6 @@ public class MainPanel extends BasePanel {
 
 		buffPanel = new BuffPanel();
 		vpanel.add(buffPanel);
-		vpanel.add(passives);
 
 		buffPanel.getAnatomy().addClickHandler(new ClickHandler() {
 
@@ -2726,6 +2726,7 @@ public class MainPanel extends BasePanel {
 		this.itemPanel.getKridershotHatred().setValue(
 				data.getKridershotHatred());
 		this.itemPanel.getMarauders().setValue(data.getNumMarauders());
+		this.itemPanel.getNumUe().setValue(data.getNumUe());
 		this.itemPanel.getNumNats().setValue(data.getNumNats());
 		this.itemPanel.getEliteDamagePercent().setValue(
 				(int) Math.round(data.getEliteDamage() * 100.0));
@@ -2873,6 +2874,7 @@ public class MainPanel extends BasePanel {
 				new Field(this.itemPanel.getKridershotHatred(),
 						"KridershotHatred", Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getMarauders(), "Marauders", "6"),
+				new Field(this.itemPanel.getNumUe(), "UE", "0"),
 				new Field(this.itemPanel.getNumNats(), "Nats", "0"),
 				new Field(this.itemPanel.getReapersWraps(), "ReapersWraps",
 						Boolean.FALSE.toString()),
@@ -3145,6 +3147,7 @@ public class MainPanel extends BasePanel {
 			data.setHelltrapperPercent(itemPanel.getHelltrapperPercent()
 					.getValue() / 100.0);
 			data.setNumMarauders(itemPanel.getMarauders().getValue());
+			data.setNumUe(itemPanel.getNumUe().getValue());
 			data.setNumNats(itemPanel.getNumNats().getValue());
 			data.setPercentAtLeast10Yards((double) this.situational
 					.getPercentAtLeast10Yards().getValue() / 100.0);

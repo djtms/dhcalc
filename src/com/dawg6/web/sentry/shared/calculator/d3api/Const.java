@@ -102,6 +102,7 @@ public class Const {
 	public static final String BOMBADIERS = "Bombardier's Rucksack";
 	public static final String CUSTOM_ENGINEERING = "Custom Engineering";
 	public static final String MARAUDERS = "embodiment-of-the-marauder";
+	public static final String UE = "unhallowed-essence";
 	public static final String NATS = "natalyas-vengeance";
 	public static final String SPINES = "Spines of Seething Hatred";
 	public static final String SPINES_HATRED = "Item_Power_Passive#ItemPassive_Unique_Ring_750_x1";

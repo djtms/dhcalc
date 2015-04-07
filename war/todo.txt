@@ -8,13 +8,12 @@
 * Confirm: Crashing Rain damage applies to single target only or 12 yard radius?
 
 * Implement Patch 2.2. changes:
-- Add Max Discipline from skills
 - Add Convention of the Elements ring
 - Add import of Nat's Slayer RoV bonus (should work as is, need to verify)
-- Add UE Set bonuses
+- Subtract discipline usage for UE6 bonus
 
 * Add Pierce mechanics
-* Add support for channeled skills (strafe, rapid fire)
+* Add support for remaining active damage skills (strafe, rapid fire, fan of knives, vengeance)
 * Add support for ruby socketed in weapon(s)
 * Add support for more than two spenders/generators
 * re-enable player/build statistics

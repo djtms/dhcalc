@@ -140,6 +140,21 @@ public enum DamageMultiplier {
 					return (data.isArchery() && (data.getWeaponType() == WeaponType.Bow)) ? 0.08
 							: 0.0;
 				}
+			}), UE4("UE4", DamageAccumulator.Multiplicative,
+			"Unhallowed Essence 4 item set bonus (20% if no enemies within 10 yards)",
+			new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return (data.getNumUe() >= 4) ? (0.2 * data
+							.getPercentAtLeast10Yards()): 0.0;
+				}
+			}), UE6("UE6", DamageAccumulator.Multiplicative,
+			"Unhallowed Essence 6 item set bonus (15% per point of discipline)",
+			new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return (data.getNumUe() >= 6) ? (0.15 * data.getMaxDiscipline()): 0.0;
+				}
 			}), BW1("BWg", DamageAccumulator.Multiplicative,
 			"Bastions of Will Generator Bonus (50%)",
 			new Test<CharacterData, Double>() {
@@ -273,22 +288,19 @@ public enum DamageMultiplier {
 					return data.getFokDamage();
 				}
 			}), Vengeance("Ven", DamageAccumulator.Additive,
-			"Vengeance Skill Damage Bonus",
-			new Test<CharacterData, Double>() {
+			"Vengeance Skill Damage Bonus", new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
 					return data.getVengeanceDamage();
 				}
 			}), Strafe("Strafe", DamageAccumulator.Additive,
-			"Strafe Skill Damage Bonus",
-			new Test<CharacterData, Double>() {
+			"Strafe Skill Damage Bonus", new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
 					return data.getStrafeDamage();
 				}
 			}), RF("RF", DamageAccumulator.Additive,
-			"Rapid Fire Skill Damage Bonus",
-			new Test<CharacterData, Double>() {
+			"Rapid Fire Skill Damage Bonus", new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
 					return data.getRFDamage();
