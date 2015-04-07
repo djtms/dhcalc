@@ -14,6 +14,7 @@
 - Implement breakpoints for Strafe/Rapid Fire
 
 * Add Pierce mechanics
+* Change Strong Arm Bracers to drop down (select 20 or 30 only)
 * Add support for remaining active damage skills (rapid fire, vengeance)
 * Add support for ruby socketed in weapon(s)
 * Add support for more than two spenders/generators
