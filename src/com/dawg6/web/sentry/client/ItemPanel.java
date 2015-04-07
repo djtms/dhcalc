@@ -186,7 +186,7 @@ public class ItemPanel extends Composite {
 		flexTable.setWidget(8, 3, calamityUptime);
 		
 		Anchor labelM = new Anchor();
-		labelM.setText("Marauder's Visage Set:");
+		labelM.setText("Marauder's Set:");
 		labelM.setWordWrap(false);
 		labelM.setTarget("_blank");
 		labelM.setHref("http://us.battle.net/d3/en/item/marauders-visage");
@@ -205,7 +205,7 @@ public class ItemPanel extends Composite {
 		anchor_17.setWordWrap(false);
 		anchor_17.setText("Unhallowed Essence Set");
 		anchor_17.setTarget("_blank");
-		anchor_17.setHref("http://us.battle.net/d3/en/item/unhallowed-essence");
+		anchor_17.setHref("http://us.battle.net/d3/en/item/accursed-visage");
 		flexTable.setWidget(10, 0, anchor_17);
 		
 		Label label_17 = new Label("# Pieces:");
