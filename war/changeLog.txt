@@ -5,6 +5,8 @@ Change Log:
 - Added UE 4 and 6 piece Set bonuses
 ** Note: UE6 currently assumes 100% max discipline (to-do list includes task to consider discipline usage during fight)
 ** Note: UE4 based on "Percent of targets at least 10 yards away" situational variable
+- Added Strafe mechanics (todo: add breakpoints)
+- Added Fan of Knives mechanics 
 
 **4/4/15**
 

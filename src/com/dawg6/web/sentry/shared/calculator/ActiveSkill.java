@@ -92,7 +92,7 @@ public enum ActiveSkill {
 			new Rune[] { Rune.None, Rune.Night_Bane, Rune.Blood_Moon, Rune.Well_of_Darkness, Rune.Gloom, Rune.Shadow_Glide }, 
 			"http://us.battle.net/d3/en/class/demon-hunter/active/shadow-power"),
 
-	Strafe(SkillType.Channeled, "Strafe", "Strafe", 0, DamageMultiplier.Strafe, 
+	Strafe(SkillType.Channeled, "Strafe", "Strafe", -12, DamageMultiplier.Strafe, 
 			new Rune[] { Rune.None, Rune.Icy_Trail, Rune.Drifting_Shadow, Rune.Stinging_Steel, Rune.Rocket_Storm, Rune.Demolition }, 
 			"http://us.battle.net/d3/en/class/demon-hunter/active/strafe"),
 

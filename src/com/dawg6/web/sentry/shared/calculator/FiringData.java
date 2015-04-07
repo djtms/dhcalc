@@ -19,9 +19,10 @@ public class FiringData {
 		for (Map.Entry<ActiveSkill, Rune> e : data.getSkills().entrySet()) {
 			ActiveSkill skill = e.getKey();
 			SkillType type = skill.getSkillType();
+			Rune rune = e.getValue();
 			
-			if ((type == SkillType.Primary) || (type == SkillType.Spender)) {
-				Rune rune = e.getValue();
+			if ((type == SkillType.Primary) || (type == SkillType.Spender) || (type == SkillType.Channeled) ||
+					((skill == ActiveSkill.FoK) && (rune == Rune.Knives_Expert))) {
 				SkillAndRune skr = new SkillAndRune(skill, rune);
 				skills.add(skr);
 				skillQty.put(skr, 0);
@@ -85,6 +86,19 @@ public class FiringData {
 		double markedHatred = 0;
 		int totalHits = 0;
 		double rovCd = (30.0 * (1 - cdr));
+		double fokCd = (10.0 * (1 - cdr));
+		Rune fokRune = data.getSkills().get(ActiveSkill.FoK);
+		
+		if (fokRune == Rune.Pinpoint_Accuracy)
+			fokCd = 15.0 * (1 - cdr);
+
+		double nextFok = 0;
+
+		if ((fokRune == null) || (fokRune == Rune.Knives_Expert))
+			nextFok = FiringData.DURATION + 1.0;
+		
+		int numFok = 0;
+		
 //		double rovTime = 5.0;
 //		Rune rovRune = data.getRovRune();
 //		
@@ -105,6 +119,11 @@ public class FiringData {
 			if (data.isRov() && (t >= nextRov)) {
 				numRov++;
 				nextRov += rovCd;
+			}
+
+			if ((fokRune != null) && (t >= nextFok)) {
+				numFok++;
+				nextFok += fokCd;
 			}
 			
 			if (t >= nextHealthGlobe) {
@@ -220,6 +239,12 @@ public class FiringData {
 						new DamageSource(ActiveSkill.CR, data.getRovRune()), numRov,
 						data));
 			}
+		}
+		
+		if (numFok > 0) {
+			list.addAll(DamageFunction.getDamages(true, false, "Player",
+					new DamageSource(ActiveSkill.FoK, fokRune), numFok,
+					data));
 		}
 		
 		if (data.isSentry() && (boltQty > 0)) {

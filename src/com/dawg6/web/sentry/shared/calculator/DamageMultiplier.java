@@ -189,6 +189,12 @@ public enum DamageMultiplier {
 				public Double getValue(CharacterData data) {
 					return data.getCritHitDamage();
 				}
+			}), OnCrit("OnCrit", DamageAccumulator.Special, "On Crit Only Damage Bonus",
+				new Test<CharacterData, Double>() {
+					@Override
+					public Double getValue(CharacterData data) {
+						return data.getCritHitDamage();
+					}
 			}), Hysteria("Hysteria", DamageAccumulator.Additive,
 			"Scoundrel Hysteria Damage Bonus",
 			new Test<CharacterData, Double>() {
@@ -615,7 +621,7 @@ public enum DamageMultiplier {
 			new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
-					return (data.isSingleOut() && (data.getTargetSpacing() >= 20)) ? 0.25
+					return (data.isSingleOut() && (data.getDistanceToTarget() >= 20)) ? 0.25
 							: 0.0;
 				}
 			});

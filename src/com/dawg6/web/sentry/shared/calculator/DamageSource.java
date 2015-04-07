@@ -24,10 +24,20 @@ public class DamageSource implements Serializable, Comparable<DamageSource> {
 	}
 	
 	public boolean test(DamageSource source,
-			CharacterData data) {
+			CharacterData data, int radius) {
 
 		if (this.skill != null) {
-			return (source != null) && (this.skill == source.skill) && (this.rune == source.rune);
+			if ((source != null) && (this.skill == source.skill) && (this.rune == source.rune)) {
+
+				if (this.skill == ActiveSkill.FoK) {
+					return data.getDistanceToTarget() <= radius;
+				} else {
+					return true;
+				}
+				
+			} else {
+				return false;
+			}
 		} else {
 			return (source == null) && (gem.getScalar(data) > 0.0);
 		}

@@ -37,6 +37,8 @@ public class SkillAndRune implements Serializable, Comparable<SkillAndRune> {
 		
 		if ((skill == ActiveSkill.CHAK) && data.isSpines()) {
 			h = data.getSpinesHatred();
+		} else if ((skill == ActiveSkill.FoK) && (rune == Rune.Knives_Expert)) {
+			h = -30.0;
 		} else if ((skill == ActiveSkill.EA) && data.isKridershot()) {
 			h = data.getKridershotHatred();
 		} else {

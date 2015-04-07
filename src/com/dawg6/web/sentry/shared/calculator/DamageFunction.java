@@ -87,7 +87,7 @@ public class DamageFunction {
 			new DamageRow(ActiveSkill.IMP, Rune.Grievous_Wounds, 7.5, true, 0,
 					"Initial", DamageType.Physical),
 			new DamageRow(ActiveSkill.IMP, Rune.Grievous_Wounds, 3.3, true, 0,
-					"On Crit", DamageType.Physical), // TODO fix Crit
+					"On Crit", DamageType.Physical, DamageMultiplier.OnCrit), 
 
 			new DamageRow(ActiveSkill.CHAK, Rune.None, 3.8, true,
 					Integer.MAX_VALUE, 0, DamageType.Physical),
@@ -128,9 +128,7 @@ public class DamageFunction {
 			new DamageRow(ActiveSkill.HA, Rune.Spray_of_Teeth, 1.55 * 0.35,
 					true, 1, 0, "Pierce", DamageType.Physical),
 			new DamageRow(ActiveSkill.HA, Rune.Spray_of_Teeth, 0.6, true,
-					Integer.MAX_VALUE, 0, 10, "On Crit", DamageType.Physical), // TODO
-																				// fix
-																				// crit
+					Integer.MAX_VALUE, 0, 10, "On Crit", DamageType.Physical, DamageMultiplier.OnCrit), 
 
 			new DamageRow(ActiveSkill.ES, Rune.None, 2.0, true, 0, 0,
 					DamageType.Physical),
@@ -279,6 +277,24 @@ public class DamageFunction {
 			new DamageRow(ActiveSkill.CR, Rune.Stampede, 35.0, true, 0, DamageType.Fire),
 			new DamageRow(ActiveSkill.CR, Rune.Anathema, 35.0, true, 0, DamageType.Fire),
 			new DamageRow(ActiveSkill.CR, Rune.Flying_Strike, 35.0, true, 0, DamageType.Cold),
+
+			new DamageRow(ActiveSkill.Strafe, Rune.None, 6.75, true, 3, DamageType.Physical),
+			new DamageRow(ActiveSkill.Strafe, Rune.Icy_Trail, 6.75, true, 3, DamageType.Cold),
+			new DamageRow(ActiveSkill.Strafe, Rune.Icy_Trail, 3.0 / 3.0, true, 3, "DoT", DamageType.Cold, DamageMultiplier.DoT),
+			new DamageRow(ActiveSkill.Strafe, Rune.Drifting_Shadow, 6.75, true, 3, DamageType.Lightning),
+			new DamageRow(ActiveSkill.Strafe, Rune.Stinging_Steel, 6.75, true, 3, DamageType.Physical),
+			new DamageRow(ActiveSkill.Strafe, Rune.Stinging_Steel, 1.4, true, 3, "On Crit", DamageType.Physical, DamageMultiplier.OnCrit), 
+			new DamageRow(ActiveSkill.Strafe, Rune.Rocket_Storm, 6.75, true, 3, DamageType.Fire),
+			new DamageRow(ActiveSkill.Strafe, Rune.Rocket_Storm, 1.3, true, 3, "Rockets", DamageType.Fire, DamageMultiplier.Rockets),
+			new DamageRow(ActiveSkill.Strafe, Rune.Demolition, 4.6, true, 3, 4, 9, "AoE Grenades", DamageType.Fire, DamageMultiplier.Grenades),
+			
+			new DamageRow(ActiveSkill.FoK, Rune.None, 6.2, true, Integer.MAX_VALUE, 1, 20, DamageType.Physical),
+			new DamageRow(ActiveSkill.FoK, Rune.Pinpoint_Accuracy, 16.0, true, Integer.MAX_VALUE, 1, 20, DamageType.Lightning),
+			new DamageRow(ActiveSkill.FoK, Rune.Bladed_Armor, 6.2, true, Integer.MAX_VALUE, 1, 20, DamageType.Physical),
+			new DamageRow(ActiveSkill.FoK, Rune.Knives_Expert, 6.2, true, Integer.MAX_VALUE, 1, 20, DamageType.Physical),
+			new DamageRow(ActiveSkill.FoK, Rune.Fan_of_Daggers, 6.2, true, Integer.MAX_VALUE, 1, 20, DamageType.Fire),
+			new DamageRow(ActiveSkill.FoK, Rune.Assassins_Knives, 6.2, true, Integer.MAX_VALUE, 1, 20, "Short Range", DamageType.Physical),
+			new DamageRow(ActiveSkill.FoK, Rune.Assassins_Knives, 6.2, true, 4, 1, Integer.MAX_VALUE, "Long Range", DamageType.Physical),
 	};
 
 	public static List<Damage> getDamages(boolean isPlayer, boolean isSentry,
@@ -302,7 +318,7 @@ public class DamageFunction {
 		double baseWd = wDMult.getValue(data);
 
 		for (DamageRow dr : ALL) {
-			if (dr.source.test(source, data)) {
+			if (dr.source.test(source, data, dr.radius)) {
 
 				double spacing = data.getTargetSpacing();
 				double aoeRange = dr.radius;
@@ -428,7 +444,64 @@ public class DamageFunction {
 						double singleOut = DamageMultiplier.SingleOut
 								.getValue(data);
 
-						if (((cc > 0.0) || (singleOut > 0.0) || (caltrops > 0.0) || (iced > 0.0))
+						if (dr.multipliers.contains(DamageMultiplier.OnCrit) && (((cc > 0.0) || (singleOut > 0.0) || (caltrops > 0.0) || (iced > 0.0)))) {
+							StringBuffer ccStr = new StringBuffer();
+
+							if (cc > 0.0) {
+
+								if ((singleOut > 0.0) || (caltrops > 0.0))
+									ccStr.append("(");
+
+								ccStr.append("CC(" + Util.format(cc) + ")");
+							}
+
+							if (singleOut > 0.0) {
+								if (cc > 0.0)
+									ccStr.append(" + ");
+								else
+									ccStr.append("(");
+
+								ccStr.append(DamageMultiplier.SingleOut
+										.getAbbreviation()
+										+ "("
+										+ singleOut
+										+ ")");
+
+								if (cc > 0.0)
+									ccStr.append(")");
+							}
+
+							if (caltrops > 0.0) {
+								if ((cc > 0.0) || (singleOut > 0.0))
+									ccStr.append(" + ");
+
+								ccStr.append(DamageMultiplier.CaltropsBT
+										.getAbbreviation()
+										+ "("
+										+ Util.format(caltrops) + ")");
+
+								if ((cc > 0.0) || (singleOut > 0.0))
+									ccStr.append(")");
+							}
+
+							if (iced > 0.0) {
+								if ((cc > 0.0) || (singleOut > 0.0) || (caltrops > 0.0))
+									ccStr.append(" + ");
+
+								ccStr.append(DamageMultiplier.Iced
+										.getAbbreviation()
+										+ "("
+										+ Util.format(iced) + ")");
+
+								if ((cc > 0.0) || (singleOut > 0.0) || (caltrops > 0.0))
+									ccStr.append(")");
+							}
+
+							multBuf.append(" x " + ccStr.toString());
+
+							m *= Math.min(1.0, cc + singleOut + caltrops + iced);
+							
+						} else if (((cc > 0.0) || (singleOut > 0.0) || (caltrops > 0.0) || (iced > 0.0))
 								&& (cd > 0.0)) {
 							StringBuffer ccStr = new StringBuffer();
 
@@ -485,7 +558,7 @@ public class DamageFunction {
 							multBuf.append(" x (1 + (" + ccStr.toString()
 									+ " x CHD(" + Util.format(cd) + ")))");
 
-							m *= (1.0 + ((cc + singleOut + caltrops + iced) * cd));
+							m *= (1.0 + (Math.min(1.0, cc + singleOut + caltrops + iced) * cd));
 						}
 						// }
 

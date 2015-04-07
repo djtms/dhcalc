@@ -275,12 +275,13 @@ public class SkillsPanel extends Composite {
 
 		list2.clear();
 
-		list2.addItem("None", Rune.None.name());
 
 		if (skill != null) {
 			for (Rune r : skill.getRunes()) {
 				list2.addItem(r.getLongName(), r.name());
 			}
+		} else {
+			list2.addItem("None", Rune.None.name());
 		}
 
 		list2.setSelectedIndex(0);

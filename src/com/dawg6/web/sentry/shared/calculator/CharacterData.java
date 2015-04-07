@@ -1881,7 +1881,7 @@ public class CharacterData implements Serializable {
 			ActiveSkill s = e.getKey();
 			SkillAndRune skr = new SkillAndRune(s, e.getValue());
 			
-			if ((s.getSkillType() == SkillType.Spender) && (skr.getHatred(this) < 0))
+			if ((s.getSkillType() == SkillType.Channeled) || ((s.getSkillType() == SkillType.Spender) && (skr.getHatred(this) < 0)))
 				return true;
 		}
 
