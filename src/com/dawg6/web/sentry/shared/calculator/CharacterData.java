@@ -201,7 +201,7 @@ public class CharacterData implements Serializable  {
 	private Set<Passive> passives;
 	private Map<DamageType, Double> elementalDamage;
 	private Map<ActiveSkill, Double> skillDamage;
-	
+	private double crashingRainPercent;
 	
 	public CharacterData copy() {
 		return new CharacterData(this);
@@ -290,6 +290,7 @@ public class CharacterData implements Serializable  {
 		this.convictionActiveUptime = other.convictionActiveUptime;
 		this.convictionPassiveUptime = other.convictionPassiveUptime;
 		this.crashingRain = other.crashingRain;
+		this.crashingRainPercent = other.crashingRainPercent;
 		this.crimsonCdr = other.crimsonCdr;
 		this.crimsonRcr = other.crimsonRcr;
 		this.cripplingWave = other.cripplingWave;
@@ -2221,6 +2222,14 @@ public class CharacterData implements Serializable  {
 			d += 15.0;
 		
 		return d;
+	}
+
+	public double getCrashingRainPercent() {
+		return crashingRainPercent;
+	}
+
+	public void setCrashingRainPercent(double crashingRainPercent) {
+		this.crashingRainPercent = crashingRainPercent;
 	}
 
 }

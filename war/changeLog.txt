@@ -1,6 +1,7 @@
 Change Log:
 **4/8/15**
 - Added Vengeance mechanics
+- Added import of Crashing Rain % from profile
 
 **4/7/15**
 - Added Max Discipline from Preparation/Invigoration

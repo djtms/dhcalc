@@ -132,4 +132,5 @@ public class Const {
 	public static final String CRASHING_RAIN = "Crashing Rain";
 	public static final String ELEMENTAL_DAMAGE_BONUS = "Damage_Dealt_Percent_Bonus#";
 	public static final String SKILL_DAMAGE_BONUS = "Power_Damage_Percent_Bonus#DemonHunter_";
+	public static final String CRASHING_RAIN_PERCENT = "Item_Power_Passive#ItemPassive_Unique_Ring_709_x1";
 }

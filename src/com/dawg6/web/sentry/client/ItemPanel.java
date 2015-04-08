@@ -47,6 +47,7 @@ public class ItemPanel extends Composite {
 	private final SimpleCheckBox bastions;
 	private final SimpleCheckBox crashingRain;
 	private final NumberSpinner numUe;
+	private final NumberSpinner crashingRainPercent;
 	
 	public ItemPanel() {
 
@@ -70,7 +71,7 @@ public class ItemPanel extends Composite {
 		flexTable.setWidget(0, 2, label);
 
 		tntPercent = new NumberSpinner();
-		tntPercent.setVisibleLength(2);
+		tntPercent.setVisibleLength(4);
 		tntPercent.setText("35");
 		flexTable.setWidget(0, 3, tntPercent);
 		
@@ -88,7 +89,7 @@ public class ItemPanel extends Composite {
 		flexTable.setWidget(1, 2, label_2);
 		
 		meticulousBoltsPercent = new NumberSpinner();
-		meticulousBoltsPercent.setVisibleLength(2);
+		meticulousBoltsPercent.setVisibleLength(4);
 		meticulousBoltsPercent.setText("30");
 		flexTable.setWidget(1, 3, meticulousBoltsPercent);
 		
@@ -105,7 +106,7 @@ public class ItemPanel extends Composite {
 		flexTable.setWidget(2, 2, label_7);
 		
 		harringtonPercent = new NumberSpinner();
-		harringtonPercent.setVisibleLength(2);
+		harringtonPercent.setVisibleLength(4);
 		harringtonPercent.setText("30");
 		flexTable.setWidget(2, 3, harringtonPercent);
 		
@@ -113,7 +114,7 @@ public class ItemPanel extends Composite {
 		flexTable.setWidget(3, 2, label_8);
 		
 		harringtonUptime = new NumberSpinner();
-		harringtonUptime.setVisibleLength(2);
+		harringtonUptime.setVisibleLength(4);
 		harringtonUptime.setText("30");
 		flexTable.setWidget(3, 3, harringtonUptime);
 		
@@ -130,7 +131,7 @@ public class ItemPanel extends Composite {
 		flexTable.setWidget(4, 2, label_5);
 		
 		strongarmPercent = new NumberSpinner();
-		strongarmPercent.setVisibleLength(2);
+		strongarmPercent.setVisibleLength(4);
 		strongarmPercent.setText("30");
 		flexTable.setWidget(4, 3, strongarmPercent);
 		
@@ -138,7 +139,7 @@ public class ItemPanel extends Composite {
 		flexTable.setWidget(5, 2, label_6);
 		
 		strongarmUptime = new NumberSpinner();
-		strongarmUptime.setVisibleLength(2);
+		strongarmUptime.setVisibleLength(4);
 		strongarmUptime.setText("30");
 		flexTable.setWidget(5, 3, strongarmUptime);
 		
@@ -155,7 +156,7 @@ public class ItemPanel extends Composite {
 		flexTable.setWidget(6, 2, label_3);
 		
 		hexingPantsPercent = new NumberSpinner();
-		hexingPantsPercent.setVisibleLength(2);
+		hexingPantsPercent.setVisibleLength(4);
 		hexingPantsPercent.setText("20");
 		flexTable.setWidget(6, 3, hexingPantsPercent);
 		
@@ -163,7 +164,7 @@ public class ItemPanel extends Composite {
 		flexTable.setWidget(7, 0, label_4);
 		
 		hexingPantsUptime = new NumberSpinner();
-		hexingPantsUptime.setVisibleLength(2);
+		hexingPantsUptime.setVisibleLength(4);
 		hexingPantsUptime.setText("20");
 		flexTable.setWidget(7, 1, hexingPantsUptime);
 
@@ -180,7 +181,7 @@ public class ItemPanel extends Composite {
 		flexTable.setWidget(8, 2, lblUptime);
 		
 		calamityUptime = new NumberSpinner();
-		calamityUptime.setVisibleLength(2);
+		calamityUptime.setVisibleLength(4);
 		calamityUptime.setText("100");
 		calamityUptime.setTitle("Percent of the time Calamity's Marked for Death will be applied to targets.");
 		flexTable.setWidget(8, 3, calamityUptime);
@@ -197,7 +198,7 @@ public class ItemPanel extends Composite {
 		flexTable.getFlexCellFormatter().setColSpan(9, 1, 2);
 		
 		marauders = new NumberSpinner();
-		marauders.setVisibleLength(2);
+		marauders.setVisibleLength(4);
 		marauders.setText("6");
 		flexTable.setWidget(9, 2, marauders);
 		
@@ -212,7 +213,7 @@ public class ItemPanel extends Composite {
 		flexTable.setWidget(10, 1, label_17);
 		
 		numUe = new NumberSpinner();
-		numUe.setVisibleLength(2);
+		numUe.setVisibleLength(4);
 		numUe.setMax(6);
 		numUe.setText("0");
 		flexTable.setWidget(10, 2, numUe);
@@ -228,7 +229,7 @@ public class ItemPanel extends Composite {
 		flexTable.setWidget(11, 1, label_16);
 		
 		numNats = new NumberSpinner();
-		numNats.setVisibleLength(2);
+		numNats.setVisibleLength(4);
 		numNats.setText("0");
 		flexTable.setWidget(11, 2, numNats);
 		
@@ -251,6 +252,15 @@ public class ItemPanel extends Composite {
 		
 		crashingRain = new SimpleCheckBox();
 		flexTable.setWidget(13, 1, crashingRain);
+		
+		Label label_18 = new Label("Percent:");
+		flexTable.setWidget(13, 2, label_18);
+		
+		crashingRainPercent = new NumberSpinner();
+		crashingRainPercent.setVisibleLength(4);
+		flexTable.setWidget(13, 3, crashingRainPercent);
+		crashingRainPercent.setMin(3000);
+		crashingRainPercent.setMax(4000);
 		
 		Anchor anchor_6 = new Anchor("Bombadier's Rucksack");
 		anchor_6.setWordWrap(false);
@@ -283,7 +293,7 @@ public class ItemPanel extends Composite {
 		flexTable.setWidget(16, 2, label_9);
 		
 		spinesHatred = new NumberSpinner();
-		spinesHatred.setVisibleLength(2);
+		spinesHatred.setVisibleLength(4);
 		spinesHatred.setText("6");
 		flexTable.setWidget(16, 3, spinesHatred);
 		
@@ -300,7 +310,7 @@ public class ItemPanel extends Composite {
 		flexTable.setWidget(17, 2, label_10);
 		
 		kridershotHatred = new NumberSpinner();
-		kridershotHatred.setVisibleLength(2);
+		kridershotHatred.setVisibleLength(4);
 		kridershotHatred.setText("6");
 		flexTable.setWidget(17, 3, kridershotHatred);
 		
@@ -319,7 +329,7 @@ public class ItemPanel extends Composite {
 		flexTable.setWidget(18, 2, label_13);
 		
 		odysseysEndPercent = new NumberSpinner();
-		odysseysEndPercent.setVisibleLength(2);
+		odysseysEndPercent.setVisibleLength(4);
 		odysseysEndPercent.setText("30");
 		flexTable.setWidget(18, 3, odysseysEndPercent);
 		
@@ -327,7 +337,7 @@ public class ItemPanel extends Composite {
 		flexTable.setWidget(19, 2, label_14);
 		
 		odysseysEndUptime = new NumberSpinner();
-		odysseysEndUptime.setVisibleLength(2);
+		odysseysEndUptime.setVisibleLength(4);
 		odysseysEndUptime.setTitle("Percent of the time Odyssey's End debuff will be applied to targets.");
 		odysseysEndUptime.setText("100");
 		flexTable.setWidget(19, 3, odysseysEndUptime);
@@ -347,7 +357,7 @@ public class ItemPanel extends Composite {
 		flexTable.setWidget(20, 2, label_11);
 		
 		reapersWrapsPercent = new NumberSpinner();
-		reapersWrapsPercent.setVisibleLength(2);
+		reapersWrapsPercent.setVisibleLength(4);
 		reapersWrapsPercent.setText("25");
 		flexTable.setWidget(20, 3, reapersWrapsPercent);
 		
@@ -366,7 +376,7 @@ public class ItemPanel extends Composite {
 		flexTable.setWidget(21, 2, lblRcrPercent);
 		
 		cindercoatPercent = new NumberSpinner();
-		cindercoatPercent.setVisibleLength(2);
+		cindercoatPercent.setVisibleLength(4);
 		cindercoatPercent.setText("25");
 		flexTable.setWidget(21, 3, cindercoatPercent);
 		
@@ -385,7 +395,7 @@ public class ItemPanel extends Composite {
 		flexTable.setWidget(22, 2, label_12);
 		
 		helltrapperPercent = new NumberSpinner();
-		helltrapperPercent.setVisibleLength(2);
+		helltrapperPercent.setVisibleLength(4);
 		helltrapperPercent.setText("25");
 		flexTable.setWidget(22, 3, helltrapperPercent);
 		
@@ -395,7 +405,7 @@ public class ItemPanel extends Composite {
 		flexTable.setWidget(23, 0, label_15);
 		
 		areaDamageEquipment = new NumberSpinner();
-		areaDamageEquipment.setVisibleLength(2);
+		areaDamageEquipment.setVisibleLength(4);
 		areaDamageEquipment.setText("0");
 		areaDamageEquipment.setTitle("The Area Damage percentage from Equipment only.");
 		flexTable.setWidget(23, 1, areaDamageEquipment);
@@ -407,7 +417,7 @@ public class ItemPanel extends Composite {
 		flexTable.getFlexCellFormatter().setColSpan(24, 0, 3);
 
 		eliteDamagePercent = new NumberSpinner();
-		eliteDamagePercent.setVisibleLength(2);
+		eliteDamagePercent.setVisibleLength(4);
 		eliteDamagePercent
 				.setTitle("The Elite Damage percentage, as shown in-in game in the character details screen under offense. Subtract 15% if Bane of the Powerful is level 25 or more (it will be added automatically if selected).");
 		flexTable.setWidget(24, 1, eliteDamagePercent);
@@ -440,6 +450,7 @@ public class ItemPanel extends Composite {
 		flexTable.getCellFormatter().setHorizontalAlignment(11, 1, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getCellFormatter().setHorizontalAlignment(10, 1, HasHorizontalAlignment.ALIGN_RIGHT);
 		flexTable.getFlexCellFormatter().setColSpan(10, 1, 2);
+		flexTable.getCellFormatter().setHorizontalAlignment(13, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 		
 		this.tntPercent.setMin(40);
 		this.tntPercent.setMax(50);
@@ -620,6 +631,10 @@ public class ItemPanel extends Composite {
 
 	public NumberSpinner getNumUe() {
 		return numUe;
+	}
+
+	public NumberSpinner getCrashingRainPercent() {
+		return crashingRainPercent;
 	}
 
 }

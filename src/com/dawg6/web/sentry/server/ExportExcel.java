@@ -592,6 +592,8 @@ public class ExportExcel {
 				"Bastions of Will");
 		createInput(inputs, data.data.isCrashingRain(),
 				"Crashing Rain");
+		createInput(inputs, data.data.getCrashingRainPercent(),
+				"Crashing Rain %", pctStyle);
 
 		createInputHeader(inputs, "Legendary Gems");
 		createInput(inputs, data.data.isUseBaneOfTheTrapped(),

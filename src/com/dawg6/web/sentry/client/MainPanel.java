@@ -2707,6 +2707,7 @@ public class MainPanel extends BasePanel {
 		this.itemPanel.getBombadiers().setValue(data.isHasBombardiers());
 		this.itemPanel.getBastions().setValue(data.isBastions());
 		this.itemPanel.getCrashingRain().setValue(data.isCrashingRain());
+		this.itemPanel.getCrashingRainPercent().setValue((int)Math.round(data.getCrashingRainPercent() * 100.0));
 		this.itemPanel.getVaxo().setValue(data.isVaxo());
 		this.itemPanel.getHelltrapper().setValue(data.isHelltrapper());
 		this.itemPanel.getHelltrapperPercent().setValue(
@@ -2859,6 +2860,8 @@ public class MainPanel extends BasePanel {
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getCrashingRain(), "CrashingRain",
 						Boolean.FALSE.toString()),
+				new Field(this.itemPanel.getCrashingRainPercent(), "CrashingRainPercent",
+						"3000"),
 				new Field(this.itemPanel.getVaxo(), "HauntOfVaxo",
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getHelltrapper(), "Helltrapper",
@@ -3141,6 +3144,7 @@ public class MainPanel extends BasePanel {
 			data.setHasBombardiers(itemPanel.getBombadiers().getValue());
 			data.setBastions(itemPanel.getBastions().getValue());
 			data.setCrashingRain(itemPanel.getCrashingRain().getValue());
+			data.setCrashingRainPercent(itemPanel.getCrashingRainPercent().getValue() / 100.0);
 			data.setVaxo(itemPanel.getVaxo().getValue());
 			data.setHelltrapper(itemPanel.getHelltrapper().getValue());
 			data.setHelltrapperPercent(itemPanel.getHelltrapperPercent()

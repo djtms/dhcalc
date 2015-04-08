@@ -87,7 +87,7 @@ public class DamageFunction {
 			new DamageRow(ActiveSkill.IMP, Rune.Grievous_Wounds, 7.5, true, 0,
 					"Initial", DamageType.Physical),
 			new DamageRow(ActiveSkill.IMP, Rune.Grievous_Wounds, 3.3, true, 0,
-					"On Crit", DamageType.Physical, DamageMultiplier.OnCrit), 
+					"On Crit", DamageType.Physical, DamageMultiplier.OnCrit),
 
 			new DamageRow(ActiveSkill.CHAK, Rune.None, 3.8, true,
 					Integer.MAX_VALUE, 0, DamageType.Physical),
@@ -128,7 +128,8 @@ public class DamageFunction {
 			new DamageRow(ActiveSkill.HA, Rune.Spray_of_Teeth, 1.55 * 0.35,
 					true, 1, 0, "Pierce", DamageType.Physical),
 			new DamageRow(ActiveSkill.HA, Rune.Spray_of_Teeth, 0.6, true,
-					Integer.MAX_VALUE, 0, 10, "On Crit", DamageType.Physical, DamageMultiplier.OnCrit), 
+					Integer.MAX_VALUE, 0, 10, "On Crit", DamageType.Physical,
+					DamageMultiplier.OnCrit),
 
 			new DamageRow(ActiveSkill.ES, Rune.None, 2.0, true, 0, 0,
 					DamageType.Physical),
@@ -254,59 +255,110 @@ public class DamageFunction {
 					DamageType.Physical),
 			new DamageRow(ActiveSkill.Companion, Rune.Wolf, 1.0, true, 0,
 					DamageType.Physical),
-					
-			new DamageRow(ActiveSkill.ST, Rune.None, 3.4, true, Integer.MAX_VALUE, 0, 8, DamageType.Fire),
-			new DamageRow(ActiveSkill.ST, Rune.Echoing_Blast, 4.2, true, Integer.MAX_VALUE, 0, 8, DamageType.Cold),
-			new DamageRow(ActiveSkill.ST, Rune.Sticky_Trap, 8.0, true, Integer.MAX_VALUE, 0, 16, DamageType.Fire),
-			new DamageRow(ActiveSkill.ST, Rune.Long_Fuse, 5.2, true, Integer.MAX_VALUE, 0, 8, DamageType.Fire),
-			new DamageRow(ActiveSkill.ST, Rune.Lightning_Rod, 5, true, 2, DamageType.Lightning),
-			new DamageRow(ActiveSkill.ST, Rune.Scatter, 3.4, true, Integer.MAX_VALUE, 0, 8, DamageType.Fire),
 
-			new DamageRow(ActiveSkill.Caltrops, Rune.Jagged_Spikes, 2.7, true, Integer.MAX_VALUE, 0, 12, "DoT", DamageType.Physical, DamageMultiplier.DoT),
+			new DamageRow(ActiveSkill.ST, Rune.None, 3.4, true,
+					Integer.MAX_VALUE, 0, 8, DamageType.Fire),
+			new DamageRow(ActiveSkill.ST, Rune.Echoing_Blast, 4.2, true,
+					Integer.MAX_VALUE, 0, 8, DamageType.Cold),
+			new DamageRow(ActiveSkill.ST, Rune.Sticky_Trap, 8.0, true,
+					Integer.MAX_VALUE, 0, 16, DamageType.Fire),
+			new DamageRow(ActiveSkill.ST, Rune.Long_Fuse, 5.2, true,
+					Integer.MAX_VALUE, 0, 8, DamageType.Fire),
+			new DamageRow(ActiveSkill.ST, Rune.Lightning_Rod, 5, true, 2,
+					DamageType.Lightning),
+			new DamageRow(ActiveSkill.ST, Rune.Scatter, 3.4, true,
+					Integer.MAX_VALUE, 0, 8, DamageType.Fire),
 
-			new DamageRow(ActiveSkill.RoV, Rune.None, 15.0, true, Integer.MAX_VALUE, DamageType.Physical),
-			new DamageRow(ActiveSkill.RoV, Rune.Dark_Cloud, 35.0, true, Integer.MAX_VALUE, DamageType.Physical),
-			new DamageRow(ActiveSkill.RoV, Rune.Shade, 28.0, true, Integer.MAX_VALUE, DamageType.Lightning),
-			new DamageRow(ActiveSkill.RoV, Rune.Stampede, 46.0, true, Integer.MAX_VALUE, DamageType.Fire),
-			new DamageRow(ActiveSkill.RoV, Rune.Anathema, 58.0, true, Integer.MAX_VALUE, DamageType.Fire),
-			new DamageRow(ActiveSkill.RoV, Rune.Flying_Strike, 38.0, true, Integer.MAX_VALUE, DamageType.Cold),
-			
-			new DamageRow(ActiveSkill.CR, Rune.None, 35.0, true, 0, DamageType.Physical),
-			new DamageRow(ActiveSkill.CR, Rune.Dark_Cloud, 35.0, true, 0, DamageType.Physical),
-			new DamageRow(ActiveSkill.CR, Rune.Shade, 35.0, true, 0, DamageType.Lightning),
-			new DamageRow(ActiveSkill.CR, Rune.Stampede, 35.0, true, 0, DamageType.Fire),
-			new DamageRow(ActiveSkill.CR, Rune.Anathema, 35.0, true, 0, DamageType.Fire),
-			new DamageRow(ActiveSkill.CR, Rune.Flying_Strike, 35.0, true, 0, DamageType.Cold),
+			new DamageRow(ActiveSkill.Caltrops, Rune.Jagged_Spikes, 2.7, true,
+					Integer.MAX_VALUE, 0, 12, "DoT", DamageType.Physical,
+					DamageMultiplier.DoT),
 
-			new DamageRow(ActiveSkill.Strafe, Rune.None, 6.75, true, 3, DamageType.Physical),
-			new DamageRow(ActiveSkill.Strafe, Rune.Icy_Trail, 6.75, true, 3, DamageType.Cold),
-			new DamageRow(ActiveSkill.Strafe, Rune.Icy_Trail, 3.0 / 3.0, true, 3, "DoT", DamageType.Cold, DamageMultiplier.DoT),
-			new DamageRow(ActiveSkill.Strafe, Rune.Drifting_Shadow, 6.75, true, 3, DamageType.Lightning),
-			new DamageRow(ActiveSkill.Strafe, Rune.Stinging_Steel, 6.75, true, 3, DamageType.Physical),
-			new DamageRow(ActiveSkill.Strafe, Rune.Stinging_Steel, 1.4, true, 3, "On Crit", DamageType.Physical, DamageMultiplier.OnCrit), 
-			new DamageRow(ActiveSkill.Strafe, Rune.Rocket_Storm, 6.75, true, 3, DamageType.Fire),
-			new DamageRow(ActiveSkill.Strafe, Rune.Rocket_Storm, 1.3, true, 3, "Rockets", DamageType.Fire, DamageMultiplier.Rockets),
-			new DamageRow(ActiveSkill.Strafe, Rune.Demolition, 4.6, true, 3, 4, 9, "AoE Grenades", DamageType.Fire, DamageMultiplier.Grenades),
-			
-			new DamageRow(ActiveSkill.FoK, Rune.None, 6.2, true, Integer.MAX_VALUE, 1, 20, DamageType.Physical),
-			new DamageRow(ActiveSkill.FoK, Rune.Pinpoint_Accuracy, 16.0, true, Integer.MAX_VALUE, 1, 20, DamageType.Lightning),
-			new DamageRow(ActiveSkill.FoK, Rune.Bladed_Armor, 6.2, true, Integer.MAX_VALUE, 1, 20, DamageType.Physical),
-			new DamageRow(ActiveSkill.FoK, Rune.Knives_Expert, 6.2, true, Integer.MAX_VALUE, 1, 20, DamageType.Physical),
-			new DamageRow(ActiveSkill.FoK, Rune.Fan_of_Daggers, 6.2, true, Integer.MAX_VALUE, 1, 20, DamageType.Fire),
-			new DamageRow(ActiveSkill.FoK, Rune.Assassins_Knives, 6.2, true, Integer.MAX_VALUE, 1, 20, "Short Range", DamageType.Physical),
-			new DamageRow(ActiveSkill.FoK, Rune.Assassins_Knives, 6.2, true, 4, 1, Integer.MAX_VALUE, "Long Range", DamageType.Physical),
+			new DamageRow(ActiveSkill.RoV, Rune.None, 15.0, true,
+					Integer.MAX_VALUE, DamageType.Physical),
+			new DamageRow(ActiveSkill.RoV, Rune.Dark_Cloud, 35.0, true,
+					Integer.MAX_VALUE, DamageType.Physical),
+			new DamageRow(ActiveSkill.RoV, Rune.Shade, 28.0, true,
+					Integer.MAX_VALUE, DamageType.Lightning),
+			new DamageRow(ActiveSkill.RoV, Rune.Stampede, 46.0, true,
+					Integer.MAX_VALUE, DamageType.Fire),
+			new DamageRow(ActiveSkill.RoV, Rune.Anathema, 58.0, true,
+					Integer.MAX_VALUE, DamageType.Fire),
+			new DamageRow(ActiveSkill.RoV, Rune.Flying_Strike, 38.0, true,
+					Integer.MAX_VALUE, DamageType.Cold),
 
-			new DamageRow(ActiveSkill.Vengeance, Rune.None, 0.6, true, 3, "Side Guns", DamageType.Physical),
-			new DamageRow(ActiveSkill.Vengeance, Rune.None, 0.6, true, 3, "Homing Rockets", DamageType.Physical, DamageMultiplier.Rockets),
-			new DamageRow(ActiveSkill.Vengeance, Rune.Personal_Mortar, 0.6, true, 3, "Side Guns", DamageType.Fire),
-			new DamageRow(ActiveSkill.Vengeance, Rune.Personal_Mortar, 1.5, true, Integer.MAX_VALUE, 2, 8, "Grenade AoE", DamageType.Physical, DamageMultiplier.Grenades),
-			new DamageRow(ActiveSkill.Vengeance, Rune.Dark_Heart, 3.25 / 15.0, true, Integer.MAX_VALUE, "Lightning AoE DoT", DamageType.Lightning, DamageMultiplier.DoT),
-			new DamageRow(ActiveSkill.Vengeance, Rune.Side_Cannons, 2.25, true, 3, "Side Guns", DamageType.Physical),
-			new DamageRow(ActiveSkill.Vengeance, Rune.Seethe, 0.6, true, 3, "Side Guns", DamageType.Physical),
-			new DamageRow(ActiveSkill.Vengeance, Rune.Seethe, 0.6, true, 3, "Homing Rockets", DamageType.Physical, DamageMultiplier.Rockets),
-			new DamageRow(ActiveSkill.Vengeance, Rune.From_the_Shadows, 0.6, true, 3, "Side Guns", DamageType.Cold),
-			new DamageRow(ActiveSkill.Vengeance, Rune.From_the_Shadows, 1.2, true, 3, "Allies", DamageType.Cold),
-	};
+			new DamageRow(ActiveSkill.CR, Rune.None, 1.0, true, 0,
+					DamageType.Physical),
+			new DamageRow(ActiveSkill.CR, Rune.Dark_Cloud, 1.0, true, 0,
+					DamageType.Physical),
+			new DamageRow(ActiveSkill.CR, Rune.Shade, 1.0, true, 0,
+					DamageType.Lightning),
+			new DamageRow(ActiveSkill.CR, Rune.Stampede, 1.0, true, 0,
+					DamageType.Fire),
+			new DamageRow(ActiveSkill.CR, Rune.Anathema, 1.0, true, 0,
+					DamageType.Fire),
+			new DamageRow(ActiveSkill.CR, Rune.Flying_Strike, 1.0, true, 0,
+					DamageType.Cold),
+
+			new DamageRow(ActiveSkill.Strafe, Rune.None, 6.75, true, 3,
+					DamageType.Physical),
+			new DamageRow(ActiveSkill.Strafe, Rune.Icy_Trail, 6.75, true, 3,
+					DamageType.Cold),
+			new DamageRow(ActiveSkill.Strafe, Rune.Icy_Trail, 3.0 / 3.0, true,
+					3, "DoT", DamageType.Cold, DamageMultiplier.DoT),
+			new DamageRow(ActiveSkill.Strafe, Rune.Drifting_Shadow, 6.75, true,
+					3, DamageType.Lightning),
+			new DamageRow(ActiveSkill.Strafe, Rune.Stinging_Steel, 6.75, true,
+					3, DamageType.Physical),
+			new DamageRow(ActiveSkill.Strafe, Rune.Stinging_Steel, 1.4, true,
+					3, "On Crit", DamageType.Physical, DamageMultiplier.OnCrit),
+			new DamageRow(ActiveSkill.Strafe, Rune.Rocket_Storm, 6.75, true, 3,
+					DamageType.Fire),
+			new DamageRow(ActiveSkill.Strafe, Rune.Rocket_Storm, 1.3, true, 3,
+					"Rockets", DamageType.Fire, DamageMultiplier.Rockets),
+			new DamageRow(ActiveSkill.Strafe, Rune.Demolition, 4.6, true, 3, 4,
+					9, "AoE Grenades", DamageType.Fire,
+					DamageMultiplier.Grenades),
+
+			new DamageRow(ActiveSkill.FoK, Rune.None, 6.2, true,
+					Integer.MAX_VALUE, 1, 20, DamageType.Physical),
+			new DamageRow(ActiveSkill.FoK, Rune.Pinpoint_Accuracy, 16.0, true,
+					Integer.MAX_VALUE, 1, 20, DamageType.Lightning),
+			new DamageRow(ActiveSkill.FoK, Rune.Bladed_Armor, 6.2, true,
+					Integer.MAX_VALUE, 1, 20, DamageType.Physical),
+			new DamageRow(ActiveSkill.FoK, Rune.Knives_Expert, 6.2, true,
+					Integer.MAX_VALUE, 1, 20, DamageType.Physical),
+			new DamageRow(ActiveSkill.FoK, Rune.Fan_of_Daggers, 6.2, true,
+					Integer.MAX_VALUE, 1, 20, DamageType.Fire),
+			new DamageRow(ActiveSkill.FoK, Rune.Assassins_Knives, 6.2, true,
+					Integer.MAX_VALUE, 1, 20, "Short Range",
+					DamageType.Physical),
+			new DamageRow(ActiveSkill.FoK, Rune.Assassins_Knives, 6.2, true, 4,
+					1, Integer.MAX_VALUE, "Long Range", DamageType.Physical),
+
+			new DamageRow(ActiveSkill.Vengeance, Rune.None, 0.6, true, 3,
+					"Side Guns", DamageType.Physical),
+			new DamageRow(ActiveSkill.Vengeance, Rune.None, 0.6, true, 3,
+					"Homing Rockets", DamageType.Physical,
+					DamageMultiplier.Rockets),
+			new DamageRow(ActiveSkill.Vengeance, Rune.Personal_Mortar, 0.6,
+					true, 3, "Side Guns", DamageType.Fire),
+			new DamageRow(ActiveSkill.Vengeance, Rune.Personal_Mortar, 1.5,
+					true, Integer.MAX_VALUE, 2, 8, "Grenade AoE",
+					DamageType.Physical, DamageMultiplier.Grenades),
+			new DamageRow(ActiveSkill.Vengeance, Rune.Dark_Heart, 3.25 / 15.0,
+					true, Integer.MAX_VALUE, "Lightning AoE DoT",
+					DamageType.Lightning, DamageMultiplier.DoT),
+			new DamageRow(ActiveSkill.Vengeance, Rune.Side_Cannons, 2.25, true,
+					3, "Side Guns", DamageType.Physical),
+			new DamageRow(ActiveSkill.Vengeance, Rune.Seethe, 0.6, true, 3,
+					"Side Guns", DamageType.Physical),
+			new DamageRow(ActiveSkill.Vengeance, Rune.Seethe, 0.6, true, 3,
+					"Homing Rockets", DamageType.Physical,
+					DamageMultiplier.Rockets),
+			new DamageRow(ActiveSkill.Vengeance, Rune.From_the_Shadows, 0.6,
+					true, 3, "Side Guns", DamageType.Cold),
+			new DamageRow(ActiveSkill.Vengeance, Rune.From_the_Shadows, 1.2,
+					true, 3, "Allies", DamageType.Cold), };
 
 	public static List<Damage> getDamages(boolean isPlayer, boolean isSentry,
 			String shooter, DamageSource source, int qty, CharacterData data) {
@@ -319,10 +371,8 @@ public class DamageFunction {
 		DamageMultiplier wDMult = DamageMultiplier.WD;
 
 		if ((offHand_type != null)
-				&& (isPlayer || shooter.equals(ActiveSkill.Companion
-						.getLongName())
-						|| ((source != null) && ((source.skill == ActiveSkill.SENTRY)
-						|| (source.skill == ActiveSkill.BOLT))))) {
+				&& (isPlayer
+						|| shooter.equals(ActiveSkill.Companion.getLongName()) || ((source != null) && ((source.skill == ActiveSkill.SENTRY) || (source.skill == ActiveSkill.BOLT))))) {
 			wDMult = DamageMultiplier.DWWD;
 		}
 
@@ -373,7 +423,9 @@ public class DamageFunction {
 
 						double m = dr.scalar;
 
-						if ((dr.source.skill == ActiveSkill.EA)
+						if (dr.source.skill == ActiveSkill.CR) {
+							m = data.getCrashingRainPercent();
+						} else if ((dr.source.skill == ActiveSkill.EA)
 								&& (dr.source.rune == Rune.Ball_Lightning)) {
 							m = (dr.scalar / 2)
 									* data.getTargetSize().getHits();
@@ -398,9 +450,11 @@ public class DamageFunction {
 							multBuf.append(numShooters + " x ");
 
 						if (dr.multipliers.contains(DamageMultiplier.DoT)) {
-							
-							if ((dr.source != null) && (dr.source.skill == ActiveSkill.Caltrops)) {
-								multBuf.append(FiringData.DURATION * data.getCaltropsUptime());
+
+							if ((dr.source != null)
+									&& (dr.source.skill == ActiveSkill.Caltrops)) {
+								multBuf.append(FiringData.DURATION
+										* data.getCaltropsUptime());
 							} else {
 								multBuf.append(FiringData.DURATION);
 							}
@@ -455,7 +509,9 @@ public class DamageFunction {
 						double singleOut = DamageMultiplier.SingleOut
 								.getValue(data);
 
-						if (dr.multipliers.contains(DamageMultiplier.OnCrit) && (((cc > 0.0) || (singleOut > 0.0) || (caltrops > 0.0) || (iced > 0.0)))) {
+						if (dr.multipliers.contains(DamageMultiplier.OnCrit)
+								&& (((cc > 0.0) || (singleOut > 0.0)
+										|| (caltrops > 0.0) || (iced > 0.0)))) {
 							StringBuffer ccStr = new StringBuffer();
 
 							if (cc > 0.0) {
@@ -496,7 +552,8 @@ public class DamageFunction {
 							}
 
 							if (iced > 0.0) {
-								if ((cc > 0.0) || (singleOut > 0.0) || (caltrops > 0.0))
+								if ((cc > 0.0) || (singleOut > 0.0)
+										|| (caltrops > 0.0))
 									ccStr.append(" + ");
 
 								ccStr.append(DamageMultiplier.Iced
@@ -504,15 +561,18 @@ public class DamageFunction {
 										+ "("
 										+ Util.format(iced) + ")");
 
-								if ((cc > 0.0) || (singleOut > 0.0) || (caltrops > 0.0))
+								if ((cc > 0.0) || (singleOut > 0.0)
+										|| (caltrops > 0.0))
 									ccStr.append(")");
 							}
 
 							multBuf.append(" x " + ccStr.toString());
 
-							m *= Math.min(1.0, cc + singleOut + caltrops + iced);
-							
-						} else if (((cc > 0.0) || (singleOut > 0.0) || (caltrops > 0.0) || (iced > 0.0))
+							m *= Math
+									.min(1.0, cc + singleOut + caltrops + iced);
+
+						} else if (((cc > 0.0) || (singleOut > 0.0)
+								|| (caltrops > 0.0) || (iced > 0.0))
 								&& (cd > 0.0)) {
 							StringBuffer ccStr = new StringBuffer();
 
@@ -554,7 +614,8 @@ public class DamageFunction {
 							}
 
 							if (iced > 0.0) {
-								if ((cc > 0.0) || (singleOut > 0.0) || (caltrops > 0.0))
+								if ((cc > 0.0) || (singleOut > 0.0)
+										|| (caltrops > 0.0))
 									ccStr.append(" + ");
 
 								ccStr.append(DamageMultiplier.Iced
@@ -562,14 +623,16 @@ public class DamageFunction {
 										+ "("
 										+ Util.format(iced) + ")");
 
-								if ((cc > 0.0) || (singleOut > 0.0) || (caltrops > 0.0))
+								if ((cc > 0.0) || (singleOut > 0.0)
+										|| (caltrops > 0.0))
 									ccStr.append(")");
 							}
 
 							multBuf.append(" x (1 + (" + ccStr.toString()
 									+ " x CHD(" + Util.format(cd) + ")))");
 
-							m *= (1.0 + (Math.min(1.0, cc + singleOut + caltrops + iced) * cd));
+							m *= (1.0 + (Math.min(1.0, cc + singleOut
+									+ caltrops + iced) * cd));
 						}
 						// }
 
@@ -586,17 +649,20 @@ public class DamageFunction {
 								&& ((skillType == SkillType.Spender) || (skillType == SkillType.Primary))) {
 							dlist.add(DamageMultiplier.M6);
 						}
-						
+
 						if (isPlayer)
 							dlist.add(DamageMultiplier.AD);
 
 						if (skill != null) {
-							
-							if ((data.getNumUe() >= 6) && ((source.skill == ActiveSkill.MS) || (new SkillAndRune(skill, dr.source.rune).getHatred(data) > 0))) {
+
+							if ((data.getNumUe() >= 6)
+									&& ((source.skill == ActiveSkill.MS) || (new SkillAndRune(
+											skill, dr.source.rune)
+											.getHatred(data) > 0))) {
 								dlist.add(DamageMultiplier.UE6);
 							}
 						}
-						
+
 						for (DamageMultiplier dw : dlist) {
 
 							if (((isSentry || (dw != DamageMultiplier.Sentry)) && (!isPlayer || (dw != DamageMultiplier.Enforcer)))) {
@@ -622,23 +688,24 @@ public class DamageFunction {
 													+ "(" + Util.format(v)
 													+ ")");
 										} else {
-											
+
 											if (dw != DamageMultiplier.AD) {
 												a += v;
-	
+
 												addBuf.append(" + "
 														+ dw.getAbbreviation()
 														+ "(" + Util.format(v)
 														+ ")");
 											} else {
 												int n = data.getNumAdditional();
-												
+
 												if (n > 0) {
 													a += (v * n);
-													
+
 													addBuf.append(" + "
 															+ dw.getAbbreviation()
-															+ "(" + n + " X " + Util.format(v)
+															+ "(" + n + " X "
+															+ Util.format(v)
 															+ ")");
 												}
 											}
@@ -676,8 +743,10 @@ public class DamageFunction {
 						}
 
 						if (dr.multipliers.contains(DamageMultiplier.DoT)) {
-							if ((dr.source != null) && (dr.source.skill == ActiveSkill.Caltrops)) {
-								d.totalDamage = d.damage * FiringData.DURATION * data.getCaltropsUptime();
+							if ((dr.source != null)
+									&& (dr.source.skill == ActiveSkill.Caltrops)) {
+								d.totalDamage = d.damage * FiringData.DURATION
+										* data.getCaltropsUptime();
 							} else {
 								d.totalDamage = d.damage * FiringData.DURATION;
 							}
