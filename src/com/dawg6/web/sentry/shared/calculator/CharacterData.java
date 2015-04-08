@@ -7,7 +7,7 @@ import java.util.Set;
 import com.dawg6.web.sentry.shared.calculator.d3api.ItemInformation.D3Set;
 import com.dawg6.web.sentry.shared.calculator.d3api.Realm;
 
-public class CharacterData implements Serializable {
+public class CharacterData implements Serializable  {
 
 	private static final long serialVersionUID = -7542480040314924139L;
 	
@@ -202,6 +202,11 @@ public class CharacterData implements Serializable {
 	private Map<DamageType, Double> elementalDamage;
 	private Map<ActiveSkill, Double> skillDamage;
 	
+	
+	public CharacterData copy() {
+		return new CharacterData(this);
+	}
+
 	public int getNumMarauders() {
 		return numMarauders;
 	}
@@ -252,6 +257,197 @@ public class CharacterData implements Serializable {
 	
 	public CharacterData() {
 		
+	}
+
+	public CharacterData(CharacterData other) {
+		this.addMax = other.addMax;
+		this.addMin = other.addMin;
+		this.anatomy = other.anatomy;
+		this.aps = other.aps;
+		this.areaDamageEquipment = other.areaDamageEquipment;
+		this.baneOfTheTrappedLevel = other.baneOfTheTrappedLevel;
+		this.baseMax = other.baseMax;
+		this.baseMin = other.baseMin;
+		this.bastions = other.bastions;
+		this.bbv = other.bbv;
+		this.bbvUptime = other.bbvUptime;
+		this.bigBadVoodo = other.bigBadVoodo;
+		this.bornsCdr = other.bornsCdr;
+		this.botp = other.botp;
+		this.botpLevel = other.botpLevel;
+		this.botpUptime = other.botpUptime;
+		this.bow = other.bow;
+		this.bp = other.bp;
+		this.calamityMdf = other.calamityMdf;
+		this.calamityUptime = other.calamityUptime;
+		this.caltropsUptime = other.caltropsUptime;
+		this.cdr = other.cdr;
+		this.cdrData = Util.copy(other.cdrData);
+		this.charmed = other.charmed;
+		this.cindercoat = other.cindercoat;
+		this.cindercoatRCR = other.cindercoatRCR;
+		this.conviction = other.conviction;
+		this.convictionActiveUptime = other.convictionActiveUptime;
+		this.convictionPassiveUptime = other.convictionPassiveUptime;
+		this.crashingRain = other.crashingRain;
+		this.crimsonCdr = other.crimsonCdr;
+		this.crimsonRcr = other.crimsonRcr;
+		this.cripplingWave = other.cripplingWave;
+		this.cripplingWaveUptime = other.cripplingWaveUptime;
+		this.critChance = other.critChance;
+		this.critHitDamage = other.critHitDamage;
+		this.dead = other.dead;
+		this.delay = other.delay;
+		this.diamond = other.diamond;
+		this.distanceToTarget = other.distanceToTarget;
+		this.elementalDamage = Util.copy(other.elementalDamage);
+		this.eliteDamage = other.eliteDamage;
+		this.enforcerLevel = other.enforcerLevel;
+		this.equipCritChance = other.equipCritChance;
+		this.equipCritDamage = other.equipCritDamage;
+		this.equipIas = other.equipIas;
+		this.equipmentDexterity = other.equipmentDexterity;
+		this.equipmentDiscipline = other.equipmentDiscipline;
+		this.focusedMind = other.focusedMind;
+		this.gogok = other.gogok;
+		this.gogokLevel = other.gogokLevel;
+		this.gogokStacks = other.gogokStacks;
+		this.hardcore = other.hardcore;
+		this.harrington = other.harrington;
+		this.harringtonPercent = other.harringtonPercent;
+		this.harringtons = other.harringtons;
+		this.harringtonsPercent = other.harringtonsPercent;
+		this.harringtonUptime = other.harringtonUptime;
+		this.hasBombardiers = other.hasBombardiers;
+		this.hatredPerSecond = other.hatredPerSecond;
+		this.helltrapper = other.helltrapper;
+		this.helltrapperPercent = other.helltrapperPercent;
+		this.hero = other.hero;
+		this.heroLevel = other.heroLevel;
+		this.heroName = other.heroName;
+		this.hexingPants = other.hexingPants;
+		this.hexingPantsPercent = other.hexingPantsPercent;
+		this.hexingPantsUptime = other.hexingPantsUptime;
+		this.hysteria = other.hysteria;
+		this.iceblink = other.iceblink;
+		this.iceblinkLevel = other.iceblinkLevel;
+		this.innerSanctuary = other.innerSanctuary;
+		this.innerSanctuaryUptime = other.innerSanctuaryUptime;
+		this.inspire = other.inspire;
+		this.jewelMax = other.jewelMax;
+		this.jewelMin = other.jewelMin;
+		this.jewelryMax = other.jewelryMax;
+		this.jewelryMin = other.jewelryMin;
+		this.kridershot = other.kridershot;
+		this.kridershotHatred = other.kridershotHatred;
+		this.leorics = other.leorics;
+		this.leoricsPercent = other.leoricsPercent;
+		this.level = other.level;
+		this.massConfusion = other.massConfusion;
+		this.massConfusionUptime = other.massConfusionUptime;
+		this.meticulousBolts = other.meticulousBolts;
+		this.meticulousBoltsPercent = other.meticulousBoltsPercent;
+		this.mfdAddUptime = other.mfdAddUptime;
+		this.mfdUptime = other.mfdUptime;
+		this.name = other.name;
+		this.numAdditional = other.numAdditional;
+		this.numAoeTargets = other.numAoeTargets;
+		this.numHealthGlobes = other.numHealthGlobes;
+		this.numMarauders = other.numMarauders;
+		this.numNats = other.numNats;
+		this.numSpikeTraps = other.numSpikeTraps;
+		this.numTargets = other.numTargets;
+		this.numUe = other.numUe;
+		this.odysseysEnd = other.odysseysEnd;
+		this.odysseysEndPercent = other.odysseysEndPercent;
+		this.odysseysEndUptime = other.odysseysEndUptime;
+		this.offHand_addMax = other.offHand_addMax;
+		this.offHand_addMin = other.offHand_addMin;
+		this.offHand_aps = other.offHand_aps;
+		this.offHand_baseMax = other.offHand_baseMax;
+		this.offHand_baseMin = other.offHand_baseMin;
+		this.offHand_dps = other.offHand_dps;
+		this.offHand_weaponAps = other.offHand_weaponAps;
+		this.offHand_weaponDamage = other.offHand_weaponDamage;
+		this.offHand_weaponDamagePercent = other.offHand_weaponDamagePercent;
+		this.offHand_weaponDps = other.offHand_weaponDps;
+		this.offHand_weaponIas = other.offHand_weaponIas;
+		this.offHand_weaponType = other.offHand_weaponType;
+		this.overawe = other.overawe;
+		this.painEnhancer = other.painEnhancer;
+		this.painEnhancerLevel = other.painEnhancerLevel;
+		this.painEnhancerStacks = other.painEnhancerStacks;
+		this.paragon = other.paragon;
+		this.paragonAD = other.paragonAD;
+		this.paragonCC = other.paragonCC;
+		this.paragonCDR = other.paragonCDR;
+		this.paragonCHD = other.paragonCHD;
+		this.paragonDexterity = other.paragonDexterity;
+		this.paragonHatred = other.paragonHatred;
+		this.paragonIAS = other.paragonIAS;
+		this.paragonRCR = other.paragonRCR;
+		this.passives = Util.copy(other.passives);
+		this.percentAbove75 = other.percentAbove75;
+		this.percentAtLeast10Yards = other.percentAtLeast10Yards;
+		this.percentControlled = other.percentControlled;
+		this.percentSlowedChilled = other.percentSlowedChilled;
+		this.piranhas = other.piranhas;
+		this.piranhasUptime = other.piranhasUptime;
+		this.pridesFall = other.pridesFall;
+		this.profile = other.profile;
+		this.rcr = other.rcr;
+		this.rcrData = Util.copy(other.rcrData);
+		this.realm = other.realm;
+		this.reapersWraps = other.reapersWraps;
+		this.reapersWrapsPercent = other.reapersWrapsPercent;
+		this.retaliation = other.retaliation;
+		this.retribution = other.retribution;
+		this.retributionUptime = other.retributionUptime;
+		this.royalRing = other.royalRing;
+		this.seasonal = other.seasonal;
+		this.sentryDps = other.sentryDps;
+		this.setCounts = Util.copy(other.setCounts);
+		this.sets = Util.copy(other.sets);
+		this.sheetDps = other.sheetDps;
+		this.skillDamage = Util.copy(other.skillDamage);
+		this.skills = Util.copy(other.skills);
+		this.slamDance = other.slamDance;
+		this.spines = other.spines;
+		this.spinesHatred = other.spinesHatred;
+		this.strongarm = other.strongarm;
+		this.strongarmPercent = other.strongarmPercent;
+		this.strongarms = other.strongarms;
+		this.strongArmsPct = other.strongArmsPct;
+		this.strongarmUptime = other.strongarmUptime;
+		this.taeguk = other.taeguk;
+		this.taegukLevel = other.taegukLevel;
+		this.taegukStacks = other.taegukStacks;
+		this.tag = other.tag;
+		this.targetSize = other.targetSize;
+		this.targetSpacing = other.targetSpacing;
+		this.targetType = other.targetType;
+		this.tnt = other.tnt;
+		this.tntPercent = other.tntPercent;
+		this.toxin = other.toxin;
+		this.toxinLevel = other.toxinLevel;
+		this.transgression = other.transgression;
+		this.useBaneOfTheTrapped = other.useBaneOfTheTrapped;
+		this.useEnforcer = other.useEnforcer;
+		this.valor = other.valor;
+		this.valorUptime = other.valorUptime;
+		this.vaxo = other.vaxo;
+		this.weaponAps = other.weaponAps;
+		this.weaponDamage = other.weaponDamage;
+		this.weaponDamagePercent = other.weaponDamagePercent;
+		this.weaponDps = other.weaponDps;
+		this.weaponIas = other.weaponIas;
+		this.weaponMax = other.weaponMax;
+		this.weaponMin = other.weaponMin;
+		this.weaponType = other.weaponType;
+		this.wolf = other.wolf;
+		this.wolfUptime = other.wolfUptime;
+		this.zeis = other.zeis;
+		this.zeisLevel = other.zeisLevel;
 	}
 
 	public double getSheetDps() {

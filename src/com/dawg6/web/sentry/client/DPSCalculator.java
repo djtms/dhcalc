@@ -832,7 +832,7 @@ public class DPSCalculator extends BasePanel {
 
 		double anatomy = buffPanel.getAnatomy().getValue() ? 0.018 : 0.0;
 
-		double critChance = getValue(this.critChance) / 100.0 + pCC + aCC
+		double critChance = .05 + (getValue(this.critChance) / 100.0) + pCC + aCC
 				+ anatomy;
 		double critDamage = getValue(this.critDamage) / 100.0 + pCD + aCD;
 

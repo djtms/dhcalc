@@ -20,9 +20,11 @@ public class FiringData {
 			ActiveSkill skill = e.getKey();
 			SkillType type = skill.getSkillType();
 			Rune rune = e.getValue();
-			
-			if ((type == SkillType.Primary) || (type == SkillType.Spender) || (type == SkillType.Channeled) ||
-					((skill == ActiveSkill.FoK) && (rune == Rune.Knives_Expert))) {
+
+			if ((type == SkillType.Primary)
+					|| (type == SkillType.Spender)
+					|| (type == SkillType.Channeled)
+					|| ((skill == ActiveSkill.FoK) && (rune == Rune.Knives_Expert))) {
 				SkillAndRune skr = new SkillAndRune(skill, rune);
 				skills.add(skr);
 				skillQty.put(skr, 0);
@@ -30,45 +32,59 @@ public class FiringData {
 		}
 
 		Collections.sort(skills, new SkillAndRune.HatredSorter(data));
-		
+
 		double maxHatred = data.getMaxHatred();
 		double hatred = maxHatred;
 		double batAmount = 50.0;
 		double prepAmount = 75.0;
 		double bvAmount = 30.0;
-		double markedAmount = (4.0 * data.getMfdUptime()) + (4.0 * data.getNumAdditional() * data.getMfdAddUptime());
+		double markedAmount = (4.0 * data.getMfdUptime())
+				+ (4.0 * data.getNumAdditional() * data.getMfdAddUptime());
 		double reaperAmount = maxHatred * data.getReapersWrapsPercent();
-		double regen = 5.0 + data.getHatredPerSecond()
+		double regen = 5.0
+				+ data.getHatredPerSecond()
 				+ (data.isInspire() ? 1.0 : 0.0)
 				+ ((data.isArchery()
 						&& (data.getWeaponType() == WeaponType.HandCrossbow) && (data
 						.getOffHand_weaponType() == WeaponType.HandCrossbow)) ? 1.0
 						: 0.0);
-		
+
 		if (data.isHexingPants()) {
-			regen = regen +  (regen * data.getHexingPantsUptime() * .25) -
-					(regen * (1.0 - data.getHexingPantsUptime()) * data.getHexingPantsPercent());
-			batAmount = batAmount +  (batAmount * data.getHexingPantsUptime() * .25) -
-					(batAmount * (1.0 - data.getHexingPantsUptime()) * data.getHexingPantsPercent());
-			prepAmount = prepAmount +  (prepAmount * data.getHexingPantsUptime() * .25) -
-					(prepAmount * (1.0 - data.getHexingPantsUptime()) * data.getHexingPantsPercent());
-			bvAmount = bvAmount +  (bvAmount * data.getHexingPantsUptime() * .25) -
-					(bvAmount * (1.0 - data.getHexingPantsUptime()) * data.getHexingPantsPercent());
-			reaperAmount = reaperAmount +  (reaperAmount * data.getHexingPantsUptime() * .25) -
-					(reaperAmount * (1.0 - data.getHexingPantsUptime()) * data.getHexingPantsPercent());
-			markedAmount = markedAmount +  (markedAmount * data.getHexingPantsUptime() * .25) -
-					(markedAmount * (1.0 - data.getHexingPantsUptime()) * data.getHexingPantsPercent());
+			regen = regen
+					+ (regen * data.getHexingPantsUptime() * .25)
+					- (regen * (1.0 - data.getHexingPantsUptime()) * data
+							.getHexingPantsPercent());
+			batAmount = batAmount
+					+ (batAmount * data.getHexingPantsUptime() * .25)
+					- (batAmount * (1.0 - data.getHexingPantsUptime()) * data
+							.getHexingPantsPercent());
+			prepAmount = prepAmount
+					+ (prepAmount * data.getHexingPantsUptime() * .25)
+					- (prepAmount * (1.0 - data.getHexingPantsUptime()) * data
+							.getHexingPantsPercent());
+			bvAmount = bvAmount
+					+ (bvAmount * data.getHexingPantsUptime() * .25)
+					- (bvAmount * (1.0 - data.getHexingPantsUptime()) * data
+							.getHexingPantsPercent());
+			reaperAmount = reaperAmount
+					+ (reaperAmount * data.getHexingPantsUptime() * .25)
+					- (reaperAmount * (1.0 - data.getHexingPantsUptime()) * data
+							.getHexingPantsPercent());
+			markedAmount = markedAmount
+					+ (markedAmount * data.getHexingPantsUptime() * .25)
+					- (markedAmount * (1.0 - data.getHexingPantsUptime()) * data
+							.getHexingPantsPercent());
 		}
-		
+
 		double t = 0.0;
 		double aps = data.getAps();
 		double interval = (1.0 / aps) + (data.getDelay() / 1000.0);
 		int totalSpender = 0;
 		Rune sentryRune = Rune.None;
-		
+
 		if (data.isSentry())
 			sentryRune = data.getSentryRune();
-		
+
 		double healthGlobeInterval = (data.getNumHealthGlobes() > 0) ? (FiringData.DURATION / (data
 				.getNumHealthGlobes() + 1.0)) : (FiringData.DURATION * 2.0);
 		double nextHealthGlobe = healthGlobeInterval;
@@ -88,7 +104,15 @@ public class FiringData {
 		double rovCd = (30.0 * (1 - cdr));
 		double fokCd = (10.0 * (1 - cdr));
 		Rune fokRune = data.getSkills().get(ActiveSkill.FoK);
-		
+		double venCd = (90.0 * (1 - cdr));
+		Rune venRune = data.getSkills().get(ActiveSkill.Vengeance);
+		double nextVen = 0.0;
+		boolean venActive = false;
+		int numVen = 0;
+		int numVenAttacks = 0;
+		double venEnds = 0.0;
+		double venRegen = 0.0;
+
 		if (fokRune == Rune.Pinpoint_Accuracy)
 			fokCd = 15.0 * (1 - cdr);
 
@@ -96,24 +120,24 @@ public class FiringData {
 
 		if ((fokRune == null) || (fokRune == Rune.Knives_Expert))
 			nextFok = FiringData.DURATION + 1.0;
-		
+
 		int numFok = 0;
-		
-//		double rovTime = 5.0;
-//		Rune rovRune = data.getRovRune();
-//		
-//		if (rovRune == Rune.Dark_Cloud)
-//			rovTime = 8.0;
-//		else if (rovRune == Rune.Stampede)
-//			rovTime = 6.0;
-		
-//		if (data.getNumNats() >= 4) {
-//			rovCd = Math.max(rovTime, rovCd - (2.0 * data.getRovKilled()));
-//		}
-		
+
+		// double rovTime = 5.0;
+		// Rune rovRune = data.getRovRune();
+		//
+		// if (rovRune == Rune.Dark_Cloud)
+		// rovTime = 8.0;
+		// else if (rovRune == Rune.Stampede)
+		// rovTime = 6.0;
+
+		// if (data.getNumNats() >= 4) {
+		// rovCd = Math.max(rovTime, rovCd - (2.0 * data.getRovKilled()));
+		// }
+
 		int numRov = 0;
 		double nextRov = 0;
-		
+
 		while (t < DURATION) {
 
 			if (data.isRov() && (t >= nextRov)) {
@@ -125,7 +149,20 @@ public class FiringData {
 				numFok++;
 				nextFok += fokCd;
 			}
-			
+
+			if (venActive && (t >= venEnds)) {
+				venActive = false;
+			}
+
+			if ((venRune != null) && (t >= nextVen)) {
+				if ((venRune != Rune.Seethe) || (hatred < (maxHatred / 2))) {
+					venActive = true;
+					numVen++;
+					nextVen = t + venCd;
+					venEnds = t + 15.0;
+				}
+			}
+
 			if (t >= nextHealthGlobe) {
 				nextHealthGlobe += healthGlobeInterval;
 				numHealthGlobes++;
@@ -136,23 +173,23 @@ public class FiringData {
 				}
 
 				if (data.isReapersWraps()) {
-					healthGlobeHatred += Math.min(
-							reaperAmount,
-							maxHatred - hatred);
-					hatred = Math.min(
-							maxHatred,
-							hatred + reaperAmount);
+					healthGlobeHatred += Math.min(reaperAmount, maxHatred
+							- hatred);
+					hatred = Math.min(maxHatred, hatred + reaperAmount);
 				}
 			}
 
-			if (data.isPreparation() && (data.getPreparationRune() == Rune.Punishment)
+			if (data.isPreparation()
+					&& (data.getPreparationRune() == Rune.Punishment)
 					&& ((maxHatred - hatred) >= prepAmount) && (prepAvail <= t)) {
 				hatred += prepAmount;
 				prepAvail = t + prepCd;
 				numPrep++;
 			}
 
-			if (data.isCompanion() && ((data.getNumMarauders() >= 2) || (data.getCompanionRune() == Rune.Bat))) {
+			if (data.isCompanion()
+					&& ((data.getNumMarauders() >= 2) || (data
+							.getCompanionRune() == Rune.Bat))) {
 				if (((maxHatred - hatred) >= batAmount) && (batAvail <= t)) {
 					hatred += batAmount;
 					batAvail = t + batCd;
@@ -168,15 +205,16 @@ public class FiringData {
 					skillQty.put(skr, n);
 					hatred = Math.min(maxHatred, hatred + h);
 
-					if (data.isMarked() && (data.getMfdRune() == Rune.Mortal_Enemy)) {
-						
+					if (data.isMarked()
+							&& (data.getMfdRune() == Rune.Mortal_Enemy)) {
+
 						numMarked++;
 						double mh = markedAmount;
 
 						if (hatred > (maxHatred - mh)) {
 							mh = maxHatred - mh;
 						}
-						
+
 						if (mh > 0) {
 							hatred += mh;
 							markedHatred += mh;
@@ -186,18 +224,33 @@ public class FiringData {
 					if (data.getNumNats() >= 2) {
 						nextRov -= 2.0;
 					}
-					
+
+					if (venActive) {
+						numVenAttacks++;
+					}
+
 					break;
-					
+
 				}
 			}
 
 			t += interval;
 
-			double tick = (t <= FiringData.DURATION) ? interval : (t - FiringData.DURATION);
-			double regenTick = Math.min(tick * regen, maxHatred - hatred);
-			regenHatred += regenTick;
-			hatred += regenTick;
+			if (hatred < maxHatred) {
+				double tick = (t <= FiringData.DURATION) ? interval
+						: (t - FiringData.DURATION);
+				double regenTick = Math.min(tick * regen, maxHatred - hatred);
+				regenHatred += regenTick;
+				hatred += regenTick;
+
+				if (venActive && (venRune == Rune.Seethe)) {
+					double venRegenTick = Math.min(interval * 10.0, maxHatred
+							- hatred);
+					venRegen += venRegenTick;
+					hatred += venRegenTick;
+				}
+			}
+
 		}
 
 		for (SkillAndRune skr : skills) {
@@ -209,13 +262,13 @@ public class FiringData {
 				int qty = skillQty.get(skr);
 
 				if (qty > 0) {
-					
+
 					totalHits += qty;
-					
+
 					list.addAll(DamageFunction.getDamages(true, false,
 							"Player", new DamageSource(skill, rune), qty, data));
 
-					if ((data.getNumMarauders() >= 4) && data.isSentry() 
+					if ((data.getNumMarauders() >= 4) && data.isSentry()
 							&& (skill.getSkillType() == SkillType.Spender)) {
 						list.addAll(DamageFunction.getDamages(false, true,
 								"Sentry", new DamageSource(skill, rune), qty,
@@ -231,75 +284,97 @@ public class FiringData {
 
 		if (numRov > 0) {
 			list.addAll(DamageFunction.getDamages(true, false, "Player",
-					new DamageSource(ActiveSkill.RoV, data.getRovRune()), numRov,
-					data));
-			
+					new DamageSource(ActiveSkill.RoV, data.getRovRune()),
+					numRov, data));
+
 			if (data.isCrashingRain()) {
 				list.addAll(DamageFunction.getDamages(true, false, "Player",
-						new DamageSource(ActiveSkill.CR, data.getRovRune()), numRov,
-						data));
+						new DamageSource(ActiveSkill.CR, data.getRovRune()),
+						numRov, data));
 			}
 		}
-		
+
 		if (numFok > 0) {
 			list.addAll(DamageFunction.getDamages(true, false, "Player",
-					new DamageSource(ActiveSkill.FoK, fokRune), numFok,
-					data));
+					new DamageSource(ActiveSkill.FoK, fokRune), numFok, data));
 		}
-		
+
+		if (numVen > 0) {
+			if (venRune == Rune.Dark_Heart) {
+				list.addAll(DamageFunction.getDamages(true, false, "Player",
+						new DamageSource(ActiveSkill.Vengeance, venRune),
+						numVen * 15, data));
+			} else if (numVenAttacks > 0) {
+				list.addAll(DamageFunction.getDamages(true, false, "Player",
+						new DamageSource(ActiveSkill.Vengeance, venRune),
+						numVenAttacks, data));
+			}
+		}
+
 		if (data.isSentry() && (boltQty > 0)) {
 			list.addAll(DamageFunction.getDamages(false, true, "Sentry",
-					new DamageSource(ActiveSkill.SENTRY, sentryRune), bp.getQty(),
-					data));
+					new DamageSource(ActiveSkill.SENTRY, sentryRune),
+					bp.getQty(), data));
 			list.addAll(DamageFunction.getDamages(false, true, "Sentry",
 					new DamageSource(ActiveSkill.BOLT, sentryRune), boltQty,
 					data));
 		}
 
 		if (data.isCaltrops()) {
-			list.addAll(DamageFunction.getDamages(true, false, "Player",
-					new DamageSource(ActiveSkill.Caltrops, data.getCaltropsRune()), (int)(FiringData.DURATION * data.getCaltropsUptime()),
+			list.addAll(DamageFunction.getDamages(
+					true,
+					false,
+					"Player",
+					new DamageSource(ActiveSkill.Caltrops, data
+							.getCaltropsRune()),
+					(int) (FiringData.DURATION * data.getCaltropsUptime()),
 					data));
 		}
-		
+
 		if (data.isSpikeTrap()) {
 			list.addAll(DamageFunction.getDamages(true, false, "Player",
-					new DamageSource(ActiveSkill.ST, data.getSpikeTrapRune()), data.getNumSpikeTraps() * 3,
-					data));
+					new DamageSource(ActiveSkill.ST, data.getSpikeTrapRune()),
+					data.getNumSpikeTraps() * 3, data));
 		}
-		
+
 		if (data.isHelltrapper()) {
-			int num = (int) Math.round(totalHits * data.getHelltrapperPercent() * 0.5);
-			
+			int num = (int) Math.round(totalHits * data.getHelltrapperPercent()
+					* 0.5);
+
 			if (num > 0) {
-				list.addAll(DamageFunction.getDamages(false, false, "Helltrapper",
-						new DamageSource(ActiveSkill.ST, (data.isSpikeTrap() ? data.getSpikeTrapRune() : Rune.None)), num * 3,
-						data));
-				
+				list.addAll(DamageFunction.getDamages(false, false,
+						"Helltrapper",
+						new DamageSource(ActiveSkill.ST,
+								(data.isSpikeTrap() ? data.getSpikeTrapRune()
+										: Rune.None)), num * 3, data));
+
 				// Can't have double DoT
-//				list.addAll(DamageFunction.getDamages(false, false, "Helltrapper",
-//						new DamageSource(ActiveSkill.Caltrops, (data.isCaltrops() ? data.getCaltropsRune() : Rune.None)), 1,
-//						data));
+				// list.addAll(DamageFunction.getDamages(false, false,
+				// "Helltrapper",
+				// new DamageSource(ActiveSkill.Caltrops, (data.isCaltrops() ?
+				// data.getCaltropsRune() : Rune.None)), 1,
+				// data));
 			}
 		}
-		
+
 		if (data.isCompanion()) {
-			
+
 			Rune[] companionRunes = new Rune[] { data.getCompanionRune() };
-			
+
 			if (data.getNumMarauders() >= 2)
 				companionRunes = ActiveSkill.Companion.getRunes();
 
 			double attacks = FiringData.DURATION;
-			
+
 			if (data.isTnt())
 				attacks = FiringData.DURATION * (1 + data.getTntPercent());
 
 			for (Rune r : companionRunes) {
-				
-				list.addAll(DamageFunction.getDamages(false, false, ActiveSkill.Companion.getLongName(),
-						new DamageSource(ActiveSkill.Companion, r),
-						(int) Math.round(attacks), data));
+
+				list.addAll(DamageFunction.getDamages(false, false,
+						ActiveSkill.Companion.getLongName(), new DamageSource(
+								ActiveSkill.Companion, r), (int) Math
+								.round(attacks), data));
 			}
 		}
 
@@ -307,11 +382,29 @@ public class FiringData {
 		list.addAll(DamageFunction.getDamages(false, false, "Player", null,
 				FiringData.DURATION, data));
 
+		if (venRegen > 0) {
+			Damage d = new Damage();
+			d.shooter = "Player";
+			d.source = new DamageSource(ActiveSkill.Vengeance, Rune.Seethe);
+			d.hatred = venRegen;
+			d.qty = numVen;
+			list.add(d);
+		}
+
 		if (numPrep > 0) {
 			Damage d = new Damage();
 			d.shooter = "Preparation";
 			d.hatred = numPrep * prepAmount;
 			d.qty = numPrep;
+			list.add(d);
+		}
+
+		if (markedHatred > 0) {
+			Damage d = new Damage();
+			d.shooter = "Player";
+			d.source = new DamageSource(ActiveSkill.MFD, Rune.Mortal_Enemy);
+			d.hatred = markedHatred;
+			d.qty = numMarked;
 			list.add(d);
 		}
 
@@ -323,7 +416,7 @@ public class FiringData {
 			list.add(d);
 		}
 
-		if (numHealthGlobes > 0) {
+		if (healthGlobeHatred > 0) {
 			Damage d = new Damage();
 			d.shooter = "Health Globes";
 			d.hatred = healthGlobeHatred;
@@ -331,19 +424,13 @@ public class FiringData {
 			list.add(d);
 		}
 
-		if (numMarked > 0) {
+		if (regenHatred > 0) {
 			Damage d = new Damage();
-			d.shooter = "MFD";
-			d.hatred = markedHatred;
-			d.qty = numMarked;
+			d.shooter = "Hatred Regen";
+			d.hatred = regenHatred;
+			d.qty = FiringData.DURATION;
 			list.add(d);
 		}
-		
-		Damage d = new Damage();
-		d.shooter = "Hatred Regen";
-		d.hatred = regenHatred;
-		d.qty = FiringData.DURATION;
-		list.add(d);
 
 		return list.toArray(new Damage[0]);
 	}

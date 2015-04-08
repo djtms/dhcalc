@@ -6,6 +6,7 @@
 * Confirm: Dual Wield Sheet APS and DPS calculations
 * Confirm: Area damage is additive?
 * Confirm: Crashing Rain damage applies to single target only or 12 yard radius?
+* Confirm: Vengeance mechanics
 
 * Implement Patch 2.2. changes:
 - Add Convention of the Elements ring
@@ -15,7 +16,7 @@
 
 * Add Pierce mechanics
 * Change Strong Arm Bracers to drop down (select 20 or 30 only)
-* Add support for remaining active damage skills (rapid fire, vengeance)
+* Add Rapid Fire mechanics
 * Add support for ruby socketed in weapon(s)
 * Add support for more than two spenders/generators
 * re-enable player/build statistics

@@ -3120,7 +3120,6 @@ public class MainPanel extends BasePanel {
 			data.setElementalDamage(this.typeDamage.getValues());
 			data.setSkillDamage(skillDamage.getValues());
 			data.setPassives(passives.getPassives());
-			data.setCritChance(calculator.getCritChance());
 			data.setCritHitDamage(calculator.getCritDamage());
 			data.setPercentSlowedChilled((double) this.situational
 					.getPercentSlowedChilled().getValue() / 100.0);
@@ -3273,14 +3272,7 @@ public class MainPanel extends BasePanel {
 			data.setOdysseysEndUptime(itemPanel.getOdysseysEndUptime()
 					.getValue() / 100.0);
 
-			double gogokIas = data.isGogok() ? (data.getGogokStacks() / 100.0)
-					: 0.0;
-			double petIasValue = data.isTnt() ? data.getTntPercent() : 0.0;
-			double petApsValue = data.getAps() * (1.0 + petIasValue)
-					* (1.0 + gogokIas);
-
-			BreakPoint bp = BreakPoint.get(petApsValue);
-			data.setBp(bp.getBp());
+			ProfileHelper.updateWeaponDamage(data);
 
 			this.damage = FiringData.calculateDamages(data);
 
@@ -3297,8 +3289,8 @@ public class MainPanel extends BasePanel {
 			this.exportData.shooterDamages = shooterDamages;
 			this.exportData.multiple = new Vector<MultipleSummary>();
 			this.exportData.sentryBaseDps = calculator.getSentryDps();
-			this.exportData.bp = bp.getBp();
-
+			this.exportData.bp = data.getBp();
+			
 			calculateData();
 
 			updateOutput();
@@ -3750,6 +3742,9 @@ public class MainPanel extends BasePanel {
 				+ "%");
 
 		row = 1;
+
+		
+		CharacterData savedData = data.copy();
 		
 		for (Stat stat : Stat.values()) {
 
@@ -3768,7 +3763,7 @@ public class MainPanel extends BasePanel {
 				l1.setWordWrap(false);
 				statTable.setWidget(row, col++, l1);
 				
-				Object token = adapter.apply(data);
+				adapter.apply(data);
 				
 				Damage[] d = FiringData.calculateDamages(data);
 				
@@ -3809,7 +3804,7 @@ public class MainPanel extends BasePanel {
 				l7.addStyleName("dpsCol");
 				statTable.setWidget(row, col++, l7);
 	
-				adapter.unapply(data, token);
+				data = savedData.copy();
 				
 				row++;
 			}

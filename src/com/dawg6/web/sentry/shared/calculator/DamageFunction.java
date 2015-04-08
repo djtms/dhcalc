@@ -295,6 +295,17 @@ public class DamageFunction {
 			new DamageRow(ActiveSkill.FoK, Rune.Fan_of_Daggers, 6.2, true, Integer.MAX_VALUE, 1, 20, DamageType.Fire),
 			new DamageRow(ActiveSkill.FoK, Rune.Assassins_Knives, 6.2, true, Integer.MAX_VALUE, 1, 20, "Short Range", DamageType.Physical),
 			new DamageRow(ActiveSkill.FoK, Rune.Assassins_Knives, 6.2, true, 4, 1, Integer.MAX_VALUE, "Long Range", DamageType.Physical),
+
+			new DamageRow(ActiveSkill.Vengeance, Rune.None, 0.6, true, 3, "Side Guns", DamageType.Physical),
+			new DamageRow(ActiveSkill.Vengeance, Rune.None, 0.6, true, 3, "Homing Rockets", DamageType.Physical, DamageMultiplier.Rockets),
+			new DamageRow(ActiveSkill.Vengeance, Rune.Personal_Mortar, 0.6, true, 3, "Side Guns", DamageType.Fire),
+			new DamageRow(ActiveSkill.Vengeance, Rune.Personal_Mortar, 1.5, true, Integer.MAX_VALUE, 2, 8, "Grenade AoE", DamageType.Physical, DamageMultiplier.Grenades),
+			new DamageRow(ActiveSkill.Vengeance, Rune.Dark_Heart, 3.25 / 15.0, true, Integer.MAX_VALUE, "Lightning AoE DoT", DamageType.Lightning, DamageMultiplier.DoT),
+			new DamageRow(ActiveSkill.Vengeance, Rune.Side_Cannons, 2.25, true, 3, "Side Guns", DamageType.Physical),
+			new DamageRow(ActiveSkill.Vengeance, Rune.Seethe, 0.6, true, 3, "Side Guns", DamageType.Physical),
+			new DamageRow(ActiveSkill.Vengeance, Rune.Seethe, 0.6, true, 3, "Homing Rockets", DamageType.Physical, DamageMultiplier.Rockets),
+			new DamageRow(ActiveSkill.Vengeance, Rune.From_the_Shadows, 0.6, true, 3, "Side Guns", DamageType.Cold),
+			new DamageRow(ActiveSkill.Vengeance, Rune.From_the_Shadows, 1.2, true, 3, "Allies", DamageType.Cold),
 	};
 
 	public static List<Damage> getDamages(boolean isPlayer, boolean isSentry,

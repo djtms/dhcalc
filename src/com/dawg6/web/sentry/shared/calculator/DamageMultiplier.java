@@ -621,7 +621,7 @@ public enum DamageMultiplier {
 			new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
-					return (data.isSingleOut() && (data.getDistanceToTarget() >= 20)) ? 0.25
+					return (data.isSingleOut() && (data.getTargetSpacing() >= 20)) ? 0.25
 							: 0.0;
 				}
 			});

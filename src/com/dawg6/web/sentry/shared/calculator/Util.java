@@ -128,4 +128,20 @@ public class Util {
 		
 		return map;
 	}
+
+	public static <K, V>  Map<K, V> copy(Map<K, V> map) {
+		
+		if (map == null)
+			return null;
+		
+		return new TreeMap<K, V>(map);
+	}
+	
+	public static <K> Set<K> copy(Set<K> set) {
+		
+		if (set == null)
+			return null;
+		
+		return new TreeSet<K>(set);
+	}
 }

@@ -5,10 +5,12 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import com.dawg6.gwt.client.ApplicationPanel;
 import com.dawg6.web.sentry.shared.calculator.FormData;
 import com.dawg6.web.sentry.shared.calculator.Version;
 import com.dawg6.web.sentry.shared.calculator.d3api.CareerProfile;
 import com.dawg6.web.sentry.shared.calculator.d3api.HeroProfile;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
@@ -43,23 +45,28 @@ public class JsonUtil {
 		
 		if ((text != null) && (text.trim().length() > 0)) {
 		
-			JSONValue value = JSONParser.parseLenient(text);
-			
-			if (value != null) {
-				JSONObject obj = value.isObject();
-			
-				if (obj != null) {
-					data.version = JsonUtil.parseVersion(obj.get("version"));
-					data.main = JsonUtil.parseMap(obj.get("main"));
-					data.calculator = JsonUtil.parseMap(obj.get("calculator"));
-					data.items = JsonUtil.parseMap(obj.get("items"));
-					data.passives = JsonUtil.parseMap(obj.get("passives"));
-					data.skills = JsonUtil.parseMap(obj.get("skills"));
-					data.elementalDamage = JsonUtil.parseMap(obj.get("elementalDamage"));
-					data.skillDamage = JsonUtil.parseMap(obj.get("skillDamage"));
-					data.hero = null;
-					data.career = null;
+			try {
+				JSONValue value = JSONParser.parseLenient(text);
+				
+				if (value != null) {
+					JSONObject obj = value.isObject();
+				
+					if (obj != null) {
+						data.version = JsonUtil.parseVersion(obj.get("version"));
+						data.main = JsonUtil.parseMap(obj.get("main"));
+						data.calculator = JsonUtil.parseMap(obj.get("calculator"));
+						data.items = JsonUtil.parseMap(obj.get("items"));
+						data.passives = JsonUtil.parseMap(obj.get("passives"));
+						data.skills = JsonUtil.parseMap(obj.get("skills"));
+						data.elementalDamage = JsonUtil.parseMap(obj.get("elementalDamage"));
+						data.skillDamage = JsonUtil.parseMap(obj.get("skillDamage"));
+						data.hero = null;
+						data.career = null;
+					}
 				}
+			} catch (Exception e) {
+				ApplicationPanel.showErrorDialog("Error Parsing Form Data");
+				GWT.log("Error Parsing JSON Data", e);
 			}
 			
 			
