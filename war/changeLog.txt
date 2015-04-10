@@ -3,6 +3,7 @@ Change Log:
 **4/10/15**
 * N6 bonus no longer applies to sentries or companions, except Sentry/Chain of Torment
 * Made fight duration configurable (defaults to 30 seconds)
+* Fixed Chakram/Serpentine to be Cold damage
 
 **4/8/15**
 - Added Vengeance mechanics

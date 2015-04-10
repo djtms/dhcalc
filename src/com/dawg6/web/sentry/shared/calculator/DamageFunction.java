@@ -94,7 +94,7 @@ public class DamageFunction {
 			new DamageRow(ActiveSkill.CHAK, Rune.Twin_Chakrams, 4.4, true,
 					Integer.MAX_VALUE, 0, DamageType.Fire),
 			new DamageRow(ActiveSkill.CHAK, Rune.Serpentine, 5.0, true,
-					Integer.MAX_VALUE, 0, DamageType.Poison),
+					Integer.MAX_VALUE, 0, DamageType.Cold),
 			new DamageRow(ActiveSkill.CHAK, Rune.Razor_Disk, 3.8, true,
 					Integer.MAX_VALUE, 0, DamageType.Physical),
 			new DamageRow(ActiveSkill.CHAK, Rune.Boomerang, 4.0, true,
