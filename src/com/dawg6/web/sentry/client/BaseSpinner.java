@@ -1,6 +1,7 @@
 package com.dawg6.web.sentry.client;
 
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -35,7 +36,19 @@ public abstract class BaseSpinner<T> extends Composite {
 
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
-				DomEvent.fireNativeEvent(Document.get().createChangeEvent(), BaseSpinner.this.box);
+				Document doc = Document.get();
+				
+				if (doc != null) {
+					NativeEvent e = doc.createChangeEvent();
+				
+					if (e != null) {
+						try {
+							DomEvent.fireNativeEvent(e, BaseSpinner.this.box);
+						} catch (Exception ex) {
+							
+						}
+					}
+				}
 			}});
 		
 		box.addChangeHandler(new ChangeHandler(){
@@ -106,7 +119,14 @@ public abstract class BaseSpinner<T> extends Composite {
 	}
 	
 	public T getValue() {
-		return this.box.getValue();
+		T value =  this.box.getValue();
+		
+		if (value == null) {
+			value = min;
+			this.box.setValue(value);
+		}
+		
+		return value;
 	}
 	
 	public void setVisibleLength(int w) {

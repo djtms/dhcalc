@@ -8,8 +8,6 @@ import java.util.Vector;
 
 public class FiringData {
 
-	public static final int DURATION = 30;
-
 	public static Damage[] calculateDamages(CharacterData data) {
 		List<Damage> list = new Vector<Damage>();
 
@@ -85,8 +83,10 @@ public class FiringData {
 		if (data.isSentry())
 			sentryRune = data.getSentryRune();
 
-		double healthGlobeInterval = (data.getNumHealthGlobes() > 0) ? (FiringData.DURATION / (data
-				.getNumHealthGlobes() + 1.0)) : (FiringData.DURATION * 2.0);
+		int duration = data.getDuration();
+		
+		double healthGlobeInterval = (data.getNumHealthGlobes() > 0) ? (duration / (data
+				.getNumHealthGlobes() + 1.0)) : (duration * 2.0);
 		double nextHealthGlobe = healthGlobeInterval;
 		double cdr = data.getCdr();
 		double prepCd = 20.0 * (1.0 - cdr);
@@ -119,7 +119,7 @@ public class FiringData {
 		double nextFok = 0;
 
 		if ((fokRune == null) || (fokRune == Rune.Knives_Expert))
-			nextFok = FiringData.DURATION + 1.0;
+			nextFok = duration + 1.0;
 
 		int numFok = 0;
 
@@ -138,7 +138,7 @@ public class FiringData {
 		int numRov = 0;
 		double nextRov = 0;
 
-		while (t < DURATION) {
+		while (t < duration) {
 
 			if (data.isRov() && (t >= nextRov)) {
 				numRov++;
@@ -237,8 +237,8 @@ public class FiringData {
 			t += interval;
 
 			if (hatred < maxHatred) {
-				double tick = (t <= FiringData.DURATION) ? interval
-						: (t - FiringData.DURATION);
+				double tick = (t <= duration) ? interval
+						: (t - duration);
 				double regenTick = Math.min(tick * regen, maxHatred - hatred);
 				regenHatred += regenTick;
 				hatred += regenTick;
@@ -327,7 +327,7 @@ public class FiringData {
 					"Player",
 					new DamageSource(ActiveSkill.Caltrops, data
 							.getCaltropsRune()),
-					(int) (FiringData.DURATION * data.getCaltropsUptime()),
+					(int) (duration * data.getCaltropsUptime()),
 					data));
 		}
 
@@ -364,10 +364,10 @@ public class FiringData {
 			if (data.getNumMarauders() >= 2)
 				companionRunes = ActiveSkill.Companion.getRunes();
 
-			double attacks = FiringData.DURATION;
+			double attacks = duration;
 
 			if (data.isTnt())
-				attacks = FiringData.DURATION * (1 + data.getTntPercent());
+				attacks = duration * (1 + data.getTntPercent());
 
 			for (Rune r : companionRunes) {
 
@@ -380,7 +380,7 @@ public class FiringData {
 
 		// gem procs
 		list.addAll(DamageFunction.getDamages(false, false, "Player", null,
-				FiringData.DURATION, data));
+				duration, data));
 
 		if (venRegen > 0) {
 			Damage d = new Damage();
@@ -428,7 +428,7 @@ public class FiringData {
 			Damage d = new Damage();
 			d.shooter = "Hatred Regen";
 			d.hatred = regenHatred;
-			d.qty = FiringData.DURATION;
+			d.qty = duration;
 			list.add(d);
 		}
 

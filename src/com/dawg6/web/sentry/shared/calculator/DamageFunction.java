@@ -453,10 +453,10 @@ public class DamageFunction {
 
 							if ((dr.source != null)
 									&& (dr.source.skill == ActiveSkill.Caltrops)) {
-								multBuf.append(FiringData.DURATION
+								multBuf.append(data.getDuration()
 										* data.getCaltropsUptime());
 							} else {
-								multBuf.append(FiringData.DURATION);
+								multBuf.append(data.getDuration());
 							}
 						} else
 							multBuf.append(qty);
@@ -665,7 +665,11 @@ public class DamageFunction {
 
 						for (DamageMultiplier dw : dlist) {
 
-							if (((isSentry || (dw != DamageMultiplier.Sentry)) && (!isPlayer || (dw != DamageMultiplier.Enforcer)))) {
+							if (
+										(isSentry || (dw != DamageMultiplier.Sentry)) 
+									&& 	(!isPlayer || (dw != DamageMultiplier.Enforcer))
+									&& 	(isPlayer || (dw != DamageMultiplier.N6) || (dr.source.gem != null) || ((dr.source.skill == ActiveSkill.SENTRY) && (dr.source.rune == Rune.Chain_of_Torment)))
+								) {
 
 								if (dw.getAccumulator() != DamageAccumulator.Special) {
 
@@ -745,10 +749,10 @@ public class DamageFunction {
 						if (dr.multipliers.contains(DamageMultiplier.DoT)) {
 							if ((dr.source != null)
 									&& (dr.source.skill == ActiveSkill.Caltrops)) {
-								d.totalDamage = d.damage * FiringData.DURATION
+								d.totalDamage = d.damage * data.getDuration()
 										* data.getCaltropsUptime();
 							} else {
-								d.totalDamage = d.damage * FiringData.DURATION;
+								d.totalDamage = d.damage * data.getDuration();
 							}
 						} else {
 							d.totalDamage = d.damage * d.qty;

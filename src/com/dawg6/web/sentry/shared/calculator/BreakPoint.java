@@ -3,6 +3,8 @@ package com.dawg6.web.sentry.shared.calculator;
 
 public class BreakPoint implements Comparable<BreakPoint> {
 
+	public static final int DURATION = 30;
+	
 	private final double aps;
 	private final int qty;
 	private final int bp;

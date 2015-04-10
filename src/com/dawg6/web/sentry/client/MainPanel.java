@@ -156,6 +156,8 @@ public class MainPanel extends BasePanel {
 	private Label offHand_weaponDamage;
 	private Label dw_weaponDamage;
 	private FlexTable statTable;
+	private CaptionPanel statTableCaption;
+	private NumberSpinner duration;
 
 	public MainPanel() {
 		VerticalPanel panel = new VerticalPanel();
@@ -916,7 +918,6 @@ public class MainPanel extends BasePanel {
 		horizontalPanel_19.setSpacing(5);
 
 		Button calcButton = new Button("New button");
-		horizontalPanel_19.add(calcButton);
 		calcButton.setText("Calculate");
 		calcButton.setTitle("Press to calculate Damage");
 
@@ -977,7 +978,7 @@ public class MainPanel extends BasePanel {
 		outputHeader.setWidget(1, 5, actualAps);
 		actualAps.setStyleName("boldText");
 
-		lblNewLabel_5 = new Label("Attacks Per " + FiringData.DURATION
+		lblNewLabel_5 = new Label("Attacks Per " + BreakPoint.DURATION
 				+ " Seconds:");
 		outputHeader.setWidget(1, 6, lblNewLabel_5);
 		lblNewLabel_5.setWordWrap(false);
@@ -988,7 +989,7 @@ public class MainPanel extends BasePanel {
 		aps30.setWordWrap(false);
 
 		Label lblNewLabel_6 = new Label("Total (Non-Elite) Damage over "
-				+ FiringData.DURATION + " seconds:");
+				+ BreakPoint.DURATION + " seconds:");
 		outputHeader.setWidget(2, 0, lblNewLabel_6);
 		lblNewLabel_6.setWordWrap(false);
 
@@ -1008,7 +1009,7 @@ public class MainPanel extends BasePanel {
 		outputHeader.setWidget(2, 6, lblNewLabel_29a);
 
 		Label lblNewLabel_6a = new Label("Total (Elite) Damage over "
-				+ FiringData.DURATION + " seconds:");
+				+ BreakPoint.DURATION + " seconds:");
 		outputHeader.setWidget(3, 0, lblNewLabel_6a);
 		lblNewLabel_6a.setWordWrap(false);
 
@@ -1055,7 +1056,20 @@ public class MainPanel extends BasePanel {
 				}
 			}
 		});
+		
+		Label label_15 = new Label("Fight Duration (seconds):");
+		label_15.setWordWrap(false);
+		outputHeader.setWidget(4, 2, label_15);
+		outputHeader.getFlexCellFormatter().setColSpan(4, 2, 2);
+		outputHeader.getFlexCellFormatter().setHorizontalAlignment(4, 2, HasHorizontalAlignment.ALIGN_RIGHT);
+		
+		duration = new NumberSpinner();
+		duration.setVisibleLength(4);
+		duration.setMin(1);
+		outputHeader.setWidget(4, 3, duration);
 
+		outputHeader.setWidget(4, 4, calcButton);
+		
 		Button bpButton = new Button("New button");
 		bpButton.setText("Break Points...");
 		horizontalPanel_19.add(bpButton);
@@ -1114,14 +1128,14 @@ public class MainPanel extends BasePanel {
 		HorizontalPanel horizontalPanel_9 = new HorizontalPanel();
 		outputPanel.add(horizontalPanel_9);
 
-		CaptionPanel cPanel = new CaptionPanel("Stat Calculator");
-		horizontalPanel_9.add(cPanel);
+		statTableCaption = new CaptionPanel("Stat Calculator");
+		horizontalPanel_9.add(statTableCaption);
 
 		VerticalPanel panel_1 = new VerticalPanel();
 		horizontalPanel_9.add(panel_1);
 		
 		captionPanelTypeSummary = new CaptionPanel(
-				"Damage Type Summary (Non-Elite, " + FiringData.DURATION
+				"Damage Type Summary (Non-Elite, " + BreakPoint.DURATION
 						+ " seconds)");
 		panel_1.add(captionPanelTypeSummary);
 
@@ -1129,6 +1143,7 @@ public class MainPanel extends BasePanel {
 		summary.setCellPadding(5);
 		summary.setBorderWidth(1);
 		summary.setStyleName("outputTable");
+		summary.setWidth("100%");
 		captionPanelTypeSummary.setContentWidget(summary);
 
 		Label lblNewLabel_17 = new Label("Type");
@@ -1163,7 +1178,7 @@ public class MainPanel extends BasePanel {
 		summary.setWidget(0, 5, lblOfTotal);
 
 		captionPanelSkillSummary = new CaptionPanel(
-				"Skill Damage Summary (Non-Elite, " + FiringData.DURATION
+				"Skill Damage Summary (Non-Elite, " + BreakPoint.DURATION
 						+ " seconds)");
 		panel_1.add(captionPanelSkillSummary);
 
@@ -1171,6 +1186,8 @@ public class MainPanel extends BasePanel {
 		skillSummary.setStyleName("outputTable");
 		skillSummary.setCellPadding(5);
 		skillSummary.setBorderWidth(1);
+		skillSummary.setWidth("100%");
+
 		captionPanelSkillSummary.setContentWidget(skillSummary);
 
 		Label lblSkill_2 = new Label("Skill");
@@ -1212,6 +1229,7 @@ public class MainPanel extends BasePanel {
 		shooterSummary.setStyleName("outputTable");
 		shooterSummary.setCellPadding(5);
 		shooterSummary.setBorderWidth(1);
+		shooterSummary.setWidth("100%");
 
 		Label lblSkill_2a = new Label("Shooter");
 		lblSkill_2a.setWordWrap(false);
@@ -1255,7 +1273,7 @@ public class MainPanel extends BasePanel {
 		outputPanel.add(horizontalPanel_2);
 
 		captionPanelDamageLog = new CaptionPanel("Damage Log (Non-Elite, "
-				+ FiringData.DURATION + " seconds)");
+				+ BreakPoint.DURATION + " seconds)");
 		horizontalPanel_2.add(captionPanelDamageLog);
 
 		damageLog = new FlexTable();
@@ -1391,7 +1409,7 @@ public class MainPanel extends BasePanel {
 
 
 		statTable = new FlexTable();
-		cPanel.setContentWidget(statTable);
+		statTableCaption.setContentWidget(statTable);
 		statTable.setCellPadding(5);
 		statTable.setBorderWidth(1);
 		statTable.setStyleName("outputTable");
@@ -1402,12 +1420,12 @@ public class MainPanel extends BasePanel {
 		l1.setWordWrap(false);
 		statTable.setWidget(0, 0, l1);
 
-		Label l4 = new Label("Total (Non-Elite)");
+		Label l4 = new Label("Total");
 		l4.setStyleName("dpsHeader");
 		l4.setWordWrap(false);
 		statTable.setWidget(0, 1, l4);
 
-		Label l2 = new Label("DPS (Non-Elite)");
+		Label l2 = new Label("DPS");
 		l2.setStyleName("dpsHeader");
 		l2.setWordWrap(false);
 		statTable.setWidget(0, 2, l2);
@@ -1416,21 +1434,6 @@ public class MainPanel extends BasePanel {
 		l2a.setStyleName("dpsHeader");
 		l2a.setWordWrap(false);
 		statTable.setWidget(0, 3, l2a);
-
-		Label l5 = new Label("Total (Elite)");
-		l5.setStyleName("dpsHeader");
-		l5.setWordWrap(false);
-		statTable.setWidget(0, 4, l5);
-
-		Label l3 = new Label("DPS (Elite)");
-		l3.setStyleName("dpsHeader");
-		l3.setWordWrap(false);
-		statTable.setWidget(0, 5, l3);
-
-		Label l3a = new Label("%");
-		l3a.setStyleName("dpsHeader");
-		l3a.setWordWrap(false);
-		statTable.setWidget(0, 6, l3a);
 
 		captionPanelDamageLog.setContentWidget(damageLog);
 		
@@ -2839,6 +2842,7 @@ public class MainPanel extends BasePanel {
 		return new Field[] {
 				new Field(this.realms, "Realm", ""),
 				new Field(this.battleTag, "BattleTag", "BnetName"),
+				new Field(this.duration, "Duration", String.valueOf(BreakPoint.DURATION)),
 				new Field(this.tagNumber, "BattleTagNumber", "1234"),
 				new Field(this.paragonPanel.getParagonIAS(), "ParagonIas", "0"),
 				new Field(this.paragonPanel.getParagonDexterity(),
@@ -3106,6 +3110,7 @@ public class MainPanel extends BasePanel {
 
 			this.formData = getFormData();
 
+			data.setDuration(duration.getValue());
 			data.setSkills(skills.getSkills());
 			data.setEquipmentDexterity(calculator.getEquipmentDexterity());
 			data.setParagonCC(paragonPanel.getParagonCC().getValue());
@@ -3376,7 +3381,7 @@ public class MainPanel extends BasePanel {
 			prevShooter = d.shooter;
 		}
 
-		double dps = Math.round(total / FiringData.DURATION);
+		double dps = Math.round(total / data.getDuration());
 		double elite = 1.0 + data.getTotalEliteDamage();
 
 		this.exportData.sentryDps = dps;
@@ -3419,14 +3424,17 @@ public class MainPanel extends BasePanel {
 		}
 
 		this.captionPanelDamageLog.setCaptionHTML("Damage Log (" + eliteString
-				+ " " + FiringData.DURATION + " seconds)");
+				+ " " + data.getDuration() + " seconds)");
 		this.captionPanelTypeSummary.setCaptionHTML("Damage Type Summary ("
-				+ eliteString + " " + FiringData.DURATION + " seconds)");
+				+ eliteString + " " + data.getDuration() + " seconds)");
 		this.captionPanelSkillSummary.setCaptionHTML("Skill Damage Summary ("
-				+ eliteString + " " + FiringData.DURATION + " seconds)");
+				+ eliteString + " " + data.getDuration() + " seconds)");
 		this.captionPanelShooterSummary
 				.setCaptionHTML("Shooter Damage Summary (" + eliteString + " "
-						+ FiringData.DURATION + " seconds)");
+						+ data.getDuration() + " seconds)");
+		this.statTableCaption
+		.setCaptionHTML("Stat Calculator (" + eliteString + " "
+				+ data.getDuration() + " seconds)");
 
 		for (int row = 0; row < damage.length; row++) {
 			if ((row % 2) == 0)
@@ -3537,7 +3545,7 @@ public class MainPanel extends BasePanel {
 
 				Label dpsLabel = new Label(Util.format(Math
 						.round((d.totalDamage * eliteBonus)
-								/ FiringData.DURATION)), false);
+								/ data.getDuration())), false);
 				dpsLabel.addStyleName("dpsCol");
 				damageLog.setWidget(row + 1, 8, dpsLabel);
 				double pct = Math.round((d.totalDamage / total) * 10000.0) / 100.0;
@@ -3604,7 +3612,7 @@ public class MainPanel extends BasePanel {
 			summary.setWidget(row, 3, damageLabel);
 
 			Label dpsLabel = new Label(Util.format(Math.round((d * eliteBonus)
-					/ FiringData.DURATION)), false);
+					/ data.getDuration())), false);
 			dpsLabel.addStyleName("dpsCol");
 			summary.setWidget(row, 4, dpsLabel);
 
@@ -3655,7 +3663,7 @@ public class MainPanel extends BasePanel {
 			skillSummary.setWidget(row, 3, damageLabel);
 
 			Label dpsLabel = new Label(Util.format(Math.round((d * eliteBonus)
-					/ FiringData.DURATION)), false);
+					/ data.getDuration())), false);
 			dpsLabel.addStyleName("dpsCol");
 			skillSummary.setWidget(row, 4, dpsLabel);
 
@@ -3695,7 +3703,7 @@ public class MainPanel extends BasePanel {
 			shooterSummary.setWidget(row, 3, damageLabel);
 
 			Label dpsLabel = new Label(Util.format(Math.round((d * eliteBonus)
-					/ FiringData.DURATION)), false);
+					/ data.getDuration())), false);
 			dpsLabel.addStyleName("dpsCol");
 			shooterSummary.setWidget(row, 4, dpsLabel);
 
@@ -3706,13 +3714,13 @@ public class MainPanel extends BasePanel {
 			row++;
 		}
 
-		double dps = Math.round(total / FiringData.DURATION);
+		double dps = Math.round(total / data.getDuration());
 		double aps = data.getSentryAps();
 		BreakPoint bp = BreakPoint.ALL[data.getBp() - 1];
 
 		sentryAps.setText(Util.format(aps));
 		breakPoint.setText(String.valueOf(bp.getBp()));
-		double sentryAps = (double) bp.getQty() / FiringData.DURATION;
+		double sentryAps = (double) bp.getQty() / data.getDuration();
 		actualAps.setText(String.valueOf(Util.format(sentryAps)));
 		aps30.setText(Util.format(bp.getQty()));
 
@@ -3750,11 +3758,14 @@ public class MainPanel extends BasePanel {
 		
 		CharacterData savedData = data.copy();
 		
+		double baseline = isElite ? eTotal : total;
+		
 		for (Stat stat : Stat.values()) {
 
 			StatAdapter adapter = stat.getAdapter();
 			
-			if (adapter.test(data, types.keySet())) {
+			if (((stat != Stat.ELITE) || isElite) && adapter.test(data, types.keySet())) {
+				
 				if ((row % 2) == 0)
 					statTable.getRowFormatter().addStyleName(row, "evenRow");
 				else
@@ -3777,12 +3788,12 @@ public class MainPanel extends BasePanel {
 					totalRow += r.totalDamage;
 				}
 				
-				double eliteDamageRow = totalRow * (1.0 + data.getTotalEliteDamage());
-				double dpsRow = totalRow / FiringData.DURATION;
-				double eDpsRow = eliteDamageRow / FiringData.DURATION;
+				if (isElite) 
+					totalRow *= (1.0 + data.getTotalEliteDamage());
 				
-				double pct = (totalRow - total) / total;
-				double ePct = (eliteDamageRow - eTotal) / eTotal;
+				double dpsRow = totalRow / data.getDuration();
+				
+				double pct = (totalRow - baseline) / baseline;
 	
 				Label l2 = new Label(Util.format(Math.round(totalRow)));
 				l2.addStyleName("dpsCol");
@@ -3795,18 +3806,6 @@ public class MainPanel extends BasePanel {
 				Label l4 = new Label(((pct >= 0.0) ? "+" : "") + Util.format(Math.round(pct * 1000.0) / 10.0) + "%");
 				l4.addStyleName("dpsCol");
 				statTable.setWidget(row, col++, l4);
-	
-				Label l5 = new Label(Util.format(Math.round(eliteDamageRow)));
-				l5.addStyleName("dpsCol");
-				statTable.setWidget(row, col++, l5);
-				
-				Label l6 = new Label(Util.format(Math.round(eDpsRow)));
-				l6.addStyleName("dpsCol");
-				statTable.setWidget(row, col++, l6);
-	
-				Label l7 = new Label(((ePct >= 0.0) ? "+" : "") + Util.format(Math.round(ePct * 1000.0) / 10.0) + "%");
-				l7.addStyleName("dpsCol");
-				statTable.setWidget(row, col++, l7);
 	
 				data = savedData.copy();
 				

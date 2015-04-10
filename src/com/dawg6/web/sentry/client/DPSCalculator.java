@@ -2,7 +2,6 @@ package com.dawg6.web.sentry.client;
 
 import com.dawg6.web.sentry.shared.calculator.BreakPoint;
 import com.dawg6.web.sentry.shared.calculator.CharacterData;
-import com.dawg6.web.sentry.shared.calculator.FiringData;
 import com.dawg6.web.sentry.shared.calculator.Passive;
 import com.dawg6.web.sentry.shared.calculator.Util;
 import com.dawg6.web.sentry.shared.calculator.WeaponType;
@@ -502,7 +501,7 @@ public class DPSCalculator extends BasePanel {
 		flexTable_6.setWidget(2, 1, actualCC);
 		actualCC.setStyleName("boldText");
 
-		Label lblAttacksPer = new Label("Attacks/" + FiringData.DURATION
+		Label lblAttacksPer = new Label("Attacks/" + BreakPoint.DURATION
 				+ "sec:");
 		lblAttacksPer.setWordWrap(false);
 		lblAttacksPer.setStyleName("boldText");
@@ -510,7 +509,7 @@ public class DPSCalculator extends BasePanel {
 
 		sentryAttacks = new Label("0");
 		sentryAttacks.setTitle("# of Sentry Attacks over "
-				+ FiringData.DURATION + " seconds.");
+				+ BreakPoint.DURATION + " seconds.");
 		sentryAttacks.setStyleName("boldText");
 		flexTable_6.setWidget(2, 3, sentryAttacks);
 
@@ -895,7 +894,7 @@ public class DPSCalculator extends BasePanel {
 		this.bp = BreakPoint.get(petApsValue);
 		this.breakpoint.setText(String.valueOf(bp.getBp()));
 
-		double sentryAps = (double) bp.getQty() / (double) FiringData.DURATION;
+		double sentryAps = bp.getQty() / (double) BreakPoint.DURATION;
 		this.sentryAps.setText(Util.format(sentryAps));
 		this.sentryAttacks.setText(String.valueOf(bp.getQty()));
 

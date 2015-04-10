@@ -8,7 +8,6 @@ import java.util.TreeMap;
 import java.util.Vector;
 
 import com.dawg6.web.sentry.shared.calculator.ActiveSkill;
-import com.dawg6.web.sentry.shared.calculator.FiringData;
 import com.dawg6.web.sentry.shared.calculator.Rune;
 import com.dawg6.web.sentry.shared.calculator.SkillType;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -146,8 +145,7 @@ public class SkillsPanel extends Composite {
 
 		numSpikeTraps = new NumberSpinner();
 		numSpikeTraps.setVisibleLength(3);
-		numSpikeTraps.setTitle("# of Spike Traps deployed during "
-				+ FiringData.DURATION + " second fight");
+		numSpikeTraps.setTitle("# of Spike Traps deployed during fight");
 		flexTable.setWidget(row, 1, numSpikeTraps);
 		flexTable.getFlexCellFormatter().setColSpan(row, 1, 2);
 

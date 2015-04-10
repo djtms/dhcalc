@@ -202,6 +202,7 @@ public class CharacterData implements Serializable  {
 	private Map<DamageType, Double> elementalDamage;
 	private Map<ActiveSkill, Double> skillDamage;
 	private double crashingRainPercent;
+	private int duration;
 	
 	public CharacterData copy() {
 		return new CharacterData(this);
@@ -253,6 +254,7 @@ public class CharacterData implements Serializable  {
 		odysseysEndUptime = 1.0;
 		numSpikeTraps = 3;
 //		rovKilled = 0;
+		duration = BreakPoint.DURATION;
 	}
 	
 	public CharacterData() {
@@ -260,6 +262,10 @@ public class CharacterData implements Serializable  {
 	}
 
 	public CharacterData(CharacterData other) {
+		updateFrom(other);
+	}
+	
+	public void updateFrom(CharacterData other) {
 		this.addMax = other.addMax;
 		this.addMin = other.addMin;
 		this.anatomy = other.anatomy;
@@ -301,6 +307,7 @@ public class CharacterData implements Serializable  {
 		this.delay = other.delay;
 		this.diamond = other.diamond;
 		this.distanceToTarget = other.distanceToTarget;
+		this.duration = other.duration;
 		this.elementalDamage = Util.copy(other.elementalDamage);
 		this.eliteDamage = other.eliteDamage;
 		this.enforcerLevel = other.enforcerLevel;
@@ -2230,6 +2237,14 @@ public class CharacterData implements Serializable  {
 
 	public void setCrashingRainPercent(double crashingRainPercent) {
 		this.crashingRainPercent = crashingRainPercent;
+	}
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
 	}
 
 }

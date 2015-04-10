@@ -2,7 +2,6 @@ package com.dawg6.web.sentry.client;
 
 import com.dawg6.gwt.client.ApplicationPanel;
 import com.dawg6.web.sentry.shared.calculator.BreakPoint;
-import com.dawg6.web.sentry.shared.calculator.FiringData;
 import com.dawg6.web.sentry.shared.calculator.Util;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
@@ -17,7 +16,7 @@ public class BreakpointData extends ApplicationPanel {
 		initWidget(bpFlexTable);
 		
 		Label[] bpHeadings = new Label[] { new Label("#"), new Label("APS"),
-				new Label("Sentry APS"), new Label("Attacks/" + FiringData.DURATION +"sec") };
+				new Label("Sentry APS"), new Label("Attacks/" + BreakPoint.DURATION +"sec") };
 
 		bpFlexTable.getRowFormatter().addStyleName(0, "headerRow");
 		
@@ -37,7 +36,7 @@ public class BreakpointData extends ApplicationPanel {
 					new Label(String.valueOf(bp.getBp())),
 					new Label(String.valueOf(bp.getAps())),
 					new Label(
-							String.valueOf(Util.format(bp.getQty() / (double)FiringData.DURATION))),
+							String.valueOf(Util.format(bp.getQty() / (double)BreakPoint.DURATION))),
 					new Label(String.valueOf(bp.getQty())) };
 
 			for (int j = 0; j < labels.length; j++) {

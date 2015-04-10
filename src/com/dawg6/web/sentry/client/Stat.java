@@ -43,16 +43,6 @@ public class Stat {
 		}
 	}),
 
-	new Stat("+1% Elite Damage", new StatAdapter() {
-
-		@Override
-		public void apply(CharacterData data) {
-			double value = data.getEliteDamage();
-			data.setEliteDamage(value + 0.01);
-
-		}
-	}),
-
 	new Stat("+8% Raw RCR", new StatAdapter() {
 
 		@Override
@@ -212,6 +202,17 @@ public class Stat {
 
 	;
 
+	public static Stat ELITE = 	new Stat("+1% Elite Damage", new StatAdapter() {
+
+		@Override
+		public void apply(CharacterData data) {
+			double value = data.getEliteDamage();
+			data.setEliteDamage(value + 0.01);
+
+		}
+	});
+
+
 	private final String label;
 	private final StatAdapter adapter;
 
@@ -239,11 +240,13 @@ public class Stat {
 
 		if (values == null) {
 			values = new Vector<Stat>(fixed.length
-					+ ActiveSkill.values().length + DamageType.values().length);
+					+ ActiveSkill.values().length + DamageType.values().length + 1);
 
 			for (Stat s : fixed)
 				values.add(s);
 
+			values.add(ELITE);
+			
 			for (DamageType t : DamageType.values()) {
 				values.add(new Stat("+1% " + t.getLongName() + " Damage",
 						new StatAdapter.ElementalDamage(t)));

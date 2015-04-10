@@ -1,6 +1,5 @@
 package com.dawg6.web.sentry.client;
 
-import com.dawg6.web.sentry.shared.calculator.FiringData;
 import com.dawg6.web.sentry.shared.calculator.TargetSize;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
@@ -121,12 +120,12 @@ public class SituationalPanel extends Composite {
 		flexTable.setWidget(7, 1, targetSize);
 		targetSize.setWidth("100%");
 		
-		Label label = new Label("# Health Globes/" + FiringData.DURATION + " Seconds:");
+		Label label = new Label("# Health Globes:");
 		flexTable.setWidget(8, 0, label);
 		
 		numHealthGlobes = new NumberSpinner();
 		numHealthGlobes.setVisibleLength(4);
-		numHealthGlobes.setTitle("# of Health Globes picked up during " + FiringData.DURATION + " second fight");
+		numHealthGlobes.setTitle("# of Health Globes picked up during fight");
 		flexTable.setWidget(8, 1, numHealthGlobes);
 		
 		Label label_1 = new Label("Average Firing Delay (ms):");
@@ -145,7 +144,6 @@ public class SituationalPanel extends Composite {
 		this.percentControlled.setMax(100);
 		this.percentSlowedChilled.setMax(100);
 		this.numHealthGlobes.setMin(0);
-		this.numHealthGlobes.setMax(FiringData.DURATION);
 		this.firingDelay.setMin(0);
 		this.firingDelay.setMax(1000);
 		

@@ -351,7 +351,7 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 			// System.out.println(d.log);
 		}
 
-		total = total / FiringData.DURATION;
+		total = total / data.getDuration();
 
 		totalElite = total * e;
 

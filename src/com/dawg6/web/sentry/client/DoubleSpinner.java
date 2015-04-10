@@ -22,6 +22,10 @@ public class DoubleSpinner extends BaseSpinner<Double> {
 
 	@Override
 	protected Double bound(Double value) {
+		
+		if (value == null)
+			value = 0.0;
+		
 		return Math.min(max, Math.max(min, value));
 	}
 
@@ -36,6 +40,13 @@ public class DoubleSpinner extends BaseSpinner<Double> {
 
 	@Override
 	protected boolean isEqual(Double a, Double b) {
+		
+		if (a == null)
+			a = 0.0;
+		
+		if (b == null)
+			b = 0.0;
+		
 		return Math.abs(a - b) < 0.0000001;
 	}
 }

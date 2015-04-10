@@ -202,7 +202,7 @@ public class ProfileHelper {
 		BreakPoint bp = BreakPoint.get(petApsValue);
 		data.setBp(bp.getBp());
 
-		double sentryAps = bp.getQty() / FiringData.DURATION;
+		double sentryAps = bp.getQty() / BreakPoint.DURATION;
 		double sentryDpsValue = averageWeaponDamage * sentryAps
 				* (1.0 + critChance * critDamage) * (1.0 + (dex / 100.0))
 				* (1.0 + aDam);

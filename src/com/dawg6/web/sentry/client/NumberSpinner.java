@@ -22,6 +22,10 @@ public class NumberSpinner extends BaseSpinner<Integer> {
 	
 	@Override
 	protected Integer bound(Integer value) {
+		
+		if (value == null)
+			value = 0;
+		
 		return Math.min(max, Math.max(min, value));
 	}
 
@@ -36,6 +40,13 @@ public class NumberSpinner extends BaseSpinner<Integer> {
 
 	@Override
 	protected boolean isEqual(Integer a, Integer b) {
+		
+		if (a == null)
+			a = 0;
+		
+		if (b == null)
+			b = 0;
+		
 		return a.equals(b);
 	}
 }

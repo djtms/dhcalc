@@ -23,7 +23,6 @@ import com.dawg6.web.sentry.shared.calculator.DamageMultiplier;
 import com.dawg6.web.sentry.shared.calculator.DamageSource;
 import com.dawg6.web.sentry.shared.calculator.DamageType;
 import com.dawg6.web.sentry.shared.calculator.ExportData;
-import com.dawg6.web.sentry.shared.calculator.FiringData;
 import com.dawg6.web.sentry.shared.calculator.GemSkill;
 import com.dawg6.web.sentry.shared.calculator.MultipleSummary;
 import com.dawg6.web.sentry.shared.calculator.Passive;
@@ -156,10 +155,10 @@ public class ExportExcel {
 	private void addSummary() {
 		createInputHeader(summary, "Summary of Damage Log");
 		
-		createInput(summary, data.totalDamage, "Total (Non-Elite) Damage over 30 seconds", largeDoubleStyle);
+		createInput(summary, data.totalDamage, "Total (Non-Elite) Damage over " + data.data.getDuration() + " seconds", largeDoubleStyle);
 		createInput(summary, data.sentryDps, "Total (Non-Elite) DPS", largeDoubleStyle);
 		createInput(summary, data.totalEliteDamage
-				, "Total (Elite) Damage over 30 seconds", largeDoubleStyle);
+				, "Total (Elite) Damage over " + data.data.getDuration() + " seconds", largeDoubleStyle);
 		createInput(summary, data.sentryEliteDps, "Total (Elite) DPS", largeDoubleStyle);
 		
 		summary.autoSizeColumn(0, true);
@@ -191,7 +190,7 @@ public class ExportExcel {
 			addTableCell(row, 1, d.attacks);
 			addTableCell(row, 2, Math.round((d.damage * eliteBonus) / d.attacks));
 			addTableCell(row, 3, d.damage * eliteBonus);
-			addTableCell(row, 4, Math.round((d.damage  * eliteBonus) / FiringData.DURATION));
+			addTableCell(row, 4, Math.round((d.damage  * eliteBonus) / data.data.getDuration()));
 			addTableCell(row, 5, Math.round(10000.0 * d.damage / total) / 10000.0, pctStyle);
 			
 		}
@@ -224,7 +223,7 @@ public class ExportExcel {
 			addTableCell(row, 1, d.attacks);
 			addTableCell(row, 2, Math.round((d.damage * eliteBonus) / d.attacks));
 			addTableCell(row, 3, d.damage * eliteBonus);
-			addTableCell(row, 4, Math.round((d.damage  * eliteBonus) / FiringData.DURATION));
+			addTableCell(row, 4, Math.round((d.damage  * eliteBonus) / data.data.getDuration()));
 			addTableCell(row, 5, Math.round(10000.0 * d.damage / total) / 10000.0, pctStyle);
 			
 		}
@@ -257,7 +256,7 @@ public class ExportExcel {
 			addTableCell(row, 1, d.attacks);
 			addTableCell(row, 2, Math.round((d.damage  * eliteBonus) / d.attacks));
 			addTableCell(row, 3, d.damage * eliteBonus);
-			addTableCell(row, 4, Math.round((d.damage  * eliteBonus) / FiringData.DURATION));
+			addTableCell(row, 4, Math.round((d.damage  * eliteBonus) / data.data.getDuration()));
 			addTableCell(row, 5, Math.round(10000.0 * d.damage / total) / 10000.0, pctStyle);
 			
 		}
@@ -322,7 +321,7 @@ public class ExportExcel {
 			addTableCell(row, col++, d.hatred);
 			
 			addTableCell(row, col++, Math.round(d.totalDamage * eliteBonus));
-			addTableCell(row, col++, Math.round((d.totalDamage  * eliteBonus) / FiringData.DURATION));
+			addTableCell(row, col++, Math.round((d.totalDamage  * eliteBonus) / data.data.getDuration()));
 			
 			if (d.totalDamage > 0) {
 				addTableCell(row, col++, (Math.round(10000.0 * d.totalDamage / total) / 10000.0), pctStyle);
@@ -443,11 +442,11 @@ public class ExportExcel {
 		BreakPoint bp = BreakPoint.ALL[data.data.getBp()-1];
 		createInput(inputs, bp.getBp(), "Break Point");
 		createInput(inputs, bp.getAps(), "Sentry APS");
-		createInput(inputs, bp.getQty(), "Attacks per 30 Seconds");
+		createInput(inputs, bp.getQty(), "Attacks per " + BreakPoint.DURATION + " Seconds");
 		createInput(inputs, 8.0 * (1 - data.data.getCdr()), "Sentry Cooldown (sec)", timeStyle);
 		
 		createInput(inputs, 8.0 * (1 - data.data.getCdr()), "Sentry Cooldown (sec)", timeStyle);
-		createInput(inputs, bp.getQty(), "Attacks per 30 Seconds");
+		createInput(inputs, bp.getQty(), "Attacks per " + BreakPoint.DURATION + " Seconds");
 		createInput(inputs, data.data.getTotalEliteDamage(), "Total Elite Damage", pctStyle);
 		createInput(inputs, data.data.getMaxHatred(), "Max Hatred");
 		createInput(inputs, data.data.getHatredPerSecond(), "Hatred Per Second");
@@ -573,7 +572,7 @@ public class ExportExcel {
 		createInput(inputs, data.data.getOdysseysEndUptime(),
 				"Odyssey's End Uptime", pctStyle);
 		createInput(inputs, data.data.getNumHealthGlobes(),
-				"# Health Globes per " + FiringData.DURATION + " seconds");
+				"# Health Globes during fight");
 		createInput(inputs, data.data.isSpines(),
 				"Spines of Seething Hatred");
 		createInput(inputs, data.data.isKridershot(),
