@@ -214,6 +214,7 @@ public class MainPanel extends BasePanel {
 		horizontalPanel_7.add(tagNumber);
 
 		Button fetchButton = new Button("Get Hero List");
+		fetchButton.setWidth("100px");
 		horizontalPanel_7.add(fetchButton);
 		fetchButton.addClickHandler(new ClickHandler() {
 
@@ -631,8 +632,15 @@ public class MainPanel extends BasePanel {
 		skills = new SkillsPanel();
 		verticalPanel_1.add(skills);
 
+		FlexTable row = new FlexTable();
+		verticalPanel_1.add(row);
+		row.setWidth("100%");
+		
 		passives = new PassivesPanel();
-		verticalPanel_1.add(passives);
+		row.setWidget(0, 0, passives);
+		
+		typeDamage = new DamageTypePanel();
+		row.setWidget(0, 1, typeDamage);
 
 		situational = new SituationalPanel();
 		verticalPanel_1.add(situational);
@@ -642,9 +650,6 @@ public class MainPanel extends BasePanel {
 
 		VerticalPanel verticalPanel_3 = new VerticalPanel();
 		horizontalPanel_4.add(verticalPanel_3);
-
-		typeDamage = new DamageTypePanel();
-		verticalPanel_3.add(typeDamage);
 
 		skillDamage = new SkillDamagePanel();
 		verticalPanel_3.add(skillDamage);
@@ -2708,6 +2713,8 @@ public class MainPanel extends BasePanel {
 				(int) (Math.round(data.getTntPercent() * 100.0)));
 		this.itemPanel.getCalamity().setValue(data.isCalamityMdf());
 		this.itemPanel.getBombadiers().setValue(data.isHasBombardiers());
+		this.itemPanel.getDml().setValue(data.isDml());
+		this.itemPanel.getDmlPercent().setValue((int)Math.round(data.getDmlPercent() * 100.0));
 		this.itemPanel.getBastions().setValue(data.isBastions());
 		this.itemPanel.getCrashingRain().setValue(data.isCrashingRain());
 		this.itemPanel.getCrashingRainPercent().setValue((int)Math.round(data.getCrashingRainPercent() * 100.0));
@@ -2860,6 +2867,10 @@ public class MainPanel extends BasePanel {
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getBombadiers(), "Bombadiers",
 						Boolean.FALSE.toString()),
+				new Field(this.itemPanel.getDml(), "DML",
+						Boolean.FALSE.toString()),
+				new Field(this.itemPanel.getDmlPercent(), "DMLPercent",
+						"50"),
 				new Field(this.itemPanel.getBastions(), "BastionsOfWill",
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getCrashingRain(), "CrashingRain",
@@ -3147,6 +3158,8 @@ public class MainPanel extends BasePanel {
 			data.setBotpUptime(getValue(this.gemPanel.getBotpUptime()) / 100.0);
 			data.setCalamityMdf(itemPanel.getCalamity().getValue());
 			data.setHasBombardiers(itemPanel.getBombadiers().getValue());
+			data.setDml(itemPanel.getDml().getValue());
+			data.setDmlPercent(itemPanel.getDmlPercent().getValue() / 100.0);
 			data.setBastions(itemPanel.getBastions().getValue());
 			data.setCrashingRain(itemPanel.getCrashingRain().getValue());
 			data.setCrashingRainPercent(itemPanel.getCrashingRainPercent().getValue() / 100.0);

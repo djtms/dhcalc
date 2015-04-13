@@ -714,6 +714,8 @@ public class ProfileHelper {
 		boolean hexingPants = false;
 		double hexingPantsPercent = 0.0;
 		boolean bombadiers = false;
+		boolean dml = false;
+		double dmlPercent = 0.0;
 		boolean crashingRain = false;
 		double crashingRainPercent = 0.0;
 		boolean helltrapper = false;
@@ -815,6 +817,17 @@ public class ProfileHelper {
 					strongarmPercent = 0.20;
 			} else if (i.name.equals(Const.BOMBADIERS)) {
 				bombadiers = true;
+			} else if (i.name.equals(Const.DML)) {
+				dml = true;
+
+				Value<Float> value = i.attributesRaw
+						.get(Const.DML_PERCENT);
+
+				if (value != null) {
+					dmlPercent = value.min;
+				} else {
+					dmlPercent = .50;
+				}
 			} else if (i.name.equals(Const.CRASHING_RAIN)) {
 				crashingRain = true;
 				
@@ -1023,6 +1036,8 @@ public class ProfileHelper {
 		data.setHarringtonPercent(harringtonPercent);
 
 		data.setHasBombardiers(bombadiers);
+		data.setDml(dml);
+		data.setDmlPercent(dmlPercent);
 		data.setCrashingRain(crashingRain);
 		data.setCrashingRainPercent(crashingRainPercent);
 		data.setVaxo(vaxo);

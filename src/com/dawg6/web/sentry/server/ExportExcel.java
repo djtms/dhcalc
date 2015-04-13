@@ -551,6 +551,10 @@ public class ExportExcel {
 				"Calamity Uptime", pctStyle);
 		createInput(inputs, data.data.isHasBombardiers(),
 				"Bombadier's Rucksack");
+		createInput(inputs, data.data.isDml(),
+				"Dead Man's Legacy");
+		createInput(inputs, data.data.getDmlPercent(),
+				"Dead Man's Legacy %", pctStyle);
 		createInput(inputs, data.data.isVaxo(),
 				"Haunt of Vaxo");
 		createInput(inputs, data.data.isHelltrapper(),

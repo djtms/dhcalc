@@ -82,6 +82,12 @@ public enum DamageMultiplier {
 				public Double getValue(CharacterData data) {
 					return data.getSentryDamage();
 				}
+			}), DML("DML", DamageAccumulator.Multiplicative,
+			"Dead Man's Legacy Bonus (MS hits twice)", new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return data.isDml() ? data.getDmlPercent() : 0.0;
+				}
 			}), Rockets("Ballistics", DamageAccumulator.Multiplicative,
 			"Ballistics passive bonus (100% Rocket damage)",
 			new Test<CharacterData, Double>() {
@@ -140,20 +146,25 @@ public enum DamageMultiplier {
 					return (data.isArchery() && (data.getWeaponType() == WeaponType.Bow)) ? 0.08
 							: 0.0;
 				}
-			}), UE4("UE4", DamageAccumulator.Multiplicative,
+			}), UE4(
+			"UE4",
+			DamageAccumulator.Multiplicative,
 			"Unhallowed Essence 4 item set bonus (20% if no enemies within 10 yards)",
 			new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
 					return (data.getNumUe() >= 4) ? (0.2 * data
-							.getPercentAtLeast10Yards()): 0.0;
+							.getPercentAtLeast10Yards()) : 0.0;
 				}
-			}), UE6("UE6", DamageAccumulator.Multiplicative,
+			}), UE6(
+			"UE6",
+			DamageAccumulator.Multiplicative,
 			"Unhallowed Essence 6 item set bonus (15% per point of discipline)",
 			new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
-					return (data.getNumUe() >= 6) ? (0.15 * data.getMaxDiscipline()): 0.0;
+					return (data.getNumUe() >= 6) ? (0.15 * data
+							.getMaxDiscipline()) : 0.0;
 				}
 			}), BW1("BWg", DamageAccumulator.Multiplicative,
 			"Bastions of Will Generator Bonus (50%)",
@@ -189,12 +200,12 @@ public enum DamageMultiplier {
 				public Double getValue(CharacterData data) {
 					return data.getCritHitDamage();
 				}
-			}), OnCrit("OnCrit", DamageAccumulator.Special, "On Crit Only Damage Bonus",
-				new Test<CharacterData, Double>() {
-					@Override
-					public Double getValue(CharacterData data) {
-						return data.getCritHitDamage();
-					}
+			}), OnCrit("OnCrit", DamageAccumulator.Special,
+			"On Crit Only Damage Bonus", new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return data.getCritHitDamage();
+				}
 			}), Hysteria("Hysteria", DamageAccumulator.Additive,
 			"Scoundrel Hysteria Damage Bonus",
 			new Test<CharacterData, Double>() {
@@ -540,10 +551,10 @@ public enum DamageMultiplier {
 						break;
 
 					case Grim_Reaper:
-						
+
 						if (data.getNumAdditional() <= 0)
 							break;
-						
+
 						if (data.getTargetSpacing() <= 20) {
 							aoe = (0.20 / data.getNumAdditional());
 

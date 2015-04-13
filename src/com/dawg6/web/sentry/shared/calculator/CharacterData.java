@@ -203,6 +203,8 @@ public class CharacterData implements Serializable  {
 	private Map<ActiveSkill, Double> skillDamage;
 	private double crashingRainPercent;
 	private int duration;
+	private boolean dml;
+	private double dmlPercent;
 	
 	public CharacterData copy() {
 		return new CharacterData(this);
@@ -305,6 +307,8 @@ public class CharacterData implements Serializable  {
 		this.critHitDamage = other.critHitDamage;
 		this.dead = other.dead;
 		this.delay = other.delay;
+		this.dml = other.dml;
+		this.dmlPercent = other.dmlPercent;
 		this.diamond = other.diamond;
 		this.distanceToTarget = other.distanceToTarget;
 		this.duration = other.duration;
@@ -2245,6 +2249,22 @@ public class CharacterData implements Serializable  {
 
 	public void setDuration(int duration) {
 		this.duration = duration;
+	}
+
+	public boolean isDml() {
+		return dml;
+	}
+
+	public void setDml(boolean dml) {
+		this.dml = dml;
+	}
+
+	public double getDmlPercent() {
+		return dmlPercent;
+	}
+
+	public void setDmlPercent(double dmlPercent) {
+		this.dmlPercent = dmlPercent;
 	}
 
 }
