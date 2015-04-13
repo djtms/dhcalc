@@ -540,6 +540,10 @@ public enum DamageMultiplier {
 						break;
 
 					case Grim_Reaper:
+						
+						if (data.getNumAdditional() <= 0)
+							break;
+						
 						if (data.getTargetSpacing() <= 20) {
 							aoe = (0.20 / data.getNumAdditional());
 
