@@ -13,6 +13,7 @@
 - Add import of Nat's Slayer RoV bonus (should work as is, need to verify)
 - Subtract discipline usage for UE6 bonus
 - Implement breakpoints for Strafe/Rapid Fire
+- Add Dead Man's Legacy quiver
 
 * Add Pierce mechanics
 * Change Strong Arm Bracers to drop down (select 20 or 30 only)
