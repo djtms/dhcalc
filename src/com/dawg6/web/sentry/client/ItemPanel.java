@@ -121,6 +121,7 @@ public class ItemPanel extends Composite {
 		flexTable_1.setWidget(5, 1, calamity);
 
 		Label lblUptime = new Label("MfD Uptime:");
+		lblUptime.setWordWrap(false);
 		flexTable_1.setWidget(5, 2, lblUptime);
 
 		calamityUptime = new NumberSpinner();
@@ -368,6 +369,7 @@ public class ItemPanel extends Composite {
 		labelM.setHref("http://us.battle.net/d3/en/item/marauders-visage");
 
 		Label lblPieces = new Label("# Pieces:");
+		lblPieces.setWordWrap(false);
 		flexTable_1.setWidget(22, 2, lblPieces);
 
 		marauders = new NumberSpinner();
@@ -385,6 +387,7 @@ public class ItemPanel extends Composite {
 		anchor_17.setHref("http://us.battle.net/d3/en/item/accursed-visage");
 
 		Label label_17 = new Label("# Pieces:");
+		label_17.setWordWrap(false);
 		flexTable_1.setWidget(23, 2, label_17);
 
 		numUe = new NumberSpinner();
@@ -401,6 +404,7 @@ public class ItemPanel extends Composite {
 		anchor_14.setHref("http://us.battle.net/d3/en/item/natalyas-slayer");
 
 		Label label_16 = new Label("# Pieces:");
+		label_16.setWordWrap(false);
 		flexTable_1.setWidget(24, 2, label_16);
 
 		numNats = new NumberSpinner();
@@ -483,6 +487,7 @@ public class ItemPanel extends Composite {
 		flexTable_1.setWidget(32, 1, cindercoat);
 
 		Label lblRcrPercent = new Label("RCR Percent:");
+		lblRcrPercent.setWordWrap(false);
 		flexTable_1.setWidget(32, 2, lblRcrPercent);
 
 		cindercoatPercent = new NumberSpinner();
