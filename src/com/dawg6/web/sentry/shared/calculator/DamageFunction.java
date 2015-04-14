@@ -370,10 +370,13 @@ public class DamageFunction {
 		WeaponType offHand_type = data.getOffHand_weaponType();
 		DamageMultiplier wDMult = DamageMultiplier.WD;
 
-		if ((offHand_type != null)
+		if ((source == null) || ((source.skill != ActiveSkill.RoV) && (source.skill != ActiveSkill.FoK) && (source.skill != ActiveSkill.Vengeance) )) {
+			if ((offHand_type != null)
 				&& (isPlayer
 						|| shooter.equals(ActiveSkill.Companion.getLongName()) || ((source != null) && ((source.skill == ActiveSkill.SENTRY) || (source.skill == ActiveSkill.BOLT))))) {
-			wDMult = DamageMultiplier.DWWD;
+			
+				wDMult = DamageMultiplier.DWWD;
+			}
 		}
 
 		double baseWd = wDMult.getValue(data);
