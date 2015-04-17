@@ -551,12 +551,18 @@ public class ExportExcel {
 				"Calamity Uptime", pctStyle);
 		createInput(inputs, data.data.isHasBombardiers(),
 				"Bombadier's Rucksack");
+		createInput(inputs, data.data.isCoe(),
+				"Convention of Elements");
+		createInput(inputs, data.data.getCoePercent(),
+				"Convention of Elements %", pctStyle);
 		createInput(inputs, data.data.isDml(),
 				"Dead Man's Legacy");
 		createInput(inputs, data.data.getDmlPercent(),
 				"Dead Man's Legacy %", pctStyle);
 		createInput(inputs, data.data.isVaxo(),
 				"Haunt of Vaxo");
+		createInput(inputs, data.data.getVaxoUptime(),
+				"Haunt of Vaxo Uptime", pctStyle);
 		createInput(inputs, data.data.isHelltrapper(),
 				"Helltrapper");
 		createInput(inputs, data.data.getHelltrapperPercent(),

@@ -50,6 +50,9 @@ public class ItemPanel extends Composite {
 	private final NumberSpinner crashingRainPercent;
 	private final SimpleCheckBox dml;
 	private final NumberSpinner dmlPercent;
+	private final NumberSpinner vaxoUptime;
+	private final NumberSpinner coePercent;
+	private final SimpleCheckBox coe;
 
 	public ItemPanel() {
 
@@ -469,14 +472,42 @@ public class ItemPanel extends Composite {
 
 		vaxo = new SimpleCheckBox();
 		flexTable_1.setWidget(30, 1, vaxo);
-
+		
+		Label label_20 = new Label("Uptime:");
+		flexTable_1.setWidget(30, 2, label_20);
+		
+		vaxoUptime = new NumberSpinner();
+		vaxoUptime.setVisibleLength(4);
+		vaxoUptime.setText("30");
+		flexTable_1.setWidget(30, 3, vaxoUptime);
+		vaxoUptime.setMax(100);
+		
+		Anchor anchor_19 = new Anchor("Convention of Elements");
+		anchor_19.setWordWrap(false);
+		anchor_19.setTarget("_blank");
+		anchor_19.setHref("http://us.battle.net/d3/en/item/convention-of-elements");
+		flexTable_1.setWidget(31, 0, anchor_19);
+		
+		coe = new SimpleCheckBox();
+		flexTable_1.setWidget(31, 1, coe);
+		
+		Label label_21 = new Label("Percent:");
+		flexTable_1.setWidget(31, 2, label_21);
+		
+		coePercent = new NumberSpinner();
+		coePercent.setVisibleLength(4);
+		coePercent.setText("150");
+		flexTable_1.setWidget(31, 3, coePercent);
+		coePercent.setMin(150);
+		coePercent.setMax(200);
+		
 		Label lblChestArmor = new Label("Chest Armor");
 		lblChestArmor.setWordWrap(false);
-		flexTable_1.setWidget(31, 0, lblChestArmor);
+		flexTable_1.setWidget(32, 0, lblChestArmor);
 		lblChestArmor.addStyleName("boldText");
 
 		Anchor anchor_10 = new Anchor("Bombadier's Rucksack");
-		flexTable_1.setWidget(32, 0, anchor_10);
+		flexTable_1.setWidget(33, 0, anchor_10);
 		anchor_10.setWordWrap(false);
 		anchor_10.setText("Cindercoat");
 		anchor_10.setTarget("_blank");
@@ -484,14 +515,14 @@ public class ItemPanel extends Composite {
 		anchor_10.setHref("http://us.battle.net/d3/en/item/cindercoat");
 
 		cindercoat = new SimpleCheckBox();
-		flexTable_1.setWidget(32, 1, cindercoat);
+		flexTable_1.setWidget(33, 1, cindercoat);
 
 		Label lblRcrPercent = new Label("RCR Percent:");
 		lblRcrPercent.setWordWrap(false);
-		flexTable_1.setWidget(32, 2, lblRcrPercent);
+		flexTable_1.setWidget(33, 2, lblRcrPercent);
 
 		cindercoatPercent = new NumberSpinner();
-		flexTable_1.setWidget(32, 3, cindercoatPercent);
+		flexTable_1.setWidget(33, 3, cindercoatPercent);
 		cindercoatPercent.setVisibleLength(4);
 		cindercoatPercent.setText("25");
 		cindercoatPercent.setMin(23);
@@ -499,41 +530,41 @@ public class ItemPanel extends Composite {
 
 		Label lblGeneral = new Label("General");
 		lblGeneral.setWordWrap(false);
-		flexTable_1.setWidget(33, 0, lblGeneral);
+		flexTable_1.setWidget(34, 0, lblGeneral);
 		lblGeneral.addStyleName("boldText");
 
 		Label label_15 = new Label("Area Damage +%:");
-		flexTable_1.setWidget(34, 0, label_15);
+		flexTable_1.setWidget(35, 0, label_15);
 		label_15.setWordWrap(false);
 		label_15.setTitle("The Area Damage percentage from Equipment only.");
 
 		areaDamageEquipment = new NumberSpinner();
-		flexTable_1.setWidget(34, 1, areaDamageEquipment);
+		flexTable_1.setWidget(35, 1, areaDamageEquipment);
 		areaDamageEquipment.setVisibleLength(4);
 		areaDamageEquipment.setText("0");
 		areaDamageEquipment
 				.setTitle("The Area Damage percentage from Equipment only.");
 
 		Label label_1 = new Label("Elite Damage +%:");
-		flexTable_1.setWidget(35, 0, label_1);
+		flexTable_1.setWidget(36, 0, label_1);
 		label_1.setWordWrap(false);
 		label_1.setTitle("The Elite Damage percentage, as shown in-in game in the character details screen under offense. Subtract 15% if Bane of the Powerful is level 25 or more (it will be added automatically if selected).");
 
 		eliteDamagePercent = new NumberSpinner();
-		flexTable_1.setWidget(35, 1, eliteDamagePercent);
+		flexTable_1.setWidget(36, 1, eliteDamagePercent);
 		eliteDamagePercent.setVisibleLength(4);
 		eliteDamagePercent
 				.setTitle("The Elite Damage percentage, as shown in-in game in the character details screen under offense. Subtract 15% if Bane of the Powerful is level 25 or more (it will be added automatically if selected).");
 
 		Label lblNoteSubtract = new Label(
 				"Note: subtract 15% from the value displayed in-game if Bane of the Powerful is rank 25 or more.");
-		flexTable_1.setWidget(36, 0, lblNoteSubtract);
+		flexTable_1.setWidget(37, 0, lblNoteSubtract);
 		lblNoteSubtract.setStyleName("boldText");
 		lblNoteSubtract.setWidth("300px");
 		flexTable_1.getFlexCellFormatter().setColSpan(28, 0, 3);
-		flexTable_1.getFlexCellFormatter().setColSpan(36, 0, 4);
+		flexTable_1.getFlexCellFormatter().setColSpan(37, 0, 4);
+		flexTable_1.getFlexCellFormatter().setColSpan(36, 0, 3);
 		flexTable_1.getFlexCellFormatter().setColSpan(35, 0, 3);
-		flexTable_1.getFlexCellFormatter().setColSpan(34, 0, 3);
 		calamityUptime.setMax(100);
 		FlexTableHelper.fixRowSpan(flexTable_1);
 		crashingRainPercent.setMin(3000);
@@ -701,6 +732,18 @@ public class ItemPanel extends Composite {
 
 	public NumberSpinner getDmlPercent() {
 		return dmlPercent;
+	}
+
+	public NumberSpinner getVaxoUptime() {
+		return vaxoUptime;
+	}
+
+	public NumberSpinner getCoePercent() {
+		return coePercent;
+	}
+
+	public SimpleCheckBox getCoe() {
+		return coe;
 	}
 
 }

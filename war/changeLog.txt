@@ -1,5 +1,10 @@
 Change Log:
 
+**4/17/15**
+* Added Convention of Elements ring
+* Added Uptime for Haunt of Vaxo's Marked for Death (default is 50%)
+* Fixed Crit Chance calculation (was missing the initial 5% and added Max of 100%)
+
 **4/14/15**
 * Rain of Vengeance, Fan of Knives and Vengeance are now properly only calculated from Main Hand Weapon Damage when Dual Wielding
 

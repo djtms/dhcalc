@@ -205,6 +205,9 @@ public class CharacterData implements Serializable  {
 	private int duration;
 	private boolean dml;
 	private double dmlPercent;
+	private boolean coe;
+	private double coePercent;
+	private double vaxoUptime;
 	
 	public CharacterData copy() {
 		return new CharacterData(this);
@@ -257,6 +260,7 @@ public class CharacterData implements Serializable  {
 		numSpikeTraps = 3;
 //		rovKilled = 0;
 		duration = BreakPoint.DURATION;
+		vaxoUptime = 1.0;
 	}
 	
 	public CharacterData() {
@@ -294,6 +298,8 @@ public class CharacterData implements Serializable  {
 		this.charmed = other.charmed;
 		this.cindercoat = other.cindercoat;
 		this.cindercoatRCR = other.cindercoatRCR;
+		this.coe = other.coe;
+		this.coePercent = other.coePercent;
 		this.conviction = other.conviction;
 		this.convictionActiveUptime = other.convictionActiveUptime;
 		this.convictionPassiveUptime = other.convictionPassiveUptime;
@@ -448,6 +454,7 @@ public class CharacterData implements Serializable  {
 		this.valor = other.valor;
 		this.valorUptime = other.valorUptime;
 		this.vaxo = other.vaxo;
+		this.vaxoUptime = other.vaxoUptime;
 		this.weaponAps = other.weaponAps;
 		this.weaponDamage = other.weaponDamage;
 		this.weaponDamagePercent = other.weaponDamagePercent;
@@ -2265,6 +2272,30 @@ public class CharacterData implements Serializable  {
 
 	public void setDmlPercent(double dmlPercent) {
 		this.dmlPercent = dmlPercent;
+	}
+
+	public boolean isCoe() {
+		return coe;
+	}
+
+	public void setCoe(boolean coe) {
+		this.coe = coe;
+	}
+
+	public double getCoePercent() {
+		return coePercent;
+	}
+
+	public void setCoePercent(double coePercent) {
+		this.coePercent = coePercent;
+	}
+
+	public double getVaxoUptime() {
+		return vaxoUptime;
+	}
+
+	public void setVaxoUptime(double vaxoUptime) {
+		this.vaxoUptime = vaxoUptime;
 	}
 
 }

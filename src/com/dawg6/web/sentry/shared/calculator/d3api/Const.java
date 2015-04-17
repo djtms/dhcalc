@@ -135,4 +135,6 @@ public class Const {
 	public static final String CRASHING_RAIN_PERCENT = "Item_Power_Passive#ItemPassive_Unique_Ring_709_x1";
 	public static final String DML = "Dead Man's Legacy";
 	public static final String DML_PERCENT = "Item_Power_Passive#P2_ItemPassive_Unique_Ring_017";
+	public static final String COE = "Convention of Elements";
+	public static final String COE_PERCENT = "Item_Power_Passive#P2_ItemPassive_Unique_Ring_038";
 }

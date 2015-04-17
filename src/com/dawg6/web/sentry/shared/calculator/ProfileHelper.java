@@ -149,7 +149,7 @@ public class ProfileHelper {
 			aDam += .2;
 		}
 
-		double critChance = data.getEquipCritChance() + pCC + aCC;
+		double critChance = Math.min(1.0, 0.05 + data.getEquipCritChance() + pCC + aCC);
 		double critDamage = data.getEquipCritDamage() + pCD + aCD;
 
 		double eIas = data.getEquipIas();
@@ -715,6 +715,8 @@ public class ProfileHelper {
 		double hexingPantsPercent = 0.0;
 		boolean bombadiers = false;
 		boolean dml = false;
+		boolean coe = false;
+		double coePercent = 0.0;
 		double dmlPercent = 0.0;
 		boolean crashingRain = false;
 		double crashingRainPercent = 0.0;
@@ -827,6 +829,17 @@ public class ProfileHelper {
 					dmlPercent = value.min;
 				} else {
 					dmlPercent = .50;
+				}
+			} else if (i.name.equals(Const.COE)) {
+				coe = true;
+
+				Value<Float> value = i.attributesRaw
+						.get(Const.COE_PERCENT);
+
+				if (value != null) {
+					coePercent = value.min;
+				} else {
+					coePercent = 1.50;
 				}
 			} else if (i.name.equals(Const.CRASHING_RAIN)) {
 				crashingRain = true;
@@ -1038,6 +1051,8 @@ public class ProfileHelper {
 		data.setHasBombardiers(bombadiers);
 		data.setDml(dml);
 		data.setDmlPercent(dmlPercent);
+		data.setCoe(coe);
+		data.setCoePercent(coePercent);
 		data.setCrashingRain(crashingRain);
 		data.setCrashingRainPercent(crashingRainPercent);
 		data.setVaxo(vaxo);

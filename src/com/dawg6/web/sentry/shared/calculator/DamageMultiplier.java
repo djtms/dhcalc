@@ -88,6 +88,12 @@ public enum DamageMultiplier {
 				public Double getValue(CharacterData data) {
 					return data.isDml() ? data.getDmlPercent() : 0.0;
 				}
+			}), COE("COE", DamageAccumulator.Multiplicative,
+			"Convention of Elements Bonus (150-200% while element is active)", new Test<CharacterData, Double>() {
+				@Override
+				public Double getValue(CharacterData data) {
+					return data.isCoe() ? (data.getCoePercent() / 4.0) : 0.0;
+				}
 			}), Rockets("Ballistics", DamageAccumulator.Multiplicative,
 			"Ballistics passive bonus (100% Rocket damage)",
 			new Test<CharacterData, Double>() {
@@ -581,11 +587,11 @@ public enum DamageMultiplier {
 			}), Vaxo(
 			"Vaxo",
 			DamageAccumulator.Additive,
-			"Haunt of Vaxo Marked for Death bonus (15% for 15 seconds/30 seconds)",
+			"Haunt of Vaxo Marked for Death bonus (15% during uptime)",
 			new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
-					return data.isVaxo() ? (0.15 * 0.5) : 0.0;
+					return data.isVaxo() ? (0.15 * data.getVaxoUptime()) : 0.0;
 				}
 			}), AD("Area", DamageAccumulator.Additive,
 			"Area Damage (20% chance)", new Test<CharacterData, Double>() {

@@ -504,7 +504,6 @@ public class MainPanel extends BasePanel {
 			}
 		});
 
-
 		Label label_11 = new Label("Break Point:");
 		label_11.setWordWrap(false);
 		label_11.setStyleName("boldText");
@@ -548,8 +547,8 @@ public class MainPanel extends BasePanel {
 			button_4.setHref("javascript:void(0)");
 			button_4.setTitle("Click to retrieve this build");
 			compareTable.setWidget(1, col - 1, button_4);
-			compareTable.getFlexCellFormatter().setHorizontalAlignment(1, col-1,
-					HasHorizontalAlignment.ALIGN_CENTER);
+			compareTable.getFlexCellFormatter().setHorizontalAlignment(1,
+					col - 1, HasHorizontalAlignment.ALIGN_CENTER);
 
 			button_4.addClickHandler(new ClickHandler() {
 
@@ -558,14 +557,14 @@ public class MainPanel extends BasePanel {
 					loadBuild(which);
 				}
 			});
-			
+
 			Anchor label_1 = new Anchor("Clear");
 			label_1.setHref("javascript:void(0)");
 			label_1.setTitle("Click to clear this build");
 			compareTable.setWidget(9, col, label_1);
 			compareTable.getFlexCellFormatter().setWidth(9, col + 1, "5px");
-			compareTable.getFlexCellFormatter().setHorizontalAlignment(9,
-					col, HasHorizontalAlignment.ALIGN_CENTER);
+			compareTable.getFlexCellFormatter().setHorizontalAlignment(9, col,
+					HasHorizontalAlignment.ALIGN_CENTER);
 
 			label_1.addClickHandler(new ClickHandler() {
 
@@ -576,18 +575,20 @@ public class MainPanel extends BasePanel {
 			});
 
 			for (int i = 0; i < 4; i++) {
-				int row = 2 + ((i > 0) ? 1 + ((i-1) * 2) : 0);
+				int row = 2 + ((i > 0) ? 1 + ((i - 1) * 2) : 0);
 
 				Label l = new Label("No Data");
 				l.setWordWrap(false);
 				compareTable.setWidget(row, col, l);
-				compareTable.getFlexCellFormatter().setHorizontalAlignment(row, col, HasHorizontalAlignment.ALIGN_CENTER);
+				compareTable.getFlexCellFormatter().setHorizontalAlignment(row,
+						col, HasHorizontalAlignment.ALIGN_CENTER);
 
 				if (j > 0) {
 					Label pct = new Label("No Data");
 					pct.setWordWrap(false);
 					compareTable.setWidget(row + 1, col, pct);
-					compareTable.getFlexCellFormatter().setHorizontalAlignment(row + 1, col, HasHorizontalAlignment.ALIGN_CENTER);
+					compareTable.getFlexCellFormatter().setHorizontalAlignment(
+							row + 1, col, HasHorizontalAlignment.ALIGN_CENTER);
 				}
 			}
 		}
@@ -635,10 +636,10 @@ public class MainPanel extends BasePanel {
 		FlexTable row = new FlexTable();
 		verticalPanel_1.add(row);
 		row.setWidth("100%");
-		
+
 		passives = new PassivesPanel();
 		row.setWidget(0, 0, passives);
-		
+
 		typeDamage = new DamageTypePanel();
 		row.setWidget(0, 1, typeDamage);
 
@@ -1061,20 +1062,21 @@ public class MainPanel extends BasePanel {
 				}
 			}
 		});
-		
+
 		Label label_15 = new Label("Fight Duration (seconds):");
 		label_15.setWordWrap(false);
 		outputHeader.setWidget(4, 2, label_15);
 		outputHeader.getFlexCellFormatter().setColSpan(4, 2, 2);
-		outputHeader.getFlexCellFormatter().setHorizontalAlignment(4, 2, HasHorizontalAlignment.ALIGN_RIGHT);
-		
+		outputHeader.getFlexCellFormatter().setHorizontalAlignment(4, 2,
+				HasHorizontalAlignment.ALIGN_RIGHT);
+
 		duration = new NumberSpinner();
 		duration.setVisibleLength(4);
 		duration.setMin(1);
 		outputHeader.setWidget(4, 3, duration);
 
 		outputHeader.setWidget(4, 4, calcButton);
-		
+
 		Button bpButton = new Button("New button");
 		bpButton.setText("Break Points...");
 		horizontalPanel_19.add(bpButton);
@@ -1138,7 +1140,7 @@ public class MainPanel extends BasePanel {
 
 		VerticalPanel panel_1 = new VerticalPanel();
 		horizontalPanel_9.add(panel_1);
-		
+
 		captionPanelTypeSummary = new CaptionPanel(
 				"Damage Type Summary (Non-Elite, " + BreakPoint.DURATION
 						+ " seconds)");
@@ -1352,20 +1354,22 @@ public class MainPanel extends BasePanel {
 
 		calculator = new DPSCalculator();
 
-		passives.addChangeHandler(new ChangeHandler(){
+		passives.addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {
 				if (!disableListeners) {
 					disableListeners = true;
-					calculator.getPassives().setPassives(passives.getPassives());
+					calculator.getPassives()
+							.setPassives(passives.getPassives());
 					calculator.saveForm();
 					updateDpsLabels();
 					disableListeners = false;
 				}
-			}});
+			}
+		});
 
-		calculator.getPassives().addChangeHandler(new ChangeHandler(){
+		calculator.getPassives().addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {
@@ -1375,7 +1379,8 @@ public class MainPanel extends BasePanel {
 					updateDpsLabels();
 					disableListeners = false;
 				}
-			}});
+			}
+		});
 
 		ChangeHandler handler = new ChangeHandler() {
 
@@ -1411,8 +1416,6 @@ public class MainPanel extends BasePanel {
 
 		};
 
-
-
 		statTable = new FlexTable();
 		statTableCaption.setContentWidget(statTable);
 		statTable.setCellPadding(5);
@@ -1441,7 +1444,7 @@ public class MainPanel extends BasePanel {
 		statTable.setWidget(0, 3, l2a);
 
 		captionPanelDamageLog.setContentWidget(damageLog);
-		
+
 		paragonPanel.getParagonCDR().addChangeHandler(handler);
 		gemPanel.getGogok().addClickHandler(clickHandler);
 		gemPanel.getGogokLevel().addChangeHandler(handler);
@@ -1463,7 +1466,7 @@ public class MainPanel extends BasePanel {
 		cdrPanel.getBorn().addClickHandler(clickHandler);
 		cdrPanel.getCrimson().addClickHandler(clickHandler);
 		itemPanel.getNumNats().addChangeHandler(handler);
-//		skills.getRovKilled().addChangeHandler(handler);
+		// skills.getRovKilled().addChangeHandler(handler);
 
 		paragonPanel.getParagonRCR().addChangeHandler(handler2);
 		rcrPanel.getPridesFall().addClickHandler(clickHandler2);
@@ -1584,28 +1587,28 @@ public class MainPanel extends BasePanel {
 			realms.addItem(r.getDisplayName(), r.name());
 		}
 
-																// rune3Label };
+		// rune3Label };
 	}
 
 	protected void setBuild(Build build) {
 
 		this.disableListeners = true;
 
-//		this.sentry.setValue(build.isSentry());
-//		this.setFieldValue(this.sentryRunes, build.getSentryRune().name());
-//
-//		for (int i = 0; i < skillBoxes.length; i++) {
-//			this.setFieldValue(this.skillBoxes[i], null);
-//			this.setFieldValue(this.runeBoxes[i], Rune.None.name());
-//		}
-//
-//		int n = 0;
-//
-//		for (SkillAndRune sk : build.getSkills()) {
-//			this.setFieldValue(this.skillBoxes[n], sk.getSkill().name());
-//			this.setFieldValue(this.runeBoxes[n], sk.getRune().name());
-//			n++;
-//		}
+		// this.sentry.setValue(build.isSentry());
+		// this.setFieldValue(this.sentryRunes, build.getSentryRune().name());
+		//
+		// for (int i = 0; i < skillBoxes.length; i++) {
+		// this.setFieldValue(this.skillBoxes[i], null);
+		// this.setFieldValue(this.runeBoxes[i], Rune.None.name());
+		// }
+		//
+		// int n = 0;
+		//
+		// for (SkillAndRune sk : build.getSkills()) {
+		// this.setFieldValue(this.skillBoxes[n], sk.getSkill().name());
+		// this.setFieldValue(this.runeBoxes[n], sk.getRune().name());
+		// n++;
+		// }
 
 		this.disableListeners = false;
 	}
@@ -1613,21 +1616,21 @@ public class MainPanel extends BasePanel {
 	protected Build getBuild() {
 
 		Build build = new Build();
-//		build.setSentry(this.sentry.getValue());
-//		build.setSentryRune(this.getRune(this.sentryRunes));
-//		build.setSkills(new TreeSet<SkillAndRune>());
-//
-//		for (int i = 0; i < skillBoxes.length; i++) {
-//			ActiveSkill skill = this.getSkill(skillBoxes[i]);
-//
-//			if (skill != null) {
-//				Rune rune = this.getRune(runeBoxes[i]);
-//				SkillAndRune sk = new SkillAndRune();
-//				sk.setSkill(skill);
-//				sk.setRune(rune);
-//				build.getSkills().add(sk);
-//			}
-//		}
+		// build.setSentry(this.sentry.getValue());
+		// build.setSentryRune(this.getRune(this.sentryRunes));
+		// build.setSkills(new TreeSet<SkillAndRune>());
+		//
+		// for (int i = 0; i < skillBoxes.length; i++) {
+		// ActiveSkill skill = this.getSkill(skillBoxes[i]);
+		//
+		// if (skill != null) {
+		// Rune rune = this.getRune(runeBoxes[i]);
+		// SkillAndRune sk = new SkillAndRune();
+		// sk.setSkill(skill);
+		// sk.setRune(rune);
+		// build.getSkills().add(sk);
+		// }
+		// }
 
 		return build;
 	}
@@ -1764,7 +1767,8 @@ public class MainPanel extends BasePanel {
 
 			Util.putAll(map, "passives.", list.get(i).formData.passives);
 			Util.putAll(map, "skills.", list.get(i).formData.skills);
-			Util.putAll(map, "elementalDamages.", list.get(i).formData.elementalDamage);
+			Util.putAll(map, "elementalDamages.",
+					list.get(i).formData.elementalDamage);
 			Util.putAll(map, "skillDamages.", list.get(i).formData.skillDamage);
 
 			for (Map.Entry<String, String> e : list.get(i).formData.calculator
@@ -1788,9 +1792,9 @@ public class MainPanel extends BasePanel {
 
 			formData.add(map);
 		}
-		
+
 		Set<String> keys = new TreeSet<String>();
-		
+
 		for (Map<String, String> map : formData) {
 			keys.addAll(map.keySet());
 		}
@@ -1901,7 +1905,7 @@ public class MainPanel extends BasePanel {
 
 			for (int row = 0; row < NUM_COMPARE_ROWS; row++) {
 				Label label = (Label) compareTable.getWidget(row + 2, col);
-				
+
 				if (label != null)
 					label.setText("No Data");
 			}
@@ -1937,8 +1941,7 @@ public class MainPanel extends BasePanel {
 						/ baseline.exportData.sentryEliteDps;
 
 				wdPctL.setText("(" + ((wdPct >= 0) ? "+" : "")
-						+ Util.format(Math.round(wdPct * 1000.0) / 10.0)
-						+ "%)");
+						+ Util.format(Math.round(wdPct * 1000.0) / 10.0) + "%)");
 				dpsPctL.setText("(" + ((dpsPct >= 0) ? "+" : "")
 						+ Util.format(Math.round(dpsPct * 1000.0) / 10.0)
 						+ "%)");
@@ -2019,11 +2022,14 @@ public class MainPanel extends BasePanel {
 			if (gearPanel != null)
 				gearPanel.clearData();
 		}
-		
-		this.typeDamage.setValues(Util.createMap(DamageType.class, data.elementalDamage));
-		this.skillDamage.setValues(Util.createMap(ActiveSkill.class, data.skillDamage));
+
+		this.typeDamage.setValues(Util.createMap(DamageType.class,
+				data.elementalDamage));
+		this.skillDamage.setValues(Util.createMap(ActiveSkill.class,
+				data.skillDamage));
 		this.passives.setPassives(Util.createSet(Passive.class, data.passives));
-		this.skills.setSkills(Util.createEnumMap(ActiveSkill.class, Rune.class, data.skills));
+		this.skills.setSkills(Util.createEnumMap(ActiveSkill.class, Rune.class,
+				data.skills));
 
 		calculator.saveForm();
 		this.saveForm();
@@ -2046,8 +2052,7 @@ public class MainPanel extends BasePanel {
 				GearPanel.ItemHolder item = items.get(s);
 
 				if ((item != null) && (item.getTooltip() != null)) {
-					this.saveField(SLOT_PREFIX + s.getSlot(),
-							item.getTooltip());
+					this.saveField(SLOT_PREFIX + s.getSlot(), item.getTooltip());
 				}
 			}
 		}
@@ -2067,7 +2072,7 @@ public class MainPanel extends BasePanel {
 		data.skillDamage = Util.createMap(this.skillDamage.getValues());
 		data.elementalDamage = Util.createMap(this.typeDamage.getValues());
 		data.skills = Util.createEnumMap(skills.getSkills());
-		
+
 		data.version = Version.getVersion();
 
 		// Having a problem with non UTF-8 encoding in these
@@ -2359,15 +2364,15 @@ public class MainPanel extends BasePanel {
 									@Override
 									public void taskCompleted() {
 
-//										Service.getInstance().logData(data,
-//												new DefaultCallback<Void>() {
-//
-//													@Override
-//													public void doOnSuccess(
-//															Void result) {
-//														// nothing to do
-//													}
-//												});
+										// Service.getInstance().logData(data,
+										// new DefaultCallback<Void>() {
+										//
+										// @Override
+										// public void doOnSuccess(
+										// Void result) {
+										// // nothing to do
+										// }
+										// });
 									}
 								});
 							}
@@ -2425,7 +2430,8 @@ public class MainPanel extends BasePanel {
 
 		skills.setSkills(data.getSkills());
 		hatredPanel.getHatredPerSecond().setValue(data.getHatredPerSecond());
-		hatredPanel.getEquipmentDiscipline().setValue(data.getEquipmentDiscipline());
+		hatredPanel.getEquipmentDiscipline().setValue(
+				data.getEquipmentDiscipline());
 	}
 
 	private void updateParagonPoints() {
@@ -2437,8 +2443,7 @@ public class MainPanel extends BasePanel {
 				getValue(MainPanel.this.paragonPanel.getParagonCHD()),
 				getValue(MainPanel.this.paragonPanel.getParagonHatred()),
 				getValue(MainPanel.this.paragonPanel.getParagonRCR()),
-				getValue(MainPanel.this.paragonPanel.getParagonAD())
-				);
+				getValue(MainPanel.this.paragonPanel.getParagonAD()));
 		this.calculator.saveForm();
 	}
 
@@ -2609,12 +2614,14 @@ public class MainPanel extends BasePanel {
 		this.sentryCD = 8.0 * (1 - effCdr);
 		double wolfCD = 30.0 * (1 - effCdr);
 		double rovCD = 30.0 * (1 - effCdr);
-		
-//		if (itemPanel.getNumNats().getValue() >= 4)
-//			rovCD = Math.max(0.0, rovCD - (skills.getRovKilled().getValue() * 2.0));
+
+		// if (itemPanel.getNumNats().getValue() >= 4)
+		// rovCD = Math.max(0.0, rovCD - (skills.getRovKilled().getValue() *
+		// 2.0));
 
 		if (itemPanel.getNumNats().getValue() >= 2) {
-			double interval = (1.0 / calculator.getSheetAps()) + (situational.getFiringDelay().getValue() / 1000.0);
+			double interval = (1.0 / calculator.getSheetAps())
+					+ (situational.getFiringDelay().getValue() / 1000.0);
 			double numAttacks = rovCD / (interval + 2.0);
 			rovCD = numAttacks * interval;
 		}
@@ -2630,8 +2637,9 @@ public class MainPanel extends BasePanel {
 		this.sentryCDLabel
 				.setText(Util.format(Math.round(sentryCD * 100.0) / 100.0)
 						+ " sec");
-		this.wolfCDLabel.setText(Util.format(Math.round(wolfCD * 100.0) / 100.0)
-				+ " sec");
+		this.wolfCDLabel
+				.setText(Util.format(Math.round(wolfCD * 100.0) / 100.0)
+						+ " sec");
 		this.rovCDLabel.setText(Util.format(Math.round(rovCD * 100.0) / 100.0)
 				+ " sec");
 	}
@@ -2714,11 +2722,18 @@ public class MainPanel extends BasePanel {
 		this.itemPanel.getCalamity().setValue(data.isCalamityMdf());
 		this.itemPanel.getBombadiers().setValue(data.isHasBombardiers());
 		this.itemPanel.getDml().setValue(data.isDml());
-		this.itemPanel.getDmlPercent().setValue((int)Math.round(data.getDmlPercent() * 100.0));
+		this.itemPanel.getDmlPercent().setValue(
+				(int) Math.round(data.getDmlPercent() * 100.0));
 		this.itemPanel.getBastions().setValue(data.isBastions());
 		this.itemPanel.getCrashingRain().setValue(data.isCrashingRain());
-		this.itemPanel.getCrashingRainPercent().setValue((int)Math.round(data.getCrashingRainPercent() * 100.0));
+		this.itemPanel.getCrashingRainPercent().setValue(
+				(int) Math.round(data.getCrashingRainPercent() * 100.0));
 		this.itemPanel.getVaxo().setValue(data.isVaxo());
+		this.itemPanel.getVaxoUptime().setValue(
+				(int) Math.round(data.getVaxoUptime() * 100.0));
+		this.itemPanel.getCoe().setValue(data.isCoe());
+		this.itemPanel.getCoePercent().setValue(
+				(int) Math.round(data.getCoePercent() * 100.0));
 		this.itemPanel.getHelltrapper().setValue(data.isHelltrapper());
 		this.itemPanel.getHelltrapperPercent().setValue(
 				(int) Math.round(data.getHelltrapperPercent() * 100));
@@ -2820,7 +2835,7 @@ public class MainPanel extends BasePanel {
 	protected void setElementalDamage() {
 
 		typeDamage.setValues(data.getElementalDamage());
-		
+
 	}
 
 	protected void setHeroSkills() {
@@ -2849,7 +2864,8 @@ public class MainPanel extends BasePanel {
 		return new Field[] {
 				new Field(this.realms, "Realm", ""),
 				new Field(this.battleTag, "BattleTag", "BnetName"),
-				new Field(this.duration, "Duration", String.valueOf(BreakPoint.DURATION)),
+				new Field(this.duration, "Duration",
+						String.valueOf(BreakPoint.DURATION)),
 				new Field(this.tagNumber, "BattleTagNumber", "1234"),
 				new Field(this.paragonPanel.getParagonIAS(), "ParagonIas", "0"),
 				new Field(this.paragonPanel.getParagonDexterity(),
@@ -2869,16 +2885,21 @@ public class MainPanel extends BasePanel {
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getDml(), "DML",
 						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getDmlPercent(), "DMLPercent",
-						"50"),
+				new Field(this.itemPanel.getDmlPercent(), "DMLPercent", "50"),
 				new Field(this.itemPanel.getBastions(), "BastionsOfWill",
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getCrashingRain(), "CrashingRain",
 						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getCrashingRainPercent(), "CrashingRainPercent",
-						"3000"),
+				new Field(this.itemPanel.getCrashingRainPercent(),
+						"CrashingRainPercent", "3000"),
 				new Field(this.itemPanel.getVaxo(), "HauntOfVaxo",
 						Boolean.FALSE.toString()),
+				new Field(this.itemPanel.getVaxoUptime(), "VaxoUptime",
+						"50"),
+				new Field(this.itemPanel.getCoe(), "COE",
+						Boolean.FALSE.toString()),
+				new Field(this.itemPanel.getCoePercent(), "CoePercent",
+						"150"),
 				new Field(this.itemPanel.getHelltrapper(), "Helltrapper",
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getHelltrapperPercent(),
@@ -2912,8 +2933,7 @@ public class MainPanel extends BasePanel {
 						"100"),
 				new Field(this.skills.getCaltropsUptime(), "CaltropsUptime",
 						"100"),
-				new Field(this.skills.getNumSpikeTraps(), "NumSpikeTraps",
-						"3"),
+				new Field(this.skills.getNumSpikeTraps(), "NumSpikeTraps", "3"),
 				new Field(this.hatredPanel.getHatredPerSecond(),
 						"EquipHatredPerSecond", "0.0"),
 				new Field(this.hatredPanel.getEquipmentDiscipline(),
@@ -3152,7 +3172,8 @@ public class MainPanel extends BasePanel {
 			data.setEnforcerLevel(getValue(this.gemPanel.getEnforcerLevel()));
 			data.setIceblinkLevel(getValue(this.gemPanel.getIceblinkLevel()));
 			data.setEliteDamage(getValue(this.itemPanel.getEliteDamagePercent()) / 100.0);
-			data.setAreaDamageEquipment(getValue(this.itemPanel.getAreaDamageEquipment()) / 100.0);
+			data.setAreaDamageEquipment(getValue(this.itemPanel
+					.getAreaDamageEquipment()) / 100.0);
 			data.setBotp(this.gemPanel.getBotp().getValue());
 			data.setBotpLevel(getValue(this.gemPanel.getBotpLevel()));
 			data.setBotpUptime(getValue(this.gemPanel.getBotpUptime()) / 100.0);
@@ -3162,8 +3183,12 @@ public class MainPanel extends BasePanel {
 			data.setDmlPercent(itemPanel.getDmlPercent().getValue() / 100.0);
 			data.setBastions(itemPanel.getBastions().getValue());
 			data.setCrashingRain(itemPanel.getCrashingRain().getValue());
-			data.setCrashingRainPercent(itemPanel.getCrashingRainPercent().getValue() / 100.0);
+			data.setCrashingRainPercent(itemPanel.getCrashingRainPercent()
+					.getValue() / 100.0);
 			data.setVaxo(itemPanel.getVaxo().getValue());
+			data.setVaxoUptime(itemPanel.getVaxoUptime().getValue() / 100.0);
+			data.setCoe(itemPanel.getCoe().getValue());
+			data.setCoePercent(itemPanel.getCoePercent().getValue() / 100.0);
 			data.setHelltrapper(itemPanel.getHelltrapper().getValue());
 			data.setHelltrapperPercent(itemPanel.getHelltrapperPercent()
 					.getValue() / 100.0);
@@ -3186,7 +3211,8 @@ public class MainPanel extends BasePanel {
 			data.setJewelMin(calculator.getJewelMin());
 			data.setJewelMax(calculator.getJewelMax());
 			data.setWeaponDamage(calculator.getMainHandAverageWeaponDamage());
-			data.setWeaponDamagePercent(calculator.getMainHand().getWeaponDamage().getValue() / 100.0);
+			data.setWeaponDamagePercent(calculator.getMainHand()
+					.getWeaponDamage().getValue() / 100.0);
 			data.setBaseMin(calculator.getMainHand().getBaseMin().getValue());
 			data.setBaseMax(calculator.getMainHand().getBaseMax().getValue());
 			data.setAddMin(calculator.getMainHand().getAddMin().getValue());
@@ -3194,15 +3220,20 @@ public class MainPanel extends BasePanel {
 			data.setWeaponIas(calculator.getWeaponIAS());
 			data.setWeaponType(calculator.getMainHandWeaponType());
 
-			data.setOffHand_weaponDamagePercent(calculator.getOffHand().getWeaponDamage().getValue() / 100.0);
+			data.setOffHand_weaponDamagePercent(calculator.getOffHand()
+					.getWeaponDamage().getValue() / 100.0);
 			data.setOffHand_weaponDamage(calculator
 					.getOffHandAverageWeaponDamage());
 			data.setOffHand_weaponType(calculator.getOffHandWeaponType());
 			data.setOffHand_weaponIas(calculator.getOffHandWeaponIAS());
-			data.setOffHand_baseMin(calculator.getOffHand().getBaseMin().getValue());
-			data.setOffHand_baseMax(calculator.getOffHand().getBaseMax().getValue());
-			data.setOffHand_addMin(calculator.getOffHand().getAddMin().getValue());
-			data.setOffHand_addMax(calculator.getOffHand().getAddMax().getValue());
+			data.setOffHand_baseMin(calculator.getOffHand().getBaseMin()
+					.getValue());
+			data.setOffHand_baseMax(calculator.getOffHand().getBaseMax()
+					.getValue());
+			data.setOffHand_addMin(calculator.getOffHand().getAddMin()
+					.getValue());
+			data.setOffHand_addMax(calculator.getOffHand().getAddMax()
+					.getValue());
 
 			data.setGogok(gemPanel.getGogok().getValue());
 			data.setGogokLevel(gemPanel.getGogokLevel().getValue());
@@ -3276,7 +3307,8 @@ public class MainPanel extends BasePanel {
 			data.setCaltropsUptime(skills.getCaltropsUptime().getValue() / 100.0);
 			data.setNumSpikeTraps(skills.getNumSpikeTraps().getValue());
 			data.setHatredPerSecond(hatredPanel.getHatredPerSecond().getValue());
-			data.setEquipmentDiscipline(hatredPanel.getEquipmentDiscipline().getValue());
+			data.setEquipmentDiscipline(hatredPanel.getEquipmentDiscipline()
+					.getValue());
 			data.setSpines(itemPanel.getSpines().getValue());
 			data.setKridershot(itemPanel.getKridershot().getValue());
 			data.setSpinesHatred(itemPanel.getSpinesHatred().getValue());
@@ -3305,14 +3337,15 @@ public class MainPanel extends BasePanel {
 			this.exportData = new ExportData();
 			this.exportData.data = data;
 			this.exportData.output = damage;
-			this.exportData.skills = new TreeMap<ActiveSkill, Rune>(data.getSkills());
+			this.exportData.skills = new TreeMap<ActiveSkill, Rune>(
+					data.getSkills());
 			this.exportData.types = types;
 			this.exportData.skillDamages = skillDamages;
 			this.exportData.shooterDamages = shooterDamages;
 			this.exportData.multiple = new Vector<MultipleSummary>();
 			this.exportData.sentryBaseDps = calculator.getSentryDps();
 			this.exportData.bp = data.getBp();
-			
+
 			calculateData();
 
 			updateOutput();
@@ -3445,9 +3478,8 @@ public class MainPanel extends BasePanel {
 		this.captionPanelShooterSummary
 				.setCaptionHTML("Shooter Damage Summary (" + eliteString + " "
 						+ data.getDuration() + " seconds)");
-		this.statTableCaption
-		.setCaptionHTML("Stat Calculator (" + eliteString + " "
-				+ data.getDuration() + " seconds)");
+		this.statTableCaption.setCaptionHTML("Stat Calculator (" + eliteString
+				+ " " + data.getDuration() + " seconds)");
 
 		for (int row = 0; row < damage.length; row++) {
 			if ((row % 2) == 0)
@@ -3480,7 +3512,7 @@ public class MainPanel extends BasePanel {
 
 					if (d.source.skill == ActiveSkill.CR)
 						url = ActiveSkill.RoV.getUrl();
-					
+
 					if (d.source.rune != Rune.None)
 						url += ("#" + d.source.rune.getSlug() + "+");
 
@@ -3544,8 +3576,8 @@ public class MainPanel extends BasePanel {
 					false));
 
 			if (d.hatred != 0) {
-				Label hatredLabel = new Label(Util.format(Math.round(d.hatred)),
-						false);
+				Label hatredLabel = new Label(
+						Util.format(Math.round(d.hatred)), false);
 				hatredLabel.addStyleName("dpsCol");
 				damageLog.setWidget(row + 1, 6, hatredLabel);
 			}
@@ -3768,60 +3800,61 @@ public class MainPanel extends BasePanel {
 
 		row = 1;
 
-		
 		CharacterData savedData = data.copy();
-		
+
 		double baseline = isElite ? eTotal : total;
-		
+
 		for (Stat stat : Stat.values()) {
 
 			StatAdapter adapter = stat.getAdapter();
-			
-			if (((stat != Stat.ELITE) || isElite) && adapter.test(data, types.keySet())) {
-				
+
+			if (((stat != Stat.ELITE) || isElite)
+					&& adapter.test(data, types.keySet())) {
+
 				if ((row % 2) == 0)
 					statTable.getRowFormatter().addStyleName(row, "evenRow");
 				else
 					statTable.getRowFormatter().addStyleName(row, "oddRow");
-				
+
 				String label = stat.getLabel();
-				
+
 				int col = 0;
 				Label l1 = new Label(label);
 				l1.setWordWrap(false);
 				statTable.setWidget(row, col++, l1);
-				
+
 				adapter.apply(data);
-				
+
 				Damage[] d = FiringData.calculateDamages(data);
-				
+
 				double totalRow = 0;
-				
+
 				for (Damage r : d) {
 					totalRow += r.totalDamage;
 				}
-				
-				if (isElite) 
+
+				if (isElite)
 					totalRow *= (1.0 + data.getTotalEliteDamage());
-				
+
 				double dpsRow = totalRow / data.getDuration();
-				
+
 				double pct = (totalRow - baseline) / baseline;
-	
+
 				Label l2 = new Label(Util.format(Math.round(totalRow)));
 				l2.addStyleName("dpsCol");
 				statTable.setWidget(row, col++, l2);
-				
+
 				Label l3 = new Label(Util.format(Math.round(dpsRow)));
 				l3.addStyleName("dpsCol");
 				statTable.setWidget(row, col++, l3);
-	
-				Label l4 = new Label(((pct >= 0.0) ? "+" : "") + Util.format(Math.round(pct * 1000.0) / 10.0) + "%");
+
+				Label l4 = new Label(((pct >= 0.0) ? "+" : "")
+						+ Util.format(Math.round(pct * 1000.0) / 10.0) + "%");
 				l4.addStyleName("dpsCol");
 				statTable.setWidget(row, col++, l4);
-	
+
 				data = savedData.copy();
-				
+
 				row++;
 			}
 		}
@@ -3867,13 +3900,17 @@ public class MainPanel extends BasePanel {
 	@Override
 	protected void saveForm() {
 		super.saveForm();
-	
-		super.saveField("passives", super.getFieldValue(passives.getPassives(), null));
-		super.saveField("elemental.Damage", super.getFieldValue(this.typeDamage.getValues(), null));
-		super.saveField("skill.Damage", super.getFieldValue(this.skillDamage.getValues(), null));
-		super.saveField("skills", super.getFieldValue(this.skills.getSkills(), null));
+
+		super.saveField("passives",
+				super.getFieldValue(passives.getPassives(), null));
+		super.saveField("elemental.Damage",
+				super.getFieldValue(this.typeDamage.getValues(), null));
+		super.saveField("skill.Damage",
+				super.getFieldValue(this.skillDamage.getValues(), null));
+		super.saveField("skills",
+				super.getFieldValue(this.skills.getSkills(), null));
 	}
-	
+
 	@Override
 	protected void loadForm() {
 		super.loadForm();
@@ -3890,11 +3927,13 @@ public class MainPanel extends BasePanel {
 				.getValue());
 		calculator.saveForm();
 		calculator.calculate();
-		
+
 		super.setFieldValue(skills, super.getFieldValue("skills", null));
 		super.setFieldValue(passives, super.getFieldValue("passives", null));
-		super.setFieldValue(typeDamage, super.getFieldValue("elemental.Damage", null));
-		super.setFieldValue(skillDamage, super.getFieldValue("skill.Damage", null));
+		super.setFieldValue(typeDamage,
+				super.getFieldValue("elemental.Damage", null));
+		super.setFieldValue(skillDamage,
+				super.getFieldValue("skill.Damage", null));
 	}
 
 	@Override
@@ -4022,16 +4061,16 @@ public class MainPanel extends BasePanel {
 
 		gearPanel.setVisible(true);
 		gearPanel.updateLabels();
-		
+
 		ApplicationPanel.showDialogBox("Items", gearPanel,
 				ApplicationPanel.APPLY_CHANGES | ApplicationPanel.CANCEL,
 				new DialogBoxResultHandler() {
 
 					@Override
 					public void dialogBoxResult(int result) {
-						
+
 						gearPanel.setVisible(false);
-						
+
 						if (result == ApplicationPanel.APPLY_CHANGES) {
 
 							AsyncTaskHandler dialog = ApplicationPanel
@@ -4049,14 +4088,15 @@ public class MainPanel extends BasePanel {
 									if (item == null) {
 										hero.items.remove(s.getSlot());
 									} else {
-										item.getInfo(new DefaultCallback<ItemInformation>(){
+										item.getInfo(new DefaultCallback<ItemInformation>() {
 
 											@Override
 											protected void doOnSuccess(
 													ItemInformation result) {
-												hero.items.put(slot.getSlot(), result);
+												hero.items.put(slot.getSlot(),
+														result);
 											}
-											
+
 										});
 									}
 								}

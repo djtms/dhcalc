@@ -184,7 +184,8 @@ public class DPSCalculator extends BasePanel {
 		flexTable_2.setWidget(3, 1, critChance);
 		critChance.setVisibleLength(6);
 		critChance.addChangeHandler(handler);
-
+		critChance.setMax(95.0);
+		
 		Label lblNewLabel_5 = new Label("Crit Hit Damage (%):");
 		flexTable_2.setWidget(4, 0, lblNewLabel_5);
 		lblNewLabel_5.setWordWrap(false);
@@ -831,8 +832,8 @@ public class DPSCalculator extends BasePanel {
 
 		double anatomy = buffPanel.getAnatomy().getValue() ? 0.018 : 0.0;
 
-		double critChance = .05 + (getValue(this.critChance) / 100.0) + pCC + aCC
-				+ anatomy;
+		double critChance = Math.min(1.0, .05 + (getValue(this.critChance) / 100.0) + pCC + aCC
+				+ anatomy);
 		double critDamage = getValue(this.critDamage) / 100.0 + pCD + aCD;
 
 		this.eIas = (getValue(this.equipIAS)) / 100.0;
