@@ -1,5 +1,8 @@
 Change Log:
 
+**4/20/15**
+* Added +discipline to stat calculator table
+
 **4/17/15**
 * Added Convention of Elements ring
 * Added Uptime for Haunt of Vaxo's Marked for Death (default is 50%)

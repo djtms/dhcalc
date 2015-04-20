@@ -70,6 +70,21 @@ public class Stat {
 		}
 	}),
 
+	new Stat("+1 Discipline", new StatAdapter() {
+
+		@Override
+		public void apply(CharacterData data) {
+			int value = data.getEquipmentDiscipline();
+			data.setEquipmentDiscipline(value + 1);
+		}
+
+		@Override
+		public boolean test(CharacterData data, Set<DamageType> types) {
+
+			return data.getNumUe() >= 6;
+		}
+	}),
+
 	new Stat("+1 Hatred per Second", new StatAdapter() {
 
 		@Override
