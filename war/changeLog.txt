@@ -2,6 +2,9 @@ Change Log:
 
 **4/20/15**
 * Added +discipline to stat calculator table
+* Fixed import of Taeguk
+* Taeguk stacks now limited based on gem rank
+* Fixed import of Strong Arms Percent value
 
 **4/17/15**
 * Added Convention of Elements ring

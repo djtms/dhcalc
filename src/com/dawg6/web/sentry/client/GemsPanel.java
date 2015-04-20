@@ -1,6 +1,8 @@
 package com.dawg6.web.sentry.client;
 
 import com.dawg6.web.sentry.shared.calculator.GemSkill;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
@@ -220,6 +222,13 @@ public class GemsPanel extends Composite {
 		taegukStacks.setVisibleLength(2);
 		taegukStacks.setTitle("Average # of stacks during fight");
 		flexTable.setWidget(8, 5, taegukStacks);
+		
+		taegukLevel.addChangeHandler(new ChangeHandler(){
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				taegukStacks.setMax(20 + taegukLevel.getValue());
+			}});
 		
 		this.botLevel.setMax(100);
 		this.enforcerLevel.setMax(100);

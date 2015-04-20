@@ -336,7 +336,9 @@ public class ProfileHelper {
 		int botpLevel = 0;
 		boolean zeis = false;
 		int zeisLevel = 0;
-
+		boolean taeguk  = false;
+		int taegukLevel = 0;
+		
 		boolean gogok = false;
 		int gogokLevel = 0;
 		boolean toxin = false;
@@ -369,6 +371,10 @@ public class ProfileHelper {
 							zeis = true;
 							float rank = g.jewelRank;
 							zeisLevel = (int) rank;
+						} else if (g.item.name.equals(Const.TAEGUK)) {
+							taeguk = true;
+							float rank = g.jewelRank;
+							taegukLevel = (int) rank;
 						} else if (g.item.name.equals(Const.GOGOK)) {
 							gogok = true;
 							float rank = g.jewelRank;
@@ -410,6 +416,9 @@ public class ProfileHelper {
 
 		data.setPainEnhancer(painEnhancer);
 		data.setPainEnhancerLevel(painEnhancerLevel);
+		
+		data.setTaeguk(taeguk);
+		data.setTaegukLevel(taegukLevel);
 	}
 
 	public static void importWeaponData(HeroProfile hero, CharacterData data,
@@ -1040,7 +1049,7 @@ public class ProfileHelper {
 		data.setMeticulousBoltsPercent(meticulousBoltsPercent / 100.0);
 
 		data.setStrongarm(strongarm);
-		data.setStrongarmPercent(strongarmPercent / 100.0);
+		data.setStrongarmPercent(strongarmPercent);
 
 		data.setHexingPants(hexingPants);
 		data.setHexingPantsPercent(hexingPantsPercent);

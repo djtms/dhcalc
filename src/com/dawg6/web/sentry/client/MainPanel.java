@@ -2489,6 +2489,8 @@ public class MainPanel extends BasePanel {
 		this.gemPanel.getBotpLevel().setValue(data.getBotpLevel());
 		this.gemPanel.getZeis().setValue(data.isZeis());
 		this.gemPanel.getZeisLevel().setValue(data.getZeisLevel());
+		this.gemPanel.getTaeguk().setValue(data.isTaeguk());
+		this.gemPanel.getTaegukLevel().setValue(data.getTaegukLevel());
 		this.gemPanel.getGogok().setValue(data.isGogok());
 		this.gemPanel.getGogokLevel().setValue(data.getGogokLevel());
 		this.gemPanel.getToxin().setValue(data.isToxin());
