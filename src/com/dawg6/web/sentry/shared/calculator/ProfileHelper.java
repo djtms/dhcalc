@@ -424,7 +424,7 @@ public class ProfileHelper {
 	public static void importWeaponData(HeroProfile hero, CharacterData data,
 			Integer paragonDexterity) {
 
-		double critChance = 0.05;
+		double critChance = 0.0;
 		double critDamage = 0.5;
 		WeaponType type = null;
 		int weaponIas = 0;

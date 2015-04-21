@@ -3,6 +3,7 @@ Change Log:
 **4/21/15**
 * Added CDR to stat calculator table
 * Added Bat's passive 1 hatred/second
+* Fixed Crit Chance (initial 5% was being added twice)
 
 **4/20/15**
 * Added +discipline to stat calculator table
