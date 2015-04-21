@@ -39,9 +39,11 @@ public class FiringData {
 		double markedAmount = (4.0 * data.getMfdUptime())
 				+ (4.0 * data.getNumAdditional() * data.getMfdAddUptime());
 		double reaperAmount = maxHatred * data.getReapersWrapsPercent();
+		Rune companionRune = data.getCompanionRune();
 		double regen = 5.0
 				+ data.getHatredPerSecond()
 				+ (data.isInspire() ? 1.0 : 0.0)
+				+ (((companionRune == Rune.Bat) || ((companionRune != null) && data.getNumMarauders() >= 2)) ? 1.0 : 0.0 )
 				+ ((data.isArchery()
 						&& (data.getWeaponType() == WeaponType.HandCrossbow) && (data
 						.getOffHand_weaponType() == WeaponType.HandCrossbow)) ? 1.0
@@ -234,11 +236,8 @@ public class FiringData {
 				}
 			}
 
-			t += interval;
-
 			if (hatred < maxHatred) {
-				double tick = (t <= duration) ? interval
-						: (t - duration);
+				double tick = Math.min(interval, duration - t);
 				double regenTick = Math.min(tick * regen, maxHatred - hatred);
 				regenHatred += regenTick;
 				hatred += regenTick;
@@ -251,6 +250,7 @@ public class FiringData {
 				}
 			}
 
+			t += interval;
 		}
 
 		for (SkillAndRune skr : skills) {
