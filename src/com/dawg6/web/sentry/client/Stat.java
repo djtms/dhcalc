@@ -43,12 +43,12 @@ public class Stat {
 		}
 	}),
 
-	new Stat("+8% Raw RCR", new StatAdapter() {
+	new Stat("+5% Raw RCR", new StatAdapter() {
 
 		@Override
 		public void apply(CharacterData data) {
 			double value = data.getRcr();
-			data.setRcr(1.0 - ((1.0 - value) * 0.92));
+			data.setRcr(1.0 - ((1.0 - value) * 0.95));
 
 		}
 		
@@ -57,6 +57,17 @@ public class Stat {
 
 			return data.hasSpender();
 		}
+	}),
+
+	new Stat("+5% Raw CDR", new StatAdapter() {
+
+		@Override
+		public void apply(CharacterData data) {
+			double value = data.getCdr();
+			data.setCdr(1.0 - ((1.0 - value) * 0.95));
+
+		}
+		
 	}),
 
 	new Stat("+1% IAS", new StatAdapter() {

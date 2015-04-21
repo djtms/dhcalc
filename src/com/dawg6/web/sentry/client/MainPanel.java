@@ -3851,7 +3851,7 @@ public class MainPanel extends BasePanel {
 				statTable.setWidget(row, col++, l3);
 
 				Label l4 = new Label(((pct >= 0.0) ? "+" : "")
-						+ Util.format(Math.round(pct * 1000.0) / 10.0) + "%");
+						+ Util.format(Math.round(pct * 10000.0) / 100.0) + "%");
 				l4.addStyleName("dpsCol");
 				statTable.setWidget(row, col++, l4);
 
