@@ -3824,7 +3824,11 @@ public class MainPanel extends BasePanel {
 
 				panel.add(new Label("+", false));
 				final DoubleSpinner spinner = new DoubleSpinner();
-				double value = stat.getAdapter().getDefaultValue();
+//				double value = stat.getAdapter().getDefaultValue();
+				
+				final String field = "Stat." + stat.getLabel();
+				double value = Double.parseDouble(this.getFieldValue(field, String.valueOf(adapter.getDefaultValue())));
+				
 				spinner.setValue(value);
 				spinner.setMax(value * 100.0);
 				spinner.setMin(value * -100.0);
@@ -3859,6 +3863,7 @@ public class MainPanel extends BasePanel {
 
 					@Override
 					public void onChange(ChangeEvent event) {
+						saveField(field, String.valueOf(spinner.getValue()));
 						updateStatTable(adapter, spinner, isElite, savedData, l2, l3, l4, baseline);
 					}});
 				

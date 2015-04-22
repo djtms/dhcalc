@@ -253,7 +253,7 @@ public class Stat {
 
 	;
 
-	public static Stat ELITE = 	new Stat("Elite Damage", new StatAdapter() {
+	public static Stat ELITE = 	new Stat("% Elite Damage", new StatAdapter() {
 
 		@Override
 		public void apply(double inc, CharacterData data) {
