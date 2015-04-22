@@ -8,8 +8,12 @@ import com.dawg6.web.sentry.shared.calculator.DamageType;
 
 public abstract class StatAdapter {
 
-	public abstract void apply(CharacterData data);
+	public abstract void apply(double inc, CharacterData data);
 
+	public double getDefaultValue() {
+		return 1.0;
+	}
+	
 	public boolean test(CharacterData data, Set<DamageType> types) {
 		return true;
 	}
@@ -23,9 +27,9 @@ public abstract class StatAdapter {
 		}
 
 		@Override
-		public void apply(CharacterData data) {
+		public void apply(double inc, CharacterData data) {
 			double value = data.getElementalDamage(type);
-			data.getElementalDamage().put(type, value + 0.01);
+			data.getElementalDamage().put(type, value + (inc / 100.0));
 
 		}
 
@@ -44,9 +48,9 @@ public abstract class StatAdapter {
 		}
 
 		@Override
-		public void apply(CharacterData data) {
+		public void apply(double inc, CharacterData data) {
 			double value = data.getSkillDamage(type);
-			data.getSkillDamage().put(type, value + 0.01);
+			data.getSkillDamage().put(type, value + (inc / 100.0));
 
 		}
 

@@ -3440,7 +3440,7 @@ public class MainPanel extends BasePanel {
 
 	private void updateOutput() {
 
-		boolean isElite = this.isEliteSelected();
+		final boolean isElite = this.isEliteSelected();
 		double elite = 1.0 + data.getTotalEliteDamage();
 		double eliteBonus = isElite ? elite : 1.0;
 		String eliteLog = "";
@@ -3802,13 +3802,13 @@ public class MainPanel extends BasePanel {
 
 		row = 1;
 
-		CharacterData savedData = data.copy();
+		final CharacterData savedData = data.copy();
 
-		double baseline = isElite ? eTotal : total;
+		final double baseline = isElite ? eTotal : total;
 
 		for (Stat stat : Stat.values()) {
 
-			StatAdapter adapter = stat.getAdapter();
+			final StatAdapter adapter = stat.getAdapter();
 
 			if (((stat != Stat.ELITE) || isElite)
 					&& adapter.test(data, types.keySet())) {
@@ -3818,50 +3818,82 @@ public class MainPanel extends BasePanel {
 				else
 					statTable.getRowFormatter().addStyleName(row, "oddRow");
 
+				HorizontalPanel panel = new HorizontalPanel();
+				panel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+				panel.setSpacing(0);
+
+				panel.add(new Label("+", false));
+				final DoubleSpinner spinner = new DoubleSpinner();
+				double value = stat.getAdapter().getDefaultValue();
+				spinner.setValue(value);
+				spinner.setMax(value * 100.0);
+				spinner.setMin(value * -100.0);
+				spinner.setVisibleLength(4);
+				
+				panel.add(spinner);
+				
 				String label = stat.getLabel();
 
 				int col = 0;
 				Label l1 = new Label(label);
 				l1.setWordWrap(false);
-				statTable.setWidget(row, col++, l1);
+				panel.add(l1);
+				
+				statTable.setWidget(row, col++, panel);
 
-				adapter.apply(data);
-
-				Damage[] d = FiringData.calculateDamages(data);
-
-				double totalRow = 0;
-
-				for (Damage r : d) {
-					totalRow += r.totalDamage;
-				}
-
-				if (isElite)
-					totalRow *= (1.0 + data.getTotalEliteDamage());
-
-				double dpsRow = totalRow / data.getDuration();
-
-				double pct = (totalRow - baseline) / baseline;
-
-				Label l2 = new Label(Util.format(Math.round(totalRow)));
+				final Label l2 = new Label("");
 				l2.addStyleName("dpsCol");
 				statTable.setWidget(row, col++, l2);
 
-				Label l3 = new Label(Util.format(Math.round(dpsRow)));
+				final Label l3 = new Label("");
 				l3.addStyleName("dpsCol");
 				statTable.setWidget(row, col++, l3);
 
-				Label l4 = new Label(((pct >= 0.0) ? "+" : "")
-						+ Util.format(Math.round(pct * 10000.0) / 100.0) + "%");
+				final Label l4 = new Label("");
 				l4.addStyleName("dpsCol");
 				statTable.setWidget(row, col++, l4);
 
-				data = savedData.copy();
+				updateStatTable(adapter, spinner, isElite, savedData, l2, l3, l4, baseline);
 
+				spinner.addChangeHandler(new ChangeHandler(){
+
+					@Override
+					public void onChange(ChangeEvent event) {
+						updateStatTable(adapter, spinner, isElite, savedData, l2, l3, l4, baseline);
+					}});
+				
 				row++;
 			}
 		}
 	}
 
+	private void updateStatTable(StatAdapter adapter, DoubleSpinner spinner, boolean isElite, CharacterData savedData, Label l2, Label l3, Label l4, double baseline) {
+		double value = spinner.getValue();
+		
+		CharacterData data = savedData.copy();
+		adapter.apply(value, data);
+
+		Damage[] d = FiringData.calculateDamages(data);
+
+		double totalRow = 0;
+
+		for (Damage r : d) {
+			totalRow += r.totalDamage;
+		}
+
+		if (isElite)
+			totalRow *= (1.0 + data.getTotalEliteDamage());
+
+		double dpsRow = totalRow / data.getDuration();
+
+		double pct = (totalRow - baseline) / baseline;
+
+		l2.setText(Util.format(Math.round(totalRow)));
+		l3.setText(Util.format(Math.round(dpsRow)));
+		l4.setText(((pct >= 0.0) ? "+" : "")
+				+ Util.format(Math.round(pct * 10000.0) / 100.0) + "%");
+	}
+	
 	private void addSkill(Map<ActiveSkill, Rune> skills, ListBox skillBox,
 			ListBox runeBox) {
 

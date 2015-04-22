@@ -13,42 +13,57 @@ public class Stat {
 
 	private static final Stat[] fixed = {
 
-	new Stat("+100 Dexterity", new StatAdapter() {
+	new Stat("Dexterity", new StatAdapter() {
 
 		@Override
-		public void apply(CharacterData data) {
+		public double getDefaultValue() {
+			return 100.0;
+		}
+
+		@Override
+		public void apply(double inc, CharacterData data) {
 			int value = data.getEquipmentDexterity();
-			data.setEquipmentDexterity(value + 100);
+			data.setEquipmentDexterity(value + (int)Math.round(inc));
 
 		}
 	}),
 
-	new Stat("+1% Crit Chance", new StatAdapter() {
+	new Stat("% Crit Chance", new StatAdapter() {
 
 		@Override
-		public void apply(CharacterData data) {
+		public void apply(double inc, CharacterData data) {
 			double value = data.getCritChance();
-			data.setCritChance(value + 0.01);
+			data.setCritChance(value + (inc / 100.0));
 
 		}
 	}),
 
-	new Stat("+5% Crit Hit Damage", new StatAdapter() {
+	new Stat("% Crit Hit Damage", new StatAdapter() {
 
 		@Override
-		public void apply(CharacterData data) {
+		public double getDefaultValue() {
+			return 5.0;
+		}
+		
+		@Override
+		public void apply(double inc, CharacterData data) {
 			double value = data.getCritHitDamage();
-			data.setCritHitDamage(value + 0.05);
+			data.setCritHitDamage(value + (inc / 100.0));
 
 		}
 	}),
 
-	new Stat("+5% Raw RCR", new StatAdapter() {
+	new Stat("% Raw RCR", new StatAdapter() {
 
 		@Override
-		public void apply(CharacterData data) {
+		public double getDefaultValue() {
+			return 5.0;
+		}
+		
+		@Override
+		public void apply(double inc, CharacterData data) {
 			double value = data.getRcr();
-			data.setRcr(1.0 - ((1.0 - value) * 0.95));
+			data.setRcr(1.0 - ((1.0 - value) * (1.0 - (inc/100.0))));
 
 		}
 		
@@ -59,34 +74,39 @@ public class Stat {
 		}
 	}),
 
-	new Stat("+5% Raw CDR", new StatAdapter() {
+	new Stat("% Raw CDR", new StatAdapter() {
 
 		@Override
-		public void apply(CharacterData data) {
+		public double getDefaultValue() {
+			return 5.0;
+		}
+		
+		@Override
+		public void apply(double inc, CharacterData data) {
 			double value = data.getCdr();
-			data.setCdr(1.0 - ((1.0 - value) * 0.95));
+			data.setCdr(1.0 - ((1.0 - value) * (1.0 - (inc/100.0))));
 
 		}
 		
 	}),
 
-	new Stat("+1% IAS", new StatAdapter() {
+	new Stat("% IAS", new StatAdapter() {
 
 		@Override
-		public void apply(CharacterData data) {
+		public void apply(double inc, CharacterData data) {
 			double value = data.getEquipIas();
-			data.setEquipIas(value + 0.01);
+			data.setEquipIas(value + (inc / 100.0));
 			ProfileHelper.updateWeaponDamage(data);
 
 		}
 	}),
 
-	new Stat("+1 Discipline", new StatAdapter() {
+	new Stat("Discipline", new StatAdapter() {
 
 		@Override
-		public void apply(CharacterData data) {
+		public void apply(double inc, CharacterData data) {
 			int value = data.getEquipmentDiscipline();
-			data.setEquipmentDiscipline(value + 1);
+			data.setEquipmentDiscipline(value + (int)Math.round(inc));
 		}
 
 		@Override
@@ -96,12 +116,12 @@ public class Stat {
 		}
 	}),
 
-	new Stat("+1 Hatred per Second", new StatAdapter() {
+	new Stat("Hatred per Second", new StatAdapter() {
 
 		@Override
-		public void apply(CharacterData data) {
+		public void apply(double inc, CharacterData data) {
 			double value = data.getHatredPerSecond();
-			data.setHatredPerSecond(value + 1.0);
+			data.setHatredPerSecond(value + inc);
 
 		}
 
@@ -112,12 +132,17 @@ public class Stat {
 		}
 	}),
 
-	new Stat("+10% Area Damage", new StatAdapter() {
+	new Stat("% Area Damage", new StatAdapter() {
 
 		@Override
-		public void apply(CharacterData data) {
+		public double getDefaultValue() {
+			return 10.0;
+		}
+		
+		@Override
+		public void apply(double inc, CharacterData data) {
 			double value = data.getAreaDamageEquipment();
-			data.setAreaDamageEquipment(value + 0.1);
+			data.setAreaDamageEquipment(value + (inc / 100.0));
 
 		}
 
@@ -129,12 +154,12 @@ public class Stat {
 		}
 	}),
 
-	new Stat("+1 Health Globe", new StatAdapter() {
+	new Stat("Health Globe", new StatAdapter() {
 
 		@Override
-		public void apply(CharacterData data) {
+		public void apply(double inc, CharacterData data) {
 			int value = data.getNumHealthGlobes();
-			data.setNumHealthGlobes(value + 1);
+			data.setNumHealthGlobes(value + (int)Math.round(inc));
 
 		}
 
@@ -145,12 +170,12 @@ public class Stat {
 		}
 	}),
 
-	new Stat("+1 BoT Gem Level", new StatAdapter() {
+	new Stat("BoT Gem Level", new StatAdapter() {
 
 		@Override
-		public void apply(CharacterData data) {
+		public void apply(double inc, CharacterData data) {
 			int value = data.getBaneOfTheTrappedLevel();
-			data.setBaneOfTheTrappedLevel(value + 1);
+			data.setBaneOfTheTrappedLevel(value + (int)Math.round(inc));
 
 		}
 
@@ -161,12 +186,12 @@ public class Stat {
 		}
 	}),
 
-	new Stat("+1 Enforcer Gem Level", new StatAdapter() {
+	new Stat("Enforcer Gem Level", new StatAdapter() {
 
 		@Override
-		public void apply(CharacterData data) {
+		public void apply(double inc, CharacterData data) {
 			int value = data.getEnforcerLevel();
-			data.setEnforcerLevel(value + 1);
+			data.setEnforcerLevel(value + (int)Math.round(inc));
 
 		}
 
@@ -178,12 +203,12 @@ public class Stat {
 		}
 	}),
 
-	new Stat("+1 Zei's Gem Level", new StatAdapter() {
+	new Stat("Zei's Gem Level", new StatAdapter() {
 
 		@Override
-		public void apply(CharacterData data) {
+		public void apply(double inc, CharacterData data) {
 			int value = data.getZeisLevel();
-			data.setZeisLevel(value + 1);
+			data.setZeisLevel(value + (int)Math.round(inc));
 
 		}
 
@@ -194,12 +219,12 @@ public class Stat {
 		}
 	}),
 
-	new Stat("+1 Toxin Gem Level", new StatAdapter() {
+	new Stat("Toxin Gem Level", new StatAdapter() {
 
 		@Override
-		public void apply(CharacterData data) {
+		public void apply(double inc, CharacterData data) {
 			int value = data.getToxinLevel();
-			data.setToxinLevel(value + 1);
+			data.setToxinLevel(value + (int)Math.round(inc));
 
 		}
 
@@ -210,12 +235,12 @@ public class Stat {
 		}
 	}),
 
-	new Stat("+1 Pain Enhancer Gem Level", new StatAdapter() {
+	new Stat("Pain Enhancer Gem Level", new StatAdapter() {
 
 		@Override
-		public void apply(CharacterData data) {
+		public void apply(double inc, CharacterData data) {
 			int value = data.getPainEnhancerLevel();
-			data.setPainEnhancerLevel(value + 1);
+			data.setPainEnhancerLevel(value + (int)Math.round(inc));
 
 		}
 
@@ -228,12 +253,12 @@ public class Stat {
 
 	;
 
-	public static Stat ELITE = 	new Stat("+1% Elite Damage", new StatAdapter() {
+	public static Stat ELITE = 	new Stat("Elite Damage", new StatAdapter() {
 
 		@Override
-		public void apply(CharacterData data) {
+		public void apply(double inc, CharacterData data) {
 			double value = data.getEliteDamage();
-			data.setEliteDamage(value + 0.01);
+			data.setEliteDamage(value + (inc / 100.0));
 
 		}
 	});
@@ -274,14 +299,14 @@ public class Stat {
 			values.add(ELITE);
 			
 			for (DamageType t : DamageType.values()) {
-				values.add(new Stat("+1% " + t.getLongName() + " Damage",
+				values.add(new Stat("% " + t.getLongName() + " Damage",
 						new StatAdapter.ElementalDamage(t)));
 			}
 
 			for (ActiveSkill s : ActiveSkill.values()) {
 
 				if (s.doesDamage() && (s != ActiveSkill.BOLT)) {
-					values.add(new Stat("+1% " + s.getLongName() + " Damage",
+					values.add(new Stat("% " + s.getLongName() + " Damage",
 							new StatAdapter.SkillDamage(s)));
 				}
 			}
