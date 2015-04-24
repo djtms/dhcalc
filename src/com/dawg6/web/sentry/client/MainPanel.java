@@ -994,8 +994,7 @@ public class MainPanel extends BasePanel {
 		aps30.setStyleName("boldText");
 		aps30.setWordWrap(false);
 
-		Label lblNewLabel_6 = new Label("Total (Non-Elite) Damage over "
-				+ BreakPoint.DURATION + " seconds:");
+		Label lblNewLabel_6 = new Label("Total (Non-Elite) Damage:");
 		outputHeader.setWidget(2, 0, lblNewLabel_6);
 		lblNewLabel_6.setWordWrap(false);
 
@@ -1014,8 +1013,7 @@ public class MainPanel extends BasePanel {
 		Label lblNewLabel_29a = new Label("# Sentries:");
 		outputHeader.setWidget(2, 6, lblNewLabel_29a);
 
-		Label lblNewLabel_6a = new Label("Total (Elite) Damage over "
-				+ BreakPoint.DURATION + " seconds:");
+		Label lblNewLabel_6a = new Label("Total (Elite) Damage:");
 		outputHeader.setWidget(3, 0, lblNewLabel_6a);
 		lblNewLabel_6a.setWordWrap(false);
 

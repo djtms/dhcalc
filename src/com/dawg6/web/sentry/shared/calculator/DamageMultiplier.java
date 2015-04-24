@@ -405,7 +405,7 @@ public enum DamageMultiplier {
 				public Double getValue(CharacterData data) {
 					return 0.0;
 				}
-			}), BoT("BoT", DamageAccumulator.Multiplicative,
+			}), BoT("BotT", DamageAccumulator.Multiplicative,
 			"Bane of the Trapped bonus (15% + 3%/rank to control impaired)",
 			new Test<CharacterData, Double>() {
 				@Override
