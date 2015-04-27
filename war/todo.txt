@@ -12,6 +12,7 @@
 - Subtract discipline usage for UE6 bonus
 - Implement breakpoints for Strafe/Rapid Fire
 
+* Model monster health
 * Add Simplicity Strength gem
 * Add Pierce mechanics
 * Add Rapid Fire mechanics
