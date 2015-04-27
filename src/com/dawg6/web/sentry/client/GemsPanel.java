@@ -237,6 +237,7 @@ public class GemsPanel extends Composite {
 		this.gogokLevel.setMax(100);
 		this.gogokStacks.setMax(15);
 		this.botpUptime.setMax(100);
+		this.taegukStacks.setMax(20 + this.taegukLevel.getValue());
 	}
 
 	public SimpleCheckBox getBot() {
