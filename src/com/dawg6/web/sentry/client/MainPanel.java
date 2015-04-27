@@ -2026,6 +2026,7 @@ public class MainPanel extends BasePanel {
 		this.skillDamage.setValues(Util.createMap(ActiveSkill.class,
 				data.skillDamage));
 		this.passives.setPassives(Util.createSet(Passive.class, data.passives));
+		this.calculator.getPassives().setPassives(Util.createSet(Passive.class, data.passives));
 		this.skills.setSkills(Util.createEnumMap(ActiveSkill.class, Rune.class,
 				data.skills));
 
@@ -3967,6 +3968,7 @@ public class MainPanel extends BasePanel {
 
 		super.setFieldValue(skills, super.getFieldValue("skills", null));
 		super.setFieldValue(passives, super.getFieldValue("passives", null));
+		super.setFieldValue(calculator.getPassives(), super.getFieldValue("passives", null));
 		super.setFieldValue(typeDamage,
 				super.getFieldValue("elemental.Damage", null));
 		super.setFieldValue(skillDamage,
