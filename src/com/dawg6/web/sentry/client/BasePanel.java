@@ -192,6 +192,17 @@ public class BasePanel extends ApplicationPanel {
 		return value;
 	}
 
+	protected long getValue(LongSpinner spinner) {
+		Long value = spinner.getValue();
+
+		if (value == null) {
+			spinner.setValue(0L);
+			value = 0L;
+		}
+
+		return value;
+	}
+
 	protected double getValue(DoubleSpinner spinner) {
 		Double value = spinner.getValue();
 
@@ -277,6 +288,8 @@ public class BasePanel extends ApplicationPanel {
 			return getFieldValue((IntegerBox) field, defaultValue);
 		else if (field instanceof NumberSpinner)
 			return getFieldValue((NumberSpinner) field, defaultValue);
+		else if (field instanceof LongSpinner)
+			return getFieldValue((LongSpinner) field, defaultValue);
 		else if (field instanceof DoubleSpinner)
 			return getFieldValue((DoubleSpinner) field, defaultValue);
 		else if (field instanceof DoubleBox)
@@ -359,6 +372,15 @@ public class BasePanel extends ApplicationPanel {
 		}
 	}
 
+	protected String getFieldValue(LongSpinner field, String defaultValue) {
+		try {
+			return String.valueOf(field.getValue());
+		} catch (Exception e) {
+			field.setText(defaultValue);
+			return defaultValue;
+		}
+	}
+
 	protected String getFieldValue(IntegerBox field, String defaultValue) {
 		try {
 			return String.valueOf(field.getValue());
@@ -409,6 +431,8 @@ public class BasePanel extends ApplicationPanel {
 			setFieldValue((IntegerBox) field, value);
 		else if (field instanceof NumberSpinner)
 			setFieldValue((NumberSpinner) field, value);
+		else if (field instanceof LongSpinner)
+			setFieldValue((LongSpinner) field, value);
 		else if (field instanceof DoubleSpinner)
 			setFieldValue((DoubleSpinner) field, value);
 		else if (field instanceof DoubleBox)
@@ -450,15 +474,23 @@ public class BasePanel extends ApplicationPanel {
 	}
 
 	protected void setFieldValue(ListBox field, String value) {
-		for (int i = 0; i < field.getItemCount(); i++) {
-			String v = field.getValue(i);
+		try {
+			for (int i = 0; i < field.getItemCount(); i++) {
+				String v = field.getValue(i);
 
-			if (v.equals(value)) {
-				field.setSelectedIndex(i);
-				return;
+				if (v.equals(value)) {
+					field.setSelectedIndex(i);
+					return;
+				}
 			}
+
+			field.setSelectedIndex(0);
+
+		} catch (Exception e) {
+			field.setSelectedIndex(0);
 		}
 	}
+
 
 	protected void setFieldValue(SimpleCheckBox field, String value) {
 		field.setValue(Boolean.valueOf(value));
@@ -485,6 +517,14 @@ public class BasePanel extends ApplicationPanel {
 			field.setValue(Integer.valueOf(value));
 		} catch (Exception e) {
 			field.setValue(0);
+		}
+	}
+
+	protected void setFieldValue(LongSpinner field, String value) {
+		try {
+			field.setValue(Long.valueOf(value));
+		} catch (Exception e) {
+			field.setValue(0L);
 		}
 	}
 

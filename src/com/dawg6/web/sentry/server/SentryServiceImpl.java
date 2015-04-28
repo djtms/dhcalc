@@ -14,6 +14,7 @@ import com.dawg6.web.sentry.shared.calculator.ActiveSkill;
 import com.dawg6.web.sentry.shared.calculator.Build;
 import com.dawg6.web.sentry.shared.calculator.CharacterData;
 import com.dawg6.web.sentry.shared.calculator.Damage;
+import com.dawg6.web.sentry.shared.calculator.DamageResult;
 import com.dawg6.web.sentry.shared.calculator.ExportData;
 import com.dawg6.web.sentry.shared.calculator.FiringData;
 import com.dawg6.web.sentry.shared.calculator.FormData;
@@ -340,18 +341,18 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 
 	private void calculateDamage(CharacterData data, DpsTableEntry entry) {
 
-		Damage[] damage = FiringData.calculateDamages(data);
+		DamageResult damage = FiringData.calculateDamages(data);
 
 		double total = 0.0;
 		double totalElite = 0.0;
 		double e = 1.0 + data.getTotalEliteDamage();
 
-		for (Damage d : damage) {
+		for (Damage d : damage.damages) {
 			total += d.totalDamage;
 			// System.out.println(d.log);
 		}
 
-		total = total / data.getDuration();
+		total = total / damage.duration;
 
 		totalElite = total * e;
 

@@ -93,7 +93,6 @@ public class CharacterData implements Serializable  {
 	private double percentSlowedChilled;
 	private double percentControlled;
 	private double percentAtLeast10Yards;
-	private double percentAbove75;
 	private double piranhasUptime;
 	private double innerSanctuaryUptime;
 	private double cripplingWaveUptime;
@@ -107,7 +106,7 @@ public class CharacterData implements Serializable  {
 	private double mfdUptime;
 	private double mfdAddUptime;
 	private double calamityUptime;
-	private Target targetType;
+	private TargetType targetType;
 	private boolean slamDance;
 	private boolean valor;
 	private double valorUptime;
@@ -202,12 +201,17 @@ public class CharacterData implements Serializable  {
 	private Map<DamageType, Double> elementalDamage;
 	private Map<ActiveSkill, Double> skillDamage;
 	private double crashingRainPercent;
-	private int duration;
 	private boolean dml;
 	private double dmlPercent;
 	private boolean coe;
 	private double coePercent;
 	private double vaxoUptime;
+	private MonsterType primaryTargetType;
+	private MonsterType additionalTargetType;
+	private int riftLevel;
+	private long primaryTargetHealth;
+	private long additionalTargetHealth;
+	private int numPlayers;
 	
 	public CharacterData copy() {
 		return new CharacterData(this);
@@ -228,7 +232,6 @@ public class CharacterData implements Serializable  {
 		percentSlowedChilled = 1.0;
 		percentControlled = 1.0;
 		percentAtLeast10Yards = 1.0;
-		percentAbove75 = 0.25;
 		distanceToTarget = 25;
 		targetSize = TargetSize.Medium;
 		botpUptime = 1.0;
@@ -259,8 +262,14 @@ public class CharacterData implements Serializable  {
 		odysseysEndUptime = 1.0;
 		numSpikeTraps = 3;
 //		rovKilled = 0;
-		duration = BreakPoint.DURATION;
+//		duration = BreakPoint.DURATION;
 		vaxoUptime = 1.0;
+		primaryTargetType = MonsterType.RiftGuardian;
+		additionalTargetType = MonsterType.NonElite;
+		riftLevel = 25;
+		numPlayers = 1;
+		primaryTargetHealth = MonsterHealth.getHealth(riftLevel, numPlayers, primaryTargetType);
+		additionalTargetHealth = MonsterHealth.getHealth(riftLevel, numPlayers, additionalTargetType);
 	}
 	
 	public CharacterData() {
@@ -272,6 +281,8 @@ public class CharacterData implements Serializable  {
 	}
 	
 	public void updateFrom(CharacterData other) {
+		this.additionalTargetHealth = other.additionalTargetHealth;
+		this.additionalTargetType = other.additionalTargetType;
 		this.addMax = other.addMax;
 		this.addMin = other.addMin;
 		this.anatomy = other.anatomy;
@@ -317,7 +328,7 @@ public class CharacterData implements Serializable  {
 		this.dmlPercent = other.dmlPercent;
 		this.diamond = other.diamond;
 		this.distanceToTarget = other.distanceToTarget;
-		this.duration = other.duration;
+//		this.duration = other.duration;
 		this.elementalDamage = Util.copy(other.elementalDamage);
 		this.eliteDamage = other.eliteDamage;
 		this.enforcerLevel = other.enforcerLevel;
@@ -373,6 +384,7 @@ public class CharacterData implements Serializable  {
 		this.numHealthGlobes = other.numHealthGlobes;
 		this.numMarauders = other.numMarauders;
 		this.numNats = other.numNats;
+		this.numPlayers = other.numPlayers;
 		this.numSpikeTraps = other.numSpikeTraps;
 		this.numTargets = other.numTargets;
 		this.numUe = other.numUe;
@@ -405,13 +417,14 @@ public class CharacterData implements Serializable  {
 		this.paragonIAS = other.paragonIAS;
 		this.paragonRCR = other.paragonRCR;
 		this.passives = Util.copy(other.passives);
-		this.percentAbove75 = other.percentAbove75;
 		this.percentAtLeast10Yards = other.percentAtLeast10Yards;
 		this.percentControlled = other.percentControlled;
 		this.percentSlowedChilled = other.percentSlowedChilled;
 		this.piranhas = other.piranhas;
 		this.piranhasUptime = other.piranhasUptime;
 		this.pridesFall = other.pridesFall;
+		this.primaryTargetHealth = other.primaryTargetHealth;
+		this.primaryTargetType = other.primaryTargetType;
 		this.profile = other.profile;
 		this.rcr = other.rcr;
 		this.rcrData = Util.copy(other.rcrData);
@@ -421,6 +434,7 @@ public class CharacterData implements Serializable  {
 		this.retaliation = other.retaliation;
 		this.retribution = other.retribution;
 		this.retributionUptime = other.retributionUptime;
+		this.riftLevel = other.riftLevel;
 		this.royalRing = other.royalRing;
 		this.seasonal = other.seasonal;
 		this.sentryDps = other.sentryDps;
@@ -1087,14 +1101,6 @@ public class CharacterData implements Serializable  {
 		this.percentAtLeast10Yards = percentAtLeast10Yards;
 	}
 
-	public double getPercentAbove75() {
-		return percentAbove75;
-	}
-
-	public void setPercentAbove75(double percentAbove75) {
-		this.percentAbove75 = percentAbove75;
-	}
-
 	public double getMassConfusionUptime() {
 		return massConfusionUptime;
 	}
@@ -1203,11 +1209,11 @@ public class CharacterData implements Serializable  {
 		this.calamityUptime = calamityUptime;
 	}
 
-	public Target getTargetType() {
+	public TargetType getTargetType() {
 		return targetType;
 	}
 
-	public void setTargetType(Target targetType) {
+	public void setTargetType(TargetType targetType) {
 		this.targetType = targetType;
 	}
 
@@ -2250,14 +2256,6 @@ public class CharacterData implements Serializable  {
 		this.crashingRainPercent = crashingRainPercent;
 	}
 
-	public int getDuration() {
-		return duration;
-	}
-
-	public void setDuration(int duration) {
-		this.duration = duration;
-	}
-
 	public boolean isDml() {
 		return dml;
 	}
@@ -2296,6 +2294,54 @@ public class CharacterData implements Serializable  {
 
 	public void setVaxoUptime(double vaxoUptime) {
 		this.vaxoUptime = vaxoUptime;
+	}
+
+	public MonsterType getPrimaryTargetType() {
+		return primaryTargetType;
+	}
+
+	public void setPrimaryTargetType(MonsterType primaryTargetType) {
+		this.primaryTargetType = primaryTargetType;
+	}
+
+	public MonsterType getAdditionalTargetType() {
+		return additionalTargetType;
+	}
+
+	public void setAdditionalTargetType(MonsterType additionalTargetType) {
+		this.additionalTargetType = additionalTargetType;
+	}
+
+	public int getRiftLevel() {
+		return riftLevel;
+	}
+
+	public void setRiftLevel(int riftLevel) {
+		this.riftLevel = riftLevel;
+	}
+
+	public long getPrimaryTargetHealth() {
+		return primaryTargetHealth;
+	}
+
+	public void setPrimaryTargetHealth(long primaryTargetHealth) {
+		this.primaryTargetHealth = primaryTargetHealth;
+	}
+
+	public long getAdditionalTargetHealth() {
+		return additionalTargetHealth;
+	}
+
+	public void setAdditionalTargetHealth(long additionalTargetHealth) {
+		this.additionalTargetHealth = additionalTargetHealth;
+	}
+
+	public int getNumPlayers() {
+		return numPlayers;
+	}
+
+	public void setNumPlayers(int numPlayers) {
+		this.numPlayers = numPlayers;
 	}
 
 }

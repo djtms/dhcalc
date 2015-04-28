@@ -10,7 +10,7 @@ public class ExportData implements Serializable {
 	
 	public CharacterData data;
 	public Map<ActiveSkill, Rune> skills;
-	public Damage[] output;
+	public DamageResult output;
 	public Map<DamageType, DamageHolder> types;
 	public Map<DamageSource, DamageHolder> skillDamages;
 	public Map<String, DamageHolder> shooterDamages;
@@ -18,8 +18,6 @@ public class ExportData implements Serializable {
 	public int bp;
 	public double sentryBaseDps;
 	public double sentryDps;
-	public double sentryEliteDps;
 	public double totalDamage;
-	public double totalEliteDamage;
 
 }

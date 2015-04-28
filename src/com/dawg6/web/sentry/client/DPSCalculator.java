@@ -956,19 +956,6 @@ public class DPSCalculator extends BasePanel {
 		saveForm();
 	}
 
-	@Override
-	protected void setFieldValue(ListBox field, String value) {
-		if (field == mainHand.getWeaponType()) {
-			mainHand.setWeaponTypeString(value);
-		} else if (field == offHand.getWeaponType()) {
-			offHand.setWeaponTypeString(value);
-		}
-	}
-
-	private void setWeaponType(WeaponType type) {
-		mainHand.setWeaponTypeEnum(type);
-	}
-
 	public void setParagonPoints(int ias, int dex, int cdr, int cc, int cd, int hatred, int rcr, int ad) {
 
 		this.disableListeners = true;

@@ -8,12 +8,41 @@ import java.util.Vector;
 
 public class FiringData {
 
-	public static Damage[] calculateDamages(CharacterData data) {
+	private static final double MAX_DURATION = 600.0;
+
+	public static DamageResult calculateDamages(CharacterData data) {
+
+		TargetList targets = new TargetList();
+		DamageResult result = new DamageResult();
+
+		TargetHolder primary = new TargetHolder();
+		primary.setTargetType(TargetType.Primary);
+		primary.setMonsterType(data.getPrimaryTargetType());
+		primary.setMaxHp(data.getPrimaryTargetHealth());
+		primary.setCurrentHp(data.getPrimaryTargetHealth());
+		targets.setPrimary(primary);
+
+		int numTargets = data.getNumAdditional();
+		List<TargetHolder> adds = new Vector<TargetHolder>(numTargets);
+
+		for (int i = 0; i < numTargets; i++) {
+			TargetHolder add = new TargetHolder();
+			add.setTargetType(TargetType.Additional);
+			add.setMonsterType(data.getAdditionalTargetType());
+			add.setMaxHp(data.getAdditionalTargetHealth());
+			add.setCurrentHp(data.getAdditionalTargetHealth());
+			adds.add(add);
+		}
+
+		targets.setAdditional(adds);
+
 		List<Damage> list = new Vector<Damage>();
 
 		List<SkillAndRune> skills = new Vector<SkillAndRune>();
 		Map<SkillAndRune, Integer> skillQty = new TreeMap<SkillAndRune, Integer>();
-
+		SkillAndRune spender = null;
+		SkillAndRune generator = null;
+		
 		for (Map.Entry<ActiveSkill, Rune> e : data.getSkills().entrySet()) {
 			ActiveSkill skill = e.getKey();
 			SkillType type = skill.getSkillType();
@@ -26,6 +55,12 @@ public class FiringData {
 				SkillAndRune skr = new SkillAndRune(skill, rune);
 				skills.add(skr);
 				skillQty.put(skr, 0);
+				
+				if ((skr.getHatred(data) > 0) && ((generator == null) || (skr.getHatred(data) > generator.getHatred(data))))
+					generator = skr;
+				
+				if ((spender == null) && (skr.getHatred(data) < 0))
+					spender = skr;
 			}
 		}
 
@@ -43,7 +78,8 @@ public class FiringData {
 		double regen = 5.0
 				+ data.getHatredPerSecond()
 				+ (data.isInspire() ? 1.0 : 0.0)
-				+ (((companionRune == Rune.Bat) || ((companionRune != null) && data.getNumMarauders() >= 2)) ? 1.0 : 0.0 )
+				+ (((companionRune == Rune.Bat) || ((companionRune != null) && data
+						.getNumMarauders() >= 2)) ? 1.0 : 0.0)
 				+ ((data.isArchery()
 						&& (data.getWeaponType() == WeaponType.HandCrossbow) && (data
 						.getOffHand_weaponType() == WeaponType.HandCrossbow)) ? 1.0
@@ -79,17 +115,14 @@ public class FiringData {
 		double t = 0.0;
 		double aps = data.getAps();
 		double interval = (1.0 / aps) + (data.getDelay() / 1000.0);
-		int totalSpender = 0;
 		Rune sentryRune = Rune.None;
 
 		if (data.isSentry())
 			sentryRune = data.getSentryRune();
 
-		int duration = data.getDuration();
-		
-		double healthGlobeInterval = (data.getNumHealthGlobes() > 0) ? (duration / (data
-				.getNumHealthGlobes() + 1.0)) : (duration * 2.0);
-		double nextHealthGlobe = healthGlobeInterval;
+		double healthGlobeHpInterval = (data.getNumHealthGlobes() > 0) ? (1.0 / (data
+				.getNumHealthGlobes() + 1.0)) : 1.0;
+		double nextHealthHpGlobe = 1.0 - healthGlobeHpInterval;
 		double cdr = data.getCdr();
 		double prepCd = 20.0 * (1.0 - cdr);
 		double prepAvail = 0;
@@ -121,7 +154,7 @@ public class FiringData {
 		double nextFok = 0;
 
 		if ((fokRune == null) || (fokRune == Rune.Knives_Expert))
-			nextFok = duration + 1.0;
+			nextFok = Double.MAX_VALUE;
 
 		int numFok = 0;
 
@@ -140,7 +173,28 @@ public class FiringData {
 		int numRov = 0;
 		double nextRov = 0;
 
-		while (t < duration) {
+		BreakPoint bp = BreakPoint.getBp(data.getBp());
+		double boltAps = (double)bp.getQty() / (double)BreakPoint.DURATION;
+		double boltInterval = 1.0 / boltAps;
+		double nextBolt = 0.0;
+
+		double petAps = 1.0;
+
+		if (data.isTnt())
+			petAps = petAps * (1 + data.getTntPercent());
+
+		double petInterval = 1.0 / petAps;
+		double nextPet = data.isCompanion() ? 0.0 : Double.MAX_VALUE;
+		Rune[] companionRunes = new Rune[] { data.getCompanionRune() };
+
+		if (data.getNumMarauders() >= 2)
+			companionRunes = ActiveSkill.Companion.getRunes();
+		double bwgExpires = 5.0;
+		double bwsExpires = 5.0;
+
+		while (targets.getPrimary().isAlive() && (t < FiringData.MAX_DURATION)) {
+
+			double primaryHpPercent = targets.getPrimary().getPercentHealth();
 
 			if (data.isRov() && (t >= nextRov)) {
 				numRov++;
@@ -165,20 +219,28 @@ public class FiringData {
 				}
 			}
 
-			if (t >= nextHealthGlobe) {
-				nextHealthGlobe += healthGlobeInterval;
-				numHealthGlobes++;
+			if ((primaryHpPercent <= nextHealthHpGlobe) && (hatred <= 75.0)) {
+				nextHealthHpGlobe -= healthGlobeHpInterval;
+				double h = 0;
 
 				if (data.isBloodVengeance()) {
-					healthGlobeHatred += Math.min(bvAmount, maxHatred - hatred);
-					hatred = Math.min(maxHatred, hatred + bvAmount);
+					h += bvAmount;
 				}
 
 				if (data.isReapersWraps()) {
-					healthGlobeHatred += Math.min(reaperAmount, maxHatred
-							- hatred);
-					hatred = Math.min(maxHatred, hatred + reaperAmount);
+					h += reaperAmount;
 				}
+
+				double actual = Math.min(maxHatred - hatred, h);
+				hatred += actual;
+
+				Damage d = new Damage();
+				d.shooter = "Health Globe";
+				d.hatred = actual;
+				d.qty = 1;
+				d.time = t;
+				d.currentHatred = hatred;
+				list.add(d);
 			}
 
 			if (data.isPreparation()
@@ -192,195 +254,240 @@ public class FiringData {
 			if (data.isCompanion()
 					&& ((data.getNumMarauders() >= 2) || (data
 							.getCompanionRune() == Rune.Bat))) {
-				if (((maxHatred - hatred) >= batAmount) && (batAvail <= t)) {
+				if ((hatred <= 50.0) && (batAvail <= t)) {
 					hatred += batAmount;
 					batAvail = t + batCd;
-					numBat++;
+					
+					Damage d = new Damage();
+					d.shooter = "Companion";
+					d.hatred = batAmount;
+					d.currentHatred = hatred;
+					d.qty = 1;
+					d.time = t;
+					list.add(d);
 				}
 			}
 
-			for (SkillAndRune skr : skills) {
-				double h = skr.getHatred(data);
+			if (data.isCompanion()) {
+				while (t >= nextPet) {
 
-				if ((h + hatred) >= 0) {
-					Integer n = skillQty.get(skr) + 1;
-					skillQty.put(skr, n);
-					hatred = Math.min(maxHatred, hatred + h);
+					for (Rune r : companionRunes) {
 
-					if (data.isMarked()
-							&& (data.getMfdRune() == Rune.Mortal_Enemy)) {
+						applyDamages(nextPet, hatred, DamageFunction.getDamages(false, false,
+								ActiveSkill.Companion.getLongName(),
+								new DamageSource(ActiveSkill.Companion, r),
+								targets, data), targets, list);
+					}
+					
+					nextPet += petInterval;
+				}
+			}
 
-						numMarked++;
-						double mh = markedAmount;
-
-						if (hatred > (maxHatred - mh)) {
-							mh = maxHatred - mh;
+			if (data.isSentry()) {
+				while (t >= nextBolt) {
+					applyDamages(nextBolt, hatred, DamageFunction.getDamages(false,
+							true, "Sentry", new DamageSource(
+									ActiveSkill.BOLT, sentryRune),
+							targets, data), targets, list);
+					applyDamages(nextBolt, hatred, DamageFunction.getDamages(false,
+							true, "Sentry",
+							new DamageSource(ActiveSkill.SENTRY,
+									sentryRune), targets, data),
+							targets, list);
+					nextBolt += boltInterval;
+				}
+			}
+			
+			SkillAndRune selected = null;
+			
+			if (data.isBastions()) {
+				if ((t + interval) >= bwgExpires) {
+					selected = generator;
+				} else if ((t + interval) >= bwsExpires) {
+					
+					if (spender != null) {
+						double h = spender.getHatred(data);
+						
+						if (h <= hatred) {
+							selected = spender;
 						}
-
-						if (mh > 0) {
-							hatred += mh;
-							markedHatred += mh;
-						}
-					}
-
-					if (data.getNumNats() >= 2) {
-						nextRov -= 2.0;
-					}
-
-					if (venActive) {
-						numVenAttacks++;
-					}
-
-					break;
-
-				}
-			}
-
-			if (hatred < maxHatred) {
-				double tick = Math.min(interval, duration - t);
-				double regenTick = Math.min(tick * regen, maxHatred - hatred);
-				regenHatred += regenTick;
-				hatred += regenTick;
-
-				if (venActive && (venRune == Rune.Seethe)) {
-					double venRegenTick = Math.min(interval * 10.0, maxHatred
-							- hatred);
-					venRegen += venRegenTick;
-					hatred += venRegenTick;
-				}
-			}
-
-			t += interval;
-		}
-
-		for (SkillAndRune skr : skills) {
-
-			ActiveSkill skill = skr.getSkill();
-			Rune rune = skr.getRune();
-
-			if ((skill != ActiveSkill.SENTRY) && (skill != ActiveSkill.BOLT)) {
-				int qty = skillQty.get(skr);
-
-				if (qty > 0) {
-
-					totalHits += qty;
-
-					list.addAll(DamageFunction.getDamages(true, false,
-							"Player", new DamageSource(skill, rune), qty, data));
-
-					if ((data.getNumMarauders() >= 4) && data.isSentry()
-							&& (skill.getSkillType() == SkillType.Spender)) {
-						list.addAll(DamageFunction.getDamages(false, true,
-								"Sentry", new DamageSource(skill, rune), qty,
-								data));
-						totalSpender += qty;
 					}
 				}
 			}
-		}
+			
+			if (selected == null) {
+				for (SkillAndRune skr : skills) {
+					double h = skr.getHatred(data);
 
-		BreakPoint bp = BreakPoint.getBp(data.getBp());
-		int boltQty = Math.max(0, bp.getQty() - totalSpender);
+					if ((h + hatred) >= 0) {
+						selected = skr;
+						break;
+					}
+				}
+			}
+				
+			if (selected != null) {
+				double h = selected.getHatred(data);
 
-		if (numRov > 0) {
-			list.addAll(DamageFunction.getDamages(true, false, "Player",
-					new DamageSource(ActiveSkill.RoV, data.getRovRune()),
-					numRov, data));
+				Integer n = skillQty.get(selected) + 1;
+				skillQty.put(selected, n);
+				hatred = Math.min(maxHatred, hatred + h);
 
-			if (data.isCrashingRain()) {
-				list.addAll(DamageFunction.getDamages(true, false, "Player",
-						new DamageSource(ActiveSkill.CR, data.getRovRune()),
-						numRov, data));
+				if (data.isBastions()) {
+					if (h < 0) {
+						bwsExpires = t + 5.0;
+					} else if (h > 0) {
+						bwgExpires = t + 5.0;
+					}
+				}
+				
+				totalHits++;
+				applyDamages(t, hatred, DamageFunction.getDamages(true, false,
+						"Player",
+						new DamageSource(selected.getSkill(), selected.getRune()),
+						targets, data), targets, list);
+
+				if (data.isSentry()) {
+					if ((data.getNumMarauders() >= 4)
+							&& (selected.getSkill().getSkillType() == SkillType.Spender)) {
+						applyDamages(t, hatred, DamageFunction.getDamages(false, true,
+								"Sentry", new DamageSource(selected.getSkill(),
+										selected.getRune()), targets, data),
+								targets, list);
+
+						nextBolt += boltInterval;
+					}
+				}
+
+				if (data.isMarked()
+						&& (data.getMfdRune() == Rune.Mortal_Enemy)) {
+
+					numMarked++;
+					double mh = markedAmount;
+
+					if (hatred > (maxHatred - mh)) {
+						mh = maxHatred - mh;
+					}
+
+					if (mh > 0) {
+						hatred += mh;
+
+						Damage d = new Damage();
+						d.shooter = "Player";
+						d.source = new DamageSource(ActiveSkill.MFD, Rune.Mortal_Enemy);
+						d.hatred = mh;
+						d.qty = 1;
+						d.time = t;
+						d.currentHatred = hatred;
+						list.add(d);
+					}
+				}
+
+				if (data.getNumNats() >= 2) {
+					nextRov -= 2.0;
+				}
+
+				if (venActive) {
+					numVenAttacks++;
+				}
+			}
+
+			if (targets.getPrimary().isAlive()) {
+				if (hatred < maxHatred) {
+					double tick = interval;
+					double regenTick = Math.min(tick * regen, maxHatred - hatred);
+					regenHatred += regenTick;
+					hatred += regenTick;
+	
+					if (venActive && (venRune == Rune.Seethe)) {
+						double venRegenTick = Math.min(interval * 10.0, maxHatred
+								- hatred);
+						venRegen += venRegenTick;
+						hatred += venRegenTick;
+					}
+				}
+	
+				t += interval;
 			}
 		}
 
-		if (numFok > 0) {
-			list.addAll(DamageFunction.getDamages(true, false, "Player",
-					new DamageSource(ActiveSkill.FoK, fokRune), numFok, data));
-		}
+		double duration = Math.round(t * 100.0) / 100.0;
 
-		if (numVen > 0) {
-			if (venRune == Rune.Dark_Heart) {
-				list.addAll(DamageFunction.getDamages(true, false, "Player",
-						new DamageSource(ActiveSkill.Vengeance, venRune),
-						numVen * 15, data));
-			} else if (numVenAttacks > 0) {
-				list.addAll(DamageFunction.getDamages(true, false, "Player",
-						new DamageSource(ActiveSkill.Vengeance, venRune),
-						numVenAttacks, data));
-			}
-		}
+		// TODO Handle RoV
+		// if (numRov > 0) {
+		// list.addAll(DamageFunction.getDamages(true, false, "Player",
+		// new DamageSource(ActiveSkill.RoV, data.getRovRune()),
+		// numRov, data));
+		//
+		// if (data.isCrashingRain()) {
+		// list.addAll(DamageFunction.getDamages(true, false, "Player",
+		// new DamageSource(ActiveSkill.CR, data.getRovRune()),
+		// numRov, data));
+		// }
+		// }
 
-		if (data.isSentry() && (boltQty > 0)) {
-			list.addAll(DamageFunction.getDamages(false, true, "Sentry",
-					new DamageSource(ActiveSkill.SENTRY, sentryRune),
-					bp.getQty(), data));
-			list.addAll(DamageFunction.getDamages(false, true, "Sentry",
-					new DamageSource(ActiveSkill.BOLT, sentryRune), boltQty,
-					data));
-		}
+		// TODO Handle FoK
+		// if (numFok > 0) {
+		// list.addAll(DamageFunction.getDamages(true, false, "Player",
+		// new DamageSource(ActiveSkill.FoK, fokRune), numFok, data));
+		// }
 
-		if (data.isCaltrops()) {
-			list.addAll(DamageFunction.getDamages(
-					true,
-					false,
-					"Player",
-					new DamageSource(ActiveSkill.Caltrops, data
-							.getCaltropsRune()),
-					(int) (duration * data.getCaltropsUptime()),
-					data));
-		}
+		// TODO Handle Vengeance
+		// if (numVen > 0) {
+		// if (venRune == Rune.Dark_Heart) {
+		// list.addAll(DamageFunction.getDamages(true, false, "Player",
+		// new DamageSource(ActiveSkill.Vengeance, venRune),
+		// numVen * 15, data));
+		// } else if (numVenAttacks > 0) {
+		// list.addAll(DamageFunction.getDamages(true, false, "Player",
+		// new DamageSource(ActiveSkill.Vengeance, venRune),
+		// numVenAttacks, data));
+		// }
+		// }
 
-		if (data.isSpikeTrap()) {
-			list.addAll(DamageFunction.getDamages(true, false, "Player",
-					new DamageSource(ActiveSkill.ST, data.getSpikeTrapRune()),
-					data.getNumSpikeTraps() * 3, data));
-		}
+		// TODO Handle Caltrops
+		// if (data.isCaltrops()) {
+		// list.addAll(DamageFunction.getDamages(
+		// true,
+		// false,
+		// "Player",
+		// new DamageSource(ActiveSkill.Caltrops, data
+		// .getCaltropsRune()),
+		// (int) (duration * data.getCaltropsUptime()),
+		// data));
+		// }
 
-		if (data.isHelltrapper()) {
-			int num = (int) Math.round(totalHits * data.getHelltrapperPercent()
-					* 0.5);
+		// TODO Handle SpikeTrap
+		// if (data.isSpikeTrap()) {
+		// list.addAll(DamageFunction.getDamages(true, false, "Player",
+		// new DamageSource(ActiveSkill.ST, data.getSpikeTrapRune()),
+		// data.getNumSpikeTraps() * 3, data));
+		// }
 
-			if (num > 0) {
-				list.addAll(DamageFunction.getDamages(false, false,
-						"Helltrapper",
-						new DamageSource(ActiveSkill.ST,
-								(data.isSpikeTrap() ? data.getSpikeTrapRune()
-										: Rune.None)), num * 3, data));
+		// TODO Handle Helltrapper Spike Trap
+		// if (data.isHelltrapper()) {
+		// int num = (int) Math.round(totalHits * data.getHelltrapperPercent()
+		// * 0.5);
+		//
+		// if (num > 0) {
+		// list.addAll(DamageFunction.getDamages(false, false,
+		// "Helltrapper",
+		// new DamageSource(ActiveSkill.ST,
+		// (data.isSpikeTrap() ? data.getSpikeTrapRune()
+		// : Rune.None)), num * 3, data));
+		//
+		// // Can't have double DoT
+		// // list.addAll(DamageFunction.getDamages(false, false,
+		// // "Helltrapper",
+		// // new DamageSource(ActiveSkill.Caltrops, (data.isCaltrops() ?
+		// // data.getCaltropsRune() : Rune.None)), 1,
+		// // data));
+		// }
+		// }
 
-				// Can't have double DoT
-				// list.addAll(DamageFunction.getDamages(false, false,
-				// "Helltrapper",
-				// new DamageSource(ActiveSkill.Caltrops, (data.isCaltrops() ?
-				// data.getCaltropsRune() : Rune.None)), 1,
-				// data));
-			}
-		}
-
-		if (data.isCompanion()) {
-
-			Rune[] companionRunes = new Rune[] { data.getCompanionRune() };
-
-			if (data.getNumMarauders() >= 2)
-				companionRunes = ActiveSkill.Companion.getRunes();
-
-			double attacks = duration;
-
-			if (data.isTnt())
-				attacks = duration * (1 + data.getTntPercent());
-
-			for (Rune r : companionRunes) {
-
-				list.addAll(DamageFunction.getDamages(false, false,
-						ActiveSkill.Companion.getLongName(), new DamageSource(
-								ActiveSkill.Companion, r), (int) Math
-								.round(attacks), data));
-			}
-		}
-
-		// gem procs
-		list.addAll(DamageFunction.getDamages(false, false, "Player", null,
-				duration, data));
+		// TODO Add gem procs
+		// list.addAll(DamageFunction.getDamages(false, false, "Player", null,
+		// (int)duration, data));
 
 		if (venRegen > 0) {
 			Damage d = new Damage();
@@ -399,40 +506,49 @@ public class FiringData {
 			list.add(d);
 		}
 
-		if (markedHatred > 0) {
-			Damage d = new Damage();
-			d.shooter = "Player";
-			d.source = new DamageSource(ActiveSkill.MFD, Rune.Mortal_Enemy);
-			d.hatred = markedHatred;
-			d.qty = numMarked;
-			list.add(d);
-		}
-
-		if (numBat > 0) {
-			Damage d = new Damage();
-			d.shooter = "Companion";
-			d.hatred = numBat * batAmount;
-			d.qty = numBat;
-			list.add(d);
-		}
-
-		if (healthGlobeHatred > 0) {
-			Damage d = new Damage();
-			d.shooter = "Health Globes";
-			d.hatred = healthGlobeHatred;
-			d.qty = numHealthGlobes;
-			list.add(d);
-		}
-
 		if (regenHatred > 0) {
 			Damage d = new Damage();
 			d.shooter = "Hatred Regen";
 			d.hatred = regenHatred;
-			d.qty = duration;
+			d.qty = (int) duration;
 			list.add(d);
 		}
 
-		return list.toArray(new Damage[0]);
+		result.damages = list.toArray(new Damage[0]);
+		result.duration = duration;
+
+		return result;
 	}
 
+	private static void applyDamages(double t, double hatred, List<Damage> source, TargetList targets,
+			List<Damage> dest) {
+		applyDamages(t, hatred, source, targets, dest, null);
+	}
+	
+	private static void applyDamages(double t, double hatred, List<Damage> source, TargetList targets,
+			List<Damage> dest, String notes) {
+		for (Damage dr : source) {
+			dr.time = t;
+			// TODO Handle Additional
+			if (dr.target == TargetType.Primary) {
+				dr.actualDamage = targets.getPrimary().applyDamage(dr.damage);
+				dr.targetHp = targets.getPrimary().getCurrentHp();
+				dr.targetHpPercent = targets.getPrimary().getPercentHealth();
+				dr.currentHatred = hatred;
+				
+				if (notes != null) {
+					if ((dr.note == null) || (dr.note.length() == 0)) {
+						dr.note = notes;
+					} else {
+						dr.note = dr.note + " " + notes;
+					}
+				}
+				
+				if (dr.actualDamage > 0) {
+					dest.add(dr);
+				}
+			}
+		}
+
+	}
 }

@@ -361,7 +361,7 @@ public class DamageFunction {
 					true, 3, "Allies", DamageType.Cold), };
 
 	public static List<Damage> getDamages(boolean isPlayer, boolean isSentry,
-			String shooter, DamageSource source, int qty, CharacterData data) {
+			String shooter, DamageSource source, TargetList targets, CharacterData data) {
 		List<Damage> list = new Vector<Damage>();
 
 		int index = 0;
@@ -392,13 +392,13 @@ public class DamageFunction {
 					aoeRange *= 1.2;
 				}
 
-				for (Target target : Target.values()) {
+				for (TargetType target : TargetType.values()) {
 					data.setTargetType(target);
 
 					int add = Math.min(dr.maxAdditional,
 							data.getNumAdditional());
 
-					if (target == Target.Additional) {
+					if (target == TargetType.Additional) {
 
 						if (dr.multipliers.contains(DamageMultiplier.Grenades)
 								&& (dr.numProjectiles > 0)
@@ -419,8 +419,8 @@ public class DamageFunction {
 						}
 					}
 
-					if (((target == Target.Primary) && dr.primary)
-							|| ((target == Target.Additional) && (add > 0))) {
+					if (((target == TargetType.Primary) && dr.primary)
+							|| ((target == TargetType.Additional) && (add > 0))) {
 
 						double wd = baseWd;
 
@@ -454,19 +454,21 @@ public class DamageFunction {
 
 						if (dr.multipliers.contains(DamageMultiplier.DoT)) {
 
-							if ((dr.source != null)
-									&& (dr.source.skill == ActiveSkill.Caltrops)) {
-								multBuf.append(data.getDuration()
-										* data.getCaltropsUptime());
-							} else {
-								multBuf.append(data.getDuration());
-							}
-						} else
-							multBuf.append(qty);
-
-						if (target == Target.Additional) {
+							// TODO Handle DOT
+//							if ((dr.source != null)
+//									&& (dr.source.skill == ActiveSkill.Caltrops)) {
+//								multBuf.append(data.getDuration()
+//										* data.getCaltropsUptime());
+//							} else {
+//								multBuf.append(data.getDuration());
+//							}
+						} else {
+//							multBuf.append(qty);
+						}
+						
+						if (target == TargetType.Additional) {
 							if (add > 1) {
-								multBuf.append(" x " + add);
+								multBuf.append(add + " x ");
 								m *= add;
 							}
 						}
@@ -479,7 +481,7 @@ public class DamageFunction {
 							if (spacing > aoeRange) {
 								if (num < numP) {
 
-									if (target == Target.Primary) {
+									if (target == TargetType.Primary) {
 										if (add > 0) {
 											numP = 1;
 										}
@@ -493,15 +495,15 @@ public class DamageFunction {
 							if (numP > 1) {
 								m *= numP;
 
-								multBuf.append(" x #Grenades("
-										+ Util.format(numP) + ")");
+								multBuf.append("#Grenades("
+										+ Util.format(numP) + ") x ");
 							}
 
 						}
 
-						multBuf.append(" x " + Util.format(scalar));
+						multBuf.append(Util.format(scalar) + " x ");
 
-						multBuf.append(" x " + wDMult.getAbbreviation());
+						multBuf.append(wDMult.getAbbreviation());
 
 						// if (dr.source.skill != ActiveSkill.Companion) {
 						double cc = DamageMultiplier.CC.getValue(data);
@@ -648,9 +650,6 @@ public class DamageFunction {
 						SkillType skillType = (skill != null) ? skill
 								.getSkillType() : null;
 
-						if (dr.source.skill == ActiveSkill.MS)
-							dlist.add(DamageMultiplier.DML);
-						
 						if (isPlayer
 								&& ((skillType == SkillType.Spender) || (skillType == SkillType.Primary))) {
 							dlist.add(DamageMultiplier.M6);
@@ -659,6 +658,14 @@ public class DamageFunction {
 						if (isPlayer)
 							dlist.add(DamageMultiplier.AD);
 
+						if (
+								(skill != ActiveSkill.Companion) && 
+								data.isAmbush() && 
+								(targets.getPrimary().getPercentHealth() >= 0.75)
+							) {
+							dlist.add(DamageMultiplier.Ambush);
+						}
+						
 						if (skill != null) {
 
 							if ((data.getNumUe() >= 6)
@@ -733,7 +740,7 @@ public class DamageFunction {
 						d.shooter = shooter;
 						d.damage = numShooters * wd * m * (1.0 + a)
 								* (1.0 + ea);
-						d.qty = qty;
+						d.qty = 1;
 						d.index = index++;
 						d.note = dr.note;
 						d.source = dr.source;
@@ -746,20 +753,21 @@ public class DamageFunction {
 						if (isPlayer && first) {
 							SkillAndRune skr = new SkillAndRune(skill,
 									dr.source.rune);
-							d.hatred = skr.getHatred(data) * qty;
+							d.hatred = skr.getHatred(data);
 							first = false;
 						} else {
 							d.hatred = 0;
 						}
 
 						if (dr.multipliers.contains(DamageMultiplier.DoT)) {
-							if ((dr.source != null)
-									&& (dr.source.skill == ActiveSkill.Caltrops)) {
-								d.totalDamage = d.damage * data.getDuration()
-										* data.getCaltropsUptime();
-							} else {
-								d.totalDamage = d.damage * data.getDuration();
-							}
+							// TODO Handle DoT
+//							if ((dr.source != null)
+//									&& (dr.source.skill == ActiveSkill.Caltrops)) {
+//								d.totalDamage = d.damage * data.getDuration()
+//										* data.getCaltropsUptime();
+//							} else {
+//								d.totalDamage = d.damage * data.getDuration();
+//							}
 						} else {
 							d.totalDamage = d.damage * d.qty;
 						}
@@ -778,6 +786,24 @@ public class DamageFunction {
 			}
 		}
 
+		if ((source.skill == ActiveSkill.MS) && data.isDml() && (targets.getPrimary().getPercentHealth() <= data.getDmlPercent())) {
+			List<Damage> copy = new Vector<Damage>(list);
+			
+			for (Damage d : copy) {
+				Damage dc = d.copy();
+				
+				dc.hatred = 0;
+				
+				if ((d.note == null) || (d.note.length() == 0)) {
+					dc.note = "DML";
+				} else {
+					dc.note += " DML";
+				}
+				
+				list.add(dc);
+			}
+		}
+		
 		return list;
 	}
 

@@ -82,14 +82,9 @@ public enum DamageMultiplier {
 				public Double getValue(CharacterData data) {
 					return data.getSentryDamage();
 				}
-			}), DML("DML", DamageAccumulator.Multiplicative,
-			"Dead Man's Legacy Bonus (MS hits twice)", new Test<CharacterData, Double>() {
-				@Override
-				public Double getValue(CharacterData data) {
-					return data.isDml() ? data.getDmlPercent() : 0.0;
-				}
 			}), COE("COE", DamageAccumulator.Multiplicative,
-			"Convention of Elements Bonus (150-200% while element is active)", new Test<CharacterData, Double>() {
+			"Convention of Elements Bonus (150-200% while element is active)",
+			new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
 					return data.isCoe() ? (data.getCoePercent() / 4.0) : 0.0;
@@ -396,7 +391,8 @@ public enum DamageMultiplier {
 			new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
-					return 0.0;
+					// TODO Apply Target Type
+					return data.getTotalEliteDamage();
 				}
 			}), DoT("DoT", DamageAccumulator.Multiplicative,
 			"Damage over Time (damage per second, not per attack)",
@@ -544,7 +540,7 @@ public enum DamageMultiplier {
 					if (!data.isMarked())
 						return 0.0;
 
-					double upTime = (data.getTargetType() == Target.Primary) ? data
+					double upTime = (data.getTargetType() == TargetType.Primary) ? data
 							.getMfdUptime() : data.getMfdAddUptime();
 					double scalar = 0.2;
 					double aoe = 0.0;
@@ -564,7 +560,7 @@ public enum DamageMultiplier {
 						if (data.getTargetSpacing() <= 20) {
 							aoe = (0.20 / data.getNumAdditional());
 
-							if (data.getTargetType() == Target.Primary) {
+							if (data.getTargetType() == TargetType.Primary) {
 								aoeUpTime = data.getMfdAddUptime();
 							}
 						}
@@ -584,9 +580,7 @@ public enum DamageMultiplier {
 
 					return (scalar * upTime) + (aoe * aoeUpTime);
 				}
-			}), Vaxo(
-			"Vaxo",
-			DamageAccumulator.Additive,
+			}), Vaxo("Vaxo", DamageAccumulator.Additive,
 			"Haunt of Vaxo Marked for Death bonus (15% during uptime)",
 			new Test<CharacterData, Double>() {
 				@Override
@@ -622,8 +616,7 @@ public enum DamageMultiplier {
 			new Test<CharacterData, Double>() {
 				@Override
 				public Double getValue(CharacterData data) {
-					return data.isAmbush() ? (0.4 * data.getPercentAbove75())
-							: 0.0;
+					return 0.4;
 				}
 			}), Iced(
 			"Iced",

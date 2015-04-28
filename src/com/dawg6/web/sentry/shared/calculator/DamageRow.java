@@ -110,7 +110,6 @@ public class DamageRow {
 			this.multipliers.add(DamageMultiplier.Taeguk);
 			this.multipliers.add(DamageMultiplier.Harrington);
 			this.multipliers.add(DamageMultiplier.Strongarm);
-			this.multipliers.add(DamageMultiplier.Ambush);
 			this.multipliers.add(DamageMultiplier.ArcheryDamage);
 			this.multipliers.add(DamageMultiplier.Hysteria);
 			this.multipliers.add(DamageMultiplier.HexingPants);
@@ -132,6 +131,7 @@ public class DamageRow {
 				this.multipliers.add(source.skill.getDamageMultiplier());
 		}
 
+		this.multipliers.add(DamageMultiplier.Elite);
 		this.multipliers.addAll(multipliers);
 
 		this.type = type;

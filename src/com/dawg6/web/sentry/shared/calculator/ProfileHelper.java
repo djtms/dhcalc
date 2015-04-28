@@ -155,7 +155,8 @@ public class ProfileHelper {
 		double eIas = data.getEquipIas();
 		double wIas = data.getWeaponIas();
 		double pIas = data.getParagonIAS() * 0.002;
-
+		double fIas = data.isFocusedMind() ? 0.03 : 0.0;
+		
 		double gogokIas = data.isGogok() ? (data.getGogokStacks() / 100.0)
 				: 0.0;
 		double painEnhancerIas = (data.isPainEnhancer() && data
@@ -165,7 +166,7 @@ public class ProfileHelper {
 		double dwIas = (offHand_type != null) ? 0.15 : 0.0;
 
 		double aps = type.getAps() * (1.0 + wIas)
-				* (1.0 + eIas + pIas + gogokIas + painEnhancerIas + dwIas);
+				* (1.0 + eIas + fIas + pIas + gogokIas + painEnhancerIas + dwIas);
 
 		double averageWeaponDamage = ((min + max) / 2.0);
 
