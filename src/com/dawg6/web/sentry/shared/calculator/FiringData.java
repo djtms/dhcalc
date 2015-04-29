@@ -42,7 +42,7 @@ public class FiringData {
 		Map<SkillAndRune, Integer> skillQty = new TreeMap<SkillAndRune, Integer>();
 		SkillAndRune spender = null;
 		SkillAndRune generator = null;
-		
+
 		for (Map.Entry<ActiveSkill, Rune> e : data.getSkills().entrySet()) {
 			ActiveSkill skill = e.getKey();
 			SkillType type = skill.getSkillType();
@@ -55,10 +55,12 @@ public class FiringData {
 				SkillAndRune skr = new SkillAndRune(skill, rune);
 				skills.add(skr);
 				skillQty.put(skr, 0);
-				
-				if ((skr.getHatred(data) > 0) && ((generator == null) || (skr.getHatred(data) > generator.getHatred(data))))
+
+				if ((skr.getHatred(data) > 0)
+						&& ((generator == null) || (skr.getHatred(data) > generator
+								.getHatred(data))))
 					generator = skr;
-				
+
 				if ((spender == null) && (skr.getHatred(data) < 0))
 					spender = skr;
 			}
@@ -84,8 +86,14 @@ public class FiringData {
 						&& (data.getWeaponType() == WeaponType.HandCrossbow) && (data
 						.getOffHand_weaponType() == WeaponType.HandCrossbow)) ? 1.0
 						: 0.0);
+		double nextRegen = 1.0;
+		double venRegenTick = 10.0;
 
 		if (data.isHexingPants()) {
+			venRegenTick = venRegenTick
+					+ (venRegenTick * data.getHexingPantsUptime() * .25)
+					- (venRegenTick * (1.0 - data.getHexingPantsUptime()) * data
+							.getHexingPantsPercent());
 			regen = regen
 					+ (regen * data.getHexingPantsUptime() * .25)
 					- (regen * (1.0 - data.getHexingPantsUptime()) * data
@@ -158,13 +166,13 @@ public class FiringData {
 
 		int numFok = 0;
 
-		// double rovTime = 5.0;
-		// Rune rovRune = data.getRovRune();
-		//
-		// if (rovRune == Rune.Dark_Cloud)
-		// rovTime = 8.0;
-		// else if (rovRune == Rune.Stampede)
-		// rovTime = 6.0;
+		double rovTime = 5.0;
+		Rune rovRune = data.getRovRune();
+
+		if (rovRune == Rune.Dark_Cloud)
+			rovTime = 8.0;
+		else if (rovRune == Rune.Stampede)
+			rovTime = 6.0;
 
 		// if (data.getNumNats() >= 4) {
 		// rovCd = Math.max(rovTime, rovCd - (2.0 * data.getRovKilled()));
@@ -174,7 +182,7 @@ public class FiringData {
 		double nextRov = 0;
 
 		BreakPoint bp = BreakPoint.getBp(data.getBp());
-		double boltAps = (double)bp.getQty() / (double)BreakPoint.DURATION;
+		double boltAps = (double) bp.getQty() / (double) BreakPoint.DURATION;
 		double boltInterval = 1.0 / boltAps;
 		double nextBolt = 0.0;
 
@@ -208,15 +216,6 @@ public class FiringData {
 
 			if (venActive && (t >= venEnds)) {
 				venActive = false;
-			}
-
-			if ((venRune != null) && (t >= nextVen)) {
-				if ((venRune != Rune.Seethe) || (hatred < (maxHatred / 2))) {
-					venActive = true;
-					numVen++;
-					nextVen = t + venCd;
-					venEnds = t + 15.0;
-				}
 			}
 
 			if ((primaryHpPercent <= nextHealthHpGlobe) && (hatred <= 75.0)) {
@@ -256,16 +255,40 @@ public class FiringData {
 							.getCompanionRune() == Rune.Bat))) {
 				if ((hatred <= 50.0) && (batAvail <= t)) {
 					hatred += batAmount;
-					batAvail = t + batCd;
-					
+
 					Damage d = new Damage();
 					d.shooter = "Companion";
 					d.hatred = batAmount;
 					d.currentHatred = hatred;
 					d.qty = 1;
-					d.time = t;
+					d.time = batAvail;
+					list.add(d);
+
+					batAvail += batCd;
+				}
+			}
+
+			while (t >= nextRegen) {
+				double tick = regen;
+
+				if (venActive && (venRune == Rune.Seethe)) {
+					tick += venRegenTick;
+				}
+
+				double regenTick = Math.min(tick, maxHatred - hatred);
+				hatred += regenTick;
+
+				if (regenTick > 0) {
+					Damage d = new Damage();
+					d.shooter = "Hatred Regen";
+					d.hatred = regenTick;
+					d.currentHatred = hatred;
+					d.time = nextRegen;
+					d.qty = 1;
 					list.add(d);
 				}
+
+				nextRegen += 1.0;
 			}
 
 			if (data.isCompanion()) {
@@ -273,48 +296,58 @@ public class FiringData {
 
 					for (Rune r : companionRunes) {
 
-						applyDamages(nextPet, hatred, DamageFunction.getDamages(false, false,
-								ActiveSkill.Companion.getLongName(),
-								new DamageSource(ActiveSkill.Companion, r),
-								targets, data), targets, list);
+						applyDamages(nextPet, hatred,
+								DamageFunction.getDamages(false, false,
+										ActiveSkill.Companion.getLongName(),
+										new DamageSource(ActiveSkill.Companion,
+												r), targets, data), targets,
+								list);
 					}
-					
+
 					nextPet += petInterval;
 				}
 			}
 
 			if (data.isSentry()) {
 				while (t >= nextBolt) {
-					applyDamages(nextBolt, hatred, DamageFunction.getDamages(false,
-							true, "Sentry", new DamageSource(
-									ActiveSkill.BOLT, sentryRune),
-							targets, data), targets, list);
-					applyDamages(nextBolt, hatred, DamageFunction.getDamages(false,
-							true, "Sentry",
-							new DamageSource(ActiveSkill.SENTRY,
-									sentryRune), targets, data),
-							targets, list);
+					applyDamages(nextBolt, hatred, DamageFunction.getDamages(
+							false, true, "Sentry", new DamageSource(
+									ActiveSkill.BOLT, sentryRune), targets,
+							data), targets, list);
+					applyDamages(nextBolt, hatred, DamageFunction.getDamages(
+							false, true, "Sentry", new DamageSource(
+									ActiveSkill.SENTRY, sentryRune), targets,
+							data), targets, list);
 					nextBolt += boltInterval;
 				}
 			}
-			
+
+			if ((venRune != null) && (t >= nextVen)) {
+				if ((venRune != Rune.Seethe) || (hatred < (maxHatred / 2))) {
+					venActive = true;
+					numVen++;
+					nextVen = t + venCd;
+					venEnds = t + 15.0;
+				}
+			}
+
 			SkillAndRune selected = null;
-			
+
 			if (data.isBastions()) {
 				if ((t + interval) >= bwgExpires) {
 					selected = generator;
 				} else if ((t + interval) >= bwsExpires) {
-					
+
 					if (spender != null) {
 						double h = spender.getHatred(data);
-						
+
 						if (h <= hatred) {
 							selected = spender;
 						}
 					}
 				}
 			}
-			
+
 			if (selected == null) {
 				for (SkillAndRune skr : skills) {
 					double h = skr.getHatred(data);
@@ -325,7 +358,7 @@ public class FiringData {
 					}
 				}
 			}
-				
+
 			if (selected != null) {
 				double h = selected.getHatred(data);
 
@@ -340,27 +373,29 @@ public class FiringData {
 						bwgExpires = t + 5.0;
 					}
 				}
-				
+
 				totalHits++;
 				applyDamages(t, hatred, DamageFunction.getDamages(true, false,
-						"Player",
-						new DamageSource(selected.getSkill(), selected.getRune()),
-						targets, data), targets, list);
+						"Player", new DamageSource(selected.getSkill(),
+								selected.getRune()), targets, data), targets,
+						list);
 
 				if (data.isSentry()) {
 					if ((data.getNumMarauders() >= 4)
 							&& (selected.getSkill().getSkillType() == SkillType.Spender)) {
-						applyDamages(t, hatred, DamageFunction.getDamages(false, true,
-								"Sentry", new DamageSource(selected.getSkill(),
-										selected.getRune()), targets, data),
-								targets, list);
+						applyDamages(t, hatred, DamageFunction.getDamages(
+								false,
+								true,
+								"Sentry",
+								new DamageSource(selected.getSkill(), selected
+										.getRune()), targets, data), targets,
+								list);
 
 						nextBolt += boltInterval;
 					}
 				}
 
-				if (data.isMarked()
-						&& (data.getMfdRune() == Rune.Mortal_Enemy)) {
+				if (data.isMarked() && (data.getMfdRune() == Rune.Mortal_Enemy)) {
 
 					numMarked++;
 					double mh = markedAmount;
@@ -374,7 +409,8 @@ public class FiringData {
 
 						Damage d = new Damage();
 						d.shooter = "Player";
-						d.source = new DamageSource(ActiveSkill.MFD, Rune.Mortal_Enemy);
+						d.source = new DamageSource(ActiveSkill.MFD,
+								Rune.Mortal_Enemy);
 						d.hatred = mh;
 						d.qty = 1;
 						d.time = t;
@@ -383,32 +419,19 @@ public class FiringData {
 					}
 				}
 
+				if (venActive) {
+					// TODO Handle Dark Heart DoT
+					applyDamages(t, hatred, DamageFunction.getDamages(true, false,
+							"Player", new DamageSource(ActiveSkill.Vengeance,
+									venRune), targets, data), targets, list);
+				}
+
 				if (data.getNumNats() >= 2) {
 					nextRov -= 2.0;
 				}
-
-				if (venActive) {
-					numVenAttacks++;
-				}
 			}
 
-			if (targets.getPrimary().isAlive()) {
-				if (hatred < maxHatred) {
-					double tick = interval;
-					double regenTick = Math.min(tick * regen, maxHatred - hatred);
-					regenHatred += regenTick;
-					hatred += regenTick;
-	
-					if (venActive && (venRune == Rune.Seethe)) {
-						double venRegenTick = Math.min(interval * 10.0, maxHatred
-								- hatred);
-						venRegen += venRegenTick;
-						hatred += venRegenTick;
-					}
-				}
-	
-				t += interval;
-			}
+			t += interval;
 		}
 
 		double duration = Math.round(t * 100.0) / 100.0;
@@ -430,19 +453,6 @@ public class FiringData {
 		// if (numFok > 0) {
 		// list.addAll(DamageFunction.getDamages(true, false, "Player",
 		// new DamageSource(ActiveSkill.FoK, fokRune), numFok, data));
-		// }
-
-		// TODO Handle Vengeance
-		// if (numVen > 0) {
-		// if (venRune == Rune.Dark_Heart) {
-		// list.addAll(DamageFunction.getDamages(true, false, "Player",
-		// new DamageSource(ActiveSkill.Vengeance, venRune),
-		// numVen * 15, data));
-		// } else if (numVenAttacks > 0) {
-		// list.addAll(DamageFunction.getDamages(true, false, "Player",
-		// new DamageSource(ActiveSkill.Vengeance, venRune),
-		// numVenAttacks, data));
-		// }
 		// }
 
 		// TODO Handle Caltrops
@@ -489,28 +499,11 @@ public class FiringData {
 		// list.addAll(DamageFunction.getDamages(false, false, "Player", null,
 		// (int)duration, data));
 
-		if (venRegen > 0) {
-			Damage d = new Damage();
-			d.shooter = "Player";
-			d.source = new DamageSource(ActiveSkill.Vengeance, Rune.Seethe);
-			d.hatred = venRegen;
-			d.qty = numVen;
-			list.add(d);
-		}
-
 		if (numPrep > 0) {
 			Damage d = new Damage();
 			d.shooter = "Preparation";
 			d.hatred = numPrep * prepAmount;
 			d.qty = numPrep;
-			list.add(d);
-		}
-
-		if (regenHatred > 0) {
-			Damage d = new Damage();
-			d.shooter = "Hatred Regen";
-			d.hatred = regenHatred;
-			d.qty = (int) duration;
 			list.add(d);
 		}
 
@@ -520,13 +513,14 @@ public class FiringData {
 		return result;
 	}
 
-	private static void applyDamages(double t, double hatred, List<Damage> source, TargetList targets,
-			List<Damage> dest) {
+	private static void applyDamages(double t, double hatred,
+			List<Damage> source, TargetList targets, List<Damage> dest) {
 		applyDamages(t, hatred, source, targets, dest, null);
 	}
-	
-	private static void applyDamages(double t, double hatred, List<Damage> source, TargetList targets,
-			List<Damage> dest, String notes) {
+
+	private static void applyDamages(double t, double hatred,
+			List<Damage> source, TargetList targets, List<Damage> dest,
+			String notes) {
 		for (Damage dr : source) {
 			dr.time = t;
 			// TODO Handle Additional
@@ -535,7 +529,7 @@ public class FiringData {
 				dr.targetHp = targets.getPrimary().getCurrentHp();
 				dr.targetHpPercent = targets.getPrimary().getPercentHealth();
 				dr.currentHatred = hatred;
-				
+
 				if (notes != null) {
 					if ((dr.note == null) || (dr.note.length() == 0)) {
 						dr.note = notes;
@@ -543,7 +537,7 @@ public class FiringData {
 						dr.note = dr.note + " " + notes;
 					}
 				}
-				
+
 				if (dr.actualDamage > 0) {
 					dest.add(dr);
 				}

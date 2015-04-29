@@ -157,6 +157,7 @@ public class MainPanel extends BasePanel {
 	private Label dw_weaponDamage;
 	private FlexTable statTable;
 	private CaptionPanel statTableCaption;
+	private Label timeElapsed;
 
 	public MainPanel() {
 		VerticalPanel panel = new VerticalPanel();
@@ -513,10 +514,16 @@ public class MainPanel extends BasePanel {
 		label_8.setStyleName("boldText");
 		compareTable.setWidget(3, 0, label_8);
 
+		Label label_14a = new Label("Time:");
+		label_14a.setWordWrap(false);
+		label_14a.setStyleName("boldText");
+		compareTable.setWidget(5, 0, label_14a);
+
 		Label label_14 = new Label("DPS:");
 		label_14.setWordWrap(false);
 		label_14.setStyleName("boldText");
-		compareTable.setWidget(5, 0, label_14);
+		compareTable.setWidget(7, 0, label_14);
+
 
 		for (int j = 0; j < 3; j++) {
 			final int which = j;
@@ -555,9 +562,9 @@ public class MainPanel extends BasePanel {
 			Anchor label_1 = new Anchor("Clear");
 			label_1.setHref("javascript:void(0)");
 			label_1.setTitle("Click to clear this build");
-			compareTable.setWidget(7, col, label_1);
-			compareTable.getFlexCellFormatter().setWidth(7, col + 1, "5px");
-			compareTable.getFlexCellFormatter().setHorizontalAlignment(7, col,
+			compareTable.setWidget(9, col, label_1);
+			compareTable.getFlexCellFormatter().setWidth(9, col + 1, "5px");
+			compareTable.getFlexCellFormatter().setHorizontalAlignment(9, col,
 					HasHorizontalAlignment.ALIGN_CENTER);
 
 			label_1.addClickHandler(new ClickHandler() {
@@ -568,7 +575,7 @@ public class MainPanel extends BasePanel {
 				}
 			});
 
-			for (int i = 0; i < 3; i++) {
+			for (int i = 0; i < 4; i++) {
 				int row = 2 + ((i > 0) ? 1 + ((i - 1) * 2) : 0);
 
 				Label l = new Label("No Data");
@@ -992,9 +999,17 @@ public class MainPanel extends BasePanel {
 		outputHeader.setWidget(2, 0, lblNewLabel_6);
 		lblNewLabel_6.setWordWrap(false);
 
+		Label lblNewLabel_6a = new Label("Time Elapsed:");
+		outputHeader.setWidget(3, 0, lblNewLabel_6a);
+		lblNewLabel_6a.setWordWrap(false);
+
 		totalDamage = new Label("00000");
 		outputHeader.setWidget(2, 1, totalDamage);
 		totalDamage.setStyleName("boldText");
+
+		timeElapsed = new Label("00000");
+		outputHeader.setWidget(3, 1, timeElapsed);
+		timeElapsed.setStyleName("boldText");
 
 		Label lblNewLabel_7 = new Label("DPS:");
 		outputHeader.setWidget(2, 2, lblNewLabel_7);
@@ -1638,7 +1653,7 @@ public class MainPanel extends BasePanel {
 		}
 	}
 
-	private static final int NUM_COMPARE_ROWS = 5;
+	private static final int NUM_COMPARE_ROWS = 7;
 	private CaptionPanel captionPanelShooterSummary;
 	private Map<String, DamageHolder> shooterDamages;
 
@@ -1852,28 +1867,36 @@ public class MainPanel extends BasePanel {
 
 			Label bp = (Label) compareTable.getWidget(row, col);
 			Label wd = (Label) compareTable.getWidget(row + 1, col);
-			Label dps = (Label) compareTable.getWidget(row + 3, col);
+			Label elapsed = (Label) compareTable.getWidget(row + 3, col);
+			Label dps = (Label) compareTable.getWidget(row + 5, col);
 
 			bp.setText(String.valueOf(data.exportData.bp));
 			wd.setText(Util.format(Math.round(data.exportData.data
 					.getWeaponDamage())));
 			dps.setText(Util.format(Math.round(data.exportData.sentryDps)));
+			elapsed.setText(Util.format(Math.round(data.exportData.output.duration * 100.0) / 100.0));
 
 			if ((which > 0) && (baseline != null)) {
 
 				Label wdPctL = (Label) compareTable.getWidget(row + 2, col);
-				Label dpsPctL = (Label) compareTable.getWidget(row + 4, col);
-
+				Label dpsPctL = (Label) compareTable.getWidget(row + 6, col);
+				Label elapsedPctL = (Label) compareTable.getWidget(row + 4, col);
+				
 				double wdPct = (data.exportData.data.getWeaponDamage() - baseline.exportData.data
 						.getWeaponDamage())
 						/ baseline.exportData.data.getWeaponDamage();
 				double dpsPct = (data.exportData.sentryDps - baseline.exportData.sentryDps)
 						/ baseline.exportData.sentryDps;
+				double elapsedPct = (data.exportData.output.duration - baseline.exportData.output.duration)
+						/ baseline.exportData.output.duration;
 
 				wdPctL.setText("(" + ((wdPct >= 0) ? "+" : "")
 						+ Util.format(Math.round(wdPct * 1000.0) / 10.0) + "%)");
 				dpsPctL.setText("(" + ((dpsPct >= 0) ? "+" : "")
 						+ Util.format(Math.round(dpsPct * 1000.0) / 10.0)
+						+ "%)");
+				elapsedPctL.setText("(" + ((elapsedPct >= 0) ? "+" : "")
+						+ Util.format(Math.round(elapsedPct * 1000.0) / 10.0)
 						+ "%)");
 
 			}
@@ -3341,6 +3364,8 @@ public class MainPanel extends BasePanel {
 							sh.attacks += d.qty;
 						}
 					}
+					
+					prev = d;
 				}
 			}
 			catch (Exception e) {
@@ -3348,7 +3373,6 @@ public class MainPanel extends BasePanel {
 				return;
 			}
 
-			prev = d;
 		}
 
 		double dps = Math.round(total / damage.duration);
@@ -3689,7 +3713,7 @@ public class MainPanel extends BasePanel {
 			double dwDamage = (data.getWeaponDamage() + data
 					.getOffHand_weaponDamage()) / 2.0;
 			dw_weaponDamage
-					.setText(Util.format(Math.round(dwDamage * 100.0) / 100.0));
+					.setText(Util.format(Math.round(dwDamage * 100.0) / 100.0) + " sec");
 		} else {
 			offHand_weaponDamage.setText("N/A");
 			dw_weaponDamage.setText("N/A");
@@ -3704,6 +3728,7 @@ public class MainPanel extends BasePanel {
 		this.totalDamage.setText(Util.format(Math.round(total)));
 		this.eliteDamage.setText(Math.round(data.getTotalEliteDamage() * 100.0)
 				+ "%");
+		this.timeElapsed.setText(Util.format(Math.round(damage.duration * 100.0) / 100.0));
 
 		row = 1;
 
