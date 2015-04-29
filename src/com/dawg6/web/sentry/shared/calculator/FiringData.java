@@ -136,6 +136,7 @@ public class FiringData {
 		double prepAvail = 0;
 		double batCd = 30.0 * (1.0 - cdr);
 		double batAvail = 0;
+		boolean hasBat = data.isCompanion() && ((data.getNumMarauders() >= 2) || (data.getCompanionRune() == Rune.Bat));
 		int numBat = 0;
 		int numPrep = 0;
 		int numHealthGlobes = 0;
@@ -155,6 +156,46 @@ public class FiringData {
 		int numVenAttacks = 0;
 		double venEnds = 0.0;
 		double venRegen = 0.0;
+		
+		Map<Buff, BuffHolder> playerBuffs = new TreeMap<Buff, BuffHolder>();
+		
+		if (data.isWolf() && (data.getWolfUptime() > 0))
+			playerBuffs.put(Buff.OtherWolf, new BuffHolder(Buff.OtherWolf, 10.0, data.getWolfUptime()));
+		
+		if (data.isBbv() && data.isSlamDance() && (data.getBbvUptime() > 0))
+			playerBuffs.put(Buff.Bbv, new BuffHolder(Buff.Bbv, 20.0, data.getBbvUptime()));
+		
+		if (data.isMassConfusion() && (data.getMassConfusionUptime() > 0))
+			playerBuffs.put(Buff.Paranoia, new BuffHolder(Buff.Paranoia, 12.0, data.getMassConfusionUptime()));
+
+		if (data.isPiranhas() && (data.getPiranhasUptime() > 0))
+			playerBuffs.put(Buff.Piranhas, new BuffHolder(Buff.Piranhas, 8.0, data.getPiranhasUptime()));
+
+		if (data.isInnerSanctuary() && (data.getInnerSanctuaryUptime() > 0))
+			playerBuffs.put(Buff.InnerSanct, new BuffHolder(Buff.InnerSanct, 6.0, data.getInnerSanctuaryUptime()));
+
+		if (data.isCripplingWave() && (data.getCripplingWaveUptime() > 0))
+			playerBuffs.put(Buff.CripWave, new BuffHolder(Buff.CripWave, 3.0, data.getCripplingWaveUptime()));
+
+		if (data.isConviction() && (data.getConvictionPassiveUptime() > 0))
+			playerBuffs.put(Buff.ConvictionPassive, new BuffHolder(Buff.ConvictionPassive, 3.0, data.getConvictionPassiveUptime()));
+
+		if (data.isConviction() && (data.getConvictionActiveUptime() > 0))
+			playerBuffs.put(Buff.ConvictionActive, new BuffHolder(Buff.ConvictionActive, 3.0, data.getConvictionActiveUptime()));
+
+		if (data.isMarked() && (data.getMfdUptime() > 0)) 
+			playerBuffs.put(Buff.MfdPrimary, new BuffHolder(Buff.MfdPrimary, 30.0, data.getMfdUptime()));
+
+		if (data.isMarked() && (data.getMfdAddUptime() > 0) && (data.getNumAdditional() > 0)) 
+			playerBuffs.put(Buff.MfdAdditional, new BuffHolder(Buff.MfdAdditional, 30.0, data.getMfdAddUptime()));
+
+		if (data.isCalamityMdf() && (data.getCalamityUptime() > 0)) 
+			playerBuffs.put(Buff.Calamity, new BuffHolder(Buff.Calamity, 30.0, data.getCalamityUptime()));
+
+		if (data.isBotp())
+			playerBuffs.put(Buff.BotP, new BuffHolder(Buff.BotP, 20.0 + data.getBotpLevel(), -1));
+		
+		boolean hasWolf = data.isCompanion() && ((data.getNumMarauders() >= 2) || (data.getCompanionRune() == Rune.Wolf));
 
 		if (fokRune == Rune.Pinpoint_Accuracy)
 			fokCd = 15.0 * (1 - cdr);
@@ -200,21 +241,32 @@ public class FiringData {
 		double bwgExpires = 5.0;
 		double bwsExpires = 5.0;
 
+		SimulationState state = new SimulationState(data, targets);
+		
+		if (data.isBastions()) {
+			
+			if (data.hasGenerator())
+				state.getBuffs().set(Buff.BwGen, bwgExpires);
+			
+			if (data.hasSpender())
+				state.getBuffs().set(Buff.BwSpend, bwsExpires);
+		}
+		
 		while (targets.getPrimary().isAlive() && (t < FiringData.MAX_DURATION)) {
-
+			
 			double primaryHpPercent = targets.getPrimary().getPercentHealth();
 
-			if (data.isRov() && (t >= nextRov)) {
+			if (data.isRov() && (t > nextRov)) {
 				numRov++;
 				nextRov += rovCd;
 			}
 
-			if ((fokRune != null) && (t >= nextFok)) {
+			if ((fokRune != null) && (t > nextFok)) {
 				numFok++;
 				nextFok += fokCd;
 			}
 
-			if (venActive && (t >= venEnds)) {
+			if (venActive && (t > venEnds)) {
 				venActive = false;
 			}
 
@@ -244,31 +296,13 @@ public class FiringData {
 
 			if (data.isPreparation()
 					&& (data.getPreparationRune() == Rune.Punishment)
-					&& ((maxHatred - hatred) >= prepAmount) && (prepAvail <= t)) {
+					&& ((maxHatred - hatred) >= prepAmount) && (prepAvail < t)) {
 				hatred += prepAmount;
 				prepAvail = t + prepCd;
 				numPrep++;
 			}
 
-			if (data.isCompanion()
-					&& ((data.getNumMarauders() >= 2) || (data
-							.getCompanionRune() == Rune.Bat))) {
-				if ((hatred <= 50.0) && (batAvail <= t)) {
-					hatred += batAmount;
-
-					Damage d = new Damage();
-					d.shooter = "Companion";
-					d.hatred = batAmount;
-					d.currentHatred = hatred;
-					d.qty = 1;
-					d.time = batAvail;
-					list.add(d);
-
-					batAvail += batCd;
-				}
-			}
-
-			while (t >= nextRegen) {
+			while (t > nextRegen) {
 				double tick = regen;
 
 				if (venActive && (venRune == Rune.Seethe)) {
@@ -280,11 +314,12 @@ public class FiringData {
 
 				if (regenTick > 0) {
 					Damage d = new Damage();
-					d.shooter = "Hatred Regen";
+					d.shooter = "Player";
 					d.hatred = regenTick;
 					d.currentHatred = hatred;
 					d.time = nextRegen;
 					d.qty = 1;
+					d.note = "Hatred Regen";
 					list.add(d);
 				}
 
@@ -292,7 +327,7 @@ public class FiringData {
 			}
 
 			if (data.isCompanion()) {
-				while (t >= nextPet) {
+				while (t > nextPet) {
 
 					for (Rune r : companionRunes) {
 
@@ -300,7 +335,7 @@ public class FiringData {
 								DamageFunction.getDamages(false, false,
 										ActiveSkill.Companion.getLongName(),
 										new DamageSource(ActiveSkill.Companion,
-												r), targets, data), targets,
+												r), state), targets,
 								list);
 					}
 
@@ -309,15 +344,13 @@ public class FiringData {
 			}
 
 			if (data.isSentry()) {
-				while (t >= nextBolt) {
+				while (t > nextBolt) {
 					applyDamages(nextBolt, hatred, DamageFunction.getDamages(
 							false, true, "Sentry", new DamageSource(
-									ActiveSkill.BOLT, sentryRune), targets,
-							data), targets, list);
+									ActiveSkill.BOLT, sentryRune), state), targets, list);
 					applyDamages(nextBolt, hatred, DamageFunction.getDamages(
 							false, true, "Sentry", new DamageSource(
-									ActiveSkill.SENTRY, sentryRune), targets,
-							data), targets, list);
+									ActiveSkill.SENTRY, sentryRune), state), targets, list);
 					nextBolt += boltInterval;
 				}
 			}
@@ -331,12 +364,113 @@ public class FiringData {
 				}
 			}
 
+			if ((hasBat || hasWolf) && (batAvail <= t)) {
+				
+				boolean use = false;
+				
+				if (hasBat && (hatred <= 50.0)) {
+					use = true;
+				} else if (hasWolf && !state.getBuffs().isActive(Buff.OtherWolf)) {
+					use = true;
+				}
+				
+				if (use) {
+
+
+					if (hasBat) {
+						double h = Math.min(batAmount, maxHatred - hatred);
+						
+						if (h > 0) {
+							hatred += h;
+		
+							Damage d = new Damage();
+							d.shooter = "Companion";
+							d.source = new DamageSource(ActiveSkill.Companion, Rune.Bat);
+							d.hatred = batAmount;
+							d.currentHatred = hatred;
+							d.note = "Bat Hatred";
+							d.qty = 1;
+							d.time = t;
+							list.add(d);
+						}
+					}
+
+					batAvail = t + batCd;
+
+					if (hasWolf) {
+						state.getBuffs().set(Buff.Wolf, t + 10.0);
+						
+						Damage d = new Damage();
+						d.shooter = "Companion";
+						d.source = new DamageSource(ActiveSkill.Companion, Rune.Wolf);
+						d.note = "Wolf Howl";
+						d.time = t;
+						d.qty = 1;
+						list.add(d);
+					}
+				}
+			}
+
+			for (BuffHolder buff : playerBuffs.values()) {
+				if (buff.getAvail() <= t) {
+					if ((buff.getBuff() == Buff.OtherWolf)  && state.getBuffs().isActive(Buff.Wolf)) {
+						break;
+					}
+					
+					if ((buff.getBuff() == Buff.ConvictionActive)  && state.getBuffs().isActive(Buff.ConvictionPassive)) {
+						break;
+					}
+				
+					if ((buff.getBuff() == Buff.ConvictionPassive)  && state.getBuffs().isActive(Buff.ConvictionActive)) {
+						break;
+					}
+				
+					buff.setAvail(t + buff.getCd());
+					state.getBuffs().set(buff.getBuff(), t + buff.getDuration());
+
+					Damage d = new Damage();
+					
+
+					if (buff.getBuff() == Buff.BotP) {
+						d.shooter = "Player";
+						d.note = "BotP Active";
+					} else if (buff.getBuff() == Buff.MfdPrimary) {
+						d.shooter = "Player";
+						d.source = new DamageSource(ActiveSkill.MFD, data.getMfdRune());
+						d.note = "MfD Primary";
+					} else if (buff.getBuff() == Buff.MfdAdditional) {
+						d.shooter = "Player";
+						d.source = new DamageSource(ActiveSkill.MFD, data.getMfdRune());
+						d.note = "MfD Additional";
+					} else if (buff.getBuff() == Buff.Calamity) {
+						d.shooter = "Player";
+						d.source = new DamageSource(ActiveSkill.MFD, Rune.None);
+						d.note = "Calamity MfD";
+					} else {
+						d.shooter = "Other Player";
+					
+						if (buff.getBuff() == Buff.OtherWolf) {
+							d.source = new DamageSource(ActiveSkill.Companion, Rune.Wolf);
+							d.note = "Other Wolf Howl";
+						} else {
+							d.note = "Other Player " + buff.getBuff().toString();
+						}
+					}
+					
+					d.time = t;
+					d.qty = 1;
+					list.add(d);
+				}
+			}
+			
 			SkillAndRune selected = null;
 
 			if (data.isBastions()) {
 				if ((t + interval) >= bwgExpires) {
 					selected = generator;
-				} else if ((t + interval) >= bwsExpires) {
+				} 
+				
+				if ((t + interval) >= bwsExpires) {
 
 					if (spender != null) {
 						double h = spender.getHatred(data);
@@ -359,6 +493,8 @@ public class FiringData {
 				}
 			}
 
+			state.setTime(t);
+
 			if (selected != null) {
 				double h = selected.getHatred(data);
 
@@ -369,15 +505,18 @@ public class FiringData {
 				if (data.isBastions()) {
 					if (h < 0) {
 						bwsExpires = t + 5.0;
+						state.getBuffs().set(Buff.BwSpend, bwsExpires);
+						
 					} else if (h > 0) {
 						bwgExpires = t + 5.0;
+						state.getBuffs().set(Buff.BwGen, bwgExpires);
 					}
 				}
 
 				totalHits++;
 				applyDamages(t, hatred, DamageFunction.getDamages(true, false,
 						"Player", new DamageSource(selected.getSkill(),
-								selected.getRune()), targets, data), targets,
+								selected.getRune()), state), targets,
 						list);
 
 				if (data.isSentry()) {
@@ -388,14 +527,18 @@ public class FiringData {
 								true,
 								"Sentry",
 								new DamageSource(selected.getSkill(), selected
-										.getRune()), targets, data), targets,
+										.getRune()), state), targets,
 								list);
 
 						nextBolt += boltInterval;
 					}
 				}
 
-				if (data.isMarked() && (data.getMfdRune() == Rune.Mortal_Enemy)) {
+				if (
+						data.isMarked() && 
+						(data.getMfdRune() == Rune.Mortal_Enemy) && 
+						(state.getBuffs().isActive(Buff.MfdPrimary) || state.getBuffs().isActive(Buff.MfdAdditional))
+					) {
 
 					numMarked++;
 					double mh = markedAmount;
@@ -414,6 +557,7 @@ public class FiringData {
 						d.hatred = mh;
 						d.qty = 1;
 						d.time = t;
+						d.note = "MfD/ME Hatred";
 						d.currentHatred = hatred;
 						list.add(d);
 					}
@@ -423,7 +567,7 @@ public class FiringData {
 					// TODO Handle Dark Heart DoT
 					applyDamages(t, hatred, DamageFunction.getDamages(true, false,
 							"Player", new DamageSource(ActiveSkill.Vengeance,
-									venRune), targets, data), targets, list);
+									venRune), state), targets, list);
 				}
 
 				if (data.getNumNats() >= 2) {

@@ -2767,7 +2767,6 @@ public class MainPanel extends BasePanel {
 
 	protected void setHeroSkills() {
 		this.passives.setPassives(data.getPassives());
-		this.playerBuffPanel.getWolf().setValue(data.isWolf());
 	}
 
 	protected void setValue(TextBox textBox, int value) {
@@ -2944,7 +2943,6 @@ public class MainPanel extends BasePanel {
 				new Field(this.gemPanel.getBotp(), "BotP",
 						Boolean.FALSE.toString()),
 				new Field(this.gemPanel.getBotpLevel(), "BotPLevel", "0"),
-				new Field(this.gemPanel.getBotpUptime(), "BotPUptime", "100"),
 				new Field(this.gemPanel.getZeis(), "Zei's",
 						Boolean.FALSE.toString()),
 				new Field(this.gemPanel.getZeisLevel(), "Zei'sLevel", "0"),
@@ -3029,7 +3027,7 @@ public class MainPanel extends BasePanel {
 						"ConvictionPassiveUptime", "100"),
 				new Field(this.playerBuffPanel.getConvictionActiveUptime(),
 						"ConvictionActiveUptime", "0"),
-				new Field(this.playerBuffPanel.getWolf(), "Wolf",
+				new Field(this.playerBuffPanel.getWolf(), "OtherWolf",
 						Boolean.FALSE.toString()),
 				new Field(this.playerBuffPanel.getWolfUptime(), "WolfUptime",
 						"33.33"),
@@ -3109,7 +3107,6 @@ public class MainPanel extends BasePanel {
 					.getAreaDamageEquipment()) / 100.0);
 			data.setBotp(this.gemPanel.getBotp().getValue());
 			data.setBotpLevel(getValue(this.gemPanel.getBotpLevel()));
-			data.setBotpUptime(getValue(this.gemPanel.getBotpUptime()) / 100.0);
 			data.setCalamityMdf(itemPanel.getCalamity().getValue());
 			data.setHasBombardiers(itemPanel.getBombadiers().getValue());
 			data.setDml(itemPanel.getDml().getValue());
@@ -3728,7 +3725,7 @@ public class MainPanel extends BasePanel {
 		this.totalDamage.setText(Util.format(Math.round(total)));
 		this.eliteDamage.setText(Math.round(data.getTotalEliteDamage() * 100.0)
 				+ "%");
-		this.timeElapsed.setText(Util.format(Math.round(damage.duration * 100.0) / 100.0));
+		this.timeElapsed.setText(Util.format(Math.round(damage.duration * 100.0) / 100.0) + " secs");
 
 		row = 1;
 

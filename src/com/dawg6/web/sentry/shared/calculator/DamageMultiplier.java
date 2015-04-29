@@ -3,380 +3,390 @@ package com.dawg6.web.sentry.shared.calculator;
 public enum DamageMultiplier {
 	WD("WD", DamageAccumulator.Multiplicative,
 			"Average Weapon Damage (Main Hand Only)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getWeaponDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getWeaponDamage();
 				}
 			}), DWWD("DWWD", DamageAccumulator.Multiplicative,
 			"Average Weapon Damage (Dual-Wield)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 
 				@Override
-				public Double getValue(CharacterData data) {
-					return (data.getWeaponDamage() + data
+				public Double getValue(SimulationState state) {
+					return (state.getData().getWeaponDamage() + state.getData()
 							.getOffHand_weaponDamage()) / 2.0;
 				}
 			}), NumGrenades("#Grenades", DamageAccumulator.Multiplicative,
 			"# of Grenades per Target", null), Fire("Fire",
 			DamageAccumulator.ElementalAdditive, "Fire Elemental Damage Bonus",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getFireDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getFireDamage();
 				}
 			}), Cold("Cold", DamageAccumulator.ElementalAdditive,
-			"Cold Elemental Damage Bonus", new Test<CharacterData, Double>() {
+			"Cold Elemental Damage Bonus", new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getColdDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getColdDamage();
 				}
 			}), Physical("Physical", DamageAccumulator.ElementalAdditive,
-			"Physical Damage Bonus", new Test<CharacterData, Double>() {
+			"Physical Damage Bonus", new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getPhysDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getPhysDamage();
 				}
 			}), Lightning("Lightning", DamageAccumulator.ElementalAdditive,
 			"Lightning Elemental Damage Bonus",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getLightDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getLightDamage();
 				}
 			}), Poison("Poison", DamageAccumulator.ElementalAdditive,
-			"Poison Elemental Damage Bonus", new Test<CharacterData, Double>() {
+			"Poison Elemental Damage Bonus",
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getPoisonDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getPoisonDamage();
 				}
 			}), Enforcer(
 			"Enforcer",
 			DamageAccumulator.ElementalAdditive,
 			"Enforcer gem bonus (15% + 3%/rank pet damage). Does not apply to Sentry Spitfire rockets.",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.isUseEnforcer() ? (0.15 + (data
+				public Double getValue(SimulationState state) {
+					return state.getData().isUseEnforcer() ? (0.15 + (state.getData()
 							.getEnforcerLevel() * 0.003)) : 0.0;
 				}
 			}), Zeis(
 			"Zei's",
 			DamageAccumulator.Multiplicative,
 			"Zei's stone of vengeance gem bonus (4% + .05%/rank per 10 yards up to 50 yards).",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
+				public Double getValue(SimulationState state) {
 
-					if (!data.isZeis())
+					if (!state.getData().isZeis())
 						return 0.0;
 
-					int d = Math.min(data.getDistanceToTarget() / 10, 5);
+					int d = Math.min(
+							state.getData().getDistanceToTarget() / 10, 5);
 
-					return d * (0.04 + (data.getZeisLevel() * 0.0005));
+					return d
+							* (0.04 + (state.getData().getZeisLevel() * 0.0005));
 				}
 			}), Sentry("Sentry", DamageAccumulator.Multiplicative,
-			"Sentry Skill Damage Bonus", new Test<CharacterData, Double>() {
+			"Sentry Skill Damage Bonus", new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getSentryDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getSentryDamage();
 				}
 			}), COE("COE", DamageAccumulator.Multiplicative,
 			"Convention of Elements Bonus (150-200% while element is active)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.isCoe() ? (data.getCoePercent() / 4.0) : 0.0;
+				public Double getValue(SimulationState state) {
+					return state.getData().isCoe() ? (state.getData()
+							.getCoePercent() / 4.0) : 0.0;
 				}
 			}), Rockets("Ballistics", DamageAccumulator.Multiplicative,
 			"Ballistics passive bonus (100% Rocket damage)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.isBallistics() ? 1.0 : 0.0;
+				public Double getValue(SimulationState state) {
+					return state.getData().isBallistics() ? 1.0 : 0.0;
 				}
 			}), Grenades("Grenadier", DamageAccumulator.Multiplicative,
 			"Grenadier passive bonus (10% to grenade damage)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.isGrenadier() ? 0.1 : 0.0;
+				public Double getValue(SimulationState state) {
+					return state.getData().isGrenadier() ? 0.1 : 0.0;
 				}
 			}), SteadyAim("SteadyAim", DamageAccumulator.Additive,
 			"Steady Aim passive bonus (20% when no enemies within 10 yards)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return (data.isSteadyAim()) ? (0.2 * data
+				public Double getValue(SimulationState state) {
+					return (state.getData().isSteadyAim()) ? (0.2 * state.getData()
 							.getPercentAtLeast10Yards()) : 0.0;
 				}
 			}), Strongarm("Strongarm", DamageAccumulator.Additive,
 			"Strongarm Bracers bonus (20-30% during uptime)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return (data.isStrongarm()) ? (data.getStrongarmPercent() * data
-							.getStrongarmUptime()) : 0.0;
+				public Double getValue(SimulationState state) {
+					return (state.getData().isStrongarm()) ? (state.getData()
+							.getStrongarmPercent() * state.getData().getStrongarmUptime())
+							: 0.0;
 				}
 			}), Harrington("Harrington", DamageAccumulator.Additive,
 			"Harrington Waistguard bonus (100-135% during uptime)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return (data.isHarrington()) ? (data.getHarringtonPercent() * data
+				public Double getValue(SimulationState state) {
+					return (state.getData().isHarrington()) ? (state.getData()
+							.getHarringtonPercent() * state.getData()
 							.getHarringtonUptime()) : 0.0;
 				}
 			}), HexingPants(
 			"HexingPants",
 			DamageAccumulator.Additive,
 			"Hexing Pants of Mr. Yan bonus (+ while moving, - while stationary)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.isHexingPants() ? ((0.25 * data
-							.getHexingPantsUptime()) - (data
-							.getHexingPantsPercent() * (1.0 - data
+				public Double getValue(SimulationState state) {
+					return state.getData().isHexingPants() ? ((0.25 * state.getData()
+							.getHexingPantsUptime()) - (state.getData()
+							.getHexingPantsPercent() * (1.0 - state.getData()
 							.getHexingPantsUptime()))) : 0.0;
 				}
 			}), ArcheryDamage("Archery", DamageAccumulator.Additive,
 			"Archery damage bonus (8% when using 2H Bow)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return (data.isArchery() && (data.getWeaponType() == WeaponType.Bow)) ? 0.08
-							: 0.0;
+				public Double getValue(SimulationState state) {
+					return (state.getData().isArchery() && (state.getData()
+							.getWeaponType() == WeaponType.Bow)) ? 0.08 : 0.0;
 				}
 			}), UE4(
 			"UE4",
 			DamageAccumulator.Multiplicative,
 			"Unhallowed Essence 4 item set bonus (20% if no enemies within 10 yards)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return (data.getNumUe() >= 4) ? (0.2 * data
+				public Double getValue(SimulationState state) {
+					return (state.getData().getNumUe() >= 4) ? (0.2 * state.getData()
 							.getPercentAtLeast10Yards()) : 0.0;
 				}
 			}), UE6(
 			"UE6",
 			DamageAccumulator.Multiplicative,
 			"Unhallowed Essence 6 item set bonus (15% per point of discipline)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return (data.getNumUe() >= 6) ? (0.15 * data
+				public Double getValue(SimulationState state) {
+					return (state.getData().getNumUe() >= 6) ? (0.15 * state.getData()
 							.getMaxDiscipline()) : 0.0;
 				}
 			}), BW1("BWg", DamageAccumulator.Multiplicative,
 			"Bastions of Will Generator Bonus (50%)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return (data.isBastions() && data.hasGenerator()) ? 0.5
-							: 0.0;
+				public Double getValue(SimulationState state) {
+					return state.getBuffs().isActive(Buff.BwGen) ? 0.5 : 0.0;
 				}
 			}), BW2("BWs", DamageAccumulator.Multiplicative,
 			"Bastions of Will Spender Bonus (50%)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return (data.isBastions() && data.hasSpender()) ? 0.5 : 0.0;
+				public Double getValue(SimulationState state) {
+					return state.getBuffs().isActive(Buff.BwSpend) ? 0.5 : 0.0;
 				}
 			}), Dexterity("Dex", DamageAccumulator.Multiplicative,
 			"Dexterity bonus (1% damage per dex)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getDexterity() / 100.0;
+				public Double getValue(SimulationState state) {
+					return state.getData().getDexterity() / 100.0;
 				}
 			}), CC("CC", DamageAccumulator.Special, "Chrit Chance bonus",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getCritChance();
+				public Double getValue(SimulationState state) {
+					return state.getData().getCritChance();
 				}
 			}), CHD("CHD", DamageAccumulator.Special, "Chrit Hit Damage bonus",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getCritHitDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getCritHitDamage();
 				}
 			}), OnCrit("OnCrit", DamageAccumulator.Special,
-			"On Crit Only Damage Bonus", new Test<CharacterData, Double>() {
+			"On Crit Only Damage Bonus", new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getCritHitDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getCritHitDamage();
 				}
 			}), Hysteria("Hysteria", DamageAccumulator.Additive,
 			"Scoundrel Hysteria Damage Bonus",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.isHysteria() ? 0.03 : 0.0;
+				public Double getValue(SimulationState state) {
+					return state.getData().isHysteria() ? 0.03 : 0.0;
 				}
 			}), OdysseysEnd("OE", DamageAccumulator.Additive,
-			"Odyssey's End Damage Bonus", new Test<CharacterData, Double>() {
+			"Odyssey's End Damage Bonus", new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.isOdysseysEnd() ? (data.getOdysseysEndPercent() * data
+				public Double getValue(SimulationState state) {
+					return state.getData().isOdysseysEnd() ? (state.getData()
+							.getOdysseysEndPercent() * state.getData()
 							.getOdysseysEndUptime()) : 0.0;
 				}
 			}), EA("EA", DamageAccumulator.Additive,
 			"Elemental Arrow Skill Damage Bonus",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getEaDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getEaDamage();
 				}
 			}), CA("CA", DamageAccumulator.Additive,
 			"Cluster Arrow Skill Damage Bonus",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getCaDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getCaDamage();
 				}
 			}), MS("MS", DamageAccumulator.Additive,
-			"Multishot Skill Damage Bonus", new Test<CharacterData, Double>() {
+			"Multishot Skill Damage Bonus",
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getMsDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getMsDamage();
 				}
 			}), IMP("Imp", DamageAccumulator.Additive,
-			"Impale Skill Damage Bonus", new Test<CharacterData, Double>() {
+			"Impale Skill Damage Bonus", new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getImpDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getImpDamage();
 				}
 			}), CHAK("Chak", DamageAccumulator.Additive,
-			"Chakram Skill Damage Bonus", new Test<CharacterData, Double>() {
+			"Chakram Skill Damage Bonus", new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getChakDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getChakDamage();
 				}
 			}), HA("HA", DamageAccumulator.Additive,
 			"Hungering Arrow Skill Damage Bonus",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getHaDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getHaDamage();
 				}
 			}), Companion("Companion", DamageAccumulator.Additive,
-			"Companion Skill Damage Bonus", new Test<CharacterData, Double>() {
+			"Companion Skill Damage Bonus",
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getCompanionDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getCompanionDamage();
 				}
 			}), ES("ES", DamageAccumulator.Additive,
 			"Entangling Shot Skill Damage Bonus",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getEsDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getEsDamage();
 				}
 			}), BOLAS("BOLAS", DamageAccumulator.Additive,
-			"Bolas Skill Damage Bonus", new Test<CharacterData, Double>() {
+			"Bolas Skill Damage Bonus", new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getBolasDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getBolasDamage();
 				}
 			}), EF("EF", DamageAccumulator.Additive,
 			"Evasive Fire Skill Damage Bonus",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getEfDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getEfDamage();
 				}
 			}), GRENADE("GRENADE", DamageAccumulator.Additive,
-			"Grenade Skill Damage Bonus", new Test<CharacterData, Double>() {
+			"Grenade Skill Damage Bonus", new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getGrenadeDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getGrenadeDamage();
 				}
 			}), ST("ST", DamageAccumulator.Additive, "Spike Trap Damage Bonus",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getSpikeTrapDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getSpikeTrapDamage();
 				}
 			}), FoK("FoK", DamageAccumulator.Additive,
 			"Fan of Knives Skill Damage Bonus",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getFokDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getFokDamage();
 				}
 			}), Vengeance("Ven", DamageAccumulator.Additive,
-			"Vengeance Skill Damage Bonus", new Test<CharacterData, Double>() {
+			"Vengeance Skill Damage Bonus",
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getVengeanceDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getVengeanceDamage();
 				}
 			}), Strafe("Strafe", DamageAccumulator.Additive,
-			"Strafe Skill Damage Bonus", new Test<CharacterData, Double>() {
+			"Strafe Skill Damage Bonus", new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getStrafeDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getStrafeDamage();
 				}
 			}), RF("RF", DamageAccumulator.Additive,
-			"Rapid Fire Skill Damage Bonus", new Test<CharacterData, Double>() {
+			"Rapid Fire Skill Damage Bonus",
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getRFDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getRFDamage();
 				}
 			}), RoV("RoV", DamageAccumulator.Additive,
 			"Rain of Vengeance Skill Damage Bonus",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.getRovDamage();
+				public Double getValue(SimulationState state) {
+					return state.getData().getRovDamage();
 				}
 			}), CtW("CtW", DamageAccumulator.Multiplicative,
 			"Cull the Weak passive bonus (20% to chilled/frozen)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.isCullTheWeak() ? (0.2 * data
+				public Double getValue(SimulationState state) {
+					return state.getData().isCullTheWeak() ? (0.2 * state.getData()
 							.getPercentSlowedChilled()) : 0.0;
 				}
 			}), M6("M6", DamageAccumulator.Multiplicative,
 			"Marauder's 6 piece bonus (+100% per Sentry)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return (data.getNumMarauders() >= 6) ? (double) (data
+				public Double getValue(SimulationState state) {
+					return (state.getData().getNumMarauders() >= 6) ? (double) (state.getData()
 							.getNumSentries()) : 0;
 				}
 			}), N4("N4", DamageAccumulator.Multiplicative,
 			"Nat's 4 piece bonus (+100% to RoV)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return (data.getNumNats() >= 4) ? 1.0 : 0;
+				public Double getValue(SimulationState state) {
+					return (state.getData().getNumNats() >= 4) ? 1.0 : 0;
 				}
 			}), RoVN6(
 			"N6RoV",
 			DamageAccumulator.Multiplicative,
 			"Nat's 6 piece bonus to RoV (+400% damage for 5 seconds after RoV)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return (data.getNumNats() >= 6) ? 4.0 : 0;
+				public Double getValue(SimulationState state) {
+					return (state.getData().getNumNats() >= 6) ? 4.0 : 0;
 				}
 			}), N6(
 			"N6",
 			DamageAccumulator.Multiplicative,
 			"Nat's 6 piece bonus to other skills(+400% damage for 5 seconds after RoV)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
+				public Double getValue(SimulationState state) {
 					// TODO do we need to calculate uptime?
 
-					if (data.getNumNats() < 6)
+					if (state.getData().getNumNats() < 6)
 						return 0.0;
 
-					double interval = (1.0 / data.getAps())
-							+ (data.getDelay() / 1000.0);
-					double cdr = data.getCdr();
+					double interval = (1.0 / state.getData().getAps())
+							+ (state.getData().getDelay() / 1000.0);
+					double cdr = state.getData().getCdr();
 					double rovCD = 30.0 * (1.0 - cdr);
 					double numAttacks = rovCD / (interval + 2.0);
 					rovCD = numAttacks * interval;
@@ -388,188 +398,173 @@ public enum DamageMultiplier {
 				}
 			}), Elite("Elite", DamageAccumulator.Multiplicative,
 			"Elite damage bonus (includes BotP if rank 25+)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
+				public Double getValue(SimulationState state) {
 					// TODO Apply Target Type
-					return data.getTotalEliteDamage();
+					return state.getData().getTotalEliteDamage();
 				}
 			}), DoT("DoT", DamageAccumulator.Multiplicative,
 			"Damage over Time (damage per second, not per attack)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
+				public Double getValue(SimulationState state) {
 					return 0.0;
 				}
 			}), BoT("BotT", DamageAccumulator.Multiplicative,
 			"Bane of the Trapped bonus (15% + 3%/rank to control impaired)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.isUseBaneOfTheTrapped() ? ((0.15 + (data
-							.getBaneOfTheTrappedLevel() * 0.003)) * data
+				public Double getValue(SimulationState state) {
+					return state.getData().isUseBaneOfTheTrapped() ? ((0.15 + (state.getData()
+							.getBaneOfTheTrappedLevel() * 0.003)) * state.getData()
 							.getPercentControlled()) : 0.0;
 				}
 			}), BotP("BotP", DamageAccumulator.Additive,
 			"Bane of the Powerful active gem bonus (20% while active)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.isBotp() ? (0.2 * data.getBotpUptime()) : 0.0;
+				public Double getValue(SimulationState state) {
+					return state.getBuffs().isActive(Buff.BotP) ? 0.2 : 0.0;
 				}
 			}), IAS("IAS", DamageAccumulator.Multiplicative,
 			"Character IAS bonus for Companions",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return (data.getEquipIas()
-							+ (data.getParagonIAS() * 0.002)
-							+ (data.isGogok() ? (data.getGogokStacks() * 0.01)
-									: 0.0)
-							+ (data.isFocusedMind() ? 0.03 : 0.0) + (data
-							.isRetribution() ? (0.1 * data
+				public Double getValue(SimulationState state) {
+					return (state.getData().getEquipIas()
+							+ (state.getData().getParagonIAS() * 0.002)
+							+ (state.getData().isGogok() ? (state.getData()
+									.getGogokStacks() * 0.01) : 0.0)
+							+ (state.getData().isFocusedMind() ? 0.03 : 0.0) + (state.getData()
+							.isRetribution() ? (0.1 * state.getData()
 							.getRetributionUptime()) : 0.0));
 				}
 			}), APS("APS", DamageAccumulator.Multiplicative,
 			"Weapon APS bonus for Companions",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					WeaponType type = data.getWeaponType();
+				public Double getValue(SimulationState state) {
+					WeaponType type = state.getData().getWeaponType();
 
 					if (type == null)
 						type = WeaponType.Bow;
 
-					return (type.getAps() * (1.0 + data.getWeaponIas())) - 1.0;
+					return (type.getAps() * (1.0 + state.getData()
+							.getWeaponIas())) - 1.0;
 				}
 			}), CaltropsBT(
 			"Caltrops",
 			DamageAccumulator.Special,
 			"Caltrops/Bait the Trap active bonus (10% Crit Chance while active)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return (data.isCaltrops() && (data.getCaltropsRune() == Rune.Bait_the_Trap)) ? (0.1 * data
+				public Double getValue(SimulationState state) {
+					return (state.getData().isCaltrops() && (state.getData()
+							.getCaltropsRune() == Rune.Bait_the_Trap)) ? (0.1 * state.getData()
 							.getCaltropsUptime()) : 0.0;
 				}
 			}), Taeguk("Taeguk", DamageAccumulator.Additive,
 			"Taeguk active gem bonus (0.5% per stack)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.isTaeguk() ? (0.005 * data.getTaegukStacks())
-							: 0.0;
+				public Double getValue(SimulationState state) {
+					return state.getData().isTaeguk() ? (0.005 * state
+							.getData().getTaegukStacks()) : 0.0;
 				}
 			}), Wolf("Wolf", DamageAccumulator.Additive,
 			"Wolf Companion active bonus (30% during uptime)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.isWolf() ? (data.getWolfUptime() * 0.3) : 0.0;
+				public Double getValue(SimulationState state) {
+					return (state.getBuffs().isActive(Buff.Wolf) || state.getBuffs().isActive(Buff.OtherWolf)) ? 0.3 : 0.0;
 				}
 			}), Bbv("Bbv", DamageAccumulator.Additive,
 			"Big Bad Voodoo/Slam Dance active bonus (30% during uptime)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return (data.isBbv() && data.isSlamDance()) ? (data
-							.getBbvUptime() * 0.3) : 0.0;
+				public Double getValue(SimulationState state) {
+					return state.getBuffs().isActive(Buff.Bbv) ? 0.3 : 0.0;
 				}
 			}), Piranhas("Piranhas", DamageAccumulator.Additive,
 			"Piranhas active bonus (15% during uptime)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.isPiranhas() ? (data.getPiranhasUptime() * 0.15)
-							: 0.0;
+				public Double getValue(SimulationState state) {
+					return state.getBuffs().isActive(Buff.Piranhas) ? 0.15 : 0.0;
 				}
 			}), InnerSanctuary(
 			"InnerSanctuary",
 			DamageAccumulator.Additive,
 			"Inner Sanctuary/Forbidden Palace active bonus (30% during uptime)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.isInnerSanctuary() ? (data
-							.getInnerSanctuaryUptime() * 0.3) : 0.0;
+				public Double getValue(SimulationState state) {
+					return state.getBuffs().isActive(Buff.InnerSanct) ? 0.3 : 0.0;
 				}
 			}), CripplingWave("CripplingWave", DamageAccumulator.Additive,
 			"Crippling Wave/Breaking Wave active bonus (10% during uptime)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.isCripplingWave() ? (data
-							.getCripplingWaveUptime() * 0.1) : 0.0;
+				public Double getValue(SimulationState state) {
+					return state.getBuffs().isActive(Buff.CripWave) ? 0.1 : 0.0;
 				}
 			}), Conviction("Conviction", DamageAccumulator.Additive,
-			"Conviction bonus (10-24% during uptime)",
-			new Test<CharacterData, Double>() {
+			"Conviction bonus (10-20% during uptime)",
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
+				public Double getValue(SimulationState state) {
 
-					if (!data.isConviction())
+					if (state.getBuffs().isActive(Buff.ConvictionActive)) {
+						return 0.2;
+					} else if (state.getBuffs().isActive(Buff.ConvictionPassive)) {
+						return state.getData().isOverawe() ? 0.16 : 0.10;
+					} else {
 						return 0.0;
-
-					double passive = 0.10;
-					double active = 0.20;
-
-					if (data.isOverawe()) {
-						passive = 0.16;
-						active = 0.24;
 					}
-
-					return (passive * data.getConvictionPassiveUptime())
-							+ (active * data.getConvictionActiveUptime());
 				}
 			}), Paranoia("Paranoia", DamageAccumulator.Additive,
 			"Mass Confusion/Paranoia active bonus (20% during uptime)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.isMassConfusion() ? (data
-							.getMassConfusionUptime() * 0.2) : 0.0;
+				public Double getValue(SimulationState state) {
+					return state.getBuffs().isActive(Buff.Paranoia) ? 0.2 : 0.0;
 				}
 			}), MfD(
 			"MfD",
 			DamageAccumulator.Additive,
 			"Marked for Death active skill bonus (20%+ while applied, depending on selected Rune)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
+				public Double getValue(SimulationState state) {
 
-					if (!data.isMarked())
+					TargetType type = state.getData().getTargetType();
+					
+					if ((type == TargetType.Primary) && !state.getBuffs().isActive(Buff.MfdPrimary))
 						return 0.0;
-
-					double upTime = (data.getTargetType() == TargetType.Primary) ? data
-							.getMfdUptime() : data.getMfdAddUptime();
+					if ((type == TargetType.Additional) && !state.getBuffs().isActive(Buff.MfdAdditional))
+						return 0.0;
+					
 					double scalar = 0.2;
 					double aoe = 0.0;
-					double aoeUpTime = Math.max(data.getMfdUptime(),
-							data.getMfdAddUptime());
 
-					switch (data.getMfdRune()) {
+					switch (state.getData().getMfdRune()) {
 					case Valley_Of_Death:
 						scalar = 0.15;
 						break;
 
 					case Grim_Reaper:
 
-						if (data.getNumAdditional() <= 0)
+						if (state.getData().getNumAdditional() <= 0)
 							break;
 
-						if (data.getTargetSpacing() <= 20) {
-							aoe = (0.20 / data.getNumAdditional());
-
-							if (data.getTargetType() == TargetType.Primary) {
-								aoeUpTime = data.getMfdAddUptime();
-							}
+						if (state.getData().getTargetSpacing() <= 20) {
+							aoe = (0.20 / state.getData().getNumAdditional());
 						}
 
 						break;
 
 					case Contagion:
-						upTime = Math.max(data.getMfdUptime(),
-								data.getMfdAddUptime());
 						break;
 
 					case Mortal_Enemy:
@@ -578,75 +573,76 @@ public enum DamageMultiplier {
 						break;
 					}
 
-					return (scalar * upTime) + (aoe * aoeUpTime);
+					return scalar + aoe;
 				}
 			}), Vaxo("Vaxo", DamageAccumulator.Additive,
 			"Haunt of Vaxo Marked for Death bonus (15% during uptime)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.isVaxo() ? (0.15 * data.getVaxoUptime()) : 0.0;
+				public Double getValue(SimulationState state) {
+					return state.getData().isVaxo() ? (0.15 * state.getData()
+							.getVaxoUptime()) : 0.0;
 				}
 			}), AD("Area", DamageAccumulator.Additive,
-			"Area Damage (20% chance)", new Test<CharacterData, Double>() {
+			"Area Damage (20% chance)", new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return ((data.getNumAdditional() > 0) && (data
-							.getTargetSpacing() <= 10)) ? (0.2 * data
+				public Double getValue(SimulationState state) {
+					return ((state.getData().getNumAdditional() > 0) && (state.getData()
+							.getTargetSpacing() <= 10)) ? (0.2 * state.getData()
 							.getAreaDamage()) : 0.0;
 				}
 			}), Calamity("Calamity", DamageAccumulator.Additive,
 			"Calamity Marked for Death bonus (20% while applied)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return data.isCalamityMdf() ? (0.2 * data
-							.getCalamityUptime()) : 0.0;
+				public Double getValue(SimulationState state) {
+					return state.getBuffs().isActive(Buff.Calamity) ? 0.2 : 0.0;
 				}
 			}), Toxicity("Toxicity", DamageAccumulator.Additive,
 			"Gem of Efficacious Toxin rank 25+ bonus (10%)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return (data.isToxin() && data.getToxinLevel() >= 25) ? 0.1
-							: 0.0;
+				public Double getValue(SimulationState state) {
+					return (state.getData().isToxin() && state.getData()
+							.getToxinLevel() >= 25) ? 0.1 : 0.0;
 				}
 			}), Ambush("Ambush", DamageAccumulator.Multiplicative,
 			"Ambush (40% to enemies above 75% health)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return 0.4;
+				public Double getValue(SimulationState state) {
+					return (state.getData().isAmbush() && state.getTargets().getPrimary().getPercentHealth() >= 0.75) ? 0.4 : 0.0;
 				}
 			}), Iced(
 			"Iced",
 			DamageAccumulator.Special,
 			"Iceblink rank 25 bonus (10% Crit Chance to enemies chilled/frozen)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return (data.isIceblink() && (data.getIceblinkLevel() >= 25)) ? (0.1 * data
+				public Double getValue(SimulationState state) {
+					return (state.getData().isIceblink() && (state.getData()
+							.getIceblinkLevel() >= 25)) ? (0.1 * state.getData()
 							.getPercentSlowedChilled()) : 0.0;
 				}
 			}), SingleOut(
 			"SingleOut",
 			DamageAccumulator.Special,
 			"Single Out (25% Crit Chance to enemies more than 20 yards away from other enemies)",
-			new Test<CharacterData, Double>() {
+			new Test<SimulationState, Double>() {
 				@Override
-				public Double getValue(CharacterData data) {
-					return (data.isSingleOut() && (data.getTargetSpacing() >= 20)) ? 0.25
-							: 0.0;
+				public Double getValue(SimulationState state) {
+					return (state.getData().isSingleOut() && (state.getData()
+							.getTargetSpacing() >= 20)) ? 0.25 : 0.0;
 				}
 			});
 
 	private String abbrev;
-	private Test<CharacterData, Double> test;
+	private Test<SimulationState, Double> test;
 	private DamageAccumulator accumulator;
 	private String description;
 
 	private DamageMultiplier(String abbrev, DamageAccumulator accumulator,
-			String description, Test<CharacterData, Double> test) {
+			String description, Test<SimulationState, Double> test) {
 		this.abbrev = abbrev;
 		this.test = test;
 		this.accumulator = accumulator;
@@ -665,7 +661,7 @@ public enum DamageMultiplier {
 		return abbrev;
 	}
 
-	public double getValue(CharacterData data) {
-		return test.getValue(data);
+	public double getValue(SimulationState state) {
+		return test.getValue(state);
 	}
 }

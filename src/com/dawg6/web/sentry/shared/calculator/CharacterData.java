@@ -89,7 +89,6 @@ public class CharacterData implements Serializable  {
 	private boolean bbv;
 	private double bbvUptime;
 	private double massConfusionUptime;
-	private double botpUptime;
 	private double percentSlowedChilled;
 	private double percentControlled;
 	private double percentAtLeast10Yards;
@@ -234,7 +233,6 @@ public class CharacterData implements Serializable  {
 		percentAtLeast10Yards = 1.0;
 		distanceToTarget = 25;
 		targetSize = TargetSize.Medium;
-		botpUptime = 1.0;
 		painEnhancerStacks = 1;
 		gogokStacks = 1;
 		taegukStacks = 1;
@@ -298,7 +296,6 @@ public class CharacterData implements Serializable  {
 		this.bornsCdr = other.bornsCdr;
 		this.botp = other.botp;
 		this.botpLevel = other.botpLevel;
-		this.botpUptime = other.botpUptime;
 		this.bow = other.bow;
 		this.bp = other.bp;
 		this.calamityMdf = other.calamityMdf;
@@ -610,12 +607,7 @@ public class CharacterData implements Serializable  {
 	}
 
 	public boolean isWolf() {
-		if (wolf)
-			return true;
-
-		Rune r = skills.get(ActiveSkill.Companion);
-		
-		return (r == Rune.Wolf) || ((r != null) && this.numMarauders >= 2);
+		return wolf;
 	}
 
 	public void setWolf(boolean wolf) {
@@ -1067,14 +1059,6 @@ public class CharacterData implements Serializable  {
 
 	public void setBbvUptime(double bbvUptime) {
 		this.bbvUptime = bbvUptime;
-	}
-
-	public double getBotpUptime() {
-		return botpUptime;
-	}
-
-	public void setBotpUptime(double botpUptime) {
-		this.botpUptime = botpUptime;
 	}
 
 	public double getPercentSlowedChilled() {

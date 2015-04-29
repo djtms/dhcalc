@@ -584,8 +584,6 @@ public class ExportExcel {
 		createInput(inputs, data.data.isBotp(), "Bane of the Powerful");
 		createInput(inputs, data.data.getBotpLevel(),
 				"Bane of the Powerful Level");
-		createInput(inputs, data.data.getBotpUptime(),
-				"Bane of the Powerful Uptime", pctStyle);
 		createInput(inputs, data.data.isZeis(), "Zei's Stone of Vengeance");
 		createInput(inputs, data.data.getZeisLevel(),
 				"Zei's Stone of Vengeance Level");

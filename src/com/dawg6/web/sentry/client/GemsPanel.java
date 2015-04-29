@@ -30,7 +30,6 @@ public class GemsPanel extends Composite {
 	private final SimpleCheckBox taeguk;
 	private final NumberSpinner taegukLevel;
 	private final NumberSpinner taegukStacks;
-	private final NumberSpinner botpUptime;
 	private final SimpleCheckBox iceblink;
 	private final NumberSpinner iceblinkLevel;
 
@@ -106,15 +105,6 @@ public class GemsPanel extends Composite {
 		botpLevel.setVisibleLength(2);
 		flexTable.setWidget(3, 3, botpLevel);
 		
-		Label lblUptime = new Label("% Uptime:");
-		lblUptime.setWordWrap(false);
-		flexTable.setWidget(3, 4, lblUptime);
-		
-		botpUptime = new NumberSpinner();
-		botpUptime.setVisibleLength(2);
-		botpUptime.setTitle("% of time BotP's active buff is up.");
-		flexTable.setWidget(3, 5, botpUptime);
-
 		Anchor anchor_3 = new Anchor("Zei's Stone of Vengeance");
 		anchor_3.setWordWrap(false);
 		anchor_3.setTarget("_blank");
@@ -236,7 +226,6 @@ public class GemsPanel extends Composite {
 		this.zeisLevel.setMax(100);
 		this.gogokLevel.setMax(100);
 		this.gogokStacks.setMax(15);
-		this.botpUptime.setMax(100);
 		this.taegukStacks.setMax(20 + this.taegukLevel.getValue());
 	}
 
@@ -314,10 +303,6 @@ public class GemsPanel extends Composite {
 
 	public NumberSpinner getTaegukStacks() {
 		return taegukStacks;
-	}
-
-	public NumberSpinner getBotpUptime() {
-		return botpUptime;
 	}
 
 	public SimpleCheckBox getIceblink() {

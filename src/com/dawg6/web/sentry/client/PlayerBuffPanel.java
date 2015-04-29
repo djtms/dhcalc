@@ -39,13 +39,13 @@ public class PlayerBuffPanel extends Composite {
 		
 		disableListeners = true;
 
-		CaptionPanel cptnpnlNewPanel = new CaptionPanel("Player Buffs");
+		CaptionPanel cptnpnlNewPanel = new CaptionPanel("Other Player Buffs");
 		initWidget(cptnpnlNewPanel);
 
 		FlexTable flexTable = new FlexTable();
 		cptnpnlNewPanel.setContentWidget(flexTable);
 
-		Anchor anchor = new Anchor("Companion/Wolf:");
+		Anchor anchor = new Anchor("Companion/Wolf (from other DH):");
 		anchor.setWordWrap(false);
 		flexTable.setWidget(0, 0, anchor);
 		anchor.setTarget("_blank");
@@ -62,6 +62,7 @@ public class PlayerBuffPanel extends Composite {
 		wolfUptime.box.setVisibleLength(5);
 		wolfUptime.setValue(33.33);
 		flexTable.setWidget(0, 3, wolfUptime);
+		wolfUptime.setTitle("% of time that another player's Wolf will be active");
 
 		calcWolfButton = new Button("Calculate");
 		calcWolfButton.setTitle("Calculate Wolf uptime based on your effective Cooldown Reduction");
