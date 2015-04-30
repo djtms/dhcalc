@@ -2222,7 +2222,7 @@ public class CharacterData implements Serializable  {
 	}
 
 	public double getMaxDiscipline() {
-		double d = this.equipmentDiscipline + 25.0;
+		double d = this.equipmentDiscipline + 30.0;
 		
 		Rune r = skills.get(ActiveSkill.Preparation);
 		

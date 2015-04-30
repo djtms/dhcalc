@@ -10,7 +10,6 @@ public class Damage implements Serializable {
 	public double time;
 	public DamageSource source;
 	public int index;
-	public int qty;
 	public double damage;
 	public double totalDamage;
 	public DamageType type;
@@ -25,6 +24,8 @@ public class Damage implements Serializable {
 	public double hatred;
 	public int seq;
 	public double currentHatred;
+	public double disc;
+	public double currentDisc;
 	
 	public Damage copy() {
 		Damage d = new Damage();
@@ -32,7 +33,8 @@ public class Damage implements Serializable {
 		d.time = time;
 		d.source = source;
 		d.index = index;
-		d.qty = qty;
+		d.disc = disc;
+		d.currentDisc = currentDisc;
 		d.damage = damage;
 		d.totalDamage = totalDamage;
 		d.type = type;

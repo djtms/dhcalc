@@ -283,7 +283,6 @@ public class ExportExcel {
 			}
 
 			addTableCell(row, col++, Math.round(d.damage));
-			addTableCell(row, col++, d.qty);
 			addTableCell(row, col++, d.hatred);
 
 			addTableCell(row, col++, Math.round(d.totalDamage));

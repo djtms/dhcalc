@@ -524,7 +524,6 @@ public class MainPanel extends BasePanel {
 		label_14.setStyleName("boldText");
 		compareTable.setWidget(7, 0, label_14);
 
-
 		for (int j = 0; j < 3; j++) {
 			final int which = j;
 			int col = (j * 2) + 1;
@@ -1096,8 +1095,7 @@ public class MainPanel extends BasePanel {
 		VerticalPanel panel_1 = new VerticalPanel();
 		horizontalPanel_9.add(panel_1);
 
-		captionPanelTypeSummary = new CaptionPanel(
-				"Damage Type Summary");
+		captionPanelTypeSummary = new CaptionPanel("Damage Type Summary");
 		panel_1.add(captionPanelTypeSummary);
 
 		summary = new FlexTable();
@@ -1138,8 +1136,7 @@ public class MainPanel extends BasePanel {
 		lblOfTotal.setWordWrap(false);
 		summary.setWidget(0, 5, lblOfTotal);
 
-		captionPanelSkillSummary = new CaptionPanel(
-				"Skill Damage Summary");
+		captionPanelSkillSummary = new CaptionPanel("Skill Damage Summary");
 		panel_1.add(captionPanelSkillSummary);
 
 		skillSummary = new FlexTable();
@@ -1241,14 +1238,14 @@ public class MainPanel extends BasePanel {
 		captionPanelDamageLog.setContentWidget(damageLog);
 
 		int col = 0;
-		
+
 		Label lblNewLabel_11 = new Label("Time", false);
 		lblNewLabel_11.setWordWrap(false);
 		lblNewLabel_11.setStyleName("dpsHeader");
 		damageLog.setWidget(0, col, lblNewLabel_11);
 		damageLog.getColumnFormatter().addStyleName(col, "dpsCol");
 		col++;
-		
+
 		Label lblNewLabel_8a = new Label("Shooter", false);
 		lblNewLabel_8a.setWordWrap(false);
 		damageLog.setWidget(0, col, lblNewLabel_8a);
@@ -1269,11 +1266,6 @@ public class MainPanel extends BasePanel {
 		damageLog.setWidget(0, col, lblNewLabel_10);
 		col++;
 
-		Label lblNewLabel_12 = new Label("Qty", false);
-		lblNewLabel_12.setWordWrap(false);
-		damageLog.setWidget(0, col, lblNewLabel_12);
-		col++;
-
 		Label lblNewLabel_12a = new Label("+/- Hatred", false);
 		lblNewLabel_12a.setWordWrap(false);
 		damageLog.setWidget(0, col, lblNewLabel_12a);
@@ -1283,6 +1275,16 @@ public class MainPanel extends BasePanel {
 		Label lblNewLabel_12b = new Label("Hatred", false);
 		lblNewLabel_12b.setWordWrap(false);
 		damageLog.setWidget(0, col, lblNewLabel_12b);
+		damageLog.getColumnFormatter().addStyleName(col, "dpsCol");
+		col++;
+
+		Label lblNewLabel_12c = new Label("+/- Disc", false);
+		damageLog.setWidget(0, col, lblNewLabel_12c);
+		damageLog.getColumnFormatter().addStyleName(col, "dpsCol");
+		col++;
+
+		Label lblNewLabel_12d = new Label("Disc", false);
+		damageLog.setWidget(0, col, lblNewLabel_12d);
 		damageLog.getColumnFormatter().addStyleName(col, "dpsCol");
 		col++;
 
@@ -1396,25 +1398,37 @@ public class MainPanel extends BasePanel {
 		statTable.setStyleName("outputTable");
 		statTable.getRowFormatter().addStyleName(0, "headerRow");
 
+		col = 0;
+
 		Label l1 = new Label("Stat");
 		l1.setStyleName("dpsHeader");
 		l1.setWordWrap(false);
-		statTable.setWidget(0, 0, l1);
+		statTable.setWidget(0, col++, l1);
 
-		Label l4 = new Label("Total");
+		Label l2b = new Label("Time");
+		l2b.setStyleName("dpsHeader");
+		l2b.setWordWrap(false);
+		statTable.setWidget(0, col++, l2b);
+
+		Label l2c = new Label("%");
+		l2c.setStyleName("dpsHeader");
+		l2c.setWordWrap(false);
+		statTable.setWidget(0, col++, l2c);
+
+		Label l4 = new Label("Damage");
 		l4.setStyleName("dpsHeader");
 		l4.setWordWrap(false);
-		statTable.setWidget(0, 1, l4);
+		statTable.setWidget(0, col++, l4);
 
 		Label l2 = new Label("DPS");
 		l2.setStyleName("dpsHeader");
 		l2.setWordWrap(false);
-		statTable.setWidget(0, 2, l2);
+		statTable.setWidget(0, col++, l2);
 
 		Label l2a = new Label("%");
 		l2a.setStyleName("dpsHeader");
 		l2a.setWordWrap(false);
-		statTable.setWidget(0, 3, l2a);
+		statTable.setWidget(0, col++, l2a);
 
 		captionPanelDamageLog.setContentWidget(damageLog);
 
@@ -1874,14 +1888,16 @@ public class MainPanel extends BasePanel {
 			wd.setText(Util.format(Math.round(data.exportData.data
 					.getWeaponDamage())));
 			dps.setText(Util.format(Math.round(data.exportData.sentryDps)));
-			elapsed.setText(Util.format(Math.round(data.exportData.output.duration * 100.0) / 100.0));
+			elapsed.setText(Util.format(Math
+					.round(data.exportData.output.duration * 100.0) / 100.0));
 
 			if ((which > 0) && (baseline != null)) {
 
 				Label wdPctL = (Label) compareTable.getWidget(row + 2, col);
 				Label dpsPctL = (Label) compareTable.getWidget(row + 6, col);
-				Label elapsedPctL = (Label) compareTable.getWidget(row + 4, col);
-				
+				Label elapsedPctL = (Label) compareTable
+						.getWidget(row + 4, col);
+
 				double wdPct = (data.exportData.data.getWeaponDamage() - baseline.exportData.data
 						.getWeaponDamage())
 						/ baseline.exportData.data.getWeaponDamage();
@@ -1980,7 +1996,8 @@ public class MainPanel extends BasePanel {
 		this.skillDamage.setValues(Util.createMap(ActiveSkill.class,
 				data.skillDamage));
 		this.passives.setPassives(Util.createSet(Passive.class, data.passives));
-		this.calculator.getPassives().setPassives(Util.createSet(Passive.class, data.passives));
+		this.calculator.getPassives().setPassives(
+				Util.createSet(Passive.class, data.passives));
 		this.skills.setSkills(Util.createEnumMap(ActiveSkill.class, Rune.class,
 				data.skills));
 
@@ -2818,12 +2835,10 @@ public class MainPanel extends BasePanel {
 						"CrashingRainPercent", "3000"),
 				new Field(this.itemPanel.getVaxo(), "HauntOfVaxo",
 						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getVaxoUptime(), "VaxoUptime",
-						"50"),
+				new Field(this.itemPanel.getVaxoUptime(), "VaxoUptime", "50"),
 				new Field(this.itemPanel.getCoe(), "COE",
 						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getCoePercent(), "CoePercent",
-						"150"),
+				new Field(this.itemPanel.getCoePercent(), "CoePercent", "150"),
 				new Field(this.itemPanel.getHelltrapper(), "Helltrapper",
 						Boolean.FALSE.toString()),
 				new Field(this.itemPanel.getHelltrapperPercent(),
@@ -2902,7 +2917,7 @@ public class MainPanel extends BasePanel {
 						"PercentSlowedChilled", "100"),
 				new Field(this.situational.getPercentControlled(),
 						"PercentControlled", "100"),
-				new Field(this.situational.getAdditional(), "Additional", "5"),
+				new Field(this.situational.getAdditional(), "AdditionalTargets", "0"),
 				new Field(this.situational.getTargetSize(), "TargetSize",
 						TargetSize.Small.name()),
 				new Field(this.situational.getPercentAtLeast10Yards(),
@@ -2950,18 +2965,18 @@ public class MainPanel extends BasePanel {
 						"50"),
 				new Field(this.situational.getTargetSpacing(), "TargetSpacing",
 						"10"),
-				new Field(this.situational.getRiftLevel(),
-						"GRiftlevel", "25"),
-				new Field(this.situational.getNumPlayers(),
-						"NumPlayers", "1"),
+				new Field(this.situational.getRiftLevel(), "GRiftlevel", "25"),
+				new Field(this.situational.getNumPlayers(), "NumPlayers", "1"),
 				new Field(this.situational.getPrimaryTargetType(),
 						"PrimaryTargetType", MonsterType.RiftGuardian.name()),
 				new Field(this.situational.getAdditionalTargetType(),
 						"AdditionalTargetType", MonsterType.NonElite.name()),
 				new Field(this.situational.getPrimaryTargetHealth(),
-						"PrimaryTargetHealth", String.valueOf(MonsterHealth.getHealth(25, 1, MonsterType.RiftGuardian))),
+						"PrimaryTargetHealth", String.valueOf(MonsterHealth
+								.getHealth(25, 1, MonsterType.RiftGuardian))),
 				new Field(this.situational.getPrimaryTargetHealth(),
-						"AdditionalTargetHealth", String.valueOf(MonsterHealth.getHealth(25, 1, MonsterType.NonElite))),
+						"AdditionalTargetHealth", String.valueOf(MonsterHealth
+								.getHealth(25, 1, MonsterType.NonElite))),
 
 				new Field(this.cdrPanel.getAmulet(), "CDR.Amulet", "0"),
 				new Field(this.cdrPanel.getBelt(), "CDR.Belt", "0"),
@@ -3072,7 +3087,7 @@ public class MainPanel extends BasePanel {
 
 			this.formData = getFormData();
 
-//			data.setDuration(duration.getValue());
+			// data.setDuration(duration.getValue());
 			data.setSkills(skills.getSkills());
 			data.setEquipmentDexterity(calculator.getEquipmentDexterity());
 			data.setParagonCC(paragonPanel.getParagonCC().getValue());
@@ -3133,10 +3148,14 @@ public class MainPanel extends BasePanel {
 					.getDistance()));
 			data.setRiftLevel(this.situational.getRiftLevel().getValue());
 			data.setNumPlayers(this.situational.getNumPlayers().getValue());
-			data.setPrimaryTargetHealth(this.situational.getPrimaryTargetHealth().getValue());
-			data.setAdditionalTargetHealth(this.situational.getAdditionalTargetsHealth().getValue());
-			data.setPrimaryTargetType(SituationalPanel.getMonsterType(this.situational.getPrimaryTargetType()));
-			data.setAdditionalTargetType(SituationalPanel.getMonsterType(this.situational.getAdditionalTargetType()));
+			data.setPrimaryTargetHealth(this.situational
+					.getPrimaryTargetHealth().getValue());
+			data.setAdditionalTargetHealth(this.situational
+					.getAdditionalTargetsHealth().getValue());
+			data.setPrimaryTargetType(SituationalPanel
+					.getMonsterType(this.situational.getPrimaryTargetType()));
+			data.setAdditionalTargetType(SituationalPanel
+					.getMonsterType(this.situational.getAdditionalTargetType()));
 			data.setTargetSpacing(this.situational.getTargetSpacing()
 					.getValue());
 			data.setEquipIas(calculator.getEquipIAS());
@@ -3268,7 +3287,7 @@ public class MainPanel extends BasePanel {
 				types = new TreeMap<DamageType, DamageHolder>();
 				skillDamages = new TreeMap<DamageSource, DamageHolder>();
 				shooterDamages = new TreeMap<String, DamageHolder>();
-	
+
 				this.exportData = new ExportData();
 				this.exportData.data = data;
 				this.exportData.output = damage;
@@ -3280,9 +3299,9 @@ public class MainPanel extends BasePanel {
 				this.exportData.multiple = new Vector<MultipleSummary>();
 				this.exportData.sentryBaseDps = calculator.getSentryDps();
 				this.exportData.bp = data.getBp();
-	
+
 				calculateData();
-	
+
 				updateOutput();
 
 			} catch (Exception e) {
@@ -3305,67 +3324,69 @@ public class MainPanel extends BasePanel {
 
 			try {
 				total += d.totalDamage;
-	
+
 				if (d.nonStacking)
 					nonStacking += d.totalDamage;
-	
+
 				if (d.type != null) {
 					DamageType type = d.type;
-	
+
 					DamageHolder h = types.get(type);
-	
+
 					DamageSource source = d.source;
-	
+
 					if ((source.skill != null) && (source.rune != null)) {
 						source = new DamageSource(source.skill, null);
 					}
-	
+
 					DamageHolder th = skillDamages.get(source);
 					DamageHolder sh = shooterDamages.get(d.shooter);
-	
+
 					if (h == null) {
 						h = new DamageHolder();
 						h.damage = d.totalDamage;
-						h.attacks = d.qty;
+						h.attacks = 1;
 						types.put(type, h);
 					} else {
 						h.damage += d.totalDamage;
-						
-						if ((prev.time != d.time) || !prev.source.equals(d.source)) {
-							h.attacks += d.qty;
+
+						if ((prev.time != d.time)
+								|| !prev.source.equals(d.source)) {
+							h.attacks++;
 						}
 					}
-	
+
 					if (th == null) {
 						th = new DamageHolder();
 						th.damage = d.totalDamage;
-						th.attacks = d.qty;
+						th.attacks = 1;
 						skillDamages.put(source, th);
 					} else {
 						th.damage += d.totalDamage;
-	
-						if ((prev.time != d.time) || !prev.source.equals(d.source)) {
-							th.attacks += d.qty;
+
+						if ((prev.time != d.time)
+								|| !prev.source.equals(d.source)) {
+							th.attacks++;
 						}
 					}
-	
+
 					if (sh == null) {
 						sh = new DamageHolder();
 						sh.damage = d.totalDamage;
-						sh.attacks = d.qty;
+						sh.attacks = 1;
 						shooterDamages.put(d.shooter, sh);
 					} else {
 						sh.damage += d.totalDamage;
-	
-						if ((prev.time != d.time) || !prev.source.equals(d.source)) {
-							sh.attacks += d.qty;
+
+						if ((prev.time != d.time)
+								|| !prev.source.equals(d.source)) {
+							sh.attacks++;
 						}
 					}
-					
+
 					prev = d;
 				}
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				GWT.log("Exception", e);
 				return;
 			}
@@ -3400,9 +3421,9 @@ public class MainPanel extends BasePanel {
 			shooterSummary.removeRow(i - 1);
 		}
 
-		this.captionPanelDamageLog.setCaptionHTML("Damage Log (" 
+		this.captionPanelDamageLog.setCaptionHTML("Damage Log ("
 				+ damage.duration + " seconds)");
-		
+
 		for (int row = 0; row < damage.damages.length; row++) {
 			if ((row % 2) == 0)
 				damageLog.getRowFormatter().addStyleName(row + 1, "oddRow");
@@ -3412,8 +3433,9 @@ public class MainPanel extends BasePanel {
 			Damage d = damage.damages[row];
 
 			int col = 0;
-			
-			Label timeLabel = new Label(Util.format(Math.round(d.time * 100.0) / 100.0), false);
+
+			Label timeLabel = new Label(
+					Util.format(Math.round(d.time * 100.0) / 100.0), false);
 			timeLabel.addStyleName("dpsCol");
 			damageLog.setWidget(row + 1, col++, timeLabel);
 
@@ -3492,35 +3514,47 @@ public class MainPanel extends BasePanel {
 			}
 
 			if (d.type != null)
-				damageLog
-						.setWidget(row + 1, col++, new Label(d.type.name(), false));
+				damageLog.setWidget(row + 1, col++, new Label(d.type.name(),
+						false));
 			else
 				col++;
-			
-			damageLog.setWidget(row + 1, col++, new Label(String.valueOf(d.qty),
-					false));
 
 			if (d.hatred != 0) {
-				Label hatredLabel = new Label(
-						Util.format(Math.round(d.hatred * 10.0) / 10.0), false);
+				Label hatredLabel = new Label(Util.format(Math
+						.round(d.hatred * 10.0) / 10.0), false);
 				hatredLabel.addStyleName("dpsCol");
 				damageLog.setWidget(row + 1, col++, hatredLabel);
-				Label hatredLabel2 = new Label(
-						Util.format(Math.round(d.currentHatred * 10.0) / 10.0), false);
-				hatredLabel2.addStyleName("dpsCol");
-				damageLog.setWidget(row + 1, col++, hatredLabel2);
 			} else {
-				col += 2;
+				col++;
 			}
 
+			Label hatredLabel2 = new Label(Util.format(Math
+					.round(d.currentHatred * 10.0) / 10.0), false);
+			hatredLabel2.addStyleName("dpsCol");
+			damageLog.setWidget(row + 1, col++, hatredLabel2);
+
+			if (d.disc != 0) {
+				Label discLabel = new Label(Util.format(Math
+						.round(d.disc * 10.0) / 10.0), false);
+				discLabel.addStyleName("dpsCol");
+				damageLog.setWidget(row + 1, col++, discLabel);
+			} else {
+				col++;
+			}
+
+			Label discLabel2 = new Label(Util.format(Math
+					.round(d.currentDisc * 10.0) / 10.0), false);
+			discLabel2.addStyleName("dpsCol");
+			damageLog.setWidget(row + 1, col++, discLabel2);
+
 			if (d.damage > 0) {
-				Label totalLabel = new Label(Util.format(Math
-						.round(d.damage)), false);
+				Label totalLabel = new Label(Util.format(Math.round(d.damage)),
+						false);
 				totalLabel.addStyleName("dpsCol");
 				damageLog.setWidget(row + 1, col++, totalLabel);
 
-				Label dpsLabel = new Label(Util.format(Math
-						.round((d.targetHp))), false);
+				Label dpsLabel = new Label(
+						Util.format(Math.round((d.targetHp))), false);
 				dpsLabel.addStyleName("dpsCol");
 				damageLog.setWidget(row + 1, col++, dpsLabel);
 				double pct = Math.round(d.targetHpPercent * 1000.0) / 10.0;
@@ -3583,8 +3617,7 @@ public class MainPanel extends BasePanel {
 			label2.addStyleName("dpsCol");
 			summary.setWidget(row, 2, label2);
 
-			Label damageLabel = new Label(Util.format(Math
-					.round(d)), false);
+			Label damageLabel = new Label(Util.format(Math.round(d)), false);
 			damageLabel.addStyleName("dpsCol");
 			summary.setWidget(row, 3, damageLabel);
 
@@ -3634,8 +3667,7 @@ public class MainPanel extends BasePanel {
 			label2.addStyleName("dpsCol");
 			skillSummary.setWidget(row, 2, label2);
 
-			Label damageLabel = new Label(Util.format(Math
-					.round(d)), false);
+			Label damageLabel = new Label(Util.format(Math.round(d)), false);
 			damageLabel.addStyleName("dpsCol");
 			skillSummary.setWidget(row, 3, damageLabel);
 
@@ -3674,8 +3706,7 @@ public class MainPanel extends BasePanel {
 			label2.addStyleName("dpsCol");
 			shooterSummary.setWidget(row, 2, label2);
 
-			Label damageLabel = new Label(Util.format(Math
-					.round(d)), false);
+			Label damageLabel = new Label(Util.format(Math.round(d)), false);
 			damageLabel.addStyleName("dpsCol");
 			shooterSummary.setWidget(row, 3, damageLabel);
 
@@ -3710,7 +3741,8 @@ public class MainPanel extends BasePanel {
 			double dwDamage = (data.getWeaponDamage() + data
 					.getOffHand_weaponDamage()) / 2.0;
 			dw_weaponDamage
-					.setText(Util.format(Math.round(dwDamage * 100.0) / 100.0) + " sec");
+					.setText(Util.format(Math.round(dwDamage * 100.0) / 100.0)
+							+ " sec");
 		} else {
 			offHand_weaponDamage.setText("N/A");
 			dw_weaponDamage.setText("N/A");
@@ -3725,13 +3757,15 @@ public class MainPanel extends BasePanel {
 		this.totalDamage.setText(Util.format(Math.round(total)));
 		this.eliteDamage.setText(Math.round(data.getTotalEliteDamage() * 100.0)
 				+ "%");
-		this.timeElapsed.setText(Util.format(Math.round(damage.duration * 100.0) / 100.0) + " secs");
+		this.timeElapsed.setText(Util.format(Math
+				.round(damage.duration * 100.0) / 100.0) + " secs");
 
 		row = 1;
 
 		final CharacterData savedData = data.copy();
 
 		final double baseline = total;
+		final double duration = damage.duration;
 
 		for (Stat stat : Stat.values()) {
 
@@ -3750,30 +3784,39 @@ public class MainPanel extends BasePanel {
 
 				panel.add(new Label("+", false));
 				final DoubleSpinner spinner = new DoubleSpinner();
-//				double value = stat.getAdapter().getDefaultValue();
-				
+				// double value = stat.getAdapter().getDefaultValue();
+
 				final String field = "Stat." + stat.getLabel();
-				double value = Double.parseDouble(this.getFieldValue(field, String.valueOf(adapter.getDefaultValue())));
-				
+				double value = Double.parseDouble(this.getFieldValue(field,
+						String.valueOf(adapter.getDefaultValue())));
+
 				spinner.setValue(value);
 				spinner.setMax(value * 100.0);
 				spinner.setMin(value * -100.0);
 				spinner.setVisibleLength(4);
-				
+
 				panel.add(spinner);
-				
+
 				String label = stat.getLabel();
 
 				int col = 0;
 				Label l1 = new Label(label);
 				l1.setWordWrap(false);
 				panel.add(l1);
-				
+
 				statTable.setWidget(row, col++, panel);
 
 				final Label l2 = new Label("");
 				l2.addStyleName("dpsCol");
 				statTable.setWidget(row, col++, l2);
+
+				final Label l2a = new Label("");
+				l2a.addStyleName("dpsCol");
+				statTable.setWidget(row, col++, l2a);
+
+				final Label l2b = new Label("");
+				l2b.addStyleName("dpsCol");
+				statTable.setWidget(row, col++, l2b);
 
 				final Label l3 = new Label("");
 				l3.addStyleName("dpsCol");
@@ -3783,24 +3826,31 @@ public class MainPanel extends BasePanel {
 				l4.addStyleName("dpsCol");
 				statTable.setWidget(row, col++, l4);
 
-				updateStatTable(adapter, spinner, savedData, l2, l3, l4, baseline);
+				updateStatTable(adapter, spinner, savedData, row, baseline,
+						duration);
 
-				spinner.addChangeHandler(new ChangeHandler(){
+				final int r = row;
+
+				spinner.addChangeHandler(new ChangeHandler() {
 
 					@Override
 					public void onChange(ChangeEvent event) {
 						saveField(field, String.valueOf(spinner.getValue()));
-						updateStatTable(adapter, spinner, savedData, l2, l3, l4, baseline);
-					}});
-				
+						updateStatTable(adapter, spinner, savedData, r,
+								baseline, duration);
+					}
+				});
+
 				row++;
 			}
 		}
 	}
 
-	private void updateStatTable(StatAdapter adapter, DoubleSpinner spinner, CharacterData savedData, Label l2, Label l3, Label l4, double baseline) {
+	private void updateStatTable(StatAdapter adapter, DoubleSpinner spinner,
+			CharacterData savedData, int row, double baseline,
+			double baselineDuration) {
 		double value = spinner.getValue();
-		
+
 		CharacterData data = savedData.copy();
 		adapter.apply(value, data);
 
@@ -3813,15 +3863,26 @@ public class MainPanel extends BasePanel {
 		}
 
 		double dpsRow = totalRow / d.duration;
+		double baselineDps = baseline / baselineDuration;
+		double duration = d.duration;
+		double pct = (dpsRow - baselineDps) / baselineDps;
+		double pctDuration = (d.duration - baselineDuration) / baselineDuration;
 
-		double pct = (totalRow - baseline) / baseline;
-
-		l2.setText(Util.format(Math.round(totalRow)));
-		l3.setText(Util.format(Math.round(dpsRow)));
-		l4.setText(((pct >= 0.0) ? "+" : "")
-				+ Util.format(Math.round(pct * 10000.0) / 100.0) + "%");
+		int col = 1;
+		((Label) statTable.getWidget(row, col++)).setText(Util.format(Math
+				.round(duration * 100.0) / 100.0) + "s");
+		((Label) statTable.getWidget(row, col++))
+				.setText(((pctDuration >= 0.0) ? "+" : "")
+						+ Util.format(Math.round(pctDuration * 10000.0) / 100.0)
+						+ "%");
+		((Label) statTable.getWidget(row, col++)).setText(Util.format(Math
+				.round(totalRow)));
+		((Label) statTable.getWidget(row, col++)).setText(Util.format(Math
+				.round(dpsRow)));
+		((Label) statTable.getWidget(row, col++)).setText(((pct >= 0.0) ? "+"
+				: "") + Util.format(Math.round(pct * 10000.0) / 100.0) + "%");
 	}
-	
+
 	private void addSkill(Map<ActiveSkill, Rune> skills, ListBox skillBox,
 			ListBox runeBox) {
 
@@ -3892,7 +3953,8 @@ public class MainPanel extends BasePanel {
 
 		super.setFieldValue(skills, super.getFieldValue("skills", null));
 		super.setFieldValue(passives, super.getFieldValue("passives", null));
-		super.setFieldValue(calculator.getPassives(), super.getFieldValue("passives", null));
+		super.setFieldValue(calculator.getPassives(),
+				super.getFieldValue("passives", null));
 		super.setFieldValue(typeDamage,
 				super.getFieldValue("elemental.Damage", null));
 		super.setFieldValue(skillDamage,

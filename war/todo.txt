@@ -1,18 +1,6 @@
 **TO DO:**
 
-* Confirm: Sentries will fire bolts only when not firing spenders? (currently assumes if a Sentry can fire X bolts over 30 seconds, and the player fires Y spenders, then the Sentry will actually fire X - Y bolts over 30 seconds)
-* Confirm: Does dual-wield attack speed bonus apply to sentry breakpoint calculations?
-* Confirm: Does Attack Speed on off-hand weapon apply to sentry breakpoint calculations?
-* Confirm: Dual Wield Sheet APS and DPS calculations
-* Confirm: Area damage is additive?
-* Confirm: Crashing Rain damage applies to single target only or 12 yard radius?
-* Confirm: Vengeance mechanics
-
-* Implement Patch 2.2. changes:
-- Subtract discipline usage for UE6 bonus
-- Implement breakpoints for Strafe/Rapid Fire
-
-* Model monster health
+* Implement breakpoints for Strafe/Rapid Fire
 * Add Simplicity Strength gem
 * Add Pierce mechanics
 * Add Rapid Fire mechanics

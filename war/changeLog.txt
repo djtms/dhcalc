@@ -1,5 +1,32 @@
 Change Log:
 
+**4/30/15**
+* Complete re-write of damage simulation. 
+- It is now a discrete, event-driven simulation 
+- Previously it simply calculated the # of attacks over the specified time interval
+- There is a max time of 15 simulation minutes 
+* The length of the simulation is now based on monster health
+* The simulation will attempt to pick the correct skill based on build:
+- Normally a spender is chosen if there is enough hatred left, otherwise it will use a generator
+- If using Focus & Restraint, it will normally use a spender unless the generator buff is about to fall off, then it will use a generator
+- If using Kridershot and Meticulous Bolts, it will normally use Ball Lightning, unless the spender buff is about to fall off, then it will use a spender
+* Now accounts for Companion/Raven Active Damage Bonus (500% on next attack)
+* Now accounts for Discipline usage
+* Many buffs that were previously averaged or now implemented discretely (e.g. wolf, MfD, other player buffs)
+* Wolf in the "Other Player Buffs" panel is now only for Wolf buff fromm another DH and is applied separately from Wolf from the player
+- The simulation will attempt to not overlap wolfs in order to maximize wolf uptime
+* Now alternates main hand/off hand for skills that use both 
+- Previously it just averaged the two
+* Stat Table and Comparison Table now show difference in time to kill target (as well as the change in damage/dps)
+* Health Globes are picked up based on monster health
+- e.g., if "1" health globe is selected in situational panel, then it is picked up when target is ~50%. If "3" is selected, then they are picked up at ~75%, ~50%, 25% health, etc...
+* Temporarily disabled features (will take some more time to test and implement):
+- Additional targets (only primary is used in caclulations)
+- Fan of Knives
+- Spike Trap
+- Caltrops
+- Damage over Time effects from Skills and Gems
+
 **4/27/15**
 * Fixed Crashing Rain to use Main Hand Weapon Damage only
 

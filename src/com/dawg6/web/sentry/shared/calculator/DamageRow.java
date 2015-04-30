@@ -11,6 +11,8 @@ public class DamageRow {
 	public String note;
 	public DamageType type;
 	public int radius;
+	public double dotDuration;
+	public boolean dot;
 	
 	public DamageRow(ActiveSkill skill, Rune rune, double scalar,
 			boolean primary, int maxAdditional, int numProjectiles, 
@@ -22,6 +24,12 @@ public class DamageRow {
 			boolean primary, int maxAdditional, int numProjectiles,  String note,
 			DamageType type, DamageMultiplier... multipliers) {
 		this(skill, rune, scalar, primary, maxAdditional, numProjectiles, 0, note, type, multipliers);
+	}
+
+	public DamageRow(ActiveSkill skill, Rune rune, double scalar, double dotDuration,
+			boolean primary, int maxAdditional, int numProjectiles,  String note,
+			DamageType type, DamageMultiplier... multipliers) {
+		this(skill, rune, scalar, dotDuration, primary, maxAdditional, numProjectiles, 0, note, type, multipliers);
 	}
 
 	public DamageRow(ActiveSkill skill, Rune rune, double scalar,
@@ -42,26 +50,44 @@ public class DamageRow {
 		this(skill, rune, scalar, primary, maxAdditional, 1, 0, note, type, multipliers);
 	}
 
+	public DamageRow(ActiveSkill skill, Rune rune, double scalar, double dotDuration,
+			boolean primary, int maxAdditional,  String note, 
+			DamageType type, DamageMultiplier... multipliers) {
+		this(skill, rune, scalar, dotDuration, primary, maxAdditional, 1, 0, note, type, multipliers);
+	}
+
 	public DamageRow(DamageSource source, double scalar,
 			boolean primary, int maxAdditional,  String note, 
 			DamageType type, DamageMultiplier... multipliers) {
-		this(source, scalar, primary, maxAdditional, 1, 0, note, type, multipliers);
+		this(source, scalar, 0.0, primary, maxAdditional, 1, 0, note, type, multipliers);
+	}
+
+	public DamageRow(DamageSource source, double scalar, double dotDuration,
+			boolean primary, int maxAdditional,  String note, 
+			DamageType type, DamageMultiplier... multipliers) {
+		this(source, scalar, dotDuration, primary, maxAdditional, 1, 0, note, type, multipliers);
 	}
 
 	public DamageRow(ActiveSkill skill, Rune rune, double scalar,
 			boolean primary, int maxAdditional, int numProjectiles, int radius, String note, DamageType type,
 			DamageMultiplier... multipliers) {
-		this(new DamageSource(skill, rune), scalar, primary, maxAdditional, numProjectiles, radius, note, type, multipliers);
+		this(new DamageSource(skill, rune), scalar, 0.0, primary, maxAdditional, numProjectiles, radius, note, type, multipliers);
 	}
 
-	public DamageRow(DamageSource source, double scalar,
+	public DamageRow(ActiveSkill skill, Rune rune, double scalar, double dotDuration,
+			boolean primary, int maxAdditional, int numProjectiles, int radius, String note, DamageType type,
+			DamageMultiplier... multipliers) {
+		this(new DamageSource(skill, rune), scalar, dotDuration, primary, maxAdditional, numProjectiles, radius, note, type, multipliers);
+	}
+
+	public DamageRow(DamageSource source, double scalar, double dotDuration,
 				boolean primary, int maxAdditional, int numProjectiles, int radius, String note, DamageType type,
 				DamageMultiplier... multipliers) {
 		this.source = source;
 		this.numProjectiles = numProjectiles;
 		this.radius = radius;
-
-		
+		this.dotDuration = dotDuration;
+		this.dot = dotDuration > 0.0;
 
 		// Sentry damage and enforcer won't effect gem procs
 		if (source.skill != null) {

@@ -21,7 +21,11 @@ public enum Buff {
 	MfdAdditional("MfD Additional"),
 	Calamity("Calamity MfD"),
 	Hysteria("Hysteria"),
-	Nat6("Nat's 6 pc bonus");
+	N6("Nat's 6 pc bonus"),
+	Seethe("Vengeance/Seethe"),
+	FocusedMind("Preparation/Focused Mind"),
+	CompanionActive("Companion Active"),
+	Vengeance("Vengeance");
 	
 	private String name;
 	

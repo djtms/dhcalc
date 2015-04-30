@@ -99,7 +99,8 @@ public class SituationalPanel extends Composite {
 		additional.setText("0");
 		flexTable.setWidget(5, 1, additional);
 
-		this.additional.setMax(100);
+		// TODO re-enable
+		this.additional.setMax(0);
 		
 		Label lblAdditionalTargetsHealth = new Label("Additional Targets Health:");
 		lblAdditionalTargetsHealth.setWordWrap(false);

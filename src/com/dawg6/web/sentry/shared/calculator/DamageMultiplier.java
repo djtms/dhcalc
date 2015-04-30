@@ -2,21 +2,20 @@ package com.dawg6.web.sentry.shared.calculator;
 
 public enum DamageMultiplier {
 	WD("WD", DamageAccumulator.Multiplicative,
-			"Average Weapon Damage (Main Hand Only)",
+			"Average Main Hand Weapon Damage",
 			new Test<SimulationState, Double>() {
 
 				@Override
 				public Double getValue(SimulationState state) {
 					return state.getData().getWeaponDamage();
 				}
-			}), DWWD("DWWD", DamageAccumulator.Multiplicative,
-			"Average Weapon Damage (Dual-Wield)",
+			}), OHWD("OHWD", DamageAccumulator.Multiplicative,
+			"Average Off-Hand Weapon Damage",
 			new Test<SimulationState, Double>() {
 
 				@Override
 				public Double getValue(SimulationState state) {
-					return (state.getData().getWeaponDamage() + state.getData()
-							.getOffHand_weaponDamage()) / 2.0;
+					return state.getData().getOffHand_weaponDamage();
 				}
 			}), NumGrenades("#Grenades", DamageAccumulator.Multiplicative,
 			"# of Grenades per Target", null), Fire("Fire",
@@ -59,8 +58,8 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return state.getData().isUseEnforcer() ? (0.15 + (state.getData()
-							.getEnforcerLevel() * 0.003)) : 0.0;
+					return state.getData().isUseEnforcer() ? (0.15 + (state
+							.getData().getEnforcerLevel() * 0.003)) : 0.0;
 				}
 			}), Zeis(
 			"Zei's",
@@ -112,8 +111,8 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return (state.getData().isSteadyAim()) ? (0.2 * state.getData()
-							.getPercentAtLeast10Yards()) : 0.0;
+					return (state.getData().isSteadyAim()) ? (0.2 * state
+							.getData().getPercentAtLeast10Yards()) : 0.0;
 				}
 			}), Strongarm("Strongarm", DamageAccumulator.Additive,
 			"Strongarm Bracers bonus (20-30% during uptime)",
@@ -121,8 +120,8 @@ public enum DamageMultiplier {
 				@Override
 				public Double getValue(SimulationState state) {
 					return (state.getData().isStrongarm()) ? (state.getData()
-							.getStrongarmPercent() * state.getData().getStrongarmUptime())
-							: 0.0;
+							.getStrongarmPercent() * state.getData()
+							.getStrongarmUptime()) : 0.0;
 				}
 			}), Harrington("Harrington", DamageAccumulator.Additive,
 			"Harrington Waistguard bonus (100-135% during uptime)",
@@ -140,10 +139,10 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return state.getData().isHexingPants() ? ((0.25 * state.getData()
-							.getHexingPantsUptime()) - (state.getData()
-							.getHexingPantsPercent() * (1.0 - state.getData()
-							.getHexingPantsUptime()))) : 0.0;
+					return state.getData().isHexingPants() ? ((0.25 * state
+							.getData().getHexingPantsUptime()) - (state
+							.getData().getHexingPantsPercent() * (1.0 - state
+							.getData().getHexingPantsUptime()))) : 0.0;
 				}
 			}), ArcheryDamage("Archery", DamageAccumulator.Additive,
 			"Archery damage bonus (8% when using 2H Bow)",
@@ -160,8 +159,8 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return (state.getData().getNumUe() >= 4) ? (0.2 * state.getData()
-							.getPercentAtLeast10Yards()) : 0.0;
+					return (state.getData().getNumUe() >= 4) ? (0.2 * state
+							.getData().getPercentAtLeast10Yards()) : 0.0;
 				}
 			}), UE6(
 			"UE6",
@@ -170,8 +169,8 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return (state.getData().getNumUe() >= 6) ? (0.15 * state.getData()
-							.getMaxDiscipline()) : 0.0;
+					return (state.getData().getNumUe() >= 6) ? (0.15 * state
+							.getDisc()) : 0.0;
 				}
 			}), BW1("BWg", DamageAccumulator.Multiplicative,
 			"Bastions of Will Generator Bonus (50%)",
@@ -274,6 +273,14 @@ public enum DamageMultiplier {
 				public Double getValue(SimulationState state) {
 					return state.getData().getCompanionDamage();
 				}
+			}), Raven("Raven", DamageAccumulator.Multiplicative,
+			"Companion/Raven Active Damage Bonus",
+			new Test<SimulationState, Double>() {
+				@Override
+				public Double getValue(SimulationState state) {
+					return state.getBuffs().isActive(Buff.CompanionActive) ? 5.0
+							: 0.0;
+				}
 			}), ES("ES", DamageAccumulator.Additive,
 			"Entangling Shot Skill Damage Bonus",
 			new Test<SimulationState, Double>() {
@@ -345,16 +352,16 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return state.getData().isCullTheWeak() ? (0.2 * state.getData()
-							.getPercentSlowedChilled()) : 0.0;
+					return state.getData().isCullTheWeak() ? (0.2 * state
+							.getData().getPercentSlowedChilled()) : 0.0;
 				}
 			}), M6("M6", DamageAccumulator.Multiplicative,
 			"Marauder's 6 piece bonus (+100% per Sentry)",
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return (state.getData().getNumMarauders() >= 6) ? (double) (state.getData()
-							.getNumSentries()) : 0;
+					return (state.getData().getNumMarauders() >= 6) ? (double) (state
+							.getData().getNumSentries()) : 0;
 				}
 			}), N4("N4", DamageAccumulator.Multiplicative,
 			"Nat's 4 piece bonus (+100% to RoV)",
@@ -370,7 +377,7 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return (state.getData().getNumNats() >= 6) ? 4.0 : 0;
+					return state.getBuffs().isActive(Buff.N6) ? 4.0 : 0.0;
 				}
 			}), N6(
 			"N6",
@@ -416,9 +423,10 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return state.getData().isUseBaneOfTheTrapped() ? ((0.15 + (state.getData()
-							.getBaneOfTheTrappedLevel() * 0.003)) * state.getData()
-							.getPercentControlled()) : 0.0;
+					return state.getData().isUseBaneOfTheTrapped() ? ((0.15 + (state
+							.getData().getBaneOfTheTrappedLevel() * 0.003)) * state
+							.getData().getPercentControlled())
+							: 0.0;
 				}
 			}), BotP("BotP", DamageAccumulator.Additive,
 			"Bane of the Powerful active gem bonus (20% while active)",
@@ -436,8 +444,8 @@ public enum DamageMultiplier {
 							+ (state.getData().getParagonIAS() * 0.002)
 							+ (state.getData().isGogok() ? (state.getData()
 									.getGogokStacks() * 0.01) : 0.0)
-							+ (state.getData().isFocusedMind() ? 0.03 : 0.0) + (state.getData()
-							.isRetribution() ? (0.1 * state.getData()
+							+ (state.getData().isFocusedMind() ? 0.03 : 0.0) + (state
+							.getData().isRetribution() ? (0.1 * state.getData()
 							.getRetributionUptime()) : 0.0));
 				}
 			}), APS("APS", DamageAccumulator.Multiplicative,
@@ -461,8 +469,8 @@ public enum DamageMultiplier {
 				@Override
 				public Double getValue(SimulationState state) {
 					return (state.getData().isCaltrops() && (state.getData()
-							.getCaltropsRune() == Rune.Bait_the_Trap)) ? (0.1 * state.getData()
-							.getCaltropsUptime()) : 0.0;
+							.getCaltropsRune() == Rune.Bait_the_Trap)) ? (0.1 * state
+							.getData().getCaltropsUptime()) : 0.0;
 				}
 			}), Taeguk("Taeguk", DamageAccumulator.Additive,
 			"Taeguk active gem bonus (0.5% per stack)",
@@ -477,7 +485,8 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return (state.getBuffs().isActive(Buff.Wolf) || state.getBuffs().isActive(Buff.OtherWolf)) ? 0.3 : 0.0;
+					return (state.getBuffs().isActive(Buff.Wolf) || state
+							.getBuffs().isActive(Buff.OtherWolf)) ? 0.3 : 0.0;
 				}
 			}), Bbv("Bbv", DamageAccumulator.Additive,
 			"Big Bad Voodoo/Slam Dance active bonus (30% during uptime)",
@@ -491,7 +500,8 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return state.getBuffs().isActive(Buff.Piranhas) ? 0.15 : 0.0;
+					return state.getBuffs().isActive(Buff.Piranhas) ? 0.15
+							: 0.0;
 				}
 			}), InnerSanctuary(
 			"InnerSanctuary",
@@ -500,7 +510,8 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return state.getBuffs().isActive(Buff.InnerSanct) ? 0.3 : 0.0;
+					return state.getBuffs().isActive(Buff.InnerSanct) ? 0.3
+							: 0.0;
 				}
 			}), CripplingWave("CripplingWave", DamageAccumulator.Additive,
 			"Crippling Wave/Breaking Wave active bonus (10% during uptime)",
@@ -517,7 +528,8 @@ public enum DamageMultiplier {
 
 					if (state.getBuffs().isActive(Buff.ConvictionActive)) {
 						return 0.2;
-					} else if (state.getBuffs().isActive(Buff.ConvictionPassive)) {
+					} else if (state.getBuffs()
+							.isActive(Buff.ConvictionPassive)) {
 						return state.getData().isOverawe() ? 0.16 : 0.10;
 					} else {
 						return 0.0;
@@ -539,12 +551,14 @@ public enum DamageMultiplier {
 				public Double getValue(SimulationState state) {
 
 					TargetType type = state.getData().getTargetType();
-					
-					if ((type == TargetType.Primary) && !state.getBuffs().isActive(Buff.MfdPrimary))
+
+					if ((type == TargetType.Primary)
+							&& !state.getBuffs().isActive(Buff.MfdPrimary))
 						return 0.0;
-					if ((type == TargetType.Additional) && !state.getBuffs().isActive(Buff.MfdAdditional))
+					if ((type == TargetType.Additional)
+							&& !state.getBuffs().isActive(Buff.MfdAdditional))
 						return 0.0;
-					
+
 					double scalar = 0.2;
 					double aoe = 0.0;
 
@@ -587,9 +601,9 @@ public enum DamageMultiplier {
 			"Area Damage (20% chance)", new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return ((state.getData().getNumAdditional() > 0) && (state.getData()
-							.getTargetSpacing() <= 10)) ? (0.2 * state.getData()
-							.getAreaDamage()) : 0.0;
+					return ((state.getData().getNumAdditional() > 0) && (state
+							.getData().getTargetSpacing() <= 10)) ? (0.2 * state
+							.getData().getAreaDamage()) : 0.0;
 				}
 			}), Calamity("Calamity", DamageAccumulator.Additive,
 			"Calamity Marked for Death bonus (20% while applied)",
@@ -611,7 +625,9 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return (state.getData().isAmbush() && state.getTargets().getPrimary().getPercentHealth() >= 0.75) ? 0.4 : 0.0;
+					return (state.getData().isAmbush() && state.getTargets()
+							.getPrimary().getPercentHealth() >= 0.75) ? 0.4
+							: 0.0;
 				}
 			}), Iced(
 			"Iced",
@@ -621,8 +637,8 @@ public enum DamageMultiplier {
 				@Override
 				public Double getValue(SimulationState state) {
 					return (state.getData().isIceblink() && (state.getData()
-							.getIceblinkLevel() >= 25)) ? (0.1 * state.getData()
-							.getPercentSlowedChilled()) : 0.0;
+							.getIceblinkLevel() >= 25)) ? (0.1 * state
+							.getData().getPercentSlowedChilled()) : 0.0;
 				}
 			}), SingleOut(
 			"SingleOut",
