@@ -101,6 +101,7 @@ public class FiringData {
 		if (data.isCompanion())
 			eventQueue.push(new CompanionDamageEvent(data));
 		
+		eventQueue.push(new DotEvent());
 		eventQueue.push(new RegenEvent(data));
 		eventQueue.push(new DiscRegenEvent(data));
 		
@@ -204,9 +205,6 @@ public class FiringData {
 		// }
 		// }
 
-		// TODO Add gem procs
-		// list.addAll(DamageFunction.getDamages(false, false, "Player", null,
-		// (int)duration, data));
 
 		result.damages = log.toArray(new Damage[0]);
 		result.duration = duration;

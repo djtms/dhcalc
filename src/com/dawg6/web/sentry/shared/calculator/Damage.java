@@ -26,6 +26,7 @@ public class Damage implements Serializable {
 	public double currentHatred;
 	public double disc;
 	public double currentDisc;
+	public double duration;
 	
 	public Damage copy() {
 		Damage d = new Damage();
@@ -49,6 +50,7 @@ public class Damage implements Serializable {
 		d.hatred = hatred;
 		d.seq = seq;
 		d.currentHatred = currentHatred;
+		d.duration = duration;
 		
 		return d;
 	}

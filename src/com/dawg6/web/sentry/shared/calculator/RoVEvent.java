@@ -13,6 +13,7 @@ public class RoVEvent extends CooldownEvent {
 		this.cooldown = 30.0 * (1.0 - data.getCdr());
 		this.cr = data.isCrashingRain();
 		this.n6 = data.getNumNats() >= 6;
+		this.time = 0.0;
 	}
 
 	@Override
@@ -23,7 +24,6 @@ public class RoVEvent extends CooldownEvent {
 			state.getBuffs().set(Buff.N6, state.getTime() + 5.0);
 		}
 
-		// TODO Handle RoV as DoT
 		applyDamages(state, log, DamageFunction.getDamages(true, false, "Player", new DamageSource(ActiveSkill.RoV, rune), state));
 
 		if (cr) {

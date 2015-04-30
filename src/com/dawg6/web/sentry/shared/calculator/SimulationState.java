@@ -8,7 +8,8 @@ public class SimulationState implements Serializable {
 
 	private CharacterData data;
 	private TargetList targets;
-	private BuffList buffs;
+	private final BuffList buffs;
+	private final DotList dots;
 	private double time;
 	private double hatred;
 	private double maxHatred;
@@ -20,6 +21,7 @@ public class SimulationState implements Serializable {
 	public SimulationState() {
 		this.time = 0.0;
 		this.buffs = new BuffList();
+		this.dots = new DotList();
 		this.lastSpenderTime = 0.0;
 	}
 
@@ -62,10 +64,6 @@ public class SimulationState implements Serializable {
 
 	public BuffList getBuffs() {
 		return buffs;
-	}
-
-	public void setBuffs(BuffList buffs) {
-		this.buffs = buffs;
 	}
 
 	public double getHatred() {
@@ -132,5 +130,8 @@ public class SimulationState implements Serializable {
 		this.maxDisc = maxDisc;
 	}
 
+	public DotList getDots() {
+		return dots;
+	}
 
 }

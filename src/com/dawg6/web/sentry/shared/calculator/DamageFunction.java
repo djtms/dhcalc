@@ -273,18 +273,18 @@ public class DamageFunction {
 					Integer.MAX_VALUE, 0, 12, "DoT", DamageType.Physical,
 					DamageMultiplier.DoT),
 
-			new DamageRow(ActiveSkill.RoV, Rune.None, 15.0, true,
-					Integer.MAX_VALUE, DamageType.Physical),
-			new DamageRow(ActiveSkill.RoV, Rune.Dark_Cloud, 35.0, true,
-					Integer.MAX_VALUE, DamageType.Physical),
-			new DamageRow(ActiveSkill.RoV, Rune.Shade, 28.0, true,
-					Integer.MAX_VALUE, DamageType.Lightning),
-			new DamageRow(ActiveSkill.RoV, Rune.Stampede, 46.0, true,
-					Integer.MAX_VALUE, DamageType.Fire),
-			new DamageRow(ActiveSkill.RoV, Rune.Anathema, 58.0, true,
-					Integer.MAX_VALUE, DamageType.Fire),
-			new DamageRow(ActiveSkill.RoV, Rune.Flying_Strike, 38.0, true,
-					Integer.MAX_VALUE, DamageType.Cold),
+			new DamageRow(ActiveSkill.RoV, Rune.None, 15.0, 5.0, true,
+					Integer.MAX_VALUE, "DoT", DamageType.Physical, DamageMultiplier.DoT),
+			new DamageRow(ActiveSkill.RoV, Rune.Dark_Cloud, 35.0, 8.0, true,
+					Integer.MAX_VALUE, "DoT", DamageType.Physical, DamageMultiplier.DoT),
+			new DamageRow(ActiveSkill.RoV, Rune.Shade, 28.0, 5.0, true,
+					Integer.MAX_VALUE, "DoT", DamageType.Lightning, DamageMultiplier.DoT),
+			new DamageRow(ActiveSkill.RoV, Rune.Stampede, 46.0, 3.0, true,
+					Integer.MAX_VALUE, "DoT", DamageType.Fire, DamageMultiplier.DoT),
+			new DamageRow(ActiveSkill.RoV, Rune.Anathema, 58.0, 2.0, true,
+					Integer.MAX_VALUE, "DoT", DamageType.Fire, DamageMultiplier.DoT),
+			new DamageRow(ActiveSkill.RoV, Rune.Flying_Strike, 38.0, 4.0, true,
+					Integer.MAX_VALUE, "DoT", DamageType.Cold, DamageMultiplier.DoT),
 
 			new DamageRow(ActiveSkill.CR, Rune.None, 1.0, true, 0,
 					DamageType.Physical),
@@ -374,7 +374,10 @@ public class DamageFunction {
 		boolean first = true;
 		WeaponType offHand_type = state.getData().getOffHand_weaponType();
 		DamageMultiplier wDMult = DamageMultiplier.WD;
-
+		
+		// TODO re-enable Additional targets
+		TargetType[] targetTypes = { TargetType.Primary }; //, TargetType.Additional }; 
+		
 		if ((source == null)
 				|| ((source.skill != ActiveSkill.RoV)
 						&& (source.skill != ActiveSkill.FoK)
@@ -401,7 +404,7 @@ public class DamageFunction {
 					aoeRange *= 1.2;
 				}
 
-				for (TargetType target : TargetType.values()) {
+				for (TargetType target : targetTypes) {
 					state.getData().setTargetType(target);
 
 					int add = Math.min(dr.maxAdditional,
@@ -751,19 +754,13 @@ public class DamageFunction {
 							d.hatred = 0;
 						}
 
-						if (dr.multipliers.contains(DamageMultiplier.DoT)) {
-							// TODO Handle DoT
-							// if ((dr.source != null)
-							// && (dr.source.skill == ActiveSkill.Caltrops)) {
-							// d.totalDamage = d.damage * state.getData().getDuration()
-							// * state.getData().getCaltropsUptime();
-							// } else {
-							// d.totalDamage = d.damage * state.getData().getDuration();
-							// }
+						if (dr.dot) {
+							d.duration = dr.dotDuration;
 						} else {
-							d.totalDamage = d.damage;
+							d.duration = 0.0;
 						}
 
+						d.totalDamage = d.damage;
 						d.log = multBuf.toString();
 
 						if (ea > 0.0)
@@ -778,7 +775,7 @@ public class DamageFunction {
 			}
 		}
 
-		if ((source.skill == ActiveSkill.MS)
+		if ((source != null) && (source.skill == ActiveSkill.MS)
 				&& state.getData().isDml()
 				&& (state.getTargets().getPrimary().getPercentHealth() <= state.getData()
 						.getDmlPercent())) {

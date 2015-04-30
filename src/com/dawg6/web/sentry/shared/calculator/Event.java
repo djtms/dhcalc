@@ -32,36 +32,46 @@ public abstract class Event implements Comparable<Event> {
 		return i;
 	}
 
-	protected void applyDamages(SimulationState state, List<Damage> log, List<Damage> source) {
+	public static void applyDamages(SimulationState state, List<Damage> log, List<Damage> source) {
 		applyDamages(state, log, source, null);
 	}
 	
-	protected void applyDamages(SimulationState state, List<Damage> log, List<Damage> source, String notes) {
+	public static void applyDamages(SimulationState state, List<Damage> log, List<Damage> source, String notes) {
+		applyDamages(state, log, source, notes, true);
+	}
+	
+	public static void applyDamages(SimulationState state, List<Damage> log, List<Damage> source, String notes, boolean refreshDots) {
 		for (Damage dr : source) {
 			dr.time = state.getTime();
 			
 			// TODO Handle Additional
 			if (dr.target == TargetType.Primary) {
-				dr.actualDamage = state.getTargets().getPrimary().applyDamage(dr.damage);
-				dr.targetHp = state.getTargets().getPrimary().getCurrentHp();
-				dr.targetHpPercent = state.getTargets().getPrimary().getPercentHealth();
-				dr.currentHatred = state.getHatred();
-				dr.currentDisc = state.getDisc();
 				
-				if (notes != null) {
-					if ((dr.note == null) || (dr.note.length() == 0)) {
-						dr.note = notes;
-					} else {
-						dr.note = dr.note + " " + notes;
+				if ((dr.duration <= 0.0) || !state.getDots().isActive(dr)) {
+					dr.actualDamage = state.getTargets().getPrimary().applyDamage(dr.damage);
+					dr.targetHp = state.getTargets().getPrimary().getCurrentHp();
+					dr.targetHpPercent = state.getTargets().getPrimary().getPercentHealth();
+					dr.currentHatred = state.getHatred();
+					dr.currentDisc = state.getDisc();
+					
+					if (notes != null) {
+						if ((dr.note == null) || (dr.note.length() == 0)) {
+							dr.note = notes;
+						} else {
+							dr.note = dr.note + " " + notes;
+						}
+					}
+	
+					if (dr.actualDamage > 0) {
+						log.add(dr);
 					}
 				}
-
-				if (dr.actualDamage > 0) {
-					log.add(dr);
-				}
+				
+				if ((dr.duration > 0.0) && refreshDots)
+					state.getDots().addDot(state, dr);
 			}
 		}
 	}
-
+	
 	public abstract void execute(EventQueue queue, List<Damage> log, SimulationState state);
 }

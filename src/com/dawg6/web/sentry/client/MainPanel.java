@@ -469,7 +469,7 @@ public class MainPanel extends BasePanel {
 		sentryCDLabel.setStyleName("boldText");
 		grid_1.setWidget(6, 3, sentryCDLabel);
 
-		Label label_3 = new Label("RoV Cooldown:");
+		Label label_3 = new Label("(approx) RoV Cooldown:");
 		grid_1.setWidget(6, 0, label_3);
 
 		rovCDLabel = new Label("0.0", false);

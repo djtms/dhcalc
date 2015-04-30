@@ -44,6 +44,12 @@ public class DamageRow {
 		this(skill, rune, scalar, primary, maxAdditional, 1, 0, "", type, multipliers);
 	}
 
+	public DamageRow(ActiveSkill skill, Rune rune, double scalar, double duration,
+			boolean primary, int maxAdditional, 
+			DamageType type, DamageMultiplier... multipliers) {
+		this(skill, rune, scalar, duration, primary, maxAdditional, 1, 0, "", type, multipliers);
+	}
+
 	public DamageRow(ActiveSkill skill, Rune rune, double scalar,
 			boolean primary, int maxAdditional,  String note, 
 			DamageType type, DamageMultiplier... multipliers) {
