@@ -78,7 +78,7 @@ public class ExportExcel {
 
 		doubleStyle = wb.createCellStyle();
 		doubleFormat = wb.createDataFormat();
-		doubleStyle.setDataFormat(doubleFormat.getFormat("#,###.####"));
+		doubleStyle.setDataFormat(doubleFormat.getFormat("#,##0.0###"));
 
 		timeStyle = wb.createCellStyle();
 		timeFormat = wb.createDataFormat();
@@ -98,10 +98,10 @@ public class ExportExcel {
 
 		inputs = wb.createSheet("Inputs");
 		summary = wb.createSheet("Summary");
-		HSSFSheet damageLog = wb.createSheet("DamageLogNonElite");
-		HSSFSheet typeSummary = wb.createSheet("DamageTypeSummaryNonElite");
-		HSSFSheet skillSummary = wb.createSheet("SkillSummaryNonElite");
-		HSSFSheet shooterSummary = wb.createSheet("ShooterSummaryNonElite");
+		HSSFSheet damageLog = wb.createSheet("DamageLog");
+		HSSFSheet typeSummary = wb.createSheet("DamageTypeSummary");
+		HSSFSheet skillSummary = wb.createSheet("SkillSummary");
+		HSSFSheet shooterSummary = wb.createSheet("ShooterSummary");
 
 		addInputs();
 		addSummary();
@@ -235,16 +235,18 @@ public class ExportExcel {
 
 		int col = 0;
 
+		createTableHeader(damageLog, col++, "Time");
 		createTableHeader(damageLog, col++, "Shooter");
 		createTableHeader(damageLog, col++, "Skill");
 		createTableHeader(damageLog, col++, "Rune");
 		createTableHeader(damageLog, col++, "Type");
-		createTableHeader(damageLog, col++, "Damage");
-		createTableHeader(damageLog, col++, "Qty");
+		createTableHeader(damageLog, col++, "+/- Hatred");
 		createTableHeader(damageLog, col++, "Hatred");
-		createTableHeader(damageLog, col++, "Total Damage");
-		createTableHeader(damageLog, col++, "DPS");
-		createTableHeader(damageLog, col++, "% of Total");
+		createTableHeader(damageLog, col++, "+/- Disc");
+		createTableHeader(damageLog, col++, "Disc");
+		createTableHeader(damageLog, col++, "Damage");
+		createTableHeader(damageLog, col++, "Target HP");
+		createTableHeader(damageLog, col++, "% HP");
 		createTableHeader(damageLog, col++, "Target");
 		createTableHeader(damageLog, col++, "Notes");
 		createTableHeader(damageLog, col++, "Calculations");
@@ -259,6 +261,7 @@ public class ExportExcel {
 			Row row = damageLog.createRow(i + 1);
 			col = 0;
 
+			addTableCellD(row, col++, Math.round(d.time * 100.0) / 100.0);
 			addTableCell(row, col++, d.shooter);
 
 			if (d.source != null) {
@@ -280,21 +283,26 @@ public class ExportExcel {
 				col++;
 			}
 
-			addTableCell(row, col++, Math.round(d.damage));
-			addTableCell(row, col++, d.hatred);
-
-			addTableCell(row, col++, Math.round(d.actualDamage));
-			addTableCell(row, col++,
-					Math.round((d.actualDamage) / data.output.duration));
-
-			if (d.actualDamage > 0) {
-				addTableCell(
-						row,
-						col++,
-						(Math.round(10000.0 * d.actualDamage / total) / 10000.0),
-						pctStyle);
+			if (d.hatred != 0) {
+				addTableCellD(row, col++, Math.round(d.hatred * 10.0) / 10.0);
 			} else {
 				col++;
+			}
+			addTableCellD(row, col++, Math.round(d.currentHatred * 10.0) / 10.0);
+			
+			if (d.disc != 0) {
+				addTableCellD(row, col++, Math.round(d.disc * 10.0) / 10.0);
+			} else {
+				col++;
+			}
+			addTableCellD(row, col++, Math.round(d.currentDisc * 10.0) / 10.0);
+
+			if (d.damage > 0) {
+				addTableCell(row, col++, Math.round(d.damage));
+				addTableCell(row, col++, (double)Math.round(d.targetHp));
+				addTableCell(row, col++, Math.round(d.targetHpPercent * 1000.0) / 10.0 + "%");
+			} else {
+				col += 3;
 			}
 
 			if (d.target != null) {
@@ -351,6 +359,10 @@ public class ExportExcel {
 		return cell;
 	}
 
+	private Cell addTableCellD(Row row, int col, double value) {
+		return addTableCell(row, col, value, doubleStyle);
+	}
+	
 	private Cell addTableCell(Row row, int col, double value) {
 		return addTableCell(row, col, value, largeDoubleStyle);
 	}
