@@ -3715,15 +3715,20 @@ public class MainPanel extends BasePanel {
 
 				panel.add(new Label("+", false));
 				final DoubleSpinner spinner = new DoubleSpinner();
-				// double value = stat.getAdapter().getDefaultValue();
-
-				final String field = "Stat." + stat.getLabel();
-				double value = Double.parseDouble(this.getFieldValue(field,
-						String.valueOf(adapter.getDefaultValue())));
-
-				spinner.setValue(value);
+				double value = adapter.getDefaultValue();
 				spinner.setMax(value * 100.0);
 				spinner.setMin(value * -100.0);
+
+				final String field = "Stat." + stat.getLabel();
+				
+				try {
+					value = Double.parseDouble(this.getFieldValue(field,
+						String.valueOf(value)));
+				} catch (Exception e) {
+					saveField(field, String.valueOf(value));
+				}
+
+				spinner.setValue(value);
 				spinner.setVisibleLength(4);
 
 				panel.add(spinner);
