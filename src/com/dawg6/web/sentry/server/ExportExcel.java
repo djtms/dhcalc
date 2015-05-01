@@ -25,7 +25,6 @@ import com.dawg6.web.sentry.shared.calculator.ExportData;
 import com.dawg6.web.sentry.shared.calculator.GemSkill;
 import com.dawg6.web.sentry.shared.calculator.Passive;
 import com.dawg6.web.sentry.shared.calculator.Rune;
-import com.dawg6.web.sentry.shared.calculator.TargetType;
 
 public class ExportExcel {
 
@@ -139,7 +138,7 @@ public class ExportExcel {
 
 		double total = 0;
 		for (Damage d : data.output.damages) {
-			total += d.totalDamage;
+			total += d.actualDamage;
 		}
 
 		int i = 1;
@@ -178,7 +177,7 @@ public class ExportExcel {
 
 		double total = 0;
 		for (Damage d : data.output.damages) {
-			total += d.totalDamage;
+			total += d.actualDamage;
 		}
 
 		int i = 1;
@@ -210,7 +209,7 @@ public class ExportExcel {
 
 		double total = 0;
 		for (Damage d : data.output.damages) {
-			total += d.totalDamage;
+			total += d.actualDamage;
 		}
 
 		int i = 1;
@@ -247,13 +246,12 @@ public class ExportExcel {
 		createTableHeader(damageLog, col++, "DPS");
 		createTableHeader(damageLog, col++, "% of Total");
 		createTableHeader(damageLog, col++, "Target");
-		createTableHeader(damageLog, col++, "# Targets");
 		createTableHeader(damageLog, col++, "Notes");
 		createTableHeader(damageLog, col++, "Calculations");
 
 		double total = 0;
 		for (Damage d : data.output.damages) {
-			total += d.totalDamage;
+			total += d.actualDamage;
 		}
 
 		for (int i = 0; i < data.output.damages.length; i++) {
@@ -285,27 +283,22 @@ public class ExportExcel {
 			addTableCell(row, col++, Math.round(d.damage));
 			addTableCell(row, col++, d.hatred);
 
-			addTableCell(row, col++, Math.round(d.totalDamage));
+			addTableCell(row, col++, Math.round(d.actualDamage));
 			addTableCell(row, col++,
-					Math.round((d.totalDamage) / data.output.duration));
+					Math.round((d.actualDamage) / data.output.duration));
 
-			if (d.totalDamage > 0) {
+			if (d.actualDamage > 0) {
 				addTableCell(
 						row,
 						col++,
-						(Math.round(10000.0 * d.totalDamage / total) / 10000.0),
+						(Math.round(10000.0 * d.actualDamage / total) / 10000.0),
 						pctStyle);
 			} else {
 				col++;
 			}
 
 			if (d.target != null) {
-				addTableCell(row, col++, d.target.name());
-
-				if (d.target == TargetType.Additional)
-					addTableCell(row, col++, d.numAdd);
-				else
-					addTableCell(row, col++, 1);
+				addTableCell(row, col++, d.target.toString());
 			} else {
 				col += 2;
 			}

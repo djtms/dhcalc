@@ -5,7 +5,7 @@ import java.util.Vector;
 
 public class FiringData {
 
-	private static final double MAX_DURATION = 15.0 * 60.0;
+	public static final int MAX_DURATION = 15 * 60;
 
 	public static DamageResult calculateDamages(CharacterData data) {
 
@@ -19,27 +19,24 @@ public class FiringData {
 		primary.setMonsterType(data.getPrimaryTargetType());
 		primary.setMaxHp(data.getPrimaryTargetHealth());
 		primary.setCurrentHp(data.getPrimaryTargetHealth());
-		targets.setPrimary(primary);
+		targets.setTarget(TargetType.Primary, primary);
 
 		int numTargets = data.getNumAdditional();
 		List<TargetHolder> adds = new Vector<TargetHolder>(numTargets);
 
 		for (int i = 0; i < numTargets; i++) {
+			TargetType type = TargetType.Additional(i+1);
 			TargetHolder add = new TargetHolder();
-			add.setTargetType(TargetType.Additional);
+			add.setTargetType(type);
 			add.setMonsterType(data.getAdditionalTargetType());
 			add.setMaxHp(data.getAdditionalTargetHealth());
 			add.setCurrentHp(data.getAdditionalTargetHealth());
 			adds.add(add);
+			targets.setTarget(type, add);
 		}
-
-		targets.setAdditional(adds);
 
 		List<Damage> log = new Vector<Damage>();
 
-//		double fokCd = (10.0 * (1 - cdr));
-//		Rune fokRune = data.getSkills().get(ActiveSkill.FoK);
-		
 		if (data.isPreparation()
 				&& (data.getPreparationRune() == Rune.Punishment)) 
 			eventQueue.push(new PreparationEvent(data));
@@ -95,6 +92,10 @@ public class FiringData {
 			action.setRov(rov);
 		}
 		
+		if (data.getSkills().containsKey(ActiveSkill.FoK) && (data.getSkills().get(ActiveSkill.FoK) != Rune.Knives_Expert)) {
+			eventQueue.push(new FoKEvent(data));
+		}
+
 		if (data.isSentry())
 			eventQueue.push(new SentryBoltEvent(data));
 		
@@ -105,16 +106,6 @@ public class FiringData {
 		eventQueue.push(new RegenEvent(data));
 		eventQueue.push(new DiscRegenEvent(data));
 		
-//		if (fokRune == Rune.Pinpoint_Accuracy)
-//			fokCd = 15.0 * (1 - cdr);
-//
-//		double nextFok = 0;
-//
-//		if ((fokRune == null) || (fokRune == Rune.Knives_Expert))
-//			nextFok = Double.MAX_VALUE;
-//
-//		int numFok = 0;
-
 		SimulationState state = new SimulationState(data, targets);
 		
 		if (data.isBastions()) {
@@ -126,11 +117,13 @@ public class FiringData {
 				state.getBuffs().set(Buff.BwSpend, 5.0);
 		}
 		
-		while (targets.getPrimary().isAlive()) {
+		double timeLimit = data.getTimeLimit();
+		
+		while (targets.getTarget(TargetType.Primary).isAlive()) {
 			Event event = eventQueue.pop();
 			double t = event.getTime();
 			
-			if (t > FiringData.MAX_DURATION)
+			if (t > timeLimit)
 				break;
 			
 			state.setTime(t);
@@ -138,73 +131,7 @@ public class FiringData {
 			event.execute(eventQueue, log, state);
 		}
 
-//			if ((fokRune != null) && (t > nextFok)) {
-//				numFok++;
-//				nextFok += fokCd;
-//			}
-//
-//			if (venActive && (t > venEnds)) {
-//				venActive = false;
-//			}
-//
-//			if ((venRune != null) && (t >= nextVen)) {
-//				if ((venRune != Rune.Seethe) || (hatred < (maxHatred / 2))) {
-//					venActive = true;
-//					nextVen = t + venCd;
-//					venEnds = t + 15.0;
-//				}
-//			}
-
-
 		double duration = Math.round(state.getTime() * 100.0) / 100.0;
-
-
-		// TODO Handle FoK
-		// if (numFok > 0) {
-		// list.addAll(DamageFunction.getDamages(true, false, "Player",
-		// new DamageSource(ActiveSkill.FoK, fokRune), numFok, data));
-		// }
-
-		// TODO Handle Caltrops
-		// if (data.isCaltrops()) {
-		// list.addAll(DamageFunction.getDamages(
-		// true,
-		// false,
-		// "Player",
-		// new DamageSource(ActiveSkill.Caltrops, data
-		// .getCaltropsRune()),
-		// (int) (duration * data.getCaltropsUptime()),
-		// data));
-		// }
-
-		// TODO Handle SpikeTrap
-		// if (data.isSpikeTrap()) {
-		// list.addAll(DamageFunction.getDamages(true, false, "Player",
-		// new DamageSource(ActiveSkill.ST, data.getSpikeTrapRune()),
-		// data.getNumSpikeTraps() * 3, data));
-		// }
-
-		// TODO Handle Helltrapper Spike Trap
-		// if (data.isHelltrapper()) {
-		// int num = (int) Math.round(totalHits * data.getHelltrapperPercent()
-		// * 0.5);
-		//
-		// if (num > 0) {
-		// list.addAll(DamageFunction.getDamages(false, false,
-		// "Helltrapper",
-		// new DamageSource(ActiveSkill.ST,
-		// (data.isSpikeTrap() ? data.getSpikeTrapRune()
-		// : Rune.None)), num * 3, data));
-		//
-		// // Can't have double DoT
-		// // list.addAll(DamageFunction.getDamages(false, false,
-		// // "Helltrapper",
-		// // new DamageSource(ActiveSkill.Caltrops, (data.isCaltrops() ?
-		// // data.getCaltropsRune() : Rune.None)), 1,
-		// // data));
-		// }
-		// }
-
 
 		result.damages = log.toArray(new Damage[0]);
 		result.duration = duration;

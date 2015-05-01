@@ -211,6 +211,7 @@ public class CharacterData implements Serializable  {
 	private long primaryTargetHealth;
 	private long additionalTargetHealth;
 	private int numPlayers;
+	private int timeLimit;
 	
 	public CharacterData copy() {
 		return new CharacterData(this);
@@ -268,6 +269,7 @@ public class CharacterData implements Serializable  {
 		numPlayers = 1;
 		primaryTargetHealth = MonsterHealth.getHealth(riftLevel, numPlayers, primaryTargetType);
 		additionalTargetHealth = MonsterHealth.getHealth(riftLevel, numPlayers, additionalTargetType);
+		timeLimit = 2 * 60;
 	}
 	
 	public CharacterData() {
@@ -455,6 +457,7 @@ public class CharacterData implements Serializable  {
 		this.targetSize = other.targetSize;
 		this.targetSpacing = other.targetSpacing;
 		this.targetType = other.targetType;
+		this.timeLimit = other.timeLimit;
 		this.tnt = other.tnt;
 		this.tntPercent = other.tntPercent;
 		this.toxin = other.toxin;
@@ -2326,6 +2329,14 @@ public class CharacterData implements Serializable  {
 
 	public void setNumPlayers(int numPlayers) {
 		this.numPlayers = numPlayers;
+	}
+
+	public int getTimeLimit() {
+		return timeLimit;
+	}
+
+	public void setTimeLimit(int timeLimit) {
+		this.timeLimit = timeLimit;
 	}
 
 }

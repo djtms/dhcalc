@@ -1,50 +1,51 @@
 package com.dawg6.web.sentry.shared.calculator;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class TargetList implements Serializable {
 
 	private static final long serialVersionUID = -570917745839246976L;
 	
-	private TargetHolder primary;
-	private List<TargetHolder> additional;
+	private final Map<TargetType, TargetHolder> targets = new TreeMap<TargetType, TargetHolder>();
 	
-	public TargetHolder getPrimary() {
-		return primary;
+	public void setTarget(TargetType type, TargetHolder target) {
+		this.targets.put(type, target);
 	}
-	public void setPrimary(TargetHolder primary) {
-		this.primary = primary;
-	}
-	public List<TargetHolder> getAdditional() {
-		return additional;
-	}
-	public void setAdditional(List<TargetHolder> additional) {
-		this.additional = additional;
+
+	public TargetHolder getTarget(TargetType type) {
+		return targets.get(type);
 	}
 	
 	public int getNumTargets() {
-		return 1 + additional.size();
+		return targets.size();
+	}
+	
+	public int getNumAdditional() {
+		int i = targets.size();
+		
+		if (targets.containsKey(TargetType.Primary))
+			i--;
+		
+		return i;
 	}
 	
 	public int getNumAlive() {
 		int i = 0;
-		
-		if (primary.isAlive())
-			i++;
 
-		i += getNumAdditionalAlive();
+		for (TargetHolder t : targets.values()) {
+			if (t.isAlive())
+				i++;
+		}
 		
 		return i;
+	}
+
+	public Collection<TargetType> toList() {
+		return new TreeSet<TargetType>(targets.keySet());
 	}
 	
-	public int getNumAdditionalAlive() {
-		int i = 0;
-		
-		for (TargetHolder h : additional)
-			if (h.isAlive())
-				i++;
-		
-		return i;
-	}
 }

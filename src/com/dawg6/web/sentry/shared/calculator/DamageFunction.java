@@ -1,5 +1,6 @@
 package com.dawg6.web.sentry.shared.calculator;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -62,9 +63,9 @@ public class DamageFunction {
 					"Chill", DamageType.Cold),
 			new DamageRow(ActiveSkill.EA, Rune.Immolation_Arrow, 3.0, true, 0,
 					DamageType.Fire),
-			new DamageRow(ActiveSkill.EA, Rune.Immolation_Arrow, 3.15, 2.0, true,
-					Integer.MAX_VALUE, 1, 10, "Burning DoT", DamageType.Fire,
-					DamageMultiplier.DoT),
+			new DamageRow(ActiveSkill.EA, Rune.Immolation_Arrow, 3.15, 2.0,
+					true, Integer.MAX_VALUE, 1, 10, "Burning DoT",
+					DamageType.Fire, DamageMultiplier.DoT),
 			new DamageRow(ActiveSkill.EA, Rune.Lightning_Bolts, 3.0, true,
 					Integer.MAX_VALUE, DamageType.Lightning),
 			new DamageRow(ActiveSkill.EA, Rune.Nether_Tentacles, 3.0, true,
@@ -76,8 +77,8 @@ public class DamageFunction {
 					DamageType.Physical),
 			new DamageRow(ActiveSkill.IMP, Rune.Chemical_Burn, 7.5, true, 0,
 					DamageType.Fire),
-			new DamageRow(ActiveSkill.IMP, Rune.Chemical_Burn, 5.0, 2.0, true, 0,
-					"Burning DoT", DamageType.Fire, DamageMultiplier.DoT),
+			new DamageRow(ActiveSkill.IMP, Rune.Chemical_Burn, 5.0, 2.0, true,
+					0, "Burning DoT", DamageType.Fire, DamageMultiplier.DoT),
 			new DamageRow(ActiveSkill.IMP, Rune.Overpenetration, 7.5, true,
 					Integer.MAX_VALUE, DamageType.Cold),
 			new DamageRow(ActiveSkill.IMP, Rune.Ricochet, 7.5, true, 0,
@@ -99,8 +100,8 @@ public class DamageFunction {
 					Integer.MAX_VALUE, 0, DamageType.Physical),
 			new DamageRow(ActiveSkill.CHAK, Rune.Boomerang, 4.0, true,
 					Integer.MAX_VALUE, 0, DamageType.Lightning),
-			new DamageRow(ActiveSkill.CHAK, Rune.Shuriken_Cloud, 2.0, 120.0, true,
-					Integer.MAX_VALUE, 0, "DoT", DamageType.Physical,
+			new DamageRow(ActiveSkill.CHAK, Rune.Shuriken_Cloud, 2.0, 120.0,
+					true, Integer.MAX_VALUE, 0, "DoT", DamageType.Physical,
 					DamageMultiplier.DoT),
 
 			new DamageRow(ActiveSkill.HA, Rune.None, 1.55, true, 0, 0,
@@ -137,8 +138,8 @@ public class DamageFunction {
 					DamageType.Physical),
 			new DamageRow(ActiveSkill.ES, Rune.Shock_Collar, 2.0, true, 0, 0,
 					DamageType.Physical),
-			new DamageRow(ActiveSkill.ES, Rune.Shock_Collar, 0.8, 2.0, true, 2, 0,
-					"DoT", DamageType.Lightning, DamageMultiplier.DoT),
+			new DamageRow(ActiveSkill.ES, Rune.Shock_Collar, 0.8, 2.0, true, 2,
+					0, "DoT", DamageType.Lightning, DamageMultiplier.DoT),
 			new DamageRow(ActiveSkill.ES, Rune.Heavy_Burden, 2.0, true, 0, 0,
 					DamageType.Cold),
 			new DamageRow(ActiveSkill.ES, Rune.Justice_is_Served, 2.0, true, 0,
@@ -216,16 +217,16 @@ public class DamageFunction {
 			new DamageRow(ActiveSkill.GRENADE, Rune.Cold_Grenade, 1.6, true,
 					Integer.MAX_VALUE, 0, 6, DamageType.Lightning,
 					DamageMultiplier.Grenades),
-			new DamageRow(ActiveSkill.GRENADE, Rune.Cold_Grenade, 1.2, 3.0, true,
-					Integer.MAX_VALUE, 0, 6, "DoT", DamageType.Cold,
+			new DamageRow(ActiveSkill.GRENADE, Rune.Cold_Grenade, 1.2, 3.0,
+					true, Integer.MAX_VALUE, 0, 6, "DoT", DamageType.Cold,
 					DamageMultiplier.Grenades, DamageMultiplier.DoT),
 
 			new DamageRow(ActiveSkill.BOLT, Rune.None, 2.8, true, 0, "Bolt",
 					DamageType.Physical),
 			new DamageRow(ActiveSkill.BOLT, Rune.Spitfire_Turret, 2.8, true, 0,
 					"Bolt", DamageType.Fire),
-			new DamageRow(ActiveSkill.BOLT, Rune.Spitfire_Turret, 1.2, true,
-					0, "Rockets", DamageType.Fire, DamageMultiplier.Rockets),
+			new DamageRow(ActiveSkill.BOLT, Rune.Spitfire_Turret, 1.2, true, 0,
+					"Rockets", DamageType.Fire, DamageMultiplier.Rockets),
 			new DamageRow(ActiveSkill.BOLT, Rune.Impaling_Bolt, 2.8, true, 0,
 					"Bolt", DamageType.Physical),
 			new DamageRow(ActiveSkill.BOLT, Rune.Polar_Station, 2.8, true, 0,
@@ -233,14 +234,15 @@ public class DamageFunction {
 			new DamageRow(ActiveSkill.BOLT, Rune.Guardian_Turret, 2.8, true, 0,
 					"Bolt", DamageType.Physical),
 
-			new DamageRow(ActiveSkill.SENTRY, Rune.Chain_of_Torment, 3.0, 1.0, true,
-					9, 0, "Chain DoT", DamageType.Fire, DamageMultiplier.DoT),
+			new DamageRow(ActiveSkill.SENTRY, Rune.Chain_of_Torment, 3.0, 1.0,
+					true, 9, 0, "Chain DoT", DamageType.Fire,
+					DamageMultiplier.DoT),
 
 			new DamageRow(new DamageSource(GemSkill.Toxin), 20.0, 10.0, true,
 					Integer.MAX_VALUE, "DoT", DamageType.Poison,
 					DamageMultiplier.DoT),
-			new DamageRow(new DamageSource(GemSkill.PainEnhancer), 12.0, 3.0, true,
-					Integer.MAX_VALUE, "DoT", DamageType.Physical,
+			new DamageRow(new DamageSource(GemSkill.PainEnhancer), 12.0, 3.0,
+					true, Integer.MAX_VALUE, "DoT", DamageType.Physical,
 					DamageMultiplier.DoT),
 
 			new DamageRow(ActiveSkill.Companion, Rune.None, 1.0, true, 0,
@@ -269,22 +271,28 @@ public class DamageFunction {
 			new DamageRow(ActiveSkill.ST, Rune.Scatter, 3.4, true,
 					Integer.MAX_VALUE, 0, 8, DamageType.Fire),
 
-			new DamageRow(ActiveSkill.Caltrops, Rune.Jagged_Spikes, 2.7, 6.0, true,
-					Integer.MAX_VALUE, 0, 12, "DoT", DamageType.Physical,
+			new DamageRow(ActiveSkill.Caltrops, Rune.Jagged_Spikes, 2.7, 6.0,
+					true, Integer.MAX_VALUE, 0, 12, "DoT", DamageType.Physical,
 					DamageMultiplier.DoT),
 
 			new DamageRow(ActiveSkill.RoV, Rune.None, 15.0, 5.0, true,
-					Integer.MAX_VALUE, "DoT", DamageType.Physical, DamageMultiplier.DoT),
+					Integer.MAX_VALUE, "DoT", DamageType.Physical,
+					DamageMultiplier.DoT),
 			new DamageRow(ActiveSkill.RoV, Rune.Dark_Cloud, 35.0, 8.0, true,
-					Integer.MAX_VALUE, "DoT", DamageType.Physical, DamageMultiplier.DoT),
+					Integer.MAX_VALUE, "DoT", DamageType.Physical,
+					DamageMultiplier.DoT),
 			new DamageRow(ActiveSkill.RoV, Rune.Shade, 28.0, 5.0, true,
-					Integer.MAX_VALUE, "DoT", DamageType.Lightning, DamageMultiplier.DoT),
+					Integer.MAX_VALUE, "DoT", DamageType.Lightning,
+					DamageMultiplier.DoT),
 			new DamageRow(ActiveSkill.RoV, Rune.Stampede, 46.0, 3.0, true,
-					Integer.MAX_VALUE, "DoT", DamageType.Fire, DamageMultiplier.DoT),
+					Integer.MAX_VALUE, "DoT", DamageType.Fire,
+					DamageMultiplier.DoT),
 			new DamageRow(ActiveSkill.RoV, Rune.Anathema, 58.0, 2.0, true,
-					Integer.MAX_VALUE, "DoT", DamageType.Fire, DamageMultiplier.DoT),
+					Integer.MAX_VALUE, "DoT", DamageType.Fire,
+					DamageMultiplier.DoT),
 			new DamageRow(ActiveSkill.RoV, Rune.Flying_Strike, 38.0, 4.0, true,
-					Integer.MAX_VALUE, "DoT", DamageType.Cold, DamageMultiplier.DoT),
+					Integer.MAX_VALUE, "DoT", DamageType.Cold,
+					DamageMultiplier.DoT),
 
 			new DamageRow(ActiveSkill.CR, Rune.None, 1.0, true, 0,
 					DamageType.Physical),
@@ -303,8 +311,8 @@ public class DamageFunction {
 					DamageType.Physical),
 			new DamageRow(ActiveSkill.Strafe, Rune.Icy_Trail, 6.75, true, 3,
 					DamageType.Cold),
-			new DamageRow(ActiveSkill.Strafe, Rune.Icy_Trail, 3.0, 3.0, true, 3,
-					"DoT", DamageType.Cold, DamageMultiplier.DoT),
+			new DamageRow(ActiveSkill.Strafe, Rune.Icy_Trail, 3.0, 3.0, true,
+					3, "DoT", DamageType.Cold, DamageMultiplier.DoT),
 			new DamageRow(ActiveSkill.Strafe, Rune.Drifting_Shadow, 6.75, true,
 					3, DamageType.Lightning),
 			new DamageRow(ActiveSkill.Strafe, Rune.Stinging_Steel, 6.75, true,
@@ -350,8 +358,8 @@ public class DamageFunction {
 			new DamageRow(ActiveSkill.Vengeance, Rune.Dark_Heart, 0.4, true, 3,
 					"Homing Rockets", DamageType.Lightning,
 					DamageMultiplier.Rockets),
-			new DamageRow(ActiveSkill.Vengeance, Rune.Dark_Heart, 3.25, 15.0, true,
-					Integer.MAX_VALUE, "Lightning AoE DoT",
+			new DamageRow(ActiveSkill.Vengeance, Rune.Dark_Heart, 3.25, 15.0,
+					true, Integer.MAX_VALUE, "Lightning AoE DoT",
 					DamageType.Lightning, DamageMultiplier.DoT),
 			new DamageRow(ActiveSkill.Vengeance, Rune.Side_Cannons, 2.25, true,
 					3, "Side Guns", DamageType.Physical),
@@ -367,6 +375,11 @@ public class DamageFunction {
 
 	public static List<Damage> getDamages(boolean isPlayer, boolean isSentry,
 			String shooter, DamageSource source, SimulationState state) {
+		return getDamages(isPlayer, isSentry, shooter, source, state, state.getTargets().toList());
+	}
+	
+	public static List<Damage> getDamages(boolean isPlayer, boolean isSentry,
+			String shooter, DamageSource source, SimulationState state, Collection<TargetType> targetTypes) {
 		List<Damage> list = new Vector<Damage>();
 
 		int index = 0;
@@ -374,15 +387,13 @@ public class DamageFunction {
 		boolean first = true;
 		WeaponType offHand_type = state.getData().getOffHand_weaponType();
 		DamageMultiplier wDMult = DamageMultiplier.WD;
-		
-		// TODO re-enable Additional targets
-		TargetType[] targetTypes = { TargetType.Primary }; //, TargetType.Additional }; 
-		
+
 		if ((source == null)
 				|| ((source.skill != ActiveSkill.RoV)
 						&& (source.skill != ActiveSkill.FoK)
 						&& (source.skill != ActiveSkill.Vengeance) && (source.skill != ActiveSkill.CR))) {
-			if ((offHand_type != null) && (state.getHand() == Hand.OffHand)
+			if ((offHand_type != null)
+					&& (state.getHand() == Hand.OffHand)
 					&& (isPlayer
 							|| shooter.equals(ActiveSkill.Companion
 									.getLongName()) || ((source != null) && ((source.skill == ActiveSkill.SENTRY) || (source.skill == ActiveSkill.BOLT))))) {
@@ -404,395 +415,378 @@ public class DamageFunction {
 					aoeRange *= 1.2;
 				}
 
+				int maxAdd = Math.min(dr.maxAdditional, state.getData()
+						.getNumAdditional());
+
+				if (dr.multipliers.contains(DamageMultiplier.Grenades)
+						&& (dr.numProjectiles > 0) && (spacing > aoeRange)) {
+					int numP = dr.numProjectiles;
+
+					if (dr.primary)
+						numP--;
+
+					maxAdd = Math.min(maxAdd, numP);
+				} else if ((aoeRange > 0) && (spacing > aoeRange)) {
+					int max = dr.numProjectiles;
+
+					if (dr.primary)
+						max--;
+
+					maxAdd = Math.min(max, maxAdd);
+				}
+
+				int addNum = 0;
+
 				for (TargetType target : targetTypes) {
-					state.getData().setTargetType(target);
 
-					int add = Math.min(dr.maxAdditional,
-							state.getData().getNumAdditional());
+					if (state.getTargets().getTarget(target).isAlive()) {
 
-					if (target == TargetType.Additional) {
+						state.getData().setTargetType(target);
 
-						if (dr.multipliers.contains(DamageMultiplier.Grenades)
-								&& (dr.numProjectiles > 0)
-								&& (spacing > aoeRange)) {
-							int numP = dr.numProjectiles;
+						if (!target.isPrimary())
+							addNum++;
 
-							if (dr.primary)
-								numP--;
+						if ((target.isPrimary() && dr.primary)
+								|| (!target.isPrimary() && (addNum <= maxAdd))) {
 
-							add = Math.min(add, numP);
-						} else if ((aoeRange > 0) && (spacing > aoeRange)) {
-							int max = dr.numProjectiles;
+							double wd = baseWd;
 
-							if (dr.primary)
-								max--;
+							double m = dr.scalar;
 
-							add = Math.min(max, add);
-						}
-					}
+							if (dr.source.skill == ActiveSkill.CR) {
+								m = state.getData().getCrashingRainPercent();
+							} else if ((dr.source.skill == ActiveSkill.EA)
+									&& (dr.source.rune == Rune.Ball_Lightning)) {
+								m = (dr.scalar / 2)
+										* state.getData().getTargetSize()
+												.getHits();
 
-					if (((target == TargetType.Primary) && dr.primary)
-							|| ((target == TargetType.Additional) && (add > 0))) {
-
-						double wd = baseWd;
-
-						double m = dr.scalar;
-
-						if (dr.source.skill == ActiveSkill.CR) {
-							m = state.getData().getCrashingRainPercent();
-						} else if ((dr.source.skill == ActiveSkill.EA)
-								&& (dr.source.rune == Rune.Ball_Lightning)) {
-							m = (dr.scalar / 2)
-									* state.getData().getTargetSize().getHits();
-
-							if (state.getData().isMeticulousBolts()) {
-								double ratio = 1.0 / state.getData()
-										.getMeticulousBoltsPercent();
-								m *= ratio;
+								if (state.getData().isMeticulousBolts()) {
+									double ratio = 1.0 / state.getData()
+											.getMeticulousBoltsPercent();
+									m *= ratio;
+								}
+							} else if (dr.source.gem != null) {
+								m = dr.source.gem.getScalar(state.getData());
+							} else if (dr.dot) {
+								m /= dr.dotDuration;
 							}
-						} else if (dr.source.gem != null) {
-							m = dr.source.gem.getScalar(state.getData());
-						} else if (dr.dot) {
-							m /= dr.dotDuration;
-						}
 
-						double scalar = m;
-						double a = 0.0;
-						double ea = 0.0;
+							double scalar = m;
+							double a = 0.0;
+							double ea = 0.0;
 
-						StringBuffer addBuf = new StringBuffer();
-						StringBuffer multBuf = new StringBuffer();
-						StringBuffer eaBuf = new StringBuffer();
+							StringBuffer addBuf = new StringBuffer();
+							StringBuffer multBuf = new StringBuffer();
+							StringBuffer eaBuf = new StringBuffer();
 
-						if (numShooters > 1)
-							multBuf.append(numShooters + " x ");
+							if (numShooters > 1)
+								multBuf.append(numShooters + " x ");
 
-						if (target == TargetType.Additional) {
-							if (add > 1) {
-								multBuf.append(add + " x ");
-								m *= add;
+							if (dr.multipliers
+									.contains(DamageMultiplier.Grenades)
+									&& (dr.numProjectiles > 0)) {
+								double numP = dr.numProjectiles;
+								int num = (dr.primary ? 1 : 0) + maxAdd;
+
+								if (spacing > aoeRange) {
+									if (num < numP) {
+
+										if (target == TargetType.Primary) {
+											if (maxAdd > 0) {
+												numP = 1;
+											}
+										} else
+											numP = (numP - 1) / maxAdd;
+									} else {
+										numP = 1;
+									}
+								}
+
+								if (numP > 1) {
+									m *= numP;
+
+									multBuf.append("#Grenades("
+											+ Util.format(numP) + ") x ");
+								}
+
 							}
-						}
 
-						if (dr.multipliers.contains(DamageMultiplier.Grenades)
-								&& (dr.numProjectiles > 0)) {
-							double numP = dr.numProjectiles;
-							int num = (dr.primary ? 1 : 0) + add;
+							multBuf.append(Util.format(scalar) + " x ");
 
-							if (spacing > aoeRange) {
-								if (num < numP) {
+							multBuf.append(wDMult.getAbbreviation());
 
-									if (target == TargetType.Primary) {
-										if (add > 0) {
-											numP = 1;
-										}
-									} else
-										numP = (numP - 1) / add;
-								} else {
-									numP = 1;
+							// if (dr.source.skill != ActiveSkill.Companion) {
+							double cc = DamageMultiplier.CC.getValue(state);
+							double iced = DamageMultiplier.Iced.getValue(state);
+							double cd = DamageMultiplier.CHD.getValue(state);
+							double caltrops = DamageMultiplier.CaltropsBT
+									.getValue(state);
+							double singleOut = DamageMultiplier.SingleOut
+									.getValue(state);
+
+							if (dr.multipliers
+									.contains(DamageMultiplier.OnCrit)
+									&& (((cc > 0.0) || (singleOut > 0.0)
+											|| (caltrops > 0.0) || (iced > 0.0)))) {
+								StringBuffer ccStr = new StringBuffer();
+
+								if (cc > 0.0) {
+
+									if ((singleOut > 0.0) || (caltrops > 0.0))
+										ccStr.append("(");
+
+									ccStr.append("CC(" + Util.format(cc) + ")");
+								}
+
+								if (singleOut > 0.0) {
+									if (cc > 0.0)
+										ccStr.append(" + ");
+									else
+										ccStr.append("(");
+
+									ccStr.append(DamageMultiplier.SingleOut
+											.getAbbreviation()
+											+ "("
+											+ singleOut + ")");
+
+									if (cc > 0.0)
+										ccStr.append(")");
+								}
+
+								if (caltrops > 0.0) {
+									if ((cc > 0.0) || (singleOut > 0.0))
+										ccStr.append(" + ");
+
+									ccStr.append(DamageMultiplier.CaltropsBT
+											.getAbbreviation()
+											+ "("
+											+ Util.format(caltrops) + ")");
+
+									if ((cc > 0.0) || (singleOut > 0.0))
+										ccStr.append(")");
+								}
+
+								if (iced > 0.0) {
+									if ((cc > 0.0) || (singleOut > 0.0)
+											|| (caltrops > 0.0))
+										ccStr.append(" + ");
+
+									ccStr.append(DamageMultiplier.Iced
+											.getAbbreviation()
+											+ "("
+											+ Util.format(iced) + ")");
+
+									if ((cc > 0.0) || (singleOut > 0.0)
+											|| (caltrops > 0.0))
+										ccStr.append(")");
+								}
+
+								multBuf.append(" x " + ccStr.toString());
+
+								m *= Math.min(1.0, cc + singleOut + caltrops
+										+ iced);
+
+							} else if (((cc > 0.0) || (singleOut > 0.0)
+									|| (caltrops > 0.0) || (iced > 0.0))
+									&& (cd > 0.0)) {
+								StringBuffer ccStr = new StringBuffer();
+
+								if (cc > 0.0) {
+
+									if ((singleOut > 0.0) || (caltrops > 0.0))
+										ccStr.append("(");
+
+									ccStr.append("CC(" + Util.format(cc) + ")");
+								}
+
+								if (singleOut > 0.0) {
+									if (cc > 0.0)
+										ccStr.append(" + ");
+									else
+										ccStr.append("(");
+
+									ccStr.append(DamageMultiplier.SingleOut
+											.getAbbreviation()
+											+ "("
+											+ singleOut + ")");
+
+									if (cc > 0.0)
+										ccStr.append(")");
+								}
+
+								if (caltrops > 0.0) {
+									if ((cc > 0.0) || (singleOut > 0.0))
+										ccStr.append(" + ");
+
+									ccStr.append(DamageMultiplier.CaltropsBT
+											.getAbbreviation()
+											+ "("
+											+ Util.format(caltrops) + ")");
+
+									if ((cc > 0.0) || (singleOut > 0.0))
+										ccStr.append(")");
+								}
+
+								if (iced > 0.0) {
+									if ((cc > 0.0) || (singleOut > 0.0)
+											|| (caltrops > 0.0))
+										ccStr.append(" + ");
+
+									ccStr.append(DamageMultiplier.Iced
+											.getAbbreviation()
+											+ "("
+											+ Util.format(iced) + ")");
+
+									if ((cc > 0.0) || (singleOut > 0.0)
+											|| (caltrops > 0.0))
+										ccStr.append(")");
+								}
+
+								multBuf.append(" x (1 + (" + ccStr.toString()
+										+ " x CHD(" + Util.format(cd) + ")))");
+
+								m *= (1.0 + (Math.min(1.0, cc + singleOut
+										+ caltrops + iced) * cd));
+							}
+							// }
+
+							addBuf.append("(1");
+							eaBuf.append("(1");
+
+							DamageMultiplierList dlist = new DamageMultiplierList(
+									dr.multipliers);
+							ActiveSkill skill = dr.source.skill;
+							SkillType skillType = (skill != null) ? skill
+									.getSkillType() : null;
+
+							if (isPlayer
+									&& ((skillType == SkillType.Spender) || (skillType == SkillType.Primary))) {
+								dlist.add(DamageMultiplier.M6);
+							}
+
+							if (isPlayer)
+								dlist.add(DamageMultiplier.AD);
+
+							if ((skill != ActiveSkill.Companion)) {
+								dlist.add(DamageMultiplier.Ambush);
+							}
+
+							if (skill != null) {
+
+								if ((state.getData().getNumUe() >= 6)
+										&& ((source.skill == ActiveSkill.MS) || (new SkillAndRune(
+												skill, dr.source.rune)
+												.getHatred(state.getData()) > 0))) {
+									dlist.add(DamageMultiplier.UE6);
 								}
 							}
 
-							if (numP > 1) {
-								m *= numP;
+							for (DamageMultiplier dw : dlist) {
 
-								multBuf.append("#Grenades(" + Util.format(numP)
-										+ ") x ");
-							}
+								if ((isSentry || (dw != DamageMultiplier.Sentry))
+										&& (!isPlayer || (dw != DamageMultiplier.Enforcer))
+										&& (isPlayer
+												|| (dw != DamageMultiplier.N6)
+												|| (dr.source.gem != null) || ((dr.source.skill == ActiveSkill.SENTRY) && (dr.source.rune == Rune.Chain_of_Torment)))) {
 
-						}
+									if (dw.getAccumulator() != DamageAccumulator.Special) {
 
-						multBuf.append(Util.format(scalar) + " x ");
+										double v = dw.getValue(state);
 
-						multBuf.append(wDMult.getAbbreviation());
+										if (Math.abs(v) > 0.0) {
 
-						// if (dr.source.skill != ActiveSkill.Companion) {
-						double cc = DamageMultiplier.CC.getValue(state);
-						double iced = DamageMultiplier.Iced.getValue(state);
-						double cd = DamageMultiplier.CHD.getValue(state);
-						double caltrops = DamageMultiplier.CaltropsBT
-								.getValue(state);
-						double singleOut = DamageMultiplier.SingleOut
-								.getValue(state);
+											if (dw.getAccumulator() == DamageAccumulator.Multiplicative) {
+												m *= (1.0 + v);
+												multBuf.append(" X "
+														+ dw.getAbbreviation()
+														+ "("
+														+ Util.format(1.0 + v)
+														+ ")");
+											} else if (dw.getAccumulator() == DamageAccumulator.ElementalAdditive) {
+												ea += v;
 
-						if (dr.multipliers.contains(DamageMultiplier.OnCrit)
-								&& (((cc > 0.0) || (singleOut > 0.0)
-										|| (caltrops > 0.0) || (iced > 0.0)))) {
-							StringBuffer ccStr = new StringBuffer();
-
-							if (cc > 0.0) {
-
-								if ((singleOut > 0.0) || (caltrops > 0.0))
-									ccStr.append("(");
-
-								ccStr.append("CC(" + Util.format(cc) + ")");
-							}
-
-							if (singleOut > 0.0) {
-								if (cc > 0.0)
-									ccStr.append(" + ");
-								else
-									ccStr.append("(");
-
-								ccStr.append(DamageMultiplier.SingleOut
-										.getAbbreviation()
-										+ "("
-										+ singleOut
-										+ ")");
-
-								if (cc > 0.0)
-									ccStr.append(")");
-							}
-
-							if (caltrops > 0.0) {
-								if ((cc > 0.0) || (singleOut > 0.0))
-									ccStr.append(" + ");
-
-								ccStr.append(DamageMultiplier.CaltropsBT
-										.getAbbreviation()
-										+ "("
-										+ Util.format(caltrops) + ")");
-
-								if ((cc > 0.0) || (singleOut > 0.0))
-									ccStr.append(")");
-							}
-
-							if (iced > 0.0) {
-								if ((cc > 0.0) || (singleOut > 0.0)
-										|| (caltrops > 0.0))
-									ccStr.append(" + ");
-
-								ccStr.append(DamageMultiplier.Iced
-										.getAbbreviation()
-										+ "("
-										+ Util.format(iced) + ")");
-
-								if ((cc > 0.0) || (singleOut > 0.0)
-										|| (caltrops > 0.0))
-									ccStr.append(")");
-							}
-
-							multBuf.append(" x " + ccStr.toString());
-
-							m *= Math
-									.min(1.0, cc + singleOut + caltrops + iced);
-
-						} else if (((cc > 0.0) || (singleOut > 0.0)
-								|| (caltrops > 0.0) || (iced > 0.0))
-								&& (cd > 0.0)) {
-							StringBuffer ccStr = new StringBuffer();
-
-							if (cc > 0.0) {
-
-								if ((singleOut > 0.0) || (caltrops > 0.0))
-									ccStr.append("(");
-
-								ccStr.append("CC(" + Util.format(cc) + ")");
-							}
-
-							if (singleOut > 0.0) {
-								if (cc > 0.0)
-									ccStr.append(" + ");
-								else
-									ccStr.append("(");
-
-								ccStr.append(DamageMultiplier.SingleOut
-										.getAbbreviation()
-										+ "("
-										+ singleOut
-										+ ")");
-
-								if (cc > 0.0)
-									ccStr.append(")");
-							}
-
-							if (caltrops > 0.0) {
-								if ((cc > 0.0) || (singleOut > 0.0))
-									ccStr.append(" + ");
-
-								ccStr.append(DamageMultiplier.CaltropsBT
-										.getAbbreviation()
-										+ "("
-										+ Util.format(caltrops) + ")");
-
-								if ((cc > 0.0) || (singleOut > 0.0))
-									ccStr.append(")");
-							}
-
-							if (iced > 0.0) {
-								if ((cc > 0.0) || (singleOut > 0.0)
-										|| (caltrops > 0.0))
-									ccStr.append(" + ");
-
-								ccStr.append(DamageMultiplier.Iced
-										.getAbbreviation()
-										+ "("
-										+ Util.format(iced) + ")");
-
-								if ((cc > 0.0) || (singleOut > 0.0)
-										|| (caltrops > 0.0))
-									ccStr.append(")");
-							}
-
-							multBuf.append(" x (1 + (" + ccStr.toString()
-									+ " x CHD(" + Util.format(cd) + ")))");
-
-							m *= (1.0 + (Math.min(1.0, cc + singleOut
-									+ caltrops + iced) * cd));
-						}
-						// }
-
-						addBuf.append("(1");
-						eaBuf.append("(1");
-
-						DamageMultiplierList dlist = new DamageMultiplierList(
-								dr.multipliers);
-						ActiveSkill skill = dr.source.skill;
-						SkillType skillType = (skill != null) ? skill
-								.getSkillType() : null;
-
-						if (isPlayer
-								&& ((skillType == SkillType.Spender) || (skillType == SkillType.Primary))) {
-							dlist.add(DamageMultiplier.M6);
-						}
-
-						if (isPlayer)
-							dlist.add(DamageMultiplier.AD);
-
-						if ((skill != ActiveSkill.Companion)) {
-							dlist.add(DamageMultiplier.Ambush);
-						}
-
-						if (skill != null) {
-
-							if ((state.getData().getNumUe() >= 6)
-									&& ((source.skill == ActiveSkill.MS) || (new SkillAndRune(
-											skill, dr.source.rune)
-											.getHatred(state.getData()) > 0))) {
-								dlist.add(DamageMultiplier.UE6);
-							}
-						}
-
-						for (DamageMultiplier dw : dlist) {
-
-							if ((isSentry || (dw != DamageMultiplier.Sentry))
-									&& (!isPlayer || (dw != DamageMultiplier.Enforcer))
-									&& (isPlayer || (dw != DamageMultiplier.N6)
-											|| (dr.source.gem != null) || ((dr.source.skill == ActiveSkill.SENTRY) && (dr.source.rune == Rune.Chain_of_Torment)))) {
-
-								if (dw.getAccumulator() != DamageAccumulator.Special) {
-
-									double v = dw.getValue(state);
-
-									if (Math.abs(v) > 0.0) {
-
-										if (dw.getAccumulator() == DamageAccumulator.Multiplicative) {
-											m *= (1.0 + v);
-											multBuf.append(" X "
-													+ dw.getAbbreviation()
-													+ "("
-													+ Util.format(1.0 + v)
-													+ ")");
-										} else if (dw.getAccumulator() == DamageAccumulator.ElementalAdditive) {
-											ea += v;
-
-											eaBuf.append(" + "
-													+ dw.getAbbreviation()
-													+ "(" + Util.format(v)
-													+ ")");
-										} else {
-
-											if (dw != DamageMultiplier.AD) {
-												a += v;
-
-												addBuf.append(" + "
+												eaBuf.append(" + "
 														+ dw.getAbbreviation()
 														+ "(" + Util.format(v)
 														+ ")");
 											} else {
-												int n = state.getData().getNumAdditional();
 
-												if (n > 0) {
-													a += (v * n);
+												if (dw != DamageMultiplier.AD) {
+													a += v;
 
 													addBuf.append(" + "
 															+ dw.getAbbreviation()
-															+ "(" + n + " X "
+															+ "("
 															+ Util.format(v)
 															+ ")");
-												}
-											}
+												} else {
+													int n = state.getData()
+															.getNumAdditional();
 
+													if (n > 0) {
+														a += (v * n);
+
+														addBuf.append(" + "
+																+ dw.getAbbreviation()
+																+ "("
+																+ n
+																+ " X "
+																+ Util.format(v)
+																+ ")");
+													}
+												}
+
+											}
 										}
 									}
 								}
 							}
+
+							addBuf.append(")");
+							eaBuf.append(")");
+
+							Damage d = new Damage();
+							d.shooter = shooter;
+							d.damage = numShooters * wd * m * (1.0 + a)
+									* (1.0 + ea);
+							d.index = index++;
+							d.note = dr.note;
+							d.source = dr.source;
+							d.type = dr.type;
+							d.target = target;
+							// d.numAdd = add;
+							d.nonStacking = dr.multipliers
+									.contains(DamageMultiplier.DoT);
+
+							if (isPlayer && first) {
+								SkillAndRune skr = new SkillAndRune(skill,
+										dr.source.rune);
+								d.hatred = skr.getHatred(state.getData());
+								first = false;
+							} else {
+								d.hatred = 0;
+							}
+
+							if (dr.dot) {
+								d.duration = dr.dotDuration;
+							} else {
+								d.duration = 0.0;
+							}
+
+							d.log = multBuf.toString();
+
+							if (ea > 0.0)
+								d.log = d.log + " x " + eaBuf.toString();
+
+							if (a > 0.0)
+								d.log = d.log + " x " + addBuf.toString();
+
+							list.add(d);
 						}
-
-						addBuf.append(")");
-						eaBuf.append(")");
-
-						Damage d = new Damage();
-						d.shooter = shooter;
-						d.damage = numShooters * wd * m * (1.0 + a)
-								* (1.0 + ea);
-						d.index = index++;
-						d.note = dr.note;
-						d.source = dr.source;
-						d.type = dr.type;
-						d.target = target;
-						d.numAdd = add;
-						d.nonStacking = dr.multipliers
-								.contains(DamageMultiplier.DoT);
-
-						if (isPlayer && first) {
-							SkillAndRune skr = new SkillAndRune(skill,
-									dr.source.rune);
-							d.hatred = skr.getHatred(state.getData());
-							first = false;
-						} else {
-							d.hatred = 0;
-						}
-
-						if (dr.dot) {
-							d.duration = dr.dotDuration;
-						} else {
-							d.duration = 0.0;
-						}
-
-						d.totalDamage = d.damage;
-						d.log = multBuf.toString();
-
-						if (ea > 0.0)
-							d.log = d.log + " x " + eaBuf.toString();
-
-						if (a > 0.0)
-							d.log = d.log + " x " + addBuf.toString();
-
-						list.add(d);
 					}
+
 				}
-			}
-		}
-
-		if ((source != null) && (source.skill == ActiveSkill.MS)
-				&& state.getData().isDml()
-				&& (state.getTargets().getPrimary().getPercentHealth() <= state.getData()
-						.getDmlPercent())) {
-			List<Damage> copy = new Vector<Damage>(list);
-
-			for (Damage d : copy) {
-				Damage dc = d.copy();
-
-				dc.hatred = 0;
-
-				if ((d.note == null) || (d.note.length() == 0)) {
-					dc.note = "DML";
-				} else {
-					dc.note += " DML";
-				}
-
-				list.add(dc);
 			}
 		}
 

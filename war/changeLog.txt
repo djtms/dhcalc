@@ -1,11 +1,11 @@
 Change Log:
 
-**4/30/15**
+**5/1/15**
 * Complete re-write of damage simulation. 
 - It is now a discrete, event-driven simulation 
 - Previously it simply calculated the # of attacks over the specified time interval
-- There is a max time of 15 simulation minutes 
-* The length of the simulation is now based on monster health
+- The length of the simulation is now based on monster health. The simulation runs until the primary target is dead, or the max time is exceeded.
+- There is a max time of 15 simulation minutes (default is two minutes). 
 * Rain of Vengeance now implemented as a DoT
 - However, unlike most DoTs, RoV can stack with itself if you cast it multiple times (e.g., using Nat's 2 piece bonus)
 * The simulation will attempt to pick the correct skill based on build for each time step:
@@ -23,10 +23,9 @@ Change Log:
 * Health Globes are picked up based on monster health
 - e.g., if "1" health globe is selected in situational panel, then it is picked up when target is ~50%. If "3" is selected, then they are picked up at ~75%, ~50%, 25% health, etc...
 * Temporarily disabled features (will take some more time to test and implement):
-- Additional targets (only primary is used in caclulations)
-- Fan of Knives
-- Spike Trap
+- Spike Trap (including Helltrapper)
 - Caltrops
+- Area Damage
 
 **4/27/15**
 * Fixed Crashing Rain to use Main Hand Weapon Damage only

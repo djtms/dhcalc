@@ -34,7 +34,6 @@ import com.dawg6.web.sentry.shared.calculator.ProfileHelper;
 import com.dawg6.web.sentry.shared.calculator.Rune;
 import com.dawg6.web.sentry.shared.calculator.Slot;
 import com.dawg6.web.sentry.shared.calculator.TargetSize;
-import com.dawg6.web.sentry.shared.calculator.TargetType;
 import com.dawg6.web.sentry.shared.calculator.Util;
 import com.dawg6.web.sentry.shared.calculator.Version;
 import com.dawg6.web.sentry.shared.calculator.d3api.CareerProfile;
@@ -158,6 +157,7 @@ public class MainPanel extends BasePanel {
 	private FlexTable statTable;
 	private CaptionPanel statTableCaption;
 	private Label timeElapsed;
+	private NumberSpinner timeLimit;
 
 	public MainPanel() {
 		VerticalPanel panel = new VerticalPanel();
@@ -924,8 +924,8 @@ public class MainPanel extends BasePanel {
 		horizontalPanel_19.setSpacing(5);
 
 		Button calcButton = new Button("New button");
-		calcButton.setText("Calculate");
-		calcButton.setTitle("Press to calculate Damage");
+		calcButton.setText("Simulate");
+		calcButton.setTitle("Press to run damage simulation");
 
 		Button legendButton = new Button("New button");
 		legendButton.setText("Legend...");
@@ -1029,7 +1029,16 @@ public class MainPanel extends BasePanel {
 		outputHeader.setWidget(3, 5, eliteDamage);
 		eliteDamage.setStyleName("boldText");
 
-		outputHeader.setWidget(4, 0, calcButton);
+		Label l1 = new Label("Simulation Time Limit (seconds):", false);
+		outputHeader.setWidget(4, 0, l1);
+		
+		timeLimit = new NumberSpinner();
+		timeLimit.setMin(1);
+		timeLimit.setMax(FiringData.MAX_DURATION);
+		timeLimit.setVisibleLength(5);
+		outputHeader.setWidget(4,1,timeLimit);
+		
+		outputHeader.setWidget(4, 2, calcButton);
 
 		Button bpButton = new Button("New button");
 		bpButton.setText("Break Points...");
@@ -1064,24 +1073,6 @@ public class MainPanel extends BasePanel {
 						ApplicationPanel.OK, null);
 			}
 		});
-
-		// for (int i = 1; i <= 3; i++) {
-		// Button spenderButton = new Button("New button");
-		// final String title = String.valueOf(i) + " Spender"
-		// + ((i > 1) ? "s" : "");
-		// spenderButton.setText(title + "...");
-		// horizontalPanel_19.add(spenderButton);
-		// // final SpenderData spenders = new SpenderData(i);
-		//
-		// spenderButton.addClickHandler(new ClickHandler() {
-		//
-		// @Override
-		// public void onClick(ClickEvent event) {
-		// // ApplicationPanel.showDialogBox(title, spenders,
-		// // ApplicationPanel.OK, null);
-		// }
-		// });
-		// }
 
 		outputPanel = new VerticalPanel();
 		verticalPanel_5.add(outputPanel);
@@ -1400,10 +1391,10 @@ public class MainPanel extends BasePanel {
 
 		col = 0;
 
-		Label l1 = new Label("Stat");
-		l1.setStyleName("dpsHeader");
-		l1.setWordWrap(false);
-		statTable.setWidget(0, col++, l1);
+		Label l1a = new Label("Stat");
+		l1a.setStyleName("dpsHeader");
+		l1a.setWordWrap(false);
+		statTable.setWidget(0, col++, l1a);
 
 		Label l2b = new Label("Time");
 		l2b.setStyleName("dpsHeader");
@@ -1453,7 +1444,6 @@ public class MainPanel extends BasePanel {
 		cdrPanel.getBorn().addClickHandler(clickHandler);
 		cdrPanel.getCrimson().addClickHandler(clickHandler);
 		itemPanel.getNumNats().addChangeHandler(handler);
-		// skills.getRovKilled().addChangeHandler(handler);
 
 		paragonPanel.getParagonRCR().addChangeHandler(handler2);
 		rcrPanel.getPridesFall().addClickHandler(clickHandler2);
@@ -1481,7 +1471,6 @@ public class MainPanel extends BasePanel {
 		});
 
 		Button statsButton = new Button("Statistics...");
-		// horizontalPanel_8.add(statsButton);
 
 		firstTimeStats = true;
 
@@ -1574,29 +1563,12 @@ public class MainPanel extends BasePanel {
 			realms.addItem(r.getDisplayName(), r.name());
 		}
 
-		// rune3Label };
 	}
 
 	protected void setBuild(Build build) {
 
 		this.disableListeners = true;
 		situational.setDisableListeners(true);
-
-		// this.sentry.setValue(build.isSentry());
-		// this.setFieldValue(this.sentryRunes, build.getSentryRune().name());
-		//
-		// for (int i = 0; i < skillBoxes.length; i++) {
-		// this.setFieldValue(this.skillBoxes[i], null);
-		// this.setFieldValue(this.runeBoxes[i], Rune.None.name());
-		// }
-		//
-		// int n = 0;
-		//
-		// for (SkillAndRune sk : build.getSkills()) {
-		// this.setFieldValue(this.skillBoxes[n], sk.getSkill().name());
-		// this.setFieldValue(this.runeBoxes[n], sk.getRune().name());
-		// n++;
-		// }
 
 		situational.setDisableListeners(false);
 		this.disableListeners = false;
@@ -1605,21 +1577,6 @@ public class MainPanel extends BasePanel {
 	protected Build getBuild() {
 
 		Build build = new Build();
-		// build.setSentry(this.sentry.getValue());
-		// build.setSentryRune(this.getRune(this.sentryRunes));
-		// build.setSkills(new TreeSet<SkillAndRune>());
-		//
-		// for (int i = 0; i < skillBoxes.length; i++) {
-		// ActiveSkill skill = this.getSkill(skillBoxes[i]);
-		//
-		// if (skill != null) {
-		// Rune rune = this.getRune(runeBoxes[i]);
-		// SkillAndRune sk = new SkillAndRune();
-		// sk.setSkill(skill);
-		// sk.setRune(rune);
-		// build.getSkills().add(sk);
-		// }
-		// }
 
 		return build;
 	}
@@ -1898,13 +1855,13 @@ public class MainPanel extends BasePanel {
 				Label elapsedPctL = (Label) compareTable
 						.getWidget(row + 4, col);
 
-				double wdPct = (data.exportData.data.getWeaponDamage() - baseline.exportData.data
+				double wdPct = (baseline.exportData.data.getWeaponDamage() > 0) ? ((data.exportData.data.getWeaponDamage() - baseline.exportData.data
 						.getWeaponDamage())
-						/ baseline.exportData.data.getWeaponDamage();
-				double dpsPct = (data.exportData.sentryDps - baseline.exportData.sentryDps)
-						/ baseline.exportData.sentryDps;
-				double elapsedPct = (data.exportData.output.duration - baseline.exportData.output.duration)
-						/ baseline.exportData.output.duration;
+						/ baseline.exportData.data.getWeaponDamage()) : 0.0;
+				double dpsPct = (baseline.exportData.sentryDps > 0) ? ((data.exportData.sentryDps - baseline.exportData.sentryDps)
+						/ baseline.exportData.sentryDps) : 0.0;
+				double elapsedPct = (baseline.exportData.output.duration > 0) ? ((data.exportData.output.duration - baseline.exportData.output.duration)
+						/ baseline.exportData.output.duration) : 0.0;
 
 				wdPctL.setText("(" + ((wdPct >= 0) ? "+" : "")
 						+ Util.format(Math.round(wdPct * 1000.0) / 10.0) + "%)");
@@ -2045,13 +2002,6 @@ public class MainPanel extends BasePanel {
 
 		data.version = Version.getVersion();
 
-		// Having a problem with non UTF-8 encoding in these
-		// if (this.career != null)
-		// data.career = this.career;
-		//
-		// if (this.hero != null)
-		// data.hero = this.hero;
-
 		return data;
 	}
 
@@ -2087,7 +2037,6 @@ public class MainPanel extends BasePanel {
 	}
 
 	protected void updateRuneLabel(Anchor label, ListBox skills, ListBox runes) {
-		// Rune rune = this.getRune(runes);
 
 		ActiveSkill skill = ActiveSkill.SENTRY;
 
@@ -2336,15 +2285,6 @@ public class MainPanel extends BasePanel {
 									@Override
 									public void taskCompleted() {
 
-										// Service.getInstance().logData(data,
-										// new DefaultCallback<Void>() {
-										//
-										// @Override
-										// public void doOnSuccess(
-										// Void result) {
-										// // nothing to do
-										// }
-										// });
 									}
 								});
 							}
@@ -2808,6 +2748,7 @@ public class MainPanel extends BasePanel {
 				new Field(this.realms, "Realm", ""),
 				new Field(this.battleTag, "BattleTag", "BnetName"),
 				new Field(this.tagNumber, "BattleTagNumber", "1234"),
+				new Field(this.timeLimit, "TimeLimit", "120"),
 				new Field(this.paragonPanel.getParagonIAS(), "ParagonIas", "0"),
 				new Field(this.paragonPanel.getParagonDexterity(),
 						"ParagonDex", "0"),
@@ -2974,8 +2915,8 @@ public class MainPanel extends BasePanel {
 				new Field(this.situational.getPrimaryTargetHealth(),
 						"PrimaryTargetHealth", String.valueOf(MonsterHealth
 								.getHealth(25, 1, MonsterType.RiftGuardian))),
-				new Field(this.situational.getPrimaryTargetHealth(),
-						"AdditionalTargetHealth", String.valueOf(MonsterHealth
+				new Field(this.situational.getAdditionalTargetsHealth(),
+						"AddTargetHealth", String.valueOf(MonsterHealth
 								.getHealth(25, 1, MonsterType.NonElite))),
 
 				new Field(this.cdrPanel.getAmulet(), "CDR.Amulet", "0"),
@@ -3088,6 +3029,7 @@ public class MainPanel extends BasePanel {
 			this.formData = getFormData();
 
 			// data.setDuration(duration.getValue());
+			data.setTimeLimit(timeLimit.getValue());
 			data.setSkills(skills.getSkills());
 			data.setEquipmentDexterity(calculator.getEquipmentDexterity());
 			data.setParagonCC(paragonPanel.getParagonCC().getValue());
@@ -3316,17 +3258,13 @@ public class MainPanel extends BasePanel {
 
 	private void calculateData() {
 		total = 0.0;
-		nonStacking = 0.0;
 
 		Damage prev = null;
 
 		for (Damage d : damage.damages) {
 
 			try {
-				total += d.totalDamage;
-
-				if (d.nonStacking)
-					nonStacking += d.totalDamage;
+				total += d.actualDamage;
 
 				if (d.type != null) {
 					DamageType type = d.type;
@@ -3344,11 +3282,11 @@ public class MainPanel extends BasePanel {
 
 					if (h == null) {
 						h = new DamageHolder();
-						h.damage = d.totalDamage;
+						h.damage = d.actualDamage;
 						h.attacks = 1;
 						types.put(type, h);
 					} else {
-						h.damage += d.totalDamage;
+						h.damage += d.actualDamage;
 
 						if ((prev.time != d.time)
 								|| !prev.source.equals(d.source)) {
@@ -3358,11 +3296,11 @@ public class MainPanel extends BasePanel {
 
 					if (th == null) {
 						th = new DamageHolder();
-						th.damage = d.totalDamage;
+						th.damage = d.actualDamage;
 						th.attacks = 1;
 						skillDamages.put(source, th);
 					} else {
-						th.damage += d.totalDamage;
+						th.damage += d.actualDamage;
 
 						if ((prev.time != d.time)
 								|| !prev.source.equals(d.source)) {
@@ -3372,11 +3310,11 @@ public class MainPanel extends BasePanel {
 
 					if (sh == null) {
 						sh = new DamageHolder();
-						sh.damage = d.totalDamage;
+						sh.damage = d.actualDamage;
 						sh.attacks = 1;
 						shooterDamages.put(d.shooter, sh);
 					} else {
-						sh.damage += d.totalDamage;
+						sh.damage += d.actualDamage;
 
 						if ((prev.time != d.time)
 								|| !prev.source.equals(d.source)) {
@@ -3393,7 +3331,7 @@ public class MainPanel extends BasePanel {
 
 		}
 
-		double dps = Math.round(total / damage.duration);
+		double dps = (damage.duration > 0) ? Math.round(total / damage.duration) : total;
 
 		this.exportData.sentryDps = dps;
 		this.exportData.totalDamage = total;
@@ -3566,12 +3504,7 @@ public class MainPanel extends BasePanel {
 			}
 
 			if (d.target != null) {
-				String target = d.target.name();
-
-				if (d.target == TargetType.Additional)
-					target += (" (" + d.numAdd + ")");
-
-				damageLog.setWidget(row + 1, col++, new Label(target, false));
+				damageLog.setWidget(row + 1, col++, new Label(d.target.toString(), false));
 			} else {
 				damageLog.setWidget(row + 1, col++, new Label("", false));
 			}
@@ -3722,7 +3655,7 @@ public class MainPanel extends BasePanel {
 			row++;
 		}
 
-		double dps = Math.round(total / damage.duration);
+		double dps = (damage.duration > 0) ? Math.round(total / damage.duration) : total;
 		double aps = data.getSentryAps();
 		BreakPoint bp = BreakPoint.ALL[data.getBp() - 1];
 
@@ -3750,8 +3683,6 @@ public class MainPanel extends BasePanel {
 		}
 
 		row = 1;
-
-		// double dpsActual = total / FiringData.DURATION;
 
 		this.dps.setText(Util.format(Math.round(dps)));
 		this.totalDamage.setText(Util.format(Math.round(total)));
@@ -3859,14 +3790,14 @@ public class MainPanel extends BasePanel {
 		double totalRow = 0;
 
 		for (Damage r : d.damages) {
-			totalRow += r.totalDamage;
+			totalRow += r.actualDamage;
 		}
 
-		double dpsRow = totalRow / d.duration;
-		double baselineDps = baseline / baselineDuration;
+		double dpsRow = (d.duration > 0) ? (totalRow / d.duration) : totalRow;
+		double baselineDps = (baselineDuration > 0) ? (baseline / baselineDuration) : baseline;
 		double duration = d.duration;
-		double pct = (dpsRow - baselineDps) / baselineDps;
-		double pctDuration = (d.duration - baselineDuration) / baselineDuration;
+		double pct = (baselineDps > 0) ? ((dpsRow - baselineDps) / baselineDps) : 0.0;
+		double pctDuration = (baselineDuration > 0) ? ((d.duration - baselineDuration) / baselineDuration) : 0.0;
 
 		int col = 1;
 		((Label) statTable.getWidget(row, col++)).setText(Util.format(Math

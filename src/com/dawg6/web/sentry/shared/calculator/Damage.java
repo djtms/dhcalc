@@ -11,7 +11,6 @@ public class Damage implements Serializable {
 	public DamageSource source;
 	public int index;
 	public double damage;
-	public double totalDamage;
 	public DamageType type;
 	public String note;
 	public String log;
@@ -19,7 +18,6 @@ public class Damage implements Serializable {
 	public long targetHp;
 	public double targetHpPercent;
 	public double actualDamage;
-	public int numAdd;
 	public boolean nonStacking;
 	public double hatred;
 	public int seq;
@@ -37,7 +35,6 @@ public class Damage implements Serializable {
 		d.disc = disc;
 		d.currentDisc = currentDisc;
 		d.damage = damage;
-		d.totalDamage = totalDamage;
 		d.type = type;
 		d.note = note;
 		d.log = log;
@@ -45,7 +42,6 @@ public class Damage implements Serializable {
 		d.targetHp = targetHp;
 		d.targetHpPercent = targetHpPercent;
 		d.actualDamage = actualDamage;
-		d.numAdd = numAdd;
 		d.nonStacking = nonStacking;
 		d.hatred = hatred;
 		d.seq = seq;

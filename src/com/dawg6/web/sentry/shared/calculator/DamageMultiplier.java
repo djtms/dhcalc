@@ -552,10 +552,10 @@ public enum DamageMultiplier {
 
 					TargetType type = state.getData().getTargetType();
 
-					if ((type == TargetType.Primary)
+					if (type.isPrimary()
 							&& !state.getBuffs().isActive(Buff.MfdPrimary))
 						return 0.0;
-					if ((type == TargetType.Additional)
+					if (!type.isPrimary()
 							&& !state.getBuffs().isActive(Buff.MfdAdditional))
 						return 0.0;
 
@@ -597,13 +597,14 @@ public enum DamageMultiplier {
 					return state.getData().isVaxo() ? (0.15 * state.getData()
 							.getVaxoUptime()) : 0.0;
 				}
-			}), AD("Area", DamageAccumulator.Additive,
+			}), AD("Area", DamageAccumulator.Special,
 			"Area Damage (20% chance)", new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return ((state.getData().getNumAdditional() > 0) && (state
-							.getData().getTargetSpacing() <= 10)) ? (0.2 * state
-							.getData().getAreaDamage()) : 0.0;
+					return 0.0;
+//					return ((state.getData().getNumAdditional() > 0) && (state
+//							.getData().getTargetSpacing() <= 10)) ? (0.2 * state
+//							.getData().getAreaDamage()) : 0.0;
 				}
 			}), Calamity("Calamity", DamageAccumulator.Additive,
 			"Calamity Marked for Death bonus (20% while applied)",
@@ -625,8 +626,10 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
+					TargetType type = state.getData().getTargetType();
+
 					return (state.getData().isAmbush() && state.getTargets()
-							.getPrimary().getPercentHealth() >= 0.75) ? 0.4
+							.getTarget(type).getPercentHealth() >= 0.75) ? 0.4
 							: 0.0;
 				}
 			}), Iced(
@@ -639,6 +642,15 @@ public enum DamageMultiplier {
 					return (state.getData().isIceblink() && (state.getData()
 							.getIceblinkLevel() >= 25)) ? (0.1 * state
 							.getData().getPercentSlowedChilled()) : 0.0;
+				}
+			}), DML(
+			"DML",
+			DamageAccumulator.Special,
+			"Dead Man's Legacy (Multishot hits twice when target is below 50-60% health)",
+			new Test<SimulationState, Double>() {
+				@Override
+				public Double getValue(SimulationState state) {
+					return 0.0;
 				}
 			}), SingleOut(
 			"SingleOut",

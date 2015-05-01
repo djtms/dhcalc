@@ -3,6 +3,8 @@ package com.dawg6.web.sentry.shared.calculator;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.Vector;
 
 public class ActionEvent extends Event {
@@ -194,10 +196,13 @@ public class ActionEvent extends Event {
 			}
 
 			if (m4 && (selected.getSkill().getSkillType() == SkillType.Spender)) {
-				applyDamages(state, log, DamageFunction.getDamages(false, true,
+				
+				List<Damage> sList = DamageFunction.getDamages(false, true,
 						"Sentry", new DamageSource(selected.getSkill(),
-								selected.getRune()), state));
+								selected.getRune()), state);
+				applyDamages(state, log, sList);
 				state.setLastSpenderTime(t);
+				dList.addAll(sList);
 			}
 
 			if (mortalEnemy
@@ -222,10 +227,11 @@ public class ActionEvent extends Event {
 			}
 
 			if (state.getBuffs().isActive(Buff.Vengeance)) {
-				// TODO Handle Dark Heart DoT
-				applyDamages(state, log, DamageFunction.getDamages(true, false,
+				List<Damage> vList = DamageFunction.getDamages(true, false,
 						"Player", new DamageSource(ActiveSkill.Vengeance,
-								venRune), state));
+								venRune), state);
+				applyDamages(state, log, vList);
+				dList.addAll(vList);
 			}
 
 			if (n2 && (rov != null)) {
@@ -237,8 +243,16 @@ public class ActionEvent extends Event {
 				}
 			}
 
+			Set<TargetType> targetsHit = new TreeSet<TargetType>();
+			
+			for (Damage d : dList) {
+				if ((d.target != null) && (d.damage > 0) && state.getTargets().getTarget(d.target).isAlive())
+					targetsHit.add(d.target);
+			}
+			
 			// Gem procs
-			applyDamages(state, log, DamageFunction.getDamages(false, false, "Player", null, state));
+			if (!targetsHit.isEmpty())
+				applyDamages(state, log, DamageFunction.getDamages(false, false, "Player", null, state, targetsHit));
 			
 			if (hasOffHand) {
 				this.hand = (this.hand == Hand.MainHand) ? Hand.OffHand

@@ -34,7 +34,7 @@ public class HealthGlobeEvent extends Event {
 	public void execute(EventQueue queue, List<Damage> log,
 			SimulationState state) {
 
-		if ((state.getTargets().getPrimary().getPercentHealth() <= nextHealthHpGlobe)
+		if ((state.getTargets().getTarget(TargetType.Primary).getPercentHealth() <= nextHealthHpGlobe)
 				&& (state.getHatred() < 50.0) && !state.getBuffs().isActive(Buff.Seethe)) {
 
 			nextHealthHpGlobe -= healthGlobeHpInterval;

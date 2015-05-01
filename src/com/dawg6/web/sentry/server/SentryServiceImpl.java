@@ -348,7 +348,7 @@ public class SentryServiceImpl extends RemoteServiceServlet implements
 		double e = 1.0 + data.getTotalEliteDamage();
 
 		for (Damage d : damage.damages) {
-			total += d.totalDamage;
+			total += d.actualDamage;
 			// System.out.println(d.log);
 		}
 
