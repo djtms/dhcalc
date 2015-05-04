@@ -1,11 +1,11 @@
-<%@ page import="com.dawg6.web.sentry.server.ClientBuffer"%>
+<%@ page import="com.dawg6.web.dhcalc.server.ClientBuffer"%>
 <%@ page import="java.util.Map"%>
-<%@ page import="com.dawg6.web.sentry.shared.calculator.d3api.*"%>
-<%@ page import="com.dawg6.web.sentry.server.IO"%>
-<%@ page import="com.dawg6.web.sentry.server.util.ServerUtils"%>
-<%@ page import="com.dawg6.web.sentry.server.Cache"%>
-<%@ page import="com.dawg6.web.sentry.server.db.couchdb.CouchDBSentryParameters"%>
-<%@ page import="com.dawg6.web.sentry.server.SentryServiceImpl"%>
+<%@ page import="com.dawg6.web.dhcalc.shared.calculator.d3api.*"%>
+<%@ page import="com.dawg6.web.dhcalc.server.IO"%>
+<%@ page import="com.dawg6.web.dhcalc.server.util.ServerUtils"%>
+<%@ page import="com.dawg6.web.dhcalc.server.Cache"%>
+<%@ page import="com.dawg6.web.dhcalc.server.db.couchdb.CouchDBDHCalcParameters"%>
+<%@ page import="com.dawg6.web.dhcalc.server.DHCalcServiceImpl"%>
 
 <%
 	Runtime runtime = Runtime.getRuntime();
@@ -19,13 +19,13 @@
 	if ((clear != null) && (clear.trim().length() > 0)) {
 
 		if (clear.equals("all")) {
-			ClientBuffer.getInstance().clear();
+	ClientBuffer.getInstance().clear();
 		} else if (clear.equals("itemCache")) {
-			IO.getInstance().clearItemCache();
+	IO.getInstance().clearItemCache();
 		} else if (clear.equals("parameterCache")) {
-			CouchDBSentryParameters.getInstance().reloadCache();
+	CouchDBDHCalcParameters.getInstance().reloadCache();
 		} else {
-			ClientBuffer.getInstance().get(clear);
+	ClientBuffer.getInstance().get(clear);
 		}
 %>
 <script>
@@ -36,15 +36,17 @@
 %>
 <html>
 <meta http-equiv="expires" content="0">
-<title>Sentry Calc Admin page</title>
+<link rel="shortcut icon" href="demonhunter_female.ico?v1" type="image/x-icon">
+<link rel="icon" href="demonhunter_female.ico?v1" type="image/x-icon">
+<title>DH DPS Calculator Admin page</title>
 <body>
-	Production Mode: <%= ServerUtils.isProductionMode() %>
+	Production Mode: <%=ServerUtils.isProductionMode()%>
 	<br/>
 	<br/>
 	Client Cache:
 	<%
-	if (ClientBuffer.getInstance().inspect().size() > 0) {
-%>
+		if (ClientBuffer.getInstance().inspect().size() > 0) {
+	%>
 	<form action="admin.jsp" method="post">
 		<input type="hidden" name="clear" value="all" /> <input type="submit"
 			name="submit" value="Clear" />
@@ -58,17 +60,17 @@
 	<table border="0">
 		<tr>
 			<td>JVM Max Memory:</td>
-			<td><%=SentryServiceImpl.DECIMAL_FORMAT.format((double) runtime
+			<td><%=DHCalcServiceImpl.DECIMAL_FORMAT.format((double) runtime
 					.maxMemory() / Mb)%>Mb</td>
 		</tr>
 		<tr>
 			<td>JVM Used Memory:</td>
-			<td><%=SentryServiceImpl.DECIMAL_FORMAT.format((double) runtime
+			<td><%=DHCalcServiceImpl.DECIMAL_FORMAT.format((double) runtime
 					.totalMemory() / Mb)%>Mb</td>
 		</tr>
 		<tr>
 			<td>JVM Free Memory:</td>
-			<td><%=SentryServiceImpl.DECIMAL_FORMAT.format((double) runtime
+			<td><%=DHCalcServiceImpl.DECIMAL_FORMAT.format((double) runtime
 					.freeMemory() / Mb)%>Mb</td>
 		</tr>
 	</table>
@@ -135,19 +137,19 @@
 		</tr>
 		<tr>
 			<td>Hits:</td>
-			<td><%=SentryServiceImpl.DECIMAL_FORMAT.format(hits)%></td>
-			<td><%=SentryServiceImpl.DECIMAL_FORMAT.format(Math
+			<td><%=DHCalcServiceImpl.DECIMAL_FORMAT.format(hits)%></td>
+			<td><%=DHCalcServiceImpl.DECIMAL_FORMAT.format(Math
 					.round(hitPercent * 10000.0) / 100.0)%>%</td>
 		</tr>
 		<tr>
 			<td>Misses:</td>
-			<td><%=SentryServiceImpl.DECIMAL_FORMAT.format(misses)%></td>
-			<td><%=SentryServiceImpl.DECIMAL_FORMAT.format(Math
+			<td><%=DHCalcServiceImpl.DECIMAL_FORMAT.format(misses)%></td>
+			<td><%=DHCalcServiceImpl.DECIMAL_FORMAT.format(Math
 					.round(missPercent * 10000.0) / 100.0)%>%</td>
 		</tr>
 		<tr>
 			<td># Requests:</td>
-			<td colspan="2"><%= requests %></td>
+			<td colspan="2"><%=requests%></td>
 		</tr>
 		<tr>
 			<td>Avg Block Time:</td>
@@ -166,7 +168,7 @@
 			<th>Value</th>
 		</tr>
 		<%
-			Map<String, String> map = CouchDBSentryParameters.getInstance().copy();
+			Map<String, String> map = CouchDBDHCalcParameters.getInstance().copy();
 
 			for (Map.Entry<String, String> e : map.entrySet()) {
 		%>

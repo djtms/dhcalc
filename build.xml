@@ -1,6 +1,6 @@
-<project name="sentry-web" basedir="." default="default">
+<project name="dhcalc" basedir="." default="default">
 
-	<target name="default" depends="buildwar"></target>
+	<target name="default" depends="build-war"></target>
 
 	<property name="src" value="src" />
 	<property name="bin" value="bin" />
@@ -12,20 +12,19 @@
 	<property name="classes" value="${webinf-dir}/classes" />
 	<property name="lib-dir" location="./${lib}" />
 	<property name="servlet-api.jar" location="${lib-dir}/servlet-api.jar" />
-	<property name="sentry-war" value="sentry-web.war" />
+	<property name="web-war" value="dhcalc.war" />
 	<property name="webxml" value="${webinf-dir}/web.xml" />
-	<property name="sentry-jar" value="${webinf-lib-dir}/sentry-web.jar" />
+	<property name="external-jar" value="${webinf-lib-dir}/dhcalc.jar" />
 
-	<target name="sentry-jar">
-		<jar destfile="${sentry-jar}">
+	<target name="external-jar">
+		<jar destfile="${external-jar}">
 			<fileset dir="../dawg6-common/bin" />
-			<fileset dir="../dawg6-aws-common/bin" />
 			<fileset dir="../dawg6-gwt-common/bin" />
 		</jar>
 	</target>
 
-	<target name="buildwar" depends="sentry-jar">
-		<war destfile="${sentry-war}" webxml="${webxml}">
+	<target name="build-war" depends="external-jar">
+		<war destfile="${web-war}" webxml="${webxml}">
 			<fileset dir="${war-dir}">
 				<exclude name="${webxml}" />
 			</fileset>
@@ -43,7 +42,7 @@
 		</delete>
 	</target>
 	
-	<target name="compile" depends="clean,sentry-jar">
+	<target name="compile" depends="clean,external-jar">
 		<javac srcdir="${src}" destdir="${classes}">
 			<classpath>
 			    <fileset dir="${webinf-lib-dir}" includes="*.jar"/>

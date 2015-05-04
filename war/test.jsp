@@ -1,6 +1,6 @@
-<%@ page import="com.dawg6.web.sentry.shared.calculator.ActiveSkill"%>
-<%@ page import="com.dawg6.web.sentry.shared.calculator.Rune"%>
-<%@ page import="com.dawg6.web.sentry.shared.calculator.SkillType"%>
+<%@ page import="com.dawg6.web.dhcalc.shared.calculator.ActiveSkill"%>
+<%@ page import="com.dawg6.web.dhcalc.shared.calculator.Rune"%>
+<%@ page import="com.dawg6.web.dhcalc.shared.calculator.SkillType"%>
 
 <html>
 <script src="tooltips.js?v=12"></script>

@@ -1,5 +1,9 @@
 Change Log:
 
+**5/4/15**
+- Changed name of web application (it's not just a sentry dps calculator)
+- Added link to source code in About dialog
+
 **5/1/15**
 * Complete re-write of damage simulation. 
 - It is now a discrete, event-driven simulation 

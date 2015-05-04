@@ -1,7 +1,7 @@
-<%@ page import="com.dawg6.web.sentry.shared.calculator.d3api.*"%>
-<%@ page import="com.dawg6.web.sentry.server.SentryServiceImpl"%>
-<%@ page import="com.dawg6.web.sentry.server.JsonServlet"%>
-<%@ page import="com.dawg6.web.sentry.server.IO"%>
+<%@ page import="com.dawg6.web.dhcalc.shared.calculator.d3api.*"%>
+<%@ page import="com.dawg6.web.dhcalc.server.DHCalcServiceImpl"%>
+<%@ page import="com.dawg6.web.dhcalc.server.JsonServlet"%>
+<%@ page import="com.dawg6.web.dhcalc.server.IO"%>
 <%@ page import="java.util.Map"%>
 <%@ page import="java.net.URLDecoder"%>
 <%@ page import="java.net.URLEncoder"%>
@@ -11,8 +11,8 @@
 
 <html>
 <meta http-equiv="expires" content="0">
-<link rel="shortcut icon" href="sentry-new.ico" type="image/x-icon">
-<link rel="icon" href="sentry-new.ico" type="image/x-icon">
+<link rel="shortcut icon" href="demonhunter_female.ico?v1" type="image/x-icon">
+<link rel="icon" href="demonhunter_female.ico?v1" type="image/x-icon">
 <link rel="stylesheet" type="text/css" media="all"
 	href="http://us.battle.net/d3/static/local-common/css/common-game-site.min.css?v=58-80" />
 <link rel="stylesheet" type="text/css" media="all"
@@ -31,7 +31,7 @@
 
 <%
 	try {
-		SentryServiceImpl service = new SentryServiceImpl();
+		DHCalcServiceImpl service = new DHCalcServiceImpl();
 
 		String realmName = request.getParameter("realm");
 		String profile = request.getParameter("profile");
@@ -40,29 +40,29 @@
 		Realm realm = null;
 
 		if (realmName != null)
-			realm = Realm.valueOf(realmName);
+	realm = Realm.valueOf(realmName);
 
 		if ((realm == null) || (profile == null)
-				|| (profile.trim().length() == 0) || (tag == null)
-				|| (tag.trim().length() == 0) || (id == null)
-				|| (id.trim().length() == 0))
+		|| (profile.trim().length() == 0) || (tag == null)
+		|| (tag.trim().length() == 0) || (id == null)
+		|| (id.trim().length() == 0))
 
 		{
-			throw new RuntimeException("Missing Field Data");
+	throw new RuntimeException("Missing Field Data");
 		} else {
 
-			profile = URLDecoder.decode(profile, "UTF-8");
-			String encodedProfile = URLEncoder.encode(profile, "UTF-8");
+	profile = URLDecoder.decode(profile, "UTF-8");
+	String encodedProfile = URLEncoder.encode(profile, "UTF-8");
 
-			Logger.getLogger("paperdoll.jsp").log(
-					Level.INFO,
-					"Profile: " + realm + "/" + profile + "-" + tag
-							+ "/" + id);
+	Logger.getLogger("paperdoll.jsp").log(
+			Level.INFO,
+			"Profile: " + realm + "/" + profile + "-" + tag
+					+ "/" + id);
 
-			CareerProfile career = service.getProfile(realm, profile,
-					Integer.valueOf(tag));
-			HeroProfile hero = service.getHero(realm, profile,
-					Integer.valueOf(tag), Integer.valueOf(id));
+	CareerProfile career = service.getProfile(realm, profile,
+			Integer.valueOf(tag));
+	HeroProfile hero = service.getHero(realm, profile,
+			Integer.valueOf(tag), Integer.valueOf(id));
 %>
 <title><%=profile%>-<%=tag%> <%=hero.name%> : Level <%=hero.level%>
 	(<%=hero.paragonLevel%>) <%=hero.hardcore ? "Hardcore " : ""%><%=hero.seasonal ? "Seasonal" : ""%></title>

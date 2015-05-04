@@ -6,28 +6,28 @@
 
 	<!-- Servlets -->
 	<servlet>
-		<servlet-name>sentryServlet</servlet-name>
-		<servlet-class>com.dawg6.web.sentry.server.SentryServiceImpl</servlet-class>
+		<servlet-name>dhcalcServlet</servlet-name>
+		<servlet-class>com.dawg6.web.dhcalc.server.DHCalcServiceImpl</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>saveServlet</servlet-name>
-		<servlet-class>com.dawg6.web.sentry.server.FileSaveServlet</servlet-class>
+		<servlet-class>com.dawg6.web.dhcalc.server.FileSaveServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>loadServlet</servlet-name>
-		<servlet-class>com.dawg6.web.sentry.server.FileLoadServlet</servlet-class>
+		<servlet-class>com.dawg6.web.dhcalc.server.FileLoadServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>versionServlet</servlet-name>
-		<servlet-class>com.dawg6.web.sentry.server.VersionServlet</servlet-class>
+		<servlet-class>com.dawg6.web.dhcalc.server.VersionServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>jsonServlet</servlet-name>
-		<servlet-class>com.dawg6.web.sentry.server.JsonServlet</servlet-class>
+		<servlet-class>com.dawg6.web.dhcalc.server.JsonServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>Log4JInitServlet</servlet-name>
-		<servlet-class>com.dawg6.web.sentry.server.Log4JInitServlet</servlet-class>
+		<servlet-class>com.dawg6.web.dhcalc.server.Log4JInitServlet</servlet-class>
 		<init-param>
 			<param-name>log4j-properties-location</param-name>
 			<param-value>/WEB-INF/log4j.xml</param-value>
@@ -35,8 +35,8 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>sentryServlet</servlet-name>
-		<url-pattern>/sentry_web/sentry</url-pattern>
+		<servlet-name>dhcalcServlet</servlet-name>
+		<url-pattern>/dhcalc/dhcalc</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>saveServlet</servlet-name>
@@ -54,12 +54,8 @@
 		<servlet-name>jsonServlet</servlet-name>
 		<url-pattern>/json</url-pattern>
 	</servlet-mapping>
-	<!-- <servlet> <servlet-name>fetchServlet</servlet-name> <servlet-class>com.dawg6.web.sentry.server.FetchServlet</servlet-class> 
-		</servlet> <servlet-mapping> <servlet-name>fetchServlet</servlet-name> <url-pattern>/d3/en/tooltip/item/*</url-pattern> 
-		</servlet-mapping> -->
-	<!-- Default page to serve -->
 	<welcome-file-list>
-		<welcome-file>Sentry_web.html</welcome-file>
+		<welcome-file>dhcalc.html</welcome-file>
 	</welcome-file-list>
 	<system-properties>
 		<property name="java.util.logging.config.file" value="WEB-INF/logging.properties" />

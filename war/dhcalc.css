@@ -1,0 +1,111 @@
+.gwt-DialogBox {
+	
+}
+
+.gwt-DialogBox .dialogContent {
+	
+}
+
+.headerRow {
+	font-weight: bold;
+	background-color: #6E6E6E
+}
+
+.boldText {
+	font-weight: bold;
+}
+
+.outputTable {
+	border-collapse: collapse;
+	border: 1px solid black;
+}
+
+.breakpointTable {
+	border-collapse: collapse;
+	border-spacing: 2px;
+	border: 1px solid black;
+	text-align: center;
+}
+
+.statsTable { border-collapse: collapse; border-spacing: 10px; border: 1px solid #839E99; 
+background: #f1f8ee; font: .9em/1.2em Georgia, "Times New Roman", Times, serif; color: #033; }
+.statsTable caption { font-size: 1.3em; font-weight: bold; text-align: left; padding: 1em 4px; }
+.statsTable td, th { padding: 3px 3px .75em 3px; line-height: 1.3em; }
+.statsTable th { background: #839E99; color: #fff; font-weight: bold; text-align: left; padding-right: .5em; vertical-align: top; }
+.statsTable thead th { background: #2C5755; text-align: center; }
+.statsTable .odd td { background: #DBE6DD; }
+.statsTable .odd th { background: #6E8D88; }
+.statsTable .right { text-align: right; }
+.statsTable .center { text-align: center; }
+.statsTable .left { text-align: left; }
+.statsTable td a, td a:link { color: #325C91; }
+.statsTable td a:visited { color: #466C8E; }
+.statsTable td a:hover, td a:focus { color: #1E4C94; }
+.statsTable th a, td a:active { color: #fff; }
+.statsTable tfoot th, tfoot td { background: #2C5755; color: #fff; }
+.statsTable th + td { padding-left: .5em; }
+
+.dpsCol {
+	text-align: right;
+}
+
+.dpsHeader {
+	text-align: center;
+}
+
+.notes {
+	text-align: left;
+}
+
+.oddRow {
+	background-color: #BDBDBD
+}
+
+.evenRow {
+	background-color: #FFFFFF
+}
+
+.gwt-Anchor {
+	color: Blue;
+ 	border-bottom: 1px solid Blue;
+ }
+
+.gwt-Anchor:visited {
+	color: Blue;
+ 	border-bottom: 1px solid Blue;
+}
+
+.gwt-Anchor:link {
+	color: Blue;
+ 	border-bottom: 1px solid Blue;
+}
+
+.gwt-Anchor:active {
+	color: Blue;
+ 	border-bottom: 1px solid Blue;
+}
+
+.gwt-Anchor:hover {
+	color: Green;
+ 	border-bottom: 1px solid Green;
+}
+
+.spinner {
+	border: 1px solid #CCC;
+	background: #CCC;
+}
+
+.spinnerBox {
+	height: 18px;
+}
+
+.spinnerUpButton, .spinnerDownButton {
+	height: 24px;
+	width: 24px;
+}
+
+.spinnerUpButton {
+}
+
+.spinnerDownButton {
+}

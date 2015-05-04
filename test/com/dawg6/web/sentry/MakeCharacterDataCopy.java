@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 
-import com.dawg6.web.sentry.shared.calculator.CharacterData;
+import com.dawg6.web.dhcalc.shared.calculator.CharacterData;
 
 public class MakeCharacterDataCopy {
 
