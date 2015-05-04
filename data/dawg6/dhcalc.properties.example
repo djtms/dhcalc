@@ -1,0 +1,10 @@
+#This file must be located in ${user.home}/dawg6
+#
+# Blizzard API KEY
+com.dawg6.dhcalc.api_key=
+
+# If true, use development mode
+com.dawg6.dhcalc.devmode=true
+
+# IP address of Database
+com.dawg6.dhcalc.db=127.0.0.1

@@ -1,4 +1,4 @@
-package com.dawg6.web.sentry;
+package com.dawg6.web.dhcalc;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -9,7 +9,7 @@ import java.util.Vector;
 
 import com.dawg6.web.dhcalc.shared.calculator.CharacterData;
 
-public class MakeCharacterDataCopy {
+public class TestApp {
 
 	public static void main(String[] args) throws Exception {
 		Field[] fields = CharacterData.class.getDeclaredFields();
