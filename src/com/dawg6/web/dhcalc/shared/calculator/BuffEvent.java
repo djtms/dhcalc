@@ -26,8 +26,8 @@ public class BuffEvent extends Event {
 		if (!test(state)) {
 			this.time = queue.nextTime(this.time);
 		} else {
-			this.time += holder.getDuration();
-			state.getBuffs().set(holder.getBuff(), this.time);
+			state.getBuffs().set(holder.getBuff(), this.time + holder.getDuration());
+			this.time += holder.getCd();
 			
 			updateState(state);
 			

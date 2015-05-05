@@ -1,5 +1,8 @@
 Change Log:
 
+**5/5/15**
+- Fixed cooldown for other player buffs
+
 **5/4/15**
 - Changed name of web application (it's not just a sentry dps calculator)
 - Added link to source code in About dialog
