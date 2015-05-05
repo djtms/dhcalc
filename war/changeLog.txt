@@ -3,6 +3,8 @@ Change Log:
 **5/5/15**
 - Fixed cooldown for other player buffs
 - Moved To-Do list to GitHub (https://github.com/dawg6/dhcalc/issues)
+- Fixed import of Hero Level
+- Fixed display of weapon damage on main panel
 
 **5/4/15**
 - Changed name of web application (it's not just a sentry dps calculator)

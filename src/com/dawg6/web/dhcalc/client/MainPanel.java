@@ -1861,7 +1861,7 @@ public class MainPanel extends BasePanel {
 
 			bp.setText(String.valueOf(data.exportData.bp));
 			wd.setText(Util.format(Math.round(data.exportData.data
-					.getWeaponDamage())));
+					.getWeaponDamage() * 10.0) / 10.0));
 			dps.setText(Util.format(Math.round(data.exportData.sentryDps)));
 			elapsed.setText(Util.format(Math
 					.round(data.exportData.output.duration * 100.0) / 100.0));
@@ -3240,6 +3240,7 @@ public class MainPanel extends BasePanel {
 					.getValue() / 100.0);
 
 			ProfileHelper.updateWeaponDamage(data);
+			this.avgWeaponDamage.setText(Util.format(Math.round(data.getWeaponDamage() * 10.0) / 10.0));
 
 			try {
 				this.damage = FiringData.calculateDamages(data);

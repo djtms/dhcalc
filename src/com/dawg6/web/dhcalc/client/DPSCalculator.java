@@ -938,6 +938,7 @@ public class DPSCalculator extends BasePanel {
 	public void importHero(String server, String profile, int tag, int id,
 			CharacterData data) {
 
+		this.heroLevel.setValue(data.getHeroLevel());
 		this.mainHand.setWeaponTypeEnum(data.getWeaponType());
 		this.offHand.setWeaponTypeEnum(data.getOffHand_weaponType());
 

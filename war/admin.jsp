@@ -35,7 +35,7 @@
 	}
 %>
 <html>
-<meta http-equiv="expires" content="0">
+<meta http-equiv="expires" content="-1">
 <link rel="shortcut icon" href="demonhunter_female.ico?v1" type="image/x-icon">
 <link rel="icon" href="demonhunter_female.ico?v1" type="image/x-icon">
 <title>DH DPS Calculator Admin page</title>
