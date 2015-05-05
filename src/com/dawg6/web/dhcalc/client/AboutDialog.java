@@ -134,7 +134,7 @@ public class AboutDialog extends ApplicationPanel {
 		Anchor anchor_4 = new Anchor("New label");
 		anchor_4.setText("To-do List");
 		anchor_4.setTarget("_blank");
-		anchor_4.setHref("todo.txt?v2");
+		anchor_4.setHref("https://github.com/dawg6/dhcalc/issues");
 		horizontalPanel_4.add(anchor_4);
 		flexTable.getCellFormatter().setHorizontalAlignment(7, 0, HasHorizontalAlignment.ALIGN_CENTER);
 

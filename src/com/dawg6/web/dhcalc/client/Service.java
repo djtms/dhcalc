@@ -273,7 +273,7 @@ public class Service implements DHCalcServiceAsync {
 			@Override
 			public void execute() {
 				RequestBuilder builder = new RequestBuilder(RequestBuilder.GET,
-						GWT.getHostPageBaseURL() + "version");
+						GWT.getHostPageBaseURL() + "version?v2");
 
 				final VersionCheck result = new VersionCheck();
 
@@ -329,10 +329,6 @@ public class Service implements DHCalcServiceAsync {
 	public static native void forceReload() /*-{
 		$wnd.location.reload(true);
 	}-*/;
-
-	public static native String makeRequest(String url) /*-{
-														
-														}-*/;
 
 	@Override
 	public void logData(final CharacterData data, final AsyncCallback<Void> callback) {

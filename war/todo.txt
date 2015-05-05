@@ -1,14 +1,3 @@
-**TO DO:**
+TO-DO List has been moved to Git Hub:
 
-* Re-enable currently disabled features:
-- Spike Trap (including Helltrapper)
-- Caltrops
-- Area Damage
-- player/build statistics
-
-* Implement breakpoints for Strafe/Rapid Fire
-* Add Simplicity Strength gem
-* Add Pierce mechanics
-* Add Rapid Fire mechanics
-* Add support for ruby socketed in weapon(s)
-* Add support for more than two spenders/generators
+https://github.com/dawg6/dhcalc/issues
