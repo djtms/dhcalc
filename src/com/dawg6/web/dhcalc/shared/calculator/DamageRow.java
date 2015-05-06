@@ -133,6 +133,7 @@ public class DamageRow {
 		this.multipliers.add(DamageMultiplier.OdysseysEnd);
 		this.multipliers.add(DamageMultiplier.Wolf);
 		this.multipliers.add(DamageMultiplier.Bbv);
+		this.multipliers.add(DamageMultiplier.TW);
 		this.multipliers.add(DamageMultiplier.Paranoia);
 		this.multipliers.add(DamageMultiplier.Piranhas);
 		this.multipliers.add(DamageMultiplier.InnerSanctuary);

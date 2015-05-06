@@ -27,14 +27,12 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.SimpleCheckBox;
 
 public class DPSCalculator extends BasePanel {
 	private final NumberSpinner minJewelDamage;
@@ -47,7 +45,6 @@ public class DPSCalculator extends BasePanel {
 	private final NumberSpinner maxJewelDamage;
 	private final Label actualCC;
 	private final Label actualCD;
-	private final NumberSpinner tntPercent;
 	private final Label petAps;
 	private final Label breakpoint;
 	private final Label sentryAps;
@@ -65,24 +62,9 @@ public class DPSCalculator extends BasePanel {
 	private double petIasValue;
 	private final Label prevBP;
 	private boolean disableListeners;
-	private final ParagonPanel paragonPanel;
-	private final BuffPanel buffPanel;
-	private final NumberSpinner gogokStacks;
-	private final SimpleCheckBox tnt;
-	private final SimpleCheckBox gogok;
 	private final Label sentryAttacks;
 	private final Label sentryDps;
 	private double sentryDpsValue;
-	private final SimpleCheckBox painEnhancer;
-	private final NumberSpinner gogokLevel;
-	private final NumberSpinner painEnhancerLevel;
-	private final NumberSpinner painEnhancerStacks;
-	private final SimpleCheckBox bbv;
-	private final DoubleSpinner bbvUptime;
-	private final SimpleCheckBox retribution;
-	private final SimpleCheckBox valor;
-	private final DoubleSpinner valorUptime;
-	private final DoubleSpinner retributionUptime;
 	private double buffIas;
 	private double focusedMind;
 	private double gogokIas;
@@ -91,10 +73,14 @@ public class DPSCalculator extends BasePanel {
 	private final NumberSpinner heroLevel;
 	private final WeaponPanel mainHand;
 	private final WeaponPanel offHand;
-	private final PassivesPanel passives;
+	private final MainPanel main;
+	private double averageDamage;
+	private double offHand_averageDamage;
 
-	public DPSCalculator() {
+	public DPSCalculator(MainPanel main) {
 
+		this.main = main;
+		
 		ChangeHandler handler = new ChangeHandler() {
 
 			@Override
@@ -120,17 +106,14 @@ public class DPSCalculator extends BasePanel {
 		
 		mainHand = new WeaponPanel("Main Hand");
 		grid.setWidget(0, 0, mainHand);
-		mainHand.setWidth("100%");
-		
+		grid.getFlexCellFormatter().setColSpan(0, 0, 2);
+
 		offHand = new WeaponPanel("Off Hand");
 		grid.setWidget(1, 0, offHand);
-		offHand.setWidth("100%");
-
-		FlexTable flexTable_3 = new FlexTable();
-		grid.setWidget(2, 0, flexTable_3);
+		grid.getFlexCellFormatter().setColSpan(1, 0, 2);
 
 		CaptionPanel cptnpnlNewPanel_2 = new CaptionPanel("Equipment");
-		flexTable_3.setWidget(0, 0, cptnpnlNewPanel_2);
+		grid.setWidget(2, 0, cptnpnlNewPanel_2);
 
 		FlexTable flexTable_2 = new FlexTable();
 		flexTable_2.setCellPadding(2);
@@ -167,31 +150,6 @@ public class DPSCalculator extends BasePanel {
 		equipIAS.setVisibleLength(6);
 		equipIAS.addChangeHandler(handler);
 
-		Anchor lblPetAttackSpeed = new Anchor("Tasker and Theo (%):");
-		lblPetAttackSpeed.setTarget("_blank");
-		lblPetAttackSpeed
-				.setHref("http://us.battle.net/d3/en/item/tasker-and-theo");
-		lblPetAttackSpeed.setText("Tasker and Theo:");
-		flexTable_2.setWidget(2, 0, lblPetAttackSpeed);
-		lblPetAttackSpeed.setWordWrap(false);
-
-		tnt = new SimpleCheckBox();
-		flexTable_2.setWidget(2, 1, tnt);
-
-		Label label_3 = new Label(" % ");
-		label_3.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		flexTable_2.setWidget(2, 2, label_3);
-
-		tntPercent = new NumberSpinner();
-		tntPercent.box
-				.setTitle("Increased Pet Attack speed from Tasker and Theo");
-		flexTable_2.setWidget(2, 3, tntPercent);
-		tntPercent.setVisibleLength(6);
-		tntPercent.setText("0");
-		tntPercent.addChangeHandler(handler);
-		this.tntPercent.setMax(40);
-		this.tntPercent.setMax(50);
-
 		Label lblNewLabel_4 = new Label("Crit Chance (%):");
 		flexTable_2.setWidget(3, 0, lblNewLabel_4);
 		lblNewLabel_4.setWordWrap(false);
@@ -218,49 +176,14 @@ public class DPSCalculator extends BasePanel {
 		FlexTable flexTable_7 = new FlexTable();
 		grid.setWidget(2, 1, flexTable_7);
 
-		paragonPanel = new ParagonPanel();
-		flexTable_7.setWidget(0, 0, paragonPanel);
-
-		paragonPanel.getParagonIAS().addChangeHandler(handler);
-		paragonPanel.getParagonDexterity().addChangeHandler(handler);
-		paragonPanel.getParagonCC().addChangeHandler(handler);
-		paragonPanel.getParagonCHD().addChangeHandler(handler);
-
 		flexTable_7.getCellFormatter().setVerticalAlignment(0, 0,
 				HasVerticalAlignment.ALIGN_TOP);
 		flexTable_7.getCellFormatter().setHorizontalAlignment(0, 0,
 				HasHorizontalAlignment.ALIGN_LEFT);
 
-		passives = new PassivesPanel();
-		flexTable_7.setWidget(2, 0, passives);
-		flexTable_7.getCellFormatter().setVerticalAlignment(2, 0,
-				HasVerticalAlignment.ALIGN_TOP);
-		flexTable_7.getCellFormatter().setHorizontalAlignment(2, 0,
-				HasHorizontalAlignment.ALIGN_LEFT);
-		passives.addChangeHandler(handler);
-		
-		FlexTable flexTable6 = new FlexTable();
-		flexTable6.setWidth("100%");
-		flexTable_3.setWidget(2, 0, flexTable6);
-		
-		CaptionPanel cptnpnlNewPanel_4 = new CaptionPanel("Character");
-		cptnpnlNewPanel_4.setHeight("100%");
-		flexTable6.setWidget(0, 0, cptnpnlNewPanel_4);
-
-		buffPanel = new BuffPanel();
-		flexTable6.setWidget(0, 1, buffPanel);
-		flexTable6.getCellFormatter().setVerticalAlignment(0, 1,
-				HasVerticalAlignment.ALIGN_TOP);
-		flexTable6.getCellFormatter().setHorizontalAlignment(0, 1,
-				HasHorizontalAlignment.ALIGN_LEFT);
-		flexTable6.getCellFormatter().setVerticalAlignment(0, 0,
-				HasVerticalAlignment.ALIGN_TOP);
-		flexTable6.getCellFormatter().setHorizontalAlignment(0, 0,
-				HasHorizontalAlignment.ALIGN_LEFT);
-
-		buffPanel.getAnatomy().addClickHandler(clickHandler);
-		buffPanel.getFocusedMind().addClickHandler(clickHandler);
-		buffPanel.getHysteria().addClickHandler(clickHandler);
+		CaptionPanel cptnpnlNewPanel_4 = new CaptionPanel("Hero");
+		grid.setWidget(2, 1, cptnpnlNewPanel_4);
+		grid.getCellFormatter().setVerticalAlignment(2, 1, HasVerticalAlignment.ALIGN_TOP);
 
 		FlexTable flexTable_4 = new FlexTable();
 		flexTable_4.setCellPadding(2);
@@ -289,152 +212,11 @@ public class DPSCalculator extends BasePanel {
 		flexTable_4.setWidget(1, 1, dexterity);
 		dexterity.setVisibleLength(6);
 
-		CaptionPanel captionPanel = new CaptionPanel("Other Player Buffs");
-		flexTable_3.setWidget(1, 0, captionPanel);
-
-		FlexTable flexTable_8 = new FlexTable();
-		flexTable_8.setCellPadding(2);
-		captionPanel.setContentWidget(flexTable_8);
-
-		Anchor anchor_1 = new Anchor("Gogok of Swiftness");
-		anchor_1.setWordWrap(false);
-		anchor_1.setTarget("_blank");
-		anchor_1.setHref("http://us.battle.net/d3/en/item/gogok-of-swiftness");
-		flexTable_8.setWidget(0, 0, anchor_1);
-
-		gogok = new SimpleCheckBox();
-		flexTable_8.setWidget(0, 1, gogok);
-
-		Label label_5 = new Label("Level:");
-		label_5.setWordWrap(false);
-		flexTable_8.setWidget(0, 2, label_5);
-
-		gogokLevel = new NumberSpinner();
-		gogokLevel.setVisibleLength(3);
-		flexTable_8.setWidget(0, 3, gogokLevel);
-
-		Label lblStacks = new Label("# stacks:");
-		lblStacks.setWordWrap(false);
-		flexTable_8.setWidget(0, 4, lblStacks);
-
-		gogokStacks = new NumberSpinner();
-		gogokStacks.box
-				.setTitle("Average # of stacks of Gogok of Swiftness");
-		gogokStacks.setVisibleLength(3);
-		flexTable_8.setWidget(0, 5, gogokStacks);
-
-		Anchor anchor_2 = new Anchor("Pain Enhancer");
-		anchor_2.setWordWrap(false);
-		anchor_2.setTarget("_blank");
-		anchor_2.setHref("http://us.battle.net/d3/en/item/pain-enhancer");
-		flexTable_8.setWidget(1, 0, anchor_2);
-
-		painEnhancer = new SimpleCheckBox();
-		flexTable_8.setWidget(1, 1, painEnhancer);
-
-		Label label_6 = new Label("Level:");
-		label_6.setWordWrap(false);
-		flexTable_8.setWidget(1, 2, label_6);
-
-		painEnhancerLevel = new NumberSpinner();
-		painEnhancerLevel.setVisibleLength(3);
-		flexTable_8.setWidget(1, 3, painEnhancerLevel);
-
-		Label label_7 = new Label("# bleeding:");
-		label_7.setWordWrap(false);
-		flexTable_8.setWidget(1, 4, label_7);
-
-		painEnhancerStacks = new NumberSpinner();
-		painEnhancerStacks.box
-				.setTitle("Average # of bleeding enemies");
-		painEnhancerStacks.setVisibleLength(3);
-		painEnhancerStacks.setTitle("# of bleeding enemies within 20 yards");
-		flexTable_8.setWidget(1, 5, painEnhancerStacks);
-
-		Anchor anchor_3 = new Anchor("Big Bad Voodoo:");
-		anchor_3.setWordWrap(false);
-		anchor_3.setTarget("_blank");
-		anchor_3.setHref("http://us.battle.net/d3/en/class/witch-doctor/active/big-bad-voodoo");
-		flexTable_8.setWidget(2, 0, anchor_3);
-
-		bbv = new SimpleCheckBox();
-		flexTable_8.setWidget(2, 1, bbv);
-
-		Label label_8 = new Label("% Uptime:");
-		label_8.setWordWrap(false);
-		flexTable_8.setWidget(2, 2, label_8);
-
-		bbvUptime = new DoubleSpinner();
-		bbvUptime.setVisibleLength(3);
-		flexTable_8.setWidget(2, 3, bbvUptime);
-
-		Label lblNewLabel_1 = new Label(
-				"Note: Attack speed buffs from other players are only included in breakpoint calculations when uptime is \"100%\"");
-		lblNewLabel_1.setStyleName("boldText");
-		flexTable_8.setWidget(2, 4, lblNewLabel_1);
-		lblNewLabel_1.setWidth("168px");
-		flexTable_8.getCellFormatter().setWidth(2, 4, "");
-		flexTable_8.getFlexCellFormatter().setColSpan(2, 4, 2);
-		flexTable_8.getCellFormatter().setVerticalAlignment(2, 4,
-				HasVerticalAlignment.ALIGN_TOP);
-		flexTable_8.getCellFormatter().setHorizontalAlignment(2, 4,
-				HasHorizontalAlignment.ALIGN_LEFT);
-
-		Anchor anchor_4 = new Anchor("Mantra of Retribution/Transgression:");
-		anchor_4.setWordWrap(false);
-		anchor_4.setTarget("_blank");
-		anchor_4.setHref("http://us.battle.net/d3/en/class/monk/active/mantra-of-retribution#b+");
-		flexTable_8.setWidget(3, 0, anchor_4);
-
-		retribution = new SimpleCheckBox();
-		flexTable_8.setWidget(3, 1, retribution);
-
-		Label label_9 = new Label("% Uptime:");
-		label_9.setWordWrap(false);
-		flexTable_8.setWidget(3, 2, label_9);
-
-		retributionUptime = new DoubleSpinner();
-		retributionUptime.setVisibleLength(3);
-		flexTable_8.setWidget(3, 3, retributionUptime);
-
-		Anchor anchor_5 = new Anchor("Laws of Valor:");
-		anchor_5.setWordWrap(false);
-		anchor_5.setTarget("_blank");
-		anchor_5.setHref("http://us.battle.net/d3/en/class/crusader/active/laws-of-valor");
-		flexTable_8.setWidget(4, 0, anchor_5);
-
-		valor = new SimpleCheckBox();
-		flexTable_8.setWidget(4, 1, valor);
-
-		Label label_10 = new Label("% Uptime:");
-		label_10.setWordWrap(false);
-		flexTable_8.setWidget(4, 2, label_10);
-
-		valorUptime = new DoubleSpinner();
-		valorUptime.setVisibleLength(3);
-		flexTable_8.setWidget(4, 3, valorUptime);
-		flexTable_8.getFlexCellFormatter().setRowSpan(2, 4, 3);
-		flexTable_3.getCellFormatter().setHorizontalAlignment(3, 0,
-				HasHorizontalAlignment.ALIGN_LEFT);
-		flexTable_3.getCellFormatter().setVerticalAlignment(3, 0,
-				HasVerticalAlignment.ALIGN_TOP);
-
-		gogok.addClickHandler(clickHandler);
-		bbv.addClickHandler(clickHandler);
-		valor.addClickHandler(clickHandler);
-		retribution.addClickHandler(clickHandler);
-		painEnhancer.addClickHandler(clickHandler);
-
-		gogokStacks.addChangeHandler(handler);
-		bbvUptime.addChangeHandler(handler);
-		valorUptime.addChangeHandler(handler);
-		retributionUptime.addChangeHandler(handler);
-		painEnhancerStacks.addChangeHandler(handler);
-		painEnhancerLevel.addChangeHandler(handler);
 		dexterity.addChangeHandler(handler);
 
-		CaptionPanel cptnpnlNewPanel_6 = new CaptionPanel("Calculator");
+		CaptionPanel cptnpnlNewPanel_6 = new CaptionPanel("Sentry Breakpoint Calculator");
 		grid.setWidget(3, 0, cptnpnlNewPanel_6);
+		grid.getFlexCellFormatter().setColSpan(3, 0, 2);
 
 		FlexTable flexTable_6 = new FlexTable();
 		flexTable_6.setCellPadding(5);
@@ -599,13 +381,6 @@ public class DPSCalculator extends BasePanel {
 		grid.getFlexCellFormatter().setColSpan(3, 0, 2);
 		grid.getFlexCellFormatter().setColSpan(0, 0, 2);
 		grid.getFlexCellFormatter().setColSpan(1, 0, 2);
-		this.gogokStacks.setMax(15);
-		this.bbvUptime.setMax(100.0);
-		this.valorUptime.setMax(100.0);
-		this.retributionUptime.setMax(100.0);
-
-		this.tnt.addClickHandler(clickHandler);
-		this.gogok.addClickHandler(clickHandler);
 		
 		mainHand.getWeaponType().addChangeHandler(handler);
 		mainHand.getBaseMin().addChangeHandler(handler);
@@ -764,50 +539,13 @@ public class DPSCalculator extends BasePanel {
 				new Field(this.offHand.getAddMax(), "calc.offHand.AddMaxDamage", "0"),
 				new Field(this.offHand.getWeaponIAS(), "calc.offHand.WeaponIAS", "0"),
 				new Field(this.offHand.getWeaponDamage(), "calc.offHand.WeaponDamage", "0"),
-				new Field(this.gogokLevel, "calc.GogokLevel", "0"),
-				new Field(this.painEnhancerLevel, "calc.PainEnhancerLevel", "0"),
-				new Field(this.gogokStacks, "calc.GogokStacks", "0"),
-				new Field(this.painEnhancerStacks, "calc.PainEnhancerStacks",
-						"0"),
 				new Field(this.minJewelDamage, "calc.MinJewelDamage", "0"),
 				new Field(this.maxJewelDamage, "calc.MaxJewelDamage", "0"),
 				new Field(this.equipIAS, "calc.EquipIAS", "0"),
-				new Field(this.paragonPanel.getParagonIAS(), "calc.ParagonIAS",
-						"0"),
-				new Field(this.paragonPanel.getParagonDexterity(), "calc.ParagonDEX",
-						"0"),
-				new Field(this.paragonPanel.getParagonCDR(), "calc.ParagonCDR",
-						"0"),
-				new Field(this.paragonPanel.getParagonCC(), "calc.ParagonCC",
-						"0"),
-				new Field(this.paragonPanel.getParagonCHD(), "calc.ParagonCHD",
-						"0"),
-				new Field(this.paragonPanel.getParagonHatred(), "calc.ParagonHatred",
-						"0"),
-				new Field(this.paragonPanel.getParagonRCR(), "calc.ParagonRCR",
-						"0"),
-				new Field(this.paragonPanel.getParagonAD(), "calc.ParagonAD",
-						"0"),
-				new Field(this.tntPercent, "calc.PetIAS", "0"),
 				new Field(this.dexterity, "calc.EquipmentDexterity", "0"),
 				new Field(this.heroLevel, "calc.HeroLevel", "70"),
 				new Field(this.critChance, "calc.CritChance", "0"),
 				new Field(this.critDamage, "calc.CritDamage", "0"),
-
-				new Field(this.buffPanel.getFocusedMind(), "calc.FocusedMind",
-						Boolean.FALSE.toString()),
-				new Field(this.buffPanel.getAnatomy(), "calc.Anatomy", Boolean.FALSE.toString()),
-				new Field(this.buffPanel.getHysteria(), "calc.Hysteria",
-						Boolean.FALSE.toString()), new Field(this.gogok, "calc.Gogok", Boolean.FALSE.toString()),
-				new Field(this.painEnhancer, "calc.PainEnhancer", Boolean.FALSE.toString()),
-				new Field(this.tnt, "calc.TnT", Boolean.FALSE.toString()), 
-		
-				new Field(this.bbv, "calc.BBV", Boolean.FALSE.toString()),
-				new Field(this.valor, "calc.Valor", Boolean.FALSE.toString()),
-				new Field(this.retribution, "calc.Retribution", Boolean.FALSE.toString()),
-				new Field(this.bbvUptime, "calc.BBVUptime", "0"),
-				new Field(this.valorUptime, "calc.ValorUptime", "0"),
-				new Field(this.retributionUptime, "calc.RetributionUptime", "0"),
 		};
 	}
 
@@ -824,27 +562,31 @@ public class DPSCalculator extends BasePanel {
 		double max = this.mainHand.getWeaponMax() + getValue(this.maxJewelDamage);
 		double offHand_min = this.offHand.getWeaponMin() + getValue(this.minJewelDamage);
 		double offHand_max = this.offHand.getWeaponMax() + getValue(this.maxJewelDamage);
-		double dex = getValue(this.dexterity) + (paragonPanel.getParagonDexterity().getValue() * 5) + 217;
-		double pCC = (getValue(this.paragonPanel.getParagonCC()) * 0.1) / 100.0;
-		double pCD = (getValue(this.paragonPanel.getParagonCHD()) * 1.0) / 100.0;
+		double dex = getValue(this.dexterity) + (main.getParagonPanel().getParagonDexterity().getValue() * 5) + 7 + (this.heroLevel.getValue() * 3);
+		double pCC = (getValue(main.getParagonPanel().getParagonCC()) * 0.1) / 100.0;
+		double pCD = (getValue(main.getParagonPanel().getParagonCHD()) * 1.0) / 100.0;
 		double aCC = 0.0;
 		double aDam = 0.0;
 		double aCD = 0.0;
 		buffIas = 0.0;
 		
-		if (this.bbv.getValue() && (Math.round(this.bbvUptime.getValue()) == 100)) {
+		if (main.getPlayerBuffs().getBbv().getValue() && (Math.round(main.getPlayerBuffs().getBbvUptime().getValue()) == 100)) {
 			buffIas += 0.20;
 		}
 		
-		if (this.retribution.getValue() && (Math.round(this.retributionUptime.getValue()) == 100)) {
+		if (main.getPlayerBuffs().getRetribution().getValue() && (Math.round(main.getPlayerBuffs().getRetributionUptime().getValue()) == 100)) {
 			buffIas += 0.10;
 		}
 		
-		if (this.valor.getValue() && (Math.round(this.valorUptime.getValue()) == 100)) {
+		if (main.getPlayerBuffs().getValor().getValue() && (Math.round(main.getPlayerBuffs().getValorUptime().getValue()) == 100)) {
 			buffIas += 0.08;
 		}
 
-		if (this.passives.getPassives().contains(Passive.Archery)) {
+		if (main.getPlayerBuffs().getStretchTime().getValue() && (main.getPlayerBuffs().getStretchTimeUptime().getValue() == 100)) {
+			buffIas += 0.1;
+		}
+		
+		if (main.getPassivesPanel().getPassives().contains(Passive.Archery)) {
 			if (type == WeaponType.HandCrossbow) {
 				aCC += 0.05;
 			} else if (type == WeaponType.Bow) {
@@ -854,11 +596,11 @@ public class DPSCalculator extends BasePanel {
 			}
 		}
 
-		if (this.passives.getPassives().contains(Passive.Steady_Aim)) {
+		if (main.getPassivesPanel().getPassives().contains(Passive.Steady_Aim)) {
 			aDam += .2;
 		}
 
-		double anatomy = buffPanel.getAnatomy().getValue() ? 0.018 : 0.0;
+		double anatomy = main.getBuffPanel().getAnatomy().getValue() ? 0.018 : 0.0;
 
 		double critChance = Math.min(1.0, .05 + (getValue(this.critChance) / 100.0) + pCC + aCC
 				+ anatomy);
@@ -867,14 +609,15 @@ public class DPSCalculator extends BasePanel {
 		this.eIas = (getValue(this.equipIAS)) / 100.0;
 		this.wIas = (getValue(this.mainHand.getWeaponIAS())) / 100.0;
 		double offHand_wIas = (getValue(this.offHand.getWeaponIAS())) / 100.0;
-		this.pIas = getValue(this.paragonPanel.getParagonIAS()) * 0.002;
-		focusedMind = (buffPanel.getFocusedMind().getValue() ? 0.03
+		this.pIas = getValue(main.getParagonPanel().getParagonIAS()) * 0.002;
+		focusedMind = (main.getBuffPanel().getFocusedMind().getValue() ? 0.03
 				: 0.0);
-		gogokIas = this.gogok.getValue() ? (this.gogokStacks.getValue() / 100.0)
+		gogokIas = main.getGemPanel().getGogok().getValue() ? (main.getGemPanel().getGogokStacks().getValue() / 100.0)
 				: 0.0;
-		painEnhancerIas = (this.painEnhancer.getValue() && this.painEnhancerLevel
-				.getValue() >= 25) ? (this.painEnhancerStacks.getValue() * 0.03)
-				: 0.0;
+		painEnhancerIas = (main.getGemPanel().getPainEnhancer().getValue() && main.getGemPanel().getPainEnhancerLevel()
+				.getValue() >= 25) ? (main.getGemPanel().getPainEnhancerStacks().getValue() * 0.03)
+				: 0.0
+				;
 
 		double dwIas = (offHand_type != null) ? 0.15 : 0.0;
 
@@ -886,9 +629,9 @@ public class DPSCalculator extends BasePanel {
 				* (1.0 + offHand_wIas)
 				* (1.0 + eIas + pIas + focusedMind + gogokIas + painEnhancerIas + buffIas + dwIas));
 
-		double averageDamage = ((min + max) / 2.0);
+		this.averageDamage = ((min + max) / 2.0);
 
-		double offHand_averageDamage = ((offHand_min + offHand_max) / 2.0);
+		this.offHand_averageDamage = ((offHand_min + offHand_max) / 2.0);
 
 		double mainHand_dps = averageDamage * aps * (1.0 + critChance * critDamage)
 				* (1.0 + (dex / 100.0)) * (1.0 + aDam);
@@ -916,7 +659,7 @@ public class DPSCalculator extends BasePanel {
 		this.actualCD.setText(Util.format(critDamage * 100.0) + "%");
 
 
-		this.petIasValue = tnt.getValue() ? (tntPercent.getValue() / 100.0)
+		this.petIasValue = main.getItemPanel().getTnt().getValue() ? (main.getItemPanel().getTntPercent().getValue() / 100.0)
 				: 0.0;
 		this.petApsValue = aps * (1.0 + petIasValue);
 		this.petAps.setText(Util.format(petApsValue));
@@ -972,9 +715,6 @@ public class DPSCalculator extends BasePanel {
 				* 100.0));
 		this.equipIAS.setValue((int)(Math.round(data.getEquipIas() * 100.0)));
 		this.dexterity.setValue(data.getEquipmentDexterity());
-		this.tnt.setValue(data.isTnt());
-		this.tntPercent.setValue((int)(Math.round(data.getTntPercent() * 100.0)));
-		this.passives.setPassives(data.getPassives());
 		this.minJewelDamage.setValue((int) Math.round(data.getJewelMin()));
 		this.maxJewelDamage.setValue((int) Math.round(data.getJewelMax()));
 
@@ -983,24 +723,6 @@ public class DPSCalculator extends BasePanel {
 		calculate();
 
 		saveForm();
-	}
-
-	public void setParagonPoints(int ias, int dex, int cdr, int cc, int cd, int hatred, int rcr, int ad) {
-
-		this.disableListeners = true;
-
-		this.paragonPanel.getParagonIAS().setValue(ias);
-		this.paragonPanel.getParagonDexterity().setValue(dex);
-		this.paragonPanel.getParagonCDR().setValue(cdr);
-		this.paragonPanel.getParagonCC().setValue(cc);
-		this.paragonPanel.getParagonCHD().setValue(cd);
-		this.paragonPanel.getParagonHatred().setValue(hatred);
-		this.paragonPanel.getParagonRCR().setValue(rcr);
-		this.paragonPanel.getParagonAD().setValue(ad);
-
-		this.disableListeners = false;
-
-		this.calculate();
 	}
 
 	public double getSheetAps() {
@@ -1019,44 +741,16 @@ public class DPSCalculator extends BasePanel {
 		return totalCD;
 	}
 
-	public Integer getTntPercent() {
-		return getValue(this.tntPercent);
-	}
-
-	public int getParagonIas() {
-		return this.getValue(this.paragonPanel.getParagonIAS());
-	}
-
-	public int getParagonCC() {
-		return this.getValue(this.paragonPanel.getParagonCC());
-	}
-
-	public int getParagonCHD() {
-		return this.getValue(this.paragonPanel.getParagonCHD());
-	}
-
-	public Integer getParagonHatred() {
-		return this.getValue(this.paragonPanel.getParagonHatred());
-	}
-
-	public Integer getParagonRCR() {
-		return this.getValue(this.paragonPanel.getParagonRCR());
-	}
-
-	public Integer getParagonAD() {
-		return this.getValue(this.paragonPanel.getParagonAD());
-	}
-
 	public double getMainHandAverageWeaponDamage() {
-		return mainHand.getAverageWeaponDamage();
+		return this.averageDamage;
 	}
 
 	public int getTotalDexterity() {
-		return getValue(this.dexterity) + (paragonPanel.getParagonDexterity().getValue() * 5) + 7 + (getHeroLevel() * 3);
+		return getValue(this.dexterity) + (main.getParagonPanel().getParagonDexterity().getValue() * 5) + 7 + (getHeroLevel() * 3);
 	}
 
 	public double getDamageBonus() {
-		if (this.passives.getPassives().contains(Passive.Archery)) {
+		if (main.getPassivesPanel().getPassives().contains(Passive.Archery)) {
 			WeaponType type = getMainHandWeaponType();
 
 			if (type == WeaponType.Bow)
@@ -1074,143 +768,12 @@ public class DPSCalculator extends BasePanel {
 		this.disableListeners = disableListeners;
 	}
 
-	public PassivesPanel getPassives() {
-		return this.passives;
-	}
-	
-	public Integer getParagonCDR() {
-		return paragonPanel.getParagonCDR().getValue();
-	}
-
-	public boolean getFocusedMind() {
-		return buffPanel.getFocusedMind().getValue();
-	}
-
-	public void setFocusedMind(boolean value) {
-		buffPanel.getFocusedMind().setValue(value);
-		this.calculate();
-	}
-
-	public boolean getAnatomy() {
-		return buffPanel.getAnatomy().getValue();
-	}
-
-	public void setAnatomy(boolean value) {
-		buffPanel.getAnatomy().setValue(value);
-		this.calculate();
-	}
-
-	public boolean getHysteria() {
-		return buffPanel.getHysteria().getValue();
-	}
-
-	public void setHysteria(boolean value) {
-		buffPanel.getHysteria().setValue(value);
-		this.calculate();
-	}
-
-	public void setTntPercent(int pct) {
-		this.tntPercent.setValue(pct);
-		this.calculate();
-	}
-
-	public void setGogokStacks(Integer value) {
-		this.gogokStacks.setValue(value);
-		this.calculate();
-	}
-
-	public int getGogokStacks() {
-		return this.gogokStacks.getValue();
-	}
-
-	public void setPainEnhancerStacks(Integer value) {
-		this.painEnhancerStacks.setValue(value);
-		this.calculate();
-	}
-
-	public int getPainEnhancerStacks() {
-		return this.painEnhancerStacks.getValue();
-	}
-
-	public boolean getGogok() {
-		return gogok.getValue();
-	}
-
-	public void setGogok(boolean value) {
-		gogok.setValue(value);
-		this.calculate();
-	}
-
-	public boolean getPainEnhancer() {
-		return painEnhancer.getValue();
-	}
-
-	public void setPainEnhancer(boolean value) {
-		painEnhancer.setValue(value);
-		this.calculate();
-	}
-
-	public boolean getTnt() {
-		return tnt.getValue();
-	}
-
-	public void setTnt(boolean value) {
-		tnt.setValue(value);
-		this.calculate();
-	}
-
-	public int getGogokLevel() {
-		return gogokLevel.getValue();
-	}
-
-	public void setGogokLevel(int value) {
-		gogokLevel.setValue(value);
-		this.calculate();
-	}
-
-	public int getPainEnhancerLevel() {
-		return painEnhancerLevel.getValue();
-	}
-
-	public void setPainEnhancerLevel(int value) {
-		painEnhancerLevel.setValue(value);
-		this.calculate();
-	}
-
-	public SimpleCheckBox getBbv() {
-		return bbv;
-	}
-
-	public DoubleSpinner getBbvUptime() {
-		return bbvUptime;
-	}
-
-	public SimpleCheckBox getRetribution() {
-		return retribution;
-	}
-
-	public SimpleCheckBox getValor() {
-		return valor;
-	}
-
-	public DoubleSpinner getValorUptime() {
-		return valorUptime;
-	}
-
-	public DoubleSpinner getRetributionUptime() {
-		return retributionUptime;
-	}
-
 	public double getEquipIAS() {
 		return this.equipIAS.getValue() / 100.0;
 	}
 	
 	public double getWeaponIAS() {
 		return this.mainHand.getWeaponIAS().getValue() / 100.0;
-	}
-
-	public Integer getParagonDexterity() {
-		return this.getValue(this.paragonPanel.getParagonDexterity());
 	}
 
 	public int getEquipmentDexterity() {
@@ -1221,12 +784,8 @@ public class DPSCalculator extends BasePanel {
 		return heroLevel.getValue();
 	}
 
-	public void setHatred(int value) {
-		this.paragonPanel.getParagonHatred().setValue(value);
-	}
-
 	public double getOffHandAverageWeaponDamage() {
-		return offHand.getAverageWeaponDamage();
+		return offHand_averageDamage;
 	}
 
 	public WeaponType getOffHandWeaponType() {
@@ -1240,8 +799,8 @@ public class DPSCalculator extends BasePanel {
 	public double getTotalAverageWeaponDamage() {
 
 		WeaponType t = offHand.getWeaponTypeEnum();
-		double main = mainHand.getAverageWeaponDamage();
-		double oh = offHand.getAverageWeaponDamage();
+		double main = this.averageDamage;
+		double oh = this.offHand_averageDamage;
 		
 		return (t == null) ? main : ((main + oh) / 2.0);
 	}

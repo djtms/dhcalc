@@ -52,6 +52,10 @@ public class PlayerBuffPanel extends Composite {
 	private final DoubleSpinner retributionUptime;
 	private final DoubleSpinner valorUptime;
 	private final SimpleCheckBox slamDance;
+	private final SimpleCheckBox timeWarp;
+	private final SimpleCheckBox stretchTime;
+	private final NumberSpinner timeWarpUptime;
+	private final NumberSpinner stretchTimeUptime;
 
 	public PlayerBuffPanel() {
 		
@@ -63,195 +67,257 @@ public class PlayerBuffPanel extends Composite {
 		FlexTable flexTable = new FlexTable();
 		cptnpnlNewPanel.setContentWidget(flexTable);
 
+		int row = 0;
+		
 		Anchor anchor = new Anchor("Companion/Wolf (from other DH):");
 		anchor.setWordWrap(false);
-		flexTable.setWidget(0, 0, anchor);
+		flexTable.setWidget(row, 0, anchor);
 		anchor.setTarget("_blank");
 		anchor.setHref("http://us.battle.net/d3/en/class/demon-hunter/active/companion#c");
 
 		wolf = new SimpleCheckBox();
-		flexTable.setWidget(0, 1, wolf);
+		flexTable.setWidget(row, 1, wolf);
 
 		Label lblNewLabel = new Label("% Uptime:");
 		lblNewLabel.setWordWrap(false);
-		flexTable.setWidget(0, 2, lblNewLabel);
+		flexTable.setWidget(row, 2, lblNewLabel);
 
 		wolfUptime = new DoubleSpinner();
-		wolfUptime.box.setVisibleLength(5);
+		wolfUptime.setVisibleLength(5);
 		wolfUptime.setValue(33.33);
-		flexTable.setWidget(0, 3, wolfUptime);
+		flexTable.setWidget(row, 3, wolfUptime);
 		wolfUptime.setTitle("% of time that another player's Wolf will be active");
 
 		calcWolfButton = new Button("Calculate");
 		calcWolfButton.setTitle("Calculate Wolf uptime based on your effective Cooldown Reduction");
-		flexTable.setWidget(0, 4, calcWolfButton);
+		flexTable.setWidget(row, 4, calcWolfButton);
 
+		row++;
+		
 		Anchor anchor_1 = new Anchor("Big Bad Voodoo:");
 		anchor_1.setWordWrap(false);
 		anchor_1.setTarget("_blank");
 		anchor_1.setHref("http://us.battle.net/d3/en/class/witch-doctor/active/big-bad-voodoo");
-		flexTable.setWidget(1, 0, anchor_1);
+		flexTable.setWidget(row, 0, anchor_1);
 
 		bbv = new SimpleCheckBox();
-		flexTable.setWidget(1, 1, bbv);
+		flexTable.setWidget(row, 1, bbv);
 
 		Label label = new Label("% Uptime:");
 		label.setWordWrap(false);
-		flexTable.setWidget(1, 2, label);
+		flexTable.setWidget(row, 2, label);
 
 		bbvUptime = new DoubleSpinner();
 		bbvUptime.setValue(17.67);
-		bbvUptime.box.setVisibleLength(5);
-		flexTable.setWidget(1, 3, bbvUptime);
+		bbvUptime.setVisibleLength(5);
+		flexTable.setWidget(row, 3, bbvUptime);
 		
 		Anchor anchor_10 = new Anchor("Slam Dance:");
 		anchor_10.setWordWrap(false);
 		anchor_10.setTarget("_blank");
 		anchor_10.setHref("http://us.battle.net/d3/en/class/witch-doctor/active/big-bad-voodoo#a+");
-		flexTable.setWidget(1, 4, anchor_10);
+		flexTable.setWidget(row, 4, anchor_10);
 		
 		slamDance = new SimpleCheckBox();
-		flexTable.setWidget(1, 5, slamDance);
+		flexTable.setWidget(row, 5, slamDance);
 		slamDance.setTitle("Check this box if the Witch Doctor is using the Slam Dance rune");
+
+		row++;
+		
+		Anchor anchor_1a = new Anchor("Slow Time/Stretch Time:");
+		anchor_1a.setWordWrap(false);
+		anchor_1a.setTarget("_blank");
+		anchor_1a.setHref("http://us.battle.net/d3/en/class/wizard/active/slow-time#e+");
+		flexTable.setWidget(row, 0, anchor_1a);
+
+		stretchTime = new SimpleCheckBox();
+		flexTable.setWidget(row, 1, stretchTime);
+
+		Label labela = new Label("% Uptime:");
+		labela.setWordWrap(false);
+		flexTable.setWidget(row, 2, labela);
+
+		stretchTimeUptime = new NumberSpinner();
+		stretchTimeUptime.setValue(0);
+		stretchTimeUptime.setVisibleLength(5);
+		flexTable.setWidget(row, 3, stretchTimeUptime);
+
+		row++;
+		
+		Anchor anchor_1b = new Anchor("Slow Time/Time Warp:");
+		anchor_1b.setWordWrap(false);
+		anchor_1b.setTarget("_blank");
+		anchor_1b.setHref("http://us.battle.net/d3/en/class/wizard/active/slow-time#a+");
+		flexTable.setWidget(row, 0, anchor_1b);
+
+		timeWarp = new SimpleCheckBox();
+		flexTable.setWidget(row, 1, timeWarp);
+
+		Label labelb = new Label("% Uptime:");
+		labelb.setWordWrap(false);
+		flexTable.setWidget(row, 2, labelb);
+
+		timeWarpUptime = new NumberSpinner();
+		timeWarpUptime.setValue(0);
+		timeWarpUptime.setVisibleLength(5);
+		flexTable.setWidget(row, 3, timeWarpUptime);
+
+		row++;
 
 		Anchor anchor_2 = new Anchor("Mass Confusion/Paranoia:");
 		anchor_2.setWordWrap(false);
 		anchor_2.setTarget("_blank");
 		anchor_2.setHref("http://us.battle.net/d3/en/class/witch-doctor/active/mass-confusion#a+");
-		flexTable.setWidget(2, 0, anchor_2);
+		flexTable.setWidget(row, 0, anchor_2);
 
 		massConfusion = new SimpleCheckBox();
-		flexTable.setWidget(2, 1, massConfusion);
+		flexTable.setWidget(row, 1, massConfusion);
 
 		Label label_1 = new Label("% Uptime:");
 		label_1.setWordWrap(false);
-		flexTable.setWidget(2, 2, label_1);
+		flexTable.setWidget(row, 2, label_1);
 
 		massConfusionUptime = new DoubleSpinner();
-		massConfusionUptime.box.setVisibleLength(5);
-		flexTable.setWidget(2, 3, massConfusionUptime);
+		massConfusionUptime.setVisibleLength(5);
+		flexTable.setWidget(row, 3, massConfusionUptime);
+		
+		row++;
 		
 		Anchor anchor_6 = new Anchor("Piranhas:");
 		anchor_6.setWordWrap(false);
 		anchor_6.setTarget("_blank");
 		anchor_6.setHref("http://us.battle.net/d3/en/class/witch-doctor/active/piranhas");
-		flexTable.setWidget(3, 0, anchor_6);
+		flexTable.setWidget(row, 0, anchor_6);
 		
 		piranhas = new SimpleCheckBox();
-		flexTable.setWidget(3, 1, piranhas);
+		flexTable.setWidget(row, 1, piranhas);
 		
 		Label label_5 = new Label("% Uptime:");
 		label_5.setWordWrap(false);
-		flexTable.setWidget(3, 2, label_5);
+		flexTable.setWidget(row, 2, label_5);
 		
 		piranhasUptime = new DoubleSpinner();
-		piranhasUptime.box.setVisibleLength(5);
-		flexTable.setWidget(3, 3, piranhasUptime);
+		piranhasUptime.setVisibleLength(5);
+		flexTable.setWidget(row, 3, piranhasUptime);
+		
+		row++;
 		
 		Anchor anchor_8 = new Anchor("Laws of Valor:");
 		anchor_8.setWordWrap(false);
 		anchor_8.setTarget("_blank");
 		anchor_8.setHref("http://us.battle.net/d3/en/class/crusader/active/laws-of-valor");
-		flexTable.setWidget(4, 0, anchor_8);
+		flexTable.setWidget(row, 0, anchor_8);
 		
 		valor = new SimpleCheckBox();
-		flexTable.setWidget(4, 1, valor);
+		flexTable.setWidget(row, 1, valor);
 		
 		Label label_4 = new Label("% Uptime:");
 		label_4.setWordWrap(false);
-		flexTable.setWidget(4, 2, label_4);
+		flexTable.setWidget(row, 2, label_4);
 		
 		valorUptime = new DoubleSpinner();
-		valorUptime.box.setVisibleLength(5);
-		flexTable.setWidget(4, 3, valorUptime);
+		valorUptime.setVisibleLength(5);
+		flexTable.setWidget(row, 3, valorUptime);
+		
+		row++;
 		
 		Anchor anchor_3 = new Anchor("Inner Sanctuary/Forbidden Palace:");
 		anchor_3.setWordWrap(false);
 		anchor_3.setTarget("_blank");
 		anchor_3.setHref("http://us.battle.net/d3/en/class/monk/active/inner-sanctuary#e+");
-		flexTable.setWidget(5, 0, anchor_3);
+		flexTable.setWidget(row, 0, anchor_3);
 		
 		innerSanctuary = new SimpleCheckBox();
-		flexTable.setWidget(5, 1, innerSanctuary);
+		flexTable.setWidget(row, 1, innerSanctuary);
 		
 		Label label_2 = new Label("% Uptime:");
 		label_2.setWordWrap(false);
-		flexTable.setWidget(5, 2, label_2);
+		flexTable.setWidget(row, 2, label_2);
 		
 		innerSanctuaryUptime = new DoubleSpinner();
-		innerSanctuaryUptime.box.setVisibleLength(5);
-		flexTable.setWidget(5, 3, innerSanctuaryUptime);
+		innerSanctuaryUptime.setVisibleLength(5);
+		flexTable.setWidget(row, 3, innerSanctuaryUptime);
+		
+		row++;
 		
 		Anchor anchor_4 = new Anchor("Crippling Wave/Breaking Wave:");
 		anchor_4.setWordWrap(false);
 		anchor_4.setTarget("_blank");
 		anchor_4.setHref("http://us.battle.net/d3/en/class/monk/active/crippling-wave#e+");
-		flexTable.setWidget(6, 0, anchor_4);
+		flexTable.setWidget(row, 0, anchor_4);
 		
 		cripplingWave = new SimpleCheckBox();
-		flexTable.setWidget(6, 1, cripplingWave);
+		flexTable.setWidget(row, 1, cripplingWave);
 		
 		Label label_3 = new Label("% Uptime:");
 		label_3.setWordWrap(false);
-		flexTable.setWidget(6, 2, label_3);
+		flexTable.setWidget(row, 2, label_3);
 		
 		cripplingWaveUptime = new DoubleSpinner();
-		cripplingWaveUptime.box.setVisibleLength(5);
-		flexTable.setWidget(6, 3, cripplingWaveUptime);
+		cripplingWaveUptime.setVisibleLength(5);
+		flexTable.setWidget(row, 3, cripplingWaveUptime);
+		
+		row++;
 		
 		Anchor anchor_9 = new Anchor("Mantra of Retribution/Transgression:");
 		anchor_9.setWordWrap(false);
 		anchor_9.setTarget("_blank");
 		anchor_9.setHref("http://us.battle.net/d3/en/class/monk/active/mantra-of-retribution#b+");
-		flexTable.setWidget(7, 0, anchor_9);
+		flexTable.setWidget(row, 0, anchor_9);
 		
 		retribution = new SimpleCheckBox();
-		flexTable.setWidget(7, 1, retribution);
+		flexTable.setWidget(row, 1, retribution);
 		
 		Label label_6 = new Label("% Uptime:");
 		label_6.setWordWrap(false);
-		flexTable.setWidget(7, 2, label_6);
+		flexTable.setWidget(row, 2, label_6);
 		
 		retributionUptime = new DoubleSpinner();
-		retributionUptime.box.setVisibleLength(5);
-		flexTable.setWidget(7, 3, retributionUptime);
+		retributionUptime.setVisibleLength(5);
+		flexTable.setWidget(row, 3, retributionUptime);
+		
+		row++;
 		
 		Anchor anchor_5 = new Anchor("Mantra of Conviction:");
 		anchor_5.setWordWrap(false);
 		anchor_5.setTarget("_blank");
 		anchor_5.setHref("http://us.battle.net/d3/en/class/monk/active/mantra-of-conviction");
-		flexTable.setWidget(8, 0, anchor_5);
+		flexTable.setWidget(row, 0, anchor_5);
 		
 		conviction = new SimpleCheckBox();
-		flexTable.setWidget(8, 1, conviction);
+		flexTable.setWidget(row, 1, conviction);
 		
 		Label lblPassiveUptime = new Label("% Passive:");
 		lblPassiveUptime.setWordWrap(false);
-		flexTable.setWidget(8, 2, lblPassiveUptime);
+		flexTable.setWidget(row, 2, lblPassiveUptime);
 		
 		convictionPassiveUptime = new DoubleSpinner();
-		convictionPassiveUptime.box.setVisibleLength(5);
+		convictionPassiveUptime.setVisibleLength(5);
 		convictionPassiveUptime.setTitle("Percent of time that Mantra of Conviction's passive bonus [only] applies");
-		flexTable.setWidget(8, 3, convictionPassiveUptime);
+		flexTable.setWidget(row, 3, convictionPassiveUptime);
 		
 		Anchor anchor_7 = new Anchor("Overawe:");
 		anchor_7.setWordWrap(false);
 		anchor_7.setTarget("_blank");
 		anchor_7.setHref("http://us.battle.net/d3/en/class/monk/active/mantra-of-conviction#a");
-		flexTable.setWidget(8, 4, anchor_7);
+		flexTable.setWidget(row, 4, anchor_7);
 		
 		overawe = new SimpleCheckBox();
 		overawe.setTitle("Check this box if the monk is using the Overawe rune.");
-		flexTable.setWidget(8, 5, overawe);
+		flexTable.setWidget(row, 5, overawe);
+		
+		row++;
 		
 		Label lblActiveUptime = new Label("% Active:");
 		lblActiveUptime.setWordWrap(false);
-		flexTable.setWidget(9, 2, lblActiveUptime);
+		flexTable.setWidget(row, 2, lblActiveUptime);
 		
 		convictionActiveUptime = new DoubleSpinner();
 		convictionActiveUptime.setTitle("Percent of time that Matra of Conviction's active bonus [only] applies");
-		convictionActiveUptime.box.setVisibleLength(5);
-		flexTable.setWidget(9, 3, convictionActiveUptime);
+		convictionActiveUptime.setVisibleLength(5);
+		flexTable.setWidget(row, 3, convictionActiveUptime);
+		
+		row++;
 		
 		wolfUptime.setMax(100.0);
 		bbvUptime.setMax(100.0);
@@ -263,6 +329,8 @@ public class PlayerBuffPanel extends Composite {
 		convictionActiveUptime.setMax(100.0);
 		valorUptime.setMax(100.0);
 		retributionUptime.setMax(100.0);
+		stretchTimeUptime.setMax(100);
+		timeWarpUptime.setMax(100);
 
 		convictionPassiveUptime.addChangeHandler(new ChangeHandler(){
 
@@ -390,5 +458,21 @@ public class PlayerBuffPanel extends Composite {
 
 	public SimpleCheckBox getSlamDance() {
 		return slamDance;
+	}
+
+	public SimpleCheckBox getTimeWarp() {
+		return timeWarp;
+	}
+
+	public SimpleCheckBox getStretchTime() {
+		return stretchTime;
+	}
+
+	public NumberSpinner getTimeWarpUptime() {
+		return timeWarpUptime;
+	}
+
+	public NumberSpinner getStretchTimeUptime() {
+		return stretchTimeUptime;
 	}
 }

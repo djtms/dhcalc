@@ -65,6 +65,9 @@ public class FiringData {
 		if (data.isBbv() && data.isSlamDance() && (data.getBbvUptime() > 0))
 			eventQueue.push(new BuffEvent(Buff.Bbv, 20.0, data.getBbvUptime()));
 		
+		if (data.isTimeWarp() && (data.getTimeWarpUptime() > 0))
+			eventQueue.push(new BuffEvent(Buff.TimeWarp, 15.0, data.getTimeWarpUptime()));
+
 		if (data.isMassConfusion() && (data.getMassConfusionUptime() > 0))
 			eventQueue.push(new BuffEvent(Buff.Paranoia, 12.0, data.getMassConfusionUptime()));
 

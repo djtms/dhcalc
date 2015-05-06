@@ -327,19 +327,6 @@ public class MainPanel extends BasePanel {
 					}
 				});
 
-		this.paragonPanel.getParagonHatred().addChangeHandler(
-				new ChangeHandler() {
-
-					@Override
-					public void onChange(ChangeEvent event) {
-
-						if (!disableListeners) {
-							calculator.setHatred(paragonPanel
-									.getParagonHatred().getValue());
-						}
-					}
-				});
-
 		this.paragonPanel.getParagonCDR().addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -494,7 +481,7 @@ public class MainPanel extends BasePanel {
 		rovCDLabel.setStyleName("boldText");
 		grid_1.setWidget(6, 1, rovCDLabel);
 
-		Button calcDps = new Button("Calculator...");
+		Button calcDps = new Button("DPS/Break Point Calculator...");
 		grid_1.setWidget(7, 2, calcDps);
 		grid_1.getFlexCellFormatter().setColSpan(7, 2, 2);
 		grid_1.getCellFormatter().setHorizontalAlignment(7, 2,
@@ -679,37 +666,6 @@ public class MainPanel extends BasePanel {
 		itemPanel = new ItemPanel();
 		verticalPanel_3.add(itemPanel);
 
-		itemPanel.getTnt().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-				if (!disableListeners) {
-					disableListeners = true;
-					calculator.setTnt(itemPanel.getTnt().getValue());
-					calculator.saveForm();
-					updateDpsLabels();
-					disableListeners = true;
-				}
-			}
-		});
-
-		itemPanel.getTntPercent().addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-
-				if (!disableListeners) {
-					disableListeners = true;
-					calculator.setTntPercent(itemPanel.getTntPercent()
-							.getValue());
-					calculator.saveForm();
-					updateDpsLabels();
-					disableListeners = false;
-				}
-			}
-		});
-
 		playerBuffPanel = new PlayerBuffPanel();
 		verticalPanel_1.add(playerBuffPanel);
 
@@ -720,93 +676,6 @@ public class MainPanel extends BasePanel {
 				calculateWolfUptime();
 			}
 		});
-
-		playerBuffPanel.getBbv().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (!disableListeners) {
-					disableListeners = true;
-					calculator.getBbv().setValue(
-							playerBuffPanel.getBbv().getValue());
-					calculator.saveForm();
-					updateDpsLabels();
-					disableListeners = false;
-				}
-			}
-		});
-		playerBuffPanel.getBbvUptime().addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				if (!disableListeners) {
-					disableListeners = true;
-					calculator.getBbvUptime().setValue(
-							playerBuffPanel.getBbvUptime().getValue());
-					calculator.saveForm();
-					updateDpsLabels();
-					disableListeners = false;
-				}
-			}
-		});
-		playerBuffPanel.getValor().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (!disableListeners) {
-					disableListeners = true;
-					calculator.getValor().setValue(
-							playerBuffPanel.getValor().getValue());
-					calculator.saveForm();
-					updateDpsLabels();
-					disableListeners = false;
-				}
-			}
-		});
-		playerBuffPanel.getValorUptime().addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				if (!disableListeners) {
-					disableListeners = true;
-					calculator.getValorUptime().setValue(
-							playerBuffPanel.getValorUptime().getValue());
-					calculator.saveForm();
-					updateDpsLabels();
-					disableListeners = false;
-				}
-			}
-		});
-		playerBuffPanel.getRetribution().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (!disableListeners) {
-					disableListeners = true;
-					calculator.getRetribution().setValue(
-							playerBuffPanel.getRetribution().getValue());
-					calculator.saveForm();
-					updateDpsLabels();
-					disableListeners = false;
-				}
-			}
-		});
-		playerBuffPanel.getRetributionUptime().addChangeHandler(
-				new ChangeHandler() {
-
-					@Override
-					public void onChange(ChangeEvent event) {
-						if (!disableListeners) {
-							disableListeners = true;
-							calculator.getRetributionUptime().setValue(
-									playerBuffPanel.getRetributionUptime()
-											.getValue());
-							calculator.saveForm();
-							updateDpsLabels();
-							disableListeners = false;
-						}
-					}
-				});
 
 		VerticalPanel vpanel = new VerticalPanel();
 		horizontalPanel_4.add(vpanel);
@@ -820,127 +689,51 @@ public class MainPanel extends BasePanel {
 		buffPanel = new BuffPanel();
 		vpanel.add(buffPanel);
 
-		buffPanel.getAnatomy().addClickHandler(new ClickHandler() {
+		ClickHandler clickHandler3 = new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				if (!disableListeners) {
-					calculator.setAnatomy(buffPanel.getAnatomy().getValue());
-					calculator.saveForm();
+					calculator.calculate();
 					updateDpsLabels();
 				}
 			}
-		});
-
-		buffPanel.getFocusedMind().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (!disableListeners) {
-					calculator.setFocusedMind(buffPanel.getFocusedMind()
-							.getValue());
-					calculator.saveForm();
-					updateDpsLabels();
-				}
-			}
-		});
-
-		buffPanel.getHysteria().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (!disableListeners) {
-					calculator.setHysteria(buffPanel.getHysteria().getValue());
-					calculator.saveForm();
-					updateDpsLabels();
-				}
-			}
-		});
-
-		gemPanel.getGogokStacks().addChangeHandler(new ChangeHandler() {
+		};
+		
+		ChangeHandler changeHandler = new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {
 				if (!disableListeners) {
 					disableListeners = true;
-					calculator.setGogokStacks(gemPanel.getGogokStacks()
-							.getValue());
-					calculator.saveForm();
+					calculator.calculate();
 					updateDpsLabels();
 					disableListeners = false;
 				}
 			}
-		});
+		};
+		
+		itemPanel.getTnt().addClickHandler(clickHandler3);
+		itemPanel.getTntPercent().addChangeHandler(changeHandler);
 
-		gemPanel.getGogokLevel().addChangeHandler(new ChangeHandler() {
+		playerBuffPanel.getBbv().addClickHandler(clickHandler3);
+		playerBuffPanel.getBbvUptime().addChangeHandler(changeHandler);
+		playerBuffPanel.getStretchTime().addClickHandler(clickHandler3);
+		playerBuffPanel.getStretchTimeUptime().addChangeHandler(changeHandler);
+		playerBuffPanel.getValor().addClickHandler(clickHandler3);
+		playerBuffPanel.getValorUptime().addChangeHandler(changeHandler);
+		playerBuffPanel.getRetribution().addClickHandler(clickHandler3);
+		playerBuffPanel.getRetributionUptime().addChangeHandler(changeHandler);
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				if (!disableListeners) {
-					disableListeners = true;
-					calculator.setGogokLevel(gemPanel.getGogokLevel()
-							.getValue());
-					calculator.saveForm();
-					updateDpsLabels();
-					disableListeners = false;
-				}
-			}
-		});
-		gemPanel.getPainEnhancerStacks().addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				if (!disableListeners) {
-					disableListeners = true;
-					calculator.setPainEnhancerStacks(gemPanel
-							.getPainEnhancerStacks().getValue());
-					calculator.saveForm();
-					updateDpsLabels();
-					disableListeners = false;
-				}
-			}
-		});
-		gemPanel.getPainEnhancerLevel().addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				if (!disableListeners) {
-					disableListeners = true;
-					calculator.setPainEnhancerLevel(gemPanel
-							.getPainEnhancerLevel().getValue());
-					calculator.saveForm();
-					updateDpsLabels();
-					disableListeners = false;
-				}
-			}
-		});
-		gemPanel.getGogok().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (!disableListeners) {
-					disableListeners = true;
-					calculator.setGogok(gemPanel.getGogok().getValue());
-					calculator.saveForm();
-					updateDpsLabels();
-					disableListeners = false;
-				}
-			}
-		});
-		gemPanel.getPainEnhancer().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (!disableListeners) {
-					disableListeners = true;
-					calculator.setPainEnhancer(gemPanel.getPainEnhancer()
-							.getValue());
-					calculator.saveForm();
-					updateDpsLabels();
-					disableListeners = false;
-				}
-			}
-		});
+		buffPanel.getAnatomy().addClickHandler(clickHandler3);
+		buffPanel.getFocusedMind().addClickHandler(clickHandler3);
+		buffPanel.getHysteria().addClickHandler(clickHandler3);
+		gemPanel.getGogokStacks().addChangeHandler(changeHandler);
+		gemPanel.getGogokLevel().addChangeHandler(changeHandler);
+		gemPanel.getPainEnhancerStacks().addChangeHandler(changeHandler);
+		gemPanel.getPainEnhancerLevel().addChangeHandler(changeHandler);
+		gemPanel.getGogok().addClickHandler(clickHandler3);
+		gemPanel.getPainEnhancer().addClickHandler(clickHandler3);
 
 		CaptionPanel cptnpnlNewPanel = new CaptionPanel("Output");
 		panel.add(cptnpnlNewPanel);
@@ -1351,35 +1144,9 @@ public class MainPanel extends BasePanel {
 		damageLog.addStyleName("outputTable");
 		damageLog.getRowFormatter().addStyleName(0, "headerRow");
 
-		calculator = new DPSCalculator();
+		calculator = new DPSCalculator(this);
 
-		passives.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				if (!disableListeners) {
-					disableListeners = true;
-					calculator.getPassives()
-							.setPassives(passives.getPassives());
-					calculator.saveForm();
-					updateDpsLabels();
-					disableListeners = false;
-				}
-			}
-		});
-
-		calculator.getPassives().addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				if (!disableListeners) {
-					disableListeners = true;
-					passives.setPassives(calculator.getPassives().getPassives());
-					updateDpsLabels();
-					disableListeners = false;
-				}
-			}
-		});
+		passives.addChangeHandler(changeHandler);
 
 		ChangeHandler handler = new ChangeHandler() {
 
@@ -1952,18 +1719,6 @@ public class MainPanel extends BasePanel {
 		this.career = null;
 		this.hero = null;
 
-		calculator.setTnt(itemPanel.getTnt().getValue());
-		calculator.setGogok(gemPanel.getGogok().getValue());
-		calculator.setGogokLevel(gemPanel.getGogokLevel().getValue());
-		calculator.setGogokStacks(gemPanel.getGogokStacks().getValue());
-		calculator.setPainEnhancer(gemPanel.getPainEnhancer().getValue());
-		calculator.setPainEnhancerLevel(gemPanel.getPainEnhancerLevel()
-				.getValue());
-		calculator.setPainEnhancerStacks(gemPanel.getPainEnhancerStacks()
-				.getValue());
-		calculator.saveForm();
-		calculator.calculate();
-
 		situational.setDisableListeners(false);
 		disableListeners = false;
 
@@ -1986,12 +1741,11 @@ public class MainPanel extends BasePanel {
 		this.skillDamage.setValues(Util.createMap(ActiveSkill.class,
 				data.skillDamage));
 		this.passives.setPassives(Util.createSet(Passive.class, data.passives));
-		this.calculator.getPassives().setPassives(
-				Util.createSet(Passive.class, data.passives));
 		this.skills.setSkills(Util.createEnumMap(ActiveSkill.class, Rune.class,
 				data.skills));
 
 		calculator.saveForm();
+		calculator.calculate();
 		this.saveForm();
 
 		updateDps();
@@ -2115,54 +1869,10 @@ public class MainPanel extends BasePanel {
 						if (result == ApplicationPanel.OK) {
 
 							calculator.saveForm();
-
-							MainPanel.this.disableListeners = true;
-
-							MainPanel.this.paragonPanel.getParagonIAS()
-									.setValue(calculator.getParagonIas());
-							MainPanel.this.paragonPanel.getParagonDexterity()
-									.setValue(calculator.getParagonDexterity());
-							MainPanel.this.paragonPanel.getParagonCDR()
-									.setValue(calculator.getParagonCDR());
-							MainPanel.this.paragonPanel.getParagonCC()
-									.setValue(calculator.getParagonCC());
-							MainPanel.this.paragonPanel.getParagonCHD()
-									.setValue(calculator.getParagonCHD());
-							MainPanel.this.paragonPanel.getParagonHatred()
-									.setValue(calculator.getParagonHatred());
-							MainPanel.this.paragonPanel.getParagonRCR()
-									.setValue(calculator.getParagonRCR());
-							MainPanel.this.paragonPanel.getParagonAD()
-									.setValue(calculator.getParagonAD());
-							MainPanel.this.buffPanel.getAnatomy().setValue(
-									calculator.getAnatomy());
-							MainPanel.this.buffPanel.getFocusedMind().setValue(
-									calculator.getFocusedMind());
-							MainPanel.this.buffPanel.getHysteria().setValue(
-									calculator.getHysteria());
-							MainPanel.this.gemPanel.getGogok().setValue(
-									calculator.getGogok());
-							MainPanel.this.gemPanel.getGogokLevel().setValue(
-									calculator.getGogokLevel());
-							MainPanel.this.gemPanel.getGogokStacks().setValue(
-									calculator.getGogokStacks());
-							MainPanel.this.gemPanel.getPainEnhancer().setValue(
-									calculator.getPainEnhancer());
-							MainPanel.this.gemPanel
-									.getPainEnhancerLevel()
-									.setValue(calculator.getPainEnhancerLevel());
-							MainPanel.this.gemPanel.getPainEnhancerStacks()
-									.setValue(
-											calculator.getPainEnhancerStacks());
-							MainPanel.this.itemPanel.getTnt().setValue(
-									calculator.getTnt());
-							MainPanel.this.itemPanel.getTntPercent().setValue(
-									calculator.getTntPercent());
-
+							calculator.calculate();
+							
 							updateDpsLabels();
 							updateCDRLabels();
-
-							MainPanel.this.disableListeners = false;
 
 							calculate();
 						}
@@ -2379,19 +2089,6 @@ public class MainPanel extends BasePanel {
 				data.getEquipmentDiscipline());
 	}
 
-	private void updateParagonPoints() {
-		this.calculator.setParagonPoints(
-				getValue(MainPanel.this.paragonPanel.getParagonIAS()),
-				getValue(MainPanel.this.paragonPanel.getParagonDexterity()),
-				getValue(MainPanel.this.paragonPanel.getParagonCDR()),
-				getValue(MainPanel.this.paragonPanel.getParagonCC()),
-				getValue(MainPanel.this.paragonPanel.getParagonCHD()),
-				getValue(MainPanel.this.paragonPanel.getParagonHatred()),
-				getValue(MainPanel.this.paragonPanel.getParagonRCR()),
-				getValue(MainPanel.this.paragonPanel.getParagonAD()));
-		this.calculator.saveForm();
-	}
-
 	protected void setGemDamage() {
 
 		this.gemPanel.getBot().setValue(data.isUseBaneOfTheTrapped());
@@ -2411,17 +2108,13 @@ public class MainPanel extends BasePanel {
 		this.gemPanel.getToxin().setValue(data.isToxin());
 		this.gemPanel.getToxinLevel().setValue(data.getToxinLevel());
 		this.gemPanel.getPainEnhancer().setValue(data.isPainEnhancer());
-		this.calculator.setPainEnhancer(data.isPainEnhancer());
 		this.gemPanel.getPainEnhancerLevel().setValue(
 				data.getPainEnhancerLevel());
-		this.calculator.setPainEnhancerLevel(data.getPainEnhancerLevel());
-		this.calculator.setGogok(data.isGogok());
-		this.calculator.setGogokLevel(data.getGogokLevel());
-
 	}
 
 	protected void updateDps() {
-		updateParagonPoints();
+		calculator.saveForm();
+		calculator.calculate();
 		updateDpsLabels();
 		updateCDRLabels();
 		updateRCRLabels();
@@ -2562,18 +2255,9 @@ public class MainPanel extends BasePanel {
 	}
 
 	protected void updateDpsLabels() {
+		this.calculator.calculate();
 		this.sheetDps.setText(Util.format(calculator.getSheetDps()));
 		this.aps.setText(Util.format(calculator.getSheetAps()));
-		this.itemPanel.getTntPercent().setValue(calculator.getTntPercent());
-		this.itemPanel.getTnt().setValue(calculator.getTnt());
-		this.gemPanel.getGogok().setValue(calculator.getGogok());
-		this.gemPanel.getGogokLevel().setValue(calculator.getGogokLevel());
-		this.gemPanel.getGogokStacks().setValue(calculator.getGogokStacks());
-		this.gemPanel.getPainEnhancer().setValue(calculator.getPainEnhancer());
-		this.gemPanel.getPainEnhancerLevel().setValue(
-				calculator.getPainEnhancerLevel());
-		this.gemPanel.getPainEnhancerStacks().setValue(
-				calculator.getPainEnhancerStacks());
 		this.dexterity.setText(String.valueOf(calculator.getTotalDexterity()));
 		this.critChance.setText(Util.format(Math.round(calculator
 				.getCritChance() * 1000.0) / 10.0) + "%");
@@ -2581,21 +2265,6 @@ public class MainPanel extends BasePanel {
 				.getCritDamage() * 100.0)) + "%");
 		this.avgWeaponDamage.setText(Util.format(calculator
 				.getTotalAverageWeaponDamage()));
-		double aps = this.calculator.getSheetAps();
-		double petIas = (this.itemPanel.getTnt().getValue() ? (this.itemPanel
-				.getTntPercent().getValue() / 100.0) : 0.0);
-
-		this.playerBuffPanel.getBbv().setValue(calculator.getBbv().getValue());
-		this.playerBuffPanel.getBbvUptime().setValue(
-				calculator.getBbvUptime().getValue());
-		this.playerBuffPanel.getValor().setValue(
-				calculator.getValor().getValue());
-		this.playerBuffPanel.getValorUptime().setValue(
-				calculator.getValorUptime().getValue());
-		this.playerBuffPanel.getRetribution().setValue(
-				calculator.getRetribution().getValue());
-		this.playerBuffPanel.getRetributionUptime().setValue(
-				calculator.getRetributionUptime().getValue());
 	}
 
 	protected void setSkillDamage() {
@@ -2997,6 +2666,14 @@ public class MainPanel extends BasePanel {
 						"17.67"),
 				new Field(this.playerBuffPanel.getPiranhas(), "Piranhas",
 						Boolean.FALSE.toString()),
+				new Field(this.playerBuffPanel.getStretchTime(), "StretchTime",
+						Boolean.FALSE.toString()),
+				new Field(this.playerBuffPanel.getStretchTimeUptime(), "StretchTimeUptime",
+						"0"),
+				new Field(this.playerBuffPanel.getTimeWarp(), "TimeWarp",
+						Boolean.FALSE.toString()),
+				new Field(this.playerBuffPanel.getTimeWarpUptime(), "TimeWarpUptime",
+						"0"),
 				new Field(this.playerBuffPanel.getPiranhasUptime(),
 						"PiranhasUptime", "100"),
 				new Field(this.playerBuffPanel.getInnerSanctuary(),
@@ -3056,6 +2733,7 @@ public class MainPanel extends BasePanel {
 	protected void doCalculate(AsyncTaskHandler dialog) {
 		try {
 
+			calculator.calculate();
 			saveForm();
 
 			this.formData = getFormData();
@@ -3185,6 +2863,10 @@ public class MainPanel extends BasePanel {
 			data.setWolfUptime(playerBuffPanel.getWolfUptime().getValue() / 100.0);
 			data.setBbv(playerBuffPanel.getBbv().getValue());
 			data.setBbvUptime(playerBuffPanel.getBbvUptime().getValue() / 100.0);
+			data.setStretchTime(playerBuffPanel.getStretchTime().getValue());
+			data.setStretchTimeUptime(playerBuffPanel.getStretchTimeUptime().getValue() / 100.0);
+			data.setTimeWarp(playerBuffPanel.getTimeWarp().getValue());
+			data.setTimeWarpUptime(playerBuffPanel.getTimeWarpUptime().getValue() / 100.0);
 			data.setMassConfusion(playerBuffPanel.getMassConfusion().getValue());
 			data.setMassConfusionUptime(playerBuffPanel
 					.getMassConfusionUptime().getValue() / 100.0);
@@ -3906,23 +3588,11 @@ public class MainPanel extends BasePanel {
 	protected void loadForm() {
 		super.loadForm();
 
-		calculator.setTnt(itemPanel.getTnt().getValue());
-		calculator.setTntPercent(itemPanel.getTntPercent().getValue());
-		calculator.setGogok(gemPanel.getGogok().getValue());
-		calculator.setGogokLevel(gemPanel.getGogokLevel().getValue());
-		calculator.setGogokStacks(gemPanel.getGogokStacks().getValue());
-		calculator.setPainEnhancer(gemPanel.getPainEnhancer().getValue());
-		calculator.setPainEnhancerLevel(gemPanel.getPainEnhancerLevel()
-				.getValue());
-		calculator.setPainEnhancerStacks(gemPanel.getPainEnhancerStacks()
-				.getValue());
 		calculator.saveForm();
 		calculator.calculate();
 
 		super.setFieldValue(skills, super.getFieldValue("skills", null));
 		super.setFieldValue(passives, super.getFieldValue("passives", null));
-		super.setFieldValue(calculator.getPassives(),
-				super.getFieldValue("passives", null));
 		super.setFieldValue(typeDamage,
 				super.getFieldValue("elemental.Damage", null));
 		super.setFieldValue(skillDamage,
@@ -4180,5 +3850,29 @@ public class MainPanel extends BasePanel {
 		document.getElementsByTagName('body')[0].appendChild(form);
 		form.submit();
 	}-*/;
+
+	public ParagonPanel getParagonPanel() {
+		return this.paragonPanel;
+	}
+
+	public PlayerBuffPanel getPlayerBuffs() {
+		return this.playerBuffPanel;
+	}
+
+	public PassivesPanel getPassivesPanel() {
+		return this.passives;
+	}
+
+	public BuffPanel getBuffPanel() {
+		return this.buffPanel;
+	}
+
+	public GemsPanel getGemPanel() {
+		return this.gemPanel;
+	}
+
+	public ItemPanel getItemPanel() {
+		return this.itemPanel;
+	}
 
 }

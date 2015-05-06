@@ -25,11 +25,10 @@ import java.util.Set;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation.D3Set;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.Realm;
 
-public class CharacterData implements Serializable  {
+public class CharacterData implements Serializable {
 
 	private static final long serialVersionUID = -7542480040314924139L;
-	
-	
+
 	private int heroLevel;
 	private Realm realm;
 	private String profile;
@@ -206,7 +205,7 @@ public class CharacterData implements Serializable  {
 	private boolean vaxo;
 	private double areaDamageEquipment;
 	private int paragonAD;
-//	private int rovKilled;
+	// private int rovKilled;
 	private int numNats;
 	private int equipmentDiscipline;
 	private boolean bastions;
@@ -229,7 +228,11 @@ public class CharacterData implements Serializable  {
 	private long additionalTargetHealth;
 	private int numPlayers;
 	private int timeLimit;
-	
+	private boolean timeWarp;
+	private boolean stretchTime;
+	private double timeWarpUptime;
+	private double stretchTimeUptime;
+
 	public CharacterData copy() {
 		return new CharacterData(this);
 	}
@@ -276,26 +279,32 @@ public class CharacterData implements Serializable  {
 		numHealthGlobes = 1;
 		delay = 50;
 		odysseysEndUptime = 1.0;
-//		rovKilled = 0;
-//		duration = BreakPoint.DURATION;
+		// rovKilled = 0;
+		// duration = BreakPoint.DURATION;
 		vaxoUptime = 1.0;
 		primaryTargetType = MonsterType.RiftGuardian;
 		additionalTargetType = MonsterType.NonElite;
 		riftLevel = 25;
 		numPlayers = 1;
-		primaryTargetHealth = MonsterHealth.getHealth(riftLevel, numPlayers, primaryTargetType);
-		additionalTargetHealth = MonsterHealth.getHealth(riftLevel, numPlayers, additionalTargetType);
+		primaryTargetHealth = MonsterHealth.getHealth(riftLevel, numPlayers,
+				primaryTargetType);
+		additionalTargetHealth = MonsterHealth.getHealth(riftLevel, numPlayers,
+				additionalTargetType);
 		timeLimit = 2 * 60;
+		stretchTime = false;
+		timeWarp = false;
+		stretchTimeUptime = 0.0;
+		timeWarpUptime = 0.0;
 	}
-	
+
 	public CharacterData() {
-		
+
 	}
 
 	public CharacterData(CharacterData other) {
 		updateFrom(other);
 	}
-	
+
 	public void updateFrom(CharacterData other) {
 		this.additionalTargetHealth = other.additionalTargetHealth;
 		this.additionalTargetType = other.additionalTargetType;
@@ -343,7 +352,7 @@ public class CharacterData implements Serializable  {
 		this.dmlPercent = other.dmlPercent;
 		this.diamond = other.diamond;
 		this.distanceToTarget = other.distanceToTarget;
-//		this.duration = other.duration;
+		// this.duration = other.duration;
 		this.elementalDamage = Util.copy(other.elementalDamage);
 		this.eliteDamage = other.eliteDamage;
 		this.enforcerLevel = other.enforcerLevel;
@@ -460,6 +469,8 @@ public class CharacterData implements Serializable  {
 		this.slamDance = other.slamDance;
 		this.spines = other.spines;
 		this.spinesHatred = other.spinesHatred;
+		this.stretchTime = other.stretchTime;
+		this.stretchTimeUptime = other.stretchTimeUptime;
 		this.strongarm = other.strongarm;
 		this.strongarmPercent = other.strongarmPercent;
 		this.strongarms = other.strongarms;
@@ -473,6 +484,8 @@ public class CharacterData implements Serializable  {
 		this.targetSpacing = other.targetSpacing;
 		this.targetType = other.targetType;
 		this.timeLimit = other.timeLimit;
+		this.timeWarp = other.timeWarp;
+		this.timeWarpUptime = other.timeWarpUptime;
 		this.tnt = other.tnt;
 		this.tntPercent = other.tntPercent;
 		this.toxin = other.toxin;
@@ -520,20 +533,20 @@ public class CharacterData implements Serializable  {
 
 	public double getElementalDamage(DamageType type) {
 		Double d = elementalDamage.get(type);
-		
+
 		return (d == null) ? 0.0 : d;
 	}
-	
+
 	public double getSentryDamage() {
 		return getSkillDamage(ActiveSkill.SENTRY);
 	}
 
 	public double getSkillDamage(ActiveSkill skill) {
 		Double d = skillDamage.get(skill);
-		
+
 		return (d == null) ? 0.0 : d;
 	}
-	
+
 	public double getEaDamage() {
 		return getSkillDamage(ActiveSkill.EA);
 	}
@@ -553,7 +566,7 @@ public class CharacterData implements Serializable  {
 	public double getChakDamage() {
 		return getSkillDamage(ActiveSkill.CHAK);
 	}
-	
+
 	public double getFireDamage() {
 		return getElementalDamage(DamageType.Fire);
 	}
@@ -568,10 +581,11 @@ public class CharacterData implements Serializable  {
 
 	public double getSentryAps() {
 		double gogokIas = gogok ? (gogokStacks * .01) : 0.0;
-		
-		return this.aps * (this.tnt ? (1.0 + this.tntPercent) : 1.0) * (1.0 + gogokIas);
+
+		return this.aps * (this.tnt ? (1.0 + this.tntPercent) : 1.0)
+				* (1.0 + gogokIas);
 	}
-	
+
 	public double getCritChance() {
 		return critChance;
 	}
@@ -799,6 +813,7 @@ public class CharacterData implements Serializable  {
 	public boolean isBallistics() {
 		return passives.contains(Passive.Ballistics);
 	}
+
 	public boolean isGrenadier() {
 		return passives.contains(Passive.Grenadier);
 	}
@@ -1190,7 +1205,7 @@ public class CharacterData implements Serializable  {
 	public void setTargetSize(TargetSize targetSize) {
 		this.targetSize = targetSize;
 	}
-	
+
 	public double getTotalEliteDamage() {
 		return eliteDamage + ((botp && (botpLevel >= 25)) ? 0.15 : 0.0);
 	}
@@ -1676,7 +1691,8 @@ public class CharacterData implements Serializable  {
 	}
 
 	public double getMaxHatred() {
-		return 125 + (this.paragonHatred * 0.5) + (this.isBloodVengeance() ? 25 : 0);
+		return 125 + (this.paragonHatred * 0.5)
+				+ (this.isBloodVengeance() ? 25 : 0);
 	}
 
 	public boolean isKridershot() {
@@ -1730,6 +1746,7 @@ public class CharacterData implements Serializable  {
 	public double getGrenadeDamage() {
 		return getSkillDamage(ActiveSkill.GRENADE);
 	}
+
 	public int getParagonHatred() {
 		return paragonHatred;
 	}
@@ -1865,7 +1882,7 @@ public class CharacterData implements Serializable  {
 	public void setOdysseysEndUptime(double odysseysEndUptime) {
 		this.odysseysEndUptime = odysseysEndUptime;
 	}
-	
+
 	public double getCompanionDamage() {
 		return getSkillDamage(ActiveSkill.Companion);
 	}
@@ -1946,7 +1963,8 @@ public class CharacterData implements Serializable  {
 		return offHand_weaponDamagePercent;
 	}
 
-	public void setOffHand_weaponDamagePercent(double offHand_weaponDamagePercent) {
+	public void setOffHand_weaponDamagePercent(
+			double offHand_weaponDamagePercent) {
 		this.offHand_weaponDamagePercent = offHand_weaponDamagePercent;
 	}
 
@@ -2042,14 +2060,14 @@ public class CharacterData implements Serializable  {
 		return getSkillDamage(ActiveSkill.RoV);
 	}
 
-//	public int getRovKilled() {
-//		return rovKilled;
-//	}
-//
-//	public void setRovKilled(int rovKilled) {
-//		this.rovKilled = rovKilled;
-//	}
-//
+	// public int getRovKilled() {
+	// return rovKilled;
+	// }
+	//
+	// public void setRovKilled(int rovKilled) {
+	// this.rovKilled = rovKilled;
+	// }
+	//
 	public int getNumNats() {
 		return numNats;
 	}
@@ -2075,15 +2093,15 @@ public class CharacterData implements Serializable  {
 	}
 
 	public boolean hasGenerator() {
-		
-		for (Map.Entry<ActiveSkill,Rune> e : this.getSkills().entrySet()) {
+
+		for (Map.Entry<ActiveSkill, Rune> e : this.getSkills().entrySet()) {
 			ActiveSkill s = e.getKey();
-			
+
 			if (s.getSkillType() == SkillType.Primary)
 				return true;
-			
+
 			SkillAndRune skr = new SkillAndRune(s, e.getValue());
-			
+
 			if (skr.getHatred(this) > 0)
 				return true;
 		}
@@ -2092,11 +2110,13 @@ public class CharacterData implements Serializable  {
 	}
 
 	public boolean hasSpender() {
-		for (Map.Entry<ActiveSkill,Rune> e : this.getSkills().entrySet()) {
+		for (Map.Entry<ActiveSkill, Rune> e : this.getSkills().entrySet()) {
 			ActiveSkill s = e.getKey();
 			SkillAndRune skr = new SkillAndRune(s, e.getValue());
-			
-			if ((s.getSkillType() == SkillType.Channeled) || ((s.getSkillType() == SkillType.Spender) && (skr.getHatred(this) < 0)))
+
+			if ((s.getSkillType() == SkillType.Channeled)
+					|| ((s.getSkillType() == SkillType.Spender) && (skr
+							.getHatred(this) < 0)))
 				return true;
 		}
 
@@ -2233,12 +2253,12 @@ public class CharacterData implements Serializable  {
 
 	public double getMaxDiscipline() {
 		double d = this.equipmentDiscipline + 30.0;
-		
+
 		Rune r = skills.get(ActiveSkill.Preparation);
-		
+
 		if (r == Rune.Invigoration)
 			d += 15.0;
-		
+
 		return d;
 	}
 
@@ -2344,6 +2364,38 @@ public class CharacterData implements Serializable  {
 
 	public void setTimeLimit(int timeLimit) {
 		this.timeLimit = timeLimit;
+	}
+
+	public boolean isTimeWarp() {
+		return timeWarp;
+	}
+
+	public void setTimeWarp(boolean timeWarp) {
+		this.timeWarp = timeWarp;
+	}
+
+	public boolean isStretchTime() {
+		return stretchTime;
+	}
+
+	public void setStretchTime(boolean stretchTime) {
+		this.stretchTime = stretchTime;
+	}
+
+	public double getTimeWarpUptime() {
+		return timeWarpUptime;
+	}
+
+	public void setTimeWarpUptime(double timeWarpUptime) {
+		this.timeWarpUptime = timeWarpUptime;
+	}
+
+	public double getStretchTimeUptime() {
+		return stretchTimeUptime;
+	}
+
+	public void setStretchTimeUptime(double strecthTimeUptime) {
+		this.stretchTimeUptime = strecthTimeUptime;
 	}
 
 }

@@ -43,7 +43,8 @@ public enum Buff {
 	Seethe("Vengeance/Seethe"),
 	FocusedMind("Preparation/Focused Mind"),
 	CompanionActive("Companion Active"),
-	Vengeance("Vengeance");
+	Vengeance("Vengeance"),
+	TimeWarp("Slow Time/Time Warp");
 	
 	private String name;
 	

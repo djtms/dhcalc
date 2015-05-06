@@ -6,6 +6,9 @@ Change Log:
 - Re-enabled Caltrops 
 - Re-enabled Spike Traps
 - Fixed reset of Gogok level when changing # of Gogok stacks
+- Removed duplicate fields from DPS/Break Point Calculator dialog (it is still updated in real time from main screen)
+- Fixed APS calculation (in damage log) to include other player buffs that affect IAS (only if uptime = 100%)
+- Fixed display of Average Weapon Damage to account for +damage on Jewelry
 
 **5/5/15**
 - Fixed cooldown for other player buffs

@@ -640,6 +640,12 @@ public class ExportExcel {
 		createInput(inputs, data.data.getBbvUptime(), "Big Bad Voodoo Uptime",
 				pctStyle);
 		createInput(inputs, data.data.isSlamDance(), "Slam Dance");
+		createInput(inputs, data.data.isTimeWarp(), "Slow Time/Time Warp");
+		createInput(inputs, data.data.getTimeWarpUptime(), "Slow Time/Time Warp Uptime",
+				pctStyle);
+		createInput(inputs, data.data.isStretchTime(), "Slow Time/Stretch Time");
+		createInput(inputs, data.data.getStretchTimeUptime(), "Slow Time/Stretch Time Uptime",
+				pctStyle);
 		createInput(inputs, data.data.isMassConfusion(),
 				"Mass Connfusion/Paranoia");
 		createInput(inputs, data.data.getMassConfusionUptime(),

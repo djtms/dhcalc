@@ -110,20 +110,21 @@ public enum DamageMultiplier {
 					return state.getData().isCoe() ? (state.getData()
 							.getCoePercent() / 4.0) : 0.0;
 				}
-			}), BL("BL", DamageAccumulator.Multiplicative,
+			}), BL(
+			"BL",
+			DamageAccumulator.Multiplicative,
 			"Ball Lightning Damage Multiplier (varies based on target size and Meticulous Bolts %)",
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					double m = state.getData().getTargetSize()
-									.getHits() / 2.0;
+					double m = state.getData().getTargetSize().getHits() / 2.0;
 
 					if (state.getData().isMeticulousBolts()) {
 						double ratio = 1.0 / state.getData()
 								.getMeticulousBoltsPercent();
 						m *= ratio;
 					}
-					
+
 					return m - 1.0;
 				}
 			}), Rockets("Ballistics", DamageAccumulator.Multiplicative,
@@ -526,6 +527,14 @@ public enum DamageMultiplier {
 				@Override
 				public Double getValue(SimulationState state) {
 					return state.getBuffs().isActive(Buff.Bbv) ? 0.3 : 0.0;
+				}
+			}), TW("TW", DamageAccumulator.Additive,
+			"Slow Time/Time Warp (15% during uptime)",
+			new Test<SimulationState, Double>() {
+				@Override
+				public Double getValue(SimulationState state) {
+					return state.getBuffs().isActive(Buff.TimeWarp) ? 0.15
+							: 0.0;
 				}
 			}), Piranhas("Piranhas", DamageAccumulator.Additive,
 			"Piranhas active bonus (15% during uptime)",

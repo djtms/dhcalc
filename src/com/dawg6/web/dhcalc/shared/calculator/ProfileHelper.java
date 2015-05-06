@@ -28,9 +28,9 @@ import java.util.Vector;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.Const;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.HeroProfile;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.Value;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation.D3Set;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation.Attributes.Attribute;
+import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation.D3Set;
+import com.dawg6.web.dhcalc.shared.calculator.d3api.Value;
 
 public class ProfileHelper {
 
@@ -174,17 +174,22 @@ public class ProfileHelper {
 		double wIas = data.getWeaponIas();
 		double pIas = data.getParagonIAS() * 0.002;
 		double fIas = data.isFocusedMind() ? 0.03 : 0.0;
+		double bbvIas = (data.isBbv() && (data.getBbvUptime() >= 1.0)) ? 0.2 : 0.0;
+		double lovIas = (data.isValor() && (data.getValorUptime() >= 1.0)) ? 0.08 : 0.0;
+		double retIas = (data.isRetribution() && (data.getRetributionUptime() >= 1.0)) ? 0.1 : 0.0;
+		double stIas = (data.isStretchTime() && (data.getStretchTimeUptime() >= 1.0)) ? 0.1 : 0.0;
 		
 		double gogokIas = data.isGogok() ? (data.getGogokStacks() / 100.0)
 				: 0.0;
 		double painEnhancerIas = (data.isPainEnhancer() && data
 				.getPainEnhancerLevel() >= 25) ? (data.getPainEnhancerStacks() * 0.03)
 				: 0.0;
+				
 
 		double dwIas = (offHand_type != null) ? 0.15 : 0.0;
 
 		double aps = type.getAps() * (1.0 + wIas)
-				* (1.0 + eIas + fIas + pIas + gogokIas + painEnhancerIas + dwIas);
+				* (1.0 + eIas + fIas + pIas + gogokIas + painEnhancerIas + dwIas + bbvIas + lovIas + retIas + stIas);
 
 		double averageWeaponDamage = ((min + max) / 2.0);
 
@@ -205,7 +210,7 @@ public class ProfileHelper {
 		double offHand_wIas = data.getOffHand_weaponIas();
 		double offHand_aps = (offHand_type == null) ? 0.0 : (offHand_type
 				.getAps() * (1.0 + offHand_wIas) * (1.0 + eIas + pIas
-				+ gogokIas + painEnhancerIas + dwIas));
+				+ gogokIas + painEnhancerIas + dwIas + bbvIas + lovIas + retIas + stIas));
 		data.setOffHand_aps(offHand_aps);
 
 		double offHand_averageWeaponDamage = ((min + max) / 2.0);
