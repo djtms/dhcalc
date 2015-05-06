@@ -226,20 +226,10 @@ public class DPSCalculator extends BasePanel {
 		paragonPanel.getParagonCC().addChangeHandler(handler);
 		paragonPanel.getParagonCHD().addChangeHandler(handler);
 
-		buffPanel = new BuffPanel();
-		flexTable_3.setWidget(4, 0, buffPanel);
-		flexTable_3.getCellFormatter().setVerticalAlignment(4, 0,
-				HasVerticalAlignment.ALIGN_TOP);
-		flexTable_3.getCellFormatter().setHorizontalAlignment(4, 0,
-				HasHorizontalAlignment.ALIGN_LEFT);
 		flexTable_7.getCellFormatter().setVerticalAlignment(0, 0,
 				HasVerticalAlignment.ALIGN_TOP);
 		flexTable_7.getCellFormatter().setHorizontalAlignment(0, 0,
 				HasHorizontalAlignment.ALIGN_LEFT);
-
-		buffPanel.getAnatomy().addClickHandler(clickHandler);
-		buffPanel.getFocusedMind().addClickHandler(clickHandler);
-		buffPanel.getHysteria().addClickHandler(clickHandler);
 
 		passives = new PassivesPanel();
 		flexTable_7.setWidget(2, 0, passives);
@@ -249,8 +239,28 @@ public class DPSCalculator extends BasePanel {
 				HasHorizontalAlignment.ALIGN_LEFT);
 		passives.addChangeHandler(handler);
 		
+		FlexTable flexTable6 = new FlexTable();
+		flexTable6.setWidth("100%");
+		flexTable_3.setWidget(2, 0, flexTable6);
+		
 		CaptionPanel cptnpnlNewPanel_4 = new CaptionPanel("Character");
-		flexTable_3.setWidget(1, 0, cptnpnlNewPanel_4);
+		cptnpnlNewPanel_4.setHeight("100%");
+		flexTable6.setWidget(0, 0, cptnpnlNewPanel_4);
+
+		buffPanel = new BuffPanel();
+		flexTable6.setWidget(0, 1, buffPanel);
+		flexTable6.getCellFormatter().setVerticalAlignment(0, 1,
+				HasVerticalAlignment.ALIGN_TOP);
+		flexTable6.getCellFormatter().setHorizontalAlignment(0, 1,
+				HasHorizontalAlignment.ALIGN_LEFT);
+		flexTable6.getCellFormatter().setVerticalAlignment(0, 0,
+				HasVerticalAlignment.ALIGN_TOP);
+		flexTable6.getCellFormatter().setHorizontalAlignment(0, 0,
+				HasHorizontalAlignment.ALIGN_LEFT);
+
+		buffPanel.getAnatomy().addClickHandler(clickHandler);
+		buffPanel.getFocusedMind().addClickHandler(clickHandler);
+		buffPanel.getHysteria().addClickHandler(clickHandler);
 
 		FlexTable flexTable_4 = new FlexTable();
 		flexTable_4.setCellPadding(2);
@@ -279,8 +289,8 @@ public class DPSCalculator extends BasePanel {
 		flexTable_4.setWidget(1, 1, dexterity);
 		dexterity.setVisibleLength(6);
 
-		CaptionPanel captionPanel = new CaptionPanel("Other");
-		flexTable_3.setWidget(3, 0, captionPanel);
+		CaptionPanel captionPanel = new CaptionPanel("Other Player Buffs");
+		flexTable_3.setWidget(1, 0, captionPanel);
 
 		FlexTable flexTable_8 = new FlexTable();
 		flexTable_8.setCellPadding(2);

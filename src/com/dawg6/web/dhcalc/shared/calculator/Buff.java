@@ -34,7 +34,7 @@ public enum Buff {
 	Retribution("Retribution"),
 	ConvictionPassive("Conviction Passive"),
 	ConvictionActive("Conviction Active"),
-	Caltrops("Caltrops"),
+	Caltrops("Caltrops/BtT"),
 	MfdPrimary("MfD Primary"),
 	MfdAdditional("MfD Additional"),
 	Calamity("Calamity MfD"),

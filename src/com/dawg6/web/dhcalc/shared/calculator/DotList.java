@@ -33,7 +33,9 @@ public class DotList {
 		if (damage.source.skill == ActiveSkill.RoV)
 			return false;
 		
-		return getDots(target).containsKey(damage.source);
+		Dot dot = getDots(target).get(damage.source);
+		
+		return ((dot != null) && (dot.expires > damage.time));
 	}
 	
 	private Map<DamageSource, Dot> getDots(TargetType target) {
@@ -61,7 +63,7 @@ public class DotList {
 			Map<DamageSource, Dot> dots = getDots(target);
 			Dot dot = dots.get(key);
 			
-			if (dot == null) {
+			if ((dot == null) || (dot.expires <= damage.time)) {
 				dot = new Dot();
 				dot.time = damage.time + 1.0;
 				dot.expires = damage.time + damage.duration;
@@ -96,6 +98,8 @@ public class DotList {
 					dot.time += 1.0;
 					Damage d = dot.damage.copy();
 					d.duration = 0.0;
+					d.disc = 0.0;
+					d.hatred = 0.0;
 					toApply.add(d);
 				} else if (dot.time < next) {
 					next = dot.time;

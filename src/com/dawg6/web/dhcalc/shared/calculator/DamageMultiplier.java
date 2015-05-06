@@ -502,9 +502,7 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return (state.getData().isCaltrops() && (state.getData()
-							.getCaltropsRune() == Rune.Bait_the_Trap)) ? (0.1 * state
-							.getData().getCaltropsUptime()) : 0.0;
+					return state.getBuffs().isActive(Buff.Caltrops) ? 0.1 : 0.0;
 				}
 			}), Taeguk("Taeguk", DamageAccumulator.Additive,
 			"Taeguk active gem bonus (0.5% per stack)",

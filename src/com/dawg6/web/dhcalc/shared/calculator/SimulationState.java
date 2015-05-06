@@ -19,6 +19,8 @@
 package com.dawg6.web.dhcalc.shared.calculator;
 
 import java.io.Serializable;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class SimulationState implements Serializable {
 
@@ -35,6 +37,7 @@ public class SimulationState implements Serializable {
 	private Hand hand;
 	private double disc;
 	private double maxDisc;
+	private final Set<Integer> spikeTraps = new TreeSet<Integer>();
 
 	public SimulationState() {
 		this.time = 0.0;
@@ -150,6 +153,26 @@ public class SimulationState implements Serializable {
 
 	public DotList getDots() {
 		return dots;
+	}
+
+	public int getNumSpikeTraps() {
+		return spikeTraps.size();
+	}
+
+	public int addSpikeTrap() {
+		
+		for (Integer i = 1; i <= 3; i++) {
+			if (!spikeTraps.contains(i)) {
+				spikeTraps.add(i);
+				return i;
+			}
+		}
+
+		return 0;
+	}
+
+	public void removeSpikeTrap(Integer num) {
+		spikeTraps.remove(num);
 	}
 
 }

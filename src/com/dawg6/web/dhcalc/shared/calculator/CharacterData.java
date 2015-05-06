@@ -22,8 +22,8 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 
-import com.dawg6.web.dhcalc.shared.calculator.d3api.Realm;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation.D3Set;
+import com.dawg6.web.dhcalc.shared.calculator.d3api.Realm;
 
 public class CharacterData implements Serializable  {
 
@@ -137,7 +137,6 @@ public class CharacterData implements Serializable  {
 	private double hexingPantsPercent;
 	private double hexingPantsUptime;
 	private double caltropsUptime;
-	private int numSpikeTraps;
 	private Map<ActiveSkill, Rune> skills;
 	private Map<String, Integer> cdrData;
 	private Map<String, Integer> rcrData;
@@ -277,7 +276,6 @@ public class CharacterData implements Serializable  {
 		numHealthGlobes = 1;
 		delay = 50;
 		odysseysEndUptime = 1.0;
-		numSpikeTraps = 3;
 //		rovKilled = 0;
 //		duration = BreakPoint.DURATION;
 		vaxoUptime = 1.0;
@@ -402,7 +400,6 @@ public class CharacterData implements Serializable  {
 		this.numMarauders = other.numMarauders;
 		this.numNats = other.numNats;
 		this.numPlayers = other.numPlayers;
-		this.numSpikeTraps = other.numSpikeTraps;
 		this.numTargets = other.numTargets;
 		this.numUe = other.numUe;
 		this.odysseysEnd = other.odysseysEnd;
@@ -2011,14 +2008,6 @@ public class CharacterData implements Serializable  {
 
 	public void setHelltrapperPercent(double helltrapperPercent) {
 		this.helltrapperPercent = helltrapperPercent;
-	}
-
-	public int getNumSpikeTraps() {
-		return numSpikeTraps;
-	}
-
-	public void setNumSpikeTraps(int numSpikeTraps) {
-		this.numSpikeTraps = numSpikeTraps;
 	}
 
 	public boolean isVaxo() {

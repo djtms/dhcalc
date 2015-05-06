@@ -3,6 +3,8 @@ Change Log:
 **5/6/15**
 - Fixed Wolf Howl/BotP (BotP was triggering Wolf buff; copy & paste error!)
 - Updated Damage Log for Elemental Arrow/Ball Lightning to show multiplier (based on target size and Meticulous Bolts %)
+- Re-enabled Caltrops 
+- Re-enabled Spike Traps
 
 **5/5/15**
 - Fixed cooldown for other player buffs

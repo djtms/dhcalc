@@ -126,6 +126,34 @@ public class BuffEvent extends Event {
 		}
 	}
 
+	public static class CaltropsBuffEvent extends BuffEvent {
+
+		private final double cost;
+
+		public CaltropsBuffEvent(CharacterData data) {
+			super(Buff.Caltrops, 6.0, data.getCaltropsUptime());
+			this.cost = 6.0 * (1.0 - data.getRcr());
+		}
+		
+		@Override
+		protected boolean test(SimulationState state) {
+			return state.getDisc() >= cost;
+		}
+		
+		@Override
+		protected void updateState(SimulationState state) {
+			state.addDisc(-cost);
+		}
+
+		@Override
+		protected void populateDamage(Damage d) {
+			d.shooter = "Player";
+			d.source = new DamageSource(ActiveSkill.Caltrops, Rune.Bait_the_Trap);
+			d.note = "Caltrops";
+			d.disc = -cost;
+		}
+	}
+
 	public static class MfDAdditionalBuff extends BuffEvent {
 
 		private final Rune rune;

@@ -505,6 +505,9 @@ public class MainPanel extends BasePanel {
 		CaptionPanel captionPanel = new CaptionPanel("Compare Builds");
 		verticalPanel_2.add(captionPanel);
 
+		hatredPanel = new HatredPanel();
+		verticalPanel_2.add(hatredPanel);
+
 		compareTable = new FlexTable();
 		captionPanel.setContentWidget(compareTable);
 		compareTable.setCellPadding(2);
@@ -813,9 +816,6 @@ public class MainPanel extends BasePanel {
 
 		rcrPanel = new RCRPanel();
 		vpanel.add(rcrPanel);
-
-		hatredPanel = new HatredPanel();
-		vpanel.add(hatredPanel);
 
 		buffPanel = new BuffPanel();
 		vpanel.add(buffPanel);
@@ -2831,7 +2831,6 @@ public class MainPanel extends BasePanel {
 						"100"),
 				new Field(this.skills.getCaltropsUptime(), "CaltropsUptime",
 						"100"),
-				new Field(this.skills.getNumSpikeTraps(), "NumSpikeTraps", "3"),
 				new Field(this.hatredPanel.getHatredPerSecond(),
 						"EquipHatredPerSecond", "0.0"),
 				new Field(this.hatredPanel.getEquipmentDiscipline(),
@@ -3218,7 +3217,6 @@ public class MainPanel extends BasePanel {
 			data.setHexingPantsUptime(itemPanel.getHexingPantsUptime()
 					.getValue() / 100.0);
 			data.setCaltropsUptime(skills.getCaltropsUptime().getValue() / 100.0);
-			data.setNumSpikeTraps(skills.getNumSpikeTraps().getValue());
 			data.setHatredPerSecond(hatredPanel.getHatredPerSecond().getValue());
 			data.setEquipmentDiscipline(hatredPanel.getEquipmentDiscipline()
 					.getValue());
@@ -3477,7 +3475,7 @@ public class MainPanel extends BasePanel {
 				col++;
 
 			if (d.hatred != 0) {
-				Label hatredLabel = new Label(Util.format(Math
+				Label hatredLabel = new Label(((d.hatred > 0) ? "+" : "") + Util.format(Math
 						.round(d.hatred * 10.0) / 10.0), false);
 				hatredLabel.addStyleName("dpsCol");
 				damageLog.setWidget(row + 1, col++, hatredLabel);
@@ -3491,7 +3489,7 @@ public class MainPanel extends BasePanel {
 			damageLog.setWidget(row + 1, col++, hatredLabel2);
 
 			if (d.disc != 0) {
-				Label discLabel = new Label(Util.format(Math
+				Label discLabel = new Label(((d.disc > 0) ? "+" : "") + Util.format(Math
 						.round(d.disc * 10.0) / 10.0), false);
 				discLabel.addStyleName("dpsCol");
 				damageLog.setWidget(row + 1, col++, discLabel);

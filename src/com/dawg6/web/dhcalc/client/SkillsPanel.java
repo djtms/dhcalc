@@ -42,7 +42,6 @@ public class SkillsPanel extends Composite {
 	private final NumberSpinner mfdUptime;
 	private final NumberSpinner mfdAddUptime;
 	private final NumberSpinner caltropsUptime;
-	private final NumberSpinner numSpikeTraps;
 	private final List<Anchor> skillAnchors = new Vector<Anchor>(NUM_SKILLS);
 	private final List<ListBox> skillBoxes = new Vector<ListBox>(NUM_SKILLS);
 	private final List<Anchor> runeAnchors = new Vector<Anchor>(NUM_SKILLS);
@@ -154,21 +153,6 @@ public class SkillsPanel extends Composite {
 
 		row++;
 
-		Label label_1 = new Label("# Spike Traps:");
-		label_1.setWordWrap(false);
-		flexTable.setWidget(row, 0, label_1);
-		flexTable.getFlexCellFormatter().setColSpan(row, 0, 2);
-		flexTable.getFlexCellFormatter().setHorizontalAlignment(row, 0,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-
-		numSpikeTraps = new NumberSpinner();
-		numSpikeTraps.setVisibleLength(3);
-		numSpikeTraps.setTitle("# of Spike Traps deployed during fight");
-		flexTable.setWidget(row, 1, numSpikeTraps);
-		flexTable.getFlexCellFormatter().setColSpan(row, 1, 2);
-
-		row++;
-
 		Label lblUptime = new Label("Primary Target MfD Uptime:");
 		lblUptime.setWordWrap(false);
 		flexTable.setWidget(row, 0, lblUptime);
@@ -213,7 +197,6 @@ public class SkillsPanel extends Composite {
 
 		mfdUptime.setMax(100);
 		mfdAddUptime.setMax(100);
-		numSpikeTraps.setMax(10);
 		caltropsUptime.setMax(100);
 
 	}
@@ -326,10 +309,6 @@ public class SkillsPanel extends Composite {
 
 	public NumberSpinner getCaltropsUptime() {
 		return caltropsUptime;
-	}
-
-	public NumberSpinner getNumSpikeTraps() {
-		return numSpikeTraps;
 	}
 
 	public Map<ActiveSkill, Rune> getSkills() {

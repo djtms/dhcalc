@@ -86,6 +86,19 @@ public class FiringData {
 		if (data.isMarked() && (data.getMfdUptime() > 0)) 
 			eventQueue.push(new BuffEvent.MfDPrimaryBuff(data));
 
+		if (data.isSpikeTrap()) 
+			eventQueue.push(new SpikeTrapActionEvent(data));
+
+		Rune caltropsRune = data.getCaltropsRune();
+		
+		if ((caltropsRune != null) && (data.getCaltropsUptime() > 0)) {
+			
+			if (caltropsRune == Rune.Bait_the_Trap)
+				eventQueue.push(new BuffEvent.CaltropsBuffEvent(data));
+			else
+				eventQueue.push(new CaltropsEvent(data));
+		}
+
 		if (data.isMarked() && (data.getMfdAddUptime() > 0) && (data.getNumAdditional() > 0)) 
 			eventQueue.push(new BuffEvent.MfDAdditionalBuff(data));
 
