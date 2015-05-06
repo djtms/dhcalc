@@ -55,7 +55,7 @@
 		<url-pattern>/json</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
-		<welcome-file>dhcalc.html?v2</welcome-file>
+		<welcome-file>dhcalc.html</welcome-file>
 	</welcome-file-list>
 	<system-properties>
 		<property name="java.util.logging.config.file" value="WEB-INF/logging.properties" />
