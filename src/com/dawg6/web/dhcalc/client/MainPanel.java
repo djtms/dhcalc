@@ -871,6 +871,21 @@ public class MainPanel extends BasePanel {
 				}
 			}
 		});
+
+		gemPanel.getGogokLevel().addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				if (!disableListeners) {
+					disableListeners = true;
+					calculator.setGogokLevel(gemPanel.getGogokLevel()
+							.getValue());
+					calculator.saveForm();
+					updateDpsLabels();
+					disableListeners = false;
+				}
+			}
+		});
 		gemPanel.getPainEnhancerStacks().addChangeHandler(new ChangeHandler() {
 
 			@Override

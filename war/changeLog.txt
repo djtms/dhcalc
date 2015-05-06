@@ -5,6 +5,7 @@ Change Log:
 - Updated Damage Log for Elemental Arrow/Ball Lightning to show multiplier (based on target size and Meticulous Bolts %)
 - Re-enabled Caltrops 
 - Re-enabled Spike Traps
+- Fixed reset of Gogok level when changing # of Gogok stacks
 
 **5/5/15**
 - Fixed cooldown for other player buffs
