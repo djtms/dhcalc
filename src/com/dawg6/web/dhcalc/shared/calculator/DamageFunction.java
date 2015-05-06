@@ -74,7 +74,7 @@ public class DamageFunction {
 			new DamageRow(ActiveSkill.EA, Rune.None, 3.0, true,
 					Integer.MAX_VALUE, DamageType.Fire),
 			new DamageRow(ActiveSkill.EA, Rune.Ball_Lightning, 3.0, true,
-					Integer.MAX_VALUE, "Special", DamageType.Lightning),
+					Integer.MAX_VALUE, "Special", DamageType.Lightning, DamageMultiplier.BL),
 			new DamageRow(ActiveSkill.EA, Rune.Frost_Arrow, 3.3, true, 0,
 					DamageType.Cold),
 			new DamageRow(ActiveSkill.EA, Rune.Frost_Arrow, 3.3, false, 10, 10,
@@ -470,20 +470,9 @@ public class DamageFunction {
 							double wd = baseWd;
 
 							double m = dr.scalar;
-
+							
 							if (dr.source.skill == ActiveSkill.CR) {
 								m = state.getData().getCrashingRainPercent();
-							} else if ((dr.source.skill == ActiveSkill.EA)
-									&& (dr.source.rune == Rune.Ball_Lightning)) {
-								m = (dr.scalar / 2)
-										* state.getData().getTargetSize()
-												.getHits();
-
-								if (state.getData().isMeticulousBolts()) {
-									double ratio = 1.0 / state.getData()
-											.getMeticulousBoltsPercent();
-									m *= ratio;
-								}
 							} else if (dr.source.gem != null) {
 								m = dr.source.gem.getScalar(state.getData());
 							} else if (dr.dot) {

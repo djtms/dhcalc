@@ -1,5 +1,9 @@
 Change Log:
 
+**5/6/15**
+- Fixed Wolf Howl/BotP (BotP was triggering Wolf buff; copy & paste error!)
+- Updated Damage Log for Elemental Arrow/Ball Lightning to show multiplier (based on target size and Meticulous Bolts %)
+
 **5/5/15**
 - Fixed cooldown for other player buffs
 - Moved To-Do list to GitHub (https://github.com/dawg6/dhcalc/issues)

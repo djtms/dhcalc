@@ -110,6 +110,22 @@ public enum DamageMultiplier {
 					return state.getData().isCoe() ? (state.getData()
 							.getCoePercent() / 4.0) : 0.0;
 				}
+			}), BL("BL", DamageAccumulator.Multiplicative,
+			"Ball Lightning Damage Multiplier (varies based on target size and Meticulous Bolts %)",
+			new Test<SimulationState, Double>() {
+				@Override
+				public Double getValue(SimulationState state) {
+					double m = state.getData().getTargetSize()
+									.getHits() / 2.0;
+
+					if (state.getData().isMeticulousBolts()) {
+						double ratio = 1.0 / state.getData()
+								.getMeticulousBoltsPercent();
+						m *= ratio;
+					}
+					
+					return m - 1.0;
+				}
 			}), Rockets("Ballistics", DamageAccumulator.Multiplicative,
 			"Ballistics passive bonus (100% Rocket damage)",
 			new Test<SimulationState, Double>() {
@@ -620,9 +636,10 @@ public enum DamageMultiplier {
 				@Override
 				public Double getValue(SimulationState state) {
 					return 0.0;
-//					return ((state.getData().getNumAdditional() > 0) && (state
-//							.getData().getTargetSpacing() <= 10)) ? (0.2 * state
-//							.getData().getAreaDamage()) : 0.0;
+					// return ((state.getData().getNumAdditional() > 0) &&
+					// (state
+					// .getData().getTargetSpacing() <= 10)) ? (0.2 * state
+					// .getData().getAreaDamage()) : 0.0;
 				}
 			}), Calamity("Calamity", DamageAccumulator.Additive,
 			"Calamity Marked for Death bonus (20% while applied)",

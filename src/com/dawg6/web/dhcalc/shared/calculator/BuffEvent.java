@@ -86,7 +86,7 @@ public class BuffEvent extends Event {
 	public static class BotPBuff extends BuffEvent {
 
 		public BotPBuff(int level) {
-			super(Buff.OtherWolf, 20.0 + level, -1.0);
+			super(Buff.BotP, 30.0 + level, -1.0);
 		}
 		
 		@Override
