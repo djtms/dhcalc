@@ -20,34 +20,36 @@ package com.dawg6.web.dhcalc.shared.calculator;
 
 public enum LegendaryGem {
 
-	BotP("Bane of the Powerful","bane-of-the-powerful"),
-	BotT("Bane of the Trapped","bane-of-the-trapped"),
-	Boon("Boon of the Hoarder","boon-of-the-hoarder"),
-	Ease("Gem of Ease", "gem-of-ease"),
-	Enforcer("Enforcer","enforcer"),
-	Esoteric("Esoteric Alteration","esoteric-alteration"),
-	Toxin("Gem of Efficacious Toxin", "gem-of-efficacious-toxin"),
-	Gogok("Gogok of Swiftness", "gogok-of-swiftness"),
-	Iceblink("Iceblink", "iceblink"),
-	Invigorating("Invigorating Gemstone", "invigorating-gemstone"),
-	Mirinae("Mirinae, Teardrop of the Starweaver", "mirinae-teardrop-of-the-starweaver"),
-	Gizzard("Molten Wildebeest's Gizzard","molten-wildebeests-gizzard"),
-	Moratorium("Moratorium", "moratorium"),
-	Mutilation("Mutilation Guard", "mutilation-guard"),
-	Pain("Pain Enhancer","pain-enhancer"),
-	Simplicity("Simplicity's Strength","simplicitys-strength"),
-	Taeguk("Taeguk", "taeguk"),
-	Wreath("Wreath of Lightning", "wreath-of-lightning"),
-	Zeis("Zei's Stone of Vengeance", "zeis-stone-of-vengeance"),
+	BotP("Bane of the Powerful","bane-of-the-powerful", null),
+	BotT("Bane of the Trapped","bane-of-the-trapped", null),
+	Boon("Boon of the Hoarder","boon-of-the-hoarder", null),
+	Ease("Gem of Ease", "gem-of-ease", null),
+	Enforcer("Enforcer","enforcer", null),
+	Esoteric("Esoteric Alteration","esoteric-alteration", null),
+	Toxin("Gem of Efficacious Toxin", "gem-of-efficacious-toxin", GemSkill.Toxin),
+	Gogok("Gogok of Swiftness", "gogok-of-swiftness", null),
+	Iceblink("Iceblink", "iceblink", null),
+	Invigorating("Invigorating Gemstone", "invigorating-gemstone", null),
+	Mirinae("Mirinae, Teardrop of the Starweaver", "mirinae-teardrop-of-the-starweaver", null),
+	Gizzard("Molten Wildebeest's Gizzard","molten-wildebeests-gizzard", null),
+	Moratorium("Moratorium", "moratorium", null),
+	Mutilation("Mutilation Guard", "mutilation-guard", null),
+	Pain("Pain Enhancer","pain-enhancer", GemSkill.PainEnhancer),
+	Simplicity("Simplicity's Strength","simplicitys-strength", null),
+	Taeguk("Taeguk", "taeguk", null),
+	Wreath("Wreath of Lightning", "wreath-of-lightning", null),
+	Zeis("Zei's Stone of Vengeance", "zeis-stone-of-vengeance", null),
 	
 	;
 	
 	private String name;
 	private String slug;
+	private GemSkill skill;
 
-	private LegendaryGem(String name, String slug) {
+	private LegendaryGem(String name, String slug, GemSkill skill) {
 		this.name = name;
 		this.slug = slug;
+		this.skill = skill;
 	}
 	
 	public String getLongName() {

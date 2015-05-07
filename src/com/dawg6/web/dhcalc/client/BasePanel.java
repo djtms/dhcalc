@@ -26,6 +26,8 @@ import java.util.Set;
 import com.dawg6.gwt.client.ApplicationPanel;
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.DamageType;
+import com.dawg6.web.dhcalc.shared.calculator.GemData;
+import com.dawg6.web.dhcalc.shared.calculator.GemSkill;
 import com.dawg6.web.dhcalc.shared.calculator.Passive;
 import com.dawg6.web.dhcalc.shared.calculator.Rune;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -318,6 +320,8 @@ public class BasePanel extends ApplicationPanel {
 			return getFieldValue((ListBox) field, defaultValue);
 		else if (field instanceof PassivesPanel)
 			return getFieldValue(((PassivesPanel)field).getPassives(), defaultValue);
+		else if (field instanceof GemsPanel)
+			return getGemsFieldValue(((GemsPanel)field).getGems(), defaultValue);
 		else if (field instanceof SkillsPanel)
 			return getEnumFieldValue(((SkillsPanel)field).getSkills(), defaultValue);
 		else if (field instanceof DamageTypePanel)
@@ -348,6 +352,14 @@ public class BasePanel extends ApplicationPanel {
 			return defaultValue;
 		
 		return JsonUtil.toJSONObject(passives).toString();
+	}
+
+	protected String getGemsFieldValue(Map<GemSkill, GemData> gems, String defaultValue) {
+
+		if (gems == null)
+			return defaultValue;
+		
+		return JsonUtil.gemsToJSONObject(gems).toString();
 	}
 
 	protected String getFieldValue(ListBox field, String defaultValue) {
@@ -461,6 +473,8 @@ public class BasePanel extends ApplicationPanel {
 			setFieldValue((ListBox) field, value);
 		else if (field instanceof PassivesPanel)
 			setFieldValue((PassivesPanel)field, value);
+		else if (field instanceof GemsPanel)
+			setFieldValue((GemsPanel)field, value);
 		else if (field instanceof SkillsPanel)
 			setFieldValue((SkillsPanel)field, value);
 		else if (field instanceof DamageTypePanel)
@@ -473,6 +487,12 @@ public class BasePanel extends ApplicationPanel {
 		Set<Passive> set = JsonUtil.parseSet(Passive.class, value);
 		
 		field.setPassives(set);
+	}
+
+	protected void setFieldValue(GemsPanel field, String value) {
+		Map<GemSkill, GemData> gems = JsonUtil.parseGemsMap(value);
+		
+		field.setGems(gems);
 	}
 
 	protected void setFieldValue(SkillsPanel field, String value) {

@@ -25,6 +25,7 @@ import java.util.Vector;
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.CharacterData;
 import com.dawg6.web.dhcalc.shared.calculator.DamageType;
+import com.dawg6.web.dhcalc.shared.calculator.GemSkill;
 import com.dawg6.web.dhcalc.shared.calculator.ProfileHelper;
 
 public class Stat {
@@ -41,7 +42,7 @@ public class Stat {
 		@Override
 		public void apply(double inc, CharacterData data) {
 			int value = data.getEquipmentDexterity();
-			data.setEquipmentDexterity(value + (int)Math.round(inc));
+			data.setEquipmentDexterity(value + (int) Math.round(inc));
 
 		}
 	}),
@@ -62,7 +63,7 @@ public class Stat {
 		public double getDefaultValue() {
 			return 5.0;
 		}
-		
+
 		@Override
 		public void apply(double inc, CharacterData data) {
 			double value = data.getCritHitDamage();
@@ -77,14 +78,14 @@ public class Stat {
 		public double getDefaultValue() {
 			return 5.0;
 		}
-		
+
 		@Override
 		public void apply(double inc, CharacterData data) {
 			double value = data.getRcr();
-			data.setRcr(1.0 - ((1.0 - value) * (1.0 - (inc/100.0))));
+			data.setRcr(1.0 - ((1.0 - value) * (1.0 - (inc / 100.0))));
 
 		}
-		
+
 		@Override
 		public boolean test(CharacterData data, Set<DamageType> types) {
 
@@ -98,14 +99,14 @@ public class Stat {
 		public double getDefaultValue() {
 			return 5.0;
 		}
-		
+
 		@Override
 		public void apply(double inc, CharacterData data) {
 			double value = data.getCdr();
-			data.setCdr(1.0 - ((1.0 - value) * (1.0 - (inc/100.0))));
+			data.setCdr(1.0 - ((1.0 - value) * (1.0 - (inc / 100.0))));
 
 		}
-		
+
 	}),
 
 	new Stat("% IAS", new StatAdapter() {
@@ -124,7 +125,7 @@ public class Stat {
 		@Override
 		public void apply(double inc, CharacterData data) {
 			int value = data.getEquipmentDiscipline();
-			data.setEquipmentDiscipline(value + (int)Math.round(inc));
+			data.setEquipmentDiscipline(value + (int) Math.round(inc));
 		}
 
 		@Override
@@ -156,7 +157,7 @@ public class Stat {
 		public double getDefaultValue() {
 			return 10.0;
 		}
-		
+
 		@Override
 		public void apply(double inc, CharacterData data) {
 			double value = data.getAreaDamageEquipment();
@@ -177,101 +178,23 @@ public class Stat {
 		@Override
 		public void apply(double inc, CharacterData data) {
 			int value = data.getNumHealthGlobes();
-			data.setNumHealthGlobes(value + (int)Math.round(inc));
+			data.setNumHealthGlobes(value + (int) Math.round(inc));
 
 		}
 
 		@Override
 		public boolean test(CharacterData data, Set<DamageType> types) {
 
-			return (data.isReapersWraps() || data.isBloodVengeance()) && data.hasSpender();
+			return (data.isReapersWraps() || data.isBloodVengeance())
+					&& data.hasSpender();
 		}
 	}),
 
-	new Stat("BoT Gem Level", new StatAdapter() {
-
-		@Override
-		public void apply(double inc, CharacterData data) {
-			int value = data.getBaneOfTheTrappedLevel();
-			data.setBaneOfTheTrappedLevel(value + (int)Math.round(inc));
-
-		}
-
-		@Override
-		public boolean test(CharacterData data, Set<DamageType> types) {
-
-			return data.isUseBaneOfTheTrapped();
-		}
-	}),
-
-	new Stat("Enforcer Gem Level", new StatAdapter() {
-
-		@Override
-		public void apply(double inc, CharacterData data) {
-			int value = data.getEnforcerLevel();
-			data.setEnforcerLevel(value + (int)Math.round(inc));
-
-		}
-
-		@Override
-		public boolean test(CharacterData data, Set<DamageType> types) {
-
-			return data.isUseEnforcer()
-					&& (data.isSentry() || data.isCompanion());
-		}
-	}),
-
-	new Stat("Zei's Gem Level", new StatAdapter() {
-
-		@Override
-		public void apply(double inc, CharacterData data) {
-			int value = data.getZeisLevel();
-			data.setZeisLevel(value + (int)Math.round(inc));
-
-		}
-
-		@Override
-		public boolean test(CharacterData data, Set<DamageType> types) {
-
-			return data.isZeis();
-		}
-	}),
-
-	new Stat("Toxin Gem Level", new StatAdapter() {
-
-		@Override
-		public void apply(double inc, CharacterData data) {
-			int value = data.getToxinLevel();
-			data.setToxinLevel(value + (int)Math.round(inc));
-
-		}
-
-		@Override
-		public boolean test(CharacterData data, Set<DamageType> types) {
-
-			return data.isToxin();
-		}
-	}),
-
-	new Stat("Pain Enhancer Gem Level", new StatAdapter() {
-
-		@Override
-		public void apply(double inc, CharacterData data) {
-			int value = data.getPainEnhancerLevel();
-			data.setPainEnhancerLevel(value + (int)Math.round(inc));
-
-		}
-
-		@Override
-		public boolean test(CharacterData data, Set<DamageType> types) {
-
-			return data.isPainEnhancer();
-		}
-	}), }
+	}
 
 	;
 
-	public static Stat ELITE = 	new Stat("% Elite Damage", new StatAdapter() {
+	public static Stat ELITE = new Stat("% Elite Damage", new StatAdapter() {
 
 		@Override
 		public void apply(double inc, CharacterData data) {
@@ -280,7 +203,6 @@ public class Stat {
 
 		}
 	});
-
 
 	private final String label;
 	private final StatAdapter adapter;
@@ -309,12 +231,18 @@ public class Stat {
 
 		if (values == null) {
 			values = new Vector<Stat>(fixed.length
-					+ ActiveSkill.values().length + DamageType.values().length + 1);
+					+ ActiveSkill.values().length + DamageType.values().length + GemSkill.values().length
+					+ 1);
 
 			for (Stat s : fixed)
 				values.add(s);
 
 			values.add(ELITE);
+
+			for (GemSkill gem : GemSkill.values()) {
+				values.add(new Stat(gem.getDisplayName() + " Gem Level",
+						new StatAdapter.GemLevel(gem)));
+			}
 			
 			for (DamageType t : DamageType.values()) {
 				values.add(new Stat("% " + t.getLongName() + " Damage",

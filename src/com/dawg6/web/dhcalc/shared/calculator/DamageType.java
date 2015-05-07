@@ -19,20 +19,27 @@
 package com.dawg6.web.dhcalc.shared.calculator;
 
 public enum DamageType {
-	Cold(DamageMultiplier.Cold),
-	Fire(DamageMultiplier.Fire),
-	Lightning(DamageMultiplier.Lightning),
-	Physical(DamageMultiplier.Physical),
-	Poison(DamageMultiplier.Poison);
+	Cold(DamageMultiplier.Cold, true),
+	Fire(DamageMultiplier.Fire, true),
+	Lightning(DamageMultiplier.Lightning, true),
+	Physical(DamageMultiplier.Physical, true),
+	Holy(DamageMultiplier.Holy, false),
+	Poison(DamageMultiplier.Poison, false);
 
 	private DamageMultiplier multiplier;
+	private boolean validDh;
 	
-	private DamageType(DamageMultiplier multiplier) {
+	private DamageType(DamageMultiplier multiplier, boolean validDh) {
 		this.multiplier = multiplier;
+		this.validDh = validDh;
 	}
 
 	public DamageMultiplier getMultiplier() {
 		return multiplier;
+	}
+
+	public boolean isValidDh() {
+		return validDh;
 	}
 	
 	public String getLongName() {

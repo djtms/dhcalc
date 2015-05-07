@@ -51,13 +51,13 @@ public class DamageSource implements Serializable, Comparable<DamageSource> {
 	}
 	
 	public boolean test(DamageSource source,
-			CharacterData data, int radius) {
+			SimulationState state, int radius) {
 
 		if (this.skill != null) {
 			if ((source != null) && (this.skill == source.skill) && (this.rune == source.rune)) {
 
 				if (this.skill == ActiveSkill.FoK) {
-					return data.getDistanceToTarget() <= radius;
+					return state.getData().getDistanceToTarget() <= radius;
 				} else {
 					return true;
 				}
@@ -66,7 +66,7 @@ public class DamageSource implements Serializable, Comparable<DamageSource> {
 				return false;
 			}
 		} else {
-			return (source == null) && (gem.getScalar(data) > 0.0);
+			return (source == null) && (gem.getScalar(state) > 0.0);
 		}
 	}
 

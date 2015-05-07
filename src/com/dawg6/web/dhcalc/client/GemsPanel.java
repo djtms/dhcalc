@@ -18,6 +18,14 @@
  *******************************************************************************/
 package com.dawg6.web.dhcalc.client;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Vector;
+
+import com.dawg6.web.dhcalc.shared.calculator.GemData;
 import com.dawg6.web.dhcalc.shared.calculator.GemSkill;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -26,309 +34,377 @@ import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimpleCheckBox;
+import com.google.gwt.user.client.ui.ListBox;
 
 public class GemsPanel extends Composite {
-	private final SimpleCheckBox bot;
-	private final SimpleCheckBox enforcer;
-	private final SimpleCheckBox botp;
-	private final SimpleCheckBox zeis;
-	private final NumberSpinner botLevel;
-	private final NumberSpinner enforcerLevel;
-	private final NumberSpinner botpLevel;
-	private final NumberSpinner zeisLevel;
-	private final SimpleCheckBox gogok;
-	private final NumberSpinner gogokLevel;
-	private final NumberSpinner gogokStacks;
-	private final SimpleCheckBox toxin;
-	private final NumberSpinner toxinLevel;
-	private final SimpleCheckBox painEnhancer;
-	private final NumberSpinner painEnhancerLevel;
-	private final NumberSpinner painEnhancerStacks;
-	private final SimpleCheckBox taeguk;
-	private final NumberSpinner taegukLevel;
-	private final NumberSpinner taegukStacks;
-	private final SimpleCheckBox iceblink;
-	private final NumberSpinner iceblinkLevel;
+
+	private final List<ChangeHandler> handlers = new Vector<ChangeHandler>();
+	private final List<ListBox> listBoxes = new Vector<ListBox>(NUM_GEMS);
+	private final List<Anchor> anchors = new Vector<Anchor>(NUM_GEMS);
+	private final List<NumberSpinner> attributes = new Vector<NumberSpinner>(
+			NUM_GEMS);
+	private final List<NumberSpinner> levels = new Vector<NumberSpinner>(
+			NUM_GEMS);
+	private final List<GemSkill> selected = new Vector<GemSkill>(NUM_GEMS);
+
+	private boolean disableListeners;
+	private FlexTable table;
+
+	public static final int NUM_GEMS = 3;
 
 	public GemsPanel() {
 
 		CaptionPanel captionPanel = new CaptionPanel("Legendary Gems");
 		initWidget(captionPanel);
 
-		FlexTable flexTable = new FlexTable();
-		captionPanel.setContentWidget(flexTable);
+		table = new FlexTable();
+		captionPanel.setContentWidget(table);
 
-		Anchor anchor = new Anchor("Bane of the Trapped");
-		anchor.setWordWrap(false);
-		anchor.setTarget("_blank");
-		anchor.setHref("http://us.battle.net/d3/en/item/bane-of-the-trapped");
-		flexTable.setWidget(0, 0, anchor);
+		List<GemSkill> gems = new Vector<GemSkill>();
 
-		bot = new SimpleCheckBox();
-		flexTable.setWidget(0, 1, bot);
+		for (GemSkill gem : GemSkill.values())
+			gems.add(gem);
 
-		Label label = new Label("Level:");
-		flexTable.setWidget(0, 2, label);
-
-		botLevel = new NumberSpinner();
-		botLevel.setVisibleLength(2);
-		flexTable.setWidget(0, 3, botLevel);
-
-		Anchor anchor_1 = new Anchor("Enforcer");
-		anchor_1.setWordWrap(false);
-		anchor_1.setTarget("_blank");
-		anchor_1.setHref("http://us.battle.net/d3/en/item/enforcer");
-		flexTable.setWidget(1, 0, anchor_1);
-
-		enforcer = new SimpleCheckBox();
-		flexTable.setWidget(1, 1, enforcer);
-
-		Label label_1 = new Label("Level:");
-		flexTable.setWidget(1, 2, label_1);
-
-		enforcerLevel = new NumberSpinner();
-		enforcerLevel.setVisibleLength(2);
-		flexTable.setWidget(1, 3, enforcerLevel);
-		
-		Anchor anchor_8 = new Anchor("Iceblink");
-		anchor_8.setWordWrap(false);
-		anchor_8.setTarget("_blank");
-		anchor_8.setHref("http://us.battle.net/d3/en/item/iceblink");
-		flexTable.setWidget(2, 0, anchor_8);
-		
-		iceblink = new SimpleCheckBox();
-		flexTable.setWidget(2, 1, iceblink);
-		
-		Label label_7 = new Label("Level:");
-		flexTable.setWidget(2, 2, label_7);
-		
-		iceblinkLevel = new NumberSpinner();
-		iceblinkLevel.setVisibleLength(2);
-		flexTable.setWidget(2, 3, iceblinkLevel);
-
-		Anchor anchor_2 = new Anchor("Bane of the Powerful");
-		anchor_2.setWordWrap(false);
-		anchor_2.setTarget("_blank");
-		anchor_2.setHref("http://us.battle.net/d3/en/item/bane-of-the-powerful");
-		flexTable.setWidget(3, 0, anchor_2);
-
-		botp = new SimpleCheckBox();
-		flexTable.setWidget(3, 1, botp);
-
-		Label label_2 = new Label("Level:");
-		flexTable.setWidget(3, 2, label_2);
-
-		botpLevel = new NumberSpinner();
-		botpLevel.setVisibleLength(2);
-		flexTable.setWidget(3, 3, botpLevel);
-		
-		Anchor anchor_3 = new Anchor("Zei's Stone of Vengeance");
-		anchor_3.setWordWrap(false);
-		anchor_3.setTarget("_blank");
-		anchor_3.setHref("http://us.battle.net/d3/en/item/zeis-stone-of-vengeance");
-		flexTable.setWidget(4, 0, anchor_3);
-
-		zeis = new SimpleCheckBox();
-		flexTable.setWidget(4, 1, zeis);
-
-		Label label_3 = new Label("Level:");
-		flexTable.setWidget(4, 2, label_3);
-
-		zeisLevel = new NumberSpinner();
-		zeisLevel.setVisibleLength(2);
-		flexTable.setWidget(4, 3, zeisLevel);
-		
-		Anchor anchor_5 = new Anchor(GemSkill.Toxin.getDisplayName());
-		anchor_5.setWordWrap(false);
-		anchor_5.setTarget("_blank");
-		anchor_5.setHref(GemSkill.Toxin.getUrl());
-		flexTable.setWidget(5, 0, anchor_5);
-		
-		toxin = new SimpleCheckBox();
-		flexTable.setWidget(5, 1, toxin);
-		
-		Label label_5 = new Label("Level:");
-		flexTable.setWidget(5, 2, label_5);
-		
-		toxinLevel = new NumberSpinner();
-		toxinLevel.setVisibleLength(2);
-		flexTable.setWidget(5, 3, toxinLevel);
-		
-		Anchor anchor_6 = new Anchor(GemSkill.PainEnhancer.getDisplayName());
-		anchor_6.setWordWrap(false);
-		anchor_6.setTarget("_blank");
-		anchor_6.setHref(GemSkill.PainEnhancer.getUrl());
-		flexTable.setWidget(6, 0, anchor_6);
-		
-		painEnhancer = new SimpleCheckBox();
-		flexTable.setWidget(6, 1, painEnhancer);
-		
-		Label label_6 = new Label("Level:");
-		flexTable.setWidget(6, 2, label_6);
-		
-		painEnhancerLevel = new NumberSpinner();
-		painEnhancerLevel.setVisibleLength(2);
-		flexTable.setWidget(6, 3, painEnhancerLevel);
-		
-		Label lblBleeding = new Label("# Bleeding:");
-		lblBleeding.setWordWrap(false);
-		flexTable.setWidget(6, 4, lblBleeding);
-		
-		painEnhancerStacks = new NumberSpinner();
-		painEnhancerStacks.setVisibleLength(2);
-		painEnhancerStacks.setTitle("# of bleeding enemies within 20 yards");
-		flexTable.setWidget(6, 5, painEnhancerStacks);
-		
-		Anchor anchor_4 = new Anchor("Gogok of Swiftness");
-		anchor_4.setWordWrap(false);
-		anchor_4.setTarget("_blank");
-		anchor_4.setHref("http://us.battle.net/d3/en/item/gogok-of-swiftness");
-		flexTable.setWidget(7, 0, anchor_4);
-		
-		gogok = new SimpleCheckBox();
-		flexTable.setWidget(7, 1, gogok);
-		
-		Label label_4 = new Label("Level:");
-		flexTable.setWidget(7, 2, label_4);
-		
-		gogokLevel = new NumberSpinner();
-		gogokLevel.setVisibleLength(2);
-		flexTable.setWidget(7, 3, gogokLevel);
-		
-		Label lblStacks = new Label("# Stacks:");
-		lblStacks.setWordWrap(false);
-		flexTable.setWidget(7, 4, lblStacks);
-		
-		gogokStacks = new NumberSpinner();
-		gogokStacks.setTitle("Average # of stacks during fight");
-		gogokStacks.setVisibleLength(2);
-		gogokStacks.setMax(15);
-		flexTable.setWidget(7, 5, gogokStacks);
-		
-		Anchor anchor_7 = new Anchor("Taeguk");
-		anchor_7.setWordWrap(false);
-		anchor_7.setTarget("_blank");
-		anchor_7.setHref("http://us.battle.net/d3/en/item/taeguk");
-		flexTable.setWidget(8, 0, anchor_7);
-		
-		taeguk = new SimpleCheckBox();
-		flexTable.setWidget(8, 1, taeguk);
-		
-		Label label_8 = new Label("Level:");
-		flexTable.setWidget(8, 2, label_8);
-		
-		taegukLevel = new NumberSpinner();
-		taegukLevel.setVisibleLength(2);
-		flexTable.setWidget(8, 3, taegukLevel);
-		
-		Label lblStacks_1 = new Label("# Stacks:");
-		lblStacks_1.setWordWrap(false);
-		flexTable.setWidget(8, 4, lblStacks_1);
-		
-		taegukStacks = new NumberSpinner();
-		taegukStacks.setVisibleLength(2);
-		taegukStacks.setTitle("Average # of stacks during fight");
-		flexTable.setWidget(8, 5, taegukStacks);
-		
-		taegukLevel.addChangeHandler(new ChangeHandler(){
+		Collections.sort(gems, new Comparator<GemSkill>() {
 
 			@Override
-			public void onChange(ChangeEvent event) {
-				taegukStacks.setMax(20 + taegukLevel.getValue());
-			}});
-		
-		this.botLevel.setMax(100);
-		this.enforcerLevel.setMax(100);
-		this.botpLevel.setMax(100);
-		this.zeisLevel.setMax(100);
-		this.gogokLevel.setMax(100);
-		this.gogokStacks.setMax(15);
-		this.taegukStacks.setMax(20 + this.taegukLevel.getValue());
+			public int compare(GemSkill o1, GemSkill o2) {
+				return o1.getDisplayName().toLowerCase()
+						.compareTo(o2.getDisplayName().toLowerCase());
+			}
+		});
+
+		for (int i = 0; i < NUM_GEMS; i++) {
+			final int row = i;
+			Anchor anchor = new Anchor("Gem " + (i + 1));
+			anchor.setWordWrap(false);
+			anchor.setTarget("_blank");
+			anchor.setHref("javascript:void(0)");
+			anchors.add(anchor);
+			table.setWidget(row, 0, anchor);
+
+			ListBox list = new ListBox();
+			list.addItem("None", "");
+			list.setWidth("100%");
+			table.setWidget(row, 1, list);
+			listBoxes.add(list);
+			list.setSelectedIndex(0);
+			selected.add(null);
+
+			for (GemSkill gem : gems) {
+				list.addItem(gem.getDisplayName(), gem.name());
+			}
+
+			list.addChangeHandler(new ChangeHandler() {
+
+				@Override
+				public void onChange(ChangeEvent event) {
+					gemChanged(row);
+				}
+			});
+
+			Label label = new Label("Level:", false);
+			table.setWidget(row, 2, label);
+
+			NumberSpinner level = new NumberSpinner();
+			level.setMax(100);
+			level.setVisibleLength(4);
+			table.setWidget(row, 3, level);
+			levels.add(level);
+			level.addChangeHandler(new ChangeHandler() {
+
+				@Override
+				public void onChange(ChangeEvent event) {
+					levelChanged(row);
+				}
+			});
+
+			attributes.add(null);
+		}
+
 	}
 
-	public SimpleCheckBox getBot() {
-		return bot;
+	protected void levelChanged(int row) {
+
+		GemSkill gem = getSelectedGem(row);
+
+		// TODO Handle more than 1 Attribute per Gem
+		if ((gem != null) && (gem.getAttributes() != null)
+				&& (gem.getAttributes().length > 0)) {
+			int level = levels.get(row).getValue();
+
+			NumberSpinner a = attributes.get(row);
+
+			if (a != null) {
+				a.setMax(gem.getAttributes()[0].getMaxValue(level));
+			}
+		}
+
+		gemsChanged(null);
 	}
 
-	public SimpleCheckBox getEnforcer() {
-		return enforcer;
+	protected void gemChanged(int row) {
+		GemSkill gem = getSelectedGem(row);
+
+		if (setGem(row, gem, null)) {
+
+			if (!disableListeners && (gem != null)) {
+				for (int i = 0; i < NUM_GEMS; i++) {
+					if (i != row) {
+						GemSkill other = getSelectedGem(i);
+						
+						if (other == gem) {
+							setGem(i, null, null);
+						}
+					}
+				}
+			}
+
+			gemsChanged(null);
+		}
 	}
 
-	public SimpleCheckBox getBotp() {
-		return botp;
+	public Map<GemSkill, GemData> getGems() {
+
+		Map<GemSkill, GemData> gems = new TreeMap<GemSkill, GemData>();
+
+		for (int i = 0; i < NUM_GEMS; i++) {
+			GemSkill gem = getSelectedGem(i);
+
+			if (gem != null) {
+				GemData gd = new GemData();
+				gd.level = getGemLevel(i);
+
+				// TODO Handle more than 1 Attribute per Gem
+				if ((gem.getAttributes() != null)
+						&& (gem.getAttributes().length > 0)) {
+					gd.attributes.put(gem.getAttributes()[0].getLabel(),
+							getGemAttribute(i));
+				}
+
+				gems.put(gem, gd);
+			}
+		}
+
+		return gems;
 	}
 
-	public SimpleCheckBox getZeis() {
-		return zeis;
+	public void setGems(Map<GemSkill, GemData> gems) {
+
+		disableListeners = true;
+
+		int i = 0;
+		boolean changed = false;
+
+		for (Map.Entry<GemSkill, GemData> e : gems.entrySet()) {
+			GemSkill gem = e.getKey();
+			GemData gd = e.getValue();
+
+			changed |= setGem(i, gem, gd);
+
+			i++;
+
+			if (i >= NUM_GEMS)
+				break;
+		}
+
+		while (i < NUM_GEMS) {
+			changed |= setGem(i++, null, null);
+		}
+
+		disableListeners = false;
+
+		if (changed)
+			gemsChanged(null);
 	}
 
-	public NumberSpinner getBotLevel() {
-		return botLevel;
+	private boolean setGem(final int i, GemSkill gem, GemData gd) {
+
+		if ((gem != null) && (gd == null)) {
+			gd = new GemData();
+			gd.level = 0;
+
+			for (GemSkill.Attribute a : gem.getAttributes()) {
+				gd.attributes.put(a.getLabel(), 0);
+			}
+		}
+
+		boolean gemChanged = false;
+		boolean valueChanged = false;
+
+		ListBox list = listBoxes.get(i);
+		GemSkill prev = selected.get(i);
+		int next = 0;
+
+		if (gem == null) {
+			next = 0;
+		} else {
+			int num = list.getItemCount();
+			boolean found = false;
+
+			for (int n = 1; n < num; n++) {
+				String value = list.getValue(n);
+
+				if (value.equals(gem.name())) {
+					next = n;
+					found = true;
+					break;
+				}
+			}
+
+			if (!found) {
+				next = 0;
+				gd = null;
+			}
+		}
+
+		if (gem != prev) {
+			list.setSelectedIndex(next);
+			selected.set(i, gem);
+			gemChanged = true;
+		}
+
+		NumberSpinner level = levels.get(i);
+		int prevLevel = level.getValue();
+		int nextLevel = prevLevel;
+
+		if (gem == null) {
+			nextLevel = 0;
+		} else {
+			nextLevel = gd.level;
+		}
+
+		if (nextLevel != prevLevel) {
+			level.setValue(nextLevel);
+			valueChanged = true;
+		}
+
+		if (gemChanged) {
+			
+			Anchor anchor = anchors.get(i);
+			
+			if (gem == null) {
+				anchor.setHref("javascript:void(0)");
+			} else {
+				anchor.setHref(gem.getUrl());
+			}
+
+			if (attributes.get(i) != null) {
+				table.removeCell(i, 5);
+				table.removeCell(i, 4);
+				attributes.set(i, null);
+			}
+
+			if ((gem != null) && (gem.getAttributes() != null)
+					&& (gem.getAttributes().length > 0)) {
+
+				// TODO Handle more than 1 Attribute per Gem
+				Label label = new Label("# "
+						+ gem.getAttributes()[0].getLabel() + ":", false);
+				NumberSpinner spinner = new NumberSpinner();
+				spinner.setMax(gem.getAttributes()[0].getMaxValue(gd.level));
+				spinner.setVisibleLength(4);
+				table.setWidget(i, 4, label);
+				table.setWidget(i, 5, spinner);
+				attributes.set(i, spinner);
+
+				spinner.addChangeHandler(new ChangeHandler() {
+
+					@Override
+					public void onChange(ChangeEvent event) {
+						attributeChanged(i);
+					}
+				});
+			}
+		} else {
+			if ((gem == null) || (gem.getAttributes() == null)
+					|| (gem.getAttributes().length == 0)) {
+				// nothing changes
+			} else {
+				NumberSpinner a = attributes.get(i);
+
+				int prevValue = a.getValue();
+				Integer nextValue = gd.attributes.get(gem.getAttributes()[0]
+						.getLabel());
+
+				if (nextValue != prevValue) {
+					a.setValue(nextValue);
+					valueChanged = true;
+				}
+			}
+		}
+
+		return gemChanged | valueChanged;
 	}
 
-	public NumberSpinner getEnforcerLevel() {
-		return enforcerLevel;
+	protected void attributeChanged(int i) {
+		gemsChanged(null);
 	}
 
-	public NumberSpinner getBotpLevel() {
-		return botpLevel;
+	protected void gemsChanged(ChangeEvent event) {
+
+		if (!disableListeners) {
+			for (ChangeHandler h : handlers)
+				h.onChange(event);
+		}
+
 	}
 
-	public NumberSpinner getZeisLevel() {
-		return zeisLevel;
+	public void addChangeHandler(ChangeHandler handler) {
+		this.handlers.add(handler);
 	}
 
-	public SimpleCheckBox getGogok() {
-		return gogok;
+	public boolean isGem(GemSkill gem) {
+
+		for (int i = 0; i < NUM_GEMS; i++) {
+			GemSkill skill = getSelectedGem(i);
+
+			if (skill == gem)
+				return true;
+		}
+
+		return false;
 	}
 
-	public NumberSpinner getGogokLevel() {
-		return gogokLevel;
+	private GemSkill getSelectedGem(int i) {
+
+		ListBox list = listBoxes.get(i);
+
+		int n = list.getSelectedIndex();
+
+		if (n <= 0)
+			return null;
+
+		return GemSkill.valueOf(list.getValue(n));
 	}
 
-	public NumberSpinner getGogokStacks() {
-		return gogokStacks;
+	private int getGemLevel(int i) {
+		return levels.get(i).getValue();
 	}
 
-	public SimpleCheckBox getToxin() {
-		return toxin;
+	private int getGemAttribute(int i) {
+		return attributes.get(i).getValue();
 	}
 
-	public NumberSpinner getToxinLevel() {
-		return toxinLevel;
+	public int getGemLevel(GemSkill gem) {
+		for (int i = 0; i < NUM_GEMS; i++) {
+			GemSkill skill = getSelectedGem(i);
+
+			if (skill == gem)
+				return getGemLevel(i);
+		}
+
+		return 0;
 	}
 
-	public SimpleCheckBox getPainEnhancer() {
-		return painEnhancer;
-	}
+	public int getGemAttribute(GemSkill gem, String attribute) {
+		for (int i = 0; i < NUM_GEMS; i++) {
+			GemSkill skill = getSelectedGem(i);
 
-	public NumberSpinner getPainEnhancerLevel() {
-		return painEnhancerLevel;
-	}
+			if (skill == gem)
+				return getGemAttribute(i);
+		}
 
-	public NumberSpinner getPainEnhancerStacks() {
-		return painEnhancerStacks;
+		return 0;
 	}
-
-	public SimpleCheckBox getTaeguk() {
-		return taeguk;
-	}
-
-	public NumberSpinner getTaegukLevel() {
-		return taegukLevel;
-	}
-
-	public NumberSpinner getTaegukStacks() {
-		return taegukStacks;
-	}
-
-	public SimpleCheckBox getIceblink() {
-		return iceblink;
-	}
-
-	public NumberSpinner getIceblinkLevel() {
-		return iceblinkLevel;
-	}
-
 }

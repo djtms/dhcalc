@@ -1,5 +1,11 @@
 Change Log:
 
+**5/7/15**
+- Now parses all Legendary gems in Jewelry and displays 3 drop-downs for selecting up to 3 Gems to be used
+-- Note: Not all Gem mechanics are implemented (e.g. Mirinae and Wreath of Lightning are still on the to-do list)
+- Added Simplicity's Strength legendary gem mechanics
+- Added Holy elemental damage type (in preparation for Mirinae gem)
+
 **5/6/15**
 - Fixed Wolf Howl/BotP (BotP was triggering Wolf buff; copy & paste error!)
 - Updated Damage Log for Elemental Arrow/Ball Lightning to show multiplier (based on target size and Meticulous Bolts %)

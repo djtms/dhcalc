@@ -69,6 +69,12 @@ public enum DamageMultiplier {
 				public Double getValue(SimulationState state) {
 					return state.getData().getPoisonDamage();
 				}
+			}), Holy("Holy", DamageAccumulator.ElementalAdditive,
+			"Holy Elemental Damage Bonus", new Test<SimulationState, Double>() {
+				@Override
+				public Double getValue(SimulationState state) {
+					return state.getData().getHolyDamage();
+				}
 			}), Enforcer(
 			"Enforcer",
 			DamageAccumulator.ElementalAdditive,
@@ -107,6 +113,7 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
+					
 					return state.getData().isCoe() ? (state.getData()
 							.getCoePercent() / 4.0) : 0.0;
 				}
@@ -512,6 +519,16 @@ public enum DamageMultiplier {
 				public Double getValue(SimulationState state) {
 					return state.getData().isTaeguk() ? (0.005 * state
 							.getData().getTaegukStacks()) : 0.0;
+				}
+			}), Simplicity(
+			"Simplicity",
+			DamageAccumulator.Additive,
+			"Simplicity's Strenght gem bonus (25% + 0.5 % per level to Primary skills)",
+			new Test<SimulationState, Double>() {
+				@Override
+				public Double getValue(SimulationState state) {
+					return state.getData().isSimplicity() ? (0.25 + (state
+							.getData().getSimplicityLevel() * .005)) : 0.0;
 				}
 			}), Wolf("Wolf", DamageAccumulator.Additive,
 			"Wolf Companion active bonus (30% during uptime)",

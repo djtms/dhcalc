@@ -647,6 +647,7 @@ public class MainPanel extends BasePanel {
 
 		passives = new PassivesPanel();
 		row.setWidget(0, 0, passives);
+		row.getFlexCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
 
 		typeDamage = new DamageTypePanel();
 		row.setWidget(0, 1, typeDamage);
@@ -728,12 +729,8 @@ public class MainPanel extends BasePanel {
 		buffPanel.getAnatomy().addClickHandler(clickHandler3);
 		buffPanel.getFocusedMind().addClickHandler(clickHandler3);
 		buffPanel.getHysteria().addClickHandler(clickHandler3);
-		gemPanel.getGogokStacks().addChangeHandler(changeHandler);
-		gemPanel.getGogokLevel().addChangeHandler(changeHandler);
-		gemPanel.getPainEnhancerStacks().addChangeHandler(changeHandler);
-		gemPanel.getPainEnhancerLevel().addChangeHandler(changeHandler);
-		gemPanel.getGogok().addClickHandler(clickHandler3);
-		gemPanel.getPainEnhancer().addClickHandler(clickHandler3);
+		
+		gemPanel.addChangeHandler(changeHandler);
 
 		CaptionPanel cptnpnlNewPanel = new CaptionPanel("Output");
 		panel.add(cptnpnlNewPanel);
@@ -1224,12 +1221,7 @@ public class MainPanel extends BasePanel {
 		captionPanelDamageLog.setContentWidget(damageLog);
 
 		paragonPanel.getParagonCDR().addChangeHandler(handler);
-		gemPanel.getGogok().addClickHandler(clickHandler);
-		gemPanel.getGogokLevel().addChangeHandler(handler);
-		gemPanel.getGogokStacks().addChangeHandler(handler);
-		gemPanel.getPainEnhancer().addClickHandler(clickHandler);
-		gemPanel.getPainEnhancerLevel().addChangeHandler(handler);
-		gemPanel.getPainEnhancerStacks().addChangeHandler(handler);
+		gemPanel.addChangeHandler(handler);
 		cdrPanel.getDiamond().addChangeHandler(handler);
 		cdrPanel.getLeorics().addClickHandler(clickHandler);
 		cdrPanel.getLeoricsLevel().addChangeHandler(handler);
@@ -1487,6 +1479,7 @@ public class MainPanel extends BasePanel {
 			map.putAll(list.get(i).formData.main);
 
 			Util.putAll(map, "passives.", list.get(i).formData.passives);
+			Util.putAll(map, "gems.", list.get(i).formData.gems);
 			Util.putAll(map, "skills.", list.get(i).formData.skills);
 			Util.putAll(map, "elementalDamages.",
 					list.get(i).formData.elementalDamage);
@@ -1741,6 +1734,7 @@ public class MainPanel extends BasePanel {
 		this.skillDamage.setValues(Util.createMap(ActiveSkill.class,
 				data.skillDamage));
 		this.passives.setPassives(Util.createSet(Passive.class, data.passives));
+		this.gemPanel.setGems(Util.createGems(data.gems));
 		this.skills.setSkills(Util.createEnumMap(ActiveSkill.class, Rune.class,
 				data.skills));
 
@@ -1783,6 +1777,7 @@ public class MainPanel extends BasePanel {
 		}
 
 		data.passives = Util.createMap(passives.getPassives());
+		data.gems = Util.createGemsMap(gemPanel.getGems());
 		data.skillDamage = Util.createMap(this.skillDamage.getValues());
 		data.elementalDamage = Util.createMap(this.typeDamage.getValues());
 		data.skills = Util.createEnumMap(skills.getSkills());
@@ -2090,26 +2085,7 @@ public class MainPanel extends BasePanel {
 	}
 
 	protected void setGemDamage() {
-
-		this.gemPanel.getBot().setValue(data.isUseBaneOfTheTrapped());
-		this.gemPanel.getEnforcer().setValue(data.isUseEnforcer());
-		this.gemPanel.getIceblink().setValue(data.isIceblink());
-		this.gemPanel.getBotp().setValue(data.isBotp());
-		this.gemPanel.getBotLevel().setValue(data.getBaneOfTheTrappedLevel());
-		this.gemPanel.getEnforcerLevel().setValue(data.getEnforcerLevel());
-		this.gemPanel.getIceblinkLevel().setValue(data.getIceblinkLevel());
-		this.gemPanel.getBotpLevel().setValue(data.getBotpLevel());
-		this.gemPanel.getZeis().setValue(data.isZeis());
-		this.gemPanel.getZeisLevel().setValue(data.getZeisLevel());
-		this.gemPanel.getTaeguk().setValue(data.isTaeguk());
-		this.gemPanel.getTaegukLevel().setValue(data.getTaegukLevel());
-		this.gemPanel.getGogok().setValue(data.isGogok());
-		this.gemPanel.getGogokLevel().setValue(data.getGogokLevel());
-		this.gemPanel.getToxin().setValue(data.isToxin());
-		this.gemPanel.getToxinLevel().setValue(data.getToxinLevel());
-		this.gemPanel.getPainEnhancer().setValue(data.isPainEnhancer());
-		this.gemPanel.getPainEnhancerLevel().setValue(
-				data.getPainEnhancerLevel());
+		this.gemPanel.setGems(data.getGems());
 	}
 
 	protected void updateDps() {
@@ -2175,9 +2151,9 @@ public class MainPanel extends BasePanel {
 
 		list.add(paragonPanel.getParagonCDR().getValue() * .002);
 
-		if (gemPanel.getGogok().getValue()
-				&& gemPanel.getGogokLevel().getValue() >= 25)
-			list.add(gemPanel.getGogokStacks().getValue() * .01);
+		if (gemPanel.isGem(GemSkill.Gogok)
+				&& gemPanel.getGemLevel(GemSkill.Gogok) >= 25)
+			list.add(gemPanel.getGemAttribute(GemSkill.Gogok, GemSkill.STACKS) * .01);
 
 		if (cdrPanel.getLeorics().getValue())
 			list.add(cdrPanel.getSelectedDiamond().getCdr()
@@ -2564,45 +2540,11 @@ public class MainPanel extends BasePanel {
 						TargetSize.Small.name()),
 				new Field(this.situational.getPercentAtLeast10Yards(),
 						"PercentAtleast10Yards", "100"),
-				new Field(this.gemPanel.getBot(), "BoT",
-						Boolean.FALSE.toString()),
-				new Field(this.gemPanel.getGogok(), "Gogok",
-						Boolean.FALSE.toString()),
-				new Field(this.gemPanel.getTaeguk(), "Taeguk",
-						Boolean.FALSE.toString()),
-				new Field(this.gemPanel.getEnforcer(), "Enforcer",
-						Boolean.FALSE.toString()),
-				new Field(this.gemPanel.getIceblink(), "Iceblinnk",
-						Boolean.FALSE.toString()),
-				new Field(this.gemPanel.getBotLevel(), "BoTLevel", "0"),
-				new Field(this.gemPanel.getGogokLevel(), "GogokLevel", "0"),
-				new Field(this.gemPanel.getTaegukLevel(), "TaegukLevel", "0"),
-				new Field(this.gemPanel.getGogokStacks(), "GogokStacks", "0"),
-				new Field(this.gemPanel.getTaegukStacks(), "TaegukStacks", "0"),
-				new Field(this.gemPanel.getPainEnhancerStacks(),
-						"PainEnhancerStacks", "0"),
-				new Field(this.gemPanel.getEnforcerLevel(), "EnforcerLevel",
-						"0"),
-				new Field(this.gemPanel.getIceblinkLevel(), "IceblinkLevel",
-						"0"),
-				new Field(this.gemPanel.getToxin(), "Toxin",
-						Boolean.FALSE.toString()),
-				new Field(this.gemPanel.getToxinLevel(), "ToxinLevel", "0"),
-				new Field(this.gemPanel.getPainEnhancer(), "PainEnhancer",
-						Boolean.FALSE.toString()),
-				new Field(this.gemPanel.getPainEnhancerLevel(),
-						"PainEnhancerLevel", "0"),
 
 				new Field(this.itemPanel.getEliteDamagePercent(),
 						"EliteDamage", "0"),
 				new Field(this.itemPanel.getAreaDamageEquipment(),
 						"AreaDamageEquipment", "0"),
-				new Field(this.gemPanel.getBotp(), "BotP",
-						Boolean.FALSE.toString()),
-				new Field(this.gemPanel.getBotpLevel(), "BotPLevel", "0"),
-				new Field(this.gemPanel.getZeis(), "Zei's",
-						Boolean.FALSE.toString()),
-				new Field(this.gemPanel.getZeisLevel(), "Zei'sLevel", "0"),
 				new Field(this.situational.getDistance(), "TargetDistance",
 						"50"),
 				new Field(this.situational.getTargetSpacing(), "TargetSpacing",
@@ -2763,17 +2705,10 @@ public class MainPanel extends BasePanel {
 			data.setPercentControlled((double) this.situational
 					.getPercentSlowedChilled().getValue() / 100.0);
 			data.setNumAdditional(getValue(this.situational.getAdditional()));
-			data.setUseBaneOfTheTrapped(this.gemPanel.getBot().getValue());
-			data.setUseEnforcer(this.gemPanel.getEnforcer().getValue());
-			data.setIceblink(this.gemPanel.getIceblink().getValue());
-			data.setBaneOfTheTrappedLevel(getValue(this.gemPanel.getBotLevel()));
-			data.setEnforcerLevel(getValue(this.gemPanel.getEnforcerLevel()));
-			data.setIceblinkLevel(getValue(this.gemPanel.getIceblinkLevel()));
 			data.setEliteDamage(getValue(this.itemPanel.getEliteDamagePercent()) / 100.0);
 			data.setAreaDamageEquipment(getValue(this.itemPanel
 					.getAreaDamageEquipment()) / 100.0);
-			data.setBotp(this.gemPanel.getBotp().getValue());
-			data.setBotpLevel(getValue(this.gemPanel.getBotpLevel()));
+			data.setGems(gemPanel.getGems());
 			data.setCalamityMdf(itemPanel.getCalamity().getValue());
 			data.setHasBombardiers(itemPanel.getBombadiers().getValue());
 			data.setDml(itemPanel.getDml().getValue());
@@ -2794,8 +2729,6 @@ public class MainPanel extends BasePanel {
 			data.setNumNats(itemPanel.getNumNats().getValue());
 			data.setPercentAtLeast10Yards((double) this.situational
 					.getPercentAtLeast10Yards().getValue() / 100.0);
-			data.setZeis(this.gemPanel.getZeis().getValue());
-			data.setZeisLevel(this.getValue(this.gemPanel.getZeisLevel()));
 			data.setDistanceToTarget(this.getValue(this.situational
 					.getDistance()));
 			data.setRiftLevel(this.situational.getRiftLevel().getValue());
@@ -2840,25 +2773,12 @@ public class MainPanel extends BasePanel {
 			data.setOffHand_addMax(calculator.getOffHand().getAddMax()
 					.getValue());
 
-			data.setGogok(gemPanel.getGogok().getValue());
-			data.setGogokLevel(gemPanel.getGogokLevel().getValue());
-			data.setGogokStacks(gemPanel.getGogokStacks().getValue());
 			data.setCdr(this.effCdr);
 			data.setRcr(this.effRcr);
 			data.setFocusedMind(buffPanel.getFocusedMind().getValue());
 			data.setInspire(buffPanel.getInspire().getValue());
 			data.setHysteria(buffPanel.getHysteria().getValue());
 			data.setAnatomy(buffPanel.getAnatomy().getValue());
-			data.setToxin(gemPanel.getToxin().getValue());
-			data.setToxinLevel(gemPanel.getToxinLevel().getValue());
-			data.setPainEnhancer(gemPanel.getPainEnhancer().getValue());
-			data.setPainEnhancerLevel(gemPanel.getPainEnhancerLevel()
-					.getValue());
-			data.setPainEnhancerStacks(gemPanel.getPainEnhancerStacks()
-					.getValue());
-			data.setTaeguk(gemPanel.getTaeguk().getValue());
-			data.setTaegukLevel(gemPanel.getTaegukLevel().getValue());
-			data.setTaegukStacks(gemPanel.getTaegukStacks().getValue());
 			data.setWolf(playerBuffPanel.getWolf().getValue());
 			data.setWolfUptime(playerBuffPanel.getWolfUptime().getValue() / 100.0);
 			data.setBbv(playerBuffPanel.getBbv().getValue());
@@ -3576,6 +3496,8 @@ public class MainPanel extends BasePanel {
 
 		super.saveField("passives",
 				super.getFieldValue(passives.getPassives(), null));
+		super.saveField("gems",
+				super.getGemsFieldValue(gemPanel.getGems(), null));
 		super.saveField("elemental.Damage",
 				super.getFieldValue(this.typeDamage.getValues(), null));
 		super.saveField("skill.Damage",
@@ -3593,6 +3515,7 @@ public class MainPanel extends BasePanel {
 
 		super.setFieldValue(skills, super.getFieldValue("skills", null));
 		super.setFieldValue(passives, super.getFieldValue("passives", null));
+		super.setFieldValue(gemPanel, super.getFieldValue("gems", null));
 		super.setFieldValue(typeDamage,
 				super.getFieldValue("elemental.Damage", null));
 		super.setFieldValue(skillDamage,

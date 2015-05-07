@@ -23,6 +23,8 @@ import java.util.Set;
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.CharacterData;
 import com.dawg6.web.dhcalc.shared.calculator.DamageType;
+import com.dawg6.web.dhcalc.shared.calculator.GemData;
+import com.dawg6.web.dhcalc.shared.calculator.GemSkill;
 
 public abstract class StatAdapter {
 
@@ -54,6 +56,29 @@ public abstract class StatAdapter {
 		@Override
 		public boolean test(CharacterData data, Set<DamageType> types) {
 			return types.contains(type);
+		}
+	}
+
+	public static class GemLevel extends StatAdapter {
+
+		private final GemSkill gem;
+
+		public GemLevel(GemSkill gem) {
+			this.gem = gem;
+		}
+
+		@Override
+		public void apply(double inc, CharacterData data) {
+			GemData gd = data.getGems().get(gem);
+			
+			if (gd != null) {
+				gd.level++;
+			}
+		}
+
+		@Override
+		public boolean test(CharacterData data, Set<DamageType> types) {
+			return data.getGems().containsKey(gem);
 		}
 	}
 

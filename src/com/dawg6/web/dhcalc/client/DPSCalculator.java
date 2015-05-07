@@ -20,6 +20,7 @@ package com.dawg6.web.dhcalc.client;
 
 import com.dawg6.web.dhcalc.shared.calculator.BreakPoint;
 import com.dawg6.web.dhcalc.shared.calculator.CharacterData;
+import com.dawg6.web.dhcalc.shared.calculator.GemSkill;
 import com.dawg6.web.dhcalc.shared.calculator.Passive;
 import com.dawg6.web.dhcalc.shared.calculator.Util;
 import com.dawg6.web.dhcalc.shared.calculator.WeaponType;
@@ -80,7 +81,7 @@ public class DPSCalculator extends BasePanel {
 	public DPSCalculator(MainPanel main) {
 
 		this.main = main;
-		
+
 		ChangeHandler handler = new ChangeHandler() {
 
 			@Override
@@ -88,9 +89,9 @@ public class DPSCalculator extends BasePanel {
 				if (!disableListeners)
 					calculate();
 			}
-			
+
 		};
-		
+
 		ClickHandler clickHandler = new ClickHandler() {
 
 			@Override
@@ -98,12 +99,12 @@ public class DPSCalculator extends BasePanel {
 				calculate();
 			}
 		};
-		
+
 		FlexTable grid = new FlexTable();
 		grid.setBorderWidth(0);
 		grid.setCellPadding(5);
 		initWidget(grid);
-		
+
 		mainHand = new WeaponPanel("Main Hand");
 		grid.setWidget(0, 0, mainHand);
 		grid.getFlexCellFormatter().setColSpan(0, 0, 2);
@@ -161,7 +162,7 @@ public class DPSCalculator extends BasePanel {
 		critChance.setVisibleLength(6);
 		critChance.addChangeHandler(handler);
 		critChance.setMax(95.0);
-		
+
 		Label lblNewLabel_5 = new Label("Crit Hit Damage (%):");
 		flexTable_2.setWidget(4, 0, lblNewLabel_5);
 		lblNewLabel_5.setWordWrap(false);
@@ -183,23 +184,24 @@ public class DPSCalculator extends BasePanel {
 
 		CaptionPanel cptnpnlNewPanel_4 = new CaptionPanel("Hero");
 		grid.setWidget(2, 1, cptnpnlNewPanel_4);
-		grid.getCellFormatter().setVerticalAlignment(2, 1, HasVerticalAlignment.ALIGN_TOP);
+		grid.getCellFormatter().setVerticalAlignment(2, 1,
+				HasVerticalAlignment.ALIGN_TOP);
 
 		FlexTable flexTable_4 = new FlexTable();
 		flexTable_4.setCellPadding(2);
 		cptnpnlNewPanel_4.setContentWidget(flexTable_4);
-		
+
 		Label lblHeroLevel = new Label("Hero Level:");
 		lblHeroLevel.setWordWrap(false);
 		flexTable_4.setWidget(0, 0, lblHeroLevel);
-		
+
 		heroLevel = new NumberSpinner();
 		heroLevel.box.setTitle("Hero's level");
 		heroLevel.setVisibleLength(6);
 		heroLevel.setMin(1);
 		heroLevel.setMax(70);
 		flexTable_4.setWidget(0, 1, heroLevel);
-		
+
 		heroLevel.addChangeHandler(handler);
 
 		Label lblNewLabel_3 = new Label("Dexterity from Items:");
@@ -214,7 +216,8 @@ public class DPSCalculator extends BasePanel {
 
 		dexterity.addChangeHandler(handler);
 
-		CaptionPanel cptnpnlNewPanel_6 = new CaptionPanel("Sentry Breakpoint Calculator");
+		CaptionPanel cptnpnlNewPanel_6 = new CaptionPanel(
+				"Sentry Breakpoint Calculator");
 		grid.setWidget(3, 0, cptnpnlNewPanel_6);
 		grid.getFlexCellFormatter().setColSpan(3, 0, 2);
 
@@ -342,13 +345,14 @@ public class DPSCalculator extends BasePanel {
 		sentryAps.setTitle("Actual Sentry APS (based on BP)");
 		flexTable_6.setWidget(3, 3, sentryAps);
 		sentryAps.setStyleName("boldText");
-		
+
 		Label lblTotalDexterity = new Label("Total Dexterity:");
 		lblTotalDexterity.setStyleName("boldText");
 		flexTable_6.setWidget(4, 0, lblTotalDexterity);
-		
+
 		dexterityLabel = new Label("0");
-		dexterityLabel.setTitle("This is the total of all Dexterity from items, levels and paragon points");
+		dexterityLabel
+				.setTitle("This is the total of all Dexterity from items, levels and paragon points");
 		dexterityLabel.setStyleName("boldText");
 		flexTable_6.setWidget(4, 1, dexterityLabel);
 
@@ -381,7 +385,7 @@ public class DPSCalculator extends BasePanel {
 		grid.getFlexCellFormatter().setColSpan(3, 0, 2);
 		grid.getFlexCellFormatter().setColSpan(0, 0, 2);
 		grid.getFlexCellFormatter().setColSpan(1, 0, 2);
-		
+
 		mainHand.getWeaponType().addChangeHandler(handler);
 		mainHand.getBaseMin().addChangeHandler(handler);
 		mainHand.getBaseMax().addChangeHandler(handler);
@@ -428,9 +432,12 @@ public class DPSCalculator extends BasePanel {
 				nextBp -= this.wIas;
 				break;
 			case Equipment:
-				without = petApsValue / (1.0 + this.eIas + this.pIas + focusedMind + gogokIas + painEnhancerIas + buffIas);
+				without = petApsValue
+						/ (1.0 + this.eIas + this.pIas + focusedMind + gogokIas
+								+ painEnhancerIas + buffIas);
 				nextBp = (next.getAps() / without) - 1.0;
-				nextBp -= (this.eIas + this.pIas + focusedMind + gogokIas + painEnhancerIas + buffIas);
+				nextBp -= (this.eIas + this.pIas + focusedMind + gogokIas
+						+ painEnhancerIas + buffIas);
 				break;
 			case Pet:
 				without = petApsValue / (1.0 + this.petIasValue);
@@ -530,62 +537,80 @@ public class DPSCalculator extends BasePanel {
 				new Field(this.mainHand.getAddMin(), "calc.AddMinDamage", "0"),
 				new Field(this.mainHand.getAddMax(), "calc.AddMaxDamage", "0"),
 				new Field(this.mainHand.getWeaponIAS(), "calc.WeaponIAS", "0"),
-				new Field(this.mainHand.getWeaponDamage(), "calc.WeaponDamage", "0"),
-				new Field(this.offHand.getWeaponType(), "calc.offHand.WeaponType",
-						""),
-				new Field(this.offHand.getBaseMin(), "calc.offHand.MinDamage", "0"),
-				new Field(this.offHand.getBaseMax(), "calc.offHand.MaxDamage", "0"),
-				new Field(this.offHand.getAddMin(), "calc.offHand.AddMinDamage", "0"),
-				new Field(this.offHand.getAddMax(), "calc.offHand.AddMaxDamage", "0"),
-				new Field(this.offHand.getWeaponIAS(), "calc.offHand.WeaponIAS", "0"),
-				new Field(this.offHand.getWeaponDamage(), "calc.offHand.WeaponDamage", "0"),
+				new Field(this.mainHand.getWeaponDamage(), "calc.WeaponDamage",
+						"0"),
+				new Field(this.offHand.getWeaponType(),
+						"calc.offHand.WeaponType", ""),
+				new Field(this.offHand.getBaseMin(), "calc.offHand.MinDamage",
+						"0"),
+				new Field(this.offHand.getBaseMax(), "calc.offHand.MaxDamage",
+						"0"),
+				new Field(this.offHand.getAddMin(),
+						"calc.offHand.AddMinDamage", "0"),
+				new Field(this.offHand.getAddMax(),
+						"calc.offHand.AddMaxDamage", "0"),
+				new Field(this.offHand.getWeaponIAS(),
+						"calc.offHand.WeaponIAS", "0"),
+				new Field(this.offHand.getWeaponDamage(),
+						"calc.offHand.WeaponDamage", "0"),
 				new Field(this.minJewelDamage, "calc.MinJewelDamage", "0"),
 				new Field(this.maxJewelDamage, "calc.MaxJewelDamage", "0"),
 				new Field(this.equipIAS, "calc.EquipIAS", "0"),
 				new Field(this.dexterity, "calc.EquipmentDexterity", "0"),
 				new Field(this.heroLevel, "calc.HeroLevel", "70"),
 				new Field(this.critChance, "calc.CritChance", "0"),
-				new Field(this.critDamage, "calc.CritDamage", "0"),
-		};
+				new Field(this.critDamage, "calc.CritDamage", "0"), };
 	}
 
 	public void calculate() {
 
 		WeaponType type = getMainHandWeaponType();
-		
+
 		if (type == null)
 			type = WeaponType.Bow;
-		
+
 		WeaponType offHand_type = getOffHandWeaponType();
-		
-		double min = this.mainHand.getWeaponMin() + getValue(this.minJewelDamage);
-		double max = this.mainHand.getWeaponMax() + getValue(this.maxJewelDamage);
-		double offHand_min = this.offHand.getWeaponMin() + getValue(this.minJewelDamage);
-		double offHand_max = this.offHand.getWeaponMax() + getValue(this.maxJewelDamage);
-		double dex = getValue(this.dexterity) + (main.getParagonPanel().getParagonDexterity().getValue() * 5) + 7 + (this.heroLevel.getValue() * 3);
+
+		double min = this.mainHand.getWeaponMin()
+				+ getValue(this.minJewelDamage);
+		double max = this.mainHand.getWeaponMax()
+				+ getValue(this.maxJewelDamage);
+		double offHand_min = this.offHand.getWeaponMin()
+				+ getValue(this.minJewelDamage);
+		double offHand_max = this.offHand.getWeaponMax()
+				+ getValue(this.maxJewelDamage);
+		double dex = getValue(this.dexterity)
+				+ (main.getParagonPanel().getParagonDexterity().getValue() * 5)
+				+ 7 + (this.heroLevel.getValue() * 3);
 		double pCC = (getValue(main.getParagonPanel().getParagonCC()) * 0.1) / 100.0;
 		double pCD = (getValue(main.getParagonPanel().getParagonCHD()) * 1.0) / 100.0;
 		double aCC = 0.0;
 		double aDam = 0.0;
 		double aCD = 0.0;
 		buffIas = 0.0;
-		
-		if (main.getPlayerBuffs().getBbv().getValue() && (Math.round(main.getPlayerBuffs().getBbvUptime().getValue()) == 100)) {
+
+		if (main.getPlayerBuffs().getBbv().getValue()
+				&& (Math.round(main.getPlayerBuffs().getBbvUptime().getValue()) == 100)) {
 			buffIas += 0.20;
 		}
-		
-		if (main.getPlayerBuffs().getRetribution().getValue() && (Math.round(main.getPlayerBuffs().getRetributionUptime().getValue()) == 100)) {
+
+		if (main.getPlayerBuffs().getRetribution().getValue()
+				&& (Math.round(main.getPlayerBuffs().getRetributionUptime()
+						.getValue()) == 100)) {
 			buffIas += 0.10;
 		}
-		
-		if (main.getPlayerBuffs().getValor().getValue() && (Math.round(main.getPlayerBuffs().getValorUptime().getValue()) == 100)) {
+
+		if (main.getPlayerBuffs().getValor().getValue()
+				&& (Math.round(main.getPlayerBuffs().getValorUptime()
+						.getValue()) == 100)) {
 			buffIas += 0.08;
 		}
 
-		if (main.getPlayerBuffs().getStretchTime().getValue() && (main.getPlayerBuffs().getStretchTimeUptime().getValue() == 100)) {
+		if (main.getPlayerBuffs().getStretchTime().getValue()
+				&& (main.getPlayerBuffs().getStretchTimeUptime().getValue() == 100)) {
 			buffIas += 0.1;
 		}
-		
+
 		if (main.getPassivesPanel().getPassives().contains(Passive.Archery)) {
 			if (type == WeaponType.HandCrossbow) {
 				aCC += 0.05;
@@ -600,10 +625,11 @@ public class DPSCalculator extends BasePanel {
 			aDam += .2;
 		}
 
-		double anatomy = main.getBuffPanel().getAnatomy().getValue() ? 0.018 : 0.0;
+		double anatomy = main.getBuffPanel().getAnatomy().getValue() ? 0.018
+				: 0.0;
 
-		double critChance = Math.min(1.0, .05 + (getValue(this.critChance) / 100.0) + pCC + aCC
-				+ anatomy);
+		double critChance = Math.min(1.0, .05
+				+ (getValue(this.critChance) / 100.0) + pCC + aCC + anatomy);
 		double critDamage = getValue(this.critDamage) / 100.0 + pCD + aCD;
 
 		this.eIas = (getValue(this.equipIAS)) / 100.0;
@@ -612,42 +638,44 @@ public class DPSCalculator extends BasePanel {
 		this.pIas = getValue(main.getParagonPanel().getParagonIAS()) * 0.002;
 		focusedMind = (main.getBuffPanel().getFocusedMind().getValue() ? 0.03
 				: 0.0);
-		gogokIas = main.getGemPanel().getGogok().getValue() ? (main.getGemPanel().getGogokStacks().getValue() / 100.0)
-				: 0.0;
-		painEnhancerIas = (main.getGemPanel().getPainEnhancer().getValue() && main.getGemPanel().getPainEnhancerLevel()
-				.getValue() >= 25) ? (main.getGemPanel().getPainEnhancerStacks().getValue() * 0.03)
-				: 0.0
-				;
+		gogokIas = main.getGemPanel().isGem(GemSkill.Gogok) ? (main
+				.getGemPanel().getGemLevel(GemSkill.Gogok) / 100.0) : 0.0;
+		painEnhancerIas = (main.getGemPanel().isGem(GemSkill.PainEnhancer) && main
+				.getGemPanel().getGemLevel(GemSkill.PainEnhancer) >= 25) ? (main
+				.getGemPanel().getGemAttribute(GemSkill.PainEnhancer,
+						GemSkill.BLEEDING) * 0.03) : 0.0;
 
 		double dwIas = (offHand_type != null) ? 0.15 : 0.0;
 
 		double aps = type.getAps()
 				* (1.0 + wIas)
-				* (1.0 + eIas + pIas + focusedMind + gogokIas + painEnhancerIas + buffIas + dwIas);
+				* (1.0 + eIas + pIas + focusedMind + gogokIas + painEnhancerIas
+						+ buffIas + dwIas);
 
-		double offHand_aps = (offHand_type == null) ? 0.0 : (offHand_type.getAps()
-				* (1.0 + offHand_wIas)
-				* (1.0 + eIas + pIas + focusedMind + gogokIas + painEnhancerIas + buffIas + dwIas));
+		double offHand_aps = (offHand_type == null) ? 0.0 : (offHand_type
+				.getAps() * (1.0 + offHand_wIas) * (1.0 + eIas + pIas
+				+ focusedMind + gogokIas + painEnhancerIas + buffIas + dwIas));
 
 		this.averageDamage = ((min + max) / 2.0);
 
 		this.offHand_averageDamage = ((offHand_min + offHand_max) / 2.0);
 
-		double mainHand_dps = averageDamage * aps * (1.0 + critChance * critDamage)
-				* (1.0 + (dex / 100.0)) * (1.0 + aDam);
+		double mainHand_dps = averageDamage * aps
+				* (1.0 + critChance * critDamage) * (1.0 + (dex / 100.0))
+				* (1.0 + aDam);
 
-		double offHand_dps = (offHand_type == null) ? 0.0 : (offHand_averageDamage * offHand_aps * (1.0 + critChance * critDamage)
-				* (1.0 + (dex / 100.0)) * (1.0 + aDam));
+		double offHand_dps = (offHand_type == null) ? 0.0
+				: (offHand_averageDamage * offHand_aps
+						* (1.0 + critChance * critDamage)
+						* (1.0 + (dex / 100.0)) * (1.0 + aDam));
 
-		
 		double dw_aps = (aps + offHand_aps) / 2.0;
 		double dw_averageDamage = (averageDamage + offHand_averageDamage) / 2.0;
-		double totalDps = (offHand_type == null) ? (averageDamage * aps * (1.0 + critChance * critDamage)
-				* (1.0 + (dex / 100.0)) * (1.0 + aDam))
+		double totalDps = (offHand_type == null) ? (averageDamage * aps
+				* (1.0 + critChance * critDamage) * (1.0 + (dex / 100.0)) * (1.0 + aDam))
 				: (dw_averageDamage * dw_aps * (1.0 + critChance * critDamage)
-				* (1.0 + (dex / 100.0)) * (1.0 + aDam))
-				;
-		
+						* (1.0 + (dex / 100.0)) * (1.0 + aDam));
+
 		this.sheetDps = Math.round(totalDps * 10.0) / 10.0;
 		this.dps.setText(Util.format(sheetDps));
 		this.sheetAps = (offHand_type == null) ? aps : dw_aps;
@@ -658,9 +686,8 @@ public class DPSCalculator extends BasePanel {
 		this.actualCC.setText(Util.format(critChance * 100.0) + "%");
 		this.actualCD.setText(Util.format(critDamage * 100.0) + "%");
 
-
-		this.petIasValue = main.getItemPanel().getTnt().getValue() ? (main.getItemPanel().getTntPercent().getValue() / 100.0)
-				: 0.0;
+		this.petIasValue = main.getItemPanel().getTnt().getValue() ? (main
+				.getItemPanel().getTntPercent().getValue() / 100.0) : 0.0;
 		this.petApsValue = aps * (1.0 + petIasValue);
 		this.petAps.setText(Util.format(petApsValue));
 		this.bp = BreakPoint.get(petApsValue);
@@ -701,19 +728,26 @@ public class DPSCalculator extends BasePanel {
 		this.mainHand.getBaseMax().setValue(data.getBaseMax());
 		this.mainHand.getAddMin().setValue(data.getAddMin());
 		this.mainHand.getAddMax().setValue(data.getAddMax());
-		this.mainHand.getWeaponIAS().setValue((int)(Math.round(data.getWeaponIas() * 100.0)));
-		this.mainHand.getWeaponDamage().setValue((int) Math.round(data.getWeaponDamagePercent() * 100.0));
+		this.mainHand.getWeaponIAS().setValue(
+				(int) (Math.round(data.getWeaponIas() * 100.0)));
+		this.mainHand.getWeaponDamage().setValue(
+				(int) Math.round(data.getWeaponDamagePercent() * 100.0));
 		this.offHand.getBaseMin().setValue(data.getOffHand_baseMin());
 		this.offHand.getBaseMax().setValue(data.getOffHand_baseMax());
 		this.offHand.getAddMin().setValue(data.getOffHand_addMin());
 		this.offHand.getAddMax().setValue(data.getOffHand_addMax());
-		this.offHand.getWeaponIAS().setValue((int)(Math.round(data.getOffHand_weaponIas() * 100.0)));
-		this.offHand.getWeaponDamage().setValue((int) Math.round(data.getOffHand_weaponDamagePercent() * 100.0));
+		this.offHand.getWeaponIAS().setValue(
+				(int) (Math.round(data.getOffHand_weaponIas() * 100.0)));
+		this.offHand
+				.getWeaponDamage()
+				.setValue(
+						(int) Math.round(data.getOffHand_weaponDamagePercent() * 100.0));
 
-		this.critChance.setValue(Math.round(data.getEquipCritChance() * 10000.0) / 100.0);
-		this.critDamage.setValue((int) Math.round(data.getEquipCritDamage()
-				* 100.0));
-		this.equipIAS.setValue((int)(Math.round(data.getEquipIas() * 100.0)));
+		this.critChance
+				.setValue(Math.round(data.getEquipCritChance() * 10000.0) / 100.0);
+		this.critDamage
+				.setValue((int) Math.round(data.getEquipCritDamage() * 100.0));
+		this.equipIAS.setValue((int) (Math.round(data.getEquipIas() * 100.0)));
 		this.dexterity.setValue(data.getEquipmentDexterity());
 		this.minJewelDamage.setValue((int) Math.round(data.getJewelMin()));
 		this.maxJewelDamage.setValue((int) Math.round(data.getJewelMax()));
@@ -746,7 +780,9 @@ public class DPSCalculator extends BasePanel {
 	}
 
 	public int getTotalDexterity() {
-		return getValue(this.dexterity) + (main.getParagonPanel().getParagonDexterity().getValue() * 5) + 7 + (getHeroLevel() * 3);
+		return getValue(this.dexterity)
+				+ (main.getParagonPanel().getParagonDexterity().getValue() * 5)
+				+ 7 + (getHeroLevel() * 3);
 	}
 
 	public double getDamageBonus() {
@@ -771,7 +807,7 @@ public class DPSCalculator extends BasePanel {
 	public double getEquipIAS() {
 		return this.equipIAS.getValue() / 100.0;
 	}
-	
+
 	public double getWeaponIAS() {
 		return this.mainHand.getWeaponIAS().getValue() / 100.0;
 	}
@@ -779,7 +815,7 @@ public class DPSCalculator extends BasePanel {
 	public int getEquipmentDexterity() {
 		return this.dexterity.getValue();
 	}
-	
+
 	public int getHeroLevel() {
 		return heroLevel.getValue();
 	}
@@ -801,7 +837,7 @@ public class DPSCalculator extends BasePanel {
 		WeaponType t = offHand.getWeaponTypeEnum();
 		double main = this.averageDamage;
 		double oh = this.offHand_averageDamage;
-		
+
 		return (t == null) ? main : ((main + oh) / 2.0);
 	}
 

@@ -350,99 +350,32 @@ public class ProfileHelper {
 
 	public static void setGemDamage(HeroProfile hero, CharacterData data) {
 
-		boolean enforcer = false;
-		boolean iceblink = false;
-		boolean bot = false;
-		boolean botp = false;
-		int enforcerLevel = 0;
-		int iceblinkLevel = 0;
-		int botLevel = 0;
-		int botpLevel = 0;
-		boolean zeis = false;
-		int zeisLevel = 0;
-		boolean taeguk  = false;
-		int taegukLevel = 0;
+		Map<GemSkill, GemData> gems = new TreeMap<GemSkill, GemData>();
 		
-		boolean gogok = false;
-		int gogokLevel = 0;
-		boolean toxin = false;
-		int toxinLevel = 0;
-		boolean painEnhancer = false;
-		int painEnhancerLevel = 0;
-
 		for (ItemInformation i : hero.items.values()) {
 
 			if (i.gems != null) {
 				for (ItemInformation.Gem g : i.gems) {
-					if (g.item != null) {
-						if (g.item.name.equals(Const.BANE_OF_THE_TRAPPED)) {
-							bot = true;
-							float rank = g.jewelRank;
-							botLevel = (int) rank;
-						} else if (g.item.name.equals(Const.ENFORCER)) {
-							enforcer = true;
-							float rank = g.jewelRank;
-							enforcerLevel = (int) rank;
-						} else if (g.item.name.equals(Const.ICEBLINK)) {
-							iceblink = true;
-							float rank = g.jewelRank;
-							iceblinkLevel = (int) rank;
-						} else if (g.item.name.equals(Const.BOTP)) {
-							botp = true;
-							float rank = g.jewelRank;
-							botpLevel = (int) rank;
-						} else if (g.item.name.equals(Const.ZEI)) {
-							zeis = true;
-							float rank = g.jewelRank;
-							zeisLevel = (int) rank;
-						} else if (g.item.name.equals(Const.TAEGUK)) {
-							taeguk = true;
-							float rank = g.jewelRank;
-							taegukLevel = (int) rank;
-						} else if (g.item.name.equals(Const.GOGOK)) {
-							gogok = true;
-							float rank = g.jewelRank;
-							gogokLevel = (int) rank;
-						} else if (g.item.name.equals(Const.TOXIN)) {
-							toxin = true;
-							float rank = g.jewelRank;
-							toxinLevel = (int) rank;
-						} else if (g.item.name.equals(Const.PAIN_ENHANCER)) {
-							painEnhancer = true;
-							float rank = g.jewelRank;
-							painEnhancerLevel = (int) rank;
+
+					if (g.item.name != null) {
+						GemSkill gem = GemSkill.getGemByName(g.item.name);
+						
+						if (gem != null) {
+							GemData gd = new GemData();
+							gd.level = g.jewelRank;
+							
+							for (GemSkill.Attribute a : gem.getAttributes()) {
+								gd.attributes.put(a.getLabel(), new Integer(0));
+							}
+							
+							gems.put(gem,  gd);
 						}
 					}
 				}
 			}
 		}
-
-		data.setUseBaneOfTheTrapped(bot);
-		data.setBaneOfTheTrappedLevel(botLevel);
-
-		data.setUseEnforcer(enforcer);
-		data.setEnforcerLevel(enforcerLevel);
-
-		data.setIceblink(iceblink);
-		data.setIceblinkLevel(iceblinkLevel);
-
-		data.setBotp(botp);
-		data.setBotpLevel(botpLevel);
-
-		data.setZeis(zeis);
-		data.setZeisLevel(zeisLevel);
-
-		data.setGogok(gogok);
-		data.setGogokLevel(gogokLevel);
-
-		data.setToxin(toxin);
-		data.setToxinLevel(toxinLevel);
-
-		data.setPainEnhancer(painEnhancer);
-		data.setPainEnhancerLevel(painEnhancerLevel);
 		
-		data.setTaeguk(taeguk);
-		data.setTaegukLevel(taegukLevel);
+		data.setGems(gems);
 	}
 
 	public static void importWeaponData(HeroProfile hero, CharacterData data,

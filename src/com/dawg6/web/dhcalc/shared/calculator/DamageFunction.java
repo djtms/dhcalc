@@ -423,7 +423,7 @@ public class DamageFunction {
 		double baseWd = wDMult.getValue(state);
 
 		for (DamageRow dr : ALL) {
-			if (dr.source.test(source, state.getData(), dr.radius)) {
+			if (dr.source.test(source, state, dr.radius)) {
 
 				double spacing = state.getData().getTargetSpacing();
 				double aoeRange = dr.radius;
@@ -474,7 +474,7 @@ public class DamageFunction {
 							if (dr.source.skill == ActiveSkill.CR) {
 								m = state.getData().getCrashingRainPercent();
 							} else if (dr.source.gem != null) {
-								m = dr.source.gem.getScalar(state.getData());
+								m = dr.source.gem.getScalar(state);
 							} else if (dr.dot) {
 								m /= dr.dotDuration;
 							}
@@ -692,6 +692,7 @@ public class DamageFunction {
 							for (DamageMultiplier dw : dlist) {
 
 								if ((isSentry || (dw != DamageMultiplier.Sentry))
+										&& ((dw != DamageMultiplier.COE) || (dr.type.isValidDh()))
 										&& (!isPlayer || (dw != DamageMultiplier.Enforcer))
 										&& (isPlayer
 												|| (dw != DamageMultiplier.N6)

@@ -21,6 +21,7 @@ package com.dawg6.web.dhcalc.shared.calculator;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation.D3Set;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.Realm;
@@ -48,13 +49,9 @@ public class CharacterData implements Serializable {
 	private double critChance;
 	private double critHitDamage;
 	private double eliteDamage;
-	private boolean useEnforcer;
-	private int enforcerLevel;
 	private boolean wolf;
 	private boolean hexingPants;
 	private boolean charmed;
-	private boolean botp;
-	private int botpLevel;
 	private boolean strongarms;
 	private int strongArmsPct;
 	private boolean harringtons;
@@ -70,8 +67,6 @@ public class CharacterData implements Serializable {
 	private boolean transgression;
 	private boolean retaliation;
 	private boolean calamityMdf;
-	private boolean zeis;
-	private int zeisLevel;
 	private int numTargets;
 	private int numAoeTargets;
 	private int weaponMin;
@@ -80,28 +75,15 @@ public class CharacterData implements Serializable {
 	private int jewelryMax;
 	private BowType bow;
 	private int numAdditional;
-	private boolean useBaneOfTheTrapped;
-	private int baneOfTheTrappedLevel;
 	private int distanceToTarget;
 	private double weaponDamage;
 	private double offHand_weaponDamage;
 	private int targetSpacing;
-	private boolean gogok;
-	private int gogokLevel;
-	private int gogokStacks;
 	private double cdr;
 	private double rcr;
 	private boolean focusedMind;
 	private boolean hysteria;
 	private boolean anatomy;
-	private boolean toxin;
-	private int toxinLevel;
-	private boolean painEnhancer;
-	private int painEnhancerLevel;
-	private int painEnhancerStacks;
-	private boolean taeguk;
-	private int taegukLevel;
-	private int taegukStacks;
 	private double wolfUptime;
 	private boolean bbv;
 	private double bbvUptime;
@@ -209,8 +191,6 @@ public class CharacterData implements Serializable {
 	private int numNats;
 	private int equipmentDiscipline;
 	private boolean bastions;
-	private boolean iceblink;
-	private int iceblinkLevel;
 	private boolean crashingRain;
 	private Set<Passive> passives;
 	private Map<DamageType, Double> elementalDamage;
@@ -232,6 +212,7 @@ public class CharacterData implements Serializable {
 	private boolean stretchTime;
 	private double timeWarpUptime;
 	private double stretchTimeUptime;
+	private Map<GemSkill, GemData> gems;
 
 	public CharacterData copy() {
 		return new CharacterData(this);
@@ -254,9 +235,6 @@ public class CharacterData implements Serializable {
 		percentAtLeast10Yards = 1.0;
 		distanceToTarget = 25;
 		targetSize = TargetSize.Medium;
-		painEnhancerStacks = 1;
-		gogokStacks = 1;
-		taegukStacks = 1;
 		double wolfCd = 30.0 * (1.0 - cdr);
 		wolfUptime = Math.min(10.0 / wolfCd, 1.0);
 		bbv = false;
@@ -313,7 +291,6 @@ public class CharacterData implements Serializable {
 		this.anatomy = other.anatomy;
 		this.aps = other.aps;
 		this.areaDamageEquipment = other.areaDamageEquipment;
-		this.baneOfTheTrappedLevel = other.baneOfTheTrappedLevel;
 		this.baseMax = other.baseMax;
 		this.baseMin = other.baseMin;
 		this.bastions = other.bastions;
@@ -321,8 +298,6 @@ public class CharacterData implements Serializable {
 		this.bbvUptime = other.bbvUptime;
 		this.bigBadVoodo = other.bigBadVoodo;
 		this.bornsCdr = other.bornsCdr;
-		this.botp = other.botp;
-		this.botpLevel = other.botpLevel;
 		this.bow = other.bow;
 		this.bp = other.bp;
 		this.calamityMdf = other.calamityMdf;
@@ -355,16 +330,13 @@ public class CharacterData implements Serializable {
 		// this.duration = other.duration;
 		this.elementalDamage = Util.copy(other.elementalDamage);
 		this.eliteDamage = other.eliteDamage;
-		this.enforcerLevel = other.enforcerLevel;
 		this.equipCritChance = other.equipCritChance;
 		this.equipCritDamage = other.equipCritDamage;
 		this.equipIas = other.equipIas;
 		this.equipmentDexterity = other.equipmentDexterity;
 		this.equipmentDiscipline = other.equipmentDiscipline;
 		this.focusedMind = other.focusedMind;
-		this.gogok = other.gogok;
-		this.gogokLevel = other.gogokLevel;
-		this.gogokStacks = other.gogokStacks;
+		this.gems = copy(other.gems);
 		this.hardcore = other.hardcore;
 		this.harrington = other.harrington;
 		this.harringtonPercent = other.harringtonPercent;
@@ -382,8 +354,6 @@ public class CharacterData implements Serializable {
 		this.hexingPantsPercent = other.hexingPantsPercent;
 		this.hexingPantsUptime = other.hexingPantsUptime;
 		this.hysteria = other.hysteria;
-		this.iceblink = other.iceblink;
-		this.iceblinkLevel = other.iceblinkLevel;
 		this.innerSanctuary = other.innerSanctuary;
 		this.innerSanctuaryUptime = other.innerSanctuaryUptime;
 		this.inspire = other.inspire;
@@ -427,9 +397,6 @@ public class CharacterData implements Serializable {
 		this.offHand_weaponIas = other.offHand_weaponIas;
 		this.offHand_weaponType = other.offHand_weaponType;
 		this.overawe = other.overawe;
-		this.painEnhancer = other.painEnhancer;
-		this.painEnhancerLevel = other.painEnhancerLevel;
-		this.painEnhancerStacks = other.painEnhancerStacks;
 		this.paragon = other.paragon;
 		this.paragonAD = other.paragonAD;
 		this.paragonCC = other.paragonCC;
@@ -476,9 +443,6 @@ public class CharacterData implements Serializable {
 		this.strongarms = other.strongarms;
 		this.strongArmsPct = other.strongArmsPct;
 		this.strongarmUptime = other.strongarmUptime;
-		this.taeguk = other.taeguk;
-		this.taegukLevel = other.taegukLevel;
-		this.taegukStacks = other.taegukStacks;
 		this.tag = other.tag;
 		this.targetSize = other.targetSize;
 		this.targetSpacing = other.targetSpacing;
@@ -488,11 +452,7 @@ public class CharacterData implements Serializable {
 		this.timeWarpUptime = other.timeWarpUptime;
 		this.tnt = other.tnt;
 		this.tntPercent = other.tntPercent;
-		this.toxin = other.toxin;
-		this.toxinLevel = other.toxinLevel;
 		this.transgression = other.transgression;
-		this.useBaneOfTheTrapped = other.useBaneOfTheTrapped;
-		this.useEnforcer = other.useEnforcer;
 		this.valor = other.valor;
 		this.valorUptime = other.valorUptime;
 		this.vaxo = other.vaxo;
@@ -507,8 +467,16 @@ public class CharacterData implements Serializable {
 		this.weaponType = other.weaponType;
 		this.wolf = other.wolf;
 		this.wolfUptime = other.wolfUptime;
-		this.zeis = other.zeis;
-		this.zeisLevel = other.zeisLevel;
+	}
+
+	public static Map<GemSkill, GemData> copy(Map<GemSkill, GemData> gems) {
+		Map<GemSkill, GemData> map = new TreeMap<GemSkill, GemData>();
+		
+		for (Map.Entry<GemSkill, GemData> e : gems.entrySet()) {
+			map.put(e.getKey(), e.getValue().copy());
+		}
+		
+		return map;
 	}
 
 	public double getSheetDps() {
@@ -580,7 +548,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public double getSentryAps() {
-		double gogokIas = gogok ? (gogokStacks * .01) : 0.0;
+		double gogokIas = isGogok() ? (getGogokStacks() * .01) : 0.0;
 
 		return this.aps * (this.tnt ? (1.0 + this.tntPercent) : 1.0)
 				* (1.0 + gogokIas);
@@ -596,6 +564,10 @@ public class CharacterData implements Serializable {
 
 	public double getPoisonDamage() {
 		return getElementalDamage(DamageType.Poison);
+	}
+
+	public double getHolyDamage() {
+		return getElementalDamage(DamageType.Holy);
 	}
 
 	public double getCritHitDamage() {
@@ -619,19 +591,22 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isUseEnforcer() {
-		return useEnforcer;
+		return gems.containsKey(GemSkill.Enforcer);
 	}
 
-	public void setUseEnforcer(boolean useEnforcer) {
-		this.useEnforcer = useEnforcer;
+	public int getGemLevel(GemSkill gem) {
+		int level = 0;
+		
+		GemData data = gems.get(gem);
+		
+		if (data != null)
+			level = data.level;
+		
+		return level;
 	}
-
+	
 	public int getEnforcerLevel() {
-		return enforcerLevel;
-	}
-
-	public void setEnforcerLevel(int enforcerLevel) {
-		this.enforcerLevel = enforcerLevel;
+		return getGemLevel(GemSkill.Enforcer);
 	}
 
 	public boolean isSteadyAim() {
@@ -663,19 +638,11 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isBotp() {
-		return botp;
-	}
-
-	public void setBotp(boolean botp) {
-		this.botp = botp;
+		return gems.containsKey(GemSkill.BotP);
 	}
 
 	public int getBotpLevel() {
-		return botpLevel;
-	}
-
-	public void setBotpLevel(int botpLevel) {
-		this.botpLevel = botpLevel;
+		return getGemLevel(GemSkill.BotP);
 	}
 
 	public boolean isStrongarms() {
@@ -799,11 +766,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isZeis() {
-		return zeis;
-	}
-
-	public void setZeis(boolean zeis) {
-		this.zeis = zeis;
+		return gems.containsKey(GemSkill.Zeis);
 	}
 
 	public boolean isCullTheWeak() {
@@ -887,19 +850,11 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isUseBaneOfTheTrapped() {
-		return useBaneOfTheTrapped;
-	}
-
-	public void setUseBaneOfTheTrapped(boolean useBaneOfTheTrapped) {
-		this.useBaneOfTheTrapped = useBaneOfTheTrapped;
+		return gems.containsKey(GemSkill.BotT);
 	}
 
 	public int getBaneOfTheTrappedLevel() {
-		return baneOfTheTrappedLevel;
-	}
-
-	public void setBaneOfTheTrappedLevel(int baneOfTheTrappedLevel) {
-		this.baneOfTheTrappedLevel = baneOfTheTrappedLevel;
+		return getGemLevel(GemSkill.BotT);
 	}
 
 	public int getDistanceToTarget() {
@@ -911,11 +866,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public int getZeisLevel() {
-		return zeisLevel;
-	}
-
-	public void setZeisLevel(int zeisLevel) {
-		this.zeisLevel = zeisLevel;
+		return getGemLevel(GemSkill.Zeis);
 	}
 
 	public boolean isAmbush() {
@@ -951,27 +902,30 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isGogok() {
-		return gogok;
-	}
-
-	public void setGogok(boolean gogok) {
-		this.gogok = gogok;
+		return gems.containsKey(GemSkill.Gogok);
 	}
 
 	public int getGogokLevel() {
-		return gogokLevel;
+		return getGemLevel(GemSkill.Gogok);
 	}
 
-	public void setGogokLevel(int gogokLevel) {
-		this.gogokLevel = gogokLevel;
+	public int getGemAttribute(GemSkill gem, String attribute) {
+		int value = 0;
+		
+		GemData data = gems.get(gem);
+		
+		if ((data != null) && (data.attributes != null)) {
+			Integer v = data.attributes.get(attribute);
+			
+			if (v != null)
+				value = v;
+		}
+		
+		return value;
 	}
-
+	
 	public int getGogokStacks() {
-		return gogokStacks;
-	}
-
-	public void setGogokStacks(int gogokStacks) {
-		this.gogokStacks = gogokStacks;
+		return getGemAttribute(GemSkill.Gogok, GemSkill.STACKS);
 	}
 
 	public double getCdr() {
@@ -1007,67 +961,35 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isToxin() {
-		return toxin;
-	}
-
-	public void setToxin(boolean toxin) {
-		this.toxin = toxin;
+		return gems.containsKey(GemSkill.Toxin);
 	}
 
 	public int getToxinLevel() {
-		return toxinLevel;
-	}
-
-	public void setToxinLevel(int toxinLevel) {
-		this.toxinLevel = toxinLevel;
+		return getGemLevel(GemSkill.Toxin);
 	}
 
 	public boolean isPainEnhancer() {
-		return painEnhancer;
-	}
-
-	public void setPainEnhancer(boolean painEnhancer) {
-		this.painEnhancer = painEnhancer;
+		return gems.containsKey(GemSkill.PainEnhancer);
 	}
 
 	public int getPainEnhancerLevel() {
-		return painEnhancerLevel;
-	}
-
-	public void setPainEnhancerLevel(int painEnhancerLevel) {
-		this.painEnhancerLevel = painEnhancerLevel;
+		return getGemLevel(GemSkill.PainEnhancer);
 	}
 
 	public int getPainEnhancerStacks() {
-		return painEnhancerStacks;
-	}
-
-	public void setPainEnhancerStacks(int painEnhancerStacks) {
-		this.painEnhancerStacks = painEnhancerStacks;
+		return getGemAttribute(GemSkill.PainEnhancer, GemSkill.BLEEDING);
 	}
 
 	public boolean isTaeguk() {
-		return taeguk;
-	}
-
-	public void setTaeguk(boolean taeguk) {
-		this.taeguk = taeguk;
+		return gems.containsKey(GemSkill.Taeguk);
 	}
 
 	public int getTaegukLevel() {
-		return taegukLevel;
-	}
-
-	public void setTaegukLevel(int taegukLevel) {
-		this.taegukLevel = taegukLevel;
+		return getGemLevel(GemSkill.Taeguk);
 	}
 
 	public int getTaegukStacks() {
-		return taegukStacks;
-	}
-
-	public void setTaegukStacks(int taegukStacks) {
-		this.taegukStacks = taegukStacks;
+		return getGemAttribute(GemSkill.Taeguk, GemSkill.STACKS);
 	}
 
 	public double getWolfUptime() {
@@ -1207,7 +1129,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public double getTotalEliteDamage() {
-		return eliteDamage + ((botp && (botpLevel >= 25)) ? 0.15 : 0.0);
+		return eliteDamage + ((this.isBotp() && (getBotpLevel() >= 25)) ? 0.15 : 0.0);
 	}
 
 	public double getMfdUptime() {
@@ -2124,19 +2046,11 @@ public class CharacterData implements Serializable {
 	}
 
 	public int getIceblinkLevel() {
-		return iceblinkLevel;
-	}
-
-	public void setIceblinkLevel(int iceblinkLevel) {
-		this.iceblinkLevel = iceblinkLevel;
+		return getGemLevel(GemSkill.Iceblink);
 	}
 
 	public boolean isIceblink() {
-		return iceblink;
-	}
-
-	public void setIceblink(boolean iceblink) {
-		this.iceblink = iceblink;
+		return gems.containsKey(GemSkill.Iceblink);
 	}
 
 	public boolean isCrashingRain() {
@@ -2398,4 +2312,19 @@ public class CharacterData implements Serializable {
 		this.stretchTimeUptime = strecthTimeUptime;
 	}
 
+	public boolean isSimplicity() {
+		return gems.containsKey(GemSkill.Simplicity);
+	}
+	
+	public int getSimplicityLevel() {
+		return getGemLevel(GemSkill.Simplicity);
+	}
+
+	public Map<GemSkill, GemData> getGems() {
+		return gems;
+	}
+
+	public void setGems(Map<GemSkill, GemData> gems) {
+		this.gems = gems;
+	}
 }

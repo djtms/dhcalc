@@ -25,6 +25,9 @@ import java.util.TreeSet;
 
 import com.dawg6.gwt.client.ApplicationPanel;
 import com.dawg6.web.dhcalc.shared.calculator.FormData;
+import com.dawg6.web.dhcalc.shared.calculator.GemData;
+import com.dawg6.web.dhcalc.shared.calculator.GemSkill;
+import com.dawg6.web.dhcalc.shared.calculator.Util;
 import com.dawg6.web.dhcalc.shared.calculator.Version;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.CareerProfile;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.HeroProfile;
@@ -48,6 +51,7 @@ public class JsonUtil {
 		obj.put("main", JsonUtil.toJSONObject(data.main));
 		obj.put("calculator", JsonUtil.toJSONObject(data.calculator));
 		obj.put("passives", JsonUtil.toJSONObject(data.passives));
+		obj.put("gems", JsonUtil.toJSONObject(data.gems));
 		obj.put("skills", JsonUtil.toJSONObject(data.skills));
 		obj.put("elementalDamage", JsonUtil.toJSONObject(data.elementalDamage));
 		obj.put("skillDamage", JsonUtil.toJSONObject(data.skillDamage));
@@ -75,6 +79,7 @@ public class JsonUtil {
 						data.calculator = JsonUtil.parseMap(obj.get("calculator"));
 						data.items = JsonUtil.parseMap(obj.get("items"));
 						data.passives = JsonUtil.parseMap(obj.get("passives"));
+						data.gems = JsonUtil.parseMap(obj.get("gems"));
 						data.skills = JsonUtil.parseMap(obj.get("skills"));
 						data.elementalDamage = JsonUtil.parseMap(obj.get("elementalDamage"));
 						data.skillDamage = JsonUtil.parseMap(obj.get("skillDamage"));
@@ -293,6 +298,22 @@ public class JsonUtil {
 			}
 
 			return map;
+		}
+	}
+
+	public static Object gemsToJSONObject(Map<GemSkill, GemData> gems) {
+		return toJSONObject(Util.createGemsMap(gems));
+	}
+
+	public static Map<GemSkill, GemData> parseGemsMap(String text) {
+		if (text == null) {
+			return new TreeMap<GemSkill, GemData>();
+		} else {
+		
+			JSONValue v = JSONParser.parseLenient(text);
+			Map<String, String> smap = JsonUtil.parseMap(v);
+
+			return Util.createGems(smap);
 		}
 	}
 }
