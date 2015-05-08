@@ -692,59 +692,62 @@ public class DamageFunction {
 							for (DamageMultiplier dw : dlist) {
 
 								if ((isSentry || (dw != DamageMultiplier.Sentry))
-										&& ((dw != DamageMultiplier.COE) || (dr.type.isValidDh()))
 										&& (!isPlayer || (dw != DamageMultiplier.Enforcer))
+										&& (dw.getAccumulator() != DamageAccumulator.Special)
 										&& (isPlayer
 												|| (dw != DamageMultiplier.N6)
 												|| (dr.source.gem != null) || ((dr.source.skill == ActiveSkill.SENTRY) && (dr.source.rune == Rune.Chain_of_Torment)))) {
 
-									if (dw.getAccumulator() != DamageAccumulator.Special) {
+									double v = dw.getValue(state);
 
-										double v = dw.getValue(state);
+									// Check for CoE Damage Type and Buff
+									if ((dw == DamageMultiplier.COE) && (v > 0.0)) {
+										int i = Util.indexOf(CoEBuffEvent.TYPES, dr.type);
 
-										if (Math.abs(v) > 0.0) {
+										if ((i < 0) || !state.getBuffs().isActive(CoEBuffEvent.BUFFS[i]))
+											v = 0.0;
+									}
+									
+									if (Math.abs(v) > 0.0) {
 
-											if (dw.getAccumulator() == DamageAccumulator.Multiplicative) {
-												m *= (1.0 + v);
-												multBuf.append(" X "
+										if (dw.getAccumulator() == DamageAccumulator.Multiplicative) {
+											m *= (1.0 + v);
+											multBuf.append(" X "
+													+ dw.getAbbreviation()
+													+ "("
+													+ Util.format(1.0 + v)
+													+ ")");
+										} else if (dw.getAccumulator() == DamageAccumulator.ElementalAdditive) {
+											ea += v;
+
+											eaBuf.append(" + "
+													+ dw.getAbbreviation()
+													+ "(" + Util.format(v)
+													+ ")");
+										} else {
+
+											if (dw != DamageMultiplier.AD) {
+												a += v;
+
+												addBuf.append(" + "
 														+ dw.getAbbreviation()
 														+ "("
-														+ Util.format(1.0 + v)
-														+ ")");
-											} else if (dw.getAccumulator() == DamageAccumulator.ElementalAdditive) {
-												ea += v;
-
-												eaBuf.append(" + "
-														+ dw.getAbbreviation()
-														+ "(" + Util.format(v)
+														+ Util.format(v)
 														+ ")");
 											} else {
+												int n = Math.min(maxAdd, state.getTargets().getNumAlive() - 1);
 
-												if (dw != DamageMultiplier.AD) {
-													a += v;
+												if (n > 0) {
+													a += (v * n);
 
 													addBuf.append(" + "
 															+ dw.getAbbreviation()
 															+ "("
+															+ n
+															+ " X "
 															+ Util.format(v)
 															+ ")");
-												} else {
-													int n = state.getData()
-															.getNumAdditional();
-
-													if (n > 0) {
-														a += (v * n);
-
-														addBuf.append(" + "
-																+ dw.getAbbreviation()
-																+ "("
-																+ n
-																+ " X "
-																+ Util.format(v)
-																+ ")");
-													}
 												}
-
 											}
 										}
 									}

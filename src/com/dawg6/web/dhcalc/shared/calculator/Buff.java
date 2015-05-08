@@ -44,7 +44,12 @@ public enum Buff {
 	FocusedMind("Preparation/Focused Mind"),
 	CompanionActive("Companion Active"),
 	Vengeance("Vengeance"),
-	TimeWarp("Slow Time/Time Warp");
+	TimeWarp("Slow Time/Time Warp"),
+	CoeCold("CoE Cold"),
+	CoeFire("CoE Fire"),
+	CoeLightning("CoE Light"),
+	CoePhysical("CoE Phys"),
+	;
 	
 	private String name;
 	

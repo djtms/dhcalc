@@ -1,5 +1,8 @@
 Change Log:
 
+**5/8/15**
+- Convention of Elements' damage buff is now discrete for each elemental damage type (as opposed to averaged across all 4 elements). It now cycles through each element every 4 seconds.
+
 **5/7/15**
 - Now parses all Legendary gems in Jewelry and displays 3 drop-downs for selecting up to 3 Gems to be used
 -- Note: Not all Gem mechanics are implemented (e.g. Mirinae and Wreath of Lightning are still on the to-do list)

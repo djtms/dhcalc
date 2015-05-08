@@ -219,4 +219,19 @@ public class Util {
 		
 		return map;
 	}
+
+	public static <T> int indexOf(T[] list, T value) {
+
+		int n = list.length;
+		int i = 0;
+		
+		while (i < n) {
+			if (list[i] == value)
+				return i;
+			else
+				i++;
+		}
+		
+		return -1;
+	}
 }

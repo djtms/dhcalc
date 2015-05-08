@@ -55,6 +55,9 @@ public class FiringData {
 
 		List<Damage> log = new Vector<Damage>();
 
+		if (data.isCoe())
+			eventQueue.push(new CoEBuffEvent());
+		
 		if (data.isPreparation()
 				&& (data.getPreparationRune() == Rune.Punishment)) 
 			eventQueue.push(new PreparationEvent(data));

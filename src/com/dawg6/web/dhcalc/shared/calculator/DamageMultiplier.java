@@ -108,14 +108,14 @@ public enum DamageMultiplier {
 				public Double getValue(SimulationState state) {
 					return state.getData().getSentryDamage();
 				}
-			}), COE("COE", DamageAccumulator.Multiplicative,
+			}), COE("CoE", DamageAccumulator.Multiplicative,
 			"Convention of Elements Bonus (150-200% while element is active)",
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					
-					return state.getData().isCoe() ? (state.getData()
-							.getCoePercent() / 4.0) : 0.0;
+
+					return state.getData().isCoe() ? state.getData()
+							.getCoePercent() : 0.0;
 				}
 			}), BL(
 			"BL",

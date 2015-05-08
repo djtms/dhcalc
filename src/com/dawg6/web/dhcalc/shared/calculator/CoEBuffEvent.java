@@ -18,6 +18,42 @@
  *******************************************************************************/
 package com.dawg6.web.dhcalc.shared.calculator;
 
-public class CoEBuffEvent {
+import java.util.List;
+
+public class CoEBuffEvent extends Event {
+
+	private int index;
+	
+	public static final DamageType[] TYPES = { DamageType.Cold, DamageType.Fire, DamageType.Lightning, DamageType.Physical };
+	public static final Buff[] BUFFS = { Buff.CoeCold, Buff.CoeFire, Buff.CoeLightning, Buff.CoePhysical };
+	
+	public CoEBuffEvent() {
+		index = 0;
+		this.time = 0.0;
+	}
+	
+	@Override
+	public void execute(EventQueue queue, List<Damage> log,
+			SimulationState state) {
+		
+		Buff buff = BUFFS[index++];
+
+		state.getBuffs().set(buff, this.time + 4.0);
+		
+		Damage d = new Damage();
+		d.shooter = "Player";
+		d.time = this.time;
+		d.note = buff.toString();
+		d.currentHatred = state.getHatred();
+		d.currentDisc = state.getDisc();
+		log.add(d);
+		
+		if (index >= BUFFS.length)
+			index = 0;
+		
+		this.time += 4.0;
+		
+		queue.push(this);
+	}
 
 }
