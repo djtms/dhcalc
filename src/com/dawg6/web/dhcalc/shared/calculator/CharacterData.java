@@ -50,12 +50,7 @@ public class CharacterData implements Serializable {
 	private double critHitDamage;
 	private double eliteDamage;
 	private boolean wolf;
-	private boolean hexingPants;
 	private boolean charmed;
-	private boolean strongarms;
-	private int strongArmsPct;
-	private boolean harringtons;
-	private int harringtonsPercent;
 	private boolean bigBadVoodo;
 	private boolean massConfusion;
 	private boolean piranhas;
@@ -98,35 +93,18 @@ public class CharacterData implements Serializable {
 	private double convictionActiveUptime;
 	private boolean meticulousBolts;
 	private double meticulousBoltsPercent;
-	private boolean tnt;
-	private double tntPercent;
 	private TargetSize targetSize;
 	private double mfdUptime;
 	private double mfdAddUptime;
-	private double calamityUptime;
 	private TargetType targetType;
 	private boolean slamDance;
 	private boolean valor;
 	private double valorUptime;
 	private double retributionUptime;
-	private boolean harrington;
-	private double harringtonPercent;
-	private double harringtonUptime;
-	private boolean strongarm;
-	private double strongarmPercent;
-	private double strongarmUptime;
-	private double hexingPantsPercent;
-	private double hexingPantsUptime;
 	private double caltropsUptime;
 	private Map<ActiveSkill, Rune> skills;
 	private Map<String, Integer> cdrData;
 	private Map<String, Integer> rcrData;
-	private boolean bornsCdr;
-	private boolean crimsonCdr;
-	private boolean crimsonRcr;
-	private boolean leorics;
-	private double leoricsPercent;
-	private boolean pridesFall;
 	private GemLevel diamond;
 	private WeaponType weaponType;
 	private double baseMin;
@@ -144,7 +122,6 @@ public class CharacterData implements Serializable {
 	private double offHand_weaponIas;
 	private double jewelMin;
 	private double jewelMax;
-	private boolean royalRing;
 	private Map<String, Integer> setCounts;
 	private Map<String, D3Set> sets;
 	private double equipIas;
@@ -164,43 +141,17 @@ public class CharacterData implements Serializable {
 	private double equipCritDamage;
 	private boolean hasBombardiers;
 	private double hatredPerSecond;
-	private int numMarauders;
-	private int numUe;
-	private boolean kridershot;
-	private boolean spines;
-	private int kridershotHatred;
-	private int spinesHatred;
-	private boolean reapersWraps;
-	private double reapersWrapsPercent;
 	private int numHealthGlobes;
-	private boolean cindercoat;
-	private double cindercoatRCR;
 	private boolean inspire;
 	private int delay;
-	private boolean odysseysEnd;
-	private double odysseysEndPercent;
-	private double odysseysEndUptime;
 	private int equipmentDexterity;
 	private int paragonDexterity;
-	private boolean helltrapper;
-	private double helltrapperPercent;
-	private boolean vaxo;
 	private double areaDamageEquipment;
 	private int paragonAD;
-	// private int rovKilled;
-	private int numNats;
 	private int equipmentDiscipline;
-	private boolean bastions;
-	private boolean crashingRain;
 	private Set<Passive> passives;
 	private Map<DamageType, Double> elementalDamage;
 	private Map<ActiveSkill, Double> skillDamage;
-	private double crashingRainPercent;
-	private boolean dml;
-	private double dmlPercent;
-	private boolean coe;
-	private double coePercent;
-	private double vaxoUptime;
 	private MonsterType primaryTargetType;
 	private MonsterType additionalTargetType;
 	private int riftLevel;
@@ -213,17 +164,28 @@ public class CharacterData implements Serializable {
 	private double timeWarpUptime;
 	private double stretchTimeUptime;
 	private Map<GemSkill, GemAttributeData> gems;
+	private Map<SpecialItemType, AttributeData> specialItems;
 
 	public CharacterData copy() {
 		return new CharacterData(this);
 	}
 
 	public int getNumMarauders() {
-		return numMarauders;
+		return getSetCount(ItemSet.Marauders.getSlug());
 	}
 
-	public void setNumMarauders(int numMarauders) {
-		this.numMarauders = numMarauders;
+
+	public int getSetCount(String slug) {
+		Integer i = setCounts.get(slug);
+
+		if (i != null) {
+			if ((i >= 2) && (this.isRoyalRing()))
+				i++;
+		} else {
+			i = 0;
+		}
+
+		return i;
 	}
 
 	public void setDefaults() {
@@ -245,10 +207,6 @@ public class CharacterData implements Serializable {
 		cripplingWave = false;
 		retribution = false;
 		conviction = false;
-		harringtonUptime = 1.0;
-		strongarmUptime = 1.0;
-		hexingPantsUptime = 1.0;
-		calamityUptime = 1.0;
 		focusedMind = false;
 		anatomy = false;
 		hysteria = false;
@@ -256,10 +214,8 @@ public class CharacterData implements Serializable {
 		caltropsUptime = 1.0;
 		numHealthGlobes = 1;
 		delay = 50;
-		odysseysEndUptime = 1.0;
 		// rovKilled = 0;
 		// duration = BreakPoint.DURATION;
-		vaxoUptime = 1.0;
 		primaryTargetType = MonsterType.RiftGuardian;
 		additionalTargetType = MonsterType.NonElite;
 		riftLevel = 25;
@@ -293,38 +249,25 @@ public class CharacterData implements Serializable {
 		this.areaDamageEquipment = other.areaDamageEquipment;
 		this.baseMax = other.baseMax;
 		this.baseMin = other.baseMin;
-		this.bastions = other.bastions;
 		this.bbv = other.bbv;
 		this.bbvUptime = other.bbvUptime;
 		this.bigBadVoodo = other.bigBadVoodo;
-		this.bornsCdr = other.bornsCdr;
 		this.bow = other.bow;
 		this.bp = other.bp;
 		this.calamityMdf = other.calamityMdf;
-		this.calamityUptime = other.calamityUptime;
 		this.caltropsUptime = other.caltropsUptime;
 		this.cdr = other.cdr;
 		this.cdrData = Util.copy(other.cdrData);
 		this.charmed = other.charmed;
-		this.cindercoat = other.cindercoat;
-		this.cindercoatRCR = other.cindercoatRCR;
-		this.coe = other.coe;
-		this.coePercent = other.coePercent;
 		this.conviction = other.conviction;
 		this.convictionActiveUptime = other.convictionActiveUptime;
 		this.convictionPassiveUptime = other.convictionPassiveUptime;
-		this.crashingRain = other.crashingRain;
-		this.crashingRainPercent = other.crashingRainPercent;
-		this.crimsonCdr = other.crimsonCdr;
-		this.crimsonRcr = other.crimsonRcr;
 		this.cripplingWave = other.cripplingWave;
 		this.cripplingWaveUptime = other.cripplingWaveUptime;
 		this.critChance = other.critChance;
 		this.critHitDamage = other.critHitDamage;
 		this.dead = other.dead;
 		this.delay = other.delay;
-		this.dml = other.dml;
-		this.dmlPercent = other.dmlPercent;
 		this.diamond = other.diamond;
 		this.distanceToTarget = other.distanceToTarget;
 		// this.duration = other.duration;
@@ -338,21 +281,11 @@ public class CharacterData implements Serializable {
 		this.focusedMind = other.focusedMind;
 		this.gems = copy(other.gems);
 		this.hardcore = other.hardcore;
-		this.harrington = other.harrington;
-		this.harringtonPercent = other.harringtonPercent;
-		this.harringtons = other.harringtons;
-		this.harringtonsPercent = other.harringtonsPercent;
-		this.harringtonUptime = other.harringtonUptime;
 		this.hasBombardiers = other.hasBombardiers;
 		this.hatredPerSecond = other.hatredPerSecond;
-		this.helltrapper = other.helltrapper;
-		this.helltrapperPercent = other.helltrapperPercent;
 		this.hero = other.hero;
 		this.heroLevel = other.heroLevel;
 		this.heroName = other.heroName;
-		this.hexingPants = other.hexingPants;
-		this.hexingPantsPercent = other.hexingPantsPercent;
-		this.hexingPantsUptime = other.hexingPantsUptime;
 		this.hysteria = other.hysteria;
 		this.innerSanctuary = other.innerSanctuary;
 		this.innerSanctuaryUptime = other.innerSanctuaryUptime;
@@ -361,10 +294,6 @@ public class CharacterData implements Serializable {
 		this.jewelMin = other.jewelMin;
 		this.jewelryMax = other.jewelryMax;
 		this.jewelryMin = other.jewelryMin;
-		this.kridershot = other.kridershot;
-		this.kridershotHatred = other.kridershotHatred;
-		this.leorics = other.leorics;
-		this.leoricsPercent = other.leoricsPercent;
 		this.level = other.level;
 		this.massConfusion = other.massConfusion;
 		this.massConfusionUptime = other.massConfusionUptime;
@@ -376,14 +305,8 @@ public class CharacterData implements Serializable {
 		this.numAdditional = other.numAdditional;
 		this.numAoeTargets = other.numAoeTargets;
 		this.numHealthGlobes = other.numHealthGlobes;
-		this.numMarauders = other.numMarauders;
-		this.numNats = other.numNats;
 		this.numPlayers = other.numPlayers;
 		this.numTargets = other.numTargets;
-		this.numUe = other.numUe;
-		this.odysseysEnd = other.odysseysEnd;
-		this.odysseysEndPercent = other.odysseysEndPercent;
-		this.odysseysEndUptime = other.odysseysEndUptime;
 		this.offHand_addMax = other.offHand_addMax;
 		this.offHand_addMin = other.offHand_addMin;
 		this.offHand_aps = other.offHand_aps;
@@ -412,37 +335,27 @@ public class CharacterData implements Serializable {
 		this.percentSlowedChilled = other.percentSlowedChilled;
 		this.piranhas = other.piranhas;
 		this.piranhasUptime = other.piranhasUptime;
-		this.pridesFall = other.pridesFall;
 		this.primaryTargetHealth = other.primaryTargetHealth;
 		this.primaryTargetType = other.primaryTargetType;
 		this.profile = other.profile;
 		this.rcr = other.rcr;
 		this.rcrData = Util.copy(other.rcrData);
 		this.realm = other.realm;
-		this.reapersWraps = other.reapersWraps;
-		this.reapersWrapsPercent = other.reapersWrapsPercent;
 		this.retaliation = other.retaliation;
 		this.retribution = other.retribution;
 		this.retributionUptime = other.retributionUptime;
 		this.riftLevel = other.riftLevel;
-		this.royalRing = other.royalRing;
 		this.seasonal = other.seasonal;
 		this.sentryDps = other.sentryDps;
 		this.setCounts = Util.copy(other.setCounts);
 		this.sets = Util.copy(other.sets);
+		this.specialItems = copyItems(other.specialItems);
 		this.sheetDps = other.sheetDps;
 		this.skillDamage = Util.copy(other.skillDamage);
 		this.skills = Util.copy(other.skills);
 		this.slamDance = other.slamDance;
-		this.spines = other.spines;
-		this.spinesHatred = other.spinesHatred;
 		this.stretchTime = other.stretchTime;
 		this.stretchTimeUptime = other.stretchTimeUptime;
-		this.strongarm = other.strongarm;
-		this.strongarmPercent = other.strongarmPercent;
-		this.strongarms = other.strongarms;
-		this.strongArmsPct = other.strongArmsPct;
-		this.strongarmUptime = other.strongarmUptime;
 		this.tag = other.tag;
 		this.targetSize = other.targetSize;
 		this.targetSpacing = other.targetSpacing;
@@ -450,13 +363,9 @@ public class CharacterData implements Serializable {
 		this.timeLimit = other.timeLimit;
 		this.timeWarp = other.timeWarp;
 		this.timeWarpUptime = other.timeWarpUptime;
-		this.tnt = other.tnt;
-		this.tntPercent = other.tntPercent;
 		this.transgression = other.transgression;
 		this.valor = other.valor;
 		this.valorUptime = other.valorUptime;
-		this.vaxo = other.vaxo;
-		this.vaxoUptime = other.vaxoUptime;
 		this.weaponAps = other.weaponAps;
 		this.weaponDamage = other.weaponDamage;
 		this.weaponDamagePercent = other.weaponDamagePercent;
@@ -467,6 +376,17 @@ public class CharacterData implements Serializable {
 		this.weaponType = other.weaponType;
 		this.wolf = other.wolf;
 		this.wolfUptime = other.wolfUptime;
+	}
+
+	private Map<SpecialItemType, AttributeData> copyItems(
+			Map<SpecialItemType, AttributeData> items) {
+		Map<SpecialItemType, AttributeData> map = new TreeMap<SpecialItemType, AttributeData>();
+		
+		for (Map.Entry<SpecialItemType, AttributeData> e : items.entrySet()) {
+			map.put(e.getKey(), new AttributeData(e.getValue()));
+		}
+		
+		return map;
 	}
 
 	public static Map<GemSkill, GemAttributeData> copy(Map<GemSkill, GemAttributeData> gems) {
@@ -550,7 +470,7 @@ public class CharacterData implements Serializable {
 	public double getSentryAps() {
 		double gogokIas = isGogok() ? (getGogokStacks() * .01) : 0.0;
 
-		return this.aps * (this.tnt ? (1.0 + this.tntPercent) : 1.0)
+		return this.aps * (this.isTnt() ? (1.0 + this.getTntPercent()) : 1.0)
 				* (1.0 + gogokIas);
 	}
 
@@ -622,11 +542,11 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isHexingPants() {
-		return hexingPants;
+		return isItem(SpecialItemType.HexingPants);
 	}
 
-	public void setHexingPants(boolean hexingPants) {
-		this.hexingPants = hexingPants;
+	private boolean isItem(SpecialItemType item) {
+		return specialItems.containsKey(item);
 	}
 
 	public boolean isCharmed() {
@@ -645,38 +565,25 @@ public class CharacterData implements Serializable {
 		return getGemLevel(GemSkill.BotP);
 	}
 
-	public boolean isStrongarms() {
-		return strongarms;
+	public double getItemAttribute(SpecialItemType item, String label) {
+		AttributeData data = specialItems.get(item);
+		double value = 0.0;
+		
+		if (data != null) {
+			Integer i = data.get(label);
+			
+			if (i != null) {
+				for (SpecialItemType.Attribute a : item.getAttributes()) {
+					if (a.getLabel().equals(label)) {
+						value = a.getRawAttributeValue(i);
+					}
+				}
+			}
+		}
+		
+		return value;
 	}
-
-	public void setStrongarms(boolean strongarms) {
-		this.strongarms = strongarms;
-	}
-
-	public int getStrongArmsPct() {
-		return strongArmsPct;
-	}
-
-	public void setStrongArmsPct(int strongArmsPct) {
-		this.strongArmsPct = strongArmsPct;
-	}
-
-	public boolean isHarringtons() {
-		return harringtons;
-	}
-
-	public void setHarringtons(boolean harringtons) {
-		this.harringtons = harringtons;
-	}
-
-	public int getHarringtonsPercent() {
-		return harringtonsPercent;
-	}
-
-	public void setHarringtonsPercent(int harringtonsPercent) {
-		this.harringtonsPercent = harringtonsPercent;
-	}
-
+	
 	public boolean isBigBadVoodo() {
 		return bigBadVoodo;
 	}
@@ -1105,19 +1012,11 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isTnt() {
-		return tnt;
-	}
-
-	public void setTnt(boolean tnt) {
-		this.tnt = tnt;
+		return isItem(SpecialItemType.TnT);
 	}
 
 	public double getTntPercent() {
-		return tntPercent;
-	}
-
-	public void setTntPercent(double tntPercent) {
-		this.tntPercent = tntPercent;
+		return getItemAttribute(SpecialItemType.TnT, SpecialItemType.PERCENT);
 	}
 
 	public TargetSize getTargetSize() {
@@ -1141,11 +1040,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public double getCalamityUptime() {
-		return calamityUptime;
-	}
-
-	public void setCalamityUptime(double calamityUptime) {
-		this.calamityUptime = calamityUptime;
+		return getItemAttribute(SpecialItemType.Calamity, SpecialItemType.UPTIME);
 	}
 
 	public TargetType getTargetType() {
@@ -1197,67 +1092,35 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isHarrington() {
-		return harrington;
-	}
-
-	public void setHarrington(boolean harrington) {
-		this.harrington = harrington;
+		return isItem(SpecialItemType.Harrington);
 	}
 
 	public double getHarringtonPercent() {
-		return harringtonPercent;
-	}
-
-	public void setHarringtonPercent(double harringtonPercent) {
-		this.harringtonPercent = harringtonPercent;
+		return getItemAttribute(SpecialItemType.Harrington, SpecialItemType.PERCENT);
 	}
 
 	public double getHarringtonUptime() {
-		return harringtonUptime;
-	}
-
-	public void setHarringtonUptime(double harringtonUptime) {
-		this.harringtonUptime = harringtonUptime;
+		return getItemAttribute(SpecialItemType.Harrington, SpecialItemType.UPTIME);
 	}
 
 	public boolean isStrongarm() {
-		return strongarm;
-	}
-
-	public void setStrongarm(boolean strongarm) {
-		this.strongarm = strongarm;
+		return isItem(SpecialItemType.StrongArm);
 	}
 
 	public double getStrongarmPercent() {
-		return strongarmPercent;
-	}
-
-	public void setStrongarmPercent(double strongarmPercent) {
-		this.strongarmPercent = strongarmPercent;
+		return getItemAttribute(SpecialItemType.StrongArm, SpecialItemType.PERCENT);
 	}
 
 	public double getStrongarmUptime() {
-		return strongarmUptime;
-	}
-
-	public void setStrongarmUptime(double strongarmUptime) {
-		this.strongarmUptime = strongarmUptime;
+		return getItemAttribute(SpecialItemType.StrongArm, SpecialItemType.UPTIME);
 	}
 
 	public double getHexingPantsPercent() {
-		return hexingPantsPercent;
-	}
-
-	public void setHexingPantsPercent(double hexingPantsPercent) {
-		this.hexingPantsPercent = hexingPantsPercent;
+		return getItemAttribute(SpecialItemType.HexingPants, SpecialItemType.PERCENT);
 	}
 
 	public double getHexingPantsUptime() {
-		return hexingPantsUptime;
-	}
-
-	public void setHexingPantsUptime(double hexingPantsUptime) {
-		this.hexingPantsUptime = hexingPantsUptime;
+		return getItemAttribute(SpecialItemType.HexingPants, SpecialItemType.UPTIME);
 	}
 
 	public Realm getRealm() {
@@ -1357,35 +1220,18 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isBornsCdr() {
-		return bornsCdr;
-	}
-
-	public void setBornsCdr(boolean bornsCdr) {
-		this.bornsCdr = bornsCdr;
+		return this.getSetCount(ItemSet.Borns.getSlug()) >= 3;
 	}
 
 	public boolean isCrimsonCdr() {
-		return crimsonCdr;
+		return this.getSetCount(ItemSet.Crimson.getSlug()) >= 2;
 	}
-
-	public void setCrimsonCdr(boolean crimsonCdr) {
-		this.crimsonCdr = crimsonCdr;
-	}
-
 	public boolean isLeorics() {
-		return leorics;
-	}
-
-	public void setLeorics(boolean leorics) {
-		this.leorics = leorics;
+		return isItem(SpecialItemType.Leorics);
 	}
 
 	public double getLeoricsPercent() {
-		return leoricsPercent;
-	}
-
-	public void setLeoricsPercent(double leoricsPercent) {
-		this.leoricsPercent = leoricsPercent;
+		return getItemAttribute(SpecialItemType.Leorics, SpecialItemType.PERCENT);
 	}
 
 	public GemLevel getDiamond() {
@@ -1445,11 +1291,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isRoyalRing() {
-		return royalRing;
-	}
-
-	public void setRoyalRing(boolean royalRing) {
-		this.royalRing = royalRing;
+		return isItem(SpecialItemType.RoyalRing);
 	}
 
 	public Map<String, Integer> getSetCounts() {
@@ -1618,35 +1460,19 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isKridershot() {
-		return kridershot;
-	}
-
-	public void setKridershot(boolean kridershot) {
-		this.kridershot = kridershot;
+		return isItem(SpecialItemType.Kridershot);
 	}
 
 	public boolean isSpines() {
-		return spines;
-	}
-
-	public void setSpines(boolean spines) {
-		this.spines = spines;
+		return isItem(SpecialItemType.Spines);
 	}
 
 	public int getKridershotHatred() {
-		return kridershotHatred;
-	}
-
-	public void setKridershotHatred(int kridershotHatred) {
-		this.kridershotHatred = kridershotHatred;
+		return (int)Math.round(getItemAttribute(SpecialItemType.Kridershot, SpecialItemType.HATRED));
 	}
 
 	public int getSpinesHatred() {
-		return spinesHatred;
-	}
-
-	public void setSpinesHatred(int spinesHatred) {
-		this.spinesHatred = spinesHatred;
+		return (int)Math.round(getItemAttribute(SpecialItemType.Spines, SpecialItemType.HATRED));
 	}
 
 	public double getHaDamage() {
@@ -1694,19 +1520,11 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isCrimsonRcr() {
-		return crimsonRcr;
-	}
-
-	public void setCrimsonRcr(boolean crimsonRcr) {
-		this.crimsonRcr = crimsonRcr;
+		return this.getSetCount(ItemSet.Crimson.getSlug()) >= 3;
 	}
 
 	public boolean isPridesFall() {
-		return pridesFall;
-	}
-
-	public void setPridesFall(boolean pridesFall) {
-		this.pridesFall = pridesFall;
+		return isItem(SpecialItemType.PridesFall);
 	}
 
 	public double getRcr() {
@@ -1726,19 +1544,11 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isReapersWraps() {
-		return reapersWraps;
-	}
-
-	public void setReapersWraps(boolean reapersWraps) {
-		this.reapersWraps = reapersWraps;
+		return isItem(SpecialItemType.Reapers);
 	}
 
 	public double getReapersWrapsPercent() {
-		return reapersWrapsPercent;
-	}
-
-	public void setReapersWrapsPercent(double reapersWrapsPercent) {
-		this.reapersWrapsPercent = reapersWrapsPercent;
+		return getItemAttribute(SpecialItemType.Reapers, SpecialItemType.PERCENT);
 	}
 
 	public int getNumHealthGlobes() {
@@ -1750,19 +1560,11 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isCindercoat() {
-		return cindercoat;
-	}
-
-	public void setCindercoat(boolean cindercoat) {
-		this.cindercoat = cindercoat;
+		return isItem(SpecialItemType.Cindercoat);
 	}
 
 	public double getCindercoatRCR() {
-		return cindercoatRCR;
-	}
-
-	public void setCindercoatRCR(double cindercoatRCR) {
-		this.cindercoatRCR = cindercoatRCR;
+		return getItemAttribute(SpecialItemType.Cindercoat, SpecialItemType.PERCENT);
 	}
 
 	public boolean isInspire() {
@@ -1782,27 +1584,15 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isOdysseysEnd() {
-		return odysseysEnd;
-	}
-
-	public void setOdysseysEnd(boolean odysseysEnd) {
-		this.odysseysEnd = odysseysEnd;
+		return isItem(SpecialItemType.Oddessy);
 	}
 
 	public double getOdysseysEndPercent() {
-		return odysseysEndPercent;
-	}
-
-	public void setOdysseysEndPercent(double odysseysEndPercent) {
-		this.odysseysEndPercent = odysseysEndPercent;
+		return getItemAttribute(SpecialItemType.Oddessy, SpecialItemType.PERCENT);
 	}
 
 	public double getOdysseysEndUptime() {
-		return odysseysEndUptime;
-	}
-
-	public void setOdysseysEndUptime(double odysseysEndUptime) {
-		this.odysseysEndUptime = odysseysEndUptime;
+		return getItemAttribute(SpecialItemType.Oddessy, SpecialItemType.UPTIME);
 	}
 
 	public double getCompanionDamage() {
@@ -1834,11 +1624,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isHelltrapper() {
-		return helltrapper;
-	}
-
-	public void setHelltrapper(boolean helltrapper) {
-		this.helltrapper = helltrapper;
+		return isItem(SpecialItemType.HellTrapper);
 	}
 
 	public WeaponType getOffHand_weaponType() {
@@ -1943,19 +1729,11 @@ public class CharacterData implements Serializable {
 	}
 
 	public double getHelltrapperPercent() {
-		return helltrapperPercent;
-	}
-
-	public void setHelltrapperPercent(double helltrapperPercent) {
-		this.helltrapperPercent = helltrapperPercent;
+		return getItemAttribute(SpecialItemType.HellTrapper, SpecialItemType.PERCENT);
 	}
 
 	public boolean isVaxo() {
-		return vaxo;
-	}
-
-	public void setVaxo(boolean vaxo) {
-		this.vaxo = vaxo;
+		return isItem(SpecialItemType.Vaxo);
 	}
 
 	public double getAreaDamageEquipment() {
@@ -1982,20 +1760,8 @@ public class CharacterData implements Serializable {
 		return getSkillDamage(ActiveSkill.RoV);
 	}
 
-	// public int getRovKilled() {
-	// return rovKilled;
-	// }
-	//
-	// public void setRovKilled(int rovKilled) {
-	// this.rovKilled = rovKilled;
-	// }
-	//
 	public int getNumNats() {
-		return numNats;
-	}
-
-	public void setNumNats(int numNats) {
-		this.numNats = numNats;
+		return getSetCount(ItemSet.Nats.getSlug());
 	}
 
 	public int getEquipmentDiscipline() {
@@ -2007,11 +1773,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isBastions() {
-		return bastions;
-	}
-
-	public void setBastions(boolean bastions) {
-		this.bastions = bastions;
+		return getSetCount(ItemSet.BW.getSlug()) >= 2;
 	}
 
 	public boolean hasGenerator() {
@@ -2054,11 +1816,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isCrashingRain() {
-		return crashingRain;
-	}
-
-	public void setCrashingRain(boolean crashingRain) {
-		this.crashingRain = crashingRain;
+		return isItem(SpecialItemType.CR);
 	}
 
 	public Set<Passive> getPassives() {
@@ -2158,11 +1916,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public int getNumUe() {
-		return numUe;
-	}
-
-	public void setNumUe(int numUe) {
-		this.numUe = numUe;
+		return getSetCount(ItemSet.UE.getSlug());
 	}
 
 	public double getMaxDiscipline() {
@@ -2177,51 +1931,27 @@ public class CharacterData implements Serializable {
 	}
 
 	public double getCrashingRainPercent() {
-		return crashingRainPercent;
-	}
-
-	public void setCrashingRainPercent(double crashingRainPercent) {
-		this.crashingRainPercent = crashingRainPercent;
+		return getItemAttribute(SpecialItemType.CR, SpecialItemType.PERCENT);
 	}
 
 	public boolean isDml() {
-		return dml;
-	}
-
-	public void setDml(boolean dml) {
-		this.dml = dml;
+		return isItem(SpecialItemType.DML);
 	}
 
 	public double getDmlPercent() {
-		return dmlPercent;
-	}
-
-	public void setDmlPercent(double dmlPercent) {
-		this.dmlPercent = dmlPercent;
+		return getItemAttribute(SpecialItemType.DML, SpecialItemType.PERCENT);
 	}
 
 	public boolean isCoe() {
-		return coe;
-	}
-
-	public void setCoe(boolean coe) {
-		this.coe = coe;
+		return isItem(SpecialItemType.CoE);
 	}
 
 	public double getCoePercent() {
-		return coePercent;
-	}
-
-	public void setCoePercent(double coePercent) {
-		this.coePercent = coePercent;
+		return getItemAttribute(SpecialItemType.CoE, SpecialItemType.PERCENT);
 	}
 
 	public double getVaxoUptime() {
-		return vaxoUptime;
-	}
-
-	public void setVaxoUptime(double vaxoUptime) {
-		this.vaxoUptime = vaxoUptime;
+		return getItemAttribute(SpecialItemType.Vaxo, SpecialItemType.UPTIME);
 	}
 
 	public MonsterType getPrimaryTargetType() {
@@ -2326,5 +2056,13 @@ public class CharacterData implements Serializable {
 
 	public void setGems(Map<GemSkill, GemAttributeData> gems) {
 		this.gems = gems;
+	}
+
+	public Map<SpecialItemType, AttributeData> getSpecialItems() {
+		return specialItems;
+	}
+
+	public void setSpecialItems(Map<SpecialItemType, AttributeData> specialItems) {
+		this.specialItems = specialItems;
 	}
 }

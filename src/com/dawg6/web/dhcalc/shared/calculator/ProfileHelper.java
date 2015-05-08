@@ -660,56 +660,18 @@ public class ProfileHelper {
 	public static void setSkillDamage(HeroProfile hero, CharacterData data) {
 
 		Map<ActiveSkill, Double> damage = new TreeMap<ActiveSkill, Double>();
-		
-		int petSpeed = 0;
-		boolean tnt = false;
-		boolean calamity = false;
-		boolean meticulousBolts = false;
-		int meticulousBoltsPercent = 0;
+		Map<SpecialItemType, AttributeData> items = new TreeMap<SpecialItemType, AttributeData>();
 		double elite = 0;
 		Map<String, Integer> setCounts = new TreeMap<String, Integer>();
 		Map<String, D3Set> sets = new TreeMap<String, D3Set>();
 		data.setSets(sets);
-		boolean royalRing = false;
-		boolean strongarm = false;
-		double strongarmPercent = 0.0;
-		boolean odysseysEnd = false;
-		double odysseysEndPercent = 0.0;
-		boolean harrington = false;
-		double harringtonPercent = 0.0;
-		boolean hexingPants = false;
-		double hexingPantsPercent = 0.0;
-		boolean bombadiers = false;
-		boolean dml = false;
-		boolean coe = false;
-		double coePercent = 0.0;
-		double dmlPercent = 0.0;
-		boolean crashingRain = false;
-		double crashingRainPercent = 0.0;
-		boolean helltrapper = false;
-		double helltrapperPercent = 0.0;
-		boolean reapersWraps = false;
-		double reapersWrapsPercent = 0.0;
-		boolean kridershot = false;
-		boolean spines = false;
-		int kridershotHatred = 0;
-		int spinesHatred = 0;
 		double hatredPerSecond = 0.0;
 		int discipline = 0;
-		boolean cindercoat = false;
-		double cindercoatPercent = 0.0;
-		boolean vaxo = false;
 
 		for (ItemInformation i : hero.items.values()) {
 
 			if (i.attributesRaw != null) {
-				Value<Float> v = i.attributesRaw.get(Const.ROYAL_RING);
-
-				if (v != null) {
-					royalRing = true;
-				}
-
-				v = i.attributesRaw.get(Const.ELITE_DAMAGE_RAW);
+				Value<Float> v = i.attributesRaw.get(Const.ELITE_DAMAGE_RAW);
 
 				if (v != null) {
 					elite += Math.round(v.min * 100.0);
@@ -738,135 +700,35 @@ public class ProfileHelper {
 					setCounts.put(i.set.slug, count + 1);
 				}
 			}
-
-			if (i.name.equals(Const.CALAMITY)) {
-				calamity = true;
-			} else if (i.name.equals(Const.KRIDERSHOT)) {
-				kridershot = true;
-				Value<Float> value = i.attributesRaw
-						.get(Const.KRIDERSHOT_HATRED);
-				kridershotHatred = Math.round(value.min);
-			} else if (i.name.equals(Const.ODYSSEYS_END)) {
-				odysseysEnd = true;
-				Value<Float> value = i.attributesRaw
-						.get(Const.ODYSSEYS_END_PERCENT);
-				odysseysEndPercent = Math.round(value.min);
-			} else if (i.name.equals(Const.SPINES)) {
-				spines = true;
-				Value<Float> value = i.attributesRaw.get(Const.SPINES_HATRED);
-				spinesHatred = Math.round(value.min);
-			} else if (i.name.equals(Const.REAPERS_WRAPS)) {
-				reapersWraps = true;
-				Value<Float> value = i.attributesRaw
-						.get(Const.REAPERS_WRAPS_PERCENT);
-				reapersWrapsPercent = value.min;
-			} else if (i.name.equals(Const.CINDERCOAT)) {
-				cindercoat = true;
-				Value<Float> value = i.attributesRaw.get(Const.CINDERCOAT_RCR);
-				cindercoatPercent = value.min;
-			} else if (i.name.equals(Const.METICULOUS_BOLTS)) {
-				meticulousBolts = true;
-				Value<Float> value = i.attributesRaw
-						.get(Const.METICULOUS_BOLTS_PERCENT);
-
-				if (value != null)
-					meticulousBoltsPercent = (int) Math
-							.round(value.min * 100.0);
-				else
-					meticulousBoltsPercent = 30;
-			} else if (i.name.equals(Const.STRONGARM)) {
-				Value<Float> value = i.attributesRaw
-						.get(Const.STRONGARM_PERCENT);
-				strongarm = true;
-
-				if (value != null)
-					strongarmPercent = value.min;
-				else
-					strongarmPercent = 0.20;
-			} else if (i.name.equals(Const.BOMBADIERS)) {
-				bombadiers = true;
-			} else if (i.name.equals(Const.DML)) {
-				dml = true;
-
-				Value<Float> value = i.attributesRaw
-						.get(Const.DML_PERCENT);
-
-				if (value != null) {
-					dmlPercent = value.min;
-				} else {
-					dmlPercent = .50;
-				}
-			} else if (i.name.equals(Const.COE)) {
-				coe = true;
-
-				Value<Float> value = i.attributesRaw
-						.get(Const.COE_PERCENT);
-
-				if (value != null) {
-					coePercent = value.min;
-				} else {
-					coePercent = 1.50;
-				}
-			} else if (i.name.equals(Const.CRASHING_RAIN)) {
-				crashingRain = true;
-				
-				Value<Float> value = i.attributesRaw
-						.get(Const.CRASHING_RAIN_PERCENT);
-
-				if (value != null) {
-					crashingRainPercent = value.min;
-				} else {
-					crashingRainPercent = 30.0;
-				}
-				
-			} else if (i.name.equals(Const.VAXO)) {
-				vaxo = true;
-			} else if (i.name.equals(Const.HELLTRAPPER)) {
-				helltrapper = true;
-				Value<Float> value = i.attributesRaw
-						.get(Const.HELLTRAPPER_PERCENT);
-
-				if (value != null) {
-					helltrapperPercent = value.min;
-				} else {
-					helltrapperPercent = 0.07;
-				}
-			} else if (i.name.equals(Const.HARRINGTON)) {
-				Value<Float> value = i.attributesRaw
-						.get(Const.HARRINGTON_PERCENT);
-				harrington = true;
-
-				if (value != null)
-					harringtonPercent = value.min;
-				else
-					harringtonPercent = 1.0;
-			} else if (i.name.equals(Const.HEXING_PANTS)) {
-				Value<Float> value = i.attributesRaw
-						.get(Const.HEXING_PANTS_PERCENT);
-				hexingPants = true;
-
-				if (value != null)
-					hexingPantsPercent = value.min;
-				else
-					hexingPantsPercent = 0.20;
-			}
-
-			for (ItemInformation.Attributes.Attribute a : i.attributes.passive) {
-				if (a.text.startsWith(Const.PET_ATTACK_SPEED)) {
-					int j = a.text.indexOf('%');
-					String value = a.text.substring(
-							Const.PET_ATTACK_SPEED.length(), j);
-					double d = Double.valueOf(value);
-					tnt = true;
-					petSpeed = (int) d;
+			
+			for (SpecialItemType type : SpecialItemType.values()) {
+				if (i.name.equals(type.getName())) {
+					AttributeData ad = new AttributeData();
+					
+					for (SpecialItemType.Attribute a : type.getAttributes()) {
+						int value = 0;
+						Value<Float> v = i.attributesRaw.get(a.getSlug());
+						
+						if (v == null) {
+							value = a.setRawAttributeValue(a.getMin());
+						} else {
+							value = a.setRawAttributeValue(v.min);
+						}
+						
+						ad.put(a.getLabel(), value);
+					}
+					
+					items.put(type, ad);
 				}
 			}
 		}
 
+		data.setSpecialItems(items);
+
 		for (Map.Entry<String, Integer> e : setCounts.entrySet()) {
 			int count = e.getValue();
 
-			if ((count > 1) && royalRing)
+			if ((count > 1) && data.isRoyalRing())
 				count++;
 
 			D3Set set = sets.get(e.getKey());
@@ -885,7 +747,6 @@ public class ProfileHelper {
 			}
 		}
 
-		data.setRoyalRing(royalRing);
 		data.setSetCounts(setCounts);
 
 		for (ActiveSkill skill : ActiveSkill.values()) {
@@ -912,9 +773,6 @@ public class ProfileHelper {
 
 		ItemInformation helm = hero.items.get(Const.HEAD);
 
-		boolean leorics = false;
-		boolean pridesFall = false;
-		int leoricsLevel = 0;
 		GemLevel diamond = GemLevel.None;
 
 		Map<String, Integer> cdrData = new TreeMap<String, Integer>();
@@ -937,39 +795,10 @@ public class ProfileHelper {
 		addRcr(hero, Const.QUIVER, rcrData);
 		addRcr(hero, Const.AMULET, rcrData);
 
-		data.setBornsCdr(hasSet(hero, setCounts, royalRing, Const.BORNS, 2));
-		data.setCrimsonCdr(hasSet(hero, setCounts, royalRing,
-				Const.CAPTAIN_CRIMSON, 2));
-		data.setCrimsonRcr(hasSet(hero, setCounts, royalRing,
-				Const.CAPTAIN_CRIMSON, 3));
-
-		int m = getSetCount(data, Const.MARAUDERS);
-		int ue  = getSetCount(data, Const.UE);
-		int nats = getSetCount(data, Const.NATS);
-		int bastions = getSetCount(data, Const.BASTIONS_OF_WILL);
-		
-		data.setNumMarauders(m);
-		data.setNumUe(ue);
-		data.setNumNats(nats);
-		data.setBastions(bastions >= 2);
-		
 		data.setCdrData(cdrData);
 		data.setRcrData(rcrData);
 
 		if (helm != null) {
-			if ((helm.name != null) && helm.name.equals(Const.PRIDES_FALL)) {
-				pridesFall = true;
-			}
-
-			if ((helm.name != null) && helm.name.equals(Const.LEORICS_CROWN)) {
-				leorics = true;
-				Value<Float> value = helm.attributesRaw
-						.get(Const.GEM_MULTIPLIER);
-
-				if (value != null)
-					leoricsLevel = (int) Math.round(value.min * 100.0);
-			}
-
 			if (helm.gems != null) {
 				for (ItemInformation.Gem gem : helm.gems) {
 					Value<Float> value = gem.attributesRaw.get(Const.CDR);
@@ -990,91 +819,16 @@ public class ProfileHelper {
 			}
 		}
 
-		data.setPridesFall(pridesFall);
-
-		data.setLeorics(leorics);
-		data.setLeoricsPercent(leoricsLevel / 100.0);
-		data.setDiamond(diamond);
-
-		data.setTnt(tnt);
-		data.setTntPercent(petSpeed / 100.0);
-
-		data.setCalamityMdf(calamity);
-		data.setEliteDamage(elite / 100.0);
-
-		data.setMeticulousBolts(meticulousBolts);
-		data.setMeticulousBoltsPercent(meticulousBoltsPercent / 100.0);
-
-		data.setStrongarm(strongarm);
-		data.setStrongarmPercent(strongarmPercent);
-
-		data.setHexingPants(hexingPants);
-		data.setHexingPantsPercent(hexingPantsPercent);
-
-		data.setHarrington(harrington);
-		data.setHarringtonPercent(harringtonPercent);
-
-		data.setHasBombardiers(bombadiers);
-		data.setDml(dml);
-		data.setDmlPercent(dmlPercent);
-		data.setCoe(coe);
-		data.setCoePercent(coePercent);
-		data.setCrashingRain(crashingRain);
-		data.setCrashingRainPercent(crashingRainPercent);
-		data.setVaxo(vaxo);
-		data.setHelltrapper(helltrapper);
-		data.setHelltrapperPercent(helltrapperPercent);
-
-		data.setKridershot(kridershot);
-		data.setKridershotHatred(kridershotHatred);
-		data.setSpines(spines);
-		data.setSpinesHatred(spinesHatred);
 
 		data.setHatredPerSecond(hatredPerSecond);
 		data.setEquipmentDiscipline(discipline);
+		data.setEliteDamage(elite);
+		data.setDiamond(diamond);
 
-		data.setReapersWraps(reapersWraps);
-		data.setReapersWrapsPercent(reapersWrapsPercent);
-
-		data.setCindercoat(cindercoat);
-		data.setCindercoatRCR(cindercoatPercent);
-
-		data.setOdysseysEnd(odysseysEnd);
-		data.setOdysseysEndPercent(odysseysEndPercent);
-
-	}
-
-	private static Boolean hasSet(HeroProfile hero,
-			Map<String, Integer> setCounts, boolean royalRing, String name,
-			int count) {
-
-		boolean hasSet = false;
-
-		Integer i = setCounts.get(name);
-
-		if (i != null) {
-
-			if ((i >= 2) && (royalRing))
-				i++;
-
-			hasSet = (i >= count);
-		}
-
-		return hasSet;
 	}
 
 	public static int getSetCount(CharacterData data, String name) {
-		Integer i = data.getSetCounts().get(name);
-
-		if (i != null) {
-
-			if ((i >= 2) && (data.isRoyalRing()))
-				i++;
-		} else {
-			i = 0;
-		}
-
-		return i;
+		return data.getSetCount(name);
 	}
 
 	private static void addCdr(HeroProfile hero, String slot,

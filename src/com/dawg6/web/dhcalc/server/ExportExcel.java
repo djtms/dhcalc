@@ -34,6 +34,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellUtil;
 
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
+import com.dawg6.web.dhcalc.shared.calculator.AttributeData;
 import com.dawg6.web.dhcalc.shared.calculator.BreakPoint;
 import com.dawg6.web.dhcalc.shared.calculator.Damage;
 import com.dawg6.web.dhcalc.shared.calculator.DamageHolder;
@@ -42,8 +43,10 @@ import com.dawg6.web.dhcalc.shared.calculator.DamageType;
 import com.dawg6.web.dhcalc.shared.calculator.ExportData;
 import com.dawg6.web.dhcalc.shared.calculator.GemAttributeData;
 import com.dawg6.web.dhcalc.shared.calculator.GemSkill;
+import com.dawg6.web.dhcalc.shared.calculator.ItemSet;
 import com.dawg6.web.dhcalc.shared.calculator.Passive;
 import com.dawg6.web.dhcalc.shared.calculator.Rune;
+import com.dawg6.web.dhcalc.shared.calculator.SpecialItemType;
 
 public class ExportExcel {
 
@@ -526,72 +529,31 @@ public class ExportExcel {
 				"Equipment Elite Damage (minus BotP passive)", pctStyle);
 		createInput(inputs, data.data.getAreaDamageEquipment(),
 				"Equipment Area Damage", pctStyle);
-		createInput(inputs, data.data.isTnt(), "Tasker and Theo");
-		createInput(inputs, data.data.getTntPercent(), "Tasker and Theo %",
-				pctStyle);
-		createInput(inputs, data.data.isHarrington(), "Harrington Waistguard");
-		createInput(inputs, data.data.getHarringtonPercent(),
-				"Harrington Waistguard Percent", pctStyle);
-		createInput(inputs, data.data.getHarringtonUptime(),
-				"Harrington Waistguard Uptime", pctStyle);
-		createInput(inputs, data.data.isStrongarm(), "Strongarm Bracers");
-		createInput(inputs, data.data.getStrongarmPercent(),
-				"Strongarm Bracers Percent", pctStyle);
-		createInput(inputs, data.data.getStrongarmUptime(),
-				"Strongarm Bracers Uptime", pctStyle);
-		createInput(inputs, data.data.isHexingPants(), "Hexing Pants");
-		createInput(inputs, data.data.getHexingPantsPercent(),
-				"Hexing Pants Percent", pctStyle);
-		createInput(inputs, data.data.getHexingPantsUptime(),
-				"Hexing Pants Percent of Time Moving", pctStyle);
-		createInput(inputs, data.data.isMeticulousBolts(), "Meticulous Bolts");
-		createInput(inputs, data.data.getMeticulousBoltsPercent(),
-				"Meticulous Bolts %", pctStyle);
-		createInput(inputs, data.data.isCalamityMdf(), "Calamity");
-		createInput(inputs, data.data.getCalamityUptime(), "Calamity Uptime",
-				pctStyle);
-		createInput(inputs, data.data.isHasBombardiers(),
-				"Bombadier's Rucksack");
-		createInput(inputs, data.data.isCoe(), "Convention of Elements");
-		createInput(inputs, data.data.getCoePercent(),
-				"Convention of Elements %", pctStyle);
-		createInput(inputs, data.data.isDml(), "Dead Man's Legacy");
-		createInput(inputs, data.data.getDmlPercent(), "Dead Man's Legacy %",
-				pctStyle);
-		createInput(inputs, data.data.isVaxo(), "Haunt of Vaxo");
-		createInput(inputs, data.data.getVaxoUptime(), "Haunt of Vaxo Uptime",
-				pctStyle);
-		createInput(inputs, data.data.isHelltrapper(), "Helltrapper");
-		createInput(inputs, data.data.getHelltrapperPercent(),
-				"Helltrapper Percent", pctStyle);
-		createInput(inputs, data.data.isReapersWraps(), "Reapers Wraps");
-		createInput(inputs, data.data.getReapersWrapsPercent(),
-				"Reapers Wraps Percent", pctStyle);
-		createInput(inputs, data.data.isCindercoat(), "Cindercoat");
-		createInput(inputs, data.data.getCindercoatRCR(),
-				"Cindercoat RCR Percent", pctStyle);
-		createInput(inputs, data.data.isOdysseysEnd(), "Odyssey's End");
-		createInput(inputs, data.data.getOdysseysEndPercent(),
-				"Odyssey's End Percent", pctStyle);
-		createInput(inputs, data.data.getOdysseysEndUptime(),
-				"Odyssey's End Uptime", pctStyle);
-		createInput(inputs, data.data.getNumHealthGlobes(),
-				"# Health Globes during fight");
-		createInput(inputs, data.data.isSpines(), "Spines of Seething Hatred");
-		createInput(inputs, data.data.isKridershot(), "Kridershot");
-		createInput(inputs, data.data.getSpinesHatred(),
-				"Spines of Seething Hatred - Hatred Value");
-		createInput(inputs, data.data.getKridershotHatred(),
-				"Kridershot - Hatred Value");
-		createInput(inputs, data.data.getNumMarauders(),
-				"# Marauder's Embodiment");
-		createInput(inputs, data.data.getNumUe(), "# Unhallowed Essence");
-		createInput(inputs, data.data.getNumNats(), "# Natalay's Vengeance");
-		createInput(inputs, data.data.isBastions(), "Bastions of Will");
-		createInput(inputs, data.data.isCrashingRain(), "Crashing Rain");
-		createInput(inputs, data.data.getCrashingRainPercent(),
-				"Crashing Rain %", pctStyle);
+		
+		for (Map.Entry<SpecialItemType, AttributeData> e : data.data.getSpecialItems().entrySet()) {
+			SpecialItemType item = e.getKey();
+			AttributeData ad = e.getValue();
+			createInput(inputs, true, e.getKey().getName());
+			
+			for (SpecialItemType.Attribute a : item.getAttributes()) {
+				Integer i = ad.get(a.getLabel());
+				
+				if (i != null) {
+					createInput(inputs, i, e.getKey().getName() + " " + a.getLabel());
+				}
+			}
+		}
 
+		createInputHeader(inputs, "Set Items");
+
+		for (ItemSet set : ItemSet.values()) {
+			Integer i = data.data.getSetCount(set.getSlug());
+			
+			if (i != null) {
+				createInput(inputs, i, set.getName());
+			}
+		}
+		
 		createInputHeader(inputs, "Legendary Gems");
 		
 		for (Map.Entry<GemSkill, GemAttributeData> e : data.data.getGems().entrySet()) {
