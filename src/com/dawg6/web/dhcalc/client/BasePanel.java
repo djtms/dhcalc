@@ -26,7 +26,7 @@ import java.util.Set;
 import com.dawg6.gwt.client.ApplicationPanel;
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.DamageType;
-import com.dawg6.web.dhcalc.shared.calculator.GemData;
+import com.dawg6.web.dhcalc.shared.calculator.GemAttributeData;
 import com.dawg6.web.dhcalc.shared.calculator.GemSkill;
 import com.dawg6.web.dhcalc.shared.calculator.Passive;
 import com.dawg6.web.dhcalc.shared.calculator.Rune;
@@ -354,7 +354,7 @@ public class BasePanel extends ApplicationPanel {
 		return JsonUtil.toJSONObject(passives).toString();
 	}
 
-	protected String getGemsFieldValue(Map<GemSkill, GemData> gems, String defaultValue) {
+	protected String getGemsFieldValue(Map<GemSkill, GemAttributeData> gems, String defaultValue) {
 
 		if (gems == null)
 			return defaultValue;
@@ -490,7 +490,7 @@ public class BasePanel extends ApplicationPanel {
 	}
 
 	protected void setFieldValue(GemsPanel field, String value) {
-		Map<GemSkill, GemData> gems = JsonUtil.parseGemsMap(value);
+		Map<GemSkill, GemAttributeData> gems = JsonUtil.parseGemsMap(value);
 		
 		field.setGems(gems);
 	}

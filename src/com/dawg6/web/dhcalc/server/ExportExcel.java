@@ -40,6 +40,7 @@ import com.dawg6.web.dhcalc.shared.calculator.DamageHolder;
 import com.dawg6.web.dhcalc.shared.calculator.DamageSource;
 import com.dawg6.web.dhcalc.shared.calculator.DamageType;
 import com.dawg6.web.dhcalc.shared.calculator.ExportData;
+import com.dawg6.web.dhcalc.shared.calculator.GemAttributeData;
 import com.dawg6.web.dhcalc.shared.calculator.GemSkill;
 import com.dawg6.web.dhcalc.shared.calculator.Passive;
 import com.dawg6.web.dhcalc.shared.calculator.Rune;
@@ -592,38 +593,19 @@ public class ExportExcel {
 				"Crashing Rain %", pctStyle);
 
 		createInputHeader(inputs, "Legendary Gems");
-		createInput(inputs, data.data.isUseBaneOfTheTrapped(),
-				"Bane of the Trapped");
-		createInput(inputs, data.data.getBaneOfTheTrappedLevel(),
-				"Bane of the Trapped Level");
-		createInput(inputs, data.data.isUseEnforcer(), "Enforcer");
-		createInput(inputs, data.data.getEnforcerLevel(), "Enforcer Level");
-		createInput(inputs, data.data.isIceblink(), "Iceblink");
-		createInput(inputs, data.data.getIceblinkLevel(), "Iceblink Level");
-		createInput(inputs, data.data.isBotp(), "Bane of the Powerful");
-		createInput(inputs, data.data.getBotpLevel(),
-				"Bane of the Powerful Level");
-		createInput(inputs, data.data.isZeis(), "Zei's Stone of Vengeance");
-		createInput(inputs, data.data.getZeisLevel(),
-				"Zei's Stone of Vengeance Level");
-		createInput(inputs, data.data.isGogok(), "Gogok of Switftness");
-		createInput(inputs, data.data.getGogokLevel(),
-				"Gogok of Swiftness Level");
-		createInput(inputs, data.data.getGogokStacks(),
-				"Gogok of Swiftness Stacks");
-		createInput(inputs, data.data.isTaeguk(), "Taekguk");
-		createInput(inputs, data.data.getTaegukLevel(), "Taekguk Level");
-		createInput(inputs, data.data.getTaegukStacks(), "Taekguk Stacks");
-		createInput(inputs, data.data.isToxin(),
-				GemSkill.Toxin.getDisplayName());
-		createInput(inputs, data.data.getToxinLevel(),
-				GemSkill.Toxin.getDisplayName() + " Level");
-		createInput(inputs, data.data.isPainEnhancer(),
-				GemSkill.PainEnhancer.getDisplayName());
-		createInput(inputs, data.data.getPainEnhancerLevel(),
-				GemSkill.PainEnhancer.getDisplayName() + " Level");
-		createInput(inputs, data.data.getPainEnhancerStacks(),
-				"# of bleeding enemies within 20 yards");
+		
+		for (Map.Entry<GemSkill, GemAttributeData> e : data.data.getGems().entrySet()) {
+			GemSkill gem = e.getKey();
+			GemAttributeData gd = e.getValue();
+			
+			createInput(inputs, gd.level,
+					gem.getDisplayName() + " Level");
+			
+			for (Map.Entry<String, Integer> a : gd.entrySet()) {
+				createInput(inputs, a.getValue(),
+						gem.getDisplayName() + " " + a.getKey());
+			}
+		}
 
 		createInputHeader(inputs, "Follower Buffs");
 		createInput(inputs, data.data.isFocusedMind(),

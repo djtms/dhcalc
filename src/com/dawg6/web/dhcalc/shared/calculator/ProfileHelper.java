@@ -350,7 +350,7 @@ public class ProfileHelper {
 
 	public static void setGemDamage(HeroProfile hero, CharacterData data) {
 
-		Map<GemSkill, GemData> gems = new TreeMap<GemSkill, GemData>();
+		Map<GemSkill, GemAttributeData> gems = new TreeMap<GemSkill, GemAttributeData>();
 		
 		for (ItemInformation i : hero.items.values()) {
 
@@ -361,11 +361,11 @@ public class ProfileHelper {
 						GemSkill gem = GemSkill.getGemByName(g.item.name);
 						
 						if (gem != null) {
-							GemData gd = new GemData();
+							GemAttributeData gd = new GemAttributeData();
 							gd.level = g.jewelRank;
 							
 							for (GemSkill.Attribute a : gem.getAttributes()) {
-								gd.attributes.put(a.getLabel(), new Integer(0));
+								gd.put(a.getLabel(), new Integer(0));
 							}
 							
 							gems.put(gem,  gd);

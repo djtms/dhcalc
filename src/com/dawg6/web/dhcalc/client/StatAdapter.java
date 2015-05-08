@@ -23,7 +23,7 @@ import java.util.Set;
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.CharacterData;
 import com.dawg6.web.dhcalc.shared.calculator.DamageType;
-import com.dawg6.web.dhcalc.shared.calculator.GemData;
+import com.dawg6.web.dhcalc.shared.calculator.GemAttributeData;
 import com.dawg6.web.dhcalc.shared.calculator.GemSkill;
 
 public abstract class StatAdapter {
@@ -69,7 +69,7 @@ public abstract class StatAdapter {
 
 		@Override
 		public void apply(double inc, CharacterData data) {
-			GemData gd = data.getGems().get(gem);
+			GemAttributeData gd = data.getGems().get(gem);
 			
 			if (gd != null) {
 				gd.level++;

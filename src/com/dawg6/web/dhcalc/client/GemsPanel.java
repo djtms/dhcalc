@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Vector;
 
-import com.dawg6.web.dhcalc.shared.calculator.GemData;
+import com.dawg6.web.dhcalc.shared.calculator.GemAttributeData;
 import com.dawg6.web.dhcalc.shared.calculator.GemSkill;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -164,21 +164,21 @@ public class GemsPanel extends Composite {
 		}
 	}
 
-	public Map<GemSkill, GemData> getGems() {
+	public Map<GemSkill, GemAttributeData> getGems() {
 
-		Map<GemSkill, GemData> gems = new TreeMap<GemSkill, GemData>();
+		Map<GemSkill, GemAttributeData> gems = new TreeMap<GemSkill, GemAttributeData>();
 
 		for (int i = 0; i < NUM_GEMS; i++) {
 			GemSkill gem = getSelectedGem(i);
 
 			if (gem != null) {
-				GemData gd = new GemData();
+				GemAttributeData gd = new GemAttributeData();
 				gd.level = getGemLevel(i);
 
 				// TODO Handle more than 1 Attribute per Gem
 				if ((gem.getAttributes() != null)
 						&& (gem.getAttributes().length > 0)) {
-					gd.attributes.put(gem.getAttributes()[0].getLabel(),
+					gd.put(gem.getAttributes()[0].getLabel(),
 							getGemAttribute(i));
 				}
 
@@ -189,16 +189,16 @@ public class GemsPanel extends Composite {
 		return gems;
 	}
 
-	public void setGems(Map<GemSkill, GemData> gems) {
+	public void setGems(Map<GemSkill, GemAttributeData> gems) {
 
 		disableListeners = true;
 
 		int i = 0;
 		boolean changed = false;
 
-		for (Map.Entry<GemSkill, GemData> e : gems.entrySet()) {
+		for (Map.Entry<GemSkill, GemAttributeData> e : gems.entrySet()) {
 			GemSkill gem = e.getKey();
-			GemData gd = e.getValue();
+			GemAttributeData gd = e.getValue();
 
 			changed |= setGem(i, gem, gd);
 
@@ -218,14 +218,14 @@ public class GemsPanel extends Composite {
 			gemsChanged(null);
 	}
 
-	private boolean setGem(final int i, GemSkill gem, GemData gd) {
+	private boolean setGem(final int i, GemSkill gem, GemAttributeData gd) {
 
 		if ((gem != null) && (gd == null)) {
-			gd = new GemData();
+			gd = new GemAttributeData();
 			gd.level = 0;
 
 			for (GemSkill.Attribute a : gem.getAttributes()) {
-				gd.attributes.put(a.getLabel(), 0);
+				gd.put(a.getLabel(), 0);
 			}
 		}
 
@@ -324,7 +324,7 @@ public class GemsPanel extends Composite {
 				NumberSpinner a = attributes.get(i);
 
 				int prevValue = a.getValue();
-				Integer nextValue = gd.attributes.get(gem.getAttributes()[0]
+				Integer nextValue = gd.get(gem.getAttributes()[0]
 						.getLabel());
 
 				if (nextValue != prevValue) {

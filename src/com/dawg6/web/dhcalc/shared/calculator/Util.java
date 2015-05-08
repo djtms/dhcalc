@@ -165,15 +165,15 @@ public class Util {
 
 	public static final String GEM_LEVEL = ".level";
 	
-	public static Map<GemSkill, GemData> createGems(Map<String, String> gems) {
-		Map<GemSkill, GemData> map = new TreeMap<GemSkill, GemData>();
+	public static Map<GemSkill, GemAttributeData> createGems(Map<String, String> gems) {
+		Map<GemSkill, GemAttributeData> map = new TreeMap<GemSkill, GemAttributeData>();
 
 		for (GemSkill gem : GemSkill.values()) {
 			String v = gems.get(gem.name() + GEM_LEVEL);
 
 			try {
 				if (v != null) {
-					GemData gd = new GemData();
+					GemAttributeData gd = new GemAttributeData();
 					map.put(gem, gd);
 					
 					gd.level = Integer.parseInt(v);
@@ -182,9 +182,9 @@ public class Util {
 						v = gems.get(gem.name() + "." + a.getLabel());
 						
 						if (v != null) {
-							gd.attributes.put(a.getLabel(), Integer.parseInt(v));
+							gd.put(a.getLabel(), Integer.parseInt(v));
 						} else {
-							gd.attributes.put(a.getLabel(), 0);
+							gd.put(a.getLabel(), 0);
 						}
 					}
 				}
@@ -197,18 +197,18 @@ public class Util {
 		return map;
 	}
 	
-	public static Map<String, String> createGemsMap(Map<GemSkill, GemData> gems) {
+	public static Map<String, String> createGemsMap(Map<GemSkill, GemAttributeData> gems) {
 		
 		Map<String, String> map = new TreeMap<String, String>();
 
-		for (Map.Entry<GemSkill, GemData> e : gems.entrySet()) {
+		for (Map.Entry<GemSkill, GemAttributeData> e : gems.entrySet()) {
 			GemSkill gem = e.getKey();
-			GemData gd = e.getValue();
+			GemAttributeData gd = e.getValue();
 			
 			map.put(gem.name() + GEM_LEVEL, String.valueOf(gd.level));
 
 			for (GemSkill.Attribute a : gem.getAttributes()) {
-				Integer v = gd.attributes.get(a.getLabel());
+				Integer v = gd.get(a.getLabel());
 				
 				if (v == null)
 					v = 0;
@@ -222,6 +222,9 @@ public class Util {
 
 	public static <T> int indexOf(T[] list, T value) {
 
+		if ((list == null) || (list.length == 0))
+			return -1;
+		
 		int n = list.length;
 		int i = 0;
 		

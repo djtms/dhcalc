@@ -25,7 +25,7 @@ import java.util.TreeSet;
 
 import com.dawg6.gwt.client.ApplicationPanel;
 import com.dawg6.web.dhcalc.shared.calculator.FormData;
-import com.dawg6.web.dhcalc.shared.calculator.GemData;
+import com.dawg6.web.dhcalc.shared.calculator.GemAttributeData;
 import com.dawg6.web.dhcalc.shared.calculator.GemSkill;
 import com.dawg6.web.dhcalc.shared.calculator.Util;
 import com.dawg6.web.dhcalc.shared.calculator.Version;
@@ -301,13 +301,13 @@ public class JsonUtil {
 		}
 	}
 
-	public static Object gemsToJSONObject(Map<GemSkill, GemData> gems) {
+	public static Object gemsToJSONObject(Map<GemSkill, GemAttributeData> gems) {
 		return toJSONObject(Util.createGemsMap(gems));
 	}
 
-	public static Map<GemSkill, GemData> parseGemsMap(String text) {
+	public static Map<GemSkill, GemAttributeData> parseGemsMap(String text) {
 		if (text == null) {
-			return new TreeMap<GemSkill, GemData>();
+			return new TreeMap<GemSkill, GemAttributeData>();
 		} else {
 		
 			JSONValue v = JSONParser.parseLenient(text);

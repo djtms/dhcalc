@@ -89,7 +89,7 @@ public class Const {
 	public static final String JEWELY_MIN_DAMAGE = "Damage_Min#Physical";
 	public static final String JEWELY_DELTA_DAMAGE = "Damage_Delta#Physical";
 	public static final String IAS = "Attacks_Per_Second_Percent";
-	public static final String TNT_IAS = "";
+	public static final String TNT_IAS = "Item_Power_Passive#ItemPassive_Unique_Ring_554_x1";
 	public static final String CDR = "Power_Cooldown_Reduction_Percent_All";
 	public static final String LEORICS_CROWN = "Leoric's Crown";
 	public static final String GEM_MULTIPLIER = "Gem_Attributes_Multiplier";
@@ -156,4 +156,5 @@ public class Const {
 	public static final String DML_PERCENT = "Item_Power_Passive#P2_ItemPassive_Unique_Ring_017";
 	public static final String COE = "Convention of Elements";
 	public static final String COE_PERCENT = "Item_Power_Passive#P2_ItemPassive_Unique_Ring_038";
+	public static final String TASKER_AND_THEO = "Tasker and Theo";
 }

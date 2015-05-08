@@ -212,7 +212,7 @@ public class CharacterData implements Serializable {
 	private boolean stretchTime;
 	private double timeWarpUptime;
 	private double stretchTimeUptime;
-	private Map<GemSkill, GemData> gems;
+	private Map<GemSkill, GemAttributeData> gems;
 
 	public CharacterData copy() {
 		return new CharacterData(this);
@@ -469,10 +469,10 @@ public class CharacterData implements Serializable {
 		this.wolfUptime = other.wolfUptime;
 	}
 
-	public static Map<GemSkill, GemData> copy(Map<GemSkill, GemData> gems) {
-		Map<GemSkill, GemData> map = new TreeMap<GemSkill, GemData>();
+	public static Map<GemSkill, GemAttributeData> copy(Map<GemSkill, GemAttributeData> gems) {
+		Map<GemSkill, GemAttributeData> map = new TreeMap<GemSkill, GemAttributeData>();
 		
-		for (Map.Entry<GemSkill, GemData> e : gems.entrySet()) {
+		for (Map.Entry<GemSkill, GemAttributeData> e : gems.entrySet()) {
 			map.put(e.getKey(), e.getValue().copy());
 		}
 		
@@ -597,7 +597,7 @@ public class CharacterData implements Serializable {
 	public int getGemLevel(GemSkill gem) {
 		int level = 0;
 		
-		GemData data = gems.get(gem);
+		GemAttributeData data = gems.get(gem);
 		
 		if (data != null)
 			level = data.level;
@@ -912,10 +912,10 @@ public class CharacterData implements Serializable {
 	public int getGemAttribute(GemSkill gem, String attribute) {
 		int value = 0;
 		
-		GemData data = gems.get(gem);
+		GemAttributeData data = gems.get(gem);
 		
-		if ((data != null) && (data.attributes != null)) {
-			Integer v = data.attributes.get(attribute);
+		if (data != null) {
+			Integer v = data.get(attribute);
 			
 			if (v != null)
 				value = v;
@@ -2320,11 +2320,11 @@ public class CharacterData implements Serializable {
 		return getGemLevel(GemSkill.Simplicity);
 	}
 
-	public Map<GemSkill, GemData> getGems() {
+	public Map<GemSkill, GemAttributeData> getGems() {
 		return gems;
 	}
 
-	public void setGems(Map<GemSkill, GemData> gems) {
+	public void setGems(Map<GemSkill, GemAttributeData> gems) {
 		this.gems = gems;
 	}
 }
