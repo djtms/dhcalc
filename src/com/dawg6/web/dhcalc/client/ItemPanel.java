@@ -222,7 +222,22 @@ public class ItemPanel extends Composite {
 
 		SpecialItemType type = getSelectedItem(slot);
 		
-		if (setItem(slot, type, null));
+		boolean changed = setItem(slot, type, null);
+
+		if (type != null) {
+	
+			for (Slot s : type.getSlots()) {
+				if (s != slot) {
+					SpecialItemType other = getSelectedItem(s);
+					
+					if (other == type) {
+						changed |= setItem(s, null, null);
+					}
+				}
+			}
+		}
+		
+		if (changed);
 			itemsChanged(null);
 	}
 
