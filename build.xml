@@ -1,4 +1,4 @@
-<project name="dhcalc" basedir="." default="default">
+<project name="dhcalc-war" basedir="." default="default">
 
 	<target name="default" depends="build-war"></target>
 
@@ -16,7 +16,11 @@
 	<property name="webxml" value="${webinf-dir}/web.xml" />
 	<property name="external-jar" value="${webinf-lib-dir}/dhcalc.jar" />
 
-	<target name="external-jar">
+	<target name="build-subprojects">
+		<ant antfile="build-ant.xml" target="gwt-compile" />
+	</target>
+	
+	<target name="external-jar" depends="build-subprojects">
 		<jar destfile="${external-jar}">
 			<fileset dir="../dawg6-common/bin" />
 			<fileset dir="../dawg6-gwt-common/bin" />
@@ -30,25 +34,5 @@
 			</fileset>
 		</war>
 	</target>
-
-	<!-- 
-	<target name="gwt-compile" depends="compile">
-
-	</target>
-
-	<target name="clean">
-		<delete includeemptydirs="true">
-			<fileset dir="${classes}" includes="**/*"/>
-		</delete>
-	</target>
-	
-	<target name="compile" depends="clean,external-jar">
-		<javac srcdir="${src}" destdir="${classes}">
-			<classpath>
-			    <fileset dir="${webinf-lib-dir}" includes="*.jar"/>
-			</classpath>
-		</javac>
-	</target>
--->
 
 </project>
