@@ -47,6 +47,9 @@ public class ActionEvent extends Event {
 	private final boolean ue2;
 	private final boolean kridershot;
 	private final boolean meticulousBolts;
+	private final boolean odysseys;
+	private final Rune esRune;
+	private double esDuration;
 
 	public ActionEvent(CharacterData data) {
 		this.hand = Hand.MainHand;
@@ -58,6 +61,7 @@ public class ActionEvent extends Event {
 		this.ue2 = data.getNumUe() >= 2;
 		this.kridershot = data.isKridershot();
 		this.meticulousBolts = data.isMeticulousBolts();
+		this.odysseys = data.isOdysseysEnd();
 
 		this.venRune = data.getSkills().get(ActiveSkill.Vengeance);
 
@@ -87,7 +91,13 @@ public class ActionEvent extends Event {
 						Rune.Ball_Lightning);
 
 		}
+		
+		esRune = data.getSkills().get(ActiveSkill.ES);
 
+		if (this.odysseys && (esRune != null)) {
+			esDuration = (esRune == Rune.Heavy_Burden ? 4.0 : 2.0);
+		}
+		
 		for (Map.Entry<ActiveSkill, Rune> e : data.getSkills().entrySet()) {
 			ActiveSkill skill = e.getKey();
 			SkillType type = skill.getSkillType();
@@ -129,6 +139,15 @@ public class ActionEvent extends Event {
 
 		state.setHand(hand);
 
+		if (this.odysseys && (esRune != null)) {
+			
+			BuffState oeBuff = state.getBuffs().getBuffs().get(Buff.OdysseysEnd);
+			
+			if ((oeBuff == null) || ((t + interval) >= oeBuff.getExpires())) {
+				selected = new SkillAndRune(ActiveSkill.ES, esRune);
+			}
+		}
+		
 		if (bastions) {
 			double bwgExpires = state.getBuffs().getBuffs().get(Buff.BwGen)
 					.getExpires();
@@ -177,6 +196,10 @@ public class ActionEvent extends Event {
 
 			double actualHatred = state.addHatred(h);
 
+			if (this.odysseys && (selected.getSkill() == ActiveSkill.ES)) {
+				state.getBuffs().set(Buff.OdysseysEnd, t + this.esDuration);
+			}
+			
 			if (bastions) {
 				if (h < 0) {
 					state.getBuffs().set(Buff.BwSpend, t + 5.0);

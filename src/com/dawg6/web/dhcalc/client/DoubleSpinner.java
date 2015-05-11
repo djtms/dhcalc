@@ -67,4 +67,11 @@ public class DoubleSpinner extends BaseSpinner<Double> {
 		
 		return Math.abs(a - b) < 0.0000001;
 	}
+
+	@Override
+	protected void keyPressed() {
+		
+		if (getValue() > max)
+			normalize();
+	}
 }

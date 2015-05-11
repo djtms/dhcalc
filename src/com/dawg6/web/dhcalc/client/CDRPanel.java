@@ -19,7 +19,6 @@
 package com.dawg6.web.dhcalc.client;
 
 import com.dawg6.web.dhcalc.shared.calculator.GemLevel;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -27,19 +26,14 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.SimpleCheckBox;
 
 public class CDRPanel extends Composite {
 	private final ListBox diamond;
-	private final NumberSpinner leoricsLevel;
 	private final NumberSpinner shoulders;
 	private final NumberSpinner gloves;
 	private final NumberSpinner amulet;
 	private final NumberSpinner ring1;
 	private final NumberSpinner ring2;
-	private final SimpleCheckBox crimson;
-	private final SimpleCheckBox born;
-	private final SimpleCheckBox leorics;
 	private final NumberSpinner belt;
 	private final NumberSpinner weapon;
 	private final NumberSpinner quiver;
@@ -66,25 +60,6 @@ public class CDRPanel extends Composite {
 		row.setSpacing(5);
 		flexTable.setWidget(1, 0, row);
 
-		Anchor label = new Anchor("Leroic's Crown (Gem %):");
-		label.setHTML("Leroic's Crown");
-		label.setWordWrap(false);
-		label.setTarget("_blank");
-		label.setHref("http://us.battle.net/d3/en/item/leorics-crown");
-		row.add(label);
-		
-		Label lblgem = new Label("(Gem %):");
-		lblgem.setWordWrap(false);
-		lblgem.setStyleName("boldText");
-		row.add(lblgem);
-		
-		leorics = new SimpleCheckBox();
-		flexTable.setWidget(1, 1, leorics);
-		
-		leoricsLevel = new NumberSpinner();
-		leoricsLevel.setVisibleLength(4);
-		flexTable.setWidget(1, 2, leoricsLevel);
-		
 		Label lblShoulders = new Label("Shoulders (%):");
 		lblShoulders.setWordWrap(false);
 		lblShoulders.setStyleName("boldText");
@@ -157,54 +132,12 @@ public class CDRPanel extends Composite {
 		quiver.setVisibleLength(4);
 		flexTable.setWidget(9, 2, quiver);
 		
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		horizontalPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		horizontalPanel.setSpacing(5);
-		flexTable.setWidget(10, 0, horizontalPanel);
-		
-		Anchor lblCaptainCrimsonsSet = new Anchor();
-		lblCaptainCrimsonsSet.setText("Captain Crimson's Set");
-		horizontalPanel.add(lblCaptainCrimsonsSet);
-		lblCaptainCrimsonsSet.setWordWrap(false);
-		lblCaptainCrimsonsSet.setTarget("_blank");
-		lblCaptainCrimsonsSet.setHref("http://us.battle.net/d3/en/artisan/blacksmith/recipe/captain-crimsons-silk-girdle");
-		
-		Label label_1 = new Label("(2pc = 10%):");
-		label_1.setWordWrap(false);
-		label_1.setStyleName("boldText");
-		horizontalPanel.add(label_1);
-		
-		crimson = new SimpleCheckBox();
-		flexTable.setWidget(10, 1, crimson);
-		
-		HorizontalPanel horizontalPanel_1 = new HorizontalPanel();
-		horizontalPanel_1.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		horizontalPanel_1.setSpacing(5);
-		flexTable.setWidget(11, 0, horizontalPanel_1);
-		
-		Anchor lblBornsSet = new Anchor("Born's Set (10%):");
-		lblBornsSet.setText("Born's Set");
-		horizontalPanel_1.add(lblBornsSet);
-		lblBornsSet.setWordWrap(false);
-		lblBornsSet.setTarget("_blank");
-		lblBornsSet.setHref("http://us.battle.net/d3/en/artisan/blacksmith/recipe/borns-frozen-soul");
-		
-		Label label_2 = new Label("(10%):");
-		label_2.setWordWrap(false);
-		label_2.setStyleName("boldText");
-		horizontalPanel_1.add(label_2);
-		
 		for (GemLevel l : GemLevel.values()) {
 			this.diamond.addItem(l.getDisplayName(), l.name());
 		}
 		
 		diamond.setSelectedIndex(0);
 		
-		born = new SimpleCheckBox();
-		flexTable.setWidget(11, 1, born);
-		
-		this.leoricsLevel.setMin(75);
-		this.leoricsLevel.setMax(100);
 		this.shoulders.setMax(8);
 		this.gloves.setMax(8);
 		this.ring1.setMax(8);
@@ -217,9 +150,7 @@ public class CDRPanel extends Composite {
 	public ListBox getDiamond() {
 		return diamond;
 	}
-	public NumberSpinner getLeoricsLevel() {
-		return leoricsLevel;
-	}
+
 	public NumberSpinner getShoulders() {
 		return shoulders;
 	}
@@ -234,15 +165,6 @@ public class CDRPanel extends Composite {
 	}
 	public NumberSpinner getRing2() {
 		return ring2;
-	}
-	public SimpleCheckBox getCrimson() {
-		return crimson;
-	}
-	public SimpleCheckBox getBorn() {
-		return born;
-	}
-	public SimpleCheckBox getLeorics() {
-		return leorics;
 	}
 	public NumberSpinner getBelt() {
 		return belt;
@@ -271,5 +193,4 @@ public class CDRPanel extends Composite {
 		
 		this.diamond.setSelectedIndex(0);
 	}
-
 }

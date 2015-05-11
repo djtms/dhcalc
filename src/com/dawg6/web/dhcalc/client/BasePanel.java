@@ -25,11 +25,13 @@ import java.util.Set;
 
 import com.dawg6.gwt.client.ApplicationPanel;
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
+import com.dawg6.web.dhcalc.shared.calculator.AttributeData;
 import com.dawg6.web.dhcalc.shared.calculator.DamageType;
 import com.dawg6.web.dhcalc.shared.calculator.GemAttributeData;
 import com.dawg6.web.dhcalc.shared.calculator.GemSkill;
 import com.dawg6.web.dhcalc.shared.calculator.Passive;
 import com.dawg6.web.dhcalc.shared.calculator.Rune;
+import com.dawg6.web.dhcalc.shared.calculator.SpecialItemType;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.storage.client.Storage;
@@ -124,14 +126,14 @@ public class BasePanel extends ApplicationPanel {
 			for (Field f : fields) {
 				saveField(storage, f);
 			}
-			
+
 		} else {
 			for (Field f : fields) {
 				saveCookie(f);
 			}
 		}
 	}
-	
+
 	protected void saveField(String field, String value) {
 		if (Storage.isLocalStorageSupported()) {
 			Storage storage = Storage.getLocalStorageIfSupported();
@@ -147,15 +149,15 @@ public class BasePanel extends ApplicationPanel {
 	}
 
 	protected Field getField(Widget w) {
-		
+
 		for (Field f : getFields()) {
 			if (f.field == w)
 				return f;
 		}
-		
+
 		return null;
 	}
-	
+
 	protected class Field {
 		public Object field;
 		public String name;
@@ -319,46 +321,56 @@ public class BasePanel extends ApplicationPanel {
 		else if (field instanceof ListBox)
 			return getFieldValue((ListBox) field, defaultValue);
 		else if (field instanceof PassivesPanel)
-			return getFieldValue(((PassivesPanel)field).getPassives(), defaultValue);
+			return getFieldValue(((PassivesPanel) field).getPassives(),
+					defaultValue);
 		else if (field instanceof GemsPanel)
-			return getGemsFieldValue(((GemsPanel)field).getGems(), defaultValue);
+			return getGemsFieldValue(((GemsPanel) field).getGems(),
+					defaultValue);
+		else if (field instanceof ItemPanel)
+			return getSpecialItemsFieldValue(((ItemPanel) field).getItems(),
+					((ItemPanel) field).getSetCounts(), defaultValue);
 		else if (field instanceof SkillsPanel)
-			return getEnumFieldValue(((SkillsPanel)field).getSkills(), defaultValue);
+			return getEnumFieldValue(((SkillsPanel) field).getSkills(),
+					defaultValue);
 		else if (field instanceof DamageTypePanel)
-			return getFieldValue(((DamageTypePanel)field).getValues(), defaultValue);
+			return getFieldValue(((DamageTypePanel) field).getValues(),
+					defaultValue);
 		else if (field instanceof SkillDamagePanel)
-			return getFieldValue(((SkillDamagePanel)field).getValues(), defaultValue);
+			return getFieldValue(((SkillDamagePanel) field).getValues(),
+					defaultValue);
 		else
 			return defaultValue;
 	}
 
-	protected <K extends Enum<K>, V extends Enum<V>> String getEnumFieldValue(Map<K, V> map, String defaultValue) {
+	protected <K extends Enum<K>, V extends Enum<V>> String getEnumFieldValue(
+			Map<K, V> map, String defaultValue) {
 		if (map == null)
 			return defaultValue;
-		
+
 		return JsonUtil.toJSONObject(JsonUtil.createStringMap(map)).toString();
 	}
 
 	protected <K, V> String getFieldValue(Map<K, V> map, String defaultValue) {
 		if (map == null)
 			return defaultValue;
-		
+
 		return JsonUtil.toJSONObject(JsonUtil.createStringMap(map)).toString();
 	}
-	
+
 	protected String getFieldValue(Set<Passive> passives, String defaultValue) {
 
 		if (passives == null)
 			return defaultValue;
-		
+
 		return JsonUtil.toJSONObject(passives).toString();
 	}
 
-	protected String getGemsFieldValue(Map<GemSkill, GemAttributeData> gems, String defaultValue) {
+	protected String getGemsFieldValue(Map<GemSkill, GemAttributeData> gems,
+			String defaultValue) {
 
 		if (gems == null)
 			return defaultValue;
-		
+
 		return JsonUtil.gemsToJSONObject(gems).toString();
 	}
 
@@ -472,42 +484,58 @@ public class BasePanel extends ApplicationPanel {
 		else if (field instanceof ListBox)
 			setFieldValue((ListBox) field, value);
 		else if (field instanceof PassivesPanel)
-			setFieldValue((PassivesPanel)field, value);
+			setFieldValue((PassivesPanel) field, value);
 		else if (field instanceof GemsPanel)
-			setFieldValue((GemsPanel)field, value);
+			setFieldValue((GemsPanel) field, value);
+		else if (field instanceof ItemPanel)
+			setFieldValue((ItemPanel) field, value);
 		else if (field instanceof SkillsPanel)
-			setFieldValue((SkillsPanel)field, value);
+			setFieldValue((SkillsPanel) field, value);
 		else if (field instanceof DamageTypePanel)
-			setFieldValue((DamageTypePanel)field, value);
+			setFieldValue((DamageTypePanel) field, value);
 		else if (field instanceof SkillDamagePanel)
-			setFieldValue((SkillDamagePanel)field, value);
+			setFieldValue((SkillDamagePanel) field, value);
 	}
 
 	protected void setFieldValue(PassivesPanel field, String value) {
 		Set<Passive> set = JsonUtil.parseSet(Passive.class, value);
-		
+
 		field.setPassives(set);
 	}
 
 	protected void setFieldValue(GemsPanel field, String value) {
 		Map<GemSkill, GemAttributeData> gems = JsonUtil.parseGemsMap(value);
-		
+
 		field.setGems(gems);
 	}
 
+	protected void setFieldValue(ItemPanel field, String value) {
+		Map<SpecialItemType, AttributeData> items = JsonUtil
+				.parseSpecialItemsMap(value);
+
+		field.setItems(items);
+
+		Map<String, Integer> sets = JsonUtil.parseSetCounts(value);
+
+		field.setSetCounts(sets);
+	}
+
 	protected void setFieldValue(SkillsPanel field, String value) {
-		Map<ActiveSkill, Rune> map = JsonUtil.parseMap(ActiveSkill.class, Rune.class, value);
-		
+		Map<ActiveSkill, Rune> map = JsonUtil.parseMap(ActiveSkill.class,
+				Rune.class, value);
+
 		field.setSkills(map);
 	}
 
 	protected void setFieldValue(DamageTypePanel field, String value) {
-		Map<DamageType, Double> map = JsonUtil.parseMap(DamageType.class, value);
+		Map<DamageType, Double> map = JsonUtil
+				.parseMap(DamageType.class, value);
 		field.setValues(map);
 	}
-	
+
 	protected void setFieldValue(SkillDamagePanel field, String value) {
-		Map<ActiveSkill, Double> map = JsonUtil.parseMap(ActiveSkill.class, value);
+		Map<ActiveSkill, Double> map = JsonUtil.parseMap(ActiveSkill.class,
+				value);
 		field.setValues(map);
 	}
 
@@ -528,7 +556,6 @@ public class BasePanel extends ApplicationPanel {
 			field.setSelectedIndex(0);
 		}
 	}
-
 
 	protected void setFieldValue(SimpleCheckBox field, String value) {
 		field.setValue(Boolean.valueOf(value));
@@ -576,6 +603,13 @@ public class BasePanel extends ApplicationPanel {
 
 	protected void setFieldValue(TextBox field, String value) {
 		field.setValue(value);
+	}
+
+	public String getSpecialItemsFieldValue(
+			Map<SpecialItemType, AttributeData> items,
+			Map<String, Integer> setCounts, String defaultValue) {
+
+		return JsonUtil.specialItemsToJSONObject(items, setCounts).toString();
 	}
 
 }

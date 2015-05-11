@@ -49,6 +49,8 @@ public enum Buff {
 	CoeFire("CoE Fire"),
 	CoeLightning("CoE Light"),
 	CoePhysical("CoE Phys"),
+	OdysseysEnd("OE"),
+	
 	;
 	
 	private String name;

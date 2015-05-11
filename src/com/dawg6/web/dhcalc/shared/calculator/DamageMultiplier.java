@@ -264,9 +264,8 @@ public enum DamageMultiplier {
 			"Odyssey's End Damage Bonus", new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return state.getData().isOdysseysEnd() ? (state.getData()
-							.getOdysseysEndPercent() * state.getData()
-							.getOdysseysEndUptime()) : 0.0;
+					return state.getBuffs().isActive(Buff.OdysseysEnd) ? state.getData()
+							.getOdysseysEndPercent() : 0.0;
 				}
 			}), EA("EA", DamageAccumulator.Additive,
 			"Elemental Arrow Skill Damage Bonus",

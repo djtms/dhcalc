@@ -20,28 +20,34 @@ package com.dawg6.web.dhcalc.shared.calculator;
 
 public enum Slot {
 
-	Head("head"),
-	Torso("torso"),
-	Feet("feet"),
-	Hands("hands"),
-	Shoulders("shoulders"),
-	Legs("legs"),
-	Bracers("bracers"),
-	MainHand("mainHand"),
-	OffHand("offHand"),
-	Waist("waist"),
-	Ring1("leftFinger"),
-	Ring2("rightFinger"),
-	Necklace("neck");
+	Head("Helm", "head"),
+	Torso("Chest", "torso"),
+	Feet("Boots", "feet"),
+	Hands("Gloves", "hands"),
+	Shoulders("Shoulders", "shoulders"),
+	Legs("Pants", "legs"),
+	Bracers("Bracers", "bracers"),
+	MainHand("Main Hand", "mainHand"),
+	OffHand("Off Hand", "offHand"),
+	Waist("Belt", "waist"),
+	Ring1("Ring1", "leftFinger"),
+	Ring2("Ring2", "rightFinger"),
+	Necklace("Necklace", "neck");
 	
 	private final String slot;
-
-	Slot(String slot) {
+	private final String name;
+	
+	Slot(String name, String slot) {
+		this.name = name;
 		this.slot = slot;
 	}
 	
 	public String getSlot() {
 		return slot;
+	}
+
+	public String getName() {
+		return name;
 	}
 	
 	@Override

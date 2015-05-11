@@ -1591,10 +1591,6 @@ public class CharacterData implements Serializable {
 		return getItemAttribute(SpecialItemType.Oddessy, SpecialItemType.PERCENT);
 	}
 
-	public double getOdysseysEndUptime() {
-		return getItemAttribute(SpecialItemType.Oddessy, SpecialItemType.UPTIME);
-	}
-
 	public double getCompanionDamage() {
 		return getSkillDamage(ActiveSkill.Companion);
 	}

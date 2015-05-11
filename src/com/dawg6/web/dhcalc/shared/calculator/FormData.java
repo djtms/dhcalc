@@ -38,6 +38,7 @@ public class FormData extends JsonObject implements Serializable {
 	public Map<String, String> gems = new TreeMap<String, String>();
 	public Map<String, String> elementalDamage = new TreeMap<String, String>();
 	public Map<String, String> skillDamage = new TreeMap<String, String>();
+	public Map<String, String> specialItems = new TreeMap<String, String>();
 	
 	public CareerProfile career;
 

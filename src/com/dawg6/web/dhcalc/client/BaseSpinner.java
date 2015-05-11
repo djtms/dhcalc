@@ -19,12 +19,15 @@
 package com.dawg6.web.dhcalc.client;
 
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -54,19 +57,21 @@ public abstract class BaseSpinner<T> extends Composite {
 
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
-				Document doc = Document.get();
-				
-				if (doc != null) {
-					NativeEvent e = doc.createChangeEvent();
-				
-					if (e != null) {
-						try {
-							DomEvent.fireNativeEvent(e, BaseSpinner.this.box);
-						} catch (Exception ex) {
-							
-						}
-					}
-				}
+				keyPressed();
+			}});
+
+		box.addFocusHandler(new FocusHandler(){
+
+			@Override
+			public void onFocus(FocusEvent event) {
+				normalize();
+			}});
+		
+		box.addBlurHandler(new BlurHandler(){
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				normalize();
 			}});
 		
 		box.addChangeHandler(new ChangeHandler(){
@@ -116,6 +121,8 @@ public abstract class BaseSpinner<T> extends Composite {
 			}});
 	}
 	
+	protected abstract void keyPressed();
+
 	protected void normalize() {
 		setValue(getValue());
 	}

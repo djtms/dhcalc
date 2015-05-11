@@ -78,7 +78,8 @@ public class Const {
 	public static final String STEADY_AIM = "Steady Aim";
 	public static final String ZEI = "Zei's Stone of Vengeance";
 	public static final String TAEGUK = "Taeguk";
-	public static final String ROYAL_RING = "Attribute_Set_Item_Discount";
+	public static final String ROYAL_RING = "Ring of Royal Grandeur";
+	
 	public static final String ELITE_DAMAGE_RAW = "Damage_Percent_Bonus_Vs_Elites";
 	public static final String CRIT_CHANCE_RAW = "Crit_Percent_Bonus_Capped";
 	public static final String CRIT_DAMAGE_RAW = "Crit_Damage_Percent";

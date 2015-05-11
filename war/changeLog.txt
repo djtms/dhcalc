@@ -1,5 +1,12 @@
 Change Log:
 
+**5/11/15**
+* Reworked special items and sets in user interface (items now selected by slot)
+* Removed Odyssey's End uptime. 
+-- Instead, if Odyssey's End is equipped and Entangling shot is selected as a skill, the simulation will make sure ES is fired whenever the buff is about to fall off
+* Fixed import of Odyssey's End buff percent from profile
+* It should now be easier to type values into numeric spinner fields (they will only validate on keypress when exceeding max value, or when enter/leaving focus)
+
 **5/8/15**
 - Convention of Elements' damage buff is now discrete for each elemental damage type (as opposed to averaged across all 4 elements). It now cycles through each element every 4 seconds.
 

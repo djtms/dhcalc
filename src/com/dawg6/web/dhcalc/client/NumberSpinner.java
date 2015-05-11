@@ -67,4 +67,11 @@ public class NumberSpinner extends BaseSpinner<Integer> {
 		
 		return a.equals(b);
 	}
+
+	@Override
+	protected void keyPressed() {
+		
+		if (getValue() > max)
+			normalize();
+	}
 }

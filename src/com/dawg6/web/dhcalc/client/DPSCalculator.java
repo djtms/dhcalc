@@ -686,8 +686,8 @@ public class DPSCalculator extends BasePanel {
 		this.actualCC.setText(Util.format(critChance * 100.0) + "%");
 		this.actualCD.setText(Util.format(critDamage * 100.0) + "%");
 
-		this.petIasValue = main.getItemPanel().getTnt().getValue() ? (main
-				.getItemPanel().getTntPercent().getValue() / 100.0) : 0.0;
+		this.petIasValue = main.getItemPanel().isTnt() ? main
+				.getItemPanel().getTntPercent()  : 0.0;
 		this.petApsValue = aps * (1.0 + petIasValue);
 		this.petAps.setText(Util.format(petApsValue));
 		this.bp = BreakPoint.get(petApsValue);

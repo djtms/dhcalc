@@ -549,7 +549,7 @@ public class ExportExcel {
 		for (ItemSet set : ItemSet.values()) {
 			Integer i = data.data.getSetCount(set.getSlug());
 			
-			if (i != null) {
+			if ((i != null) && (i > 0)) {
 				createInput(inputs, i, set.getName());
 			}
 		}

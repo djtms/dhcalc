@@ -24,9 +24,11 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import com.dawg6.gwt.client.ApplicationPanel;
+import com.dawg6.web.dhcalc.shared.calculator.AttributeData;
 import com.dawg6.web.dhcalc.shared.calculator.FormData;
 import com.dawg6.web.dhcalc.shared.calculator.GemAttributeData;
 import com.dawg6.web.dhcalc.shared.calculator.GemSkill;
+import com.dawg6.web.dhcalc.shared.calculator.SpecialItemType;
 import com.dawg6.web.dhcalc.shared.calculator.Util;
 import com.dawg6.web.dhcalc.shared.calculator.Version;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.CareerProfile;
@@ -52,6 +54,7 @@ public class JsonUtil {
 		obj.put("calculator", JsonUtil.toJSONObject(data.calculator));
 		obj.put("passives", JsonUtil.toJSONObject(data.passives));
 		obj.put("gems", JsonUtil.toJSONObject(data.gems));
+		obj.put("specialItems", JsonUtil.toJSONObject(data.specialItems));
 		obj.put("skills", JsonUtil.toJSONObject(data.skills));
 		obj.put("elementalDamage", JsonUtil.toJSONObject(data.elementalDamage));
 		obj.put("skillDamage", JsonUtil.toJSONObject(data.skillDamage));
@@ -80,6 +83,7 @@ public class JsonUtil {
 						data.items = JsonUtil.parseMap(obj.get("items"));
 						data.passives = JsonUtil.parseMap(obj.get("passives"));
 						data.gems = JsonUtil.parseMap(obj.get("gems"));
+						data.specialItems = JsonUtil.parseMap(obj.get("specialItems"));
 						data.skills = JsonUtil.parseMap(obj.get("skills"));
 						data.elementalDamage = JsonUtil.parseMap(obj.get("elementalDamage"));
 						data.skillDamage = JsonUtil.parseMap(obj.get("skillDamage"));
@@ -305,6 +309,10 @@ public class JsonUtil {
 		return toJSONObject(Util.createGemsMap(gems));
 	}
 
+	public static Object specialItemsToJSONObject(Map<SpecialItemType, AttributeData> items, Map<String, Integer> setCounts) {
+		return toJSONObject(Util.createSpecialItemsMap(items, setCounts));
+	}
+
 	public static Map<GemSkill, GemAttributeData> parseGemsMap(String text) {
 		if (text == null) {
 			return new TreeMap<GemSkill, GemAttributeData>();
@@ -314,6 +322,30 @@ public class JsonUtil {
 			Map<String, String> smap = JsonUtil.parseMap(v);
 
 			return Util.createGems(smap);
+		}
+	}
+
+	public static Map<SpecialItemType, AttributeData> parseSpecialItemsMap(String text) {
+		if (text == null) {
+			return new TreeMap<SpecialItemType, AttributeData>();
+		} else {
+		
+			JSONValue v = JSONParser.parseLenient(text);
+			Map<String, String> smap = JsonUtil.parseMap(v);
+
+			return Util.createSpecialItems(smap);
+		}
+	}
+
+	public static Map<String, Integer> parseSetCounts(String text) {
+		if (text == null) {
+			return new TreeMap<String, Integer>();
+		} else {
+		
+			JSONValue v = JSONParser.parseLenient(text);
+			Map<String, String> smap = JsonUtil.parseMap(v);
+
+			return Util.createSetCounts(smap);
 		}
 	}
 }

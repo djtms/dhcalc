@@ -67,4 +67,11 @@ public class LongSpinner extends BaseSpinner<Long> {
 		
 		return a.equals(b);
 	}
+
+	@Override
+	protected void keyPressed() {
+		
+		if (getValue() > max)
+			normalize();
+	}
 }

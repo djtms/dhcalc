@@ -81,7 +81,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SimpleCheckBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -667,6 +666,9 @@ public class MainPanel extends BasePanel {
 		itemPanel = new ItemPanel();
 		verticalPanel_3.add(itemPanel);
 
+		buffPanel = new BuffPanel();
+		verticalPanel_3.add(buffPanel);
+
 		playerBuffPanel = new PlayerBuffPanel();
 		verticalPanel_1.add(playerBuffPanel);
 
@@ -686,9 +688,6 @@ public class MainPanel extends BasePanel {
 
 		rcrPanel = new RCRPanel();
 		vpanel.add(rcrPanel);
-
-		buffPanel = new BuffPanel();
-		vpanel.add(buffPanel);
 
 		ClickHandler clickHandler3 = new ClickHandler() {
 
@@ -714,8 +713,7 @@ public class MainPanel extends BasePanel {
 			}
 		};
 		
-		itemPanel.getTnt().addClickHandler(clickHandler3);
-		itemPanel.getTntPercent().addChangeHandler(changeHandler);
+		itemPanel.addChangeHandler(changeHandler);
 
 		playerBuffPanel.getBbv().addClickHandler(clickHandler3);
 		playerBuffPanel.getBbvUptime().addChangeHandler(changeHandler);
@@ -1223,8 +1221,6 @@ public class MainPanel extends BasePanel {
 		paragonPanel.getParagonCDR().addChangeHandler(handler);
 		gemPanel.addChangeHandler(handler);
 		cdrPanel.getDiamond().addChangeHandler(handler);
-		cdrPanel.getLeorics().addClickHandler(clickHandler);
-		cdrPanel.getLeoricsLevel().addChangeHandler(handler);
 		cdrPanel.getShoulders().addChangeHandler(handler);
 		cdrPanel.getAmulet().addChangeHandler(handler);
 		cdrPanel.getGloves().addChangeHandler(handler);
@@ -1233,12 +1229,9 @@ public class MainPanel extends BasePanel {
 		cdrPanel.getBelt().addChangeHandler(handler);
 		cdrPanel.getWeapon().addChangeHandler(handler);
 		cdrPanel.getQuiver().addChangeHandler(handler);
-		cdrPanel.getBorn().addClickHandler(clickHandler);
-		cdrPanel.getCrimson().addClickHandler(clickHandler);
-		itemPanel.getNumNats().addChangeHandler(handler);
+		itemPanel.addChangeHandler(handler);
 
 		paragonPanel.getParagonRCR().addChangeHandler(handler2);
-		rcrPanel.getPridesFall().addClickHandler(clickHandler2);
 		rcrPanel.getShoulders().addChangeHandler(handler2);
 		rcrPanel.getAmulet().addChangeHandler(handler2);
 		rcrPanel.getGloves().addChangeHandler(handler2);
@@ -1247,7 +1240,7 @@ public class MainPanel extends BasePanel {
 		rcrPanel.getBelt().addChangeHandler(handler2);
 		rcrPanel.getWeapon().addChangeHandler(handler2);
 		rcrPanel.getQuiver().addChangeHandler(handler2);
-		rcrPanel.getCrimson().addClickHandler(clickHandler2);
+		itemPanel.addChangeHandler(handler2);
 
 		Button exportButton = new Button("New button");
 		exportButton.setText("Export to Excel...");
@@ -1480,6 +1473,7 @@ public class MainPanel extends BasePanel {
 
 			Util.putAll(map, "passives.", list.get(i).formData.passives);
 			Util.putAll(map, "gems.", list.get(i).formData.gems);
+			Util.putAll(map, "specialItems.", list.get(i).formData.specialItems);
 			Util.putAll(map, "skills.", list.get(i).formData.skills);
 			Util.putAll(map, "elementalDamages.",
 					list.get(i).formData.elementalDamage);
@@ -1735,6 +1729,8 @@ public class MainPanel extends BasePanel {
 				data.skillDamage));
 		this.passives.setPassives(Util.createSet(Passive.class, data.passives));
 		this.gemPanel.setGems(Util.createGems(data.gems));
+		this.itemPanel.setItems(Util.createSpecialItems(data.specialItems));
+		this.itemPanel.setSetCounts(Util.createSetCounts(data.specialItems));
 		this.skills.setSkills(Util.createEnumMap(ActiveSkill.class, Rune.class,
 				data.skills));
 
@@ -1778,6 +1774,7 @@ public class MainPanel extends BasePanel {
 
 		data.passives = Util.createMap(passives.getPassives());
 		data.gems = Util.createGemsMap(gemPanel.getGems());
+		data.specialItems = Util.createSpecialItemsMap(itemPanel.getItems(), itemPanel.getSetCounts());
 		data.skillDamage = Util.createMap(this.skillDamage.getValues());
 		data.elementalDamage = Util.createMap(this.typeDamage.getValues());
 		data.skills = Util.createEnumMap(skills.getSkills());
@@ -2101,7 +2098,7 @@ public class MainPanel extends BasePanel {
 
 		list.add(paragonPanel.getParagonRCR().getValue() * 0.002);
 
-		if (rcrPanel.getPridesFall().getValue())
+		if (itemPanel.isPridesFall())
 			list.add(0.30);
 
 		list.add(rcrPanel.getShoulders().getValue() / 100.0);
@@ -2113,7 +2110,7 @@ public class MainPanel extends BasePanel {
 		list.add(rcrPanel.getWeapon().getValue() / 100.0);
 		list.add(rcrPanel.getQuiver().getValue() / 100.0);
 
-		if (rcrPanel.getCrimson().getValue())
+		if (itemPanel.getNumCrimson() >= 3)
 			list.add(0.10);
 
 		double rawRcr = 0.0;
@@ -2155,9 +2152,9 @@ public class MainPanel extends BasePanel {
 				&& gemPanel.getGemLevel(GemSkill.Gogok) >= 25)
 			list.add(gemPanel.getGemAttribute(GemSkill.Gogok, GemSkill.STACKS) * .01);
 
-		if (cdrPanel.getLeorics().getValue())
+		if (itemPanel.isLeorics())
 			list.add(cdrPanel.getSelectedDiamond().getCdr()
-					* (1 + ((double) cdrPanel.getLeoricsLevel().getValue() / 100.0)));
+					* (1 + (itemPanel.getLeoricsPercent())));
 		else
 			list.add(cdrPanel.getSelectedDiamond().getCdr());
 
@@ -2170,10 +2167,10 @@ public class MainPanel extends BasePanel {
 		list.add(cdrPanel.getWeapon().getValue() / 100.0);
 		list.add(cdrPanel.getQuiver().getValue() / 100.0);
 
-		if (cdrPanel.getCrimson().getValue())
+		if (itemPanel.getNumCrimson() >= 2)
 			list.add(0.10);
 
-		if (cdrPanel.getBorn().getValue())
+		if (itemPanel.getNumBorns() >= 3)
 			list.add(0.10);
 
 		double rawCdr = 0.0;
@@ -2205,7 +2202,7 @@ public class MainPanel extends BasePanel {
 		// rovCD = Math.max(0.0, rovCD - (skills.getRovKilled().getValue() *
 		// 2.0));
 
-		if (itemPanel.getNumNats().getValue() >= 2) {
+		if (itemPanel.getNumNats() >= 2) {
 			double interval = (1.0 / calculator.getSheetAps())
 					+ (situational.getFiringDelay().getValue() / 1000.0);
 			double numAttacks = rovCD / (interval + 2.0);
@@ -2254,14 +2251,6 @@ public class MainPanel extends BasePanel {
 		getSetCDR(cdrPanel.getQuiver(), Const.QUIVER);
 		getSetCDR(cdrPanel.getAmulet(), Const.AMULET);
 
-		getSetSetCDR(cdrPanel.getBorn(), data.getSetCounts(),
-				data.isRoyalRing(), Const.BORNS, 2);
-		getSetSetCDR(cdrPanel.getCrimson(), data.getSetCounts(),
-				data.isRoyalRing(), Const.CAPTAIN_CRIMSON, 2);
-
-		this.cdrPanel.getLeorics().setValue(data.isLeorics());
-		this.cdrPanel.getLeoricsLevel().setValue(
-				(int) (Math.round(data.getLeoricsPercent() * 100.0)));
 		this.cdrPanel.setDiamond(data.getDiamond());
 
 		getSetRCR(rcrPanel.getShoulders(), Const.SHOULDERS);
@@ -2273,105 +2262,14 @@ public class MainPanel extends BasePanel {
 		getSetRCR(rcrPanel.getQuiver(), Const.QUIVER);
 		getSetRCR(rcrPanel.getAmulet(), Const.AMULET);
 
-		getSetSetRCR(rcrPanel.getCrimson(), data.getSetCounts(),
-				data.isRoyalRing(), Const.CAPTAIN_CRIMSON, 3);
-
-		this.rcrPanel.getPridesFall().setValue(data.isPridesFall());
-
-		this.itemPanel.getTnt().setValue(data.isTnt());
-		this.itemPanel.getTntPercent().setValue(
-				(int) (Math.round(data.getTntPercent() * 100.0)));
-		this.itemPanel.getCalamity().setValue(data.isCalamityMdf());
-		this.itemPanel.getBombadiers().setValue(data.isHasBombardiers());
-		this.itemPanel.getDml().setValue(data.isDml());
-		this.itemPanel.getDmlPercent().setValue(
-				(int) Math.round(data.getDmlPercent() * 100.0));
-		this.itemPanel.getBastions().setValue(data.isBastions());
-		this.itemPanel.getCrashingRain().setValue(data.isCrashingRain());
-		this.itemPanel.getCrashingRainPercent().setValue(
-				(int) Math.round(data.getCrashingRainPercent() * 100.0));
-		this.itemPanel.getVaxo().setValue(data.isVaxo());
-		this.itemPanel.getVaxoUptime().setValue(
-				(int) Math.round(data.getVaxoUptime() * 100.0));
-		this.itemPanel.getCoe().setValue(data.isCoe());
-		this.itemPanel.getCoePercent().setValue(
-				(int) Math.round(data.getCoePercent() * 100.0));
-		this.itemPanel.getHelltrapper().setValue(data.isHelltrapper());
-		this.itemPanel.getHelltrapperPercent().setValue(
-				(int) Math.round(data.getHelltrapperPercent() * 100));
-		this.itemPanel.getOdysseysEnd().setValue(data.isOdysseysEnd());
-		this.itemPanel.getOdysseysEndPercent().setValue(
-				(int) Math.round(data.getOdysseysEndPercent() * 100.0));
-		this.itemPanel.getReapersWraps().setValue(data.isReapersWraps());
-		this.itemPanel.getReapersWrapsPercent().setValue(
-				(int) Math.round(data.getReapersWrapsPercent() * 100.0));
-		this.itemPanel.getCindercoat().setValue(data.isCindercoat());
-		this.itemPanel.getCindercoatPercent().setValue(
-				(int) Math.round(data.getCindercoatRCR() * 100.0));
-		this.itemPanel.getSpines().setValue(data.isSpines());
-		this.itemPanel.getKridershot().setValue(data.isKridershot());
-		this.itemPanel.getSpinesHatred().setValue(data.getSpinesHatred());
-		this.itemPanel.getKridershotHatred().setValue(
-				data.getKridershotHatred());
-		this.itemPanel.getMarauders().setValue(data.getNumMarauders());
-		this.itemPanel.getNumUe().setValue(data.getNumUe());
-		this.itemPanel.getNumNats().setValue(data.getNumNats());
+		this.itemPanel.setItems(data.getSpecialItems());
+		this.itemPanel.setSetCounts(data.getSetCounts());
 		this.itemPanel.getEliteDamagePercent().setValue(
 				(int) Math.round(data.getEliteDamage() * 100.0));
 		this.itemPanel.getAreaDamageEquipment().setValue(
 				(int) Math.round(data.getAreaDamageEquipment() * 100.0));
-		this.itemPanel.getMeticulousBolts().setValue(data.isMeticulousBolts());
-		this.itemPanel.getMeticulousBoltsPercent().setValue(
-				(int) (Math.round(data.getMeticulousBoltsPercent() * 100.0)));
-		this.itemPanel.getStrongarm().setValue(data.isStrongarm());
-		this.itemPanel.getStrongarmPercent().setValue(
-				(int) Math.round(data.getStrongarmPercent() * 100.0));
-		this.itemPanel.getHexingPants().setValue(data.isHexingPants());
-		this.itemPanel.getHexingPantsPercent().setValue(
-				(int) Math.round(data.getHexingPantsPercent() * 100.0));
-		this.itemPanel.getHarrington().setValue(data.isHarrington());
-		this.itemPanel.getHarringtonPercent().setValue(
-				(int) Math.round(data.getHarringtonPercent() * 100.0));
 
 		this.skillDamage.setValues(data.getSkillDamage());
-	}
-
-	private void getSetSetCDR(SimpleCheckBox field,
-			Map<String, Integer> setCounts, boolean royalRing, String name,
-			int count) {
-
-		boolean hasSet = false;
-
-		Integer i = setCounts.get(name);
-
-		if (i != null) {
-
-			if ((i >= 2) && (royalRing))
-				i++;
-
-			hasSet = (i >= count);
-		}
-
-		field.setValue(hasSet);
-	}
-
-	private void getSetSetRCR(SimpleCheckBox field,
-			Map<String, Integer> setCounts, boolean royalRing, String name,
-			int count) {
-
-		boolean hasSet = false;
-
-		Integer i = setCounts.get(name);
-
-		if (i != null) {
-
-			if ((i >= 2) && (royalRing))
-				i++;
-
-			hasSet = (i >= count);
-		}
-
-		field.setValue(hasSet);
 	}
 
 	private void getSetRCR(NumberSpinner field, String slot) {
@@ -2437,56 +2335,10 @@ public class MainPanel extends BasePanel {
 						"ParagonHatred", "0"),
 				new Field(this.paragonPanel.getParagonRCR(), "ParagonRCR", "0"),
 				new Field(this.paragonPanel.getParagonAD(), "ParagonAD", "0"),
-				new Field(this.itemPanel.getTnt(), "TnT",
-						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getCalamity(), "Calamity",
-						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getBombadiers(), "Bombadiers",
-						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getDml(), "DML",
-						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getDmlPercent(), "DMLPercent", "50"),
-				new Field(this.itemPanel.getBastions(), "BastionsOfWill",
-						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getCrashingRain(), "CrashingRain",
-						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getCrashingRainPercent(),
-						"CrashingRainPercent", "3000"),
-				new Field(this.itemPanel.getVaxo(), "HauntOfVaxo",
-						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getVaxoUptime(), "VaxoUptime", "50"),
-				new Field(this.itemPanel.getCoe(), "COE",
-						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getCoePercent(), "CoePercent", "150"),
-				new Field(this.itemPanel.getHelltrapper(), "Helltrapper",
-						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getHelltrapperPercent(),
-						"HelltrapperPercent", "7"),
-				new Field(this.itemPanel.getSpines(), "Spines",
-						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getKridershot(), "Kridershot",
-						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getSpinesHatred(), "SpinesHatred",
-						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getKridershotHatred(),
-						"KridershotHatred", Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getMarauders(), "Marauders", "6"),
-				new Field(this.itemPanel.getNumUe(), "UE", "0"),
-				new Field(this.itemPanel.getNumNats(), "Nats", "0"),
-				new Field(this.itemPanel.getReapersWraps(), "ReapersWraps",
-						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getReapersWrapsPercent(),
-						"ReapersWrapsPercent", "25"),
-				new Field(this.itemPanel.getCindercoat(), "Cindercoat",
-						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getCindercoatPercent(),
-						"CindercoatPercent", "23"),
 				new Field(this.situational.getNumHealthGlobes(),
 						"HealthGlobes", "1"),
 				new Field(this.situational.getFiringDelay(), "FiringDelay",
 						"50"),
-				new Field(this.itemPanel.getCalamityUptime(), "CalamityUptime",
-						"100"),
 				new Field(this.skills.getMfdUptime(), "MarkedForDeathUptime",
 						"100"),
 				new Field(this.skills.getCaltropsUptime(), "CaltropsUptime",
@@ -2497,40 +2349,6 @@ public class MainPanel extends BasePanel {
 						"EquipDiscipline", "0.0"),
 				new Field(this.skills.getMfdAddUptime(),
 						"MarkedForDeathAddUptime", "100"),
-				new Field(this.itemPanel.getTntPercent(), "TnTPercent", "35"),
-				new Field(this.itemPanel.getMeticulousBolts(),
-						"MeticulousBolts", Boolean.FALSE.toString()),
-
-				new Field(this.itemPanel.getHarrington(), "Harrington",
-						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getHexingPants(), "HexingPants",
-						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getStrongarm(), "Strongarm",
-						Boolean.FALSE.toString()),
-
-				new Field(this.itemPanel.getHarringtonPercent(),
-						"HarringtonPercent", "100"),
-				new Field(this.itemPanel.getHexingPantsPercent(),
-						"HexingPantsPercent", "20"),
-				new Field(this.itemPanel.getStrongarmPercent(),
-						"StrongarmPercent", "20"),
-
-				new Field(this.itemPanel.getHarringtonUptime(),
-						"HarringtonUptime", "0"),
-				new Field(this.itemPanel.getHexingPantsUptime(),
-						"HexingPantsUptime", "0"),
-				new Field(this.itemPanel.getStrongarmUptime(),
-						"StrongarmUptime", "0"),
-
-				new Field(this.itemPanel.getOdysseysEnd(), "OdysseysEnd",
-						Boolean.FALSE.toString()),
-				new Field(this.itemPanel.getOdysseysEndPercent(),
-						"OdysseysEndPercent", "20"),
-				new Field(this.itemPanel.getOdysseysEndUptime(),
-						"OdysseysEndUptime", "100"),
-
-				new Field(this.itemPanel.getMeticulousBoltsPercent(),
-						"MeticulousBoltsPercent", "30"),
 				new Field(this.situational.getPercentSlowedChilled(),
 						"PercentSlowedChilled", "100"),
 				new Field(this.situational.getPercentControlled(),
@@ -2564,17 +2382,9 @@ public class MainPanel extends BasePanel {
 
 				new Field(this.cdrPanel.getAmulet(), "CDR.Amulet", "0"),
 				new Field(this.cdrPanel.getBelt(), "CDR.Belt", "0"),
-				new Field(this.cdrPanel.getBorn(), "CDR.BornsSet",
-						Boolean.FALSE.toString()),
-				new Field(this.cdrPanel.getCrimson(), "CDR.CrimsonsSet",
-						Boolean.FALSE.toString()),
 				new Field(this.cdrPanel.getDiamond(), "CDR.Diamond",
 						GemLevel.None.name()),
 				new Field(this.cdrPanel.getGloves(), "CDR.Gloves", "0"),
-				new Field(this.cdrPanel.getLeorics(), "CDR.Leorics",
-						Boolean.FALSE.toString()),
-				new Field(this.cdrPanel.getLeoricsLevel(),
-						"CDR.LeroricsPercent", "0"),
 				new Field(this.cdrPanel.getQuiver(), "CDR.Quiver", "0"),
 				new Field(this.cdrPanel.getRing1(), "CDR.Ring1", "0"),
 				new Field(this.cdrPanel.getRing2(), "CDR.Ring2", "0"),
@@ -2582,11 +2392,7 @@ public class MainPanel extends BasePanel {
 				new Field(this.cdrPanel.getWeapon(), "CDR.Weapon", "0"),
 
 				new Field(this.rcrPanel.getBelt(), "RCR.Belt", "0"),
-				new Field(this.rcrPanel.getCrimson(), "RCR.CrimsonsSet",
-						Boolean.FALSE.toString()),
 				new Field(this.rcrPanel.getGloves(), "RCR.Gloves", "0"),
-				new Field(this.rcrPanel.getPridesFall(), "RCR.PridesFall",
-						Boolean.FALSE.toString()),
 				new Field(this.rcrPanel.getQuiver(), "RCR.Quiver", "0"),
 				new Field(this.rcrPanel.getRing1(), "RCR.Ring1", "0"),
 				new Field(this.rcrPanel.getRing2(), "RCR.Ring2", "0"),
@@ -2709,24 +2515,8 @@ public class MainPanel extends BasePanel {
 			data.setAreaDamageEquipment(getValue(this.itemPanel
 					.getAreaDamageEquipment()) / 100.0);
 			data.setGems(gemPanel.getGems());
-			data.setCalamityMdf(itemPanel.getCalamity().getValue());
-			data.setHasBombardiers(itemPanel.getBombadiers().getValue());
-			data.setDml(itemPanel.getDml().getValue());
-			data.setDmlPercent(itemPanel.getDmlPercent().getValue() / 100.0);
-			data.setBastions(itemPanel.getBastions().getValue());
-			data.setCrashingRain(itemPanel.getCrashingRain().getValue());
-			data.setCrashingRainPercent(itemPanel.getCrashingRainPercent()
-					.getValue() / 100.0);
-			data.setVaxo(itemPanel.getVaxo().getValue());
-			data.setVaxoUptime(itemPanel.getVaxoUptime().getValue() / 100.0);
-			data.setCoe(itemPanel.getCoe().getValue());
-			data.setCoePercent(itemPanel.getCoePercent().getValue() / 100.0);
-			data.setHelltrapper(itemPanel.getHelltrapper().getValue());
-			data.setHelltrapperPercent(itemPanel.getHelltrapperPercent()
-					.getValue() / 100.0);
-			data.setNumMarauders(itemPanel.getMarauders().getValue());
-			data.setNumUe(itemPanel.getNumUe().getValue());
-			data.setNumNats(itemPanel.getNumNats().getValue());
+			data.setSpecialItems(itemPanel.getItems());
+			data.setSetCounts(itemPanel.getSetCounts());
 			data.setPercentAtLeast10Yards((double) this.situational
 					.getPercentAtLeast10Yards().getValue() / 100.0);
 			data.setDistanceToTarget(this.getValue(this.situational
@@ -2806,13 +2596,7 @@ public class MainPanel extends BasePanel {
 					.getConvictionPassiveUptime().getValue() / 100.0);
 			data.setConvictionActiveUptime(playerBuffPanel
 					.getConvictionActiveUptime().getValue() / 100.0);
-			data.setTnt(itemPanel.getTnt().getValue());
-			data.setTntPercent(itemPanel.getTntPercent().getValue() / 100.0);
-			data.setMeticulousBolts(itemPanel.getMeticulousBolts().getValue());
-			data.setMeticulousBoltsPercent(itemPanel
-					.getMeticulousBoltsPercent().getValue() / 100.0);
 			data.setTargetSize(situational.getSelectedTargetSize());
-			data.setCalamityUptime(itemPanel.getCalamityUptime().getValue() / 100.0);
 			data.setMfdUptime(skills.getMfdUptime().getValue() / 100.0);
 			data.setMfdAddUptime(skills.getMfdAddUptime().getValue() / 100.0);
 			data.setRetribution(playerBuffPanel.getRetribution().getValue());
@@ -2821,38 +2605,12 @@ public class MainPanel extends BasePanel {
 					.getValue() / 100.0);
 			data.setValorUptime(playerBuffPanel.getValorUptime().getValue() / 100.0);
 			data.setSlamDance(playerBuffPanel.getSlamDance().getValue());
-			data.setHarrington(itemPanel.getHarrington().getValue());
-			data.setHarringtonPercent(itemPanel.getHarringtonPercent()
-					.getValue() / 100.0);
-			data.setHarringtonUptime(itemPanel.getHarringtonUptime().getValue() / 100.0);
-			data.setStrongarm(itemPanel.getStrongarm().getValue());
-			data.setStrongarmPercent(itemPanel.getStrongarmPercent().getValue() / 100.0);
-			data.setStrongarmUptime(itemPanel.getStrongarmUptime().getValue() / 100.0);
-			data.setHexingPants(itemPanel.getHexingPants().getValue());
-			data.setHexingPantsPercent(itemPanel.getHexingPantsPercent()
-					.getValue() / 100.0);
-			data.setHexingPantsUptime(itemPanel.getHexingPantsUptime()
-					.getValue() / 100.0);
 			data.setCaltropsUptime(skills.getCaltropsUptime().getValue() / 100.0);
 			data.setHatredPerSecond(hatredPanel.getHatredPerSecond().getValue());
 			data.setEquipmentDiscipline(hatredPanel.getEquipmentDiscipline()
 					.getValue());
-			data.setSpines(itemPanel.getSpines().getValue());
-			data.setKridershot(itemPanel.getKridershot().getValue());
-			data.setSpinesHatred(itemPanel.getSpinesHatred().getValue());
-			data.setKridershotHatred(itemPanel.getKridershotHatred().getValue());
-			data.setReapersWraps(itemPanel.getReapersWraps().getValue());
-			data.setReapersWrapsPercent(itemPanel.getReapersWrapsPercent()
-					.getValue() / 100.0);
 			data.setNumHealthGlobes(situational.getNumHealthGlobes().getValue());
 			data.setDelay(situational.getFiringDelay().getValue());
-			data.setCindercoat(itemPanel.getCindercoat().getValue());
-			data.setCindercoatRCR(itemPanel.getCindercoatPercent().getValue() / 100.0);
-			data.setOdysseysEnd(itemPanel.getOdysseysEnd().getValue());
-			data.setOdysseysEndPercent(itemPanel.getOdysseysEndPercent()
-					.getValue() / 100.0);
-			data.setOdysseysEndUptime(itemPanel.getOdysseysEndUptime()
-					.getValue() / 100.0);
 
 			ProfileHelper.updateWeaponDamage(data);
 			this.avgWeaponDamage.setText(Util.format(Math.round(data.getWeaponDamage() * 10.0) / 10.0));
@@ -3498,6 +3256,8 @@ public class MainPanel extends BasePanel {
 				super.getFieldValue(passives.getPassives(), null));
 		super.saveField("gems",
 				super.getGemsFieldValue(gemPanel.getGems(), null));
+		super.saveField("specialItems",
+				super.getSpecialItemsFieldValue(itemPanel.getItems(), itemPanel.getSetCounts(), null));
 		super.saveField("elemental.Damage",
 				super.getFieldValue(this.typeDamage.getValues(), null));
 		super.saveField("skill.Damage",
@@ -3516,6 +3276,7 @@ public class MainPanel extends BasePanel {
 		super.setFieldValue(skills, super.getFieldValue("skills", null));
 		super.setFieldValue(passives, super.getFieldValue("passives", null));
 		super.setFieldValue(gemPanel, super.getFieldValue("gems", null));
+		super.setFieldValue(itemPanel, super.getFieldValue("specialItems", null));
 		super.setFieldValue(typeDamage,
 				super.getFieldValue("elemental.Damage", null));
 		super.setFieldValue(skillDamage,

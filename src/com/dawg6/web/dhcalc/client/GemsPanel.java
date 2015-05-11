@@ -38,6 +38,7 @@ import com.google.gwt.user.client.ui.ListBox;
 
 public class GemsPanel extends Composite {
 
+	private boolean disableListeners;
 	private final List<ChangeHandler> handlers = new Vector<ChangeHandler>();
 	private final List<ListBox> listBoxes = new Vector<ListBox>(NUM_GEMS);
 	private final List<Anchor> anchors = new Vector<Anchor>(NUM_GEMS);
@@ -47,7 +48,6 @@ public class GemsPanel extends Composite {
 			NUM_GEMS);
 	private final List<GemSkill> selected = new Vector<GemSkill>(NUM_GEMS);
 
-	private boolean disableListeners;
 	private FlexTable table;
 
 	public static final int NUM_GEMS = 3;
