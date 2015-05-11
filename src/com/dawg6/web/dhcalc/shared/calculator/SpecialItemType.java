@@ -37,7 +37,7 @@ public enum SpecialItemType {
 
 	MeticulousBolts(Const.METICULOUS_BOLTS, "meticulous-bolts", false,
 			new Slot[] { Slot.OffHand }, new Attribute(SpecialItemType.PERCENT,
-					Const.METICULOUS_BOLTS_PERCENT, 40, 50)),
+					Const.METICULOUS_BOLTS_PERCENT, 30, 40)),
 
 	Bombadiers(Const.BOMBADIERS, "bombardiers-rucksack", false,
 			new Slot[] { Slot.OffHand }),
