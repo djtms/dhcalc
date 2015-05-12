@@ -70,20 +70,16 @@ public class ProfileHelper {
 		if (data.isLeorics())
 			list.add(data.getDiamond().getCdr()
 					* (1 + (data.getLeoricsPercent() / 100.0)));
-		else
-			list.add(data.getDiamond().getCdr());
+		else {
+			GemLevel gem = data.getDiamond();
+			
+			if (gem != null)
+				list.add(gem.getCdr());
+		}
 
-		String[] gear = { Const.SHOULDERS, Const.BELT, Const.RING1,
-				Const.RING2, Const.AMULET, Const.GLOVES, Const.QUIVER,
-				Const.WEAPON };
-
-		if (data.getCdrData() != null) {
-			for (String slot : gear) {
-				Integer value = data.getCdrData().get(slot);
-
-				if (value != null)
-					list.add(value / 100.0);
-			}
+		for (Integer i : data.getCdrData().values()) {
+			if (i != null)
+				list.add(i / 100.0);
 		}
 
 		if (data.isCrimsonCdr())
@@ -144,8 +140,8 @@ public class ProfileHelper {
 		data.setOffHand_weaponAps(offHand_weaponAps);
 		data.setOffHand_weaponDps(offHand_weaponDps);
 
-		min += data.getJewelMin();
-		max += data.getJewelMax();
+		min += data.getJewelryMin();
+		max += data.getJewelryMax();
 		double dex = data.getDexterity();
 		double pCC = (data.getParagonCC() * 0.1) / 100.0;
 		double pCD = (data.getParagonCHD() * 1.0) / 100.0;
@@ -192,7 +188,8 @@ public class ProfileHelper {
 				* (1.0 + eIas + fIas + pIas + gogokIas + painEnhancerIas + dwIas + bbvIas + lovIas + retIas + stIas);
 
 		double averageWeaponDamage = ((min + max) / 2.0);
-
+		double offHand_averageWeaponDamage = ((offHand_min + offHand_max) / 2.0);
+		
 		double dps = averageWeaponDamage * aps
 				* (1.0 + critChance * critDamage) * (1.0 + (dex / 100.0))
 				* (1.0 + aDam);
@@ -205,15 +202,15 @@ public class ProfileHelper {
 		double petApsValue = aps * (1.0 + petIasValue) * (1.0 + gogokIas);
 		data.setCritChance(critChance);
 		data.setCritHitDamage(critDamage);
+		
 		data.setWeaponDamage(averageWeaponDamage);
+		data.setOffHand_weaponDamage(offHand_averageWeaponDamage);
 
 		double offHand_wIas = data.getOffHand_weaponIas();
 		double offHand_aps = (offHand_type == null) ? 0.0 : (offHand_type
 				.getAps() * (1.0 + offHand_wIas) * (1.0 + eIas + pIas
 				+ gogokIas + painEnhancerIas + dwIas + bbvIas + lovIas + retIas + stIas));
 		data.setOffHand_aps(offHand_aps);
-
-		double offHand_averageWeaponDamage = ((min + max) / 2.0);
 
 		double offHand_dps = offHand_averageWeaponDamage * offHand_aps
 				* (1.0 + critChance * critDamage) * (1.0 + (dex / 100.0))
@@ -647,13 +644,13 @@ public class ProfileHelper {
 		if (paragonDexterity != null)
 			data.setParagonDexterity(paragonDexterity);
 		else {
-			data.setParagonDexterity(hero.stats.dexterity
-					- (equipmentDexterity + 7 + (hero.level * 3)));
+			data.setParagonDexterity((hero.stats.dexterity
+					- (equipmentDexterity + 7 + (hero.level * 3))) / 5);
 		}
 
 		data.setAreaDamageEquipment(areaDamage);
-		data.setJewelMin(minJewelry);
-		data.setJewelMax(maxJewelry);
+		data.setJewelryMin(minJewelry);
+		data.setJewelryMax(maxJewelry);
 
 	}
 
@@ -865,5 +862,42 @@ public class ProfileHelper {
 		}
 
 		rcrData.put(slot, rcr);
+	}
+
+	public static void updateRcr(CharacterData data) {
+		List<Double> list = new Vector<Double>();
+
+		list.add(data.getParagonRCR() * 0.002);
+
+		if (data.isPridesFall())
+			list.add(0.30);
+
+		Map<String, Integer> map = data.getRcrData();
+		
+		for (Integer i : map.values()) {
+			
+			if (i != null)
+				list.add(i / 100.0);
+		}
+
+		if (data.getSetCount(ItemSet.Crimson.getSlug()) >= 3)
+			list.add(0.10);
+
+		double effRcr = 0.0;
+
+		boolean first = true;
+
+		for (Double c : list) {
+			if (first) {
+				first = false;
+				effRcr = 1.0 - c;
+			} else {
+				effRcr *= (1.0 - c);
+			}
+		}
+
+		effRcr = 1.0 - effRcr;
+
+		data.setRcr(effRcr);
 	}
 }

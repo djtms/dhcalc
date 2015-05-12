@@ -55,6 +55,10 @@ public class FiringData {
 
 		List<Damage> log = new Vector<Damage>();
 
+		
+		if (data.getNumHealthGlobes() > 0)
+			eventQueue.push(new HealthGlobeEvent(data));
+		
 		if (data.isCoe())
 			eventQueue.push(new CoEBuffEvent());
 		

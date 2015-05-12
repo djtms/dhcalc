@@ -749,8 +749,8 @@ public class DPSCalculator extends BasePanel {
 				.setValue((int) Math.round(data.getEquipCritDamage() * 100.0));
 		this.equipIAS.setValue((int) (Math.round(data.getEquipIas() * 100.0)));
 		this.dexterity.setValue(data.getEquipmentDexterity());
-		this.minJewelDamage.setValue((int) Math.round(data.getJewelMin()));
-		this.maxJewelDamage.setValue((int) Math.round(data.getJewelMax()));
+		this.minJewelDamage.setValue((int) Math.round(data.getJewelryMin()));
+		this.maxJewelDamage.setValue((int) Math.round(data.getJewelryMax()));
 
 		this.disableListeners = false;
 
@@ -857,11 +857,11 @@ public class DPSCalculator extends BasePanel {
 		return this.critChance.getValue() / 100.0;
 	}
 
-	public double getJewelMin() {
+	public double getJewelryMin() {
 		return this.minJewelDamage.getValue();
 	}
 
-	public double getJewelMax() {
+	public double getJewelryMax() {
 		return this.maxJewelDamage.getValue();
 	}
 }

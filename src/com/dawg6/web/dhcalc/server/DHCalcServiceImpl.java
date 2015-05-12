@@ -326,7 +326,7 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 				+ data.getHero());
 		entry.setRealm(data.getRealm());
 		entry.setBuild(build);
-		entry.setParagon_dex(data.getParagonDexterity() / 5);
+		entry.setParagon_dex(data.getParagonDexterity());
 		entry.setParagon_cc(data.getParagonCC());
 		entry.setParagon_cdr(data.getParagonCDR());
 		entry.setParagon_chd(data.getParagonCHD());

@@ -3,6 +3,8 @@ Change Log:
 
 **5/12/15**
 - Fixed error that prevented Kridershot+Meticulous Bolts from calculating properly
+- Fixed error that was causing Health Globes to not be included in simulation
+- Added paragon points, weapon +damage and jewelry +damage to Stat calculator
 
 **5/11/15**
 * Reworked special items and sets in user interface (items now selected by slot)

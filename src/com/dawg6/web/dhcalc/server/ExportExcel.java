@@ -451,7 +451,7 @@ public class ExportExcel {
 		createInput(inputs, data.data.getHatredPerSecond(), "Hatred Per Second");
 		createInput(inputs, data.data.getEquipmentDiscipline(),
 				"Equipment +Max Discipline");
-		createInput(inputs, data.data.getParagonDexterity() / 5,
+		createInput(inputs, data.data.getParagonDexterity(),
 				"Paragon Dexterity");
 		createInput(inputs, data.data.getParagonIAS(), "Paragon IAS");
 		createInput(inputs, data.data.getParagonCC(), "Paragon CC");

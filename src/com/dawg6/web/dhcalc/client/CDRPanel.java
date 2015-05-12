@@ -18,7 +18,11 @@
  *******************************************************************************/
 package com.dawg6.web.dhcalc.client;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 import com.dawg6.web.dhcalc.shared.calculator.GemLevel;
+import com.dawg6.web.dhcalc.shared.calculator.Slot;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -192,5 +196,20 @@ public class CDRPanel extends Composite {
 		}
 		
 		this.diamond.setSelectedIndex(0);
+	}
+
+	public Map<String, Integer> getData() {
+		Map<String, Integer> map = new TreeMap<String, Integer>();
+		
+		map.put(Slot.Shoulders.name(), shoulders.getValue());
+		map.put(Slot.Hands.name(), gloves.getValue());
+		map.put(Slot.Necklace.name(), amulet.getValue());
+		map.put(Slot.Ring1.name(), ring1.getValue());
+		map.put(Slot.Ring2.name(), ring2.getValue());
+		map.put(Slot.Waist.name(), belt.getValue());
+		map.put(Slot.MainHand.name(), weapon.getValue());
+		map.put(Slot.OffHand.name(), quiver.getValue());
+
+		return map;
 	}
 }

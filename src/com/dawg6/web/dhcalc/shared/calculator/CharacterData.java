@@ -66,8 +66,8 @@ public class CharacterData implements Serializable {
 	private int numAoeTargets;
 	private int weaponMin;
 	private int weaponMax;
-	private int jewelryMin;
-	private int jewelryMax;
+	private double jewelryMin;
+	private double jewelryMax;
 	private BowType bow;
 	private int numAdditional;
 	private int distanceToTarget;
@@ -118,8 +118,6 @@ public class CharacterData implements Serializable {
 	private double offHand_addMax;
 	private double offHand_weaponDamagePercent;
 	private double offHand_weaponIas;
-	private double jewelMin;
-	private double jewelMax;
 	private Map<String, Integer> setCounts;
 	private Map<String, D3Set> sets;
 	private double equipIas;
@@ -288,8 +286,6 @@ public class CharacterData implements Serializable {
 		this.innerSanctuary = other.innerSanctuary;
 		this.innerSanctuaryUptime = other.innerSanctuaryUptime;
 		this.inspire = other.inspire;
-		this.jewelMax = other.jewelMax;
-		this.jewelMin = other.jewelMin;
 		this.jewelryMax = other.jewelryMax;
 		this.jewelryMin = other.jewelryMin;
 		this.level = other.level;
@@ -495,7 +491,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public int getDexterity() {
-		return equipmentDexterity + paragonDexterity + 7 + (heroLevel * 3);
+		return equipmentDexterity + (paragonDexterity * 5) + 7 + (heroLevel * 3);
 	}
 
 	public double getEliteDamage() {
@@ -720,19 +716,19 @@ public class CharacterData implements Serializable {
 		this.weaponMax = weaponMax;
 	}
 
-	public int getJewelryMin() {
+	public double getJewelryMin() {
 		return jewelryMin;
 	}
 
-	public void setJewelryMin(int jewelryMin) {
+	public void setJewelryMin(double jewelryMin) {
 		this.jewelryMin = jewelryMin;
 	}
 
-	public int getJewelryMax() {
+	public double getJewelryMax() {
 		return jewelryMax;
 	}
 
-	public void setJewelryMax(int jewelryMax) {
+	public void setJewelryMax(double jewelryMax) {
 		this.jewelryMax = jewelryMax;
 	}
 
@@ -1260,22 +1256,6 @@ public class CharacterData implements Serializable {
 
 	public void setAddMax(double addMax) {
 		this.addMax = addMax;
-	}
-
-	public double getJewelMin() {
-		return jewelMin;
-	}
-
-	public void setJewelMin(double jewelMin) {
-		this.jewelMin = jewelMin;
-	}
-
-	public double getJewelMax() {
-		return jewelMax;
-	}
-
-	public void setJewelMax(double jewelMax) {
-		this.jewelMax = jewelMax;
 	}
 
 	public boolean isRoyalRing() {

@@ -2036,7 +2036,7 @@ public class MainPanel extends BasePanel {
 
 		if (paragonDexterity == null) {
 			paragonPanel.getParagonDexterity().setValue(
-					data.getParagonDexterity() / 5);
+					data.getParagonDexterity() );
 		}
 
 		data.setRealm(realm);
@@ -2494,8 +2494,7 @@ public class MainPanel extends BasePanel {
 			data.setParagonIAS(paragonPanel.getParagonIAS().getValue());
 			data.setParagonCHD(paragonPanel.getParagonCHD().getValue());
 			data.setParagonCDR(paragonPanel.getParagonCDR().getValue());
-			data.setParagonDexterity(paragonPanel.getParagonDexterity()
-					.getValue() * 5);
+			data.setParagonDexterity(paragonPanel.getParagonDexterity().getValue());
 			data.setHeroLevel(calculator.getHeroLevel());
 			data.setParagonHatred(paragonPanel.getParagonHatred().getValue());
 			data.setParagonRCR(paragonPanel.getParagonRCR().getValue());
@@ -2536,8 +2535,8 @@ public class MainPanel extends BasePanel {
 			data.setEquipIas(calculator.getEquipIAS());
 			data.setEquipCritDamage(calculator.getEquipmentCritDamage());
 			data.setEquipCritChance(calculator.getEquipmentCritChance());
-			data.setJewelMin(calculator.getJewelMin());
-			data.setJewelMax(calculator.getJewelMax());
+			data.setJewelryMin(calculator.getJewelryMin());
+			data.setJewelryMax(calculator.getJewelryMax());
 			data.setWeaponDamage(calculator.getMainHandAverageWeaponDamage());
 			data.setWeaponDamagePercent(calculator.getMainHand()
 					.getWeaponDamage().getValue() / 100.0);
@@ -2563,7 +2562,10 @@ public class MainPanel extends BasePanel {
 			data.setOffHand_addMax(calculator.getOffHand().getAddMax()
 					.getValue());
 
+			data.setDiamond(cdrPanel.getSelectedDiamond());
+			data.setCdrData(cdrPanel.getData());
 			data.setCdr(this.effCdr);
+			data.setRcrData(rcrPanel.getData());
 			data.setRcr(this.effRcr);
 			data.setFocusedMind(buffPanel.getFocusedMind().getValue());
 			data.setInspire(buffPanel.getInspire().getValue());

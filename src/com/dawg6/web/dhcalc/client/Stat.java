@@ -109,14 +109,213 @@ public class Stat {
 
 	}),
 
-	new Stat("% IAS", new StatAdapter() {
+	new Stat("% IAS (Equipment)", new StatAdapter() {
 
 		@Override
 		public void apply(double inc, CharacterData data) {
 			double value = data.getEquipIas();
 			data.setEquipIas(value + (inc / 100.0));
 			ProfileHelper.updateWeaponDamage(data);
+		}
+	}),
 
+	new Stat("IAS (Paragon Points)", new StatAdapter() {
+
+		@Override
+		public boolean test(CharacterData data, Set<DamageType> types) {
+			return data.getParagonIAS() < 50;
+		}
+		
+		@Override
+		public void apply(double inc, CharacterData data) {
+			int value = Math.max(0, Math.min(50, data.getParagonIAS() + (int)Math.round(inc)));
+			data.setParagonIAS(value);
+			ProfileHelper.updateWeaponDamage(data);
+		}
+	}),
+
+	new Stat("CHD (Paragon Points)", new StatAdapter() {
+
+		@Override
+		public boolean test(CharacterData data, Set<DamageType> types) {
+			return data.getParagonCHD() < 50;
+		}
+		
+		@Override
+		public void apply(double inc, CharacterData data) {
+			int value = Math.max(0, Math.min(50, data.getParagonCHD() + (int)Math.round(inc)));
+			data.setParagonCHD(value);
+			ProfileHelper.updateWeaponDamage(data);
+		}
+	}),
+
+	new Stat("CC (Paragon Points)", new StatAdapter() {
+
+		@Override
+		public boolean test(CharacterData data, Set<DamageType> types) {
+			return data.getParagonCC() < 50;
+		}
+		
+		@Override
+		public void apply(double inc, CharacterData data) {
+			int value = Math.max(0, Math.min(50, data.getParagonCC() + (int)Math.round(inc)));
+			data.setParagonCC(value);
+			ProfileHelper.updateWeaponDamage(data);
+		}
+	}),
+
+	new Stat("CDR (Paragon Points)", new StatAdapter() {
+
+		@Override
+		public boolean test(CharacterData data, Set<DamageType> types) {
+			return data.getParagonCDR() < 50;
+		}
+		
+		@Override
+		public void apply(double inc, CharacterData data) {
+			int value = Math.max(0, Math.min(50, data.getParagonCDR() + (int)Math.round(inc)));
+			data.setParagonCDR(value);
+			ProfileHelper.updateCdr(data);
+		}
+	}),
+
+	new Stat("RCR (Paragon Points)", new StatAdapter() {
+
+		@Override
+		public boolean test(CharacterData data, Set<DamageType> types) {
+			return data.getParagonCDR() < 50;
+		}
+		
+		@Override
+		public void apply(double inc, CharacterData data) {
+			int value = Math.max(0, Math.min(50, data.getParagonRCR() + (int)Math.round(inc)));
+			data.setParagonRCR(value);
+			ProfileHelper.updateRcr(data);
+		}
+	}),
+
+	new Stat("Dex (Paragon Points)", new StatAdapter() {
+
+		@Override
+		public void apply(double inc, CharacterData data) {
+			int value = Math.max(0,data.getParagonDexterity() + (int)Math.round(inc));
+			data.setParagonDexterity(value);
+			ProfileHelper.updateWeaponDamage(data);
+		}
+	}),
+
+
+	new Stat("Hatred (Paragon Points)", new StatAdapter() {
+
+		@Override
+		public boolean test(CharacterData data, Set<DamageType> types) {
+			return data.getParagonHatred() < 50;
+		}
+		
+		@Override
+		public void apply(double inc, CharacterData data) {
+			int value = Math.max(0, Math.min(50, data.getParagonHatred() + (int)Math.round(inc)));
+			data.setParagonHatred(value);
+		}
+	}),
+
+	new Stat("Main Hand Min Damage", new StatAdapter() {
+
+		@Override
+		public double getDefaultValue() {
+			return 50.0;
+		}
+
+		@Override
+		public void apply(double inc, CharacterData data) {
+			double value = data.getAddMin();
+			data.setAddMin(value + inc);
+			ProfileHelper.updateWeaponDamage(data);
+		}
+	}),
+
+	new Stat("Main Hand Max Damage", new StatAdapter() {
+
+		@Override
+		public double getDefaultValue() {
+			return 50.0;
+		}
+
+		@Override
+		public void apply(double inc, CharacterData data) {
+			double value = data.getAddMax();
+			data.setAddMax(value + inc);
+			ProfileHelper.updateWeaponDamage(data);
+		}
+	}),
+
+	new Stat("Jewelry Min Damage", new StatAdapter() {
+
+		@Override
+		public double getDefaultValue() {
+			return 50.0;
+		}
+
+		@Override
+		public void apply(double inc, CharacterData data) {
+			double value = data.getJewelryMin();
+			data.setJewelryMin(value + inc);
+			ProfileHelper.updateWeaponDamage(data);
+		}
+	}),
+
+	new Stat("Jewelry Max Damage", new StatAdapter() {
+
+		@Override
+		public double getDefaultValue() {
+			return 50.0;
+		}
+
+		@Override
+		public void apply(double inc, CharacterData data) {
+			double value = data.getJewelryMax();
+			data.setJewelryMax(value + inc);
+			ProfileHelper.updateWeaponDamage(data);
+		}
+	}),
+
+	new Stat("Off Hand Min Damage", new StatAdapter() {
+
+		@Override
+		public double getDefaultValue() {
+			return 50.0;
+		}
+		
+		@Override
+		public boolean test(CharacterData data, Set<DamageType> types) {
+			return data.getOffHand_weaponType() != null;
+		}
+		
+		@Override
+		public void apply(double inc, CharacterData data) {
+			double value = data.getOffHand_addMin();
+			data.setOffHand_addMin(value + inc);
+			ProfileHelper.updateWeaponDamage(data);
+		}
+	}),
+
+	new Stat("Off Hand Max Damage", new StatAdapter() {
+
+		@Override
+		public double getDefaultValue() {
+			return 50.0;
+		}
+
+		@Override
+		public boolean test(CharacterData data, Set<DamageType> types) {
+			return data.getOffHand_weaponType() != null;
+		}
+		
+		@Override
+		public void apply(double inc, CharacterData data) {
+			double value = data.getOffHand_addMax();
+			data.setOffHand_addMax(value + inc);
+			ProfileHelper.updateWeaponDamage(data);
 		}
 	}),
 
