@@ -26,7 +26,7 @@ public enum SpecialItemType {
 			SpecialItemType.PERCENT, Const.HELLTRAPPER_PERCENT, 7, 10)),
 
 	Kridershot(Const.KRIDERSHOT, "kridershot", false, new Slot[] { Slot.MainHand },
-			new Attribute(SpecialItemType.HATRED, Const.KRIDERSHOT_HATRED, 3, 4)),
+			new Attribute(SpecialItemType.HATRED, Const.KRIDERSHOT_HATRED, 3, 4, 1.0)),
 
 	Oddessy(Const.ODYSSEYS_END, "odysseys-end", false, new Slot[] { Slot.MainHand },
 			new Attribute(SpecialItemType.PERCENT, Const.ODYSSEYS_END_PERCENT,

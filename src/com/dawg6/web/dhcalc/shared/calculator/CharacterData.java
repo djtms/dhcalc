@@ -91,8 +91,6 @@ public class CharacterData implements Serializable {
 	private double cripplingWaveUptime;
 	private double convictionPassiveUptime;
 	private double convictionActiveUptime;
-	private boolean meticulousBolts;
-	private double meticulousBoltsPercent;
 	private TargetSize targetSize;
 	private double mfdUptime;
 	private double mfdAddUptime;
@@ -297,8 +295,6 @@ public class CharacterData implements Serializable {
 		this.level = other.level;
 		this.massConfusion = other.massConfusion;
 		this.massConfusionUptime = other.massConfusionUptime;
-		this.meticulousBolts = other.meticulousBolts;
-		this.meticulousBoltsPercent = other.meticulousBoltsPercent;
 		this.mfdAddUptime = other.mfdAddUptime;
 		this.mfdUptime = other.mfdUptime;
 		this.name = other.name;
@@ -996,19 +992,11 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isMeticulousBolts() {
-		return meticulousBolts;
-	}
-
-	public void setMeticulousBolts(boolean meticulousBolts) {
-		this.meticulousBolts = meticulousBolts;
+		return isItem(SpecialItemType.MeticulousBolts);
 	}
 
 	public double getMeticulousBoltsPercent() {
-		return meticulousBoltsPercent;
-	}
-
-	public void setMeticulousBoltsPercent(double meticulousBoltsPercent) {
-		this.meticulousBoltsPercent = meticulousBoltsPercent;
+		return getItemAttribute(SpecialItemType.MeticulousBolts, SpecialItemType.PERCENT);
 	}
 
 	public boolean isTnt() {

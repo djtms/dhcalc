@@ -1,5 +1,9 @@
 Change Log:
 
+
+**5/12/15**
+- Fixed error that prevented Kridershot+Meticulous Bolts from calculating properly
+
 **5/11/15**
 * Reworked special items and sets in user interface (items now selected by slot)
 * Removed Odyssey's End uptime. 
