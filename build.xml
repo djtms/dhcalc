@@ -1,6 +1,4 @@
-<project name="dhcalc-war" basedir="." default="default">
-
-	<target name="default" depends="build-war"></target>
+<project name="dhcalc-war" basedir="." default="rebuild">
 
 	<property name="src" value="src" />
 	<property name="bin" value="bin" />
@@ -19,7 +17,18 @@
 	<target name="build-subprojects">
 		<ant antfile="build-ant.xml" target="gwt-compile" />
 	</target>
-	
+
+	<target name="clean">
+		<ant antfile="build-ant.xml" target="clean" />
+	</target>
+
+	<target name="cleanall">
+		<ant antfile="build-ant.xml" target="cleanall" />
+	</target>
+
+	<target name="rebuild" depends="cleanall,build-war">
+    </target>
+    
 	<target name="external-jar" depends="build-subprojects">
 		<jar destfile="${external-jar}">
 			<fileset dir="../dawg6-common/bin" />

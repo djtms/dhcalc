@@ -58,6 +58,8 @@
 	</target>
 	<target name="clean">
 		<delete dir="war/WEB-INF/classes" />
+		<delete dir="war/dhcalc" />
+		<delete dir="war/WEB-INF/deploy" />
 	</target>
 	<target depends="clean" name="cleanall">
 		<ant antfile="build-ant.xml" dir="${dawg6-common.location}"
@@ -84,7 +86,8 @@
 	<target
 		description="Build all projects which reference this project. Useful to propagate changes."
 		name="build-refprojects" />
-	<target name="gwt-compile" description="Run GWT Compiler" depends="build">
+	<target name="gwt-compile" description="Run GWT Compiler"
+		depends="build">
 		<java classname="com.google.gwt.dev.Compiler" fork="true">
 			<classpath>
 				<pathelement location="src" />
