@@ -2609,7 +2609,7 @@ public class MainPanel extends BasePanel {
 			data.setRetributionUptime(playerBuffPanel.getRetributionUptime()
 					.getValue() / 100.0);
 			data.setValorActiveUptime(playerBuffPanel.getValorActiveUptime().getValue() / 100.0);
-			data.setValorPassiveUptime(playerBuffPanel.getValorActiveUptime().getValue() / 100.0);
+			data.setValorPassiveUptime(playerBuffPanel.getValorPassiveUptime().getValue() / 100.0);
 			data.setSlamDance(playerBuffPanel.getSlamDance().getValue());
 			data.setCaltropsUptime(skills.getCaltropsUptime().getValue() / 100.0);
 			data.setHatredPerSecond(hatredPanel.getHatredPerSecond().getValue());
