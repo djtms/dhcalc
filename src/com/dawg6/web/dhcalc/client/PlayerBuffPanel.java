@@ -212,23 +212,25 @@ public class PlayerBuffPanel extends Composite {
 		valor = new SimpleCheckBox();
 		flexTable.setWidget(row, 1, valor);
 		
-		Label label_4 = new Label("% Active Uptime:");
+		Label label_4 = new Label("% Active:");
 		label_4.setWordWrap(false);
 		flexTable.setWidget(row, 2, label_4);
 		
 		valorActiveUptime = new DoubleSpinner();
 		valorActiveUptime.setVisibleLength(5);
 		flexTable.setWidget(row, 3, valorActiveUptime);
+		valorActiveUptime.setTitle("Percent of the time that Laws of Valor's Active buff (only) applies");
 		
 		row++;
 		
-		Label label_4a = new Label("% Passive Uptime:");
+		Label label_4a = new Label("% Passive:");
 		label_4a.setWordWrap(false);
 		flexTable.setWidget(row, 2, label_4a);
 		
 		valorPassiveUptime = new DoubleSpinner();
 		valorPassiveUptime.setVisibleLength(5);
 		flexTable.setWidget(row, 3, valorPassiveUptime);
+		valorPassiveUptime.setTitle("Percent of the time that Laws of Valor's Passive buff (only) applies");
 		
 		row++;
 		
