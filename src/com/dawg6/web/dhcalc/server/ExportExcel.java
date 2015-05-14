@@ -606,7 +606,9 @@ public class ExportExcel {
 		createInput(inputs, data.data.getCripplingWaveUptime(),
 				"Crippling Wave/Breaking Wave Uptime", pctStyle);
 		createInput(inputs, data.data.isValor(), "Laws of Valor");
-		createInput(inputs, data.data.getValorUptime(), "Laws of Valor Uptime",
+		createInput(inputs, data.data.getValorActiveUptime(), "Laws of Valor Active Uptime",
+				pctStyle);
+		createInput(inputs, data.data.getValorPassiveUptime(), "Laws of Valor Passive Uptime",
 				pctStyle);
 		createInput(inputs, data.data.isRetribution(), "Mantra of Retribution");
 		createInput(inputs, data.data.getRetributionUptime(),

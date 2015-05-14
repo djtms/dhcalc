@@ -50,7 +50,8 @@ public class PlayerBuffPanel extends Composite {
 	private final SimpleCheckBox valor;
 	private final SimpleCheckBox retribution;
 	private final DoubleSpinner retributionUptime;
-	private final DoubleSpinner valorUptime;
+	private final DoubleSpinner valorActiveUptime;
+	private final DoubleSpinner valorPassiveUptime;
 	private final SimpleCheckBox slamDance;
 	private final SimpleCheckBox timeWarp;
 	private final SimpleCheckBox stretchTime;
@@ -211,13 +212,23 @@ public class PlayerBuffPanel extends Composite {
 		valor = new SimpleCheckBox();
 		flexTable.setWidget(row, 1, valor);
 		
-		Label label_4 = new Label("% Uptime:");
+		Label label_4 = new Label("% Active Uptime:");
 		label_4.setWordWrap(false);
 		flexTable.setWidget(row, 2, label_4);
 		
-		valorUptime = new DoubleSpinner();
-		valorUptime.setVisibleLength(5);
-		flexTable.setWidget(row, 3, valorUptime);
+		valorActiveUptime = new DoubleSpinner();
+		valorActiveUptime.setVisibleLength(5);
+		flexTable.setWidget(row, 3, valorActiveUptime);
+		
+		row++;
+		
+		Label label_4a = new Label("% Passive Uptime:");
+		label_4a.setWordWrap(false);
+		flexTable.setWidget(row, 2, label_4a);
+		
+		valorPassiveUptime = new DoubleSpinner();
+		valorPassiveUptime.setVisibleLength(5);
+		flexTable.setWidget(row, 3, valorPassiveUptime);
 		
 		row++;
 		
@@ -327,7 +338,8 @@ public class PlayerBuffPanel extends Composite {
 		innerSanctuaryUptime.setMax(100.0);
 		convictionPassiveUptime.setMax(100.0);
 		convictionActiveUptime.setMax(100.0);
-		valorUptime.setMax(100.0);
+		valorActiveUptime.setMax(100.0);
+		valorPassiveUptime.setMax(100.0);
 		retributionUptime.setMax(100.0);
 		stretchTimeUptime.setMax(100);
 		timeWarpUptime.setMax(100);
@@ -362,6 +374,42 @@ public class PlayerBuffPanel extends Composite {
 					double b = convictionActiveUptime.getValue();
 					
 					convictionPassiveUptime.setValue(Math.min(100.0 - b, a));
+
+					disableListeners = false;
+				}
+				
+			}});
+		
+		valorPassiveUptime.addChangeHandler(new ChangeHandler(){
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				
+				if (!disableListeners) {
+					disableListeners = true;
+					
+					double a = valorPassiveUptime.getValue();
+					double b = valorActiveUptime.getValue();
+					
+					valorActiveUptime.setValue(Math.min(100.0 - a, b));
+
+					disableListeners = false;
+				}
+				
+			}});
+
+		valorActiveUptime.addChangeHandler(new ChangeHandler(){
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				
+				if (!disableListeners) {
+					disableListeners = true;
+					
+					double a = valorPassiveUptime.getValue();
+					double b = valorActiveUptime.getValue();
+					
+					valorPassiveUptime.setValue(Math.min(100.0 - b, a));
 
 					disableListeners = false;
 				}
@@ -452,10 +500,6 @@ public class PlayerBuffPanel extends Composite {
 		return retributionUptime;
 	}
 
-	public DoubleSpinner getValorUptime() {
-		return valorUptime;
-	}
-
 	public SimpleCheckBox getSlamDance() {
 		return slamDance;
 	}
@@ -474,5 +518,13 @@ public class PlayerBuffPanel extends Composite {
 
 	public NumberSpinner getStretchTimeUptime() {
 		return stretchTimeUptime;
+	}
+
+	public DoubleSpinner getValorActiveUptime() {
+		return valorActiveUptime;
+	}
+
+	public DoubleSpinner getValorPassiveUptime() {
+		return valorPassiveUptime;
 	}
 }

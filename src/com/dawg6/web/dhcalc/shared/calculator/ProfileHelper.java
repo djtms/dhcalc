@@ -171,7 +171,16 @@ public class ProfileHelper {
 		double pIas = data.getParagonIAS() * 0.002;
 		double fIas = data.isFocusedMind() ? 0.03 : 0.0;
 		double bbvIas = (data.isBbv() && (data.getBbvUptime() >= 1.0)) ? 0.2 : 0.0;
-		double lovIas = (data.isValor() && (data.getValorUptime() >= 1.0)) ? 0.08 : 0.0;
+		double lovIas = 0.0;
+		
+		if (data.isValor()) {
+			if (data.getValorActiveUptime() >= 1.0) {
+				lovIas = 0.15;
+			} else if ((data.getValorActiveUptime() + data.getValorPassiveUptime()) >= 1.0) {
+				lovIas = 0.08;
+			}
+		}
+		
 		double retIas = (data.isRetribution() && (data.getRetributionUptime() >= 1.0)) ? 0.1 : 0.0;
 		double stIas = (data.isStretchTime() && (data.getStretchTimeUptime() >= 1.0)) ? 0.1 : 0.0;
 		

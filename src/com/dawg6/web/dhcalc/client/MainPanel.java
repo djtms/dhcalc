@@ -720,7 +720,8 @@ public class MainPanel extends BasePanel {
 		playerBuffPanel.getStretchTime().addClickHandler(clickHandler3);
 		playerBuffPanel.getStretchTimeUptime().addChangeHandler(changeHandler);
 		playerBuffPanel.getValor().addClickHandler(clickHandler3);
-		playerBuffPanel.getValorUptime().addChangeHandler(changeHandler);
+		playerBuffPanel.getValorActiveUptime().addChangeHandler(changeHandler);
+		playerBuffPanel.getValorPassiveUptime().addChangeHandler(changeHandler);
 		playerBuffPanel.getRetribution().addClickHandler(clickHandler3);
 		playerBuffPanel.getRetributionUptime().addChangeHandler(changeHandler);
 
@@ -2454,7 +2455,9 @@ public class MainPanel extends BasePanel {
 						Boolean.FALSE.toString()),
 				new Field(this.playerBuffPanel.getSlamDance(), "SlamDance",
 						Boolean.FALSE.toString()),
-				new Field(this.playerBuffPanel.getValorUptime(), "ValorUptime",
+				new Field(this.playerBuffPanel.getValorActiveUptime(), "ValorActiveUptime",
+						"0"),
+				new Field(this.playerBuffPanel.getValorPassiveUptime(), "ValorPassiveUptime",
 						"0"),
 				new Field(this.playerBuffPanel.getRetributionUptime(),
 						"RetributionUptime", "0"),
@@ -2605,7 +2608,8 @@ public class MainPanel extends BasePanel {
 			data.setValor(playerBuffPanel.getValor().getValue());
 			data.setRetributionUptime(playerBuffPanel.getRetributionUptime()
 					.getValue() / 100.0);
-			data.setValorUptime(playerBuffPanel.getValorUptime().getValue() / 100.0);
+			data.setValorActiveUptime(playerBuffPanel.getValorActiveUptime().getValue() / 100.0);
+			data.setValorPassiveUptime(playerBuffPanel.getValorActiveUptime().getValue() / 100.0);
 			data.setSlamDance(playerBuffPanel.getSlamDance().getValue());
 			data.setCaltropsUptime(skills.getCaltropsUptime().getValue() / 100.0);
 			data.setHatredPerSecond(hatredPanel.getHatredPerSecond().getValue());

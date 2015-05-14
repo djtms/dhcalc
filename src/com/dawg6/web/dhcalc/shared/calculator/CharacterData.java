@@ -97,7 +97,8 @@ public class CharacterData implements Serializable {
 	private TargetType targetType;
 	private boolean slamDance;
 	private boolean valor;
-	private double valorUptime;
+	private double valorPassiveUptime;
+	private double valorActiveUptime;
 	private double retributionUptime;
 	private double caltropsUptime;
 	private Map<ActiveSkill, Rune> skills;
@@ -223,8 +224,6 @@ public class CharacterData implements Serializable {
 		timeLimit = 2 * 60;
 		stretchTime = false;
 		timeWarp = false;
-		stretchTimeUptime = 0.0;
-		timeWarpUptime = 0.0;
 	}
 
 	public CharacterData() {
@@ -357,7 +356,8 @@ public class CharacterData implements Serializable {
 		this.timeWarpUptime = other.timeWarpUptime;
 		this.transgression = other.transgression;
 		this.valor = other.valor;
-		this.valorUptime = other.valorUptime;
+		this.valorPassiveUptime = other.valorPassiveUptime;
+		this.valorActiveUptime = other.valorActiveUptime;
 		this.weaponAps = other.weaponAps;
 		this.weaponDamage = other.weaponDamage;
 		this.weaponDamagePercent = other.weaponDamagePercent;
@@ -1057,14 +1057,6 @@ public class CharacterData implements Serializable {
 
 	public void setValor(boolean valor) {
 		this.valor = valor;
-	}
-
-	public double getValorUptime() {
-		return valorUptime;
-	}
-
-	public void setValorUptime(double valorUptime) {
-		this.valorUptime = valorUptime;
 	}
 
 	public double getRetributionUptime() {
@@ -2028,5 +2020,21 @@ public class CharacterData implements Serializable {
 
 	public void setSpecialItems(Map<SpecialItemType, AttributeData> specialItems) {
 		this.specialItems = specialItems;
+	}
+
+	public double getValorPassiveUptime() {
+		return valorPassiveUptime;
+	}
+
+	public void setValorPassiveUptime(double valorPassiveUptime) {
+		this.valorPassiveUptime = valorPassiveUptime;
+	}
+
+	public double getValorActiveUptime() {
+		return valorActiveUptime;
+	}
+
+	public void setValorActiveUptime(double valorActiveUptime) {
+		this.valorActiveUptime = valorActiveUptime;
 	}
 }

@@ -600,10 +600,16 @@ public class DPSCalculator extends BasePanel {
 			buffIas += 0.10;
 		}
 
-		if (main.getPlayerBuffs().getValor().getValue()
-				&& (Math.round(main.getPlayerBuffs().getValorUptime()
-						.getValue()) == 100)) {
-			buffIas += 0.08;
+		if (main.getPlayerBuffs().getValor().getValue()) {
+
+			int a = (int)Math.round(main.getPlayerBuffs().getValorActiveUptime().getValue());
+			int b = (int)Math.round(main.getPlayerBuffs().getValorPassiveUptime().getValue());
+			
+			if (a >= 100) {
+				buffIas += 0.15;
+			} else if ((a+b) >= 100) {
+				buffIas += 0.08;
+			}
 		}
 
 		if (main.getPlayerBuffs().getStretchTime().getValue()
