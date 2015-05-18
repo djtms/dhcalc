@@ -112,8 +112,11 @@ public class FiringData {
 		if (data.isMarked() && (data.getMfdAddUptime() > 0) && (data.getNumAdditional() > 0)) 
 			eventQueue.push(new BuffEvent.MfDAdditionalBuff(data));
 
-		if (data.isCalamityMdf() && (data.getCalamityUptime() > 0)) 
-			eventQueue.push(new BuffEvent.CalamityBuff(data.getCalamityUptime()));
+		if (data.isCalamityMdf()) 
+			eventQueue.push(new BuffEvent.CalamityBuff());
+
+		if (data.isVaxo()) 
+			eventQueue.push(new BuffEvent.VaxoBuff(data));
 
 		if (data.isBotp())
 			eventQueue.push(new BuffEvent.BotPBuff(data.getBotpLevel()));

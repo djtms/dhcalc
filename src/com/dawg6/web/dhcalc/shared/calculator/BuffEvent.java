@@ -181,8 +181,8 @@ public class BuffEvent extends Event {
 
 	public static class CalamityBuff extends BuffEvent {
 
-		public CalamityBuff(double upTime) {
-			super(Buff.Calamity, 30.0, upTime);
+		public CalamityBuff() {
+			super(Buff.Calamity, 30.0, 1.0);
 		}
 		
 		@Override
@@ -190,6 +190,20 @@ public class BuffEvent extends Event {
 			d.shooter = "Player";
 			d.source = new DamageSource(ActiveSkill.MFD, Rune.None);
 			d.note = "Calamity MfD";
+		}
+	}
+
+	public static class VaxoBuff extends BuffEvent {
+
+		public VaxoBuff(CharacterData data) {
+			super(Buff.Vaxo, 15.0, 0.5);
+		}
+		
+		@Override
+		protected void populateDamage(Damage d) {
+			d.shooter = "Player";
+			d.source = new DamageSource(ActiveSkill.MFD, Rune.Valley_Of_Death);
+			d.note = "Vaxo MfD";
 		}
 	}
 

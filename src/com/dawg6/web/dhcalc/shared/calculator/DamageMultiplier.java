@@ -264,8 +264,8 @@ public enum DamageMultiplier {
 			"Odyssey's End Damage Bonus", new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return state.getBuffs().isActive(Buff.OdysseysEnd) ? state.getData()
-							.getOdysseysEndPercent() : 0.0;
+					return state.getBuffs().isActive(Buff.OdysseysEnd) ? state
+							.getData().getOdysseysEndPercent() : 0.0;
 				}
 			}), EA("EA", DamageAccumulator.Additive,
 			"Elemental Arrow Skill Damage Bonus",
@@ -651,8 +651,19 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return state.getData().isVaxo() ? (0.15 * state.getData()
-							.getVaxoUptime()) : 0.0;
+					
+					TargetType type = state.getData().getTargetType();
+
+					if (type == TargetType.Primary) {
+						return (state.getBuffs().isActive(Buff.Vaxo)
+								&& !state.getBuffs().isActive(Buff.Calamity) && !state
+								.getBuffs().isActive(Buff.MfdPrimary)) ? 0.15 : 0.0;
+					} else {
+						return (state.getBuffs().isActive(Buff.Vaxo)
+								&& !state.getBuffs().isActive(Buff.Calamity) && !state
+								.getBuffs().isActive(Buff.MfdAdditional) && (state.getData().getTargetSpacing() <= 15)) ? 0.15 : 0.0;
+					}
+					
 				}
 			}), AD("Area", DamageAccumulator.Special,
 			"Area Damage (20% chance)", new Test<SimulationState, Double>() {

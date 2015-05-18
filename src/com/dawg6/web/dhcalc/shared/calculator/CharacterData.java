@@ -61,7 +61,6 @@ public class CharacterData implements Serializable {
 	private boolean retribution;
 	private boolean transgression;
 	private boolean retaliation;
-	private boolean calamityMdf;
 	private int numTargets;
 	private int numAoeTargets;
 	private int weaponMin;
@@ -249,7 +248,6 @@ public class CharacterData implements Serializable {
 		this.bigBadVoodo = other.bigBadVoodo;
 		this.bow = other.bow;
 		this.bp = other.bp;
-		this.calamityMdf = other.calamityMdf;
 		this.caltropsUptime = other.caltropsUptime;
 		this.cdr = other.cdr;
 		this.cdrData = Util.copy(other.cdrData);
@@ -657,11 +655,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isCalamityMdf() {
-		return calamityMdf;
-	}
-
-	public void setCalamityMdf(boolean calamityMdf) {
-		this.calamityMdf = calamityMdf;
+		return isItem(SpecialItemType.Calamity);
 	}
 
 	public boolean isZeis() {
@@ -1021,10 +1015,6 @@ public class CharacterData implements Serializable {
 
 	public void setMfdUptime(double mfdUptime) {
 		this.mfdUptime = mfdUptime;
-	}
-
-	public double getCalamityUptime() {
-		return getItemAttribute(SpecialItemType.Calamity, SpecialItemType.UPTIME);
 	}
 
 	public TargetType getTargetType() {

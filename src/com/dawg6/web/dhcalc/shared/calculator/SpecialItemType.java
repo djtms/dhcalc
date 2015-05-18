@@ -19,7 +19,7 @@ public enum SpecialItemType {
 					3000, 4000)),
 
 	Calamity(Const.CALAMITY, "calamity", false, new Slot[] { Slot.MainHand,
-			Slot.OffHand }, new Attribute(SpecialItemType.UPTIME)),
+			Slot.OffHand } ),
 
 	HellTrapper(Const.HELLTRAPPER, "helltrapper-3tfdaj", false, new Slot[] {
 			Slot.MainHand, Slot.OffHand }, new Attribute(
@@ -61,8 +61,7 @@ public enum SpecialItemType {
 			new Slot[] { Slot.Legs }, new Attribute(SpecialItemType.PERCENT,
 					Const.HEXING_PANTS_PERCENT, 20, 25), new Attribute(SpecialItemType.PERCENT_MOVING)),
 
-	Vaxo(Const.VAXO, "haunt-of-vaxo", false, new Slot[] { Slot.Necklace },
-			new Attribute(SpecialItemType.UPTIME)),
+	Vaxo(Const.VAXO, "haunt-of-vaxo", false, new Slot[] { Slot.Necklace }),
 
 	CoE(Const.COE, "convention-of-elements", false, new Slot[] { Slot.Ring1,
 			Slot.Ring2 }, new Attribute(SpecialItemType.PERCENT,

@@ -37,6 +37,7 @@ public enum Buff {
 	Caltrops("Caltrops/BtT"),
 	MfdPrimary("MfD Primary"),
 	MfdAdditional("MfD Additional"),
+	Vaxo("MfD Vaxo"),
 	Calamity("Calamity MfD"),
 	Hysteria("Hysteria"),
 	N6("Nat's 6 pc bonus"),
