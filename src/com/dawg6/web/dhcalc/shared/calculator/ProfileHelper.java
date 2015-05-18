@@ -680,7 +680,7 @@ public class ProfileHelper {
 				Value<Float> v = i.attributesRaw.get(Const.ELITE_DAMAGE_RAW);
 
 				if (v != null) {
-					elite += Math.round(v.min * 100.0);
+					elite += v.min;
 				}
 
 				v = i.attributesRaw.get(Const.HATRED_PER_SECOND);
@@ -746,7 +746,7 @@ public class ProfileHelper {
 								.get(Const.ELITE_DAMAGE_RAW);
 
 						if (v != null) {
-							elite += Math.round(v.min * 100.0);
+							elite += v.min;
 						}
 					}
 				}

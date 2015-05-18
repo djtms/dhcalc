@@ -1,5 +1,8 @@
 Change Log:
 
+**5/18/15**
+- Fixed error on import of elite damage % from items
+
 **5/14/15**
 - Added Active/Passive uptime for Laws of Valor buff (as with other player IAS buffs, it is only included in calculations if the uptime is 100%; in this case, if the active uptime is 100%, then 15% IAS is added. If the total active+passive uptime is 100%, then 8% IAS is added).
 
