@@ -10,7 +10,9 @@
 
 
 <html>
-<meta http-equiv="expires" content="-1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <link rel="shortcut icon" href="demonhunter_female.ico?v1" type="image/x-icon">
 <link rel="icon" href="demonhunter_female.ico?v1" type="image/x-icon">
 <link rel="stylesheet" type="text/css" media="all"

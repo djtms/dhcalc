@@ -4,7 +4,9 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<meta http-equiv="expires" content="-1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <link type="text/css" rel="stylesheet" href="dhcalc.css?v14">
 <link rel="shortcut icon" href="demonhunter_female.ico?v1" type="image/x-icon">
 <link rel="icon" href="demonhunter_female.ico?v1" type="image/x-icon">
@@ -12,6 +14,25 @@
 <script type="text/javascript" src="dhcalc/dhcalc.nocache.js?v=4"></script>
 <script src="tooltips.js?v=14"></script>
 </head>
+<script>
+//Check if a new cache is available on page load.
+window.addEventListener('load', function(e) {
+
+  window.applicationCache.addEventListener('updateready', function(e) {
+    if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+      // Browser downloaded a new app cache.
+      // Swap it in and reload the page to get the new hotness.
+      window.applicationCache.swapCache();
+      if (confirm('A new version of this site is available. Press OK to reload.')) {
+        window.location.reload();
+      }
+    } else {
+      // Manifest didn't changed. Nothing new to server.
+    }
+  }, false);
+
+}, false);
+</script>
 <body>
 	<iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1'
 		style="position: absolute; width: 0; height: 0; border: 0"></iframe>
@@ -24,6 +45,5 @@
 	<div id="main"></div>
 </body>
 <head>
-<meta http-equiv="expires" content="-1">
 </head>
 </html>
