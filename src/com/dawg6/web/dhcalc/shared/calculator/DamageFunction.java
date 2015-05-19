@@ -74,7 +74,8 @@ public class DamageFunction {
 			new DamageRow(ActiveSkill.EA, Rune.None, 3.0, true,
 					Integer.MAX_VALUE, DamageType.Fire),
 			new DamageRow(ActiveSkill.EA, Rune.Ball_Lightning, 3.0, true,
-					Integer.MAX_VALUE, "Special", DamageType.Lightning, DamageMultiplier.BL),
+					Integer.MAX_VALUE, "Special", DamageType.Lightning,
+					DamageMultiplier.BL),
 			new DamageRow(ActiveSkill.EA, Rune.Frost_Arrow, 3.3, true, 0,
 					DamageType.Cold),
 			new DamageRow(ActiveSkill.EA, Rune.Frost_Arrow, 3.3, false, 10, 10,
@@ -393,11 +394,13 @@ public class DamageFunction {
 
 	public static List<Damage> getDamages(boolean isPlayer, boolean isSentry,
 			String shooter, DamageSource source, SimulationState state) {
-		return getDamages(isPlayer, isSentry, shooter, source, state, state.getTargets().toList());
+		return getDamages(isPlayer, isSentry, shooter, source, state, state
+				.getTargets().toList());
 	}
-	
+
 	public static List<Damage> getDamages(boolean isPlayer, boolean isSentry,
-			String shooter, DamageSource source, SimulationState state, Collection<TargetType> targetTypes) {
+			String shooter, DamageSource source, SimulationState state,
+			Collection<TargetType> targetTypes) {
 		List<Damage> list = new Vector<Damage>();
 
 		int index = 0;
@@ -470,7 +473,7 @@ public class DamageFunction {
 							double wd = baseWd;
 
 							double m = dr.scalar;
-							
+
 							if (dr.source.skill == ActiveSkill.CR) {
 								m = state.getData().getCrashingRainPercent();
 							} else if (dr.source.gem != null) {
@@ -527,42 +530,60 @@ public class DamageFunction {
 							double cc = DamageMultiplier.CC.getValue(state);
 							double iced = DamageMultiplier.Iced.getValue(state);
 							double cd = DamageMultiplier.CHD.getValue(state);
+							double ss = DamageMultiplier.SharpShooter
+									.getValue(state);
 							double caltrops = DamageMultiplier.CaltropsBT
 									.getValue(state);
 							double singleOut = DamageMultiplier.SingleOut
 									.getValue(state);
 
+							int ccCount = ((cc > 0.0) ? 1 : 0)
+									+ ((iced > 0.0) ? 1 : 0)
+									+ ((ss > 0.0) ? 1 : 0)
+									+ ((singleOut > 0.0) ? 1 : 0)
+									+ ((caltrops > 0.0) ? 1 : 0);
+
 							if (dr.multipliers
 									.contains(DamageMultiplier.OnCrit)
 									&& (((cc > 0.0) || (singleOut > 0.0)
-											|| (caltrops > 0.0) || (iced > 0.0)))) {
+											|| (caltrops > 0.0) || (iced > 0.0) || (ss > 0.0)))) {
 								StringBuffer ccStr = new StringBuffer();
+								boolean isFirst = true;
+
+								if (ccCount > 1) {
+									ccStr.append("(");
+								}
 
 								if (cc > 0.0) {
-
-									if ((singleOut > 0.0) || (caltrops > 0.0))
-										ccStr.append("(");
-
 									ccStr.append("CC(" + Util.format(cc) + ")");
+									isFirst = false;
+								}
+
+								if (ss > 0.0) {
+
+									if (!isFirst)
+										ccStr.append(" + ");
+
+									ccStr.append(DamageMultiplier.SharpShooter
+											.getAbbreviation() + "(" + ss + ")");
+
+									isFirst = false;
 								}
 
 								if (singleOut > 0.0) {
-									if (cc > 0.0)
+									if (!isFirst)
 										ccStr.append(" + ");
-									else
-										ccStr.append("(");
 
 									ccStr.append(DamageMultiplier.SingleOut
 											.getAbbreviation()
 											+ "("
 											+ singleOut + ")");
 
-									if (cc > 0.0)
-										ccStr.append(")");
+									isFirst = false;
 								}
 
 								if (caltrops > 0.0) {
-									if ((cc > 0.0) || (singleOut > 0.0))
+									if (!isFirst)
 										ccStr.append(" + ");
 
 									ccStr.append(DamageMultiplier.CaltropsBT
@@ -570,13 +591,11 @@ public class DamageFunction {
 											+ "("
 											+ Util.format(caltrops) + ")");
 
-									if ((cc > 0.0) || (singleOut > 0.0))
-										ccStr.append(")");
+									isFirst = false;
 								}
 
 								if (iced > 0.0) {
-									if ((cc > 0.0) || (singleOut > 0.0)
-											|| (caltrops > 0.0))
+									if (!isFirst)
 										ccStr.append(" + ");
 
 									ccStr.append(DamageMultiplier.Iced
@@ -584,46 +603,57 @@ public class DamageFunction {
 											+ "("
 											+ Util.format(iced) + ")");
 
-									if ((cc > 0.0) || (singleOut > 0.0)
-											|| (caltrops > 0.0))
-										ccStr.append(")");
+									isFirst = false;
 								}
+
+								if (ccCount > 1)
+									ccStr.append(")");
 
 								multBuf.append(" x " + ccStr.toString());
 
 								m *= Math.min(1.0, cc + singleOut + caltrops
-										+ iced);
+										+ iced + ss);
 
 							} else if (((cc > 0.0) || (singleOut > 0.0)
-									|| (caltrops > 0.0) || (iced > 0.0))
+									|| (caltrops > 0.0) || (iced > 0.0) || (ss > 0.0))
 									&& (cd > 0.0)) {
 								StringBuffer ccStr = new StringBuffer();
+								boolean isFirst = true;
+
+								if (ccCount > 1) {
+									ccStr.append("(");
+								}
 
 								if (cc > 0.0) {
-
-									if ((singleOut > 0.0) || (caltrops > 0.0))
-										ccStr.append("(");
-
 									ccStr.append("CC(" + Util.format(cc) + ")");
+									isFirst = false;
+								}
+
+								if (ss > 0.0) {
+
+									if (!isFirst)
+										ccStr.append(" + ");
+
+									ccStr.append(DamageMultiplier.SharpShooter
+											.getAbbreviation() + "(" + ss + ")");
+
+									isFirst = false;
 								}
 
 								if (singleOut > 0.0) {
-									if (cc > 0.0)
+									if (!isFirst)
 										ccStr.append(" + ");
-									else
-										ccStr.append("(");
 
 									ccStr.append(DamageMultiplier.SingleOut
 											.getAbbreviation()
 											+ "("
 											+ singleOut + ")");
 
-									if (cc > 0.0)
-										ccStr.append(")");
+									isFirst = false;
 								}
 
 								if (caltrops > 0.0) {
-									if ((cc > 0.0) || (singleOut > 0.0))
+									if (!isFirst)
 										ccStr.append(" + ");
 
 									ccStr.append(DamageMultiplier.CaltropsBT
@@ -631,13 +661,11 @@ public class DamageFunction {
 											+ "("
 											+ Util.format(caltrops) + ")");
 
-									if ((cc > 0.0) || (singleOut > 0.0))
-										ccStr.append(")");
+									isFirst = false;
 								}
 
 								if (iced > 0.0) {
-									if ((cc > 0.0) || (singleOut > 0.0)
-											|| (caltrops > 0.0))
+									if (!isFirst)
 										ccStr.append(" + ");
 
 									ccStr.append(DamageMultiplier.Iced
@@ -645,16 +673,17 @@ public class DamageFunction {
 											+ "("
 											+ Util.format(iced) + ")");
 
-									if ((cc > 0.0) || (singleOut > 0.0)
-											|| (caltrops > 0.0))
-										ccStr.append(")");
+									isFirst = false;
 								}
 
-								multBuf.append(" x (1 + (" + ccStr.toString()
-										+ " x CHD(" + Util.format(cd) + ")))");
+								if (ccCount > 1)
+									ccStr.append(")");
+
+								multBuf.append(" x (1 + " + ccStr.toString()
+										+ " x CHD(" + Util.format(cd) + "))");
 
 								m *= (1.0 + (Math.min(1.0, cc + singleOut
-										+ caltrops + iced) * cd));
+										+ caltrops + iced + ss) * cd));
 							}
 							// }
 
@@ -701,13 +730,17 @@ public class DamageFunction {
 									double v = dw.getValue(state);
 
 									// Check for CoE Damage Type and Buff
-									if ((dw == DamageMultiplier.COE) && (v > 0.0)) {
-										int i = Util.indexOf(CoEBuffEvent.TYPES, dr.type);
+									if ((dw == DamageMultiplier.COE)
+											&& (v > 0.0)) {
+										int i = Util.indexOf(
+												CoEBuffEvent.TYPES, dr.type);
 
-										if ((i < 0) || !state.getBuffs().isActive(CoEBuffEvent.BUFFS[i]))
+										if ((i < 0)
+												|| !state.getBuffs().isActive(
+														CoEBuffEvent.BUFFS[i]))
 											v = 0.0;
 									}
-									
+
 									if (Math.abs(v) > 0.0) {
 
 										if (dw.getAccumulator() == DamageAccumulator.Multiplicative) {
@@ -731,20 +764,19 @@ public class DamageFunction {
 
 												addBuf.append(" + "
 														+ dw.getAbbreviation()
-														+ "("
-														+ Util.format(v)
+														+ "(" + Util.format(v)
 														+ ")");
 											} else {
-												int n = Math.min(maxAdd, state.getTargets().getNumAlive() - 1);
+												int n = Math.min(maxAdd, state
+														.getTargets()
+														.getNumAlive() - 1);
 
 												if (n > 0) {
 													a += (v * n);
 
 													addBuf.append(" + "
 															+ dw.getAbbreviation()
-															+ "("
-															+ n
-															+ " X "
+															+ "(" + n + " X "
 															+ Util.format(v)
 															+ ")");
 												}

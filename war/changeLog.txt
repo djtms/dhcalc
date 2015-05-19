@@ -1,5 +1,8 @@
 Change Log:
 
+**next**
+- Added SharpShooter passive mechanics
+
 **5/18/15**
 - Fixed error on import of elite damage % from items
 - MfD from Haunt of Vaxo no longer stacks with MfD cast by player or from Calamity

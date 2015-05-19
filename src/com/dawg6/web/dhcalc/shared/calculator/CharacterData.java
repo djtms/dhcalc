@@ -161,6 +161,7 @@ public class CharacterData implements Serializable {
 	private double stretchTimeUptime;
 	private Map<GemSkill, GemAttributeData> gems;
 	private Map<SpecialItemType, AttributeData> specialItems;
+	private double sharpshooterCC;
 
 	public CharacterData copy() {
 		return new CharacterData(this);
@@ -338,6 +339,7 @@ public class CharacterData implements Serializable {
 		this.sentryDps = other.sentryDps;
 		this.setCounts = Util.copy(other.setCounts);
 		this.sets = Util.copy(other.sets);
+		this.sharpshooterCC = other.sharpshooterCC;
 		this.specialItems = copyItems(other.specialItems);
 		this.sheetDps = other.sheetDps;
 		this.skillDamage = Util.copy(other.skillDamage);
@@ -521,6 +523,10 @@ public class CharacterData implements Serializable {
 
 	public boolean isSteadyAim() {
 		return passives.contains(Passive.Steady_Aim);
+	}
+
+	public boolean isSharpshooter() {
+		return passives.contains(Passive.Sharpshooter);
 	}
 
 	public boolean isWolf() {
@@ -2026,5 +2032,13 @@ public class CharacterData implements Serializable {
 
 	public void setValorActiveUptime(double valorActiveUptime) {
 		this.valorActiveUptime = valorActiveUptime;
+	}
+
+	public double getSharpshooterCC() {
+		return sharpshooterCC;
+	}
+
+	public void setSharpshooterCC(double sharpshooterCC) {
+		this.sharpshooterCC = sharpshooterCC;
 	}
 }

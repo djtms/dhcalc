@@ -29,6 +29,8 @@ public class FiringData {
 
 		EventQueue eventQueue = new EventQueue();
 		
+		data.setSharpshooterCC(SharpshooterSimulator.getValue(data));
+		
 		TargetList targets = new TargetList();
 		DamageResult result = new DamageResult();
 

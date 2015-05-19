@@ -55,7 +55,14 @@ public enum DamageMultiplier {
 				public Double getValue(SimulationState state) {
 					return state.getData().getPhysDamage();
 				}
-			}), Lightning("Lightning", DamageAccumulator.ElementalAdditive,
+			}), SharpShooter("SS", DamageAccumulator.Special, "SharpShooter Bonus (+4% crit chance/second after last crit)",
+			new Test<SimulationState, Double>(){
+
+				@Override
+				public Double getValue(SimulationState data) {
+					return data.getData().isSharpshooter() ? data.getData().getSharpshooterCC() : 0.0;
+				}}),
+			Lightning("Lightning", DamageAccumulator.ElementalAdditive,
 			"Lightning Elemental Damage Bonus",
 			new Test<SimulationState, Double>() {
 				@Override
