@@ -44,7 +44,7 @@ public enum SpecialItemType {
 
 	Spines(Const.SPINES, "spines-of-seething-hatred", false,
 			new Slot[] { Slot.OffHand }, new Attribute(SpecialItemType.HATRED,
-					Const.SPINES_HATRED, 3, 4)),
+					Const.SPINES_HATRED, 3, 4, 1.0)),
 
 	DML(Const.DML, "dead-mans-legacy", false, new Slot[] { Slot.OffHand },
 			new Attribute(SpecialItemType.PERCENT, Const.DML_PERCENT, 50, 60)),

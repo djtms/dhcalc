@@ -1,7 +1,8 @@
 Change Log:
 
-**next**
+**5/20/15**
 - Added SharpShooter passive mechanics
+- Fixed problem that prevented Spines of Seething Hatred from making Chakram a generator
 
 **5/18/15**
 - Fixed error on import of elite damage % from items
