@@ -72,7 +72,7 @@ public abstract class StatAdapter {
 			GemAttributeData gd = data.getGems().get(gem);
 			
 			if (gd != null) {
-				gd.level++;
+				gd.level += (int)inc;
 			}
 		}
 
