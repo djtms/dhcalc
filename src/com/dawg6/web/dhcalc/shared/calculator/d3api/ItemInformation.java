@@ -30,6 +30,8 @@ public class ItemInformation extends D3Message implements Serializable {
 	public String icon;
 	public String displayColor;
 	public String tooltipParams;
+	public String[] setItemsEquipped;
+	public Integer stackSizeMax;
 	public ItemInformation transmogItem;
 	public Integer requiredLevel;
 	public Integer itemLevel;
@@ -37,8 +39,16 @@ public class ItemInformation extends D3Message implements Serializable {
 	public Integer bonusAffixesMax;
 	public Boolean accountBound;
 	public String flavorText;
+	public DyeColor dyeColor;
 	public String typeName;
 
+	public static class DyeColor implements Serializable {
+
+		private static final long serialVersionUID = 8320529854519293317L;
+
+		public ItemInformation item;
+	}
+	
 	public static class Type implements Serializable {
 
 		private static final long serialVersionUID = 1L;
@@ -50,12 +60,13 @@ public class ItemInformation extends D3Message implements Serializable {
 
 	public Type type;
 
+	public String damageRange;
 	public Value<Integer> armor;
 	public Value<Float> dps;
 	public Value<Float> attacksPerSecond;
 	public Value<Float> minDamage;
 	public Value<Float> maxDamage;
-	public Value<Float> blockChance;
+//	public String blockChance;
 	public String[] slots;
 
 	public Attributes attributes;

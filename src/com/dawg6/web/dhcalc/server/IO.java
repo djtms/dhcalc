@@ -26,6 +26,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.dawg6.web.dhcalc.server.db.couchdb.CouchDBDHCalcParameters;
@@ -285,7 +286,16 @@ public class IO {
             }
             br.close();
 
-            return mapper.readValue(sb.toString(), clazz);
+            try {
+            	mapper = mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            	
+            	return mapper.readValue(sb.toString(), clazz);
+            } catch (Exception e) {
+            	log.severe("JSON = " + sb.toString());
+            	log.log(Level.SEVERE, e.getMessage());
+            	
+            	return null;
+            }
         }
         
         return null;
