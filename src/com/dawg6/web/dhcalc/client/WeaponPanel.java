@@ -49,12 +49,14 @@ public class WeaponPanel extends Composite {
 	private double weaponDps;
 	private boolean disableUpdates = false;
 	private double averageDamage;
+	private final boolean offHand;
 
 	public WeaponPanel() {
-		this("Weapon");
+		this("Weapon", false);
 	}
 
-	public WeaponPanel(String title) {
+	public WeaponPanel(String title, boolean offHand) {
+		this.offHand = offHand;
 		captionPanel = new CaptionPanel(title);
 		initWidget(captionPanel);
 
@@ -193,7 +195,9 @@ public class WeaponPanel extends Composite {
 		weaponType.addItem("None", "");
 
 		for (WeaponType wt : WeaponType.values()) {
-			weaponType.addItem(wt.getName(), wt.name());
+			
+			if (!offHand || (wt == WeaponType.HandCrossbow))
+				weaponType.addItem(wt.getName(), wt.name());
 		}
 
 		weaponType.setSelectedIndex(0);

@@ -131,8 +131,6 @@ public class CharacterData implements Serializable {
 	private double weaponAps;
 	private double offHand_weaponDps;
 	private double offHand_weaponAps;
-	private int bp;
-	private double sentryDps;
 	private double equipCritChance;
 	private double equipCritDamage;
 	private boolean hasBombardiers;
@@ -212,7 +210,7 @@ public class CharacterData implements Serializable {
 		numHealthGlobes = 1;
 		delay = 50;
 		// rovKilled = 0;
-		// duration = BreakPoint.DURATION;
+		// duration = OldSentryBreakPoint.DURATION;
 		primaryTargetType = MonsterType.RiftGuardian;
 		additionalTargetType = MonsterType.NonElite;
 		riftLevel = 25;
@@ -248,7 +246,6 @@ public class CharacterData implements Serializable {
 		this.bbvUptime = other.bbvUptime;
 		this.bigBadVoodo = other.bigBadVoodo;
 		this.bow = other.bow;
-		this.bp = other.bp;
 		this.caltropsUptime = other.caltropsUptime;
 		this.cdr = other.cdr;
 		this.cdrData = Util.copy(other.cdrData);
@@ -336,7 +333,6 @@ public class CharacterData implements Serializable {
 		this.retributionUptime = other.retributionUptime;
 		this.riftLevel = other.riftLevel;
 		this.seasonal = other.seasonal;
-		this.sentryDps = other.sentryDps;
 		this.setCounts = Util.copy(other.setCounts);
 		this.sets = Util.copy(other.sets);
 		this.sharpshooterCC = other.sharpshooterCC;
@@ -1352,22 +1348,6 @@ public class CharacterData implements Serializable {
 
 	public void setWeaponDps(double weaponDps) {
 		this.weaponDps = weaponDps;
-	}
-
-	public int getBp() {
-		return bp;
-	}
-
-	public void setBp(int bp) {
-		this.bp = bp;
-	}
-
-	public double getSentryDps() {
-		return sentryDps;
-	}
-
-	public void setSentryDps(double sentryDps) {
-		this.sentryDps = sentryDps;
 	}
 
 	public double getEquipCritChance() {

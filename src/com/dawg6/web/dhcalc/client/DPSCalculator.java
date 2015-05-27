@@ -18,10 +18,20 @@
  *******************************************************************************/
 package com.dawg6.web.dhcalc.client;
 
-import com.dawg6.web.dhcalc.shared.calculator.BreakPoint;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+import java.util.Vector;
+
+import com.dawg6.gwt.common.util.Pair;
+import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
+import com.dawg6.web.dhcalc.shared.calculator.Breakpoint;
 import com.dawg6.web.dhcalc.shared.calculator.CharacterData;
+import com.dawg6.web.dhcalc.shared.calculator.DamageFunction;
 import com.dawg6.web.dhcalc.shared.calculator.GemSkill;
 import com.dawg6.web.dhcalc.shared.calculator.Passive;
+import com.dawg6.web.dhcalc.shared.calculator.SkillType;
 import com.dawg6.web.dhcalc.shared.calculator.Util;
 import com.dawg6.web.dhcalc.shared.calculator.WeaponType;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -48,14 +58,15 @@ public class DPSCalculator extends BasePanel {
 	private final Label actualCD;
 	private final Label petAps;
 	private final Label breakpoint;
-	private final Label sentryAps;
+	private final Label actualAps;
 	private double sheetDps;
 	private double sheetAps;
 	private double totalCC;
 	private double totalCD;
 	private final Label nextBP;
 	private final ListBox iasType;
-	private BreakPoint bp;
+	private Breakpoint bp;
+	private Breakpoint.Data currentBp;
 	private double petApsValue;
 	private double eIas;
 	private double wIas;
@@ -63,8 +74,7 @@ public class DPSCalculator extends BasePanel {
 	private double petIasValue;
 	private final Label prevBP;
 	private boolean disableListeners;
-	private final Label sentryAttacks;
-	private final Label sentryDps;
+	private final Label fpaLabel;
 	private double sentryDpsValue;
 	private double buffIas;
 	private double focusedMind;
@@ -77,6 +87,9 @@ public class DPSCalculator extends BasePanel {
 	private final MainPanel main;
 	private double averageDamage;
 	private double offHand_averageDamage;
+	private final ListBox skillBox;
+	private double mainHand_Aps;
+	private double offHand_aps;
 
 	public DPSCalculator(MainPanel main) {
 
@@ -105,11 +118,11 @@ public class DPSCalculator extends BasePanel {
 		grid.setCellPadding(5);
 		initWidget(grid);
 
-		mainHand = new WeaponPanel("Main Hand");
+		mainHand = new WeaponPanel("Main Hand", false);
 		grid.setWidget(0, 0, mainHand);
 		grid.getFlexCellFormatter().setColSpan(0, 0, 2);
 
-		offHand = new WeaponPanel("Off Hand");
+		offHand = new WeaponPanel("Off Hand", true);
 		grid.setWidget(1, 0, offHand);
 		grid.getFlexCellFormatter().setColSpan(1, 0, 2);
 
@@ -217,7 +230,7 @@ public class DPSCalculator extends BasePanel {
 		dexterity.addChangeHandler(handler);
 
 		CaptionPanel cptnpnlNewPanel_6 = new CaptionPanel(
-				"Sentry Breakpoint Calculator");
+				"Breakpoint Calculator");
 		grid.setWidget(3, 0, cptnpnlNewPanel_6);
 		grid.getFlexCellFormatter().setColSpan(3, 0, 2);
 
@@ -235,14 +248,14 @@ public class DPSCalculator extends BasePanel {
 		flexTable_6.setWidget(0, 1, dps);
 		dps.setStyleName("boldText");
 
-		Label lblBreakPoint = new Label("Sentry Break Point:");
-		flexTable_6.setWidget(0, 2, lblBreakPoint);
+		Label lblBreakPoint = new Label("Break Point #:");
+		flexTable_6.setWidget(1, 2, lblBreakPoint);
 		lblBreakPoint.setWordWrap(false);
 		lblBreakPoint.setStyleName("boldText");
 
 		breakpoint = new Label("0");
-		breakpoint.setTitle("Sentry Break Point #");
-		flexTable_6.setWidget(0, 3, breakpoint);
+		breakpoint.setTitle("Break Point # for selected skill");
+		flexTable_6.setWidget(1, 3, breakpoint);
 		breakpoint.setStyleName("boldText");
 
 		CaptionPanel cptnpnlNewPanel = new CaptionPanel(
@@ -254,37 +267,80 @@ public class DPSCalculator extends BasePanel {
 		flexTable.setCellPadding(2);
 		cptnpnlNewPanel.setContentWidget(flexTable);
 
+		Label skill = new Label("Skill:");
+		skill.setWordWrap(false);
+		flexTable.setWidget(0, 0, skill);
+
+		skillBox = new ListBox();
+		skillBox.setWidth("100%");
+		flexTable.setWidget(0, 1, skillBox);
+		
+		List<Pair<String, String>> list = new Vector<Pair<String, String>>();
+		
+		for (ActiveSkill s : ActiveSkill.values()) {
+			
+			if (DamageFunction.hasDamage(s) && (s.getFrames() != 0))
+				list.add(new Pair<String, String>(s.getLongName(), s.name()));
+		}
+		
+		Collections.sort(list, new Comparator<Pair<String, String>>(){
+
+			@Override
+			public int compare(Pair<String, String> o1, Pair<String, String> o2) {
+				return o1.getA().toLowerCase().compareTo(o2.getA().toLowerCase());
+			}});
+
+		for (Pair<String, String> p : list) {
+			skillBox.addItem(p.getA(), p.getB());
+		}
+		
+		skillBox.setSelectedIndex(0);
+
+		skillBox.addChangeHandler(new ChangeHandler(){
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				bpDataChanged();
+			}});
+
+		
 		Label lblWithRepectTo = new Label("With Repect To:");
 		lblWithRepectTo.setWordWrap(false);
-		flexTable.setWidget(0, 0, lblWithRepectTo);
+		flexTable.setWidget(1, 0, lblWithRepectTo);
 
 		iasType = new ListBox();
-		flexTable.setWidget(0, 1, iasType);
+		flexTable.setWidget(1, 1, iasType);
+		iasType.setWidth("100%");
 		iasType.setSelectedIndex(0);
 
 		Label lblApsForNext = new Label("IAS for next BP:");
-		flexTable.setWidget(1, 0, lblApsForNext);
+		flexTable.setWidget(2, 0, lblApsForNext);
 		lblApsForNext.setWordWrap(false);
 		lblApsForNext.setStyleName("boldText");
 
 		nextBP = new Label("0");
 		nextBP.setTitle("IAS needed for next BP");
-		flexTable.setWidget(1, 1, nextBP);
+		flexTable.setWidget(2, 1, nextBP);
 		nextBP.setWordWrap(false);
 		nextBP.setStyleName("boldText");
 
 		Label lblextraIas = new Label("\"Extra\" IAS:");
-		flexTable.setWidget(2, 0, lblextraIas);
+		flexTable.setWidget(3, 0, lblextraIas);
 		lblextraIas.setWordWrap(false);
 		lblextraIas.setStyleName("boldText");
 
 		prevBP = new Label("0");
 		prevBP.setTitle("Extra IAS that can be removed without lowering BP");
-		flexTable.setWidget(2, 1, prevBP);
+		flexTable.setWidget(3, 1, prevBP);
 		prevBP.setWordWrap(false);
 		prevBP.setStyleName("boldText");
 
-		iasType.addChangeHandler(handler);
+		iasType.addChangeHandler(new ChangeHandler(){
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				bpDataChanged();
+			}});
 
 		Label lblNewLabel_7b = new Label("Player APS:");
 		flexTable_6.setWidget(1, 0, lblNewLabel_7b);
@@ -297,13 +353,13 @@ public class DPSCalculator extends BasePanel {
 		aps.setStyleName("boldText");
 
 		Label lblPetAps = new Label("Pet APS:");
-		flexTable_6.setWidget(1, 2, lblPetAps);
+		flexTable_6.setWidget(0, 2, lblPetAps);
 		lblPetAps.setWordWrap(false);
 		lblPetAps.setStyleName("boldText");
 
 		petAps = new Label("0.0");
-		petAps.setTitle("Calculated Pet APS (determines which Sentry BP)");
-		flexTable_6.setWidget(1, 3, petAps);
+		petAps.setTitle("Calculated Pet/Sentry APS");
+		flexTable_6.setWidget(0, 3, petAps);
 		petAps.setStyleName("boldText");
 
 		Label lblTotal = new Label("Total Crit Chance:");
@@ -315,17 +371,15 @@ public class DPSCalculator extends BasePanel {
 		flexTable_6.setWidget(2, 1, actualCC);
 		actualCC.setStyleName("boldText");
 
-		Label lblAttacksPer = new Label("Attacks/" + BreakPoint.DURATION
-				+ "sec:");
+		Label lblAttacksPer = new Label("FPA");
 		lblAttacksPer.setWordWrap(false);
 		lblAttacksPer.setStyleName("boldText");
 		flexTable_6.setWidget(2, 2, lblAttacksPer);
 
-		sentryAttacks = new Label("0");
-		sentryAttacks.setTitle("# of Sentry Attacks over "
-				+ BreakPoint.DURATION + " seconds.");
-		sentryAttacks.setStyleName("boldText");
-		flexTable_6.setWidget(2, 3, sentryAttacks);
+		fpaLabel = new Label("0");
+		fpaLabel.setTitle("Frames per Attack");
+		fpaLabel.setStyleName("boldText");
+		flexTable_6.setWidget(2, 3, fpaLabel);
 
 		Label lblTotalCritDamage = new Label("Total Crit Hit Damage:");
 		flexTable_6.setWidget(3, 0, lblTotalCritDamage);
@@ -336,15 +390,15 @@ public class DPSCalculator extends BasePanel {
 		flexTable_6.setWidget(3, 1, actualCD);
 		actualCD.setStyleName("boldText");
 
-		Label lblBpAps = new Label("Sentry APS:");
+		Label lblBpAps = new Label("Actual APS:");
 		flexTable_6.setWidget(3, 2, lblBpAps);
 		lblBpAps.setWordWrap(false);
 		lblBpAps.setStyleName("boldText");
 
-		sentryAps = new Label("0");
-		sentryAps.setTitle("Actual Sentry APS (based on BP)");
-		flexTable_6.setWidget(3, 3, sentryAps);
-		sentryAps.setStyleName("boldText");
+		actualAps = new Label("0");
+		actualAps.setTitle("Actual APS (based on Breakpoint)");
+		flexTable_6.setWidget(3, 3, actualAps);
+		actualAps.setStyleName("boldText");
 
 		Label lblTotalDexterity = new Label("Total Dexterity:");
 		lblTotalDexterity.setStyleName("boldText");
@@ -356,15 +410,6 @@ public class DPSCalculator extends BasePanel {
 		dexterityLabel.setStyleName("boldText");
 		flexTable_6.setWidget(4, 1, dexterityLabel);
 
-		Label lblSentryDps = new Label("Sentry Base DPS:");
-		lblSentryDps.setWordWrap(false);
-		lblSentryDps.setStyleName("boldText");
-		flexTable_6.setWidget(4, 2, lblSentryDps);
-
-		sentryDps = new Label("0");
-		sentryDps.setTitle("Base Sentry DPS (includes Crit, Dex)");
-		sentryDps.setStyleName("boldText");
-		flexTable_6.setWidget(4, 3, sentryDps);
 		flexTable_6.getFlexCellFormatter().setRowSpan(0, 4, 5);
 		flexTable_6.getCellFormatter().setVerticalAlignment(0, 4,
 				HasVerticalAlignment.ALIGN_TOP);
@@ -401,47 +446,67 @@ public class DPSCalculator extends BasePanel {
 		offHand.getAddMax().addChangeHandler(handler);
 		offHand.getWeaponIAS().addChangeHandler(handler);
 		offHand.getWeaponDamage().addChangeHandler(handler);
+		
 	}
 
-	protected void iasTypeChanged() {
-		int index = iasType.getSelectedIndex();
-
-		if (index < 0)
-			index = 0;
-
-		String value = iasType.getValue(index);
-		IasType type = IasType.valueOf(value);
-
-		updateIasType(type);
+	protected void bpDataChanged() {
+		updateBpData();
 	}
 
-	private void updateIasType(IasType type) {
+	private IasType getSelectedIasType() {
+		int n = this.iasType.getSelectedIndex();
+		
+		if (n < 0)
+			return null;
+		
+		return IasType.valueOf(iasType.getValue(n));
+	}
 
-		BreakPoint next = bp.next();
-		BreakPoint prev = bp.prev();
+	private ActiveSkill getSelectedSkill() {
+		int n = skillBox.getSelectedIndex();
+		
+		if (n < 0)
+			return null;
+		
+		return ActiveSkill.valueOf(skillBox.getValue(n));
+	}
+
+	private void updateBpData() {
+
+		ActiveSkill skill = getSelectedSkill();
+		IasType type = getSelectedIasType();
+		this.bp = getBreakpoint();
+		this.currentBp = bp.get((skill == ActiveSkill.BOLT) ? this.petApsValue : this.sheetAps);
+		
+		this.breakpoint.setText(String.valueOf(this.currentBp.bp));
+		this.actualAps.setText(Util.format(this.currentBp.actualAps));
+		this.fpaLabel.setText(String.valueOf(this.currentBp.fpa));
+
+		Breakpoint.Data next = bp.next(this.currentBp);
+		Breakpoint.Data prev = bp.prev(this.currentBp);
 
 		if (next != null) {
 			double nextBp = 0.0;
-			double without = petApsValue;
+			double without = (skill == ActiveSkill.BOLT) ? this.petApsValue : this.sheetAps;
 
 			switch (type) {
 
 			case Weapon:
 				without = petApsValue / (1.0 + this.wIas);
-				nextBp = (next.getAps() / without) - 1.0;
+				nextBp = (next.minAps / without) - 1.0;
 				nextBp -= this.wIas;
 				break;
 			case Equipment:
 				without = petApsValue
 						/ (1.0 + this.eIas + this.pIas + focusedMind + gogokIas
 								+ painEnhancerIas + buffIas);
-				nextBp = (next.getAps() / without) - 1.0;
+				nextBp = (next.minAps / without) - 1.0;
 				nextBp -= (this.eIas + this.pIas + focusedMind + gogokIas
 						+ painEnhancerIas + buffIas);
 				break;
 			case Pet:
 				without = petApsValue / (1.0 + this.petIasValue);
-				nextBp = (next.getAps() / without) - 1.0;
+				nextBp = (next.minAps / without) - 1.0;
 				nextBp -= this.petIasValue;
 				break;
 			default:
@@ -453,7 +518,7 @@ public class DPSCalculator extends BasePanel {
 		}
 
 		if (prev != null) {
-			double without = petApsValue;
+			double without = (skill == ActiveSkill.BOLT) ? this.petApsValue : this.sheetAps;
 			double prevBp = 0.0;
 
 			switch (type) {
@@ -461,8 +526,8 @@ public class DPSCalculator extends BasePanel {
 			case Weapon:
 				without = petApsValue / (1.0 + this.wIas);
 
-				if (without < bp.getAps()) {
-					prevBp = (bp.getAps() / without) - 1.0;
+				if (without < currentBp.minAps) {
+					prevBp = (currentBp.minAps / without) - 1.0;
 				}
 				prevBp = this.wIas - prevBp;
 
@@ -470,8 +535,8 @@ public class DPSCalculator extends BasePanel {
 			case Equipment:
 				without = petApsValue / (1.0 + this.eIas + this.pIas);
 
-				if (without < bp.getAps()) {
-					prevBp = (bp.getAps() / without) - 1.0;
+				if (without < currentBp.minAps) {
+					prevBp = (currentBp.minAps / without) - 1.0;
 				}
 				prevBp = (this.eIas + this.pIas) - prevBp;
 
@@ -479,8 +544,8 @@ public class DPSCalculator extends BasePanel {
 			case Pet:
 				without = petApsValue / (1.0 + this.petIasValue);
 
-				if (without < bp.getAps()) {
-					prevBp = (bp.getAps() / without) - 1.0;
+				if (without < currentBp.minAps) {
+					prevBp = (currentBp.minAps / without) - 1.0;
 				}
 				prevBp = this.petIasValue - prevBp;
 
@@ -644,8 +709,8 @@ public class DPSCalculator extends BasePanel {
 		this.pIas = getValue(main.getParagonPanel().getParagonIAS()) * 0.002;
 		focusedMind = (main.getBuffPanel().getFocusedMind().getValue() ? 0.03
 				: 0.0);
-		gogokIas = main.getGemPanel().isGem(GemSkill.Gogok) ? (main
-				.getGemPanel().getGemLevel(GemSkill.Gogok) / 100.0) : 0.0;
+		gogokIas = (main.getGemPanel().isGem(GemSkill.Gogok) && (main.getGemPanel().getGemLevel(GemSkill.Gogok) >= 25)) ? (main
+				.getGemPanel().getGemAttribute(GemSkill.Gogok, GemSkill.STACKS) / 100.0) : 0.0;
 		painEnhancerIas = (main.getGemPanel().isGem(GemSkill.PainEnhancer) && main
 				.getGemPanel().getGemLevel(GemSkill.PainEnhancer) >= 25) ? (main
 				.getGemPanel().getGemAttribute(GemSkill.PainEnhancer,
@@ -653,12 +718,12 @@ public class DPSCalculator extends BasePanel {
 
 		double dwIas = (offHand_type != null) ? 0.15 : 0.0;
 
-		double aps = type.getAps()
+		mainHand_Aps = type.getAps()
 				* (1.0 + wIas)
 				* (1.0 + eIas + pIas + focusedMind + gogokIas + painEnhancerIas
 						+ buffIas + dwIas);
 
-		double offHand_aps = (offHand_type == null) ? 0.0 : (offHand_type
+		offHand_aps = (offHand_type == null) ? 0.0 : (offHand_type
 				.getAps() * (1.0 + offHand_wIas) * (1.0 + eIas + pIas
 				+ focusedMind + gogokIas + painEnhancerIas + buffIas + dwIas));
 
@@ -666,7 +731,7 @@ public class DPSCalculator extends BasePanel {
 
 		this.offHand_averageDamage = ((offHand_min + offHand_max) / 2.0);
 
-		double mainHand_dps = averageDamage * aps
+		double mainHand_dps = averageDamage * mainHand_Aps
 				* (1.0 + critChance * critDamage) * (1.0 + (dex / 100.0))
 				* (1.0 + aDam);
 
@@ -675,16 +740,16 @@ public class DPSCalculator extends BasePanel {
 						* (1.0 + critChance * critDamage)
 						* (1.0 + (dex / 100.0)) * (1.0 + aDam));
 
-		double dw_aps = (aps + offHand_aps) / 2.0;
+		double dw_aps = (mainHand_Aps + offHand_aps) / 2.0;
 		double dw_averageDamage = (averageDamage + offHand_averageDamage) / 2.0;
-		double totalDps = (offHand_type == null) ? (averageDamage * aps
+		double totalDps = (offHand_type == null) ? (averageDamage * mainHand_Aps
 				* (1.0 + critChance * critDamage) * (1.0 + (dex / 100.0)) * (1.0 + aDam))
 				: (dw_averageDamage * dw_aps * (1.0 + critChance * critDamage)
 						* (1.0 + (dex / 100.0)) * (1.0 + aDam));
 
 		this.sheetDps = Math.round(totalDps * 10.0) / 10.0;
 		this.dps.setText(Util.format(sheetDps));
-		this.sheetAps = (offHand_type == null) ? aps : dw_aps;
+		this.sheetAps = (offHand_type == null) ? mainHand_Aps : dw_aps;
 		this.aps.setText(Util.format((Math.round(sheetAps * 1000.0) / 1000.0)));
 
 		this.totalCC = critChance;
@@ -694,23 +759,30 @@ public class DPSCalculator extends BasePanel {
 
 		this.petIasValue = main.getItemPanel().isTnt() ? main
 				.getItemPanel().getTntPercent()  : 0.0;
-		this.petApsValue = aps * (1.0 + petIasValue);
+		this.petApsValue = Math.round(mainHand_Aps * 1000.0 * (1.0 + petIasValue)) / 1000.0;
 		this.petAps.setText(Util.format(petApsValue));
-		this.bp = BreakPoint.get(petApsValue);
-		this.breakpoint.setText(String.valueOf(bp.getBp()));
-
-		double sentryAps = bp.getQty() / (double) BreakPoint.DURATION;
-		this.sentryAps.setText(Util.format(sentryAps));
-		this.sentryAttacks.setText(String.valueOf(bp.getQty()));
-
-		sentryDpsValue = averageDamage * sentryAps
-				* (1.0 + critChance * critDamage) * (1.0 + (dex / 100.0))
-				* (1.0 + aDam);
-		this.sentryDps.setText(Util.format(Math.round(sentryDpsValue)));
-
+		
 		this.dexterityLabel.setText(String.valueOf(this.getTotalDexterity()));
 
-		this.iasTypeChanged();
+		this.bpDataChanged();
+	}
+
+	private Breakpoint getBreakpoint() {
+		ActiveSkill skill = getSelectedSkill();
+		
+		int frames = skill.getFrames();
+		
+		if (frames < 0) {
+			WeaponType type = mainHand.getWeaponTypeEnum();
+			
+			if (type == null) {
+				type = WeaponType.Bow;
+			}
+			
+			frames = type.getFrames();
+		}
+		
+		return new Breakpoint(frames);
 	}
 
 	public double getSentryDps() {
@@ -762,9 +834,27 @@ public class DPSCalculator extends BasePanel {
 
 		calculate();
 
+		setDefaultSkill(data.getSkills().keySet());
+		
 		saveForm();
 	}
 
+	public void setDefaultSkill(Set<ActiveSkill> skills) {
+		ActiveSkill spender = null;
+
+		for (ActiveSkill s : skills) {
+			if (s.getFrames() != 0) {
+				if ((spender == null) || (s.getSkillType() == SkillType.Spender) || (s.getSkillType() == SkillType.Channeled)) {
+					spender = s;
+				}
+			}
+		}
+		
+		if (spender != null) {
+			this.setSelectedSkill(spender);
+		}
+	}
+	
 	public double getSheetAps() {
 		return sheetAps;
 	}
@@ -869,5 +959,17 @@ public class DPSCalculator extends BasePanel {
 
 	public double getJewelryMax() {
 		return this.maxJewelDamage.getValue();
+	}
+	
+	public void setSelectedSkill(ActiveSkill skill) {
+		int num = skillBox.getItemCount();
+		String name = skill.name();
+		
+		for (int i = 0; i < num; i++) {
+			if (name.equals(skillBox.getValue(i))) {
+				skillBox.setSelectedIndex(i);
+				return ;
+			}
+		}
 	}
 }

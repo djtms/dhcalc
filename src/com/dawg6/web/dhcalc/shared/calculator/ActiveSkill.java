@@ -28,105 +28,109 @@ public enum ActiveSkill {
 	CA(SkillType.Spender, "CA", "Cluster Arrow", -40, DamageMultiplier.CA, new Rune[] { Rune.None,
 			Rune.Dazzling_Arrow, Rune.Shooting_Stars, Rune.Maelstrom,
 			Rune.Cluster_Bombs, Rune.Loaded_For_Bear },
-			"http://us.battle.net/d3/en/class/demon-hunter/active/cluster-arrow"),
+			"http://us.battle.net/d3/en/class/demon-hunter/active/cluster-arrow", 18),
 
 	MS(SkillType.Spender, "MS", "Multishot", -25, DamageMultiplier.MS, new Rune[] { Rune.None,
 			Rune.Fire_at_Will, Rune.Burst_Fire, Rune.Suppression_Fire,
 			Rune.Full_Broadside, Rune.Arsenal },
-			"http://us.battle.net/d3/en/class/demon-hunter/active/multishot"),
+			"http://us.battle.net/d3/en/class/demon-hunter/active/multishot", 18),
 
 	EA(SkillType.Spender, "EA", "Elemental Arrow", -10, DamageMultiplier.EA, new Rune[] { Rune.None,
 			Rune.Ball_Lightning, Rune.Frost_Arrow, Rune.Immolation_Arrow,
 			Rune.Lightning_Bolts, Rune.Nether_Tentacles },
-			"http://us.battle.net/d3/en/class/demon-hunter/active/elemental-arrow"),
+			"http://us.battle.net/d3/en/class/demon-hunter/active/elemental-arrow", 18),
 
 	IMP(SkillType.Spender, "Imp", "Impale", -20, DamageMultiplier.IMP, new Rune[] { Rune.None,
 			Rune.Impact, Rune.Chemical_Burn, Rune.Overpenetration,
 			Rune.Ricochet, Rune.Grievous_Wounds },
-			"http://us.battle.net/d3/en/class/demon-hunter/active/impale"),
+			"http://us.battle.net/d3/en/class/demon-hunter/active/impale", 31),
 
 	CHAK(SkillType.Spender, "Chak", "Chakram", -10, DamageMultiplier.CHAK, new Rune[] { Rune.None,
 			Rune.Twin_Chakrams, Rune.Serpentine, Rune.Razor_Disk,
 			Rune.Boomerang, Rune.Shuriken_Cloud },
-			"http://us.battle.net/d3/en/class/demon-hunter/active/chakram"),
+			"http://us.battle.net/d3/en/class/demon-hunter/active/chakram", 17),
 
 	BOLT(SkillType.NA, "Bolt", "Sentry-Bolt", 0, DamageMultiplier.Sentry, new Rune[] { Rune.None,
 			Rune.Spitfire_Turret, Rune.Impaling_Bolt, Rune.Chain_of_Torment,
 			Rune.Polar_Station, Rune.Guardian_Turret },
-			"http://us.battle.net/d3/en/class/demon-hunter/active/sentry"),
+			"http://us.battle.net/d3/en/class/demon-hunter/active/sentry", 10),
 
 	SENTRY(SkillType.Sentry, "Sentry", "Sentry", -20, DamageMultiplier.Sentry, new Rune[] { Rune.None,
 			Rune.Spitfire_Turret, Rune.Impaling_Bolt, Rune.Chain_of_Torment,
 			Rune.Polar_Station, Rune.Guardian_Turret },
-			"http://us.battle.net/d3/en/class/demon-hunter/active/sentry"),
+			"http://us.battle.net/d3/en/class/demon-hunter/active/sentry", 15),
 
 	HA(SkillType.Primary, "HA", "Hungering Arrow", 3, DamageMultiplier.HA,
 			new Rune[] { Rune.None, Rune.Puncturing_Arrow, Rune.Serrated_Arrow, Rune.Shatter_Shot, Rune.Devouring_Arrow, Rune.Spray_of_Teeth },
-			"http://us.battle.net/d3/en/class/demon-hunter/active/hungering-arrow"),
+			"http://us.battle.net/d3/en/class/demon-hunter/active/hungering-arrow", -1),
+			
 	ES(SkillType.Primary, "ES", "Entangling Shot", 3, DamageMultiplier.ES,
 			new Rune[] { Rune.None, Rune.Chain_Gang, Rune.Shock_Collar, Rune.Heavy_Burden, Rune.Justice_is_Served, Rune.Bounty_Hunter },
-			"http://us.battle.net/d3/en/class/demon-hunter/active/entangling-shot"),
+			"http://us.battle.net/d3/en/class/demon-hunter/active/entangling-shot", -1),
+			
 	BOLAS(SkillType.Primary, "BOLAS", "Bolas", 3, DamageMultiplier.BOLAS,
 			new Rune[] { Rune.None, Rune.Volatile_Exolosives, Rune.Thunder_Ball, Rune.Freezing_Strike, Rune.Bitter_Pill, Rune.Imminent_Doom },
-			"http://us.battle.net/d3/en/class/demon-hunter/active/bolas"),
+			"http://us.battle.net/d3/en/class/demon-hunter/active/bolas", 18),
+			
 	EF(SkillType.Primary, "EF", "Evasive Fire", 4, DamageMultiplier.EF,
 			new Rune[] { Rune.None, Rune.Hardened, Rune.Parting_Gift, Rune.Covering_Fire, Rune.Focus, Rune.Surge },
-			"http://us.battle.net/d3/en/class/demon-hunter/active/evasive-fire"),
+			"http://us.battle.net/d3/en/class/demon-hunter/active/evasive-fire", -1),
+			
 	GRENADE(SkillType.Primary, "GRENADE", "Grenade", 3, DamageMultiplier.GRENADE,
 			new Rune[] { Rune.None, Rune.Tinkerer, Rune.Cluster_Grenades, Rune.Grenade_Cache, Rune.Stun_Grenade, Rune.Cold_Grenade },
-			"http://us.battle.net/d3/en/class/demon-hunter/active/grenade"),
+			"http://us.battle.net/d3/en/class/demon-hunter/active/grenade", 17),
 
 	Companion(SkillType.Cooldown, "Companion", "Companion", 0, DamageMultiplier.Companion, new Rune[] {
 			Rune.None, Rune.Bat, Rune.Spider, Rune.Wolf, Rune.Boar, Rune.Ferret
-		}, "http://us.battle.net/d3/en/class/demon-hunter/active/companion"),
+		}, "http://us.battle.net/d3/en/class/demon-hunter/active/companion", 27),
 		
 	ST(SkillType.Cooldown, "ST", "Spike Trap", 0, DamageMultiplier.ST, new Rune[] { 
-			Rune.None, Rune.Echoing_Blast, Rune.Sticky_Trap, Rune.Long_Fuse, Rune.Lightning_Rod, Rune.Scatter }, "http://us.battle.net/d3/en/class/demon-hunter/active/spike-trap"),
+			Rune.None, Rune.Echoing_Blast, Rune.Sticky_Trap, Rune.Long_Fuse, Rune.Lightning_Rod, Rune.Scatter }, "http://us.battle.net/d3/en/class/demon-hunter/active/spike-trap", 21),
 		
 	Preparation(SkillType.Cooldown, "Preparation", "Preparation", 0, null, new Rune[] { 
-			Rune.None, Rune.Invigoration, Rune.Punishment, Rune.Battle_Scars, Rune.Focused_Mind, Rune.Backup_Plan }, "http://us.battle.net/d3/en/class/demon-hunter/active/preparation"),
+			Rune.None, Rune.Invigoration, Rune.Punishment, Rune.Battle_Scars, Rune.Focused_Mind, Rune.Backup_Plan }, "http://us.battle.net/d3/en/class/demon-hunter/active/preparation", 34),
 
 	Caltrops(SkillType.Cooldown, "Caltrops", "Caltrops", 0, null, new Rune[] { 
-			Rune.None, Rune.Hooked_Spines, Rune.Torturous_Ground, Rune.Jagged_Spikes, Rune.Carved_Stakes, Rune.Bait_the_Trap }, "http://us.battle.net/d3/en/class/demon-hunter/active/caltrops"),
+			Rune.None, Rune.Hooked_Spines, Rune.Torturous_Ground, Rune.Jagged_Spikes, Rune.Carved_Stakes, Rune.Bait_the_Trap }, "http://us.battle.net/d3/en/class/demon-hunter/active/caltrops", 8),
 
 	RoV(SkillType.Cooldown, "RoV", "Rain of Vengeance", 0, DamageMultiplier.RoV, new Rune[] { 
-			Rune.None, Rune.Dark_Cloud, Rune.Shade, Rune.Stampede, Rune.Anathema, Rune.Flying_Strike }, "http://us.battle.net/d3/en/class/demon-hunter/active/rain-of-vengeance"),
+			Rune.None, Rune.Dark_Cloud, Rune.Shade, Rune.Stampede, Rune.Anathema, Rune.Flying_Strike }, "http://us.battle.net/d3/en/class/demon-hunter/active/rain-of-vengeance", 23),
 	
-	CR(SkillType.NA, "CR", "Crashing Rain", 0, DamageMultiplier.RoV, new Rune[0], "http://us.battle.net/d3/en/item/crashing-rain"),
+	CR(SkillType.NA, "CR", "Crashing Rain", 0, DamageMultiplier.RoV, new Rune[0], "http://us.battle.net/d3/en/item/crashing-rain", 0),
 
 	SS(SkillType.Cooldown, "SS", "Smoke Screen", 0, null, 
 			new Rune[] { Rune.None, Rune.Displacement, Rune.Lingering_Fog, Rune.Healing_Vapors, Rune.Special_Recipe, Rune.Vanishing_Powder }, 
-			"http://us.battle.net/d3/en/class/demon-hunter/active/smoke-screen"),
+			"http://us.battle.net/d3/en/class/demon-hunter/active/smoke-screen", 34),
 	
 	Vault(SkillType.Cooldown, "Vault", "Vault", 0, null, 
 			new Rune[] { Rune.None, Rune.Action_Shot, Rune.Rattling_Roll, Rune.Tumble, Rune.Acrobatics, Rune.Trail_of_Cinders }, 
-			"http://us.battle.net/d3/en/class/demon-hunter/active/vault"),
+			"http://us.battle.net/d3/en/class/demon-hunter/active/vault", 18),
 
 	FoK(SkillType.Cooldown, "FoK", "Fan of Knives", 0, DamageMultiplier.FoK, 
 			new Rune[] { Rune.None, Rune.Pinpoint_Accuracy, Rune.Bladed_Armor, Rune.Knives_Expert, Rune.Fan_of_Daggers, Rune.Assassins_Knives }, 
-			"http://us.battle.net/d3/en/class/demon-hunter/active/fan-of-knives"),
+			"http://us.battle.net/d3/en/class/demon-hunter/active/fan-of-knives", 15),
 
 	SP(SkillType.Cooldown, "SP", "Shadow Power", 0, null, 
 			new Rune[] { Rune.None, Rune.Night_Bane, Rune.Blood_Moon, Rune.Well_of_Darkness, Rune.Gloom, Rune.Shadow_Glide }, 
-			"http://us.battle.net/d3/en/class/demon-hunter/active/shadow-power"),
+			"http://us.battle.net/d3/en/class/demon-hunter/active/shadow-power", 34),
 
 	Strafe(SkillType.Channeled, "Strafe", "Strafe", -12, DamageMultiplier.Strafe, 
 			new Rune[] { Rune.None, Rune.Icy_Trail, Rune.Drifting_Shadow, Rune.Stinging_Steel, Rune.Rocket_Storm, Rune.Demolition }, 
-			"http://us.battle.net/d3/en/class/demon-hunter/active/strafe"),
+			"http://us.battle.net/d3/en/class/demon-hunter/active/strafe", 51),
 
 	Vengeance(SkillType.Cooldown, "Ven", "Vengeance", 0, DamageMultiplier.Vengeance, 
 			new Rune[] { Rune.None, Rune.Personal_Mortar, Rune.Dark_Heart, Rune.Side_Cannons, Rune.Seethe, Rune.From_the_Shadows }, 
-			"http://us.battle.net/d3/en/class/demon-hunter/active/vengeance"),
+			"http://us.battle.net/d3/en/class/demon-hunter/active/vengeance", 34),
 
 	RF(SkillType.Channeled, "RF", "Rapid Fire", 0, DamageMultiplier.RF, 
 			new Rune[] { Rune.None, Rune.Withering_Fire, Rune.Frost_Shots, Rune.Fire_Support, Rune.High_Velocity, Rune.Bombardment }, 
-			"http://us.battle.net/d3/en/class/demon-hunter/active/rapid-fire"),
+			"http://us.battle.net/d3/en/class/demon-hunter/active/rapid-fire", 5),
 
 	MFD(SkillType.Cooldown, "MFD", "Marked for Death", 0, null, 
 			new Rune[] { Rune.None, Rune.Contagion, Rune.Valley_Of_Death, Rune.Grim_Reaper, Rune.Mortal_Enemy, Rune.Death_Toll }, 
-			"http://us.battle.net/d3/en/class/demon-hunter/active/marked-for-death"),
+			"http://us.battle.net/d3/en/class/demon-hunter/active/marked-for-death", 28),
 
-	Any(SkillType.NA, "Any Skill", "Any Skill", 0, null, new Rune[0], null);
+	Any(SkillType.NA, "Any Skill", "Any Skill", 0, null, new Rune[0], null, 0);
 
 	private String name;
 	@SuppressWarnings("unused")
@@ -139,9 +143,10 @@ public enum ActiveSkill {
 	private SkillType skillType;
 	private String damageAttribute;	
 	private String slug;
+	private int frames;
 	
 	private ActiveSkill(SkillType skillType, String shortName, String name, int hatred,
-			DamageMultiplier multiplier, Rune[] runes, String url) {
+			DamageMultiplier multiplier, Rune[] runes, String url, int frames) {
 		this.name = name;
 		this.runes = runes;
 		this.shortName = shortName;
@@ -151,6 +156,7 @@ public enum ActiveSkill {
 		this.skillType = skillType;
 		this.damageAttribute = name.replaceAll(" of ", "Of").replaceAll(" ", "");
 		this.slug = name.toLowerCase().replaceAll(" ", "-");
+		this.frames = frames;
 	}
 
 	public String getSlug() {
@@ -171,6 +177,10 @@ public enum ActiveSkill {
 	
 	public String getDamageAttribute() {
 		return damageAttribute;
+	}
+	
+	public int getFrames() {
+		return frames;
 	}
 	
 	public int getHatred() {

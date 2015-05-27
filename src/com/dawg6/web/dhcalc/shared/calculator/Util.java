@@ -23,11 +23,12 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-public class Util {
+public class Util implements ILogger {
 
 	private static final Util instance = new Util();
 	private Formatter formatter;
-
+	private ILogger logger;
+	
 	private Util() {
 	}
 
@@ -35,6 +36,11 @@ public class Util {
 		return instance;
 	}
 
+	
+	public void setLogger(ILogger logger) {
+		this.logger = logger;
+	}
+	
 	public void setFormatter(Formatter formatter) {
 		this.formatter = formatter;
 	}
@@ -333,5 +339,18 @@ public class Util {
 		}
 
 		return map;
+	}
+
+	@Override
+	public void log(String message) {
+		
+		if (logger != null)
+			logger.log(message);
+	}
+
+	@Override
+	public void log(String message, Throwable t) {
+		if (logger != null)
+			logger.log(message, t);
 	}
 }

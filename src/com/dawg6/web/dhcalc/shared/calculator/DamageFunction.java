@@ -859,4 +859,21 @@ public class DamageFunction {
 		return runeDamageType.get(skr);
 
 	}
+
+	public static boolean hasDamage(ActiveSkill s) {
+		
+		for (DamageRow row : ALL)
+			if ((row.source != null) && (row.source.skill == s))
+				return true;
+
+		return false;
+	}
+
+	public static boolean hasDamage(GemSkill g) {
+		for (DamageRow row : ALL)
+			if ((row.source != null) && (row.source.gem == g))
+				return true;
+
+		return false;
+	}
 }

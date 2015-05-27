@@ -48,4 +48,25 @@ public class AttributeData implements Serializable {
 	public Set<Map.Entry<String, Integer>> entrySet() {
 		return attributes.entrySet();
 	}
+	
+	@Override
+	public String toString() {
+		StringBuffer buf = new StringBuffer();
+		
+		buf.append("{");
+		boolean first = true;
+		
+		for (Map.Entry<String, Integer> e : attributes.entrySet()) {
+			buf.append(e.getKey() + "=" + e.getValue());
+			
+			if (first)
+				first = false;
+			else
+				buf.append(",");
+		}
+		
+		buf.append("}");
+		
+		return buf.toString();
+	}
 }

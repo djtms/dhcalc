@@ -39,4 +39,9 @@ public class GemAttributeData extends AttributeData {
 		return new GemAttributeData(this);
 	}
 	
+	@Override
+	public String toString() {
+		return "{level=" + level + ",attributes=" + super.toString() + "}";
+	}
+	
 }

@@ -35,7 +35,6 @@ import org.apache.poi.ss.util.CellUtil;
 
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.AttributeData;
-import com.dawg6.web.dhcalc.shared.calculator.BreakPoint;
 import com.dawg6.web.dhcalc.shared.calculator.Damage;
 import com.dawg6.web.dhcalc.shared.calculator.DamageHolder;
 import com.dawg6.web.dhcalc.shared.calculator.DamageSource;
@@ -144,7 +143,6 @@ public class ExportExcel {
 
 		createInput(summary, data.totalDamage, "Total Damage over "
 				+ data.output.duration + " seconds", largeDoubleStyle);
-		createInput(summary, data.sentryDps, "Total DPS", largeDoubleStyle);
 
 		summary.autoSizeColumn(0, true);
 		summary.autoSizeColumn(1, true);
@@ -435,16 +433,9 @@ public class ExportExcel {
 		createInput(inputs, data.data.getWeaponType().getName(), "WeaponType");
 		createInput(inputs, data.data.getAps(), "Player APS");
 		createInput(inputs, data.data.getSentryAps(), "Sentry APS");
-		BreakPoint bp = BreakPoint.ALL[data.data.getBp() - 1];
-		createInput(inputs, bp.getBp(), "Break Point");
-		createInput(inputs, bp.getAps(), "Sentry APS");
-		createInput(inputs, bp.getQty(), "Attacks per " + BreakPoint.DURATION
-				+ " Seconds");
 		createInput(inputs, 8.0 * (1 - data.data.getCdr()),
 				"Sentry Cooldown (sec)", timeStyle);
 
-		createInput(inputs, bp.getQty(), "Attacks per " + BreakPoint.DURATION
-				+ " Seconds");
 		createInput(inputs, data.data.getTotalEliteDamage(),
 				"Total Elite Damage", pctStyle);
 		createInput(inputs, data.data.getMaxHatred(), "Max Hatred");

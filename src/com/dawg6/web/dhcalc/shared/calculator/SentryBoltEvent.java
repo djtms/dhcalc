@@ -29,8 +29,10 @@ public class SentryBoltEvent extends Event {
 	public SentryBoltEvent(CharacterData data) {
 		this.rune = data.getSentryRune();
 
-		BreakPoint bp = BreakPoint.getBp(data.getBp());
-		double boltAps = (double) bp.getQty() / (double) BreakPoint.DURATION;
+		Breakpoint bp = new Breakpoint(ActiveSkill.BOLT.getFrames());
+		Breakpoint.Data bpData = bp.get(data.getSentryAps());
+		
+		double boltAps = bpData.actualAps;
 		this.boltInterval = 1.0 / boltAps;
 		
 		this.spenders = (data.getNumMarauders() >= 4) && data.hasSpender();

@@ -19,7 +19,7 @@
 package com.dawg6.web.dhcalc.shared.calculator;
 
 
-public class BreakPoint implements Comparable<BreakPoint> {
+public class OldSentryBreakPoint implements Comparable<OldSentryBreakPoint> {
 
 	public static final int DURATION = 30;
 	
@@ -27,7 +27,7 @@ public class BreakPoint implements Comparable<BreakPoint> {
 	private final int qty;
 	private final int bp;
 
-	private BreakPoint(int bp, double aps, int qty) {
+	private OldSentryBreakPoint(int bp, double aps, int qty) {
 		this.aps = aps;
 		this.qty = qty;
 		this.bp = bp;
@@ -50,15 +50,15 @@ public class BreakPoint implements Comparable<BreakPoint> {
 		return bp + ": " + Util.format(aps) + "/" + qty;
 	}
 
-	public static final BreakPoint[] ALL = { 
-			new BreakPoint(1, 1.102, 37),
-			new BreakPoint(2, 1.256, 42), new BreakPoint(3, 1.459, 49),
-			new BreakPoint(4, 1.742, 60), new BreakPoint(5, 2.160, 74),
-			new BreakPoint(6, 2.842, 97), new BreakPoint(7, 4.154, 150) };
+	public static final OldSentryBreakPoint[] ALL = { 
+			new OldSentryBreakPoint(1, 1.102, 37),
+			new OldSentryBreakPoint(2, 1.256, 42), new OldSentryBreakPoint(3, 1.459, 49),
+			new OldSentryBreakPoint(4, 1.742, 60), new OldSentryBreakPoint(5, 2.160, 74),
+			new OldSentryBreakPoint(6, 2.842, 97), new OldSentryBreakPoint(7, 4.154, 150) };
 
-	public static BreakPoint get(double aps) {
+	public static OldSentryBreakPoint get(double aps) {
 
-		BreakPoint cur = ALL[0];
+		OldSentryBreakPoint cur = ALL[0];
 
 		for (int i = 0; (i < ALL.length) && (aps > cur.aps); i++) {
 			if (aps > ALL[i].aps)
@@ -68,8 +68,8 @@ public class BreakPoint implements Comparable<BreakPoint> {
 		return cur;
 	}
 
-	public static BreakPoint getBp(int bp) {
-		for (BreakPoint b : ALL)
+	public static OldSentryBreakPoint getBp(int bp) {
+		for (OldSentryBreakPoint b : ALL)
 			if (b.getBp() == bp)
 				return b;
 		
@@ -100,18 +100,18 @@ public class BreakPoint implements Comparable<BreakPoint> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		BreakPoint other = (BreakPoint) obj;
+		OldSentryBreakPoint other = (OldSentryBreakPoint) obj;
 		if (Double.doubleToLongBits(aps) != Double.doubleToLongBits(other.aps))
 			return false;
 		return true;
 	}
 
 	@Override
-	public int compareTo(BreakPoint o) {
+	public int compareTo(OldSentryBreakPoint o) {
 		return new Double(aps).compareTo(o.aps);
 	}
 
-	public BreakPoint next() {
+	public OldSentryBreakPoint next() {
 		for (int i = 0; i < ALL.length-1; i++) {
 			if (ALL[i].bp == this.bp)
 				return ALL[i+1];
@@ -120,7 +120,7 @@ public class BreakPoint implements Comparable<BreakPoint> {
 		return null;
 	}
 
-	public BreakPoint prev() {
+	public OldSentryBreakPoint prev() {
 		for (int i = 1; i < ALL.length; i++) {
 			if (ALL[i].bp == this.bp)
 				return ALL[i-1];

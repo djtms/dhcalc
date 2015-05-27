@@ -20,9 +20,11 @@ package com.dawg6.web.dhcalc.client;
 
 import com.dawg6.gwt.common.util.AsyncTask;
 import com.dawg6.gwt.common.util.AsyncTaskHandler;
+import com.dawg6.web.dhcalc.shared.calculator.ILogger;
 import com.dawg6.web.dhcalc.shared.calculator.Util;
 import com.dawg6.web.dhcalc.shared.calculator.Version;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.Command;
@@ -44,6 +46,18 @@ public class DHCalc implements EntryPoint {
 				return NumberFormat.getFormat("#,###.####").format(d);
 			}
 		});
+
+		Util.getInstance().setLogger(new ILogger() {
+
+			@Override
+			public void log(String message) {
+				GWT.log(message);
+			}
+
+			@Override
+			public void log(String message, Throwable t) {
+				GWT.log(message, t);
+			}});
 
 		Window.setTitle("DH Damage Calculator ("
 				+ Version.getShortVersionString() + ")");

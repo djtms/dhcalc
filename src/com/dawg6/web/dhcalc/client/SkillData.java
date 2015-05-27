@@ -18,7 +18,13 @@
  *******************************************************************************/
 package com.dawg6.web.dhcalc.client;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Vector;
+
 import com.dawg6.gwt.client.ApplicationPanel;
+import com.dawg6.gwt.common.util.Pair;
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.DamageFunction;
 import com.dawg6.web.dhcalc.shared.calculator.DamageMultiplier;
@@ -69,63 +75,84 @@ public class SkillData extends ApplicationPanel {
 		
 		table.getRowFormatter().addStyleName(0, "headerRow");
 		
+		int col = 0;
+		
 		Label lblSkill = new Label("Skill");
 		lblSkill.setWordWrap(false);
-		table.setWidget(0, 0, lblSkill);
+		table.setWidget(0, col++, lblSkill);
 		
 		Label lblRune = new Label("Rune");
 		lblRune.setWordWrap(false);
-		table.setWidget(0, 1, lblRune);
+		table.setWidget(0, col++, lblRune);
 		
 		Label lblType = new Label("Damage Type");
 		lblType.setWordWrap(false);
-		table.setWidget(0, 2, lblType);
+		table.setWidget(0, col++, lblType);
 		
 		Label lblMultiplier = new Label("Multiplier");
 		lblMultiplier.setWordWrap(false);
-		table.setWidget(0, 3, lblMultiplier);
+		table.setWidget(0, col++, lblMultiplier);
 		
+		Label frames = new Label("Frames");
+		frames.setWordWrap(false);
+		table.setWidget(0, col++, frames);
+
 		Label lblPrimary = new Label("Primary");
 		lblPrimary.setWordWrap(false);
-		table.setWidget(0, 4, lblPrimary);
+		table.setWidget(0, col++, lblPrimary);
 		
 		Label lblAdditional = new Label("# Additional");
 		lblAdditional.setWordWrap(false);
-		table.setWidget(0, 5, lblAdditional);
+		table.setWidget(0, col++, lblAdditional);
 		
 		Label lblProjectiles = new Label("# Projectiles");
 		lblProjectiles.setWordWrap(false);
-		table.setWidget(0, 6, lblProjectiles);
+		table.setWidget(0, col++, lblProjectiles);
 		
 		Label lblAoeRadius = new Label("AoE Radius");
 		lblAoeRadius.setWordWrap(false);
-		table.setWidget(0, 7, lblAoeRadius);
+		table.setWidget(0, col++, lblAoeRadius);
 		
 		Label lblGrenades = new Label("Grenades");
 		lblGrenades.setWordWrap(false);
-		table.setWidget(0, 8, lblGrenades);
+		table.setWidget(0, col++, lblGrenades);
 		
 		Label lblRockets = new Label("Rockets");
 		lblRockets.setWordWrap(false);
-		table.setWidget(0, 9, lblRockets);
+		table.setWidget(0, col++, lblRockets);
 		
 		Label lblDot = new Label(" DoT ");
 		lblDot.setWordWrap(false);
-		table.setWidget(0, 10, lblDot);
+		table.setWidget(0, col++, lblDot);
 		
 		Label lblNotes = new Label("Notes");
 		lblNotes.setWordWrap(false);
 		lblNotes.addStyleName("notes");
-		table.setWidget(0, 11, lblNotes);
+		table.setWidget(0, col++, lblNotes);
+		
+		List<Pair<String, String>> list = new Vector<Pair<String, String>>();
 		
 		for (ActiveSkill s : ActiveSkill.values()) {
 			
-			if (s != ActiveSkill.Any)
-				skills.addItem(s.getLongName(), s.name());
+			if (DamageFunction.hasDamage(s))
+				list.add(new Pair<String, String>(s.getLongName(), s.name()));
 		}
 		
 		for (GemSkill g : GemSkill.values()) {
-			skills.addItem(g.getDisplayName(), g.name());
+			
+			if (DamageFunction.hasDamage(g))
+				list.add(new Pair<String, String>(g.getDisplayName(), g.name()));
+		}
+		
+		Collections.sort(list, new Comparator<Pair<String, String>>(){
+
+			@Override
+			public int compare(Pair<String, String> o1, Pair<String, String> o2) {
+				return o1.getA().toLowerCase().compareTo(o2.getA().toLowerCase());
+			}});
+
+		for (Pair<String, String> p : list) {
+			skills.addItem(p.getA(), p.getB());
 		}
 		
 		skills.addChangeHandler(new ChangeHandler(){
@@ -181,7 +208,9 @@ public class SkillData extends ApplicationPanel {
 				
 				String url = (skill != null) ? skill.getUrl() : gem.getUrl();
 				
-				addAnchor(row, 0, (skill != null) ? skill.getLongName() : gem.getDisplayName(), url);
+				int col = 0;
+				
+				addAnchor(row, col++, (skill != null) ? skill.getLongName() : gem.getDisplayName(), url);
 
 				Rune rune = Rune.None;
 				
@@ -192,20 +221,27 @@ public class SkillData extends ApplicationPanel {
 					url += ("#" + rune.getSlug() + "+");
 				
 				if (skill != null)
-					addAnchor(row, 1, rune.getLongName(), url);
+					addAnchor(row, col++, rune.getLongName(), url);
 				else
-					addLabel(row, 1, "N/A");
+					addLabel(row, col++, "N/A");
 
-				addLabel(row, 2, dr.type.name());
-				addLabel(row, 3, String.valueOf(Math.round(dr.scalar * 100.0)) + "%");
-				addLabel(row, 4, dr.primary?"Yes":"");
-				addLabel(row, 5, dr.maxAdditional > 20 ? "UNLIMITED" : dr.maxAdditional > 0 ? String.valueOf(dr.maxAdditional) : "");
-				addLabel(row, 6, ((dr.numProjectiles > 20) || (dr.numProjectiles < 1)) ? "N/A" : String.valueOf(dr.numProjectiles));
-				addLabel(row, 7, (dr.radius > 0) ? String.valueOf(dr.radius) : "");
-				addLabel(row, 8, dr.multipliers.contains(DamageMultiplier.Grenades)?"Yes":"");
-				addLabel(row, 9, dr.multipliers.contains(DamageMultiplier.Rockets)?"Yes":"");
-				addLabel(row, 10, dr.multipliers.contains(DamageMultiplier.DoT)?"Yes":"");
-				addLabel(row, 11, dr.note, "notes");
+				addLabel(row, col++, dr.type.name());
+				addLabel(row, col++, String.valueOf(Math.round(dr.scalar * 100.0)) + "%");
+				
+				if ((skill != null)  && (skill.getFrames() > 0)) {
+					addLabel(row, col++, String.valueOf(skill.getFrames()));
+				} else {
+					addLabel(row, col++, "N/A");
+				}
+				
+				addLabel(row, col++, dr.primary?"Yes":"");
+				addLabel(row, col++, dr.maxAdditional > 20 ? "UNLIMITED" : dr.maxAdditional > 0 ? String.valueOf(dr.maxAdditional) : "");
+				addLabel(row, col++, ((dr.numProjectiles > 20) || (dr.numProjectiles < 1)) ? "N/A" : String.valueOf(dr.numProjectiles));
+				addLabel(row, col++, (dr.radius > 0) ? String.valueOf(dr.radius) : "");
+				addLabel(row, col++, dr.multipliers.contains(DamageMultiplier.Grenades)?"Yes":"");
+				addLabel(row, col++, dr.multipliers.contains(DamageMultiplier.Rockets)?"Yes":"");
+				addLabel(row, col++, dr.multipliers.contains(DamageMultiplier.DoT)?"Yes":"");
+				addLabel(row, col++, dr.note, "notes");
 				
 				row++;
 			}

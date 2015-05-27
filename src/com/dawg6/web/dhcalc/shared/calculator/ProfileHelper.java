@@ -229,14 +229,6 @@ public class ProfileHelper {
 
 		data.setOffHand_dps(offHand_sheetDps);
 
-		BreakPoint bp = BreakPoint.get(petApsValue);
-		data.setBp(bp.getBp());
-
-		double sentryAps = bp.getQty() / BreakPoint.DURATION;
-		double sentryDpsValue = averageWeaponDamage * sentryAps
-				* (1.0 + critChance * critDamage) * (1.0 + (dex / 100.0))
-				* (1.0 + aDam);
-		data.setSentryDps(sentryDpsValue);
 	}
 
 	public static void setHeroSkills(HeroProfile hero, CharacterData data) {

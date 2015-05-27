@@ -33,8 +33,6 @@ public class ExportData implements Serializable {
 	public Map<DamageSource, DamageHolder> skillDamages;
 	public Map<String, DamageHolder> shooterDamages;
 	public List<MultipleSummary> multiple;
-	public int bp;
-	public double sentryBaseDps;
 	public double sentryDps;
 	public double totalDamage;
 

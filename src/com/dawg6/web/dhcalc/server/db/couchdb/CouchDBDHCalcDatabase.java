@@ -311,7 +311,6 @@ public class CouchDBDHCalcDatabase {
 				data.setParagonIAS(source.getParagon_ias());
 				data.setParagonHatred(getValue(source.getParagon_hatred(), 0));
 				data.setParagonRCR(getValue(source.getParagon_rcr(), 0));
-				data.setBp(source.getBp());
 				
 				DpsTableEntry entry = service.calculateDps(data);
 				entry.setId(source.getId());

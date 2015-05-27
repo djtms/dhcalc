@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.Vector;
 
@@ -50,6 +51,8 @@ public class ActionEvent extends Event {
 	private final boolean odysseys;
 	private final Rune esRune;
 	private double esDuration;
+	private final Map<ActiveSkill, Breakpoint> bpMap = new TreeMap<ActiveSkill, Breakpoint>();
+	private final double delay;
 
 	public ActionEvent(CharacterData data) {
 		this.hand = Hand.MainHand;
@@ -70,15 +73,15 @@ public class ActionEvent extends Event {
 				.getHexingPantsUptime()) * data.getHexingPantsPercent())) : 0.0);
 
 		this.mainHandAps = data.getAps();
-		this.mainHandInterval = (1.0 / mainHandAps)
-				+ (data.getDelay() / 1000.0);
+		this.delay = data.getDelay() / 1000.0;
+		
+		this.mainHandInterval = (1.0 / mainHandAps) + delay;
 
 		this.hasOffHand = data.getOffHand_weaponType() != null;
 		this.offHandAps = data.getOffHand_aps();
 
 		if (this.hasOffHand) {
-			this.offHandInterval = (1.0 / offHandAps)
-					+ (data.getDelay() / 1000.0);
+			this.offHandInterval = (1.0 / offHandAps) + delay;
 		} else {
 			this.offHandInterval = 0.0;
 		}
@@ -190,7 +193,11 @@ public class ActionEvent extends Event {
 
 		if (selected != null) {
 
-			this.time += interval;
+			Breakpoint.Data bpData = this.getBpData(selected.getSkill(), hand);
+
+			double actualInterval = bpData.interval + this.delay;
+			
+			this.time += actualInterval;
 
 			double h = selected.getHatred(state.getData());
 
@@ -315,4 +322,19 @@ public class ActionEvent extends Event {
 		this.rov = rov;
 	}
 
+	private Breakpoint getBreakpoint(ActiveSkill skill) {
+		Breakpoint bp = bpMap.get(skill);
+		
+		if (bp == null) {
+			bp = new Breakpoint(skill.getFrames());
+			bpMap.put(skill, bp);
+		}
+		
+		return bp;
+	}
+	
+	private Breakpoint.Data getBpData(ActiveSkill skill, Hand hand) {
+		return getBreakpoint(skill).get((hand == Hand.MainHand) ? this.mainHandAps : this.offHandAps);
+	}
+	
 }

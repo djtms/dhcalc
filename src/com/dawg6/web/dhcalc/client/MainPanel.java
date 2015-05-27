@@ -31,7 +31,6 @@ import com.dawg6.gwt.common.util.AsyncTaskHandler;
 import com.dawg6.gwt.common.util.DefaultCallback;
 import com.dawg6.web.dhcalc.client.SavePanel.FormListener;
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
-import com.dawg6.web.dhcalc.shared.calculator.BreakPoint;
 import com.dawg6.web.dhcalc.shared.calculator.Build;
 import com.dawg6.web.dhcalc.shared.calculator.CharacterData;
 import com.dawg6.web.dhcalc.shared.calculator.Damage;
@@ -87,10 +86,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class MainPanel extends BasePanel {
 	private final Label sheetDps;
 	private final Label aps;
-	private final Label sentryAps;
-	private final Label breakPoint;
-	private final Label lblNewLabel_5;
-	private final Label aps30;
 	private final Label totalDamage;
 	private final Label dps;
 	private final FlexTable damageLog;
@@ -104,7 +99,6 @@ public class MainPanel extends BasePanel {
 	private int tag;
 	protected HeroProfile hero;
 	private final Label weaponDamage;
-	private final Label actualAps;
 	private final DPSCalculator calculator;
 	private final FlexTable skillSummary;
 	private final ListBox realms;
@@ -165,7 +159,7 @@ public class MainPanel extends BasePanel {
 	private AboutDialog about;
 	private StatsPanel stats;
 	private Legend legend;
-	private BreakpointData bpData;
+	private BPData bpData;
 	private SkillData skillData;
 	private GearPanel gearPanel;
 	private FlexTable shooterSummary;
@@ -511,7 +505,7 @@ public class MainPanel extends BasePanel {
 			}
 		});
 
-		Label label_11 = new Label("Break Point:");
+		Label label_11 = new Label("APS:");
 		label_11.setWordWrap(false);
 		label_11.setStyleName("boldText");
 		compareTable.setWidget(2, 0, label_11);
@@ -781,41 +775,6 @@ public class MainPanel extends BasePanel {
 		outputHeader.setWidget(0, 5, dw_weaponDamage);
 		dw_weaponDamage.setStyleName("boldText");
 
-		Label lblNewLabel_3 = new Label("Pet APS:");
-		outputHeader.setWidget(1, 0, lblNewLabel_3);
-		lblNewLabel_3.setWordWrap(false);
-
-		sentryAps = new Label("00000");
-		outputHeader.setWidget(1, 1, sentryAps);
-		sentryAps.setStyleName("boldText");
-		sentryAps.setWordWrap(false);
-
-		Label lblNewLabel_4 = new Label("Break Point:");
-		outputHeader.setWidget(1, 2, lblNewLabel_4);
-		lblNewLabel_4.setWordWrap(false);
-
-		breakPoint = new Label("000000");
-		outputHeader.setWidget(1, 3, breakPoint);
-		breakPoint.setStyleName("boldText");
-		breakPoint.setWordWrap(false);
-
-		Label lblNewLabel_29 = new Label("Sentry APS:");
-		outputHeader.setWidget(1, 4, lblNewLabel_29);
-
-		actualAps = new Label("00000");
-		outputHeader.setWidget(1, 5, actualAps);
-		actualAps.setStyleName("boldText");
-
-		lblNewLabel_5 = new Label("Attacks Per " + BreakPoint.DURATION
-				+ " Seconds:");
-		outputHeader.setWidget(1, 6, lblNewLabel_5);
-		lblNewLabel_5.setWordWrap(false);
-
-		aps30 = new Label("00000");
-		outputHeader.setWidget(1, 7, aps30);
-		aps30.setStyleName("boldText");
-		aps30.setWordWrap(false);
-
 		Label lblNewLabel_6 = new Label("Total Damage:");
 		outputHeader.setWidget(2, 0, lblNewLabel_6);
 		lblNewLabel_6.setWordWrap(false);
@@ -840,8 +799,8 @@ public class MainPanel extends BasePanel {
 		outputHeader.setWidget(2, 3, dps);
 		dps.setStyleName("boldText");
 
-		Label lblNewLabel_29a = new Label("# Sentries:");
-		outputHeader.setWidget(2, 6, lblNewLabel_29a);
+		Label lblNewLabel_29a = new Label("Max Sentries:");
+		outputHeader.setWidget(2, 4, lblNewLabel_29a);
 
 		Label lblNewLabel_7b = new Label("+% Elite Damage:");
 		outputHeader.setWidget(3, 4, lblNewLabel_7b);
@@ -872,7 +831,7 @@ public class MainPanel extends BasePanel {
 			public void onClick(ClickEvent event) {
 
 				if (bpData == null)
-					bpData = new BreakpointData();
+					bpData = new BPData();
 
 				ApplicationPanel.showDialogBox("Break Points", bpData,
 						ApplicationPanel.OK, null);
@@ -1624,12 +1583,13 @@ public class MainPanel extends BasePanel {
 
 			int row = 2;
 
-			Label bp = (Label) compareTable.getWidget(row, col);
+			
+			Label aps = (Label) compareTable.getWidget(row, col);
 			Label wd = (Label) compareTable.getWidget(row + 1, col);
 			Label elapsed = (Label) compareTable.getWidget(row + 3, col);
 			Label dps = (Label) compareTable.getWidget(row + 5, col);
 
-			bp.setText(String.valueOf(data.exportData.bp));
+			aps.setText(Util.format(data.exportData.data.getAps()));
 			wd.setText(Util.format(Math.round(data.exportData.data
 					.getWeaponDamage() * 10.0) / 10.0));
 			dps.setText(Util.format(Math.round(data.exportData.sentryDps)));
@@ -1734,6 +1694,8 @@ public class MainPanel extends BasePanel {
 		this.itemPanel.setSetCounts(Util.createSetCounts(data.specialItems));
 		this.skills.setSkills(Util.createEnumMap(ActiveSkill.class, Rune.class,
 				data.skills));
+
+		calculator.setDefaultSkill(skills.getSkills().keySet());
 
 		calculator.saveForm();
 		calculator.calculate();
@@ -1852,6 +1814,7 @@ public class MainPanel extends BasePanel {
 
 	protected void showDpsCalculator() {
 
+		
 		ApplicationPanel.showDialogBox("DPS/Break Point Calculator",
 				calculator, ApplicationPanel.OK + ApplicationPanel.CANCEL,
 				new DialogBoxResultHandler() {
@@ -2637,8 +2600,6 @@ public class MainPanel extends BasePanel {
 				this.exportData.skillDamages = skillDamages;
 				this.exportData.shooterDamages = shooterDamages;
 				this.exportData.multiple = new Vector<MultipleSummary>();
-				this.exportData.sentryBaseDps = calculator.getSentryDps();
-				this.exportData.bp = data.getBp();
 
 				calculateData();
 
@@ -2739,7 +2700,7 @@ public class MainPanel extends BasePanel {
 
 		Label ns = new Label("" + data.getNumSentries());
 		ns.addStyleName("boldText");
-		outputHeader.setWidget(2, 7, ns);
+		outputHeader.setWidget(2, 5, ns);
 
 		while (damageLog.getRowCount() > 1) {
 			damageLog.removeRow(1);
@@ -3054,14 +3015,6 @@ public class MainPanel extends BasePanel {
 		}
 
 		double dps = (damage.duration > 0) ? Math.round(total / damage.duration) : total;
-		double aps = data.getSentryAps();
-		BreakPoint bp = BreakPoint.ALL[data.getBp() - 1];
-
-		sentryAps.setText(Util.format(aps));
-		breakPoint.setText(String.valueOf(bp.getBp()));
-		double sentryAps = bp.getQty() / damage.duration;
-		actualAps.setText(String.valueOf(Util.format(sentryAps)));
-		aps30.setText(Util.format(bp.getQty()));
 
 		weaponDamage
 				.setText(Util.format(Math.round(data.getWeaponDamage() * 100.0) / 100.0));
@@ -3275,10 +3228,7 @@ public class MainPanel extends BasePanel {
 	@Override
 	protected void loadForm() {
 		super.loadForm();
-
-		calculator.saveForm();
-		calculator.calculate();
-
+		
 		super.setFieldValue(skills, super.getFieldValue("skills", null));
 		super.setFieldValue(passives, super.getFieldValue("passives", null));
 		super.setFieldValue(gemPanel, super.getFieldValue("gems", null));
@@ -3287,6 +3237,12 @@ public class MainPanel extends BasePanel {
 				super.getFieldValue("elemental.Damage", null));
 		super.setFieldValue(skillDamage,
 				super.getFieldValue("skill.Damage", null));
+
+		calculator.setDefaultSkill(skills.getSkills().keySet());
+
+		calculator.saveForm();
+		calculator.calculate();
+
 	}
 
 	@Override

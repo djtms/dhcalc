@@ -1,5 +1,19 @@
 Change Log:
 
+**5/27/15**
+- Added Breakpoints for skills. (thanks to Riv and Junger for explaining the formulas and providing data)
+-- Breakpoints are caluclated from animation frames (click "skills..." button to see the frame values for each skill). 
+-- Note that some skills (ES, EF, HA) use the weapon type to calculate animation frames. 
+-- Animation Frames for each skill/weapon were retrieved from the animations .zip file at http://us.battle.net/d3/en/forum/topic/17070616926#8
+-- Base Frames per Attack (FPA) is calculated as 60 * (frames - 1) / frames 
+-- Minimum APS for a BP is calculated as Base_FPA / FPA (for that Break Point)
+-- Break Point Actual APS is calculated as 60 / FPA (for that Break Point)
+-- The "Break Points..." button will allow you to view all calculated breakpoints for any skill. 
+-- The "DPS/Break Point Calculator..." button will show you your current BP for a skill, and what is needed for next BP
+-- Note: Set "Average Firing Delay" to 0 to realize full effect from breakpoints, otherwise there will be a simulated delay between each attack (default is 50 milliseconds)
+- Fixed so that only Hand Xbow can be selected for Off Hand weapon type
+- Fixed saving of Gogok, Pain Enhancer and Taeguk Stacks
+
 **5/26/15**
 - Updates to Blizzard API
 

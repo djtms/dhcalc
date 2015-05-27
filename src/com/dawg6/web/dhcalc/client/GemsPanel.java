@@ -307,6 +307,8 @@ public class GemsPanel extends Composite {
 				table.setWidget(i, 4, label);
 				table.setWidget(i, 5, spinner);
 				attributes.set(i, spinner);
+				spinner.setValue(gd.get(gem.getAttributes()[0]
+						.getLabel()));
 
 				spinner.addChangeHandler(new ChangeHandler() {
 

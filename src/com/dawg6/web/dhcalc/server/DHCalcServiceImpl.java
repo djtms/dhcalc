@@ -338,9 +338,7 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 		entry.setTag(data.getTag());
 		entry.setHeroId(data.getHero());
 		entry.setHeroName(data.getHeroName());
-		entry.setBp(data.getBp());
 		entry.setPlayerAps(data.getAps());
-		entry.setSentryDps(data.getSentryDps());
 		entry.setSeasonal(data.isSeasonal());
 		entry.setHardcore(data.isHardcore());
 		entry.setDead(data.isDead());
