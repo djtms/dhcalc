@@ -1,5 +1,8 @@
 Change Log:
 
+**6/8/15**
+- Fixed hatred cost of Multishot/Fire at Will (18 vs 25)
+
 **5/27/15**
 - Added Breakpoints for skills. (thanks to Riv and Junger for explaining the formulas and providing data)
 -- Breakpoints are caluclated from animation frames (click "skills..." button to see the frame values for each skill). 

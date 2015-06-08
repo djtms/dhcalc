@@ -45,7 +45,7 @@ public enum Rune {
 	Nether_Tentacles("d", 0),
 	
 	// Multishot
-	Fire_at_Will("d", 0),
+	Fire_at_Will("d", 7),
 	Burst_Fire("b", 0),
 	Suppression_Fire("e", 0),
 	Full_Broadside("a", 0),
