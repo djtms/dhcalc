@@ -133,7 +133,6 @@ public class CharacterData implements Serializable {
 	private double offHand_weaponAps;
 	private double equipCritChance;
 	private double equipCritDamage;
-	private boolean hasBombardiers;
 	private double hatredPerSecond;
 	private int numHealthGlobes;
 	private boolean inspire;
@@ -272,7 +271,6 @@ public class CharacterData implements Serializable {
 		this.focusedMind = other.focusedMind;
 		this.gems = copy(other.gems);
 		this.hardcore = other.hardcore;
-		this.hasBombardiers = other.hasBombardiers;
 		this.hatredPerSecond = other.hatredPerSecond;
 		this.hero = other.hero;
 		this.heroLevel = other.heroLevel;
@@ -1367,15 +1365,11 @@ public class CharacterData implements Serializable {
 	}
 
 	public int getNumSentries() {
-		return 2 + (hasBombardiers ? 2 : 0) + (isCustomEngineering() ? 1 : 0);
+		return 2 + (isHasBombardiers() ? 2 : 0) + (isCustomEngineering() ? 1 : 0);
 	}
 
 	public boolean isHasBombardiers() {
-		return hasBombardiers;
-	}
-
-	public void setHasBombardiers(boolean hasBombardiers) {
-		this.hasBombardiers = hasBombardiers;
+		return isItem(SpecialItemType.Bombadiers);
 	}
 
 	public boolean isCustomEngineering() {
