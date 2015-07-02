@@ -32,14 +32,20 @@ public enum Slot {
 	Waist("Belt", "waist"),
 	Ring1("Ring1", "leftFinger"),
 	Ring2("Ring2", "rightFinger"),
-	Necklace("Necklace", "neck");
+	Necklace("Necklace", "neck"),
+	CubeWeapon("Cube Main/Off Hand", "cube1"),
+	CubeArmor("Cube Armor", "cube2"),
+	CubeJewelry("Cube Jewelry", "cube3"),
+	;
 	
 	private final String slot;
 	private final String name;
+	private final boolean isCube;
 	
 	Slot(String name, String slot) {
 		this.name = name;
 		this.slot = slot;
+		this.isCube = name.toLowerCase().startsWith("cube");
 	}
 	
 	public String getSlot() {
@@ -48,6 +54,19 @@ public enum Slot {
 
 	public String getName() {
 		return name;
+	}
+	
+	public boolean isCube() {
+		return isCube;
+	}
+	
+	public static Slot getSlot(String slot) {
+		for (Slot s : values()) {
+			if (s.slot.equalsIgnoreCase(slot))
+				return s;
+		}
+		
+		return null;
 	}
 	
 	@Override

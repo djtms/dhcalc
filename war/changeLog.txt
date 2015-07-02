@@ -1,5 +1,8 @@
 Change Log:
 
+**7/2/15**
+- Added Cube item effects (preparation for 2.3). Still need to add more legendary item types.
+
 **6/29/15**
 - Fixed Bombadier's Rucksack not adding +2 Sentries
 

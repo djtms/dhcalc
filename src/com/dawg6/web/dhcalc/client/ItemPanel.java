@@ -26,6 +26,7 @@ import java.util.TreeSet;
 import java.util.Vector;
 
 import com.dawg6.web.dhcalc.shared.calculator.AttributeData;
+import com.dawg6.web.dhcalc.shared.calculator.ItemHolder;
 import com.dawg6.web.dhcalc.shared.calculator.ItemSet;
 import com.dawg6.web.dhcalc.shared.calculator.Slot;
 import com.dawg6.web.dhcalc.shared.calculator.SpecialItemType;
@@ -124,7 +125,7 @@ public class ItemPanel extends Composite {
 				NumberSpinner number = new NumberSpinner();
 				number.setMax(set.getMaxPieces());
 				number.setVisibleLength(2);
-				number.setTitle("# of pieces of this set worn (add 1 if using RROG)");
+				number.setTitle("# of pieces of this set worn (add 1 if using RoRG)");
 				table.setWidget(row, 1, number);
 				
 				setCounts.put(thisSet, number);
@@ -224,10 +225,12 @@ public class ItemPanel extends Composite {
 		
 		boolean changed = setItem(slot, type, null);
 
-		if (type != null) {
-	
+		if ((type != null) && !slot.isCube()) {
+		
 			for (Slot s : type.getSlots()) {
-				if (s != slot) {
+				
+				if ((s != slot) && !s.isCube()) {
+					
 					SpecialItemType other = getSelectedItem(s);
 					
 					if (other == type) {
@@ -236,7 +239,7 @@ public class ItemPanel extends Composite {
 				}
 			}
 		}
-		
+
 		if (changed);
 			itemsChanged(null);
 	}
@@ -261,16 +264,20 @@ public class ItemPanel extends Composite {
 		return areaDamageEquipment;
 	}
 	
-	public Map<SpecialItemType, AttributeData> getItems() {
-		Map<SpecialItemType, AttributeData> map = new TreeMap<SpecialItemType, AttributeData>();
+	public Map<Slot, ItemHolder> getItems() {
+		Map<Slot, ItemHolder> map = new TreeMap<Slot, ItemHolder>();
 		
 		for (Slot slot : Slot.values()) {
 			if (this.listBoxes.containsKey(slot)) {
 				SpecialItemType type = this.getSelectedItem(slot);
 				
 				if (type != null) {
+					ItemHolder item = new ItemHolder();
 					AttributeData data = new AttributeData();
-					map.put(type, data);
+
+					item.setType(type);
+					item.setAttributes(data);
+					map.put(slot, item);
 					
 					for (SpecialItemType.Attribute a : type.getAttributes()) {
 						NumberSpinner spinner = this.attributeSpinners.get(slot).get(a.getLabel());
@@ -288,13 +295,11 @@ public class ItemPanel extends Composite {
 	}
 
 	
-	public void setItems(Map<SpecialItemType, AttributeData> items) {
+	public void setItems(Map<Slot, ItemHolder> items) {
 	
 		this.disableListeners = true;
 		
 		boolean changed = false;
-		boolean hasRing1 = false;
-		boolean hasMainHand = false;
 		Set<Slot> all = new TreeSet<Slot>();
 		
 		for (Slot slot : Slot.values()) {
@@ -302,22 +307,12 @@ public class ItemPanel extends Composite {
 				all.add(slot);
 		}
 		
-		for (Map.Entry<SpecialItemType, AttributeData> e : items.entrySet()) {
-			Slot[] slots = e.getKey().getSlots();
-			Slot slot = slots[0];
-			
-			if (slots.length > 1) {
-				if ((slot == Slot.Ring1) || (slot == Slot.Ring2)) {
-					slot = (hasRing1) ? Slot.Ring2 : Slot.Ring1;
-					hasRing1 = true;
-				} else if ((slot == Slot.MainHand) || (slot == Slot.OffHand)) {
-					slot = (hasMainHand) ? Slot.OffHand : Slot.MainHand;
-					hasMainHand = true;
-				}
-			}
-
+		for (Map.Entry<Slot, ItemHolder> e : items.entrySet()) {
+			Slot slot = e.getKey();
 			all.remove(slot);
-			changed |= setItem(slot, e.getKey(), e.getValue());
+			
+			ItemHolder item = e.getValue();
+			changed |= setItem(slot, item.getType(), item.getAttributes());
 		}
 
 		for (Slot slot : all) {
@@ -392,8 +387,21 @@ public class ItemPanel extends Composite {
 				NumberSpinner spinner = attributeSpinners.get(slot).get(a.getLabel());
 				Integer value = (data != null) ? data.get(a.getLabel()) : null;
 				
-				if (value == null)
-					value = a.getMin();
+				if (value == null) {
+					if (slot.isCube()) {
+						// TODO Get Min value for others that need min value as default for cube
+						if (type == SpecialItemType.MeticulousBolts)
+							value = a.getMin();
+						else
+							value = a.getMax(); 
+					} else {
+						// TODO Get Min value for others that need max value as default 
+						if (type == SpecialItemType.MeticulousBolts)
+							value = a.getMax(); 
+						else
+							value = a.getMin();
+					}
+				}
 
 				if (value != spinner.getValue()) {
 					spinner.setValue(value);

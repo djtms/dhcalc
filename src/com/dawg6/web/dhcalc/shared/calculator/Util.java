@@ -28,7 +28,7 @@ public class Util implements ILogger {
 	private static final Util instance = new Util();
 	private Formatter formatter;
 	private ILogger logger;
-	
+
 	private Util() {
 	}
 
@@ -36,11 +36,10 @@ public class Util implements ILogger {
 		return instance;
 	}
 
-	
 	public void setLogger(ILogger logger) {
 		this.logger = logger;
 	}
-	
+
 	public void setFormatter(Formatter formatter) {
 		this.formatter = formatter;
 	}
@@ -250,21 +249,28 @@ public class Util implements ILogger {
 	}
 
 	public static Map<String, String> createSpecialItemsMap(
-			Map<SpecialItemType, AttributeData> items,
-			Map<String, Integer> setCounts) {
+			Map<Slot, ItemHolder> items, Map<String, Integer> setCounts) {
 
 		Map<String, String> map = new TreeMap<String, String>();
 
 		if (items != null) {
-			for (Map.Entry<SpecialItemType, AttributeData> e : items.entrySet()) {
-				SpecialItemType type = e.getKey();
-				AttributeData ad = e.getValue();
 
-				map.put(type.name(), "TRUE");
+			for (Map.Entry<Slot, ItemHolder> e : items.entrySet()) {
+				Slot slot = e.getKey();
+				ItemHolder item = e.getValue();
 
-				for (Map.Entry<String, Integer> a : ad.entrySet()) {
-					map.put(type.name() + "." + a.getKey(),
-							String.valueOf(a.getValue()));
+				if (item != null) {
+					SpecialItemType type = item.getType();
+					AttributeData data = item.getAttributes();
+
+					map.put(slot.name(), type.name());
+
+					if (data != null) {
+						for (Map.Entry<String, Integer> a : data.entrySet()) {
+							map.put(slot.name() + "." + a.getKey(),
+									String.valueOf(a.getValue()));
+						}
+					}
 				}
 			}
 		}
@@ -274,7 +280,7 @@ public class Util implements ILogger {
 				Integer n = setCounts.get(set.getSlug());
 
 				if (n != null) {
-					map.put(set.name(), String.valueOf(n));
+					map.put("Set." + set.name(), String.valueOf(n));
 				}
 			}
 		}
@@ -282,20 +288,26 @@ public class Util implements ILogger {
 		return map;
 	}
 
-	public static Map<SpecialItemType, AttributeData> createSpecialItems(
+	public static Map<Slot, ItemHolder> createSpecialItems(
 			Map<String, String> smap) {
 
-		Map<SpecialItemType, AttributeData> map = new TreeMap<SpecialItemType, AttributeData>();
+		Map<Slot, ItemHolder> map = new TreeMap<Slot, ItemHolder>();
 
-		for (SpecialItemType type : SpecialItemType.values()) {
-			String value = smap.get(type.name());
+		for (Slot slot : Slot.values()) {
+			
+			String t = smap.get(slot.name());
 
-			if ((value != null) && Boolean.parseBoolean(value)) {
+			if (t != null) {
+				SpecialItemType type = SpecialItemType.valueOf(t);
+				
+				ItemHolder item = new ItemHolder();
 				AttributeData ad = new AttributeData();
-				map.put(type, ad);
+				item.setType(type);
+				item.setAttributes(ad);
+				map.put(slot, item);
 
 				for (SpecialItemType.Attribute a : type.getAttributes()) {
-					String av = smap.get(type.name() + "." + a.getKey());
+					String av = smap.get(slot.name() + "." + a.getKey());
 					Integer v = null;
 
 					if (av == null) {
@@ -322,7 +334,7 @@ public class Util implements ILogger {
 		Map<String, Integer> map = new TreeMap<String, Integer>();
 
 		for (ItemSet set : ItemSet.values()) {
-			String value = smap.get(set.name());
+			String value = smap.get("Set." + set.name());
 
 			if (value != null) {
 				Integer n = 0;
@@ -343,7 +355,7 @@ public class Util implements ILogger {
 
 	@Override
 	public void log(String message) {
-		
+
 		if (logger != null)
 			logger.log(message);
 	}

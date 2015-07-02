@@ -3215,7 +3215,7 @@ public class MainPanel extends BasePanel {
 				super.getFieldValue(passives.getPassives(), null));
 		super.saveField("gems",
 				super.getGemsFieldValue(gemPanel.getGems(), null));
-		super.saveField("specialItems",
+		super.saveField("equipment",
 				super.getSpecialItemsFieldValue(itemPanel.getItems(), itemPanel.getSetCounts(), null));
 		super.saveField("elemental.Damage",
 				super.getFieldValue(this.typeDamage.getValues(), null));
@@ -3232,7 +3232,7 @@ public class MainPanel extends BasePanel {
 		super.setFieldValue(skills, super.getFieldValue("skills", null));
 		super.setFieldValue(passives, super.getFieldValue("passives", null));
 		super.setFieldValue(gemPanel, super.getFieldValue("gems", null));
-		super.setFieldValue(itemPanel, super.getFieldValue("specialItems", null));
+		super.setFieldValue(itemPanel, super.getFieldValue("equipment", null));
 		super.setFieldValue(typeDamage,
 				super.getFieldValue("elemental.Damage", null));
 		super.setFieldValue(skillDamage,

@@ -658,7 +658,7 @@ public class ProfileHelper {
 	public static void setSkillDamage(HeroProfile hero, CharacterData data) {
 
 		Map<ActiveSkill, Double> damage = new TreeMap<ActiveSkill, Double>();
-		Map<SpecialItemType, AttributeData> items = new TreeMap<SpecialItemType, AttributeData>();
+		Map<Slot, ItemHolder> items = new TreeMap<Slot, ItemHolder>();
 		double elite = 0;
 		Map<String, Integer> setCounts = new TreeMap<String, Integer>();
 		Map<String, D3Set> sets = new TreeMap<String, D3Set>();
@@ -666,8 +666,11 @@ public class ProfileHelper {
 		double hatredPerSecond = 0.0;
 		int discipline = 0;
 
-		for (ItemInformation i : hero.items.values()) {
+		for (Map.Entry<String, ItemInformation> e : hero.items.entrySet()) {
 
+			Slot slot = Slot.getSlot(e.getKey());
+			ItemInformation i = e.getValue();
+			
 			if (i.attributesRaw != null) {
 				Value<Float> v = i.attributesRaw.get(Const.ELITE_DAMAGE_RAW);
 
@@ -716,7 +719,11 @@ public class ProfileHelper {
 						ad.put(a.getLabel(), value);
 					}
 					
-					items.put(type, ad);
+					ItemHolder item = new ItemHolder();
+					item.setType(type);
+					item.setAttributes(ad);
+					
+					items.put(slot, item);
 				}
 			}
 		}

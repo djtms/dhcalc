@@ -157,7 +157,7 @@ public class CharacterData implements Serializable {
 	private double timeWarpUptime;
 	private double stretchTimeUptime;
 	private Map<GemSkill, GemAttributeData> gems;
-	private Map<SpecialItemType, AttributeData> specialItems;
+	private Map<Slot, ItemHolder> items;
 	private double sharpshooterCC;
 
 	public CharacterData copy() {
@@ -279,6 +279,7 @@ public class CharacterData implements Serializable {
 		this.innerSanctuary = other.innerSanctuary;
 		this.innerSanctuaryUptime = other.innerSanctuaryUptime;
 		this.inspire = other.inspire;
+		this.items = copyItems(other.items);
 		this.jewelryMax = other.jewelryMax;
 		this.jewelryMin = other.jewelryMin;
 		this.level = other.level;
@@ -334,7 +335,6 @@ public class CharacterData implements Serializable {
 		this.setCounts = Util.copy(other.setCounts);
 		this.sets = Util.copy(other.sets);
 		this.sharpshooterCC = other.sharpshooterCC;
-		this.specialItems = copyItems(other.specialItems);
 		this.sheetDps = other.sheetDps;
 		this.skillDamage = Util.copy(other.skillDamage);
 		this.skills = Util.copy(other.skills);
@@ -364,12 +364,12 @@ public class CharacterData implements Serializable {
 		this.wolfUptime = other.wolfUptime;
 	}
 
-	private Map<SpecialItemType, AttributeData> copyItems(
-			Map<SpecialItemType, AttributeData> items) {
-		Map<SpecialItemType, AttributeData> map = new TreeMap<SpecialItemType, AttributeData>();
+	private Map<Slot, ItemHolder> copyItems(
+			Map<Slot, ItemHolder> items) {
+		Map<Slot, ItemHolder> map = new TreeMap<Slot, ItemHolder>();
 		
-		for (Map.Entry<SpecialItemType, AttributeData> e : items.entrySet()) {
-			map.put(e.getKey(), new AttributeData(e.getValue()));
+		for (Map.Entry<Slot, ItemHolder> e : items.entrySet()) {
+			map.put(e.getKey(), new ItemHolder(e.getValue()));
 		}
 		
 		return map;
@@ -536,7 +536,13 @@ public class CharacterData implements Serializable {
 	}
 
 	private boolean isItem(SpecialItemType item) {
-		return specialItems.containsKey(item);
+		
+		for (ItemHolder i : items.values()) {
+			if (i.getType() == item)
+				return true;
+		}
+
+		return false;
 	}
 
 	public boolean isCharmed() {
@@ -554,9 +560,18 @@ public class CharacterData implements Serializable {
 	public int getBotpLevel() {
 		return getGemLevel(GemSkill.BotP);
 	}
+	
+	public AttributeData getItemAttributes(SpecialItemType item) {
+		for (ItemHolder i : items.values()) {
+			if (i.getType() == item)
+				return i.getAttributes();
+		}
+
+		return null;	
+	}
 
 	public double getItemAttribute(SpecialItemType item, String label) {
-		AttributeData data = specialItems.get(item);
+		AttributeData data = getItemAttributes(item);
 		double value = 0.0;
 		
 		if (data != null) {
@@ -1984,12 +1999,12 @@ public class CharacterData implements Serializable {
 		this.gems = gems;
 	}
 
-	public Map<SpecialItemType, AttributeData> getSpecialItems() {
-		return specialItems;
+	public Map<Slot, ItemHolder> getSpecialItems() {
+		return items;
 	}
 
-	public void setSpecialItems(Map<SpecialItemType, AttributeData> specialItems) {
-		this.specialItems = specialItems;
+	public void setSpecialItems(Map<Slot, ItemHolder> items) {
+		this.items = items;
 	}
 
 	public double getValorPassiveUptime() {

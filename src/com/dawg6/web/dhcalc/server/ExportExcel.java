@@ -42,9 +42,11 @@ import com.dawg6.web.dhcalc.shared.calculator.DamageType;
 import com.dawg6.web.dhcalc.shared.calculator.ExportData;
 import com.dawg6.web.dhcalc.shared.calculator.GemAttributeData;
 import com.dawg6.web.dhcalc.shared.calculator.GemSkill;
+import com.dawg6.web.dhcalc.shared.calculator.ItemHolder;
 import com.dawg6.web.dhcalc.shared.calculator.ItemSet;
 import com.dawg6.web.dhcalc.shared.calculator.Passive;
 import com.dawg6.web.dhcalc.shared.calculator.Rune;
+import com.dawg6.web.dhcalc.shared.calculator.Slot;
 import com.dawg6.web.dhcalc.shared.calculator.SpecialItemType;
 
 public class ExportExcel {
@@ -521,16 +523,18 @@ public class ExportExcel {
 		createInput(inputs, data.data.getAreaDamageEquipment(),
 				"Equipment Area Damage", pctStyle);
 		
-		for (Map.Entry<SpecialItemType, AttributeData> e : data.data.getSpecialItems().entrySet()) {
-			SpecialItemType item = e.getKey();
-			AttributeData ad = e.getValue();
-			createInput(inputs, true, e.getKey().getName());
+		for (Map.Entry<Slot, ItemHolder> e : data.data.getSpecialItems().entrySet()) {
+			Slot slot = e.getKey();
+			ItemHolder item = e.getValue();
+			SpecialItemType type = item.getType();
+			AttributeData ad = item.getAttributes();
+			createInput(inputs, type.getName(), slot.getSlot());
 			
-			for (SpecialItemType.Attribute a : item.getAttributes()) {
+			for (SpecialItemType.Attribute a : type.getAttributes()) {
 				Integer i = ad.get(a.getLabel());
 				
 				if (i != null) {
-					createInput(inputs, i, e.getKey().getName() + " " + a.getLabel());
+					createInput(inputs, i, type.getName() + " " + a.getLabel());
 				}
 			}
 		}

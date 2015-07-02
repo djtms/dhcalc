@@ -25,13 +25,13 @@ import java.util.Set;
 
 import com.dawg6.gwt.client.ApplicationPanel;
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
-import com.dawg6.web.dhcalc.shared.calculator.AttributeData;
 import com.dawg6.web.dhcalc.shared.calculator.DamageType;
 import com.dawg6.web.dhcalc.shared.calculator.GemAttributeData;
 import com.dawg6.web.dhcalc.shared.calculator.GemSkill;
+import com.dawg6.web.dhcalc.shared.calculator.ItemHolder;
 import com.dawg6.web.dhcalc.shared.calculator.Passive;
 import com.dawg6.web.dhcalc.shared.calculator.Rune;
-import com.dawg6.web.dhcalc.shared.calculator.SpecialItemType;
+import com.dawg6.web.dhcalc.shared.calculator.Slot;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.storage.client.Storage;
@@ -510,7 +510,7 @@ public class BasePanel extends ApplicationPanel {
 	}
 
 	protected void setFieldValue(ItemPanel field, String value) {
-		Map<SpecialItemType, AttributeData> items = JsonUtil
+		Map<Slot, ItemHolder> items = JsonUtil
 				.parseSpecialItemsMap(value);
 
 		field.setItems(items);
@@ -606,7 +606,7 @@ public class BasePanel extends ApplicationPanel {
 	}
 
 	public String getSpecialItemsFieldValue(
-			Map<SpecialItemType, AttributeData> items,
+			Map<Slot, ItemHolder> items,
 			Map<String, Integer> setCounts, String defaultValue) {
 
 		return JsonUtil.specialItemsToJSONObject(items, setCounts).toString();

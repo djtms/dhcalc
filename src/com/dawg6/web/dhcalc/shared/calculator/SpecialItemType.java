@@ -10,72 +10,72 @@ import com.dawg6.web.dhcalc.shared.calculator.d3api.Const;
 public enum SpecialItemType {
 
 	Harrington(Const.HARRINGTON, "harrington-waistguard", false,
-			new Slot[] { Slot.Waist }, new Attribute(SpecialItemType.PERCENT,
+			new Slot[] { Slot.Waist, Slot.CubeArmor }, new Attribute(SpecialItemType.PERCENT,
 					Const.HARRINGTON_PERCENT, 100, 135),
 			new Attribute(SpecialItemType.UPTIME)),
 
-	CR(Const.CRASHING_RAIN, "crashing-rain", false, new Slot[] { Slot.Waist },
+	CR(Const.CRASHING_RAIN, "crashing-rain", false, new Slot[] { Slot.Waist, Slot.CubeArmor },
 			new Attribute(SpecialItemType.PERCENT, Const.CRASHING_RAIN_PERCENT,
 					3000, 4000)),
 
-	Calamity(Const.CALAMITY, "calamity", false, new Slot[] { Slot.MainHand,
+	Calamity(Const.CALAMITY, "calamity", false, new Slot[] { Slot.MainHand, Slot.CubeWeapon,
 			Slot.OffHand } ),
 
 	HellTrapper(Const.HELLTRAPPER, "helltrapper-3tfdaj", false, new Slot[] {
-			Slot.MainHand, Slot.OffHand }, new Attribute(
+			Slot.MainHand, Slot.OffHand, Slot.CubeWeapon }, new Attribute(
 			SpecialItemType.PERCENT, Const.HELLTRAPPER_PERCENT, 7, 10)),
 
-	Kridershot(Const.KRIDERSHOT, "kridershot", false, new Slot[] { Slot.MainHand },
+	Kridershot(Const.KRIDERSHOT, "kridershot", false, new Slot[] { Slot.MainHand, Slot.CubeWeapon },
 			new Attribute(SpecialItemType.HATRED, Const.KRIDERSHOT_HATRED, 3, 4, 1.0)),
 
-	Oddessy(Const.ODYSSEYS_END, "odysseys-end", false, new Slot[] { Slot.MainHand },
+	Oddessy(Const.ODYSSEYS_END, "odysseys-end", false, new Slot[] { Slot.MainHand, Slot.CubeWeapon },
 			new Attribute(SpecialItemType.PERCENT, Const.ODYSSEYS_END_PERCENT,
 					20, 25)),
 
-	TnT(Const.TASKER_AND_THEO, "tasker-and-theo", false, new Slot[] { Slot.Hands },
+	TnT(Const.TASKER_AND_THEO, "tasker-and-theo", false, new Slot[] { Slot.Hands, Slot.CubeArmor },
 			new Attribute(SpecialItemType.PERCENT, Const.TNT_IAS, 40, 50)),
 
 	MeticulousBolts(Const.METICULOUS_BOLTS, "meticulous-bolts", false,
-			new Slot[] { Slot.OffHand }, new Attribute(SpecialItemType.PERCENT,
+			new Slot[] { Slot.OffHand, Slot.CubeWeapon }, new Attribute(SpecialItemType.PERCENT,
 					Const.METICULOUS_BOLTS_PERCENT, 30, 40)),
 
 	Bombadiers(Const.BOMBADIERS, "bombardiers-rucksack", false,
-			new Slot[] { Slot.OffHand }),
+			new Slot[] { Slot.OffHand, Slot.CubeWeapon }),
 
 	Spines(Const.SPINES, "spines-of-seething-hatred", false,
-			new Slot[] { Slot.OffHand }, new Attribute(SpecialItemType.HATRED,
+			new Slot[] { Slot.OffHand, Slot.CubeWeapon }, new Attribute(SpecialItemType.HATRED,
 					Const.SPINES_HATRED, 3, 4, 1.0)),
 
-	DML(Const.DML, "dead-mans-legacy", false, new Slot[] { Slot.OffHand },
+	DML(Const.DML, "dead-mans-legacy", false, new Slot[] { Slot.OffHand, Slot.CubeWeapon },
 			new Attribute(SpecialItemType.PERCENT, Const.DML_PERCENT, 50, 60)),
 
 	StrongArm(Const.STRONGARM, "strongarm-bracers", false,
-			new Slot[] { Slot.Bracers }, new Attribute(SpecialItemType.PERCENT,
+			new Slot[] { Slot.Bracers, Slot.CubeArmor }, new Attribute(SpecialItemType.PERCENT,
 					Const.STRONGARM_PERCENT, 20, 30), new Attribute(SpecialItemType.UPTIME)),
 
-	Reapers(Const.REAPERS_WRAPS, "reapers-wraps", true, new Slot[] { Slot.Bracers },
+	Reapers(Const.REAPERS_WRAPS, "reapers-wraps", true, new Slot[] { Slot.Bracers, Slot.CubeArmor },
 			new Attribute(SpecialItemType.PERCENT, Const.REAPERS_WRAPS_PERCENT,
 					25, 30)),
 
 	HexingPants(Const.HEXING_PANTS, "hexing-pants-of-mr-yan", false,
-			new Slot[] { Slot.Legs }, new Attribute(SpecialItemType.PERCENT,
+			new Slot[] { Slot.Legs, Slot.CubeArmor }, new Attribute(SpecialItemType.PERCENT,
 					Const.HEXING_PANTS_PERCENT, 20, 25), new Attribute(SpecialItemType.PERCENT_MOVING)),
 
-	Vaxo(Const.VAXO, "haunt-of-vaxo", false, new Slot[] { Slot.Necklace }),
+	Vaxo(Const.VAXO, "haunt-of-vaxo", false, new Slot[] { Slot.Necklace, Slot.CubeJewelry }),
 
 	CoE(Const.COE, "convention-of-elements", false, new Slot[] { Slot.Ring1,
-			Slot.Ring2 }, new Attribute(SpecialItemType.PERCENT,
+			Slot.Ring2, Slot.CubeJewelry }, new Attribute(SpecialItemType.PERCENT,
 			Const.COE_PERCENT, 150, 200)),
 
-	Cindercoat(Const.CINDERCOAT, "cindercoat", false, new Slot[] { Slot.Torso },
+	Cindercoat(Const.CINDERCOAT, "cindercoat", false, new Slot[] { Slot.Torso, Slot.CubeArmor },
 			new Attribute(SpecialItemType.PERCENT, Const.CINDERCOAT_RCR, 23, 30)),
 
-	Leorics(Const.LEORICS_CROWN, "leorics-crown", false, new Slot[] { Slot.Head },
+	Leorics(Const.LEORICS_CROWN, "leorics-crown", false, new Slot[] { Slot.Head, Slot.CubeArmor },
 			new Attribute(SpecialItemType.PERCENT, Const.GEM_MULTIPLIER, 75, 100)),
 
-	PridesFall(Const.PRIDES_FALL, "prides-fall-pgClp", false, new Slot[] { Slot.Head }),
+	PridesFall(Const.PRIDES_FALL, "prides-fall-pgClp", false, new Slot[] { Slot.Head, Slot.CubeArmor }),
 
-	RoyalRing(Const.ROYAL_RING,  "ring-of-royal-grandeur-3qRFop", false, new Slot[] { Slot.Ring1, Slot.Ring2 }),
+	RoyalRing(Const.ROYAL_RING,  "ring-of-royal-grandeur-3qRFop", false, new Slot[] { Slot.Ring1, Slot.Ring2, Slot.CubeJewelry }),
 	
 	;
 
