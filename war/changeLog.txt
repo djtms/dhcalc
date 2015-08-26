@@ -3,8 +3,8 @@ Change Log:
 **8/26/15**
 
 - Added Yang's Recurve
-- Added Hunter's Wrath
-- Fixed BreakPoint calculations for skills that depend on weapon type (e.g. EvasiveFire). This was shown correctly in break point table, but was not being calculated properly in the simulation, resulting in ~APS for those skills.
+- Added Hunter's Wrath (with import of legendary power)
+- Fixed BreakPoint calculations for skills that depend on weapon type (e.g. EvasiveFire). This was shown correctly in break point table, but was not being calculated properly in the simulation, resulting in 1.02 APS for those skills.
 - Added import of legendary powers from cube
 
 **7/2/15**

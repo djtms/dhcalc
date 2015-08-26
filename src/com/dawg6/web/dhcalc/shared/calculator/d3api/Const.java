@@ -115,7 +115,7 @@ public class Const {
 	public static final String HARRINGTON = "Harrington Waistguard";
 	public static final String HUNTERS_WRATH = "Hunter's Wrath";
 	public static final String HARRINGTON_PERCENT = "Item_Power_Passive#ItemPassive_Unique_Ring_685_x1";
-	public static final String HUNTERS_WRATH_PERCENT = "Item_Power_Passive#TBD";
+	public static final String HUNTERS_WRATH_PERCENT = "Item_Power_Passive#P3_ItemPassive_Unique_Ring_028";
 	public static final String STRONGARM = "Strongarm Bracers";
 	public static final String STRONGARM_PERCENT = "Item_Power_Passive#ItemPassive_Unique_Ring_590_x1";
 	public static final String HEXING_PANTS = "Hexing Pants of Mr. Yan";
