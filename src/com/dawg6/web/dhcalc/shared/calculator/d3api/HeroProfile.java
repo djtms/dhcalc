@@ -219,6 +219,19 @@ public class HeroProfile extends D3Message implements Serializable {
 		}
 	}
 
+	public static class LegendaryPowers implements Serializable {
+		
+		private static final long serialVersionUID = 1L;
+
+		public String id;
+		public String name;
+		public String icon;
+		public String displayColor;
+		public String tooltipParams;
+	}
+	
+	public LegendaryPowers[] legendaryPowers;
+	
 	public HeroStats stats;
 
 	public Kill kills;
