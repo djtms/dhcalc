@@ -114,9 +114,9 @@ public class AboutDialog extends ApplicationPanel {
 		horizontalPanel_3.add(lblBlizzardThread);
 		
 		Anchor anchor_2 = new Anchor("New label");
-		anchor_2.setText("http://us.battle.net/d3/en/forum/topic/14926303061");
+		anchor_2.setText("http://us.battle.net/d3/en/forum/topic/18706673688");
 		anchor_2.setTarget("_blank");
-		anchor_2.setHref("http://us.battle.net/d3/en/forum/topic/14926303061");
+		anchor_2.setHref("http://us.battle.net/d3/en/forum/topic/18706673688");
 		horizontalPanel_3.add(anchor_2);
 		flexTable.getCellFormatter().setHorizontalAlignment(6, 0, HasHorizontalAlignment.ALIGN_CENTER);
 		

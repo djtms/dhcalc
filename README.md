@@ -4,7 +4,7 @@ Copyright 2014, 2015 by Scott Clarke (scott@dawg6.com)
 
 Blizzard Forums Post:
 
-http://us.battle.net/d3/en/forum/topic/14926303061
+http://us.battle.net/d3/en/forum/topic/18706673688
 
 Reddit Post:
 
