@@ -116,8 +116,12 @@ public class DamageRow {
 		// Sentry damage and enforcer won't effect gem procs
 		if (source.skill != null) {
 
-			if (source.skill != ActiveSkill.Companion) {
+			if (source.skill == ActiveSkill.BOLT) {
+				// Sentry Skill damage is additive for sentry bolts and rockets
 				this.multipliers.add(DamageMultiplier.Sentry);
+			} else if (source.skill != ActiveSkill.Companion) {
+				// Sentry Skill damage is multiplicative for skills fired by M4
+				this.multipliers.add(DamageMultiplier.SentryM4);
 			}
 			
 			// Spitfire Turret's rockets don't get Enforce bonus?

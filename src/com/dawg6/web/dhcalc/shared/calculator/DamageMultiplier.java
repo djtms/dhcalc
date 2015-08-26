@@ -119,8 +119,14 @@ public enum DamageMultiplier {
 					return d
 							* (0.04 + (state.getData().getZeisLevel() * 0.0005));
 				}
-			}), Sentry("Sentry", DamageAccumulator.Multiplicative,
-			"Sentry Skill Damage Bonus", new Test<SimulationState, Double>() {
+			}), SentryM4("SentryM4", DamageAccumulator.Multiplicative,
+			"Sentry Skill Damage Bonus for skills fired by M4", new Test<SimulationState, Double>() {
+				@Override
+				public Double getValue(SimulationState state) {
+					return state.getData().getSentryDamage();
+				}
+			}), Sentry("Sentry", DamageAccumulator.Additive,
+			"Sentry Skill Damage Bonus for sentry bolts/rockets", new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
 					return state.getData().getSentryDamage();
@@ -406,7 +412,7 @@ public enum DamageMultiplier {
 					return state.getData().getRovDamage();
 				}
 			}), CtW("CtW", DamageAccumulator.Multiplicative,
-			"Cull the Weak passive bonus (20% to chilled/frozen)",
+			"Cull the Weak passive bonus (20% to chilled/slowed)",
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {

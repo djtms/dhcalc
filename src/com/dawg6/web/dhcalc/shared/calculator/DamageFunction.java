@@ -720,7 +720,7 @@ public class DamageFunction {
 
 							for (DamageMultiplier dw : dlist) {
 
-								if ((isSentry || (dw != DamageMultiplier.Sentry))
+								if ((isSentry || ((dw != DamageMultiplier.Sentry) && (dw != DamageMultiplier.SentryM4)))
 										&& (!isPlayer || (dw != DamageMultiplier.Enforcer))
 										&& (dw.getAccumulator() != DamageAccumulator.Special)
 										&& (isPlayer
