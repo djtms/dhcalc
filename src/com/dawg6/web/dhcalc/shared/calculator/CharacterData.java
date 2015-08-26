@@ -673,6 +673,15 @@ public class CharacterData implements Serializable {
 		return isItem(SpecialItemType.Calamity);
 	}
 
+	public boolean isYangs() {
+		return isItem(SpecialItemType.Yangs);
+	}
+
+	public boolean isHuntersWrath() {
+		return isItem(SpecialItemType.HuntersWrath);
+	}
+
+	
 	public boolean isZeis() {
 		return gems.containsKey(GemSkill.Zeis);
 	}
@@ -1671,6 +1680,10 @@ public class CharacterData implements Serializable {
 
 	public double getHelltrapperPercent() {
 		return getItemAttribute(SpecialItemType.HellTrapper, SpecialItemType.PERCENT);
+	}
+
+	public double getHuntersWrathPercent() {
+		return getItemAttribute(SpecialItemType.HuntersWrath, SpecialItemType.PERCENT);
 	}
 
 	public boolean isVaxo() {

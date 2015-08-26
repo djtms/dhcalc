@@ -14,6 +14,10 @@ public enum SpecialItemType {
 					Const.HARRINGTON_PERCENT, 100, 135),
 			new Attribute(SpecialItemType.UPTIME)),
 
+	HuntersWrath(Const.HUNTERS_WRATH, "hunters-wrath", false, new Slot[] { Slot.Waist, Slot.CubeArmor },
+			new Attribute(SpecialItemType.PERCENT, Const.HUNTERS_WRATH_PERCENT,
+					45, 60)),
+
 	CR(Const.CRASHING_RAIN, "crashing-rain", false, new Slot[] { Slot.Waist, Slot.CubeArmor },
 			new Attribute(SpecialItemType.PERCENT, Const.CRASHING_RAIN_PERCENT,
 					3000, 4000)),
@@ -24,6 +28,8 @@ public enum SpecialItemType {
 	HellTrapper(Const.HELLTRAPPER, "helltrapper-3tfdaj", false, new Slot[] {
 			Slot.MainHand, Slot.OffHand, Slot.CubeWeapon }, new Attribute(
 			SpecialItemType.PERCENT, Const.HELLTRAPPER_PERCENT, 7, 10)),
+
+	Yangs(Const.YANGS, "yangs-recurve", false, new Slot[] { Slot.MainHand, Slot.CubeWeapon }),
 
 	Kridershot(Const.KRIDERSHOT, "kridershot", false, new Slot[] { Slot.MainHand, Slot.CubeWeapon },
 			new Attribute(SpecialItemType.HATRED, Const.KRIDERSHOT_HATRED, 3, 4, 1.0)),

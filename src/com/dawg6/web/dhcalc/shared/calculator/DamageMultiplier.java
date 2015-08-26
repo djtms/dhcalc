@@ -35,6 +35,14 @@ public enum DamageMultiplier {
 				public Double getValue(SimulationState state) {
 					return state.getData().getOffHand_weaponDamage();
 				}
+			}), HW("HW", DamageAccumulator.Multiplicative,
+			"Hunter's Wrath (45%-60% for primary skills)",
+			new Test<SimulationState, Double>() {
+
+				@Override
+				public Double getValue(SimulationState state) {
+					return state.getData().isHuntersWrath() ? state.getData().getHuntersWrathPercent() : 0.0;
+				}
 			}), NumGrenades("#Grenades", DamageAccumulator.Multiplicative,
 			"# of Grenades per Target", null), Fire("Fire",
 			DamageAccumulator.ElementalAdditive, "Fire Elemental Damage Bonus",
@@ -55,14 +63,16 @@ public enum DamageMultiplier {
 				public Double getValue(SimulationState state) {
 					return state.getData().getPhysDamage();
 				}
-			}), SharpShooter("SS", DamageAccumulator.Special, "SharpShooter Bonus (+4% crit chance/second after last crit)",
-			new Test<SimulationState, Double>(){
+			}), SharpShooter("SS", DamageAccumulator.Special,
+			"SharpShooter Bonus (+4% crit chance/second after last crit)",
+			new Test<SimulationState, Double>() {
 
 				@Override
 				public Double getValue(SimulationState data) {
-					return data.getData().isSharpshooter() ? data.getData().getSharpshooterCC() : 0.0;
-				}}),
-			Lightning("Lightning", DamageAccumulator.ElementalAdditive,
+					return data.getData().isSharpshooter() ? data.getData()
+							.getSharpshooterCC() : 0.0;
+				}
+			}), Lightning("Lightning", DamageAccumulator.ElementalAdditive,
 			"Lightning Elemental Damage Bonus",
 			new Test<SimulationState, Double>() {
 				@Override
@@ -658,19 +668,22 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					
+
 					TargetType type = state.getData().getTargetType();
 
 					if (type == TargetType.Primary) {
 						return (state.getBuffs().isActive(Buff.Vaxo)
 								&& !state.getBuffs().isActive(Buff.Calamity) && !state
-								.getBuffs().isActive(Buff.MfdPrimary)) ? 0.15 : 0.0;
+								.getBuffs().isActive(Buff.MfdPrimary)) ? 0.15
+								: 0.0;
 					} else {
 						return (state.getBuffs().isActive(Buff.Vaxo)
-								&& !state.getBuffs().isActive(Buff.Calamity) && !state
-								.getBuffs().isActive(Buff.MfdAdditional) && (state.getData().getTargetSpacing() <= 15)) ? 0.15 : 0.0;
+								&& !state.getBuffs().isActive(Buff.Calamity)
+								&& !state.getBuffs().isActive(
+										Buff.MfdAdditional) && (state.getData()
+								.getTargetSpacing() <= 15)) ? 0.15 : 0.0;
 					}
-					
+
 				}
 			}), AD("Area", DamageAccumulator.Special,
 			"Area Damage (20% chance)", new Test<SimulationState, Double>() {

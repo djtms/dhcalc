@@ -47,12 +47,15 @@ public class ActionEvent extends Event {
 	private final boolean n2;
 	private final boolean ue2;
 	private final boolean kridershot;
+	private final boolean yangs;
+	private final boolean huntersWrath;
 	private final boolean meticulousBolts;
 	private final boolean odysseys;
 	private final Rune esRune;
 	private double esDuration;
 	private final Map<ActiveSkill, Breakpoint> bpMap = new TreeMap<ActiveSkill, Breakpoint>();
 	private final double delay;
+	private final WeaponType mainHand;
 
 	public ActionEvent(CharacterData data) {
 		this.hand = Hand.MainHand;
@@ -63,8 +66,11 @@ public class ActionEvent extends Event {
 		this.n2 = data.getNumNats() >= 2;
 		this.ue2 = data.getNumUe() >= 2;
 		this.kridershot = data.isKridershot();
+		this.yangs = data.isYangs();
+		this.huntersWrath = data.isHuntersWrath();
 		this.meticulousBolts = data.isMeticulousBolts();
 		this.odysseys = data.isOdysseysEnd();
+		this.mainHand = data.getWeaponType();
 
 		this.venRune = data.getSkills().get(ActiveSkill.Vengeance);
 
@@ -197,6 +203,14 @@ public class ActionEvent extends Event {
 
 			double actualInterval = bpData.interval + this.delay;
 			
+			if (this.yangs && (selected.getSkill() == ActiveSkill.MS)) {
+				actualInterval = (bpData.interval / 1.5) + this.delay;
+			} 
+			
+			if (this.huntersWrath && (selected.getSkill().getSkillType() == SkillType.Primary)) {
+				actualInterval = (bpData.interval / 1.3) + this.delay;
+			}
+			
 			this.time += actualInterval;
 
 			double h = selected.getHatred(state.getData());
@@ -326,7 +340,13 @@ public class ActionEvent extends Event {
 		Breakpoint bp = bpMap.get(skill);
 		
 		if (bp == null) {
-			bp = new Breakpoint(skill.getFrames());
+			int frames = skill.getFrames();
+			
+			if (frames < 0) {
+				frames = mainHand.getFrames();
+			}
+			
+			bp = new Breakpoint(frames);
 			bpMap.put(skill, bp);
 		}
 		

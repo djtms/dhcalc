@@ -1,5 +1,11 @@
 Change Log:
 
+**8/26/15**
+
+- Added Yang's Recurve
+- Added Hunter's Wrath
+- Fixed BreakPoint calculations for skills that depend on weapon type (e.g. EvasiveFire). This was shown correctly in break point table, but was not being calculated properly in the simulation, resulting in ~APS for those skills.
+
 **7/2/15**
 - Added Cube item effects (preparation for 2.3). Still need to add more legendary item types.
 

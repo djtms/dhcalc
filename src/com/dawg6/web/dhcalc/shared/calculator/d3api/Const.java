@@ -113,7 +113,9 @@ public class Const {
 	public static final String METICULOUS_BOLTS = "Meticulous Bolts";
 	public static final String METICULOUS_BOLTS_PERCENT = "Item_Power_Passive#ItemPassive_Unique_Ring_749_x1";
 	public static final String HARRINGTON = "Harrington Waistguard";
+	public static final String HUNTERS_WRATH = "Hunter's Wrath";
 	public static final String HARRINGTON_PERCENT = "Item_Power_Passive#ItemPassive_Unique_Ring_685_x1";
+	public static final String HUNTERS_WRATH_PERCENT = "Item_Power_Passive#TBD";
 	public static final String STRONGARM = "Strongarm Bracers";
 	public static final String STRONGARM_PERCENT = "Item_Power_Passive#ItemPassive_Unique_Ring_590_x1";
 	public static final String HEXING_PANTS = "Hexing Pants of Mr. Yan";
@@ -127,6 +129,7 @@ public class Const {
 	public static final String SPINES = "Spines of Seething Hatred";
 	public static final String SPINES_HATRED = "Item_Power_Passive#ItemPassive_Unique_Ring_750_x1";
 	public static final String KRIDERSHOT = "Kridershot";
+	public static final String YANGS = "Yang's Recurve";
 	public static final String KRIDERSHOT_HATRED = "Item_Power_Passive#ItemPassive_Unique_Ring_517_x1";
 	public static final String HATRED_PER_SECOND = "Resource_Regen_Per_Second#Hatred";
 	public static final String PRIDES_FALL = "Pride's Fall";
