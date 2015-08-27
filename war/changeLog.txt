@@ -3,6 +3,8 @@ Change Log:
 **8/27/15**
 
 - Fixed main hand RCR max limit to allow for Yang's Recurve 
+- Added Cubed legendary powers to "paperdoll" view
+- Removed cube items from profile "Items..." popup window
 
 **8/26/15**
 

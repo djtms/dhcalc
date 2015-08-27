@@ -16,20 +16,23 @@
 <link rel="shortcut icon" href="demonhunter_female.ico?v1" type="image/x-icon">
 <link rel="icon" href="demonhunter_female.ico?v1" type="image/x-icon">
 <link rel="stylesheet" type="text/css" media="all"
-	href="http://us.battle.net/d3/static/local-common/css/common-game-site.min.css?v=58-80" />
+	href="http://us.battle.net/d3/static/local-common/css/common-game-site.min.css?v=58-85" />
 <link rel="stylesheet" type="text/css" media="all"
 	href="paperdoll.css?v=3" />
 <link rel="stylesheet" type="text/css" media="all"
-	href="http://us.battle.net/d3/static/css/tooltips.css?v=80" />
+	href="http://us.battle.net/d3/static/css/tooltips.css?v=85" />
 <link rel="stylesheet" type="text/css" media="all"
-	href="http://us.battle.net/d3/static/css/profile/shared.css?v=58-80" />
+	href="http://us.battle.net/d3/static/css/profile/shared.css?v=58-85" />
 <link rel="stylesheet" type="text/css" media="all"
-	href="http://us.battle.net/d3/static/css/profile/hero.css?v=58-80" />
+	href="http://us.battle.net/d3/static/css/profile/hero.css?v=58-85" />
 <link rel="stylesheet" type="text/css" media="all"
-	href="http://us.battle.net/d3/static/css/tool/gear-calculator/hero-slots.css?v=58-80" />
+	href="http://us.battle.net/d3/static/css/tool/gear-calculator/hero-slots.css?v=58-85" />
 <script type="text/javascript"
-	src="http://us.battle.net/d3/static/local-common/js/third-party.js?v=58-80"></script>
+	src="http://us.battle.net/d3/static/local-common/js/third-party.js?v=58-85"></script>
+<script type="text/javascript" src="http://us.battle.net/d3/static/local-common/js/common-game-site.min.js?v=58-85"></script>
 <script src="tooltips.js?v=13"></script>
+<script type="text/javascript" src="http://us.battle.net/d3/static/js/d3.js?v=85"></script>
+<script type="text/javascript" src="http://us.battle.net/d3/static/js/profile/profile.js?v=58-85"></script>
 
 <%
 	try {
@@ -119,6 +122,7 @@
 			</span> <%
  	if (i.gems != null) {
 %>
+
  <span class="sockets-wrapper"> <span class="sockets-align">
  <% 		
  					for (ItemInformation.Gem g : i.gems) {
@@ -131,6 +135,7 @@
  			}
  %>
 </span> </span> 
+
  <%
 	}
  %>
@@ -139,6 +144,52 @@
 			}
 		%>
 	</ul>
+	<span class="clear"><!-- --></span>
+	
+<div class="page-section kanai-cube">
+			<div class="section-header ">
+
+<h3 class="header-3" >Kanai's Cube Powers</h3>
+
+
+			</div>
+
+<table>
+<col width="75px"/>
+<col width="75px"/>
+<col width="75px"/>
+<col width="75px"/>
+<col width="75px"/>
+<col width="75px"/>
+<tr>
+<%
+	if (hero.legendaryPowers != null) {
+		for (HeroProfile.LegendaryPowers p : hero.legendaryPowers) {
+			
+			if (p != null) {
+%>
+<td align="center">
+<a href="http://us.battle.net/d3/en/<%= p.tooltipParams %>">
+<img src="http://media.blizzard.com/d3/icons/items/large/<%= p.icon %>.png"></img></a>
+</td>
+<td></td>
+<%
+			} else {
+%>
+<td align="center">
+</td>
+<td></td>
+<%
+			}
+		}
+%>
+</tr>
+</table>
+</div>
+<%
+	}
+%>
+
 	<%
 		}
 		} catch (Exception e) {

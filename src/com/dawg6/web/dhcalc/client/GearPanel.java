@@ -111,7 +111,7 @@ public class GearPanel extends Composite {
 
 		int row = 0;
 
-		for (Slot slot : Slot.values()) {
+		for (Slot slot : Slot.values()) if (!slot.isCube()) {
 			final Slot thisSlot = slot;
 
 			Label label = new Label(slot.name());
@@ -353,7 +353,7 @@ public class GearPanel extends Composite {
 	public void setHero(HeroProfile hero) {
 
 		if ((hero != null) && (hero.items != null)) {
-			for (Slot slot : Slot.values()) {
+			for (Slot slot : Slot.values()) if (!slot.isCube()) {
 				ItemInformation item = hero.items.get(slot.getSlot());
 				
 				
@@ -396,7 +396,7 @@ public class GearPanel extends Composite {
 	}
 
 	public void updateLabels() {
-		for (Slot s : Slot.values()) {
+		for (Slot s : Slot.values()) if (!s.isCube()) {
 			final Anchor label = labels.get(s);
 			ItemHolder item = items.get(s);
 			
@@ -469,7 +469,7 @@ public class GearPanel extends Composite {
 
 		data.clear();
 
-		for (Slot s : Slot.values()) {
+		for (Slot s : Slot.values()) if (!s.isCube()) {
 			
 			ItemHolder item = items.get(s);
 
@@ -480,7 +480,7 @@ public class GearPanel extends Composite {
 	}
 
 	public void restoreData(Map<String, String> items) {
-		for (Slot s : Slot.values()) {
+		for (Slot s : Slot.values()) if (!s.isCube()) {
 			final Slot slot = s;
 			String item = items.get(s.getSlot());
 
@@ -495,7 +495,7 @@ public class GearPanel extends Composite {
 	public void clearData() {
 		
 		for (Slot s : Slot.values())
-			setItem(s, null);
+			if (!s.isCube()) setItem(s, null);
 	}
 	
 	public static class ItemHolder {
