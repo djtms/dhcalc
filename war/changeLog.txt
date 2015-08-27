@@ -1,5 +1,9 @@
 Change Log:
 
+**8/27/15**
+
+- Fixed main hand RCR max limit to allow for Yang's Recurve 
+
 **8/26/15**
 
 - Added Yang's Recurve

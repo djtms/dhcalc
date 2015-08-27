@@ -137,7 +137,7 @@ public class RCRPanel extends Composite {
 		this.ring1.setMax(10);
 		this.ring2.setMax(10);
 		this.belt.setMax(10);
-		this.weapon.setMax(10);
+		this.weapon.setMax(60); // yang's 50% + 10%
 		this.quiver.setMax(10);
 		this.amulet.setMax(10);
 	}
