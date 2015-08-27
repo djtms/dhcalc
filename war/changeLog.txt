@@ -5,6 +5,8 @@ Change Log:
 - Fixed main hand RCR max limit to allow for Yang's Recurve 
 - Added Cubed legendary powers to "paperdoll" view
 - Removed cube items from profile "Items..." popup window
+- Fixed Helltrapper, Pride's Fall and Royal Ring item URLs (blizzard changed them)
+- Fixed Pride's Fall, Leoric's Crown, Tasker and Theo (legendary powers for these items were not applied when in Cube, only when worn)
 
 **8/26/15**
 

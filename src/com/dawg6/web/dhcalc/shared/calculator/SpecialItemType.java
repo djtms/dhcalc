@@ -25,7 +25,7 @@ public enum SpecialItemType {
 	Calamity(Const.CALAMITY, "calamity", false, new Slot[] { Slot.MainHand, Slot.CubeWeapon,
 			Slot.OffHand } ),
 
-	HellTrapper(Const.HELLTRAPPER, "helltrapper-3tfdaj", false, new Slot[] {
+	HellTrapper(Const.HELLTRAPPER, "helltrapper", false, new Slot[] {
 			Slot.MainHand, Slot.OffHand, Slot.CubeWeapon }, new Attribute(
 			SpecialItemType.PERCENT, Const.HELLTRAPPER_PERCENT, 7, 10)),
 
@@ -79,9 +79,9 @@ public enum SpecialItemType {
 	Leorics(Const.LEORICS_CROWN, "leorics-crown", false, new Slot[] { Slot.Head, Slot.CubeArmor },
 			new Attribute(SpecialItemType.PERCENT, Const.GEM_MULTIPLIER, 75, 100)),
 
-	PridesFall(Const.PRIDES_FALL, "prides-fall-pgClp", false, new Slot[] { Slot.Head, Slot.CubeArmor }),
+	PridesFall(Const.PRIDES_FALL, "prides-fall", false, new Slot[] { Slot.Head, Slot.CubeArmor }),
 
-	RoyalRing(Const.ROYAL_RING,  "ring-of-royal-grandeur-3qRFop", false, new Slot[] { Slot.Ring1, Slot.Ring2, Slot.CubeJewelry }),
+	RoyalRing(Const.ROYAL_RING,  "ring-of-royal-grandeur", false, new Slot[] { Slot.Ring1, Slot.Ring2, Slot.CubeJewelry }),
 	
 	;
 

@@ -468,7 +468,8 @@ public class ItemPanel extends Composite {
 	}
 
 	public boolean isTnt() {
-		return this.getSelectedItem(Slot.Hands) == SpecialItemType.TnT;
+		return (this.getSelectedItem(Slot.Hands) == SpecialItemType.TnT) ||
+				(this.getSelectedItem(Slot.CubeArmor) == SpecialItemType.TnT);
 	}
 
 	public double getTntPercent() {
@@ -477,8 +478,10 @@ public class ItemPanel extends Composite {
 			return 0;
 		}
 
-		return getItemAttributeValue(Slot.Hands, SpecialItemType.TnT.getAttributes()[0]);
-		
+		if (this.getSelectedItem(Slot.Hands) == SpecialItemType.TnT)
+			return getItemAttributeValue(Slot.Hands, SpecialItemType.TnT.getAttributes()[0]);
+		else
+			return getItemAttributeValue(Slot.CubeArmor, SpecialItemType.TnT.getAttributes()[0]);
 	}
 
 	private double getItemAttributeValue(Slot slot, Attribute attribute) {
@@ -493,7 +496,8 @@ public class ItemPanel extends Composite {
 	}
 
 	public boolean isPridesFall() {
-		return this.getSelectedItem(Slot.Head) == SpecialItemType.PridesFall;
+		return (this.getSelectedItem(Slot.Head) == SpecialItemType.PridesFall)
+				|| (this.getSelectedItem(Slot.CubeArmor) == SpecialItemType.PridesFall);
 	}
 
 	public int getNumCrimson() {
@@ -505,7 +509,8 @@ public class ItemPanel extends Composite {
 	}
 
 	public boolean isLeorics() {
-		return this.getSelectedItem(Slot.Head) == SpecialItemType.Leorics;
+		return (this.getSelectedItem(Slot.Head) == SpecialItemType.Leorics) ||
+				(this.getSelectedItem(Slot.CubeArmor) == SpecialItemType.Leorics);
 	}
 
 	public double getLeoricsPercent() {
@@ -513,7 +518,10 @@ public class ItemPanel extends Composite {
 			return 0;
 		}
 
-		return getItemAttributeValue(Slot.Head, SpecialItemType.Leorics.getAttributes()[0]);
+		if (this.getSelectedItem(Slot.Head) == SpecialItemType.Leorics)
+			return getItemAttributeValue(Slot.Head, SpecialItemType.Leorics.getAttributes()[0]);
+		else
+			return getItemAttributeValue(Slot.CubeArmor, SpecialItemType.Leorics.getAttributes()[0]);
 		
 	}
 
