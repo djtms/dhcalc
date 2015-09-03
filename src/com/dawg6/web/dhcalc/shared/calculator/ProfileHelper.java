@@ -31,6 +31,7 @@ import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation.Attributes.Attribute;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation.D3Set;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.Value;
+import com.google.gwt.core.shared.GWT;
 
 public class ProfileHelper {
 
@@ -765,6 +766,8 @@ public class ProfileHelper {
 
 			D3Set set = sets.get(e.getKey());
 
+			GWT.log("set " + e.getKey() + " count " + count);
+			
 			for (D3Set.Rank r : set.ranks) {
 				if (r.required <= count) {
 					if (r.attributesRaw != null) {

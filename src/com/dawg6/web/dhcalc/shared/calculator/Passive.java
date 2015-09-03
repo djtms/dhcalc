@@ -40,7 +40,8 @@ public enum Passive {
 	Ballistics,
 	Ambush,
 	Awareness,
-	Single_Out;
+	Single_Out,
+	Leech;
 	
 	private static final Map<String, Passive> slugs = new TreeMap<String, Passive>();
 	private static final Map<String, Passive> names = new TreeMap<String, Passive>();

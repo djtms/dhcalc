@@ -1,5 +1,9 @@
 Change Log:
 
+**NEXT**
+
+- Added Leech passive
+
 **8/27/15**
 
 - Fixed main hand RCR max limit to allow for Yang's Recurve 
