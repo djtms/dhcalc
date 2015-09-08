@@ -83,6 +83,7 @@ public enum GemSkill {
 	Wreath("Wreath of Lightning", "wreath-of-lightning", null),
 
 	BotP("Bane of the Powerful","bane-of-the-powerful", null),
+	BotS("Bane of the Stricken","bane-of-the-stricken", null),
 	BotT("Bane of the Trapped","bane-of-the-trapped", null),
 	Boon("Boon of the Hoarder","boon-of-the-hoarder", null),
 //	Ease("Gem of Ease", "gem-of-ease", null),

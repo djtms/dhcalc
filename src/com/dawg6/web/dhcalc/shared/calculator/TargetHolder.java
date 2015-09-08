@@ -28,6 +28,13 @@ public class TargetHolder implements Serializable {
 	private MonsterType monsterType;
 	private long currentHp;
 	private long maxHp;
+	private int botsStacks;
+	private double nextBots;
+	
+	public TargetHolder() {
+		botsStacks = 0;
+		nextBots = 0.0;
+	}
 	
 	public TargetType getTargetType() {
 		return targetType;
@@ -66,5 +73,17 @@ public class TargetHolder implements Serializable {
 		currentHp -= d;
 		
 		return d;
+	}
+	public int getBotsStacks() {
+		return botsStacks;
+	}
+	public void setBotsStacks(int botsStacks) {
+		this.botsStacks = botsStacks;
+	}
+	public double getNextBots() {
+		return nextBots;
+	}
+	public void setNextBots(double nextBots) {
+		this.nextBots = nextBots;
 	}
 }

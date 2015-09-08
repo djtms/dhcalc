@@ -1,8 +1,10 @@
 Change Log:
 
-**NEXT**
+**9/8/15**
 
-- Added Leech passive
+- Added Leech passive (no effect on dps)
+- Next/Previous breakpoint calculator now takes into account Hunter's Wrath and Yang's Recurve
+- Added Bane of the Stricken legendary Gem
 
 **8/27/15**
 

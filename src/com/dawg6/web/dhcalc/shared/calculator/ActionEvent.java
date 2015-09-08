@@ -56,6 +56,7 @@ public class ActionEvent extends Event {
 	private final Map<ActiveSkill, Breakpoint> bpMap = new TreeMap<ActiveSkill, Breakpoint>();
 	private final double delay;
 	private final WeaponType mainHand;
+	private final boolean bots;
 
 	public ActionEvent(CharacterData data) {
 		this.hand = Hand.MainHand;
@@ -71,7 +72,7 @@ public class ActionEvent extends Event {
 		this.meticulousBolts = data.isMeticulousBolts();
 		this.odysseys = data.isOdysseysEnd();
 		this.mainHand = data.getWeaponType();
-
+		this.bots = data.isBotS();
 		this.venRune = data.getSkills().get(ActiveSkill.Vengeance);
 
 		this.markedAmount = 4.0 + (data.isHexingPants() ? ((4.0 * data
@@ -198,6 +199,18 @@ public class ActionEvent extends Event {
 		}
 
 		if (selected != null) {
+			
+			String botsLog = null;
+			
+			if (bots) {
+				TargetHolder target = state.getTargets().getTarget(TargetType.Primary);
+				
+				if (target.isAlive() && (target.getNextBots() <= t)) {
+					target.setBotsStacks(target.getBotsStacks() + 1);
+					target.setNextBots(t + 0.3);
+					botsLog = " BotS(" + target.getBotsStacks() + ")";
+				}
+			}
 
 			Breakpoint.Data bpData = this.getBpData(selected.getSkill(), hand);
 
@@ -236,6 +249,12 @@ public class ActionEvent extends Event {
 					state);
 			
 			for (Damage d : dList) {
+				
+				if ((botsLog != null) && (d.target == TargetType.Primary)) {
+					d.note += botsLog;
+					botsLog = null;
+				}
+				
 				if (d.hatred > 0)
 					d.hatred = actualHatred;
 			}
@@ -313,8 +332,9 @@ public class ActionEvent extends Event {
 			}
 			
 			// Gem procs
-			if (!targetsHit.isEmpty())
+			if (!targetsHit.isEmpty()) {
 				applyDamages(state, log, DamageFunction.getDamages(false, false, "Player", null, state, targetsHit));
+			}
 			
 			if (hasOffHand) {
 				this.hand = (this.hand == Hand.MainHand) ? Hand.OffHand

@@ -41,7 +41,8 @@ public enum DamageMultiplier {
 
 				@Override
 				public Double getValue(SimulationState state) {
-					return state.getData().isHuntersWrath() ? state.getData().getHuntersWrathPercent() : 0.0;
+					return state.getData().isHuntersWrath() ? state.getData()
+							.getHuntersWrathPercent() : 0.0;
 				}
 			}), NumGrenades("#Grenades", DamageAccumulator.Multiplicative,
 			"# of Grenades per Target", null), Fire("Fire",
@@ -120,13 +121,15 @@ public enum DamageMultiplier {
 							* (0.04 + (state.getData().getZeisLevel() * 0.0005));
 				}
 			}), SentryM4("SentryM4", DamageAccumulator.Multiplicative,
-			"Sentry Skill Damage Bonus for skills fired by M4", new Test<SimulationState, Double>() {
+			"Sentry Skill Damage Bonus for skills fired by M4",
+			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
 					return state.getData().getSentryDamage();
 				}
 			}), Sentry("Sentry", DamageAccumulator.Additive,
-			"Sentry Skill Damage Bonus for sentry bolts/rockets", new Test<SimulationState, Double>() {
+			"Sentry Skill Damage Bonus for sentry bolts/rockets",
+			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
 					return state.getData().getSentryDamage();
@@ -498,6 +501,24 @@ public enum DamageMultiplier {
 				@Override
 				public Double getValue(SimulationState state) {
 					return state.getBuffs().isActive(Buff.BotP) ? 0.2 : 0.0;
+				}
+			}), BotS(
+			"BotS",
+			DamageAccumulator.Multiplicative,
+			"Bane of the Stricken gem per stack bonus (0.80% + 0.01 % per level, per stack)",
+			new Test<SimulationState, Double>() {
+				@Override
+				public Double getValue(SimulationState state) {
+					return (state.getData().isBotS() && (state.getData().getTargetType() == TargetType.Primary))? ((0.008 + (state.getData().getBotSLevel() * 0.0001)) * state.getTargets().getTarget(TargetType.Primary).getBotsStacks()) : 0.0;
+				}
+			}), BotS25(
+			"BotS25",
+			DamageAccumulator.Multiplicative,
+			"Bane of the Stricken rank 25 bonus (25% against bosses and rift guardians)",
+			new Test<SimulationState, Double>() {
+				@Override
+				public Double getValue(SimulationState state) {
+					return (state.getData().isBotS() && (state.getData().getBotSLevel() >= 25) && (state.getData().getPrimaryTargetType() == MonsterType.RiftGuardian) && (state.getData().getTargetType() == TargetType.Primary))? 0.25 : 0.0;
 				}
 			}), IAS("IAS", DamageAccumulator.Multiplicative,
 			"Character IAS bonus for Companions",

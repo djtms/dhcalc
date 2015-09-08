@@ -578,4 +578,13 @@ public class ItemPanel extends Composite {
 		}
 	}
 
+	public boolean isHuntersWrath() {
+		return (this.getSelectedItem(Slot.Waist) == SpecialItemType.HuntersWrath) ||
+				(this.getSelectedItem(Slot.CubeArmor) == SpecialItemType.HuntersWrath);
+	}
+
+	public boolean isYangs() {
+		return (this.getSelectedItem(Slot.MainHand) == SpecialItemType.Yangs) ||
+				(this.getSelectedItem(Slot.CubeWeapon) == SpecialItemType.Yangs);
+	}
 }

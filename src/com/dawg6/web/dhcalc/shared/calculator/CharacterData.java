@@ -2043,4 +2043,12 @@ public class CharacterData implements Serializable {
 	public void setSharpshooterCC(double sharpshooterCC) {
 		this.sharpshooterCC = sharpshooterCC;
 	}
+
+	public boolean isBotS() {
+		return gems.containsKey(GemSkill.BotS);
+	}
+
+	public int getBotSLevel() {
+		return getGemLevel(GemSkill.BotS);
+	}
 }
