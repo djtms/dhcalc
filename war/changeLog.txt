@@ -5,6 +5,7 @@ Change Log:
 - Added Leech passive (no effect on dps)
 - Next/Previous breakpoint calculator now takes into account Hunter's Wrath and Yang's Recurve
 - Added Bane of the Stricken legendary Gem
+- Dead Man's Legacy bonus now affects MS fired by M4 Sentries
 
 **8/27/15**
 
@@ -20,7 +21,6 @@ Change Log:
 - Added Hunter's Wrath (with import of legendary power)
 - Fixed BreakPoint calculations for skills that depend on weapon type (e.g. EvasiveFire). This was shown correctly in break point table, but was not being calculated properly in the simulation, resulting in 1.02 APS for those skills.
 - Added import of legendary powers from cube
-- Removed Dead Man's Legacy bonus for MS fired by M4 Sentries
 - Removed "freeze" from Cull the Weak legend description
 - Sentry skill damage is now multiplicative for M4 skills, additive for sentry bolts and rockets
 

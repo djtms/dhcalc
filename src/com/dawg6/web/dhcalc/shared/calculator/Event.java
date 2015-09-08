@@ -108,7 +108,7 @@ public abstract class Event implements Comparable<Event> {
 		if (state.getData().isDml()) {
 
 			for (Damage dr : source) {
-				if ((dr.source != null) && (dr.source.skill == ActiveSkill.MS) && (dr.shooter.equals("Player"))) {
+				if ((dr.source != null) && (dr.source.skill == ActiveSkill.MS)) {
 
 					if (dr.target != null) {
 						TargetHolder target = state.getTargets().getTarget(
