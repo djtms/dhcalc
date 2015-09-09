@@ -200,6 +200,8 @@ public class ActionEvent extends Event {
 
 		if (selected != null) {
 			
+			state.setLastAttack(selected);
+			
 			String botsLog = null;
 			
 			if (bots) {
@@ -223,6 +225,8 @@ public class ActionEvent extends Event {
 			if (this.huntersWrath && (selected.getSkill().getSkillType() == SkillType.Primary)) {
 				actualInterval = (bpData.interval / 1.3) + this.delay;
 			}
+			
+			state.setLastAps(1.0 / actualInterval);
 			
 			this.time += actualInterval;
 

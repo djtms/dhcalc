@@ -257,6 +257,12 @@ public class DamageFunction {
 					true, 9, 0, "Chain DoT", DamageType.Fire,
 					DamageMultiplier.DoT),
 
+			new DamageRow(new DamageSource(DamageProc.Thunderfury), 1.0, true,
+					0, "", DamageType.Lightning),
+
+			new DamageRow(new DamageSource(DamageProc.Fulminator), 1.0, 6.0, true,
+					Integer.MAX_VALUE, 1, 10, "DoT", DamageType.Lightning),
+
 			new DamageRow(new DamageSource(GemSkill.Toxin), 20.0, 10.0, true,
 					Integer.MAX_VALUE, "DoT", DamageType.Poison,
 					DamageMultiplier.DoT),
@@ -476,6 +482,13 @@ public class DamageFunction {
 
 							if (dr.source.skill == ActiveSkill.CR) {
 								m = state.getData().getCrashingRainPercent();
+							} else if (dr.source.proc != null) {
+								m = dr.source.proc.getScalar(state);
+								
+								if (dr.dot) {
+									m /= dr.dotDuration;
+								}
+								
 							} else if (dr.source.gem != null) {
 								m = dr.source.gem.getScalar(state);
 							} else if (dr.dot) {
@@ -524,6 +537,22 @@ public class DamageFunction {
 
 							multBuf.append(Util.format(scalar) + " x ");
 
+							if ((dr.source.proc != null) && !dr.dot) {
+								if (m > 0) {
+									double pc = dr.source.proc.getProc() * state.getLastAttack().getProc();
+									double max = dr.source.proc.getIcd()/state.getLastAps();
+									
+									if (pc > max) {
+										m *= max;
+										multBuf.append("PC(" + Util.format(max) + ") x ");
+									} else {
+										m *= pc;
+										multBuf.append("PC(" + Util.format(dr.source.proc.getProc()) + ") x ");
+										multBuf.append("PC(" + Util.format(state.getLastAttack().getProc()) + ") x ");
+									}
+								}
+							}
+							
 							multBuf.append(wDMult.getAbbreviation());
 
 							// if (dr.source.skill != ActiveSkill.Companion) {
@@ -861,7 +890,7 @@ public class DamageFunction {
 	}
 
 	public static boolean hasDamage(ActiveSkill s) {
-		
+
 		for (DamageRow row : ALL)
 			if ((row.source != null) && (row.source.skill == s))
 				return true;

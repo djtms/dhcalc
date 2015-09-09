@@ -1,5 +1,11 @@
 Change Log:
 
+**9/9/15**
+
+- Added Depth Diggers
+- Added Fulminator. Ignores proc coefficient (assumes that if there are multiple targets within 10 yards of each other, all targets would eventually get the DoT).
+- Added Thunderfury. See this post for details on implementation: http://us.battle.net/d3/en/forum/topic/18706673688#13
+
 **9/8/15**
 
 - Added Leech passive (no effect on dps)

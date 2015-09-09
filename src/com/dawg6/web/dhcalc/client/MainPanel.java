@@ -2742,12 +2742,10 @@ public class MainPanel extends BasePanel {
 
 			if (d.source != null) {
 				ActiveSkill skill = d.source.skill;
-				GemSkill gem = d.source.gem;
-				Anchor a = new Anchor((skill != null) ? skill.getLongName()
-						: gem.getDisplayName());
+				Anchor a = new Anchor(d.source.getName());
 				a.setTarget("_blank");
 				a.setWordWrap(false);
-				String url = (skill != null) ? skill.getUrl() : gem.getUrl();
+				String url = d.source.getUrl();
 				a.setHref(url);
 
 				damageLog.setWidget(row + 1, col++, a);
@@ -2936,14 +2934,12 @@ public class MainPanel extends BasePanel {
 			else
 				skillSummary.getRowFormatter().addStyleName(row, "oddRow");
 
-			ActiveSkill skill = e.getKey().skill;
-			GemSkill gem = e.getKey().gem;
+			DamageSource source = e.getKey();
 
-			Anchor a = new Anchor((skill != null) ? skill.getLongName()
-					: gem.getDisplayName());
+			Anchor a = new Anchor(source.getName());
 			a.setTarget("_blank");
 			a.setWordWrap(false);
-			String url = (skill != null) ? skill.getUrl() : gem.getUrl();
+			String url = source.getUrl();
 			a.setHref(url);
 			skillSummary.setWidget(row, 0, a);
 

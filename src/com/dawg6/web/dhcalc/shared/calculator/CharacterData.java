@@ -2051,4 +2051,28 @@ public class CharacterData implements Serializable {
 	public int getBotSLevel() {
 		return getGemLevel(GemSkill.BotS);
 	}
+
+	public boolean isDepthDiggers() {
+		return isItem(SpecialItemType.DepthDiggers);
+	}
+
+	public double getDepthDiggersPercent() {
+		return getItemAttribute(SpecialItemType.DepthDiggers, SpecialItemType.PERCENT);
+	}
+
+	public boolean isThunderfury() {
+		return isItem(SpecialItemType.Thunderfury);
+	}
+
+	public double getThunderfuryPercent() {
+		return getItemAttribute(SpecialItemType.Thunderfury, SpecialItemType.PERCENT);
+	}
+
+	public boolean isFulminator() {
+		return isItem(SpecialItemType.Fulminator);
+	}
+
+	public double getFulminatorPercent() {
+		return getItemAttribute(SpecialItemType.Fulminator, SpecialItemType.PERCENT);
+	}
 }

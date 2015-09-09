@@ -44,6 +44,23 @@ public enum DamageMultiplier {
 					return state.getData().isHuntersWrath() ? state.getData()
 							.getHuntersWrathPercent() : 0.0;
 				}
+			}), PC("PC", DamageAccumulator.Multiplicative,
+			"Proc Coefficient (depends on skill)",
+			new Test<SimulationState, Double>() {
+
+				@Override
+				public Double getValue(SimulationState state) {
+					return state.getLastAttack().getProc();
+				}
+			}), DD("DD", DamageAccumulator.Multiplicative,
+			"Depth Diggers (80%-100% for primary skills)",
+			new Test<SimulationState, Double>() {
+
+				@Override
+				public Double getValue(SimulationState state) {
+					return state.getData().isDepthDiggers() ? state.getData()
+							.getDepthDiggersPercent() : 0.0;
+				}
 			}), NumGrenades("#Grenades", DamageAccumulator.Multiplicative,
 			"# of Grenades per Target", null), Fire("Fire",
 			DamageAccumulator.ElementalAdditive, "Fire Elemental Damage Bonus",
@@ -509,7 +526,11 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return (state.getData().isBotS() && (state.getData().getTargetType() == TargetType.Primary))? ((0.008 + (state.getData().getBotSLevel() * 0.0001)) * state.getTargets().getTarget(TargetType.Primary).getBotsStacks()) : 0.0;
+					return (state.getData().isBotS() && (state.getData()
+							.getTargetType() == TargetType.Primary)) ? ((0.008 + (state
+							.getData().getBotSLevel() * 0.0001)) * state
+							.getTargets().getTarget(TargetType.Primary)
+							.getBotsStacks()) : 0.0;
 				}
 			}), BotS25(
 			"BotS25",
@@ -518,7 +539,11 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return (state.getData().isBotS() && (state.getData().getBotSLevel() >= 25) && (state.getData().getPrimaryTargetType() == MonsterType.RiftGuardian) && (state.getData().getTargetType() == TargetType.Primary))? 0.25 : 0.0;
+					return (state.getData().isBotS()
+							&& (state.getData().getBotSLevel() >= 25)
+							&& (state.getData().getPrimaryTargetType() == MonsterType.RiftGuardian) && (state
+							.getData().getTargetType() == TargetType.Primary)) ? 0.25
+							: 0.0;
 				}
 			}), IAS("IAS", DamageAccumulator.Multiplicative,
 			"Character IAS bonus for Companions",

@@ -28,7 +28,7 @@ public class Const {
 	public static final String CLASS_MONK = "monk";
 
 	public static final String DEXTERITY = "Dexterity_Item";
-	
+
 	public static final int GENDER_MALE = 0;
 	public static final int GENDER_FEMALE = 1;
 
@@ -79,7 +79,7 @@ public class Const {
 	public static final String ZEI = "Zei's Stone of Vengeance";
 	public static final String TAEGUK = "Taeguk";
 	public static final String ROYAL_RING = "Ring of Royal Grandeur";
-	
+
 	public static final String ELITE_DAMAGE_RAW = "Damage_Percent_Bonus_Vs_Elites";
 	public static final String CRIT_CHANCE_RAW = "Crit_Percent_Bonus_Capped";
 	public static final String CRIT_DAMAGE_RAW = "Crit_Damage_Percent";
@@ -161,4 +161,10 @@ public class Const {
 	public static final String COE = "Convention of Elements";
 	public static final String COE_PERCENT = "Item_Power_Passive#P2_ItemPassive_Unique_Ring_038";
 	public static final String TASKER_AND_THEO = "Tasker and Theo";
+	public static final String DEPTH_DIGGERS_PCT = "Item_Power_Passive#ItemPassive_Unique_Ring_908_x1";
+	public static final String DEPTH_DIGGERS = "Depth Diggers";
+	public static final String FULMINATOR = "Fulminator";
+	public static final String FULMINATOR_PCT = "Item_Power_Passive#ItemPassive_Unique_Ring_612_x1";
+	public static final String THUNDERFURY = "Thunderfury, Blessed Blade of the Windseeker";
+	public static final String THUNDERFURY_PCT = "Item_Power_Passive#ItemPassive_Unique_Ring_581_x1";
 }

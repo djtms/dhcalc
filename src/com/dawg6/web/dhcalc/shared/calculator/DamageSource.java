@@ -28,6 +28,7 @@ public class DamageSource implements Serializable, Comparable<DamageSource> {
 
 	public Rune rune;
 	public GemSkill gem;
+	public DamageProc proc;
 	private Double random;
 
 	public DamageSource() { }
@@ -50,6 +51,10 @@ public class DamageSource implements Serializable, Comparable<DamageSource> {
 		this.gem = gem;
 	}
 	
+	public DamageSource(DamageProc proc) {
+		this.proc = proc;
+	}
+
 	public boolean test(DamageSource source,
 			SimulationState state, int radius) {
 
@@ -65,17 +70,35 @@ public class DamageSource implements Serializable, Comparable<DamageSource> {
 			} else {
 				return false;
 			}
-		} else {
+		} else if (gem != null) {
 			return (source == null) && (gem.getScalar(state) > 0.0);
+		} else if (proc != null) {
+			return (source == null) && (proc.getScalar(state) > 0.0);
+		} else {
+			return false;
 		}
 	}
 
+	public String getName() {
+		if (skill != null) {
+			return skill.getLongName();
+		} else if (gem != null) {
+			return gem.getDisplayName();
+		} else if (proc != null) {
+			return proc.getLongName();
+		} else {
+			return String.valueOf(random);
+		}
+	}
+	
 	@Override
 	public String toString() {
 		if (skill != null) {
 			return skill.name() + ((rune != null) ? ("." + rune.name()) : "");
 		} else if (gem != null) {
 			return gem.name();
+		} else if (proc != null) {
+			return proc.name();
 		} else {
 			return String.valueOf(random);
 		}
@@ -118,5 +141,17 @@ public class DamageSource implements Serializable, Comparable<DamageSource> {
 		if (skill != other.skill)
 			return false;
 		return true;
+	}
+
+	public String getUrl() {
+		if (skill != null) {
+			return skill.getUrl();
+		} else if (gem != null) {
+			return gem.getUrl();
+		} else if (proc != null) {
+			return proc.getUrl();
+		} else {
+			return "javascript:void(0)";
+		}
 	}
 }

@@ -49,6 +49,10 @@ public class SkillAndRune implements Serializable, Comparable<SkillAndRune> {
 	public SkillAndRune() {
 	}
 
+	public double getProc() {
+		return (rune == Rune.None) ? skill.getProc() : rune.getProc();
+	}
+	
 	public double getHatred(CharacterData data) {
 		
 		double h = 0.0;

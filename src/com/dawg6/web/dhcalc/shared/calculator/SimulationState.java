@@ -19,7 +19,9 @@
 package com.dawg6.web.dhcalc.shared.calculator;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class SimulationState implements Serializable {
@@ -38,12 +40,19 @@ public class SimulationState implements Serializable {
 	private double disc;
 	private double maxDisc;
 	private final Set<Integer> spikeTraps = new TreeSet<Integer>();
-
+	private final Map<DamageProc, Double> procAvail = new TreeMap<DamageProc, Double>();
+	private SkillAndRune lastAttack;
+	private double lastAps;
+	
 	public SimulationState() {
 		this.time = 0.0;
 		this.buffs = new BuffList();
 		this.dots = new DotList();
 		this.lastSpenderTime = 0.0;
+		
+		for (DamageProc dp : DamageProc.values()) {
+			procAvail.put(dp, 0.0);
+		}
 	}
 
 	public SimulationState(CharacterData data, TargetList targets) {
@@ -175,4 +184,23 @@ public class SimulationState implements Serializable {
 		spikeTraps.remove(num);
 	}
 
+	public Map<DamageProc, Double> getProcAvail() {
+		return procAvail;
+	}
+
+	public SkillAndRune getLastAttack() {
+		return lastAttack;
+	}
+
+	public void setLastAttack(SkillAndRune lastAttack) {
+		this.lastAttack = lastAttack;
+	}
+
+	public double getLastAps() {
+		return lastAps;
+	}
+
+	public void setLastAps(double lastAps) {
+		this.lastAps = lastAps;
+	}
 }

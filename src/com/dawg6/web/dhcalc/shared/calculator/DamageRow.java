@@ -159,6 +159,7 @@ public class DamageRow {
 		if ((source.skill != null) && (source.skill.getSkillType() == SkillType.Primary)) {
 			this.multipliers.add(DamageMultiplier.Simplicity);
 			this.multipliers.add(DamageMultiplier.HW);
+			this.multipliers.add(DamageMultiplier.DD);
 		}
 		
 		if ((source.skill == ActiveSkill.RoV) || (source.skill == ActiveSkill.CR)) {

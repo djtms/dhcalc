@@ -79,6 +79,11 @@ public abstract class Event implements Comparable<Event> {
 	public static void applyDamages(SimulationState state, List<Damage> log,
 			List<Damage> source, String notes, boolean refreshDots) {
 		for (Damage dr : source) {
+			
+			if (dr.source.proc != null) {
+				state.getProcAvail().put(dr.source.proc, state.getTime() + dr.source.proc.getIcd());
+			}
+			
 			dr.time = state.getTime();
 			dr.currentHatred = state.getHatred();
 			dr.currentDisc = state.getDisc();
