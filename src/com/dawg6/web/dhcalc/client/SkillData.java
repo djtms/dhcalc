@@ -28,6 +28,7 @@ import com.dawg6.gwt.common.util.Pair;
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.DamageFunction;
 import com.dawg6.web.dhcalc.shared.calculator.DamageMultiplier;
+import com.dawg6.web.dhcalc.shared.calculator.DamageProc;
 import com.dawg6.web.dhcalc.shared.calculator.DamageRow;
 import com.dawg6.web.dhcalc.shared.calculator.GemSkill;
 import com.dawg6.web.dhcalc.shared.calculator.Rune;
@@ -144,6 +145,10 @@ public class SkillData extends ApplicationPanel {
 				list.add(new Pair<String, String>(g.getDisplayName(), g.name()));
 		}
 		
+		for (DamageProc p : DamageProc.values()) {
+			list.add(new Pair<String, String>(p.getLongName(), p.name()));
+		}
+
 		Collections.sort(list, new Comparator<Pair<String, String>>(){
 
 			@Override
@@ -187,7 +192,11 @@ public class SkillData extends ApplicationPanel {
 		
 		try { gem = GemSkill.valueOf(value); } catch (Exception i2) { }
 		
-		if ((skill == null) && (gem == null))
+		DamageProc proc = null;
+				
+		try { proc = DamageProc.valueOf(value); } catch (Exception i3) { }
+
+		if ((skill == null) && (gem == null) && (proc == null))
 			return;
 		
 		int row = 1;
@@ -197,8 +206,10 @@ public class SkillData extends ApplicationPanel {
 			
 			if (dr.source.skill != null)
 				match = (dr.source.skill == skill);
-			else
+			else if (dr.source.gem != null)
 				match = (dr.source.gem == gem);
+			else if (dr.source.proc != null)
+				match = (dr.source.proc == proc);
 				
 			if (match) {
 				if ((row % 2) == 0)
@@ -206,11 +217,11 @@ public class SkillData extends ApplicationPanel {
 				else
 					table.getRowFormatter().addStyleName(row, "oddRow");
 				
-				String url = (skill != null) ? skill.getUrl() : gem.getUrl();
+				String url = dr.source.getUrl();
 				
 				int col = 0;
 				
-				addAnchor(row, col++, (skill != null) ? skill.getLongName() : gem.getDisplayName(), url);
+				addAnchor(row, col++, dr.source.getName(), url);
 
 				Rune rune = Rune.None;
 				

@@ -86,6 +86,12 @@ public class DamageRow {
 		this(source, scalar, 0.0, primary, maxAdditional, 1, 0, note, type, multipliers);
 	}
 
+	public DamageRow(DamageSource source, double scalar,
+			boolean primary, int maxAdditional, int numProjectiles, int radius,  String note, 
+			DamageType type, DamageMultiplier... multipliers) {
+		this(source, scalar, 0.0, primary, maxAdditional, numProjectiles, radius, note, type, multipliers);
+	}
+
 	public DamageRow(DamageSource source, double scalar, double dotDuration,
 			boolean primary, int maxAdditional,  String note, 
 			DamageType type, DamageMultiplier... multipliers) {

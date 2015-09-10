@@ -80,8 +80,8 @@ public abstract class Event implements Comparable<Event> {
 			List<Damage> source, String notes, boolean refreshDots) {
 		for (Damage dr : source) {
 			
-			if (dr.source.proc != null) {
-				state.getProcAvail().put(dr.source.proc, state.getTime() + dr.source.proc.getIcd());
+			if ((dr.source.proc != null) && (dr.source.proc.getIcd() > 0)) {
+				state.getProcAvail().put(dr.source.proc, state.getTime() + (dr.source.proc.getIcd() / state.getLastAps()));
 			}
 			
 			dr.time = state.getTime();

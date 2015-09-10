@@ -258,7 +258,7 @@ public class DamageFunction {
 					DamageMultiplier.DoT),
 
 			new DamageRow(new DamageSource(DamageProc.Thunderfury), 1.0, true,
-					0, "", DamageType.Lightning),
+					5, 1, 10, "", DamageType.Lightning),
 
 			new DamageRow(new DamageSource(DamageProc.Fulminator), 1.0, 6.0, true,
 					Integer.MAX_VALUE, 1, 10, "DoT", DamageType.Lightning),
@@ -464,7 +464,13 @@ public class DamageFunction {
 
 				int addNum = 0;
 
-				for (TargetType target : targetTypes) {
+				Collection<TargetType> tlist = targetTypes;
+				
+				if (dr.source.proc != null) {
+					tlist = state.getTargets().toList();
+				}
+				
+				for (TargetType target : tlist) {
 
 					if (state.getTargets().getTarget(target).isAlive()) {
 
@@ -540,7 +546,7 @@ public class DamageFunction {
 							if ((dr.source.proc != null) && !dr.dot) {
 								if (m > 0) {
 									double pc = dr.source.proc.getProc() * state.getLastAttack().getProc();
-									double max = dr.source.proc.getIcd()/state.getLastAps();
+									double max = dr.source.proc.getIcd();
 									
 									if (pc > max) {
 										m *= max;

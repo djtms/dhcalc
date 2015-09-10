@@ -1,5 +1,12 @@
 Change Log:
 
+
+**9/10/15**
+
+- Thunderfury's damage proc will now affect multiple targets
+- Thunderfury's internal cooldown set to 1 / APS
+- Added Damage Procs (Thunderfury and Fulminator) to Skill Data popup
+
 **9/9/15**
 
 - Added Depth Diggers
