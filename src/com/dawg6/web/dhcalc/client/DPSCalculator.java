@@ -724,8 +724,7 @@ public class DPSCalculator extends BasePanel {
 		this.pIas = getValue(main.getParagonPanel().getParagonIAS()) * 0.002;
 		focusedMind = (main.getBuffPanel().getFocusedMind().getValue() ? 0.03
 				: 0.0);
-		gogokIas = (main.getGemPanel().isGem(GemSkill.Gogok) && (main
-				.getGemPanel().getGemLevel(GemSkill.Gogok) >= 25)) ? (main
+		gogokIas = (main.getGemPanel().isGem(GemSkill.Gogok)) ? (main
 				.getGemPanel().getGemAttribute(GemSkill.Gogok, GemSkill.STACKS) / 100.0)
 				: 0.0;
 		painEnhancerIas = (main.getGemPanel().isGem(GemSkill.PainEnhancer) && main

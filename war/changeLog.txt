@@ -1,5 +1,8 @@
 Change Log:
 
+**9/11/15**
+
+- Fixed breakpoint calculation when using Gogok with level < 25
 
 **9/10/15**
 
