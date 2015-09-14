@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="src" path="build-src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/jackson-annotations-2.4.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/jackson-core-2.4.0.jar" sourcepath="C:/Users/scott.clarke/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.4.0/jackson-core-2.4.0-sources.jar"/>
@@ -11,6 +12,8 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/log4j-1.2.17.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gson-2.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/lightcouch-0.1.6.jar" sourcepath="C:/Users/scott.clarke/.m2/repository/org/lightcouch/lightcouch/0.1.6/lightcouch-0.1.6-sources.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/google-http-client-1.20.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/jsr305-1.3.9.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/dawg6-common"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/dawg6-gwt-common"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>

@@ -86,6 +86,19 @@
 			<classpath refid="dhcalc.classpath" />
 		</javac>
 	</target>
+	<target depends="init" name="set-version">
+		<echo message="${ant.project.name}: ${ant.file}" />
+		<javac debug="true" debuglevel="${debuglevel}" destdir="war/WEB-INF/classes"
+			includeantruntime="false" source="${source}" target="${target}">
+			<src path="build-src" />
+		</javac>
+		<java classname="com.dawg6.build.Build" fork="true">
+			<classpath>
+				<pathelement location="war/WEB-INF/classes" />
+			</classpath>
+			<jvmarg value="-Xmx512m" />
+		</java>
+	</target>
 	<target
 		description="Build all projects which reference this project. Useful to propagate changes."
 		name="build-refprojects" />

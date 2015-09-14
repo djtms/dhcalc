@@ -36,7 +36,11 @@
 		</jar>
 	</target>
 
-	<target name="build-war" depends="external-jar">
+	<target name="set-version">
+		<ant antfile="build-ant.xml" target="set-version" />
+	</target>
+	
+	<target name="build-war" depends="set-version,external-jar">
 		<war destfile="${web-war}" webxml="${webxml}">
 			<fileset dir="${war-dir}">
 				<exclude name="${webxml}" />

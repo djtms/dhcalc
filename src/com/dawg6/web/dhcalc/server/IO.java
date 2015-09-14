@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
 package com.dawg6.web.dhcalc.server;
 
@@ -34,6 +34,9 @@ import com.dawg6.web.dhcalc.server.util.DHCalcProperties;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.CareerProfile;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.HeroProfile;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation;
+import com.dawg6.web.dhcalc.shared.calculator.d3api.Leaderboard;
+import com.dawg6.web.dhcalc.shared.calculator.d3api.Season;
+import com.dawg6.web.dhcalc.shared.calculator.d3api.SeasonIndex;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.UrlHelper;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -129,6 +132,10 @@ public class IO {
 
 	public synchronized String getApiKey() {
 		return "&apikey=" + DHCalcProperties.getInstance().getApiKey();
+	}
+
+	public synchronized String getAccessToken() {
+		return "?access_token=" + DHCalcProperties.getInstance().getAccessToken();
 	}
 
 	private final List<Long> requests = new LinkedList<Long>();
@@ -364,6 +371,72 @@ public class IO {
 
 		return out;
 
+	}
+
+	public SeasonIndex readSeasonIndex(String apiHost) throws JsonParseException, IOException {
+		
+		URL url = new URL(UrlHelper.seasonIndexUrl(apiHost) + getAccessToken());
+
+		ObjectMapper mapper = new ObjectMapper();
+		throttle();
+		SeasonIndex out = readValue(mapper, url, SeasonIndex.class);
+
+		return out;
+	}
+
+	public Season readSeason(String apiHost, int season) throws JsonParseException, IOException {
+		
+		URL url = new URL(UrlHelper.seasonUrl(apiHost, season) + getAccessToken());
+
+		ObjectMapper mapper = new ObjectMapper();
+		throttle();
+		Season out = readValue(mapper, url, Season.class);
+
+		return out;
+	}
+
+	public Leaderboard readSeasonLeaderboard(String apiHost, int season, String leaderboard) throws JsonParseException, IOException {
+		
+		URL url = new URL(UrlHelper.seasonLeaderboardUrl(apiHost, season, leaderboard) + getAccessToken());
+
+		ObjectMapper mapper = new ObjectMapper();
+		throttle();
+		Leaderboard out = readValue(mapper, url, Leaderboard.class);
+
+		return out;
+	}
+
+	public SeasonIndex readEraIndex(String apiHost) throws JsonParseException, IOException {
+		
+		URL url = new URL(UrlHelper.eraIndexUrl(apiHost) + getAccessToken());
+
+		ObjectMapper mapper = new ObjectMapper();
+		throttle();
+		SeasonIndex out = readValue(mapper, url, SeasonIndex.class);
+
+		return out;
+	}
+
+	public Season readEra(String apiHost, int era) throws JsonParseException, IOException {
+		
+		URL url = new URL(UrlHelper.eraUrl(apiHost, era) + getAccessToken());
+
+		ObjectMapper mapper = new ObjectMapper();
+		throttle();
+		Season out = readValue(mapper, url, Season.class);
+
+		return out;
+	}
+
+	public Leaderboard readEraLeaderboard(String apiHost, int era, String leaderboard) throws JsonParseException, IOException {
+		
+		URL url = new URL(UrlHelper.eraLeaderboardUrl(apiHost, era, leaderboard) + getAccessToken());
+
+		ObjectMapper mapper = new ObjectMapper();
+		throttle();
+		Leaderboard out = readValue(mapper, url, Leaderboard.class);
+
+		return out;
 	}
 
 }

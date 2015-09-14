@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
 package com.dawg6.web.dhcalc.server.util;
 
@@ -33,6 +33,7 @@ public class DHCalcProperties {
 	private static final String FILE_NAME = "dawg6/dhcalc.properties";
 	private static final String DEVMODE = "com.dawg6.dhcalc.devmode";
 	private static final String API_KEY = "com.dawg6.dhcalc.api_key";
+	private static final String ACCESS_TOKEN = "com.dawg6.dhcalc.access_token";
 	private static final String DB = "com.dawg6.dhcalc.db";
 	
 	private static final DHCalcProperties instance = new DHCalcProperties();
@@ -40,6 +41,7 @@ public class DHCalcProperties {
 	private boolean devmode;
 	private String apiKey;
 	private String db;
+	private String accessToken;
 	
 	private DHCalcProperties() {
 		try {
@@ -52,10 +54,12 @@ public class DHCalcProperties {
 			
 			devmode = Boolean.valueOf(props.getProperty(DEVMODE, "false"));
 			apiKey = props.getProperty(API_KEY);
+			accessToken = props.getProperty(ACCESS_TOKEN);
 			db = props.getProperty(DB);
 			
 			log.info("devmode = " + devmode);
 			log.info("API_KEY = " + apiKey);
+			log.info("ACCESS_TOKEN = " + accessToken);
 			log.info("DB = " + db);
 			
 		} catch (Exception e) {
@@ -73,6 +77,10 @@ public class DHCalcProperties {
 
 	public String getApiKey() {
 		return apiKey;
+	}
+	
+	public String getAccessToken() {
+		return accessToken;
 	}
 
 	public String getDb() {

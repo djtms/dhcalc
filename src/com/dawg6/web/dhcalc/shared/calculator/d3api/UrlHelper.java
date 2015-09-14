@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
 package com.dawg6.web.dhcalc.shared.calculator.d3api;
 
@@ -34,6 +34,30 @@ public class UrlHelper {
 		return server + "/d3/data/" + tooltipParams + "?locale=" + LOCALE;
 	}
 	
+	public static String seasonIndexUrl(String server) {
+		return server + "/data/d3/season/";
+	}
+	
+	public static String seasonUrl(String server, int season) {
+		return server + "/data/d3/season/" + season;
+	}
+
+	public static String seasonLeaderboardUrl(String server, int season, String leaderboard) {
+		return server + "/data/d3/season/" + season + "/leaderboard/" + leaderboard;
+	}
+
+	public static String eraIndexUrl(String server) {
+		return server + "/data/d3/era/";
+	}
+
+	public static String eraUrl(String server, int era) {
+		return server + "/data/d3/era/" + era;
+	}
+
+	public static String eraLeaderboardUrl(String server, int era, String leaderboard) {
+		return server + "/data/d3/era/" + era + "/leaderboard/" + leaderboard;
+	}
+
 	public static String LOCALE = "en_US";
 	
 }

@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
 package com.dawg6.web.dhcalc.shared.calculator;
 
@@ -28,8 +28,8 @@ public class Version  implements Serializable {
 
 	public static final String PREFIX = "Version:";
 	
-	public static String VERSION = "2.3-150911.01";
-	public static String VERSION_DATE = "09/11/2015";
+	public static String VERSION = "2.3-150914.1";
+	public static String VERSION_DATE = "09/14/15";
 	
 	public String version;
 	

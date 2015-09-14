@@ -14,12 +14,12 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
 package com.dawg6.web.dhcalc;
 
 import com.dawg6.web.dhcalc.server.IO;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.CareerProfile;
+import com.dawg6.web.dhcalc.shared.calculator.d3api.Leaderboard;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.Realm;
 import com.google.gson.Gson;
 
@@ -28,9 +28,9 @@ public class TestApp {
 
 	public static void main(String[] args) throws Exception {
 		Gson gson = new Gson();
-		CareerProfile profile = IO.getInstance().readCareerProfile(Realm.US.getApiHost(), "dawg6", 1416);
+		Leaderboard s = IO.getInstance().readSeasonLeaderboard(Realm.US.getApiHost(), 4, "rift-hardcore-dh");
 		
-		System.out.println("Career Profile = " + gson.toJson(profile));
+		System.out.println("s = " + gson.toJson(s));
 	}
 
 }
