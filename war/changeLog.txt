@@ -1,5 +1,9 @@
 Change Log:
 
+**9/15/15**
+
+- Added ability to view leaderboards and import profile from leaderboard view
+
 **9/11/15**
 
 - Fixed breakpoint calculation when using Gogok with level < 25

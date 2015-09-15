@@ -201,6 +201,17 @@ public class MainPanel extends BasePanel {
 		realms = new ListBox();
 		horizontalPanel_5.add(realms);
 
+		
+		Button ldrButton = new Button("Leaderboards");
+		horizontalPanel_5.add(ldrButton);
+		
+		ldrButton.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				showLeaderboards();
+			}});
+		
 		HorizontalPanel horizontalPanel_7 = new HorizontalPanel();
 		horizontalPanel_7
 				.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
@@ -1309,6 +1320,23 @@ public class MainPanel extends BasePanel {
 		}
 
 	}
+	
+	private LeaderboardPanel leaderboards = null;
+	private DialogBox leaderboardDlg = null;
+	
+	protected void showLeaderboards() {
+		if (leaderboards == null) {
+			leaderboards = new LeaderboardPanel(this);
+		}
+		
+		leaderboardDlg = ApplicationPanel.showDialogBox("Leaderboards", leaderboards,
+				ApplicationPanel.OK, new DialogBoxResultHandler(){
+
+					@Override
+					public void dialogBoxResult(int result) {
+						leaderboardDlg = null;
+					}});
+	}
 
 	protected void setBuild(Build build) {
 
@@ -1837,7 +1865,7 @@ public class MainPanel extends BasePanel {
 
 	}
 
-	private Realm getSelectedRealm() {
+	public Realm getSelectedRealm() {
 		int i = realms.getSelectedIndex();
 		String value = realms.getValue(i);
 
@@ -3515,6 +3543,18 @@ public class MainPanel extends BasePanel {
 
 	public ItemPanel getItemPanel() {
 		return this.itemPanel;
+	}
+
+	public void getHeroList(String profile, String tag) {
+		
+		if (leaderboardDlg != null) {
+			leaderboardDlg.hide();
+			leaderboardDlg = null;
+		}
+		
+		this.battleTag.setValue(profile);
+		this.tagNumber.setValue(tag);
+		fetchHeros(null);
 	}
 
 }

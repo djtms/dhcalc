@@ -31,7 +31,9 @@ import com.dawg6.web.dhcalc.shared.calculator.Version;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.CareerProfile;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.HeroProfile;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation;
+import com.dawg6.web.dhcalc.shared.calculator.d3api.Leaderboard;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.Realm;
+import com.dawg6.web.dhcalc.shared.calculator.d3api.SeasonIndex;
 import com.dawg6.web.dhcalc.shared.calculator.stats.DBStatistics;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -123,14 +125,17 @@ public class Service implements DHCalcServiceAsync {
 	}
 
 	@Override
-	public void getItem(final Realm realm, final String item, final AsyncCallback<ItemInformation> callback) {
+	public void getItem(final Realm realm, final String item,
+			final AsyncCallback<ItemInformation> callback) {
 
 		execute(new AsyncTask() {
 
 			@Override
 			public void run(final AsyncTaskHandler handler) {
 
-				SERVICE.getItem(realm, item,
+				SERVICE.getItem(
+						realm,
+						item,
 						new DelegateCallback<ItemInformation>(handler, callback));
 			}
 		});
@@ -152,19 +157,19 @@ public class Service implements DHCalcServiceAsync {
 
 	}
 
-//	@Override
-//	public void serializeFormData(final FormData data,
-//			final AsyncCallback<String> callback) {
-//		execute(new AsyncTask() {
-//
-//			@Override
-//			public void run(AsyncTaskHandler handler) {
-//				SERVICE.serializeFormData(data, new DelegateCallback<String>(
-//						handler, callback));
-//			}
-//		});
-//
-//	}
+	// @Override
+	// public void serializeFormData(final FormData data,
+	// final AsyncCallback<String> callback) {
+	// execute(new AsyncTask() {
+	//
+	// @Override
+	// public void run(AsyncTaskHandler handler) {
+	// SERVICE.serializeFormData(data, new DelegateCallback<String>(
+	// handler, callback));
+	// }
+	// });
+	//
+	// }
 
 	@Override
 	public void getClientData(final String client,
@@ -204,31 +209,31 @@ public class Service implements DHCalcServiceAsync {
 		});
 	}
 
-//	@Override
-//	public void toJson(final JsonObject object,
-//			final AsyncCallback<String> callback) {
-//		execute(new AsyncTask() {
-//
-//			@Override
-//			public void run(AsyncTaskHandler handler) {
-//				SERVICE.toJson(object, new DelegateCallback<String>(handler,
-//						callback));
-//			}
-//		});
-//	}
-//
-//	@Override
-//	public void fromJson(final String json, final String type,
-//			final AsyncCallback<JsonObject> callback) {
-//		execute(new AsyncTask() {
-//
-//			@Override
-//			public void run(AsyncTaskHandler handler) {
-//				SERVICE.fromJson(json, type, new DelegateCallback<JsonObject>(
-//						handler, callback));
-//			}
-//		});
-//	}
+	// @Override
+	// public void toJson(final JsonObject object,
+	// final AsyncCallback<String> callback) {
+	// execute(new AsyncTask() {
+	//
+	// @Override
+	// public void run(AsyncTaskHandler handler) {
+	// SERVICE.toJson(object, new DelegateCallback<String>(handler,
+	// callback));
+	// }
+	// });
+	// }
+	//
+	// @Override
+	// public void fromJson(final String json, final String type,
+	// final AsyncCallback<JsonObject> callback) {
+	// execute(new AsyncTask() {
+	//
+	// @Override
+	// public void run(AsyncTaskHandler handler) {
+	// SERVICE.fromJson(json, type, new DelegateCallback<JsonObject>(
+	// handler, callback));
+	// }
+	// });
+	// }
 
 	private static class VersionCheck {
 		public boolean success;
@@ -331,26 +336,52 @@ public class Service implements DHCalcServiceAsync {
 	}-*/;
 
 	@Override
-	public void logData(final CharacterData data, final AsyncCallback<Void> callback) {
+	public void logData(final CharacterData data,
+			final AsyncCallback<Void> callback) {
 		execute(new AsyncTask() {
 
 			@Override
 			public void run(AsyncTaskHandler handler) {
-				SERVICE.logData(data,
-						new DelegateCallback<Void>(handler, callback));
+				SERVICE.logData(data, new DelegateCallback<Void>(handler,
+						callback));
 			}
 		});
 	}
 
 	@Override
-	public void getStats(final Rune sentryRune, final ActiveSkill[] skills, final Rune[] runes,
-			final AsyncCallback<DBStatistics> callback) {
+	public void getStats(final Rune sentryRune, final ActiveSkill[] skills,
+			final Rune[] runes, final AsyncCallback<DBStatistics> callback) {
 		execute(new AsyncTask() {
 
 			@Override
 			public void run(AsyncTaskHandler handler) {
 				SERVICE.getStats(sentryRune, skills, runes,
 						new DelegateCallback<DBStatistics>(handler, callback));
+			}
+		});
+	}
+
+	@Override
+	public void getSeasonEraIndex(final Realm realm, final AsyncCallback<SeasonIndex> callback) {
+		execute(new AsyncTask() {
+
+			@Override
+			public void run(AsyncTaskHandler handler) {
+				SERVICE.getSeasonEraIndex(realm, new DelegateCallback<SeasonIndex>(
+						handler, callback));
+			}
+		});
+	}
+
+	@Override
+	public void getLeaderboard(final Realm realm, final int seasonEra, final boolean isEra,
+			final String which, final AsyncCallback<Leaderboard> callback) {
+		execute(new AsyncTask() {
+
+			@Override
+			public void run(AsyncTaskHandler handler) {
+				SERVICE.getLeaderboard(realm, seasonEra, isEra, which, new DelegateCallback<Leaderboard>(
+						handler, callback));
 			}
 		});
 	}

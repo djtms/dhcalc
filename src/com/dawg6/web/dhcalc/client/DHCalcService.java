@@ -27,7 +27,9 @@ import com.dawg6.web.dhcalc.shared.calculator.Version;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.CareerProfile;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.HeroProfile;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation;
+import com.dawg6.web.dhcalc.shared.calculator.d3api.Leaderboard;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.Realm;
+import com.dawg6.web.dhcalc.shared.calculator.d3api.SeasonIndex;
 import com.dawg6.web.dhcalc.shared.calculator.stats.DBStatistics;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -51,4 +53,7 @@ public interface DHCalcService extends RemoteService {
 	void logData(CharacterData data);
 	
 	DBStatistics getStats(Rune sentryRune, ActiveSkill[] skills, Rune[] runes);
+	
+	SeasonIndex getSeasonEraIndex(Realm realm);
+	Leaderboard getLeaderboard(Realm realm, int seasonEra, boolean isEra, String which);
 }

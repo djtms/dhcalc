@@ -22,13 +22,14 @@ import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.CharacterData;
 import com.dawg6.web.dhcalc.shared.calculator.ExportData;
 import com.dawg6.web.dhcalc.shared.calculator.FormData;
-import com.dawg6.web.dhcalc.shared.calculator.JsonObject;
 import com.dawg6.web.dhcalc.shared.calculator.Rune;
 import com.dawg6.web.dhcalc.shared.calculator.Version;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.CareerProfile;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.HeroProfile;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation;
+import com.dawg6.web.dhcalc.shared.calculator.d3api.Leaderboard;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.Realm;
+import com.dawg6.web.dhcalc.shared.calculator.d3api.SeasonIndex;
 import com.dawg6.web.dhcalc.shared.calculator.stats.DBStatistics;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -63,6 +64,11 @@ public interface DHCalcServiceAsync {
 			AsyncCallback<DBStatistics> callback);
 
 	void getItem(Realm realm, String item, AsyncCallback<ItemInformation> callback);
+
+	void getSeasonEraIndex(Realm realm, AsyncCallback<SeasonIndex> callback);
+
+	void getLeaderboard(Realm realm, int seasonEra, boolean isEra,
+			String which, AsyncCallback<Leaderboard> callback);
 	
 	
 }

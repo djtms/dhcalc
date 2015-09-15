@@ -16,23 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
-package com.dawg6.web.dhcalc;
+package com.dawg6.web.dhcalc.shared.calculator;
 
-import com.dawg6.web.dhcalc.server.IO;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.Leaderboard;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.Realm;
-import com.google.gson.Gson;
-
-
-public class TestApp {
-
-	public static void main(String[] args) throws Exception {
-		Gson gson = new Gson();
-//		Season s = IO.getInstance().readSeason(Realm.US.getApiHost(), 4);
-//		SeasonIndex s = IO.getInstance().readSeasonIndex(Realm.US.getApiHost());
-		Leaderboard s = IO.getInstance().readSeasonLeaderboard(Realm.US.getApiHost(), 4, "rift-hardcore-team-2");
-		
-		System.out.println("s = " + gson.toJson(s));
+public enum LeaderboardType {
+	
+	Solo("dh","Solo"),
+	Team2("team-2","2 Players"),
+	Team3("team-3","3 Players"),
+	Team4("team-4","4 Players"),
+	;
+	
+	private String key;
+	private String name;
+	
+	private LeaderboardType(String key, String name) {
+		this.key = key;
+		this.name = name;
 	}
-
+	
+	@Override
+	public String toString() {
+		return name;
+	}
+	
+	public String getKey(boolean hardcore) {
+		return "rift-" + (hardcore?"hardcore-":"") + key;
+	}
 }

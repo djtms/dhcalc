@@ -44,7 +44,9 @@ import com.dawg6.web.dhcalc.shared.calculator.Version;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.CareerProfile;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.HeroProfile;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation;
+import com.dawg6.web.dhcalc.shared.calculator.d3api.Leaderboard;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.Realm;
+import com.dawg6.web.dhcalc.shared.calculator.d3api.SeasonIndex;
 import com.dawg6.web.dhcalc.shared.calculator.stats.DBStatistics;
 import com.dawg6.web.dhcalc.shared.calculator.stats.DpsTableEntry;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -385,5 +387,44 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 	public DBStatistics getStats(Rune sentryRune, ActiveSkill[] skills,
 			Rune[] runes) {
 		return CouchDBDHCalcDatabase.getInstance().getStatistics(sentryRune, skills, runes);
+	}
+
+	@Override
+	public SeasonIndex getSeasonEraIndex(Realm realm) {
+		try {
+			SeasonIndex seasons = IO.getInstance().readSeasonIndex(realm.getApiHost());
+			SeasonIndex eras = IO.getInstance().readEraIndex(realm.getApiHost());
+			
+			seasons.eras = eras.eras;
+			seasons.current_era = eras.current_era;
+
+			return seasons;
+			
+		} catch (RuntimeException e) {
+			log.log(Level.SEVERE, "Exception", e);
+			throw e;
+		} catch (Exception e2) {
+			log.log(Level.SEVERE, "Exception", e2);
+			throw new RuntimeException(e2);
+		}
+	}
+
+	@Override
+	public Leaderboard getLeaderboard(Realm realm, int seasonEra,
+			boolean isEra, String which) {
+		try {
+			if (isEra) {
+				return IO.getInstance().readEraLeaderboard(realm.getApiHost(), seasonEra, which);
+			} else {
+				return IO.getInstance().readSeasonLeaderboard(realm.getApiHost(), seasonEra, which);
+			}
+			
+		} catch (RuntimeException e) {
+			log.log(Level.SEVERE, "Exception", e);
+			throw e;
+		} catch (Exception e2) {
+			log.log(Level.SEVERE, "Exception", e2);
+			throw new RuntimeException(e2);
+		}
 	}
 }
