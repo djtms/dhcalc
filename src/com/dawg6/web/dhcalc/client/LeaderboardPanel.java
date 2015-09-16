@@ -168,6 +168,7 @@ public class LeaderboardPanel extends ApplicationPanel {
 			
 				for (Player pl : row.players) {
 					String btag = null;
+					Long heroId = null;
 					boolean isDh = false;
 					
 					for (Data d : pl.data) {
@@ -179,18 +180,20 @@ public class LeaderboardPanel extends ApplicationPanel {
 							}
 						} else if (d.id.equals("HeroBattleTag")) {
 							btag = d.string;
+						} else if (d.id.equals("HeroId")) {
+							heroId = d.number;
 						}
 						
-						if (isDh && (btag != null))
+						if (isDh && (btag != null) && (heroId != null))
 							break;
 					}
 					
-					if (isDh && (btag != null)) {
+					if (isDh && (btag != null) && (heroId != null)) {
 						long minutes = time / 60000L;
 						long seconds = (time - (minutes * 60000))/1000L;
 						String ts = NumberFormat.getFormat("00").format(minutes) + ":" + NumberFormat.getFormat("00").format(seconds);
 						String label = rank + ") Level " + rift + ": " + ts + " - " + btag;
-						leaders.addItem(label, btag);
+						leaders.addItem(label, btag + "#" + heroId);
 					}
 				}
 			}
@@ -199,7 +202,7 @@ public class LeaderboardPanel extends ApplicationPanel {
 		this.table.setWidget(this.leaderboardRow, 0, leaders);
 		this.table.getFlexCellFormatter().setColSpan(this.leaderboardRow, 0, 5);
 		
-		Button button = new Button("Get Hero List");
+		Button button = new Button("Import Profile");
 		this.table.setWidget(this.leaderboardRow, 1, button);
 		
 		button.addClickHandler(new ClickHandler(){
@@ -215,7 +218,7 @@ public class LeaderboardPanel extends ApplicationPanel {
 		
 		if (btag != null) {
 			String[] split = btag.split("#");
-			mainPanel.getHeroList(split[0], split[1]);
+			mainPanel.importProfile(split[0], split[1], Integer.parseInt(split[2]));
 		}
 	}
 

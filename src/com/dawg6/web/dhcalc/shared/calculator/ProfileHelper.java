@@ -31,7 +31,6 @@ import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation.Attributes.Attribute;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation.D3Set;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.Value;
-import com.google.gwt.core.shared.GWT;
 
 public class ProfileHelper {
 
@@ -73,7 +72,7 @@ public class ProfileHelper {
 					* (1 + (data.getLeoricsPercent() / 100.0)));
 		else {
 			GemLevel gem = data.getDiamond();
-			
+
 			if (gem != null)
 				list.add(gem.getCdr());
 		}
@@ -120,7 +119,7 @@ public class ProfileHelper {
 
 		if (type == null)
 			type = WeaponType.Bow;
-		
+
 		double weaponAps = type.getAps() * (1.0 + data.getWeaponIas());
 		double weaponDps = Math.round(((min + max) / 2.0) * weaponAps * 10.0) / 10.0;
 		data.setWeaponAps(weaponAps);
@@ -164,42 +163,48 @@ public class ProfileHelper {
 			aDam += .2;
 		}
 
-		double critChance = Math.min(1.0, 0.05 + data.getEquipCritChance() + pCC + aCC);
+		double critChance = Math.min(1.0, 0.05 + data.getEquipCritChance()
+				+ pCC + aCC);
 		double critDamage = data.getEquipCritDamage() + pCD + aCD;
 
 		double eIas = data.getEquipIas();
 		double wIas = data.getWeaponIas();
 		double pIas = data.getParagonIAS() * 0.002;
 		double fIas = data.isFocusedMind() ? 0.03 : 0.0;
-		double bbvIas = (data.isBbv() && (data.getBbvUptime() >= 1.0)) ? 0.2 : 0.0;
+		double bbvIas = (data.isBbv() && (data.getBbvUptime() >= 1.0)) ? 0.2
+				: 0.0;
 		double lovIas = 0.0;
-		
+
 		if (data.isValor()) {
 			if (data.getValorActiveUptime() >= 1.0) {
 				lovIas = 0.15;
-			} else if ((data.getValorActiveUptime() + data.getValorPassiveUptime()) >= 1.0) {
+			} else if ((data.getValorActiveUptime() + data
+					.getValorPassiveUptime()) >= 1.0) {
 				lovIas = 0.08;
 			}
 		}
-		
-		double retIas = (data.isRetribution() && (data.getRetributionUptime() >= 1.0)) ? 0.1 : 0.0;
-		double stIas = (data.isStretchTime() && (data.getStretchTimeUptime() >= 1.0)) ? 0.1 : 0.0;
-		
+
+		double retIas = (data.isRetribution() && (data.getRetributionUptime() >= 1.0)) ? 0.1
+				: 0.0;
+		double stIas = (data.isStretchTime() && (data.getStretchTimeUptime() >= 1.0)) ? 0.1
+				: 0.0;
+
 		double gogokIas = data.isGogok() ? (data.getGogokStacks() / 100.0)
 				: 0.0;
 		double painEnhancerIas = (data.isPainEnhancer() && data
 				.getPainEnhancerLevel() >= 25) ? (data.getPainEnhancerStacks() * 0.03)
 				: 0.0;
-				
 
 		double dwIas = (offHand_type != null) ? 0.15 : 0.0;
 
-		double aps = type.getAps() * (1.0 + wIas)
-				* (1.0 + eIas + fIas + pIas + gogokIas + painEnhancerIas + dwIas + bbvIas + lovIas + retIas + stIas);
+		double aps = type.getAps()
+				* (1.0 + wIas)
+				* (1.0 + eIas + fIas + pIas + gogokIas + painEnhancerIas
+						+ dwIas + bbvIas + lovIas + retIas + stIas);
 
 		double averageWeaponDamage = ((min + max) / 2.0);
 		double offHand_averageWeaponDamage = ((offHand_min + offHand_max) / 2.0);
-		
+
 		double dps = averageWeaponDamage * aps
 				* (1.0 + critChance * critDamage) * (1.0 + (dex / 100.0))
 				* (1.0 + aDam);
@@ -212,14 +217,15 @@ public class ProfileHelper {
 		double petApsValue = aps * (1.0 + petIasValue) * (1.0 + gogokIas);
 		data.setCritChance(critChance);
 		data.setCritHitDamage(critDamage);
-		
+
 		data.setWeaponDamage(averageWeaponDamage);
 		data.setOffHand_weaponDamage(offHand_averageWeaponDamage);
 
 		double offHand_wIas = data.getOffHand_weaponIas();
-		double offHand_aps = (offHand_type == null) ? 0.0 : (offHand_type
-				.getAps() * (1.0 + offHand_wIas) * (1.0 + eIas + pIas
-				+ gogokIas + painEnhancerIas + dwIas + bbvIas + lovIas + retIas + stIas));
+		double offHand_aps = (offHand_type == null) ? 0.0
+				: (offHand_type.getAps() * (1.0 + offHand_wIas) * (1.0 + eIas
+						+ pIas + gogokIas + painEnhancerIas + dwIas + bbvIas
+						+ lovIas + retIas + stIas));
 		data.setOffHand_aps(offHand_aps);
 
 		double offHand_dps = offHand_averageWeaponDamage * offHand_aps
@@ -241,13 +247,13 @@ public class ProfileHelper {
 				if ((s != null) && (s.skill != null) && (s.skill.slug != null)) {
 
 					for (ActiveSkill sk : ActiveSkill.values()) {
-					
+
 						SkillType type = sk.getSkillType();
-						
+
 						if (type != SkillType.NA) {
 							if (s.skill.slug.equals(sk.getSlug())) {
 								Rune rune = Rune.None;
-								
+
 								if ((s.rune != null) && (s.rune.type != null)) {
 									for (Rune r : sk.getRunes()) {
 										if (r.getSlug().equals(s.rune.type)) {
@@ -256,7 +262,7 @@ public class ProfileHelper {
 										}
 									}
 								}
-								
+
 								skills.put(sk, rune);
 							}
 						}
@@ -266,12 +272,12 @@ public class ProfileHelper {
 		}
 
 		Set<Passive> passives = new TreeSet<Passive>();
-		
+
 		for (HeroProfile.Skills.Passive p : hero.skills.passive) {
 
 			if ((p != null) && (p.skill != null) && (p.skill.slug != null)) {
 				Passive passive = Passive.fromSlug(p.skill.slug);
-				
+
 				if (passive != null)
 					passives.add(passive);
 			}
@@ -279,7 +285,8 @@ public class ProfileHelper {
 
 		for (ItemInformation item : hero.items.values()) {
 
-			if ((item.attributes != null) && (item.attributes.passive != null)) {
+			if ((item != null) && (item.attributes != null)
+					&& (item.attributes.passive != null)) {
 
 				for (Attribute a : item.attributes.passive) {
 
@@ -292,7 +299,7 @@ public class ProfileHelper {
 									- Const.PASSIVE.length());
 
 							Passive passive = Passive.fromName(pname);
-							
+
 							if (passive != null) {
 								passives.add(passive);
 							}
@@ -322,7 +329,7 @@ public class ProfileHelper {
 	public static void setElementalDamage(HeroProfile hero, CharacterData data) {
 
 		Map<DamageType, Double> damage = new TreeMap<DamageType, Double>();
-		
+
 		for (DamageType t : DamageType.values()) {
 			double d = 0.0;
 			String e = t.getSlug();
@@ -330,13 +337,14 @@ public class ProfileHelper {
 
 			for (ItemInformation i : hero.items.values()) {
 
-				Value<Float> f = i.attributesRaw.get(attr);
-				
-				if (f != null) {
-					
-					d += f.min;
+				if (i != null) {
+					Value<Float> f = i.attributesRaw.get(attr);
+
+					if (f != null) {
+
+						d += f.min;
+					}
 				}
-				
 			}
 
 			if (d > 0.0) {
@@ -350,30 +358,30 @@ public class ProfileHelper {
 	public static void setGemDamage(HeroProfile hero, CharacterData data) {
 
 		Map<GemSkill, GemAttributeData> gems = new TreeMap<GemSkill, GemAttributeData>();
-		
+
 		for (ItemInformation i : hero.items.values()) {
 
-			if (i.gems != null) {
+			if ((i != null) && (i.gems != null)) {
 				for (ItemInformation.Gem g : i.gems) {
 
 					if (g.item.name != null) {
 						GemSkill gem = GemSkill.getGemByName(g.item.name);
-						
+
 						if (gem != null) {
 							GemAttributeData gd = new GemAttributeData();
 							gd.level = g.jewelRank;
-							
+
 							for (GemSkill.Attribute a : gem.getAttributes()) {
 								gd.put(a.getLabel(), new Integer(0));
 							}
-							
-							gems.put(gem,  gd);
+
+							gems.put(gem, gd);
 						}
 					}
 				}
 			}
 		}
-		
+
 		data.setGems(gems);
 	}
 
@@ -518,74 +526,75 @@ public class ProfileHelper {
 
 		for (ItemInformation i : hero.items.values()) {
 
-			Value<Float> v = i.attributesRaw.get(Const.CRIT_CHANCE_RAW);
-
-			if (v != null) {
-				critChance += v.min;
-			}
-
-			v = i.attributesRaw.get(Const.DEXTERITY);
-
-			if (v != null) {
-				equipmentDexterity += v.min;
-			}
-
-			v = i.attributesRaw.get(Const.AREA_DAMAGE);
-
-			if (v != null) {
-				areaDamage += v.min;
-			}
-
-			v = i.attributesRaw.get(Const.CRIT_DAMAGE_RAW);
-
-			if (v != null) {
-				critDamage += v.min;
-			}
-
-			if (i.gems != null) {
-				for (ItemInformation.Gem g : i.gems) {
-					v = g.attributesRaw.get(Const.CRIT_DAMAGE_RAW);
-
-					if (v != null) {
-						critDamage += v.min;
-					}
-
-					v = g.attributesRaw.get(Const.DEXTERITY);
-
-					if (v != null) {
-						equipmentDexterity += v.min;
-					}
-
-				}
-			}
-
-			if ((i != bow) && ((i != offHand) || (offHand_type == null))) {
-
-				if (i.attributesRaw != null) {
-					Value<Float> min = i.attributesRaw
-							.get(Const.JEWELY_MIN_DAMAGE);
-
-					if (min != null) {
-						minJewelry += min.min;
-
-						Value<Float> delta = i.attributesRaw
-								.get(Const.JEWELY_DELTA_DAMAGE);
-
-						if (delta != null) {
-							maxJewelry += (min.min + delta.min);
-						}
-					}
-				}
-
-				v = i.attributesRaw.get(Const.IAS);
+			if (i != null) {
+				Value<Float> v = i.attributesRaw.get(Const.CRIT_CHANCE_RAW);
 
 				if (v != null) {
-
-					equipIas += Math.round(v.min * 100.0);
+					critChance += v.min;
 				}
 
-			}
+				v = i.attributesRaw.get(Const.DEXTERITY);
 
+				if (v != null) {
+					equipmentDexterity += v.min;
+				}
+
+				v = i.attributesRaw.get(Const.AREA_DAMAGE);
+
+				if (v != null) {
+					areaDamage += v.min;
+				}
+
+				v = i.attributesRaw.get(Const.CRIT_DAMAGE_RAW);
+
+				if (v != null) {
+					critDamage += v.min;
+				}
+
+				if (i.gems != null) {
+					for (ItemInformation.Gem g : i.gems) {
+						v = g.attributesRaw.get(Const.CRIT_DAMAGE_RAW);
+
+						if (v != null) {
+							critDamage += v.min;
+						}
+
+						v = g.attributesRaw.get(Const.DEXTERITY);
+
+						if (v != null) {
+							equipmentDexterity += v.min;
+						}
+
+					}
+				}
+
+				if ((i != bow) && ((i != offHand) || (offHand_type == null))) {
+
+					if (i.attributesRaw != null) {
+						Value<Float> min = i.attributesRaw
+								.get(Const.JEWELY_MIN_DAMAGE);
+
+						if (min != null) {
+							minJewelry += min.min;
+
+							Value<Float> delta = i.attributesRaw
+									.get(Const.JEWELY_DELTA_DAMAGE);
+
+							if (delta != null) {
+								maxJewelry += (min.min + delta.min);
+							}
+						}
+					}
+
+					v = i.attributesRaw.get(Const.IAS);
+
+					if (v != null) {
+
+						equipIas += Math.round(v.min * 100.0);
+					}
+
+				}
+			}
 		}
 
 		for (Map.Entry<String, Integer> e : data.getSetCounts().entrySet()) {
@@ -646,8 +655,7 @@ public class ProfileHelper {
 		if (paragonDexterity != null)
 			data.setParagonDexterity(paragonDexterity);
 		else {
-			data.setParagonDexterity((hero.stats.dexterity
-					- (equipmentDexterity + 7 + (hero.level * 3))) / 5);
+			data.setParagonDexterity((hero.stats.dexterity - (equipmentDexterity + 7 + (hero.level * 3))) / 5);
 		}
 
 		data.setAreaDamageEquipment(areaDamage);
@@ -671,7 +679,7 @@ public class ProfileHelper {
 
 			Slot slot = Slot.getSlot(e.getKey());
 			ItemInformation i = e.getValue();
-			
+
 			if (i.attributesRaw != null) {
 				Value<Float> v = i.attributesRaw.get(Const.ELITE_DAMAGE_RAW);
 
@@ -702,28 +710,28 @@ public class ProfileHelper {
 					setCounts.put(i.set.slug, count + 1);
 				}
 			}
-			
+
 			for (SpecialItemType type : SpecialItemType.values()) {
 				if (i.name.equals(type.getName())) {
 					AttributeData ad = new AttributeData();
-					
+
 					for (SpecialItemType.Attribute a : type.getAttributes()) {
 						int value = 0;
 						Value<Float> v = i.attributesRaw.get(a.getSlug());
-						
+
 						if (v == null) {
 							value = a.setRawAttributeValue(a.getMin());
 						} else {
 							value = a.setRawAttributeValue(v.min);
 						}
-						
+
 						ad.put(a.getLabel(), value);
 					}
-					
+
 					ItemHolder item = new ItemHolder();
 					item.setType(type);
 					item.setAttributes(ad);
-					
+
 					items.put(slot, item);
 				}
 			}
@@ -731,20 +739,20 @@ public class ProfileHelper {
 
 		if (hero.legendaryPowers != null) {
 			for (HeroProfile.LegendaryPowers lp : hero.legendaryPowers) {
-				
+
 				for (SpecialItemType type : SpecialItemType.values()) {
 					if (lp.name.equals(type.getName())) {
 						AttributeData ad = new AttributeData();
-						
+
 						for (SpecialItemType.Attribute a : type.getAttributes()) {
 							int value = a.setRawAttributeValue(a.getMax());
 							ad.put(a.getLabel(), value);
 						}
-						
+
 						ItemHolder item = new ItemHolder();
 						item.setType(type);
 						item.setAttributes(ad);
-						
+
 						for (Slot slot : type.getSlots()) {
 							if (slot.isCube()) {
 								items.put(slot, item);
@@ -755,7 +763,7 @@ public class ProfileHelper {
 				}
 			}
 		}
-		
+
 		data.setSpecialItems(items);
 
 		for (Map.Entry<String, Integer> e : setCounts.entrySet()) {
@@ -766,8 +774,8 @@ public class ProfileHelper {
 
 			D3Set set = sets.get(e.getKey());
 
-			GWT.log("set " + e.getKey() + " count " + count);
-			
+			// GWT.log("set " + e.getKey() + " count " + count);
+
 			for (D3Set.Rank r : set.ranks) {
 				if (r.required <= count) {
 					if (r.attributesRaw != null) {
@@ -788,15 +796,17 @@ public class ProfileHelper {
 			String slug = skill.getDamageAttribute();
 			String attr = Const.SKILL_DAMAGE_BONUS + slug;
 			double d = 0.0;
-			
+
 			for (ItemInformation i : hero.items.values()) {
 
-				Value<Float> f = i.attributesRaw.get(attr);
-				
-				if (f != null) {
-					d += f.min;
+				if (i != null) {
+					Value<Float> f = i.attributesRaw.get(attr);
+	
+					if (f != null) {
+						d += f.min;
+					}
 				}
-				
+
 			}
 
 			if (d > 0.0) {
@@ -854,7 +864,6 @@ public class ProfileHelper {
 			}
 		}
 
-
 		data.setHatredPerSecond(hatredPerSecond);
 		data.setEquipmentDiscipline(discipline);
 		data.setEliteDamage(elite);
@@ -911,9 +920,9 @@ public class ProfileHelper {
 			list.add(0.30);
 
 		Map<String, Integer> map = data.getRcrData();
-		
+
 		for (Integer i : map.values()) {
-			
+
 			if (i != null)
 				list.add(i / 100.0);
 		}

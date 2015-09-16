@@ -3545,8 +3545,7 @@ public class MainPanel extends BasePanel {
 		return this.itemPanel;
 	}
 
-	public void getHeroList(String profile, String tag) {
-		
+	public void importProfile(String profile, String tag, final int heroId) {
 		if (leaderboardDlg != null) {
 			leaderboardDlg.hide();
 			leaderboardDlg = null;
@@ -3554,7 +3553,40 @@ public class MainPanel extends BasePanel {
 		
 		this.battleTag.setValue(profile);
 		this.tagNumber.setValue(tag);
-		fetchHeros(null);
+		fetchHeros(new AsyncTaskHandler(){
+
+			@Override
+			public void taskCompleted() {
+				Hero hero = null;
+				
+				for (Hero h : MainPanel.this.career.heroes) {
+					if (h.id == heroId) {
+						hero = h;
+						break;
+					}
+				}
+				
+				if (hero == null) {
+					MainPanel.showErrorDialog("Hero " + heroId + " does not exist.");
+				} else {
+					selectHero(heroId);
+					importHero();
+				}
+			}});
+	}
+
+	protected void selectHero(int heroId) {
+		int n = this.heroList.getItemCount();
+		String s = String.valueOf(heroId);
+		
+		for (int i = 0; i < n; i++) {
+			String value = heroList.getValue(i);
+			
+			if (value.equals(s)) {
+				heroList.setSelectedIndex(i);
+				return;
+			}
+		}
 	}
 
 }
