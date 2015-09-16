@@ -26,10 +26,20 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
+
 import com.dawg6.web.dhcalc.server.db.couchdb.CouchDBDHCalcParameters;
+import com.dawg6.web.dhcalc.server.oauth.Token;
 import com.dawg6.web.dhcalc.server.util.DHCalcProperties;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.CareerProfile;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.HeroProfile;
@@ -50,6 +60,7 @@ public class IO {
 	private static final Integer DEFAULT_MAX_REQUESTS_PER_SECOND = 85;
 	private static final int DEFAULT_CONNECT_TIMEOUT = 30000;
 	private static final int DEFAULT_READ_TIMEOUT = 30000;
+	private static final String TOKEN_SERVER_URL = "https://us.battle.net/oauth/token";
 	
 	private static IO instance;
 	
@@ -65,8 +76,9 @@ public class IO {
 	public final Cache<String, ItemInformation> itemCache = new Cache<String, ItemInformation>(true);
 
 	private int connectTimeout;
-
+	private Token token;
 	private int readTimeout;
+	private long token_expires;
 	
 	private IO() {
 		String value = CouchDBDHCalcParameters.getInstance().getParameter(CouchDBDHCalcParameters.MAX_REQUESTS, String.valueOf(DEFAULT_MAX_REQUESTS_PER_SECOND), new CouchDBDHCalcParameters.Listener() {
@@ -104,6 +116,7 @@ public class IO {
 			}
 		});
 		setReadTimeout(Integer.parseInt(value));
+		
 	}
 	
 	protected void setReadTimeout(int value) {
@@ -134,8 +147,8 @@ public class IO {
 		return "&apikey=" + DHCalcProperties.getInstance().getApiKey();
 	}
 
-	public synchronized String getAccessToken() {
-		return "?access_token=" + DHCalcProperties.getInstance().getAccessToken();
+	public String getAccessToken() {
+		return "?access_token=" + getToken().access_token;
 	}
 
 	private final List<Long> requests = new LinkedList<Long>();
@@ -270,6 +283,73 @@ public class IO {
 		return out;
 	}
 
+	private synchronized Token getToken() {
+		
+		if ((this.token == null) || (this.token_expires < System.currentTimeMillis())) {
+			try {
+				this.token = requestToken();
+				this.token_expires = System.currentTimeMillis() + ((token.expires_in - (24L * 60L * 60L)) * 1000L);
+			} catch (RuntimeException e) {
+				log.log(Level.SEVERE, "Exception", e);
+				throw e;
+			} catch (Exception e2) {
+				log.log(Level.SEVERE, "Exception", e2);
+				throw new RuntimeException(e2);
+			}
+		}
+		
+		
+		return token;
+	}
+	
+	private Token requestToken() throws Exception {
+		
+		CloseableHttpClient client = HttpClientBuilder.create().build();
+		
+		List<NameValuePair> params = new Vector<NameValuePair>();
+		params.add(new BasicNameValuePair("client_id", DHCalcProperties.getInstance().getApiKey()));
+		params.add(new BasicNameValuePair("client_secret", DHCalcProperties.getInstance().getApiSecret()));
+		params.add(new BasicNameValuePair("grant_type", "client_credentials"));
+
+		HttpPost request = new HttpPost(TOKEN_SERVER_URL);
+		request.setEntity(new UrlEncodedFormEntity(params));
+
+		HttpResponse response = client.execute(request);
+
+		if (response.getStatusLine().getStatusCode() != 200) {
+			log.log(Level.SEVERE, "HTTP Server Response: " + response.getStatusLine().getStatusCode());
+			throw new RuntimeException("HTTP Server Response: " + response.getStatusLine().getStatusCode());
+		}
+		
+//		System.out.println("\nSending '" + request.getMethod() + "' request to URL : " + request.getURI());
+//		System.out.println("Response Code : "
+//				+ response.getStatusLine().getStatusCode());
+//		for (Header h : response.getAllHeaders()) {
+//			System.out.println(h.getName() + " = " + h.getValue());
+//		}
+
+		BufferedReader rd = new BufferedReader(new InputStreamReader(response
+				.getEntity().getContent()));
+
+		StringBuffer result = new StringBuffer();
+		String line = "";
+		while ((line = rd.readLine()) != null) {
+			result.append(line);
+		}
+
+		client.close();
+		
+		ObjectMapper mapper = new ObjectMapper();
+    	mapper = mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    	
+    	Token token = mapper.readValue(result.toString(), Token.class);
+    	
+    	if ((token != null) && (token.error != null)) 
+    		throw new RuntimeException(token.error_description);
+    	
+    	return token;
+	}
+	
 	private <T> T readValue(ObjectMapper mapper, URL url, Class<T> clazz) throws JsonParseException, JsonMappingException, IOException {
 		
 		HttpURLConnection c = (HttpURLConnection) url.openConnection();

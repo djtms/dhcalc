@@ -202,7 +202,7 @@ public class MainPanel extends BasePanel {
 		horizontalPanel_5.add(realms);
 
 		
-		Button ldrButton = new Button("Leaderboards");
+		Button ldrButton = new Button("Leaderboards...");
 		horizontalPanel_5.add(ldrButton);
 		
 		ldrButton.addClickHandler(new ClickHandler(){

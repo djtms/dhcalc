@@ -33,6 +33,7 @@ public class DHCalcProperties {
 	private static final String FILE_NAME = "dawg6/dhcalc.properties";
 	private static final String DEVMODE = "com.dawg6.dhcalc.devmode";
 	private static final String API_KEY = "com.dawg6.dhcalc.api_key";
+	private static final String API_SECRET = "com.dawg6.dhcalc.api_secret";
 	private static final String ACCESS_TOKEN = "com.dawg6.dhcalc.access_token";
 	private static final String DB = "com.dawg6.dhcalc.db";
 	
@@ -40,6 +41,7 @@ public class DHCalcProperties {
 
 	private boolean devmode;
 	private String apiKey;
+	private String apiSecret;
 	private String db;
 	private String accessToken;
 	
@@ -54,12 +56,13 @@ public class DHCalcProperties {
 			
 			devmode = Boolean.valueOf(props.getProperty(DEVMODE, "false"));
 			apiKey = props.getProperty(API_KEY);
+			apiSecret = props.getProperty(API_SECRET);
 			accessToken = props.getProperty(ACCESS_TOKEN);
 			db = props.getProperty(DB);
 			
 			log.info("devmode = " + devmode);
-			log.info("API_KEY = " + apiKey);
-			log.info("ACCESS_TOKEN = " + accessToken);
+			log.info("API_KEY = #" + apiKey.hashCode());
+			log.info("API_SECRET = #" + apiSecret.hashCode());
 			log.info("DB = " + db);
 			
 		} catch (Exception e) {
@@ -79,10 +82,10 @@ public class DHCalcProperties {
 		return apiKey;
 	}
 	
-	public String getAccessToken() {
-		return accessToken;
+	public String getApiSecret() {
+		return apiSecret;
 	}
-
+	
 	public String getDb() {
 		return db;
 	}
