@@ -45,7 +45,8 @@ public enum DamageProc {
 
 				@Override
 				public double getValue(SimulationState state) {
-					return (state.getData().isMirinae() && (state.getData().getDistanceToTarget() <= 25)) ? (((20.0 + (state.getData()
+					return (state.getData().isMirinae() && (state.getData().getDistanceToTarget() <= 25) && (state.getData()
+							.getMirinaeLevel() >= 25)) ? (((20.0 + (state.getData()
 							.getMirinaeLevel() * 0.4)) * 3.0) / state.getTargets().getNumAlive()) : 0.0;
 				}
 			}),
