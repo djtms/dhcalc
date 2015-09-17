@@ -259,9 +259,16 @@ public class DamageFunction {
 
 			new DamageRow(new DamageSource(DamageProc.Thunderfury), 1.0, true,
 					5, 1, 10, "", DamageType.Lightning),
+			new DamageRow(new DamageSource(DamageProc.Mirinae), 1.0, true,
+					Integer.MAX_VALUE, 1, 25, "", DamageType.Holy),
 
 			new DamageRow(new DamageSource(DamageProc.Fulminator), 1.0, 6.0, true,
 					Integer.MAX_VALUE, 1, 10, "DoT", DamageType.Lightning),
+
+			new DamageRow(new DamageSource(DamageProc.WreathOfLightning), 1.0, 3.0, true,
+					Integer.MAX_VALUE, 1, 40, "DoT", DamageType.Lightning),
+			new DamageRow(new DamageSource(DamageProc.MirinaeTick), 1.0, 3.0, true,
+					Integer.MAX_VALUE, 1, 25, "Periodic", DamageType.Holy),
 
 			new DamageRow(new DamageSource(GemSkill.Toxin), 20.0, 10.0, true,
 					Integer.MAX_VALUE, "DoT", DamageType.Poison,
@@ -548,7 +555,7 @@ public class DamageFunction {
 									double pc = dr.source.proc.getProc() * state.getLastAttack().getProc();
 									double max = dr.source.proc.getIcd();
 									
-									if (pc > max) {
+									if ((max > 0) && (pc > max)) {
 										m *= max;
 										multBuf.append("PC(" + Util.format(max) + ") x ");
 									} else {

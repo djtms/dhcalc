@@ -20,41 +20,79 @@ package com.dawg6.web.dhcalc.shared.calculator;
 
 public enum DamageProc {
 
-	Thunderfury(0.6, 1.0, SpecialItemType.Thunderfury.getName(), SpecialItemType.Thunderfury.getUrl(), new Adapter(){
+	Thunderfury(0.6, 1.0, SpecialItemType.Thunderfury.getName(),
+			SpecialItemType.Thunderfury.getUrl(), new Adapter() {
 
-		@Override
-		public double getValue(SimulationState state) {
-			return state.getData().isThunderfury() ? state.getData().getThunderfuryPercent() : 0.0;
-		}}),
-		
-	Fulminator(1.0, 0, SpecialItemType.Fulminator.getName(), SpecialItemType.Fulminator.getUrl(), new Adapter(){
+				@Override
+				public double getValue(SimulationState state) {
+					return state.getData().isThunderfury() ? state.getData()
+							.getThunderfuryPercent() : 0.0;
+				}
+			}),
 
-		@Override
-		public double getValue(SimulationState state) {
-			return (state.getData().isFulminator() && (state.getTargets().getNumAlive() > 1) && (state.getData().getTargetSpacing() <= 10)) ? state.getData().getFulminatorPercent() : 0.0;
-		}}),
-		
-	;
-	
+	Mirinae(0.15, 0.0, GemSkill.Mirinae.getDisplayName(),
+			GemSkill.Mirinae.getUrl(), new Adapter() {
+
+				@Override
+				public double getValue(SimulationState state) {
+					return (state.getData().isMirinae() && (state.getData().getDistanceToTarget() <= 25)) ? (20.0 + (state.getData()
+							.getMirinaeLevel() * 0.4)) : 0.0;
+				}
+			}),
+
+	MirinaeTick(1.0, 0, GemSkill.Mirinae.getDisplayName(),
+			GemSkill.Mirinae.getUrl(), new Adapter() {
+
+				@Override
+				public double getValue(SimulationState state) {
+					return (state.getData().isMirinae() && (state.getData().getDistanceToTarget() <= 25)) ? (((20.0 + (state.getData()
+							.getMirinaeLevel() * 0.4)) * 3.0) / state.getTargets().getNumAlive()) : 0.0;
+				}
+			}),
+
+	Fulminator(1.0, 0, SpecialItemType.Fulminator.getName(),
+			SpecialItemType.Fulminator.getUrl(), new Adapter() {
+
+				@Override
+				public double getValue(SimulationState state) {
+					return (state.getData().isFulminator()
+							&& (state.getTargets().getNumAlive() > 1) && (state
+							.getData().getTargetSpacing() <= 10)) ? state
+							.getData().getFulminatorPercent() : 0.0;
+				}
+			}),
+
+	WreathOfLightning(0.15, 0, GemSkill.Wreath.getDisplayName(),
+			GemSkill.Wreath.getUrl(), new Adapter() {
+
+				@Override
+				public double getValue(SimulationState state) {
+					return (state.getData().isWreath() && (state.getData()
+							.getDistanceToTarget() <= 40)) ? ((6.0 + (state
+							.getData().getWreathLevel() * 0.1)) * 3.0 ): 0.0;
+				}
+			}), ;
+
 	private final double proc;
 	private final double icd;
 	private final String url;
 	private final String name;
-	
-	public interface Adapter { 
+
+	public interface Adapter {
 		double getValue(SimulationState state);
 	}
-	
+
 	private Adapter adapter;
-	
-	private DamageProc(double proc, double icd, String name, String url, Adapter adapter) {
+
+	private DamageProc(double proc, double icd, String name, String url,
+			Adapter adapter) {
 		this.adapter = adapter;
 		this.proc = proc;
 		this.icd = icd;
 		this.url = url;
 		this.name = name;
 	}
-	
+
 	public double getScalar(SimulationState state) {
 		return adapter.getValue(state);
 	}

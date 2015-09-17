@@ -5,6 +5,8 @@ Change Log:
 - Added item level (70) to item tooltip links
 - Added links to bnet career profile and hero profile for leaderboard view
 - Put legend table into a scrollable window (since it is so large)
+- Added Wreath of Lightning
+- Added Mirinae, Teardrop of the Starweaver
 
 **9/16/15**
 

@@ -2075,4 +2075,21 @@ public class CharacterData implements Serializable {
 	public double getFulminatorPercent() {
 		return getItemAttribute(SpecialItemType.Fulminator, SpecialItemType.PERCENT);
 	}
+
+	public boolean isWreath() {
+		return gems.containsKey(GemSkill.Wreath);
+	}
+	
+	public int getWreathLevel() {
+		return getGemLevel(GemSkill.Wreath);
+	}
+
+	public boolean isMirinae() {
+		return gems.containsKey(GemSkill.Mirinae);
+	}
+
+	public int getMirinaeLevel() {
+		return getGemLevel(GemSkill.Mirinae);
+	}
+
 }
