@@ -450,76 +450,84 @@ public class ProfileHelper {
 
 			for (Map.Entry<String, Value<Float>> e : bow.attributesRaw
 					.entrySet()) {
-				String name = e.getKey();
-				double value = e.getValue().min;
 
-				if (name.startsWith(Const.DAMAGE_WEAPON_MIN)) {
+				if ((e != null) && (e.getKey() != null)
+						&& (e.getValue() != null)) {
+					String name = e.getKey();
+					double value = e.getValue().min;
 
-					if (name.contains(Const.PHYSICAL))
-						baseMin = value;
-					else
+					if (name.startsWith(Const.DAMAGE_WEAPON_MIN)) {
+
+						if (name.contains(Const.PHYSICAL))
+							baseMin = value;
+						else
+							addMin += value;
+
+					} else if (name.startsWith(Const.DAMAGE_WEAPON_DELTA)) {
+
+						if (name.contains(Const.PHYSICAL))
+							baseDelta = value;
+						else
+							addDelta += value;
+
+					} else if (name.startsWith(Const.DAMAGE_WEAPON_BONUS_MIN)) {
 						addMin += value;
-
-				} else if (name.startsWith(Const.DAMAGE_WEAPON_DELTA)) {
-
-					if (name.contains(Const.PHYSICAL))
-						baseDelta = value;
-					else
+					} else if (name.startsWith(Const.DAMAGE_WEAPON_BONUS_DELTA)) {
 						addDelta += value;
-
-				} else if (name.startsWith(Const.DAMAGE_WEAPON_BONUS_MIN)) {
-					addMin += value;
-				} else if (name.startsWith(Const.DAMAGE_WEAPON_BONUS_DELTA)) {
-					addDelta += value;
-				} else if (name.startsWith(Const.DAMAGE_WEAPON_PERCENT))
-					wpnDamage = value;
-				else if (name.equals(Const.WEAPON_IAS)) {
-					weaponIas = (int) Math.round(value * 100.0);
+					} else if (name.startsWith(Const.DAMAGE_WEAPON_PERCENT))
+						wpnDamage = value;
+					else if (name.equals(Const.WEAPON_IAS)) {
+						weaponIas = (int) Math.round(value * 100.0);
+					}
 				}
-			}
 
-			data.setBaseMin(baseMin);
-			data.setBaseMax(baseMin + baseDelta);
-			data.setAddMin(addMin);
-			data.setAddMax(addMin + addDelta);
+				data.setBaseMin(baseMin);
+				data.setBaseMax(baseMin + baseDelta);
+				data.setAddMin(addMin);
+				data.setAddMax(addMin + addDelta);
+			}
 		}
 
 		if ((offHand != null) && (offHand_type != null)) {
 
 			for (Map.Entry<String, Value<Float>> e : offHand.attributesRaw
 					.entrySet()) {
-				String name = e.getKey();
-				double value = e.getValue().min;
 
-				if (name.startsWith(Const.DAMAGE_WEAPON_MIN)) {
+				if ((e != null) && (e.getKey() != null)
+						&& (e.getValue() != null)) {
+					String name = e.getKey();
+					double value = e.getValue().min;
 
-					if (name.contains(Const.PHYSICAL))
-						offHand_baseMin = value;
-					else
+					if (name.startsWith(Const.DAMAGE_WEAPON_MIN)) {
+
+						if (name.contains(Const.PHYSICAL))
+							offHand_baseMin = value;
+						else
+							offHand_addMin += value;
+
+					} else if (name.startsWith(Const.DAMAGE_WEAPON_DELTA)) {
+
+						if (name.contains(Const.PHYSICAL))
+							offHand_baseDelta = value;
+						else
+							offHand_addDelta += value;
+
+					} else if (name.startsWith(Const.DAMAGE_WEAPON_BONUS_MIN)) {
 						offHand_addMin += value;
-
-				} else if (name.startsWith(Const.DAMAGE_WEAPON_DELTA)) {
-
-					if (name.contains(Const.PHYSICAL))
-						offHand_baseDelta = value;
-					else
+					} else if (name.startsWith(Const.DAMAGE_WEAPON_BONUS_DELTA)) {
 						offHand_addDelta += value;
-
-				} else if (name.startsWith(Const.DAMAGE_WEAPON_BONUS_MIN)) {
-					offHand_addMin += value;
-				} else if (name.startsWith(Const.DAMAGE_WEAPON_BONUS_DELTA)) {
-					offHand_addDelta += value;
-				} else if (name.startsWith(Const.DAMAGE_WEAPON_PERCENT))
-					offHand_wpnDamage = value;
-				else if (name.equals(Const.WEAPON_IAS)) {
-					offHand_weaponIas = (int) Math.round(value * 100.0);
+					} else if (name.startsWith(Const.DAMAGE_WEAPON_PERCENT))
+						offHand_wpnDamage = value;
+					else if (name.equals(Const.WEAPON_IAS)) {
+						offHand_weaponIas = (int) Math.round(value * 100.0);
+					}
 				}
-			}
 
-			data.setOffHand_baseMin(offHand_baseMin);
-			data.setOffHand_baseMax(offHand_baseMin + offHand_baseDelta);
-			data.setOffHand_addMin(offHand_addMin);
-			data.setOffHand_addMax(offHand_addMin + offHand_addDelta);
+				data.setOffHand_baseMin(offHand_baseMin);
+				data.setOffHand_baseMax(offHand_baseMin + offHand_baseDelta);
+				data.setOffHand_addMin(offHand_addMin);
+				data.setOffHand_addMax(offHand_addMin + offHand_addDelta);
+			}
 		}
 
 		// StringBuffer log = new StringBuffer();
@@ -677,63 +685,70 @@ public class ProfileHelper {
 
 		for (Map.Entry<String, ItemInformation> e : hero.items.entrySet()) {
 
-			Slot slot = Slot.getSlot(e.getKey());
-			ItemInformation i = e.getValue();
+			if ((e != null) && (e.getKey() != null) && (e.getValue() != null)) {
+				Slot slot = Slot.getSlot(e.getKey());
+				ItemInformation i = e.getValue();
 
-			if (i.attributesRaw != null) {
-				Value<Float> v = i.attributesRaw.get(Const.ELITE_DAMAGE_RAW);
+				if (i != null) {
+					if (i.attributesRaw != null) {
+						Value<Float> v = i.attributesRaw
+								.get(Const.ELITE_DAMAGE_RAW);
 
-				if (v != null) {
-					elite += v.min;
-				}
-
-				v = i.attributesRaw.get(Const.HATRED_PER_SECOND);
-
-				if (v != null) {
-					hatredPerSecond += v.min;
-				}
-
-				v = i.attributesRaw.get(Const.MAX_DISCIPLINE);
-
-				if (v != null) {
-					discipline += v.min;
-				}
-			}
-
-			if ((i.set != null) && (i.set.slug != null)) {
-				Integer count = setCounts.get(i.set.slug);
-
-				if (count == null) {
-					setCounts.put(i.set.slug, 1);
-					sets.put(i.set.slug, i.set);
-				} else {
-					setCounts.put(i.set.slug, count + 1);
-				}
-			}
-
-			for (SpecialItemType type : SpecialItemType.values()) {
-				if (i.name.equals(type.getName())) {
-					AttributeData ad = new AttributeData();
-
-					for (SpecialItemType.Attribute a : type.getAttributes()) {
-						int value = 0;
-						Value<Float> v = i.attributesRaw.get(a.getSlug());
-
-						if (v == null) {
-							value = a.setRawAttributeValue(a.getMin());
-						} else {
-							value = a.setRawAttributeValue(v.min);
+						if (v != null) {
+							elite += v.min;
 						}
 
-						ad.put(a.getLabel(), value);
+						v = i.attributesRaw.get(Const.HATRED_PER_SECOND);
+
+						if (v != null) {
+							hatredPerSecond += v.min;
+						}
+
+						v = i.attributesRaw.get(Const.MAX_DISCIPLINE);
+
+						if (v != null) {
+							discipline += v.min;
+						}
 					}
 
-					ItemHolder item = new ItemHolder();
-					item.setType(type);
-					item.setAttributes(ad);
+					if ((i.set != null) && (i.set.slug != null)) {
+						Integer count = setCounts.get(i.set.slug);
 
-					items.put(slot, item);
+						if (count == null) {
+							setCounts.put(i.set.slug, 1);
+							sets.put(i.set.slug, i.set);
+						} else {
+							setCounts.put(i.set.slug, count + 1);
+						}
+					}
+					for (SpecialItemType type : SpecialItemType.values()) {
+						if (i.name.equals(type.getName())) {
+							AttributeData ad = new AttributeData();
+
+							for (SpecialItemType.Attribute a : type
+									.getAttributes()) {
+								int value = 0;
+								Value<Float> v = i.attributesRaw.get(a
+										.getSlug());
+
+								if (v == null) {
+									value = a.setRawAttributeValue(a.getMin());
+								} else {
+									value = a.setRawAttributeValue(v.min);
+								}
+
+								ad.put(a.getLabel(), value);
+							}
+
+							ItemHolder item = new ItemHolder();
+							item.setType(type);
+							item.setAttributes(ad);
+
+							items.put(slot, item);
+						}
+					}
 				}
+
 			}
 		}
 
@@ -801,7 +816,7 @@ public class ProfileHelper {
 
 				if (i != null) {
 					Value<Float> f = i.attributesRaw.get(attr);
-	
+
 					if (f != null) {
 						d += f.min;
 					}
