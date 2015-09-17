@@ -38,6 +38,8 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
@@ -113,7 +115,7 @@ public class LeaderboardPanel extends ApplicationPanel {
 			boolean hardcore = this.hardcore.getValue();
 			String which = type.getKey(hardcore);
 			String server = realm.getHost();
-			String url = server + "/d3/en/rankings/" + ((season < 0)?"era":"season") + "/" + Math.abs(season) + "/" + which;
+			String url = server + "/d3/rankings/" + ((season < 0)?"era":"season") + "/" + Math.abs(season) + "/" + which;
 			Window.open(url, "_blank", "");
 		}
 		
@@ -199,11 +201,39 @@ public class LeaderboardPanel extends ApplicationPanel {
 			}
 		}
 		
-		this.table.setWidget(this.leaderboardRow, 0, leaders);
-		this.table.getFlexCellFormatter().setColSpan(this.leaderboardRow, 0, 5);
+		HorizontalPanel row = new HorizontalPanel();
+		row.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		row.setSpacing(5);
 		
+		row.add(leaders);
+		
+		this.table.setWidget(this.leaderboardRow, 0, row);
+		this.table.getFlexCellFormatter().setColSpan(this.leaderboardRow, 0, 6);
+		
+		Anchor career = new Anchor("profile");
+		career.setHref("javascript:void(0)");
+		row.add(career);
+
+		career.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				showCareer();
+			}});
+		
+		Anchor hero = new Anchor("hero");
+		hero.setHref("javascript:void(0)");
+		row.add(hero);
+		
+		hero.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				showHero();
+			}});
+
 		Button button = new Button("Import Profile");
-		this.table.setWidget(this.leaderboardRow, 1, button);
+		row.add(button);
 		
 		button.addClickHandler(new ClickHandler(){
 
@@ -211,6 +241,30 @@ public class LeaderboardPanel extends ApplicationPanel {
 			public void onClick(ClickEvent event) {
 				getHeroList();
 			}});
+	}
+
+	protected void showHero() {
+		String btag = getSelectedAccount();
+		Realm realm = mainPanel.getSelectedRealm();
+		
+		if ((realm != null) && (btag != null)) {
+			String[] split = btag.split("#");
+			String server = realm.getHost();
+			String url = server + "/d3/profile/" + split[0] + "-" + split[1] + "/hero/" + split[2];
+			Window.open(url, "_blank", "");
+		}
+	}
+
+	protected void showCareer() {
+		String btag = getSelectedAccount();
+		Realm realm = mainPanel.getSelectedRealm();
+		
+		if ((realm != null) && (btag != null)) {
+			String[] split = btag.split("#");
+			String server = realm.getHost();
+			String url = server + "/d3/profile/" + split[0] + "-" + split[1] + "/";
+			Window.open(url, "_blank", "");
+		}
 	}
 
 	protected void getHeroList() {

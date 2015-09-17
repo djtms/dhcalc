@@ -4,6 +4,7 @@
     Changelog:
     v1.3 by dawg6
     	- Added support for item tooltips itemData/item/tooltipData 
+    	- Added support for item level in tooltips
     v1.2 by Beornhelm
         -Added support for skill and rune combination display
         (usage : [skill link]#[rune.type]+)
@@ -79,7 +80,9 @@ if(typeof Bnet.D3.Tooltips == 'undefined') Bnet.D3.Tooltips = new function() { /
 
         // item/{itemSlug}
         {
-            regex: new RegExp('^item/()([^#\\?]+)$'),
+        	// regex: new RegExp('^item/()([^#\\?]+)$'),
+        	// modified by dawg6
+        	regex: new RegExp('^item/()(.+)$'),
             params: {
                 type: 'item'
             }
@@ -335,6 +338,7 @@ if(typeof Bnet.D3.Tooltips == 'undefined') Bnet.D3.Tooltips = new function() { /
             if(folder.indexOf('/') != -1 || key.indexOf('/') != -1) { // Folder and key shouldn't contain any slashes
                 continue;
             }
+            
 
             params.region = region;
             params.locale = locale;
@@ -373,7 +377,9 @@ if(typeof Bnet.D3.Tooltips == 'undefined') Bnet.D3.Tooltips = new function() { /
             //changed by asmira
             .replace('{key}',    (params.type == "rune")?params.key.substring(params.key.lastIndexOf("-")+1):params.key);
 
-        $.getScript(url + '?format=jsonp');
+        // $.getScript(url + '?format=jsonp');
+        // modified by dawg6
+        $.getScript(url + ((params.key.indexOf('?') < 0)?'?':'&') + 'format=jsonp');
     }
 
     function registerData(data) {

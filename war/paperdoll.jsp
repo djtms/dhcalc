@@ -30,7 +30,7 @@
 <script type="text/javascript"
 	src="http://us.battle.net/d3/static/local-common/js/third-party.js?v=58-85"></script>
 <script type="text/javascript" src="http://us.battle.net/d3/static/local-common/js/common-game-site.min.js?v=58-85"></script>
-<script src="tooltips.js?v=13"></script>
+<script src="tooltips.js?v=14"></script>
 <script type="text/javascript" src="http://us.battle.net/d3/static/js/d3.js?v=85"></script>
 <script type="text/javascript" src="http://us.battle.net/d3/static/js/profile/profile.js?v=58-85"></script>
 
@@ -169,7 +169,7 @@
 			if (p != null) {
 %>
 <td align="center">
-<a href="http://us.battle.net/d3/en/<%= p.tooltipParams %>">
+<a href="http://us.battle.net/d3/en/<%= p.tooltipParams %>?itemLevel=70">
 <img src="http://media.blizzard.com/d3/icons/items/large/<%= p.icon %>.png"></img></a>
 </td>
 <td></td>

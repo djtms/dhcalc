@@ -235,7 +235,7 @@ public enum SpecialItemType {
 	public String getUrl() {
 		return (crafted ? "http://us.battle.net/d3/en/artisan/blacksmith/recipe/"
 				: "http://us.battle.net/d3/en/item/")
-				+ slug;
+				+ slug + (crafted?"":"?itemLevel=70");
 	}
 
 	public static List<SpecialItemType> getItemsBySlot(Slot slot) {

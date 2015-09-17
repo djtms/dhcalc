@@ -1,5 +1,11 @@
 Change Log:
 
+**9/17/15**
+
+- Added item level (70) to item tooltip links
+- Added links to bnet career profile and hero profile for leaderboard view
+- Put legend table into a scrollable window (since it is so large)
+
 **9/16/15**
 
 - Added ability to view leaderboards and import profile from leaderboard view

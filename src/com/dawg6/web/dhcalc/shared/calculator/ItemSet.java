@@ -65,7 +65,7 @@ public enum ItemSet {
 	}
 	
 	public String getUrl() {
-		return ((crafted) ? "http://us.battle.net/d3/en/artisan/blacksmith/recipe/" : "http://us.battle.net/d3/en/item/") + ref;
+		return ((crafted) ? "http://us.battle.net/d3/en/artisan/blacksmith/recipe/" : "http://us.battle.net/d3/en/item/") + ref + "?itemLevel=70";
 	}
 	
 	public static final Comparator<ItemSet> SORTER = new Comparator<ItemSet>(){

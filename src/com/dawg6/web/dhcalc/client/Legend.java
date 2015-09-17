@@ -27,6 +27,8 @@ import com.dawg6.gwt.client.ApplicationPanel;
 import com.dawg6.web.dhcalc.shared.calculator.DamageMultiplier;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 public class Legend extends ApplicationPanel {
 
@@ -34,12 +36,20 @@ public class Legend extends ApplicationPanel {
 
 	public Legend() {
 		
+		SimplePanel panel = new SimplePanel();
+		initWidget(panel);
+		
 		flexTable = new FlexTable();
 		flexTable.setStyleName("outputTable");
 		flexTable.setBorderWidth(1);
 		flexTable.setCellPadding(5);
 		flexTable.getRowFormatter().addStyleName(0, "headerRow");
-		initWidget(flexTable);
+		
+		ScrollPanel scroll = new ScrollPanel();
+		scroll.setWidth("800px");
+		scroll.setHeight("400px");
+		scroll.add(flexTable);
+		panel.add(scroll);
 		
 		Label lblNewLabel = new Label("Key");
 		lblNewLabel.setWordWrap(false);
