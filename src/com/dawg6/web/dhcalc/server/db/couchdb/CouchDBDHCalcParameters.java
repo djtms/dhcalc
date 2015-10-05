@@ -39,6 +39,8 @@ public class CouchDBDHCalcParameters {
 	public static final String SCHEMA_VERSION = "schema.version";
 	public static final String CONNECT_TIMEOUT = "timeout.connect";
 	public static final String READ_TIMEOUT = "timeout.read";
+	public static final String ITEM_REALM = "item.realm";
+	public static final String TIMEOUT_RETRIES = "timeout.retries";
 
 	private final CachePolicy cachePolicy;
 	private final Gson gson;

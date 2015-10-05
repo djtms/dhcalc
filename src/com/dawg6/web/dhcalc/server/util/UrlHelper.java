@@ -16,7 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
-package com.dawg6.web.dhcalc.shared.calculator.d3api;
+package com.dawg6.web.dhcalc.server.util;
+
+import com.dawg6.web.dhcalc.server.IO;
+
 
 
 public class UrlHelper {
@@ -30,8 +33,9 @@ public class UrlHelper {
 		return server + "/d3/profile/" + name + "-" + code + "/hero/" + id + "?locale=" + LOCALE;
 	}
 
-	public static String itemInformationUrl(String server, String tooltipParams) {
-		return server + "/d3/data/" + tooltipParams + "?locale=" + LOCALE;
+	public static String itemInformationUrl(String tooltipParams) {
+		return IO.getInstance().getItemRealm().getApiHost() + "/d3/data/" + tooltipParams + "?locale=" + LOCALE;
+//		return server + "/d3/data/" + tooltipParams + "?locale=" + LOCALE;
 	}
 	
 	public static String seasonIndexUrl(String server) {

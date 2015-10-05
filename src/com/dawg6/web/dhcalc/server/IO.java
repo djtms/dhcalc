@@ -41,13 +41,14 @@ import org.apache.http.message.BasicNameValuePair;
 import com.dawg6.web.dhcalc.server.db.couchdb.CouchDBDHCalcParameters;
 import com.dawg6.web.dhcalc.server.oauth.Token;
 import com.dawg6.web.dhcalc.server.util.DHCalcProperties;
+import com.dawg6.web.dhcalc.server.util.UrlHelper;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.CareerProfile;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.HeroProfile;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.Leaderboard;
+import com.dawg6.web.dhcalc.shared.calculator.d3api.Realm;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.Season;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.SeasonIndex;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.UrlHelper;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -61,6 +62,8 @@ public class IO {
 	private static final int DEFAULT_CONNECT_TIMEOUT = 30000;
 	private static final int DEFAULT_READ_TIMEOUT = 30000;
 	private static final String TOKEN_SERVER_URL = "https://us.battle.net/oauth/token";
+	private static final Realm DEFAULT_ITEM_REALM = Realm.EU;
+	private static final int DEFAULT_TIMEOUT_RETRIES = 10;
 	
 	private static IO instance;
 	
@@ -79,6 +82,9 @@ public class IO {
 	private Token token;
 	private int readTimeout;
 	private long token_expires;
+	private int timeoutRetries;
+
+	private Realm itemRealm;
 	
 	private IO() {
 		String value = CouchDBDHCalcParameters.getInstance().getParameter(CouchDBDHCalcParameters.MAX_REQUESTS, String.valueOf(DEFAULT_MAX_REQUESTS_PER_SECOND), new CouchDBDHCalcParameters.Listener() {
@@ -117,8 +123,33 @@ public class IO {
 		});
 		setReadTimeout(Integer.parseInt(value));
 		
+		value = CouchDBDHCalcParameters.getInstance().getParameter(CouchDBDHCalcParameters.TIMEOUT_RETRIES, String.valueOf(DEFAULT_TIMEOUT_RETRIES), new CouchDBDHCalcParameters.Listener() {
+			
+			@Override
+			public void parameterChanged(String parameter, String value) {
+				setTimeoutRetries(Integer.parseInt(value));
+			}
+		});
+		setTimeoutRetries(Integer.parseInt(value));
+
+		value = CouchDBDHCalcParameters.getInstance().getParameter(CouchDBDHCalcParameters.ITEM_REALM, DEFAULT_ITEM_REALM.name(), new CouchDBDHCalcParameters.Listener() {
+			
+			@Override
+			public void parameterChanged(String parameter, String value) {
+				setItemRealm(Realm.valueOf(value));
+			}
+		});
+		setItemRealm(Realm.valueOf(value));
 	}
 	
+	protected void setTimeoutRetries(int value) {
+		this.timeoutRetries = value;
+	}
+
+	protected void setItemRealm(Realm realm) {
+		this.itemRealm = realm;
+	}
+
 	protected void setReadTimeout(int value) {
 		this.readTimeout = value;
 	}
@@ -351,6 +382,12 @@ public class IO {
 	}
 	
 	private <T> T readValue(ObjectMapper mapper, URL url, Class<T> clazz) throws JsonParseException, JsonMappingException, IOException {
+		return readValue(mapper, url, clazz, this.timeoutRetries);
+	}
+	
+	private <T> T readValue(ObjectMapper mapper, URL url, Class<T> clazz, int retries) throws JsonParseException, JsonMappingException, IOException {
+		
+		log.info("URL " + url);
 		
 		HttpURLConnection c = (HttpURLConnection) url.openConnection();
         c.setRequestMethod("GET");
@@ -383,9 +420,20 @@ public class IO {
             	
             	return null;
             }
+            
+          case 408:
+          case 504:
+        	  log.info("HTTP Response: " + status + ", retries = " + retries);
+        	  
+        	  if (retries > 0)
+        		  return readValue(mapper, url, clazz, retries - 1);
+        	  else
+        		  return null;
+        	  
+          default:
+        	  log.severe("HTTP Response: " + status);
+              return null;
         }
-        
-        return null;
 	}
 	
 	public HeroProfile readHeroProfile(String server, String name,
@@ -424,7 +472,7 @@ public class IO {
 	public ItemInformation readItemInformation(String server,
 			String tooltipParams) throws JsonParseException, IOException {
 
-		URL url = new URL(UrlHelper.itemInformationUrl(server, tooltipParams)
+		URL url = new URL(UrlHelper.itemInformationUrl(tooltipParams)
 				+ getApiKey());
 		String urlString = url.toExternalForm();
 
@@ -517,6 +565,10 @@ public class IO {
 		Leaderboard out = readValue(mapper, url, Leaderboard.class);
 
 		return out;
+	}
+
+	public Realm getItemRealm() {
+		return itemRealm;
 	}
 
 }

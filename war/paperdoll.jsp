@@ -66,8 +66,15 @@
 
 	CareerProfile career = service.getProfile(realm, profile,
 			Integer.valueOf(tag));
+	
+	if ((career == null) || (career.reason != null))
+		throw new RuntimeException("Unable to load Career Profile");
+	
 	HeroProfile hero = service.getHero(realm, profile,
 			Integer.valueOf(tag), Integer.valueOf(id));
+
+	if ((hero == null) || (hero.reason != null))
+		throw new RuntimeException("Unable to load Hero Profile");
 %>
 <title><%=profile%>-<%=tag%> <%=hero.name%> : Level <%=hero.level%>
 	(<%=hero.paragonLevel%>) <%=hero.hardcore ? "Hardcore " : ""%><%=hero.seasonal ? "Seasonal" : ""%></title>
@@ -108,6 +115,8 @@
 
 						String loc = e.getKey();
 						ItemInformation i = e.getValue();
+						
+						if ((loc != null) && (i != null)) {
 		%>
 		<li class="slot-<%=loc%>"><a class="slot-link"
 			onClick="javascript:window.open('json?<%=JsonServlet.REALM%>=<%=realm.name()%>&<%=JsonServlet.ITEM%>=<%=URLEncoder.encode(i.tooltipParams, "UTF-8")%>','_blank'); return false;"
@@ -142,6 +151,7 @@
 		</a></li>
 		<%
 			}
+	}
 		%>
 	</ul>
 	<span class="clear"><!-- --></span>

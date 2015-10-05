@@ -33,8 +33,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.dawg6.web.dhcalc.server.util.UrlHelper;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.Realm;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.UrlHelper;
 
 public class JsonServlet extends HttpServlet {
 
@@ -87,8 +87,7 @@ public class JsonServlet extends HttpServlet {
 
 				try {
 					if (item != null) {
-						url = new URL(UrlHelper.itemInformationUrl(
-								realm.getApiHost(), item)
+						url = new URL(UrlHelper.itemInformationUrl(item)
 								+ IO.getInstance().getApiKey());
 					} else if (profile != null) {
 
