@@ -387,7 +387,7 @@ public class IO {
 	
 	private <T> T readValue(ObjectMapper mapper, URL url, Class<T> clazz, int retries) throws JsonParseException, JsonMappingException, IOException {
 		
-		log.info("URL " + url);
+//		log.info("URL " + url);
 		
 		HttpURLConnection c = (HttpURLConnection) url.openConnection();
         c.setRequestMethod("GET");
