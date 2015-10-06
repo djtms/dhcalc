@@ -244,6 +244,10 @@ public class CouchDBDHCalcDatabase {
 			return null;
 		}
 	}
+	
+	public List<NewsDocument> getNews() {
+		return this.findAll(NewsDocument.class);
+	}
 
 	public String getParameter(String parameter) {
 

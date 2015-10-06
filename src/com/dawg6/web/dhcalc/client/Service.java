@@ -18,6 +18,9 @@
  *******************************************************************************/
 package com.dawg6.web.dhcalc.client;
 
+import java.util.List;
+import java.util.Vector;
+
 import com.dawg6.gwt.client.ApplicationPanel;
 import com.dawg6.gwt.client.ApplicationPanel.DialogBoxResultHandler;
 import com.dawg6.gwt.common.util.AsyncTask;
@@ -26,7 +29,9 @@ import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.CharacterData;
 import com.dawg6.web.dhcalc.shared.calculator.ExportData;
 import com.dawg6.web.dhcalc.shared.calculator.FormData;
+import com.dawg6.web.dhcalc.shared.calculator.NewsItem;
 import com.dawg6.web.dhcalc.shared.calculator.Rune;
+import com.dawg6.web.dhcalc.shared.calculator.Util;
 import com.dawg6.web.dhcalc.shared.calculator.Version;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.CareerProfile;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.HeroProfile;
@@ -45,7 +50,9 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.jsonp.client.JsonpRequestBuilder;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.DialogBox;
 
 public class Service implements DHCalcServiceAsync {
 
@@ -53,59 +60,175 @@ public class Service implements DHCalcServiceAsync {
 
 	private final DHCalcServiceAsync SERVICE = GWT.create(DHCalcService.class);
 
+	private List<NewsItem> news = new Vector<NewsItem>();
+	private final List<NewsHandler> newsHandlers = new Vector<NewsHandler>();
+
+	private Timer newsTimer;
+	
 	private Service() {
+		newsTimer = new Timer(){
+
+			@Override
+			public void run() {
+				checkNews(null);
+			}};
+
+		checkNews(null);
+		newsTimer.scheduleRepeating(30000);
 	}
 
 	public static Service getInstance() {
 		return instance;
 	}
 
+	public void addNewsHandler(NewsHandler handler) {
+		if (!newsHandlers.contains(handler)) {
+			newsHandlers.add(handler);
+			
+			if (!news.isEmpty())
+				handler.newsChanged(news);
+		}
+	}
+	
+	public void removeNewsHandler(NewsHandler handler) {
+		newsHandlers.remove(handler);
+	}
+
+	public interface NewsHandler {
+		void newsChanged(List<NewsItem> news);
+	}
+	
 	public void execute(final AsyncTask task) {
+		execute(true, task);
+	}
+	
+	private AsyncTaskHandler waitDialog = null;
 
-		final AsyncTaskHandler dialog = ApplicationPanel.showWaitDialogBox(
-				"Please wait...", null);
+	public void execute(boolean showDialog, final AsyncTask task) {
 
-		versionCheck(new Handler<VersionCheck>() {
+		if ((waitDialog == null) && showDialog) {
+			waitDialog = ApplicationPanel.showWaitDialogBox(
+					"Please wait...", null);
+		}
+
+		final AsyncTaskHandler handler = (waitDialog != null) ? new AsyncTaskHandler(){
+
+			@Override
+			public void taskCompleted() {
+				waitDialog.taskCompleted();
+				waitDialog = null;
+				
+			}} : AsyncTaskHandler.Default;
+		
+		checkVersion(new Handler<VersionCheck>() {
 
 			@Override
 			public void handleResult(VersionCheck result) {
 				if (result.success) {
-					task.run(dialog);
+					task.run(handler);
 				} else {
-					final DialogBoxResultHandler dialogHandler = new DialogBoxResultHandler() {
-
-						@Override
-						public void dialogBoxResult(int result) {
-							if (result == ApplicationPanel.OK)
-								forceReload();
-						}
-					};
-
-					String message;
-					String title;
-
-					if (result.serverVersion != null) {
-						title = "Server Version Mismatch";
-						message = "New Version (" + result.serverVersion
-								+ ") available on Server.";
-					} else if (result.exception != null) {
-						title = "Error";
-						message = result.exception;
-					} else {
-						title = "Error";
-						message = "Unknown error communicating with server.";
-					}
-
-					message += "\nPress OK to force browser refresh.";
-
-					ApplicationPanel.showDialogBox(title, message,
-							ApplicationPanel.OK | ApplicationPanel.CANCEL,
-							dialogHandler);
-
-					dialog.taskCompleted();
+					handler.taskCompleted();
 				}
 			}
 		});
+	}
+
+	public void checkVersion(final Handler<VersionCheck> handler) {
+		versionCheck(new Handler<VersionCheck>() {
+
+			@Override
+			public void handleResult(VersionCheck result) {
+				if (!result.success) {
+					versionCheckFailed(result);
+				}
+				
+				if (handler != null)
+					handler.handleResult(result);
+			}
+		});
+	}
+	
+	private DialogBox reloadDialogBox = null;
+	
+	private void versionCheckFailed(VersionCheck result) {
+		
+		if (newsTimer != null) {
+			newsTimer.cancel();
+			newsTimer = null;
+		}
+		
+		if (reloadDialogBox == null) {
+			final DialogBoxResultHandler dialogHandler = new DialogBoxResultHandler() {
+	
+				@Override
+				public void dialogBoxResult(int result) {
+					
+					reloadDialogBox = null;
+					
+					if (result == ApplicationPanel.OK)
+						forceReload();
+				}
+			};
+	
+			String message;
+			String title;
+	
+			if (result.serverVersion != null) {
+				title = "Server Version Mismatch";
+				message = "New Version (" + result.serverVersion
+						+ ") available on Server.";
+			} else if (result.exception != null) {
+				title = "Error";
+				message = result.exception;
+			} else {
+				title = "Error";
+				message = "Unknown error communicating with server.";
+			}
+	
+			message += "\nPress OK to force browser refresh.";
+	
+			reloadDialogBox = ApplicationPanel.showDialogBox(title, message,
+					ApplicationPanel.OK | ApplicationPanel.CANCEL,
+					dialogHandler);	
+		} else {
+			reloadDialogBox.center();
+			reloadDialogBox.hide();
+			reloadDialogBox.show();
+		}
+	}
+	
+	public void checkNews(final AsyncTaskHandler handler) {
+		
+		this.getNews(new AsyncCallback<NewsItem[]>(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+				GWT.log("Unable to retrieve News");
+				handler.taskCompleted();
+			}
+
+			@Override
+			public void onSuccess(NewsItem[] result) {
+				
+				List<NewsItem> news = Util.arrayToList(result);
+				setNews(news);
+				
+				if (handler != null)
+					handler.taskCompleted();
+			}});
+
+		
+	}
+
+	protected void setNews(List<NewsItem> news) {
+		
+		if (!this.news.equals(news)) {
+			this.news = news;
+			
+			for (NewsHandler h : this.newsHandlers) {
+				h.newsChanged(news);
+			}
+		}
 	}
 
 	@Override
@@ -272,7 +395,7 @@ public class Service implements DHCalcServiceAsync {
 		}
 	}
 
-	private void versionCheck(final Handler<VersionCheck> handler) {
+	public void versionCheck(final Handler<VersionCheck> handler) {
 		Scheduler.get().scheduleDeferred(new Command() {
 
 			@Override
@@ -310,21 +433,26 @@ public class Service implements DHCalcServiceAsync {
 								result.exception = "Unable to obtain Server version.";
 							}
 
-							handler.handleResult(result);
+							if (handler != null)
+								handler.handleResult(result);
 						}
 
 						@Override
 						public void onError(Request request, Throwable exception) {
 							result.success = false;
 							result.exception = "Error communicating with server.";
-							handler.handleResult(result);
+
+							if (handler != null)
+								handler.handleResult(result);
 						}
 					});
 
 				} catch (Exception e) {
 					result.success = false;
 					result.exception = "Error communicating with server.";
-					handler.handleResult(result);
+					
+					if (handler != null)
+						handler.handleResult(result);
 				}
 			}
 		});
@@ -381,6 +509,18 @@ public class Service implements DHCalcServiceAsync {
 			@Override
 			public void run(AsyncTaskHandler handler) {
 				SERVICE.getLeaderboard(realm, seasonEra, isEra, which, new DelegateCallback<Leaderboard>(
+						handler, callback));
+			}
+		});
+	}
+
+	@Override
+	public void getNews(final AsyncCallback<NewsItem[]> callback) {
+		execute(false, new AsyncTask() {
+
+			@Override
+			public void run(AsyncTaskHandler handler) {
+				SERVICE.getNews(new DelegateCallback<NewsItem[]>(
 						handler, callback));
 			}
 		});

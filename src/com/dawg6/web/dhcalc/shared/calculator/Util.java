@@ -18,10 +18,12 @@
  *******************************************************************************/
 package com.dawg6.web.dhcalc.shared.calculator;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.Vector;
 
 public class Util implements ILogger {
 
@@ -364,5 +366,15 @@ public class Util implements ILogger {
 	public void log(String message, Throwable t) {
 		if (logger != null)
 			logger.log(message, t);
+	}
+	
+	public static <T> List<T> arrayToList(T[] array) {
+		List<T> list = new Vector<T>(array.length);
+		
+		for (T t : array) {
+			list.add(t);
+		}
+		
+		return list;
 	}
 }

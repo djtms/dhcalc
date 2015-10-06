@@ -22,6 +22,7 @@ import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.CharacterData;
 import com.dawg6.web.dhcalc.shared.calculator.ExportData;
 import com.dawg6.web.dhcalc.shared.calculator.FormData;
+import com.dawg6.web.dhcalc.shared.calculator.NewsItem;
 import com.dawg6.web.dhcalc.shared.calculator.Rune;
 import com.dawg6.web.dhcalc.shared.calculator.Version;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.CareerProfile;
@@ -56,4 +57,6 @@ public interface DHCalcService extends RemoteService {
 	
 	SeasonIndex getSeasonEraIndex(Realm realm);
 	Leaderboard getLeaderboard(Realm realm, int seasonEra, boolean isEra, String which);
+	
+	NewsItem[] getNews();
 }

@@ -109,6 +109,7 @@ public class DPSCalculator extends BasePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				Service.getInstance().checkNews(null);
 				calculate();
 			}
 		};

@@ -62,6 +62,8 @@ public class DHCalc implements EntryPoint {
 		Window.setTitle("DH Damage Calculator ("
 				+ Version.getShortVersionString() + ")");
 
+		final MainPanel panel = new MainPanel();
+		
 		Service.getInstance().execute(new AsyncTask() {
 
 			@Override
@@ -71,7 +73,7 @@ public class DHCalc implements EntryPoint {
 
 					@Override
 					public void execute() {
-						RootPanel.get("main").add(new MainPanel());
+						RootPanel.get("main").add(panel);
 						handler.taskCompleted();
 					}
 				});

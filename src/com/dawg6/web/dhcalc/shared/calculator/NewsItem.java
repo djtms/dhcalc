@@ -18,42 +18,38 @@
  *******************************************************************************/
 package com.dawg6.web.dhcalc.shared.calculator;
 
-import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+public class NewsItem extends JsonObject implements Comparable<NewsItem> {
 
-public class Version  implements Serializable {
+	private static final long serialVersionUID = 4903862888670789419L;
 
-	private static final long serialVersionUID = 1L;
-
-	public static final String PREFIX = "Version:";
+	private String text;
 	
-	public static String VERSION = "2.3-151006.2";
-	public static String VERSION_DATE = "10/06/15";
+	public NewsItem() { }
 	
-	public String version;
-	
-	public Version() { }
-	
-	public Version(String version) {
-		this.version = version;
+	public NewsItem(String text) {
+		this.text = text;
 	}
 
-	public static String getVersionString() {
-		return VERSION + " (" + VERSION_DATE + ")";
+	public String getText() {
+		return text;
 	}
 
-	public static String getShortVersionString() {
-		return VERSION;
+	public void setText(String text) {
+		this.text = text;
 	}
-	
-	public static Version getVersion() {
-		return new Version(VERSION);
+
+	@Override
+	public int compareTo(NewsItem o) {
+		return text.compareTo(o.text);
 	}
 
 	@Override
 	public int hashCode() {
-		return version.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((text == null) ? 0 : text.hashCode());
+		return result;
 	}
 
 	@Override
@@ -64,24 +60,13 @@ public class Version  implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Version other = (Version) obj;
-		if (version == null) {
-			if (other.version != null)
+		NewsItem other = (NewsItem) obj;
+		if (text == null) {
+			if (other.text != null)
 				return false;
-		} else if (!version.equals(other.version))
+		} else if (!text.equals(other.text))
 			return false;
-
 		return true;
-	}
-
-	@JsonIgnore 
-	public String getPrefixString() {
-		return PREFIX + toString();
-	}
-	
-	@Override
-	public String toString() {
-		return version;
 	}
 
 }

@@ -21,13 +21,16 @@ package com.dawg6.web.dhcalc.server;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.dawg6.web.dhcalc.client.DHCalcService;
 import com.dawg6.web.dhcalc.server.db.couchdb.CouchDBDHCalcDatabase;
+import com.dawg6.web.dhcalc.server.db.couchdb.NewsDocument;
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.Build;
 import com.dawg6.web.dhcalc.shared.calculator.CharacterData;
@@ -37,6 +40,7 @@ import com.dawg6.web.dhcalc.shared.calculator.ExportData;
 import com.dawg6.web.dhcalc.shared.calculator.FiringData;
 import com.dawg6.web.dhcalc.shared.calculator.FormData;
 import com.dawg6.web.dhcalc.shared.calculator.JsonObject;
+import com.dawg6.web.dhcalc.shared.calculator.NewsItem;
 import com.dawg6.web.dhcalc.shared.calculator.ProfileHelper;
 import com.dawg6.web.dhcalc.shared.calculator.Rune;
 import com.dawg6.web.dhcalc.shared.calculator.Util;
@@ -418,6 +422,27 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 			} else {
 				return IO.getInstance().readSeasonLeaderboard(realm.getApiHost(), seasonEra, which);
 			}
+			
+		} catch (RuntimeException e) {
+			log.log(Level.SEVERE, "Exception", e);
+			throw e;
+		} catch (Exception e2) {
+			log.log(Level.SEVERE, "Exception", e2);
+			throw new RuntimeException(e2);
+		}
+	}
+
+	@Override
+	public NewsItem[] getNews() {
+		try {
+			List<NewsDocument> news = CouchDBDHCalcDatabase.getInstance().getNews();
+			List<NewsItem> result = new Vector<NewsItem>(news.size());
+			
+			for (NewsDocument doc : news) {
+				result.add(new NewsItem(doc.getText()));
+			}
+			
+			return result.toArray(new NewsItem[0]);
 			
 		} catch (RuntimeException e) {
 			log.log(Level.SEVERE, "Exception", e);

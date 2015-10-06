@@ -30,6 +30,7 @@ import com.dawg6.gwt.client.ApplicationPanel;
 import com.dawg6.gwt.common.util.AsyncTaskHandler;
 import com.dawg6.gwt.common.util.DefaultCallback;
 import com.dawg6.web.dhcalc.client.SavePanel.FormListener;
+import com.dawg6.web.dhcalc.client.Service.NewsHandler;
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.Build;
 import com.dawg6.web.dhcalc.shared.calculator.CharacterData;
@@ -46,6 +47,7 @@ import com.dawg6.web.dhcalc.shared.calculator.GemSkill;
 import com.dawg6.web.dhcalc.shared.calculator.MonsterHealth;
 import com.dawg6.web.dhcalc.shared.calculator.MonsterType;
 import com.dawg6.web.dhcalc.shared.calculator.MultipleSummary;
+import com.dawg6.web.dhcalc.shared.calculator.NewsItem;
 import com.dawg6.web.dhcalc.shared.calculator.Passive;
 import com.dawg6.web.dhcalc.shared.calculator.ProfileHelper;
 import com.dawg6.web.dhcalc.shared.calculator.Rune;
@@ -74,6 +76,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -169,11 +172,15 @@ public class MainPanel extends BasePanel {
 	private CaptionPanel statTableCaption;
 	private Label timeElapsed;
 	private NumberSpinner timeLimit;
+	private final HorizontalPanel newsPanel;
 
 	public MainPanel() {
 		VerticalPanel panel = new VerticalPanel();
 		initWidget(panel);
 		panel.setWidth("");
+
+		newsPanel = new HorizontalPanel();
+		panel.add(newsPanel);
 
 		HorizontalPanel horizontalPanel_4 = new HorizontalPanel();
 		panel.add(horizontalPanel_4);
@@ -209,6 +216,7 @@ public class MainPanel extends BasePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				Service.getInstance().checkVersion(null);
 				showLeaderboards();
 			}});
 		
@@ -279,6 +287,7 @@ public class MainPanel extends BasePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				Service.getInstance().checkVersion(null);
 				showProfile();
 			}
 		});
@@ -292,6 +301,7 @@ public class MainPanel extends BasePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				Service.getInstance().checkVersion(null);
 				showPaperdoll();
 			}
 		});
@@ -303,6 +313,7 @@ public class MainPanel extends BasePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				Service.getInstance().checkVersion(null);
 				showGearPanel();
 			}
 		});
@@ -512,6 +523,7 @@ public class MainPanel extends BasePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				Service.getInstance().checkVersion(null);
 				compareBuilds();
 			}
 		});
@@ -551,6 +563,7 @@ public class MainPanel extends BasePanel {
 
 				@Override
 				public void onClick(ClickEvent event) {
+					Service.getInstance().checkVersion(null);
 					storeBuild(which);
 				}
 			});
@@ -566,6 +579,7 @@ public class MainPanel extends BasePanel {
 
 				@Override
 				public void onClick(ClickEvent event) {
+					Service.getInstance().checkVersion(null);
 					loadBuild(which);
 				}
 			});
@@ -582,6 +596,7 @@ public class MainPanel extends BasePanel {
 
 				@Override
 				public void onClick(ClickEvent event) {
+					Service.getInstance().checkVersion(null);
 					clearBuild(which);
 				}
 			});
@@ -609,6 +624,7 @@ public class MainPanel extends BasePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				Service.getInstance().checkVersion(null);
 				showDpsCalculator();
 			}
 		});
@@ -681,6 +697,7 @@ public class MainPanel extends BasePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				Service.getInstance().checkVersion(null);
 				calculateWolfUptime();
 			}
 		});
@@ -699,6 +716,7 @@ public class MainPanel extends BasePanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (!disableListeners) {
+					Service.getInstance().checkVersion(null);
 					calculator.calculate();
 					updateDpsLabels();
 				}
@@ -841,6 +859,8 @@ public class MainPanel extends BasePanel {
 			@Override
 			public void onClick(ClickEvent event) {
 
+				Service.getInstance().checkVersion(null);
+
 				if (bpData == null)
 					bpData = new BPData();
 
@@ -857,6 +877,8 @@ public class MainPanel extends BasePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+
+				Service.getInstance().checkVersion(null);
 
 				if (skillData == null)
 					skillData = new SkillData();
@@ -1134,6 +1156,7 @@ public class MainPanel extends BasePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				Service.getInstance().checkVersion(null);
 				updateCDRLabels();
 			}
 
@@ -1143,6 +1166,7 @@ public class MainPanel extends BasePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				Service.getInstance().checkVersion(null);
 				updateRCRLabels();
 			}
 
@@ -1221,6 +1245,7 @@ public class MainPanel extends BasePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				Service.getInstance().checkVersion(null);
 				exportExcel();
 			}
 
@@ -1234,6 +1259,8 @@ public class MainPanel extends BasePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+
+				Service.getInstance().checkVersion(null);
 
 				if (stats == null) {
 					stats = new StatsPanel();
@@ -1285,6 +1312,7 @@ public class MainPanel extends BasePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				Service.getInstance().checkVersion(null);
 				calculate();
 			}
 		});
@@ -1293,6 +1321,8 @@ public class MainPanel extends BasePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+
+				Service.getInstance().checkVersion(null);
 
 				if (about == null)
 					about = new AboutDialog();
@@ -1307,6 +1337,8 @@ public class MainPanel extends BasePanel {
 			@Override
 			public void onClick(ClickEvent event) {
 
+				Service.getInstance().checkVersion(null);
+
 				if (legend == null)
 					legend = new Legend();
 
@@ -1319,8 +1351,37 @@ public class MainPanel extends BasePanel {
 			realms.addItem(r.getDisplayName(), r.name());
 		}
 
+		Service.getInstance().addNewsHandler(new NewsHandler(){
+
+			@Override
+			public void newsChanged(List<NewsItem> news) {
+				setNews(news);
+			}});
 	}
 	
+	protected void setNews(List<NewsItem> news) {
+		newsPanel.clear();
+		
+		if (!news.isEmpty()) {
+			newsPanel.setWidth("100%");
+			CaptionPanel border = new CaptionPanel("News");
+			border.setWidth("100%");
+			newsPanel.add(border);
+			
+			VerticalPanel panel = new VerticalPanel();
+			border.setContentWidget(panel);
+			
+			for (NewsItem n : news) {
+				HorizontalPanel row = new HorizontalPanel();
+				HTML label = new HTML(n.getText());
+				label.addStyleName("boldText");
+				row.add(label);
+				panel.add(row);
+			}
+		}
+		
+	}
+
 	private LeaderboardPanel leaderboards = null;
 	private DialogBox leaderboardDlg = null;
 	
