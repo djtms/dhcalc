@@ -106,12 +106,15 @@ public class Service implements DHCalcServiceAsync {
 
 	public void execute(boolean showDialog, final AsyncTask task) {
 
+		boolean createDlg = false;
+		
 		if ((waitDialog == null) && showDialog) {
 			waitDialog = ApplicationPanel.showWaitDialogBox(
 					"Please wait...", null);
+			createDlg = true;
 		}
 
-		final AsyncTaskHandler handler = (waitDialog != null) ? new AsyncTaskHandler(){
+		final AsyncTaskHandler handler = createDlg ? new AsyncTaskHandler(){
 
 			@Override
 			public void taskCompleted() {
