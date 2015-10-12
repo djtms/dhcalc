@@ -68,7 +68,7 @@ public class ParagonPanel extends Composite {
 		flexTable.setCellPadding(2);
 		captionPanel.setContentWidget(flexTable);
 		
-		lblNewLabel = new Label("Note: Paragon points other than Dexterity must be entered manually (they are not availble via the battle.net API)");
+		lblNewLabel = new Label("Note: Paragon points other than Dexterity must be entered manually (they are not available via the battle.net API)");
 		lblNewLabel.setWordWrap(true);
 		lblNewLabel.addStyleName("boldText");
 		flexTable.setWidget(0, 0, lblNewLabel);

@@ -220,6 +220,17 @@ public class MainPanel extends BasePanel {
 				showLeaderboards();
 			}});
 		
+		Button helpButton = new Button("Help...");
+		horizontalPanel_5.add(helpButton);
+		
+		helpButton.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				Service.getInstance().checkVersion(null);
+				showHelp();
+			}});
+
 		HorizontalPanel horizontalPanel_7 = new HorizontalPanel();
 		horizontalPanel_7
 				.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
@@ -1359,6 +1370,10 @@ public class MainPanel extends BasePanel {
 			}});
 	}
 	
+	protected void showHelp() {
+		Window.open("help.html", "_blank", "");
+	}
+
 	protected void setNews(List<NewsItem> news) {
 		newsPanel.clear();
 		

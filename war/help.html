@@ -1,0 +1,541 @@
+<html>
+<head>
+<title>Help: DH Calculator</title>
+</head>
+<body>
+<h1>Contents</h1>
+<p/>
+<table>
+<tr><td valign="top">
+<b>Instructions:</b><p/>
+<ul>
+<li><a href="#import">Importing a Hero</a></li>
+<li><a href="#how">How it works</a></li>
+</ul>
+</td>
+<td valign="top">
+<b>Input Panels:</b>
+<ul>
+<li><a href="#paragon">Paragon</a></li>
+<li><a href="#saveLoad">Save/Load</a></li>
+<li><a href="#compare">Compare Builds</a></li>
+<li><a href="#hatredDisc">Hatred/Discipline</a></li>
+<li><a href="#activeSkills">Active Skills</a></li>
+<li><a href="#passives">Passives</a></li>
+<li><a href="#elemental">Elemental Damage Modifiers</a></li>
+<li><a href="#situational">Situational</a></li>
+<li><a href="#gems">Legendary Gems</a></li>
+<li><a href="#buffs">Other Player Buffs</a></li>
+<li><a href="#skillModifiers">Skill Damage Modifiers</a></li>
+<li><a href="#items">Items</a></li>
+<li><a href="#followers">Follower Buffs</a></li>
+<li><a href="#cdr">Cooldown Reduction</a></li>
+<li><a href="#rcr">Resource Cost Reduction</a></li>
+</ul>
+</td>
+<td valign="top">
+<b>Dialogs/Links:</b>
+<ul>
+<li><a href="#leaderboards">Leaderboards</a></li>
+<li><a href="#profile">battle.net Profile</a></li>
+<li><a href="#paperdoll">paperdoll</a></li>
+<li><a href="#itemsDialog">Items</a></li>
+<li><a href="#calc">DPS/Break Point Calculator</a></li>
+</ul>
+</td>
+<td valign="top">
+<b>Output Tables:</b>
+<ul>
+<li><a href="#output">Simulation Output</a></li>
+<li><a href="#stat">Stat Calculator</a></li>
+<li><a href="#damageType">Damage Type Summary</a></li>
+<li><a href="#skillDamage">Skill Damage Summary</a></li>
+<li><a href="#shooter">Shooter Summary</a></li>
+<li><a href="#log">Damage Log</a></li>
+</ul>
+</td>
+<td valign="top">
+<b>Informational Tables:</b>
+<ul>
+<li><a href="#characterData">Character Data</a></li>
+<li><a href="#legend">Legend</a>
+<li><a href="#bp">Break Points</a>
+<li><a href="#skills">Skills</a>
+<li><a href="#export">Export to Excel</a>
+<li><a href="#about">About</a>
+</ul>
+</td>
+</tr>
+</table>
+<hr/>
+<h2 id="import">Importing a Hero</h2>
+<img src="images/help/import.png"></img>
+<ol>
+<li>Select the battle.net realm from the drop-down</li>
+<li>Enter the battletag in the two fields labeled "battletag" (a battletag has 2 parts: a "name" and a "number", separated by a "#" character. Enter each part separately)</li>
+<li>Click "Get Hero List" to retrieve the list of heros</li>
+<li>Select the hero from the drop-down list</li>
+<li>Click "Import" to import the hero</li>
+</ol>
+This will import the hero's items and skills and run a simulation based on the profile and other input fields.<p/>
+<b>Note: the battle.net API does not provide access to paragon points (except dexterity which can be calculated), so you will have to enter them manually. If you do this after hitting "Import" simply click "Simulate" to re-run the simulation. If you do this before hitting "Import" then they are already included in the simulation.</b>
+<hr/>
+<h2 id="how">How it Works</h2>
+After importing a hero, or after clicking the "Simulate" button, the calculator will run a simulation using the data from all the input fields. The simulation will run until either:
+<p/>
+<ul>
+<li>All targets are dead</li>
+<li>The simulation time limit has expired (specified by the field "Simulation Time Limit (seconds):")</li>
+</ul>
+<p/>
+For each tick of the simulation, it will select skills (the skill selection criteria is dependent on the build; in the future there may be more options for specifying skill selection logic), 
+and determine the damage to one or more targets. You must have a primary target (e.g. a Rift Guardian) and you may have zero or more additional 
+targets. At the conclusion of the simulation, the results are summarized and displayed in tables, along with a very detailed <a href="#log">Damage Log</a>.
+You may also <a href="#export">export the results to Excel</a>.
+<hr/>
+<h2 id="output">Simulation Output</h2>
+<img src="images/help/output.png"></img>
+<p/>
+After the simulation is complete, the results of the simulation will be displayed in the panel labeled "Output." The top of the output panel displays the total damage, damage per second and time elapsed. Additional calculated values are shown for average weapon damage for main hand and offhand/dual wield (if equipped), along with the maximum number of sentries that may be deployed and total bonus elite damage.
+<p/>
+Buttons across the top row provide access to
+<ul>
+<li><a href="#legend">Legend</a>
+<li><a href="#bp">Break Points</a>
+<li><a href="#skills">Skills</a>
+<li><a href="#export">Export to Excel</a>
+<li><a href="#about">About</a>
+</ul>
+<p/>
+The field labeled "Simulation Time Limit (seconds):" may be used to limit (or extend) the maximum simulation time. Clicking the button labeled "Simulate" will re-run the simulation.
+<p/>
+Within this panel there are also several tables:
+<ul>
+<li><a href="#stat">Stat Calculator</a></li>
+<li><a href="#damageType">Damage Type Summary</a></li>
+<li><a href="#skillDamage">Skill Damage Summary</a></li>
+<li><a href="#shooter">Shooter Summary</a></li>
+<li><a href="#log">Damage Log</a></li>
+</ul>
+<hr/>
+<h2 id="stat">Stat Calculator</h2>
+<img src="images/help/stat-calc.png"></img>
+<p/>
+The stat calculator lists various attributes along with the effect of increasing (or decreasing) has on the total damage output. For each attribute
+the table displays the total simulation time, along with percent increase/decrease from the current simulation, total damage and dps, along with percent increase/decrease
+from the current simulation.
+<p/>
+Clicking the "+" and "-" buttons on the spinner for each attribute will immediately re-run the simulation for that attribute, displaying the results in real time.
+<hr/>
+<h2 id="damageType">Damage Type Summary</h2>
+<img src="images/help/damage-type.png"></img>
+<p/>
+The damage type summary table displays, for each elemental damage type (fire, cold, lightning, physical, poison, holy, arcane) the number of "attacks" (which can also include companion/sentry attacks and item/gem procs), the average damage per attack, total damage, total damage per second and percent of the overall total.
+<hr/>
+<h2 id="skillDamage">Skill Damage Summary</h2>
+<img src="images/help/skill-damage.png"></img>
+<p/>
+The skill damage summary table displays, for each skill (also includes gem and item procs) the number of "attacks", the average damage per attack, total damage, total damage per second and percent of the overall total.
+<hr/>
+<h2 id="shooter">Shooter Summary</h2>
+<img src="images/help/shooter.png"></img>
+<p/>
+The shooter summary table displays, for each shooter (player, companion, sentries) the number of "attacks", the average damage per attack, total damage, total damage per second and percent of the overall total.
+<hr/>
+<h2 id="log">Damage Log</h2>
+<img src="images/help/log.png"></img>
+<p/>
+The damage log table displays, for each simulation "event" several pieces of data:
+<ul>
+<li>Time : The simulation time at which the event occurred</li>
+<li>Shooter: The "shooter" for the event</li>
+<li>Skill: The skill being used</li>
+<li>Rune: The rune (if applicable) being used</li>
+<li>Type: The elemental damage type of the skill being used</li>
+<li>+/- Hatred: Hatred gain/cost from the event</li>
+<li>Hatred: The player's total Hatred after this event</li>
+<li>+/- Disc: The Discipline gain/cost from the event</li>
+<li>Disc: The player's total discipline after this event</li>
+<li>Damage: Damage caused (if any) by this event</li>
+<li>Target HP: The target's health after this event</li>
+<li>% HP: The target's percent of maximum health after this event</li>
+<li>Target: Which target was hit by this event</li>
+<li>Notes: various notes regarding the event (see <a href="#legend">Legend</a> for abbreviations)</li>
+<li>Calculations: the damage calculations for this event (see <a href="#legend">Legend</a> for abbreviations)</li>
+</ul>
+<hr/>
+<h2 id="paragon">Paragon</h2>
+<img src="images/help/paragon.png"></img>
+<p/>
+The Paragon input panel allows you to enter the values for paragon points that affect damage output.
+<p/>
+<b>Note: Paragon points other than Dexterity must be entered manually (they are not available via the battle.net API). 
+If you change these after importing a hero, click the "Simulate" button to update the output. If you set these before clicking "Import"
+then the simulation output has used the values you provided.</b>
+<p/>
+As you change each value in the "offense points" section, the caclulator will update the total offense points and required paragon level in real time.
+<hr/>
+<h2 id="saveLoad">Save/Load</h2>
+<img src="images/help/save-load.png"></img>
+<p/>
+This panel allows you to save and load all of the form data. The calculator provides three mechanism to save or load data:
+<ol>
+<li><a href="#browser">Browser Storage</a></li>
+<li><a href="#file">Local File</a></li>
+<li><a href="#copyPaste">Copy/Paste</a></li>
+</ol>
+<hr/>
+<h2 id="browser">Browser Storage</h2>
+<img src="images/help/save-load.png"></img>
+<p/>
+You may save all form data to (and restore from) local browser storage. 
+<p/>
+<b>Note: this option will save all data to your local browser cache. If you access the web site from another computer, the saved form data will not be available to you. Most modern browsers (IE, Firefox, Chrome) support this option by default with no special settings required (that I am aware of).</b>
+<p/>
+There are five buttons available for this option:
+<ul>
+<li><b>Add</b>: Creates a new, named entry to the local browser cache and saves the current form data. You must provide a name in the text input field next to the "Add" button.</li>
+<li><b>Save</b>: Saves the current form data to the select entry. You must select an existign storage entry location to save to.</li>
+<li><b>Restore</b>: Restores the form data from a saved entry. You must select an existign storage entry location to restore from.</li>
+<li><b>Delete</b>: Deletes a saved entry. You must select an existign storage entry location to delete.</li>
+<li><b>Rename</b>: Renames a saved entry. You must select an existign storage entry location to rename, and you must provide a new name in the text input field (next to "Add" button)</li>
+</ul>
+<hr/>
+<h2 id="file">Local File</h2>
+<img src="images/help/file.png"></img>
+<p/>
+You may save all form data to (and restore from) a local text file. The format of the file is JSON.
+<p/>
+There are 3 buttons available for this option:
+<ul>
+<li><b>Choose File</b>: Select this option to select an existing file which can then be used to restore form data from.</li>
+<li><b>Save File</b>: Select this option to save form data to a file. You will be prompted to select the location/file name to save to.</li>
+<li><b>Load File</b>: Select this option to restore form data from an existing file. You must first specify an existing file using "Choose File" button.</li>
+</ul>
+<hr/>
+<h2 id="copyPaste">Copy/Paste</h2>
+<img src="images/help/copy-paste.png"></img>
+<p/>
+You may use textual copy and paste commands to save (and restore) all form data. The format of the text is JSON.
+<p>
+The text block which is initially labelled "Paste previously saved form data here..."  can be used to copy or paste form data.
+<p/>
+There are 2 buttons available for this option:
+<ul>
+<li><b>Current</b>: Select this option to place all current form data in the text block. You may then copy (e.g. CTRL-C or right-click/copy) the text and paste (e.g. CTRL-V or right click/paste) into another application.</li>
+<li><b>Restore</b>: Select this option to restore form data from the text block. Prior to selecting this option, you should paste previously saved text into the text block.</li>
+</ul>
+<hr/>
+<h2 id="compare">Compare Builds</h2>
+<img src="images/help/compare.png"></img>
+<p/>
+This panel allows you to compare up to three builds. Each "column" in the table is a build that may be stored for comparison. Build 1, which is the "baseline" for comparisons, is the left-most column.
+<p/>
+For each build, there are 3 links:
+<ul>
+<li><b>Set</b>: Click this link to store the current form data as this build.</li>
+<li><b>Restore</b>: Click this link to restore from the selected build.</li>
+<li><b>Clear</b>: Click this link to clear the selected build.</li>
+</ul>
+<p/>
+The panel will display the following data for each build that is stored:
+<ul>
+<li><b>APS</b>: The attacks per second</li>
+<li><b>Weapon Damage</b>: The average weapond damage (along with percent change for builds 2 and 3, compared to build 1)</li>
+<li><b>Time</b>: The simulation time (along with percent change for builds 2 and 3, compared to build 1)</li>
+<li><b>DPS</b>: The damage per second (along with percent change for builds 2 and 3, compared to build 1)</li>
+</ul>
+<p/>
+Once two or more builds have been stored, the "Compare" button will display the differences in each build.
+<p/>
+<img src="images/help/compare-dlg.png"></img>
+<hr/>
+<h2 id="hatredDisc">Hatred/Discipline</h2>
+<img src="images/help/hatred-disc.png"></img>
+<p/>
+This panel allows you to specify the amount of additional hatred per second and increased maximum discipline <b>from items</b> 
+(do not include gains from skills or buffs, as they are specified elsewhere).
+<p/>
+These values are populated automatically when a profile is imported.
+<hr/>
+<h2 id="activeSkills">Active Skills</h2>
+<img src="images/help/active-skills.png"></img>
+<p/>
+This panel allows you to specify the active skills and runes that the hero will be using, along with certain skill-specific situational parameters. 
+<p/>
+The active skills are populated automatically when you import a hero.
+<p/>
+The following skill-specific parameters must be manually set (or use defaults of "100"):
+<ul>
+<li><b>Caltrops Uptime</b>: The percent of the time that Caltrops should be deployed.</li>
+<li><b>Primary Target MfD Uptime</b>: The percent of the time that Marked for Death should be active on the primary target.</li>
+<li><b>Additional Targets MfD Uptime</b>: The percent of the time that Marked for Death should be active on additional targets.</li>
+</ul>
+<hr/>
+<h2 id="passives">Passives</h2>
+<img src="images/help/passives.png"></img>
+<p/>
+This panel allows you to specify the passive skills (including from Hellfire Amulet) that the hero will use. 
+<p/>
+This data is populated automatically when you import a hero.
+<hr/>
+<h2 id="elemental">Elemental Damage Modifiers</h2>
+<img src="images/help/elemental.png"></img>
+<p/>
+This panel allows you to specify increased elemental damage from items. 
+<p/>
+These values are populated automatically when you import a hero.
+<hr/>
+<h2 id="situational">Situational</h2>
+<img src="images/help/situational.png"></img>
+<p/>
+This panel allows you to specify situational inputs.
+<p/>
+These values must all be specified manually (or accept defaults).
+<p/>
+<ul>
+<li><b>Greater Rift Level</b>: Only used to calculate target health</li>
+<li><b>Number of Players</b>: Only used to calculate target health</li>
+<li><b>Primary Target Type</b>: Only used to calculate target health</li>
+<li><b>Primary Target Health</b>: Health (HP) of primary target for the simulation</li>
+<li><b>Additional Targets Type</b>: Only used to calculate additional targets' health</li>
+<li><b># of Additional Targets</b>: The number of additional targets for the simulation</li>
+<li><b>Additional Targets Health</b>: Health (HP) of each additional target for the simulation</li>
+<li><b>Percent of targets slowed/chilled</b>: Percent of the time that Cull the Weak should be applied</li>
+<li><b>Percent of targets control impaired</b>: Percent of the time that Bane of the Trapped should be applied</li>
+<li><b>Percent of targets at least 10 yards away</b>: Percent of the time that Steady Aim and Unhallowed Essence 4 piece bonus should be applied</li>
+<li><b>Distance to target(s) in yards</b>: Used for calculating Zei's Stone of Vengeance and other bonuses</li>
+<li><b>Spacing between targets in yards</b>: Used for calculating Grenades, Single Out and certain Marked for Death runes</li>
+<li><b>Target Size (for Ball Lightning)</b>: Used for calculating Ball Lightning ticks/target</li>
+<li><b># Health Globes</b>: Number of health globes that will be picked up during entire fight</li>
+<li><b>Average Firing Delay (ms)</b>: Number of milliseconds of "delay" to add between player actions</li>
+</ul> 
+<hr/>
+<h2 id="gems">Legendary Gems</h2>
+<img src="images/help/gems.png"></img>
+<p/>
+This panel allows you to specify which legendary gems (and their levels) that will be used. Some gems have additional input fields.
+<p/>
+These values are populated automatically when you import a hero.
+<hr/>
+<h2 id="buffs">Other Player Buffs</h2>
+<img src="images/help/buffs.png"></img>
+<p/>
+This panel allows you to specify which buffs from other players should be included in the simulation.
+<p/>
+These values must all be specified manually (default is no player buffs).
+<ul>
+<li><b>Companion/Wolf (from other DH)</b>: If another DH is using Companion/Wolf. Also specify the percent of the time that the wolf should be up (the calculate button uses the effective CDR value to calculate uptime).</li>
+<li><b>Big Bad Voodoo</b>: If a WD is using BBV. Also specify the percent of the time that the BBV should be up and if the Slam Dance rune is being used.</li>
+<li><b>Slow Time/Stretch Time</b>: If a Wizard is using Slow Time with Stretch Time rune. Also specify the percent of the time that it is being used.</li>
+<li><b>Slow Time/Time Warp</b>: If a Wizard is using Slow Time with Time Warp rune. Also specify the percent of the time that it is being used.</li>
+<li><b>Mass Confusion/Paranoia</b>: If a WD is using Mass Confusion with Paranoia rune. Also specify the percent of the time that it is being used.</li>
+<li><b>Piranhas</b>: If a WD is using Piranhas. Also specify the percent of the time that it is being used.</li>
+<li><b>Laws of Valor</b>: If a Crusader is using Laws of Valor. Also specify the percent of the time that the active portion is being used and percent of time passive only is being used.</li>
+<li><b>Inner Sanctuary/Forbidden Palace</b>: If a Monk is using Inner Sanctuary with Forbidden Palace rune. Also specify the percent of the time that it is being used.</li>
+<li><b>Crippling Wave/Breaking Wave</b>: If a Monk is using Crippling Wave with Breaking Wave rune. Also specify the percent of the time that it is being used.</li>
+<li><b>Mantra of Retribution/Transgression</b>: If a Monk is using Mantra of Retribution with Transgression rune. Also specify the percent of the time that it is being used.</li>
+<li><b>Mantra of Conviction</b>: If a Crusader is using Matra of Conviction. Also specify the percent of the time that the active portion is being used and percent of time passive only is being used. Also specify if the Overawe rune is being used</li>
+</ul>
+<hr/>
+<h2 id="skillModifiers">Skill Damage Modifiers</h2>
+<img src="images/help/skill-modifiers.png"></img>
+<p/>
+This panel allows you to specify increase damage to specific skills, from items.
+<p/>
+These values are populated automatically when you import a hero.
+<hr/>
+<h2 id="items">Items</h2>
+<img src="images/help/items.png"></img>
+<p/>
+This panel allows you to specify data related to items, including sets and legendary powers.
+<p/>
+These values are populated automatically when you import a hero.
+<hr/>
+<h2 id="followers">Follower Buffs</h2>
+<img src="images/help/follower-buffs.png"></img>
+<p/>
+This panel allows you to specify which follower buffs to include in the simulation.
+<p/>
+These values must all be specified manually (default is no follower buffs).
+<hr/>
+<h2 id="cdr">Cooldown Reduction</h2>
+<img src="images/help/cdr.png"></img>
+<p/>
+This panel allows you to specify cooldown reduction from items.
+<p/>
+These values are populated automatically when you import a hero.
+<hr/>
+<h2 id="rcr">Resource Cost Reduction</h2>
+<img src="images/help/rcr.png"></img>
+<p/>
+This panel allows you to specify resource cost reduction from items.
+<p/>
+These values are populated automatically when you import a hero.
+<hr/>
+<h2 id="leaderboards">Leaderboards</h2>
+<img src="images/help/leaderboards.png"></img>
+<p/>
+This dialog allows you to examine the leaderboards for any season or era. Initially, you must select a season/era (default is latest), hardcore (if desired) and leaderbaord (default is "Solo"). You may click "battle.net" to view the leaderboard directly on the blizzard web site.
+<p/>
+After clicking "Get Leaderboard" a list of profiles will be listed. For each profile, you may:
+<ul>
+<li>Click "profile" for the battle.net career profile</li>
+<li>Click "hero" for the battle.net hero profile</li>
+<li>Click "Import Profile" to import the hero profile into the calculator</li>
+</ul>
+<hr/>
+<h2 id="profile">battle.net profile</h2>
+<p/>
+This option opens the battle.net career profile for the currently selected battle tag, in a separate browser tab.
+<hr/>
+<h2 id="paperdoll">Paperdoll</h2>
+<p/>
+This option opens a "paperdoll" view of the currentlt selected hero's equipment. From the paperdoll you can click on the battletag, hero name or any piece of equipment to see the battle.net API JSON data for that item.
+<hr/>
+<h2 id="itemsDialog">Items (Dialog)</h2>
+<img src="images/help/items-dlg.png"></img>
+<p/>
+This dialog box displays a list of the items equipped by the currently selected hero and provides the ability to save those items to browser local storage. This can be used to compare various items on different heroes.
+<p/>
+The items are populated automatically when you import a hero. On the right is a "Saved Items" list which lists the items that are currently saved to local browser storage.
+<p/>
+For each item slot, you may click on the correspnding buttons:
+<ul>
+<li><b>Save</b>: Saves the item to local browser storage (displayed on right)</li>
+<li><b>Replace</b>: Replaces the item with the selected item from local browser storage (must first select an item from the list on right)</li>
+<li><b>Clear</b>: Clears the selected item slot</li>
+</ul>
+<p/>The item "Saved Items" list on the right has the following buttons (select an item in the list first):
+<ul>
+<li><b>Rename...</b>: Renames the selected item</li>
+<li><b>Delete</b>: Deletes the selected item from local browser storage</li>
+</ul>
+<p/>
+Click "Apply Changes" at the bottom of the dialog will replace the hero's items in the calculator with the items in this dialog and re-run the simulation. Select "Cancel" closes the dialog without changing the hero's items.
+<hr/>
+<h2 id="calc">DPS/Break Point Calculator</h2>
+<img src="images/help/calc.png"></img>
+<p/>
+This dialog box displays data regarding weapon damage and attack speed, and allows the user to view IAS needed for next or previous breakpoint.
+<p/>
+The values are populated automatically when you import a hero. 
+<p/>
+The "Main Hand" and "Off Hand" panels provide inputs for the following weapon attributes:
+<ul>
+<li><b>Weapon Type</b>: The type of weapon (2H Bow, 1H Xbow, 2H Xbow)</li>
+<li><b>Base (Physical) Damage</b>: The base damage (which is based on the type of weapon)</li>
+<li><b>Added (Elemental) Damage</b>: The added elemental damage (shown in tooltip for weapon)</li>
+<li><b>Weapon IAS %</b>: Increased Attack Speed attribute directly on the weapon</li>
+<li><b>Weapon Increased Damage %</b>: Increased Damage attribute directly on the weapon</li>
+</ul>
+<p/>
+The "Main Hand" and "Off Hand" panels show calculations for the following weapon data:
+<ul>
+<li><b>Tooltip Damage</b>: The min and max tooltip damage for the weapon</li>
+<li><b>Average Weapon Damage</b>: The average weapon damage for the weapon ((min + max ) / 2)</li>
+<li><b>Weapon DPS</b>: The weapon's Damage Per Second</li>
+<li><b>Weapon APS</b>: The weapon's Attacks per Second</li>
+</ul>
+<p/>
+The "Equipment" panel provides inputs for the following data:
+<ul>
+<li><b>Jewelry Damage</b>: Added damage from rings and amulets</li>
+<li><b>Equipment IAS</b>: Increased attack speed from all equipment (including set bonuses), except IAS directly on weapons</li>
+<li><b>Crit Chance (%)</b>: The additional Critical Hit Chance from all items (including set bonuses)</li>
+<li><b>Crit Hit Damage (%)</b>: The additional Critical Hit Damage from all items (including set bonuses)</li>
+</ul>
+<p/>
+The "Hero" panel provides inputs for the following data:
+<ul>
+<li><b>Hero Level</b>: The hero's level</li>
+<li><b>Dexterity from Items</b>: Increased dexterity from all equipment (including set bonuses)</li>
+</ul>
+<p/>
+The "Breakpoint Calculator" panel shows calculations for the following data:
+<ul>
+<li><b>Sheet DPS</b>: The hero's "sheet" DPS</li>
+<li><b>Player APS</b>: The hero's APS</li>
+<li><b>Total Crit Chance</b>: The total Critical Hit Chance for the Hero</li>
+<li><b>Total Crit Hit Damage</b>: The total Critical Hit Damage for the Hero</li>
+<li><b>Total Dexterity</b>: The total Dexterity for the Hero</li>
+<li><b>Pet APS</b>: The Pet (companions and sentries) APS</li>
+<li><b>Break Point #</b>: The breakpoint increment, for the selected skill</li>
+<li><b>FPA</b>: The # of Frames per Attack, for the selected skill</li>
+<li><b>Actual APS</b>: The # of actual Attacks Per Second, based on the computed breakpoint, for the selected skill</li>
+</ul>
+<p/>
+The "Next/Previous Breakpoint" panel shows selections/calculations for the following:
+<ul>
+<li><b>Skill</b>: The active skill to compute breakpoint data for</li>
+<li><b>With Respect to</b>: The attribute to compute next/previous breakpoint IAS for (equipment/paragon, weapon IAS, Tasker and Theo)</li>
+<li><b>"Extra" IAS</b>: The amount of additional IAS that would need to be dropped to lower to the previous breakpoint</li>
+</ul>
+<hr/>
+<h2 id="characterData">Character Data</h2>
+<img src="images/help/character-data.png"></img>
+<p/>
+This panel displays computed values for the current hero:
+<ul>
+<li><b>Sheet DPS</b>: the computed "Sheet" damage per second</li>
+<li><b>Attacks per Second</b>: the computed attacks per second</li>
+<li><b>Dexterity</b>: the computed tootal dexterity</li>
+<li><b>RAW CDR</b>: the sum of all sources of cooldown reduction</li>
+<li><b>RAW RCR</b>: the sum of all sources of resource cost reduction</li>
+<li><b>Companion Cooldown</b>: the cooldown of the Companion skill</li>
+<li><b>(approx) RoV Cooldown</b>: the approximate cooldown of the Rain of Vengeance skill</li>
+<li><b>Weapon Damage</b>: the computed average weapon damage</li>
+<li><b>Crit Chance</b>: the computed critical hit chance</li>
+<li><b>Crit Hit Damage</b>: the computed critical hit damage</li>
+<li><b>Effective CDR</b>: the effective cooldown reduction</li>
+<li><b>Effective RCR</b>: the effective resource cost reduction</li>
+<li><b>Punishment Cooldown</b>: the cooldown of the Preparation skill with Punishment rune</li>
+<li><b>Sentry Cooldown</b>: the cooldown of the Sentry skill</li>
+</ul>
+<hr/>
+<h2 id="legend">Legend</h2>
+<img src="images/help/legend.png"></img>
+<p/>
+This dialog displays descriptions for abbreviations used in the damage calculator, particularly those in the <a href="#log">Damage Log</a>.
+<hr/>
+<h2 id="bp">Break Points</h2>
+<img src="images/help/bp.png"></img>
+<p/>
+This dialog displays Break Point computations for each skill and weapon type. For each BP, the following values are displayed:
+<ul>
+<li><b>BP</b>: The break point #</li>
+<li><b>FPA</b>: The # of frames per attack</li>
+<li><b>Min APS</b>: The minimum attacks per second to get to this breakpoint</li>
+<li><b>Actual APS</b>: The computed actual # of attacks per second for this breakpoint</li>
+</ul>
+<hr/>
+<h2 id="skills">Skills (Info)</h2>
+<img src="images/help/skills-dlg.png"></img>
+<p/>
+This dialog displays Skill/Rune data (including gem and item procs) for the simulation computations. Each row indicates a skill/rune combination that results in damage. Some skill/rune combinations may have multiple rows for multiple damage calculations. For each row, the following values are displayed:
+<ul>
+<li><b>Skill</b>: The Skill (or gem or item)</li>
+<li><b>Rune</b>: The Rune (if applicable)</li>
+<li><b>Damage Type</b>: The elemental damage type</li>
+<li><b>Multiplier</b>: The skill damage multiplier</li>
+<li><b>Frames</b>: The base attack frames (for skills)</li>
+<li><b>Primary</b>: If Yes, this row affects primary target</li>
+<li><b># Additional</b>: The maximum # of additional targets that can be damaged (for this row)</li>
+<li><b># Projectiles</b>: The maximum # of projectiles</li>
+<li><b>AoE Radius</b>: The maximum area of effect radius</li>
+<li><b>Grenades</b>: If Yes, this row includes grenade damage</li>
+<li><b>Rockets</b>: If Yes, this row includes rocket damage</li>
+<li><b>DoT</b>: If Yes, this row includes damage over time</li>
+<li><b>Notes</b>: See <a href="#legend">Legend</a> for descriptions</li>
+</ul>
+<hr/>
+<h2 id="export">Export to Excel</h2>
+<p/>
+This button will export all of the form data and simulation computations, to include damage log, to a downloadable excel file. 
+<hr/>
+<h2 id="about">About</h2>
+<img src="images/help/about.png"></img>
+<p/>
+This dialog box displays version and other information about this application. 
+</body>
+</html>
