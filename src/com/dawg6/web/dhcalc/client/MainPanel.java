@@ -1766,10 +1766,11 @@ public class MainPanel extends BasePanel {
 		heroList.addItem("Enter BattleTag and Fetch", "");
 
 		calculator.restoreFormData(data.calculator);
-		super.restoreFormData(data.main);
-
+		
 		this.career = null;
 		this.hero = null;
+
+		super.restoreFormData(data.main);
 
 		situational.setDisableListeners(false);
 		disableListeners = false;
