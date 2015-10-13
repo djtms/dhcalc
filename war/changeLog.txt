@@ -1,5 +1,9 @@
 Change Log:
 
+**10/13/15**
+
+- The form now saves the hero list
+
 **9/17/15**
 
 - Added item level (70) to item tooltip links

@@ -34,7 +34,7 @@ th { text-align: left; }
 
 /* header */
 .head { height: 255px; position: relative; }
-.head .menu { width: 624px; height: 65px; position: absolute; bottom: 18px; left: 11px; background: url("../images/layout/menu-bg.jpg?v=3") no-repeat; }
+.head .menu { width: 624px; height: 65px; position: absolute; bottom: 18px; left: 11px; background: url("http://us.battle.net/d3/static/images/layout/menu-bg.jpg?v=3") no-repeat; }
 
 .ie6 .head .menu { bottom: 16px; }
 .head .menu li { float: left; }
@@ -47,7 +47,7 @@ th { text-align: left; }
 
 .head .menu li a span { display: block; text-align: center; height: 20px; padding-top: 45px; padding-right: 2px; }
 .head .menu li a:hover,
-.head .menu li a.menu-active { background: url("../images/layout/menu-bg.jpg?v=3") no-repeat; }
+.head .menu li a.menu-active { background: url("http://us.battle.net/d3/static/images/layout/menu-bg.jpg?v=3") no-repeat; }
 
 .zh-tw .head .menu li,
 .zh-tw .head .menu li a,
@@ -104,11 +104,11 @@ th { text-align: left; }
 .character-card .avatar-frame .border { display: block; width: 90px; height: 90px; }
 .character-card .avatar-frame .avatar,
 .character-card .avatar-frame .no-avatar { display: block; width: 70px; height: 70px; position: relative; left: 11px; top: 8px; border-radius: 25px; }
-.character-card .avatar-frame .no-avatar { background: url("../images/layout/cards/avatar-silhouette.jpg") no-repeat; }
-.character-card .avatar-frame .border { background: url("../images/layout/cards/avatar-border.png") no-repeat; left: 0; top: 0; }
-.ie .character-card .avatar-frame .border { background-image: url("../images/layout/cards/avatar-border.gif"); }
-.character-card .avatar-frame .icon { width: 28px; height: 28px; position: absolute; bottom: 5px; right: 5px; background: url("../images/layout/cards/game-icons.png") no-repeat; }
-.ie6 .character-card .avatar-frame .icon { background-image: url("../images/layout/cards/game-icons.gif"); }
+.character-card .avatar-frame .no-avatar { background: url("http://us.battle.net/d3/static/images/layout/cards/avatar-silhouette.jpg") no-repeat; }
+.character-card .avatar-frame .border { background: url("http://us.battle.net/d3/static/images/layout/cards/avatar-border.png") no-repeat; left: 0; top: 0; }
+.ie .character-card .avatar-frame .border { background-image: url("http://us.battle.net/d3/static/images/layout/cards/avatar-border.gif"); }
+.character-card .avatar-frame .icon { width: 28px; height: 28px; position: absolute; bottom: 5px; right: 5px; background: url("http://us.battle.net/d3/static/images/layout/cards/game-icons.png") no-repeat; }
+.ie6 .character-card .avatar-frame .icon { background-image: url("http://us.battle.net/d3/static/images/layout/cards/game-icons.gif"); }
 .character-card .avatar-frame .icon-sc2 { background-position: 0 -28px; }
 .character-card .avatar-frame .icon-wow { background-position: 0 -56px; }
 .character-card .player-name { display: block; font-weight: bold; color: #000000; font-size: 13px; }
@@ -134,34 +134,34 @@ th { text-align: left; }
 .character-card a.click-area:hover { background-position:-3px -97px }
 .character-card a.click-area:hover strong { color: #221103; }
 .character-card a.click-area .ui-context .context strong { color: #FFFFFF; }
-.opera .character-card .avatar-frame .border { background-image: url("../images/layout/cards/avatar-border.gif"); }
+.opera .character-card .avatar-frame .border { background-image: url("http://us.battle.net/d3/static/images/layout/cards/avatar-border.gif"); }
 
 /* body content */
-.body { background: #12110f url("../images/layout/content-bg.jpg") 0 0 repeat; padding-top: 15px; position: relative; }
+.body { background: #12110f url("http://us.battle.net/d3/static/images/layout/content-bg.jpg") 0 0 repeat; padding-top: 15px; position: relative; }
 .homepage .body { padding-top:0 }
-.body-top { background: url("../images/layout/content-top.jpg") 0 0 no-repeat; padding-top: 15px; }
-.body-bot { padding-bottom: 75px; min-height: 500px; position: relative; background: url("../images/layout/content-bot.jpg") 0 100% no-repeat; }
+.body-top { background: url("http://us.battle.net/d3/static/images/layout/content-top.jpg") 0 0 no-repeat; padding-top: 15px; }
+.body-bot { padding-bottom: 75px; min-height: 500px; position: relative; background: url("http://us.battle.net/d3/static/images/layout/content-bot.jpg") 0 100% no-repeat; }
 .ie6 .body-bot { height: 600px; }
 
-.static-content-unavailable .body-top { background-image: url("../images/layout/bgs/library.jpg") !important; }
+.static-content-unavailable .body-top { background-image: url("http://us.battle.net/d3/static/images/layout/bgs/library.jpg") !important; }
 
-.body-trail { height: 40px; width: 994px; position: absolute; top: 0; left: 0; z-index: 35; background: url("../images/layout/trail-bg.png") 0 0 no-repeat; }
-.body-trail ol { padding: 7px 60px 13px 20px; background: url("../images/layout/trail-bar.png") 100% 14px no-repeat; }
+.body-trail { height: 40px; width: 994px; position: absolute; top: 0; left: 0; z-index: 35; background: url("http://us.battle.net/d3/static/images/layout/trail-bg.png") 0 0 no-repeat; }
+.body-trail ol { padding: 7px 60px 13px 20px; background: url("http://us.battle.net/d3/static/images/layout/trail-bar.png") 100% 14px no-repeat; }
 
 /* footer */
 #international h3,
 #footer h3 a { color: #ad835a; }
 #footer a { color: #6D624C; }
 #footer a:hover { color: #fff; }
-#sitemap h3 { border-color: #20140d; background-image: url("../images/icons/footer.gif"); }
+#sitemap h3 { border-color: #20140d; background-image: url("http://us.battle.net/d3/static/images/icons/footer.gif"); }
 #international,
 #copyright { color: #433a2e; border-color: #161412; }
 #copyright a { color: #70523D; }
 #copyright a:hover { color: #fff; }
 .ko-kr #copyright .policies {color:#d96500;}
-#international { background-image: url("../images/layout/world-map.gif"); }
-#change-language { background-image: url("../images/icons/arrows.gif"); }
-#change-language span { background-image: url("../images/icons/map-small.gif"); }
+#international { background-image: url("http://us.battle.net/d3/static/images/layout/world-map.gif"); }
+#change-language { background-image: url("http://us.battle.net/d3/static/images/icons/arrows.gif"); }
+#change-language span { background-image: url("http://us.battle.net/d3/static/images/icons/map-small.gif"); }
 .bnet-offer-bg { border: 1px solid #483a30; overflow: hidden; margin: 0 auto 10px auto; border-radius: 5px; box-shadow: 0 0 6px #000000; width:300px;}
 .bnet-offer-bg:hover { border-color: #645245; }
 .bnet-offer-image { display: block; border: 1px solid #000; overflow: hidden; border-radius: 4px; }
@@ -174,12 +174,12 @@ th { text-align: left; }
 
 /* context menu */
 .ko-kr .ui-context { font-family:Dotum; }
-.ui-context .context .context-links a { background-image: url("../images/icons/context.gif"); background-repeat: no-repeat; }
+.ui-context .context .context-links a { background-image: url("http://us.battle.net/d3/static/images/icons/context.gif"); background-repeat: no-repeat; }
 .ui-context .context .context-links .icon-profile { background-position: 0 0; }
 .ui-context .context .context-links .icon-posts { background-position: 0 -30px; }
 .ui-context .context .context-links .icon-ignore { background-position: 0 -60px; }
 .ui-context .context .context-links .icon-ban { background-position: 0 -90px; }
-.context-link { padding-right: 17px; background: url("../images/icons/flyout-arrows.gif") 100% -25px no-repeat; max-height: 35px; }
+.context-link { padding-right: 17px; background: url("http://us.battle.net/d3/static/images/icons/flyout-arrows.gif") 100% -25px no-repeat; max-height: 35px; }
 .context-link:hover { background-position: 100% -87px; }
 .ko-kr .context-link { background-position:100% -28px }
 .ko-kr .context-link:hover { background-position:100% -87px }
@@ -198,12 +198,12 @@ th { text-align: left; }
 .ui-breadcrumb li.children .breadcrumb-text { border-bottom:1px dotted #a99877; }
 .ui-breadcrumb li a:hover .breadcrumb-text,
 .ui-breadcrumb li a.opened .breadcrumb-text { color: #fff; border-color: #fff; }
-.ui-breadcrumb li .breadcrumb-arrow:after { border:0; content:" "; display:inline-block; background: url("../images/icons/flyout-arrows.gif") no-repeat -3px -230px; width: 12px; height: 10px; margin:2px 7px 0 0 }
+.ui-breadcrumb li .breadcrumb-arrow:after { border:0; content:" "; display:inline-block; background: url("http://us.battle.net/d3/static/images/icons/flyout-arrows.gif") no-repeat -3px -230px; width: 12px; height: 10px; margin:2px 7px 0 0 }
 .ie67 .ui-breadcrumb li .breadcrumb-arrow { margin-right:10px }
 
 /* dropdown */
 .ui-dropdown .dropdown-toggler,
-.ui-dropdown .dropdown-toggler span { height: 25px; padding: 0; line-height: 25px; background: url("../images/ui/dropdown.gif") 0 0 no-repeat; }
+.ui-dropdown .dropdown-toggler span { height: 25px; padding: 0; line-height: 25px; background: url("http://us.battle.net/d3/static/images/ui/dropdown.gif") 0 0 no-repeat; }
 .ui-dropdown .dropdown-toggler span { background-position: 100% -75px; padding: 0 10px; color: #c87700; font-size: 11px; }
 .ui-dropdown .dropdown-toggler:hover { background-position: 0 -25px; }
 .ui-dropdown .dropdown-toggler.opened { background-position: 0 -50px; }
@@ -213,7 +213,7 @@ th { text-align: left; }
 /* pagination */
 .ui-pagination { overflow: visible; height: 24px; }
 .ui-pagination li { margin-left: 4px; float: left; }
-.ui-pagination li a { display: inline-block; border: 1px solid #420f00; padding: 0; height: auto; background: url("../images/buttons/button-1.png") -35px -130px; box-shadow: 0 0 3px #000; }
+.ui-pagination li a { display: inline-block; border: 1px solid #420f00; padding: 0; height: auto; background: url("http://us.battle.net/d3/static/images/buttons/button-1.png") -35px -130px; box-shadow: 0 0 3px #000; }
 .ui-pagination li a span { display: block; margin: 0; padding: 0 9px; border: 1px solid #62351f; border-top-color: #734a32; height: 20px; line-height: 20px; font-size: 11px; color: #ffcb8d; }
 .cjk .ui-pagination li a span { line-height:22px }
 .ie6 .ui-pagination li a,
@@ -238,7 +238,7 @@ th { text-align: left; }
 /* prompt */
 .ui-prompt { background: #1c1b1b; border: 1px solid #322a20; position: absolute; width: 300px; z-index: 9005; border-radius: 2px; box-shadow: 0 0 15px #000; }
 .ui-prompt .prompt-inner { padding: 15px; border: 1px solid #403529; }
-.ui-prompt .prompt-close { width: 25px; height: 25px; display: block; position: absolute; top: 3px; right: 2px; background: url("../images/icons/sprite.png") 0 -156px no-repeat; }
+.ui-prompt .prompt-close { width: 25px; height: 25px; display: block; position: absolute; top: 3px; right: 2px; background: url("http://us.battle.net/d3/static/images/icons/sprite.png") 0 -156px no-repeat; }
 .ui-prompt .prompt-close:hover { background-position: 0 -182px; }
 .ui-prompt .prompt-errors { margin-top: 10px; color: #E52817; }
 .ui-prompt .prompt-buttons { margin-top: 20px; text-align: center; }
@@ -260,7 +260,7 @@ th { text-align: left; }
 .ui-overlay .overlay-top,
 .ui-overlay .overlay-bottom,
 .ui-overlay .overlay-middle,
-.ui-overlay .overlay-close { background: url("../images/ui/overlay.png") 0 0 no-repeat; }
+.ui-overlay .overlay-close { background: url("http://us.battle.net/d3/static/images/ui/overlay.png") 0 0 no-repeat; }
 .ui-overlay .overlay-top { padding-top: 21px; }
 .ui-overlay .overlay-bottom { padding-bottom: 21px; background-position: -720px 100%; }
 .ui-overlay .overlay-middle { padding: 25px 40px; background-position: -1440px 0; background-repeat: repeat-y; }
@@ -270,7 +270,7 @@ th { text-align: left; }
 .ie67 .ui-overlay .overlay-top,
 .ie67 .ui-overlay .overlay-bottom,
 .ie67 .ui-overlay .overlay-middle,
-.ie67 .ui-overlay .overlay-close { background-image: url("../images/ui/overlay.gif"); zoom: 1; }
+.ie67 .ui-overlay .overlay-close { background-image: url("http://us.battle.net/d3/static/images/ui/overlay.gif"); zoom: 1; }
 
 /* dropdown */
 .ui-dropdown .dropdown-wrapper { background: #12110f; padding: 0; border: 1px solid #4e3e25; border-radius: 3px; }
@@ -284,7 +284,7 @@ th { text-align: left; }
 
 .button1 { height: 36px; box-shadow: 0 0 5px #000; }
 .button1 .button-left,
-.button1 .button-right { line-height: 36px; height: 36px; background-image: url("../images/buttons/button-1.png") }
+.button1 .button-right { line-height: 36px; height: 36px; background-image: url("http://us.battle.net/d3/static/images/buttons/button-1.png") }
 
 .button1 .button-left { padding-left: 25px; background-position:0 0 }
 .button1 .button-right { padding-right: 25px; background-position:100% -123px; color: #ffcb8d; font-family: "Palatino Linotype", "Times", serif; text-shadow: 0 0 5px #dd3400; text-transform:uppercase; overflow:hidden }
@@ -303,7 +303,7 @@ th { text-align: left; }
 .button1.processing:hover .button-right { color: #574b45; text-shadow: 0 0 5px #080505; background-position:100% -205px }
 
 .button2 .button-left,
-.button2 .button-right { height: 30px; line-height: 30px; background-image: url("../images/buttons/button-2.gif"); font-size: 11px;  }
+.button2 .button-right { height: 30px; line-height: 30px; background-image: url("http://us.battle.net/d3/static/images/buttons/button-2.gif"); font-size: 11px;  }
 .button2 .button-left { padding-left:13px; background-position:0 0 }
 .button2 .button-right { padding-right:13px; background-position:100% -123px; color: #c67000; text-transform:uppercase }
 .button2:hover .button-left { background-position:0 -41px; }
@@ -322,7 +322,7 @@ th { text-align: left; }
 .flyout-menu ul:last-child > li:last-child { border-bottom: 1px solid #282828 !important; }
 .flyout-menu ul:first-child > li:last-child { border-bottom: 0 !important; }
 .flyout-menu ul li { border-top: 1px solid #282828; }
-.flyout-menu ul li a { background: #101010 url("../images/icons/flyout-arrows.gif") -50px -113px no-repeat; }
+.flyout-menu ul li a { background: #101010 url("http://us.battle.net/d3/static/images/icons/flyout-arrows.gif") -50px -113px no-repeat; }
 .ie6 .flyout-menu ul li { zoom: 1; height: 28px; }
 .ie6 .flyout-menu ul li a { display: block; overflow: hidden; }
 .flyout-menu ul li a:hover,
@@ -336,10 +336,10 @@ th { text-align: left; }
 .cjk .flyout-menu ul li.divider span { font-weight:normal }
 
 /* tab menu */
-.tab-menu { padding: 0 30px 2px 30px; margin: 0 4px; background: url("../images/ui/tab-menu.jpg") 0 41px repeat-x; }
+.tab-menu { padding: 0 30px 2px 30px; margin: 0 4px; background: url("http://us.battle.net/d3/static/images/ui/tab-menu.jpg") 0 41px repeat-x; }
 .tab-menu li { display: inline-block; height: 40px; margin-right:1px;}
 .tab-menu li a { display: block; padding: 0 15px; height: 40px; font: normal 12px/38px "Palatino Linotype", "Times", serif; text-transform: uppercase;
-	background: #1a1814 url("../images/ui/tab-menu-tab.jpg") 0 0 repeat-x; border: 1px solid #1e1c17; border-bottom: 0;
+	background: #1a1814 url("http://us.battle.net/d3/static/images/ui/tab-menu-tab.jpg") 0 0 repeat-x; border: 1px solid #1e1c17; border-bottom: 0;
 	box-shadow: 0 -3px 5px #090908; }
 .ko-kr .tab-menu li a { font-family:Dotum }
 .tab-menu li a:hover { background-position: 0 -40px; border-color: #302a21; }
@@ -348,7 +348,7 @@ th { text-align: left; }
 .tab-menu li a.tab-active { font-weight: bold; color: #F3E6D0 !important; cursor: default; }
 .cjk .tab-menu li a.tab-active { font-weight:normal }
 .tab-menu li.tab-disabled a { color: #5F584D; padding-right: 20px; }
-.tab-menu li.tab-disabled a span { background: url("../images/profile/sidebar-lock.png") 100% 2px no-repeat; padding-right: 16px; }
+.tab-menu li.tab-disabled a span { background: url("http://us.battle.net/d3/static/images/profile/sidebar-lock.png") 100% 2px no-repeat; padding-right: 16px; }
 .ko-kr .tab-menu li.tab-disabled a span { background-position: 100% 0; }
 .tab-menu li.tab-disabled a:hover { background-position: 0 0; color: #5F584D; cursor: help; border-color: #1e1c17; }
 
@@ -357,8 +357,8 @@ th { text-align: left; }
 .ie67 .tab-menu li a { float: left; }
 
 /* carousel */
-.ui-slideshow .mask { background: url("../images/ui/slideshow-mask.png") 0 0 no-repeat; }
-.ie6 .ui-slideshow .mask { background-image: url("../images/ui/slideshow-mask.gif"); }
+.ui-slideshow .mask { background: url("http://us.battle.net/d3/static/images/ui/slideshow-mask.png") 0 0 no-repeat; }
+.ie6 .ui-slideshow .mask { background-image: url("http://us.battle.net/d3/static/images/ui/slideshow-mask.gif"); }
 .ui-slideshow .slideshow { padding: 0; }
 .ui-slideshow .caption { color: #a99877; font-size:16px; }
 .ui-slideshow .caption h3,
@@ -368,14 +368,14 @@ th { text-align: left; }
 
 /* filter input */
 .ui-filter .view,
-.ui-filter .reset { width: 15px; height: 15px; background: url("../images/icons/sprite.png") -52px -304px no-repeat; }
+.ui-filter .reset { width: 15px; height: 15px; background: url("http://us.battle.net/d3/static/images/icons/sprite.png") -52px -304px no-repeat; }
 .ie6 .ui-filter .view,
-.ie6 .ui-filter .reset { background-image: url("../images/icons/sprite.gif"); }
+.ie6 .ui-filter .reset { background-image: url("http://us.battle.net/d3/static/images/icons/sprite.gif"); }
 .ui-filter .view { background-position: -52px -320px; }
 .ui-filter .input { padding-right: 25px; }
 
 /* dynamic menu */
-.dynamic-menu { min-height: 350px; background: url("../images/ui/dynamic-menu.jpg") 0 0 repeat-x;   border-top-right-radius: 10px; }
+.dynamic-menu { min-height: 350px; background: url("http://us.battle.net/d3/static/images/ui/dynamic-menu.jpg") 0 0 repeat-x;   border-top-right-radius: 10px; }
 .dynamic-menu li { margin-bottom: 5px; }
 .dynamic-menu li a { display: block; padding: 5px 10px; border-radius: 6px; }
 .dynamic-menu li.item-active a { color: #ead8b9; background-color: rgba(0, 0, 0, 0.25); }
@@ -412,14 +412,14 @@ th { text-align: left; }
 .list-table li .cell { padding:15px }
 
 .table .sort-tab,
-.table .sort-link { display: block; padding: 0 15px; color: #F3E6D0; text-transform: uppercase; font-size: 11px; height: 30px; line-height: 30px; background: #300a00 url("../images/ui/table-header.png") 0 100% repeat-x;
+.table .sort-link { display: block; padding: 0 15px; color: #F3E6D0; text-transform: uppercase; font-size: 11px; height: 30px; line-height: 30px; background: #300a00 url("http://us.battle.net/d3/static/images/ui/table-header.png") 0 100% repeat-x;
 	border-left: 1px solid #582c19; border-right: 1px solid #390b00; border-bottom: 1px solid #68381f; border-top: 1px solid #62351f; zoom: 1; }
 .cjk .table .sort-tab,
 .cjk .table .sort-link { font-size:12px; font-weight:normal }
 .table .sort-link { color: #FFCB8D; }
-.table .sort-link:hover { color: #fff; background: #400b00 url("../images/ui/table-header-hover.png") 0 100% repeat-x;
+.table .sort-link:hover { color: #fff; background: #400b00 url("http://us.battle.net/d3/static/images/ui/table-header-hover.png") 0 100% repeat-x;
 	border-left-color: #77361d; border-top-color: #a05734; border-right-color: #2d0900; }
-.table .sort-link .arrow { padding-left: 10px; background: url("../images/ui/table-sort-arrows.gif") 0 -10px no-repeat }
+.table .sort-link .arrow { padding-left: 10px; background: url("http://us.battle.net/d3/static/images/ui/table-sort-arrows.gif") 0 -10px no-repeat }
 .table .sort-link:hover .arrow { background-position: 0 -115px }
 .table .sort-link .arrow.up,
 .table .sort-link:hover .arrow.up { background-position: 0 -80px }
@@ -427,7 +427,7 @@ th { text-align: left; }
 .table .sort-link:hover .arrow.down { background-position: 0 -45px }
 .table th.last-child .sort-tab,
 .table th.last-child .sort-link { border-right-color: #582c19; }
-.table-footer { background: url("../images/ui/table-footer.jpg") no-repeat; padding-top: 30px; min-height: 100px; }
+.table-footer { background: url("http://us.battle.net/d3/static/images/ui/table-footer.jpg") no-repeat; padding-top: 30px; min-height: 100px; }
 .table-footer .box-alert { margin: 0 30px; }
 
 /* data sets */
@@ -444,23 +444,23 @@ th { text-align: left; }
 .data-options .option .ui-pagination { margin-top: -2px; }
 .ie6 .data-options .option .ui-pagination { margin: 0; }
 .data-options strong { color: #AD835A; }
-.data-options.top { background-image: url("../images/ui/data-options-top.jpg"); }
-.data-options.bottom { background-image: url("../images/ui/data-options-bot.jpg"); background-position: left bottom; border-bottom: 1px solid #28241d;}
+.data-options.top { background-image: url("http://us.battle.net/d3/static/images/ui/data-options-top.jpg"); }
+.data-options.bottom { background-image: url("http://us.battle.net/d3/static/images/ui/data-options-bot.jpg"); background-position: left bottom; border-bottom: 1px solid #28241d;}
 
 /* media frame */
 .media-frame { display: inline-block;   box-shadow: 5px 5px 5px #000; }
 .media-frame .tl,
 .media-frame .tr,
 .media-frame .bl,
-.media-frame .br { width: 5px; height: 5px; background: url("../images/ui/media-corners.gif") no-repeat; }
+.media-frame .br { width: 5px; height: 5px; background: url("http://us.battle.net/d3/static/images/ui/media-corners.gif") no-repeat; }
 .media-frame .tr { background-position: -5px 0; }
 .media-frame .bl { background-position: 0 -5px; }
 .media-frame .br { background-position: -5px -5px; }
 .media-frame .ml,
-.media-frame .mr { width: 5px; background: url("../images/ui/media-lr.gif") repeat-y; }
+.media-frame .mr { width: 5px; background: url("http://us.battle.net/d3/static/images/ui/media-lr.gif") repeat-y; }
 .media-frame .mr { background-position: -5px 0; }
 .media-frame .tm,
-.media-frame .bm { height: 5px; background: url("../images/ui/media-tb.gif") repeat-x; }
+.media-frame .bm { height: 5px; background: url("http://us.battle.net/d3/static/images/ui/media-tb.gif") repeat-x; }
 .media-frame .bm { background-position: 0 -5px; }
 .media-frame .mm { background:  #000; }
 .media-frame .mm img { display: block; }
@@ -468,32 +468,32 @@ th { text-align: left; }
 .media-frame .mm a:hover { border-color: #824c06; }
 .media-frame .mm a .frame { display: block; width: 100%; height: 100%; position: absolute; top: 0; left: 0;
 	box-shadow: inset 0 0 7px 2px #000; }
-.media-frame.view-video .mm a:hover .frame { background: rgba(0, 0, 0, .3) url("../images/media/play-video.png") 50% 50% no-repeat; }
-.media-frame.view-image .mm a:hover .frame { background: rgba(0, 0, 0, .3) url("../images/media/view-image.png") 50% 50% no-repeat; }
+.media-frame.view-video .mm a:hover .frame { background: rgba(0, 0, 0, .3) url("http://us.battle.net/d3/static/images/media/play-video.png") 50% 50% no-repeat; }
+.media-frame.view-image .mm a:hover .frame { background: rgba(0, 0, 0, .3) url("http://us.battle.net/d3/static/images/media/view-image.png") 50% 50% no-repeat; }
 .media-frame .mm a.view-all { border: none; padding: 5px; text-align: right; }
 
 /* alert */
-.box-alert { margin: 30px; padding: 10px; text-align: center; background: url("../images/layout/diag-bg.gif") repeat; color: #7b6d55; z-index: 0; }
+.box-alert { margin: 30px; padding: 10px; text-align: center; background: url("http://us.battle.net/d3/static/images/layout/diag-bg.gif") repeat; color: #7b6d55; z-index: 0; }
 .ie6 .box-alert { zoom:1 }
-.box-alert .alert-icon { background: url("../images/icons/alert.gif") 0 50% no-repeat; display: inline-block; padding: 10px; padding-left: 20px; }
+.box-alert .alert-icon { background: url("http://us.battle.net/d3/static/images/icons/alert.gif") 0 50% no-repeat; display: inline-block; padding: 10px; padding-left: 20px; }
 .box-alert .alert-close { position: absolute; right: 10px; top: 10px;
 	box-shadow: 0 0 5px #000; }
 
 .box-alert-closable { display: none; }
 .box-alert-big { color: #A99877; font-size: 14px; line-height: 1.666em; }
-.box-alert-big .alert-icon { background-image: url("../images/icons/alert-big.png"); padding-left: 80px; padding-right: 40px; }
-.ie6 .box-alert-big .alert-icon { background-image: url("../images/icons/alert-big.gif"); }
+.box-alert-big .alert-icon { background-image: url("http://us.battle.net/d3/static/images/icons/alert-big.png"); padding-left: 80px; padding-right: 40px; }
+.ie6 .box-alert-big .alert-icon { background-image: url("http://us.battle.net/d3/static/images/icons/alert-big.gif"); }
 
 /*----------------------------------------------
 	Common Pages
 ----------------------------------------------*/
 
 /* error */
-.error-page .body-top { background-image: url("../images/layout/bgs/desert.jpg"); }
+.error-page .body-top { background-image: url("http://us.battle.net/d3/static/images/layout/bgs/desert.jpg"); }
 .error-page .page-body { text-align: center; min-height: 700px; }
 .error-page .page-body .header-2{ font-size: 70px; }
 .error-page .region-list { border: 1px solid #2D251B; background: rgba(0, 0, 0, 0.4); padding:0px 40px 8px; margin-top:10px }
-.error-page .region-list li { text-align:left; margin-top: 8px; list-style-position: inside; list-style-image: url("../images/icons/bullet.gif"); }
+.error-page .region-list li { text-align:left; margin-top: 8px; list-style-position: inside; list-style-image: url("http://us.battle.net/d3/static/images/icons/bullet.gif"); }
 
 /*----------------------------------------------
 	Page Template
@@ -511,11 +511,11 @@ th { text-align: left; }
 .page-body { margin: 30px 0; padding: 0 30px; }
 
 /* sections */
-.page-section { margin-bottom: 25px; background: url("../images/layout/section-bg.jpg") 0 37px repeat-x; }
+.page-section { margin-bottom: 25px; background: url("http://us.battle.net/d3/static/images/layout/section-bg.jpg") 0 37px repeat-x; }
 .page-section .section-body { padding: 20px 0 20px 0; }
 .page-section .section-header { height: 30px; padding: 6px; position: relative; }
-.page-section .section-header.has-icon { background: url("../images/layout/section-icon.png") 0 0 no-repeat; padding-left: 55px; }
-.page-section .section-header .icon { position: absolute; top: 1px; left: 4px; width: 36px; height: 36px; background: url("../images/icons/section-sprite.png") 0 0 no-repeat; }
+.page-section .section-header.has-icon { background: url("http://us.battle.net/d3/static/images/layout/section-icon.png") 0 0 no-repeat; padding-left: 55px; }
+.page-section .section-header .icon { position: absolute; top: 1px; left: 4px; width: 36px; height: 36px; background: url("http://us.battle.net/d3/static/images/icons/section-sprite.png") 0 0 no-repeat; }
 .page-section .section-header .icon.package { background-position: 0 -36px; }
 .page-section .section-header .icon.fireball { background-position: 0 -72px; }
 .page-section .section-header .icon.video { background-position: 0 -108px; }
@@ -528,8 +528,8 @@ th { text-align: left; }
 .page-section .section-header .icon.repair { background-position: 0 -360px; }
 
 .ie6 .page-section { zoom: 1; }
-.ie6 .page-section .section-header.has-icon { background-image: url("../images/layout/section-icon.jpg"); }
-.ie6 .page-section .section-header .icon { background-image: url("../images/icons/section-sprite-ie.png"); }
+.ie6 .page-section .section-header.has-icon { background-image: url("http://us.battle.net/d3/static/images/layout/section-icon.jpg"); }
+.ie6 .page-section .section-header .icon { background-image: url("http://us.battle.net/d3/static/images/icons/section-sprite-ie.png"); }
 
 
 /* containers */
@@ -609,9 +609,9 @@ a.tip,
 ----------------------------------------------*/
 
 .icon-24,
-.icon-16 { display: inline-block; width: 24px; height: 24px; vertical-align: middle; background: url("../images/icons/sprite.png") no-repeat; font-size: 1px; }
+.icon-16 { display: inline-block; width: 24px; height: 24px; vertical-align: middle; background: url("http://us.battle.net/d3/static/images/icons/sprite.png") no-repeat; font-size: 1px; }
 .ie6 .icon-24,
-.ie6 .icon-16 { background-image: url("../images/icons/sprite.gif"); }
+.ie6 .icon-16 { background-image: url("http://us.battle.net/d3/static/images/icons/sprite.gif"); }
 
 .icon-16 { width: 16px; height: 16px; }
 
@@ -696,7 +696,7 @@ a:hover .icon-frame.hardcore-frame { border-color:#a20101 } /* hardcore frame */
 .icon-frame-text { vertical-align: middle; margin-top: -2px; margin-left: 2px; margin-right: 2px; } /* correctly aligns the frame within a line of text */
 
 /* custom */
-.icon-custom { background: url("../images/icons/tools.png") no-repeat; width: 42px; height: 42px; }
+.icon-custom { background: url("http://us.battle.net/d3/static/images/icons/tools.png") no-repeat; width: 42px; height: 42px; }
 .icon-custom-calculator { background-position: 1px 1px; }
 .icon-custom-gear { background-position: -42px 1px; }
 .icon-custom-tooltip { background-position: -85px 1px; }
@@ -724,8 +724,8 @@ a:hover .icon-custom-infographic { background-position: -345px -42px }
 .new-feature-tip,
 .new-feature-tip .tip-content { width: 346px; height: 160px; }
 .new-feature-tip .close { position: absolute; right: 21px; top: 30px; box-shadow: 0 0 3px #000; }
-.new-feature-tip .tip-content { display: block; background: url("../images/layout/new-feature-tip/bg-charprofiles2.png") no-repeat; }
-.ie6 .new-feature-tip .tip-content { background: url("../images/layout/new-feature-tip/bg-diablo-eye-ie6.png") no-repeat; }
+.new-feature-tip .tip-content { display: block; background: url("http://us.battle.net/d3/static/images/layout/new-feature-tip/bg-charprofiles2.png") no-repeat; }
+.ie6 .new-feature-tip .tip-content { background: url("http://us.battle.net/d3/static/images/layout/new-feature-tip/bg-diablo-eye-ie6.png") no-repeat; }
 .new-feature-tip .tip-content:hover { background-position: left bottom; }
 .new-feature-tip .tip-content-inner { display: block; padding: 40px 32px 0 32px; line-height: 100%; }
 .new-feature-tip .new { display: block; font-size: 10px; color: #00b2de; text-transform: uppercase; }
@@ -740,8 +740,8 @@ a:hover .icon-custom-infographic { background-position: -345px -42px }
 .ie6 .body-bot .chat-gem { bottom:0 }
 .head .skull-eyes.activated,
 .body-bot .chat-gem.activated { opacity: 1; }
-.head .skull-eyes { left: 454px; top: 109px; width: 84px; height: 66px; background: url("../images/layout/skull-eyes.jpg") -7px 14px no-repeat; }
-.body-bot .chat-gem { left: 465px; bottom: 0; width: 62px; height: 70px; background: url("../images/layout/chat-gem.jpg") no-repeat; }
+.head .skull-eyes { left: 454px; top: 109px; width: 84px; height: 66px; background: url("http://us.battle.net/d3/static/images/layout/skull-eyes.jpg") -7px 14px no-repeat; }
+.body-bot .chat-gem { left: 465px; bottom: 0; width: 62px; height: 70px; background: url("http://us.battle.net/d3/static/images/layout/chat-gem.jpg") no-repeat; }
 
 .opera .head .skull-eyes { left: 455px; }
 
@@ -769,7 +769,7 @@ a:hover .icon-custom-infographic { background-position: -345px -42px }
 .rate-post-wrapper .downvote-menu .report-comment { border-top: 1px solid #342D23; padding:5px 0; margin-top:3px }
 .rate-post-wrapper .downvote-menu .report-comment a { color:#fffc00 }
 .rate-post-wrapper .downvote-menu .report-comment a:hover { color:#FFF }
-.rate-post-wrapper .downvote-menu .report-comment a:before { content:" "; display:inline-block; width:20px; height:17px; background:url("../images/layout/cms/view-topic.gif?v=2") -67px 0 no-repeat; float:left }
+.rate-post-wrapper .downvote-menu .report-comment a:before { content:" "; display:inline-block; width:20px; height:17px; background:url("http://us.battle.net/d3/static/images/layout/cms/view-topic.gif?v=2") -67px 0 no-repeat; float:left }
 .rate-post-wrapper .downvote-menu .report-comment a:hover:before { opacity:0.9 }
 
 .rate-post-wrapper.downvoted .rate-down,
@@ -811,7 +811,7 @@ a:hover .icon-custom-infographic { background-position: -345px -42px }
 
 /* comments */
 .bnet-comments .rate-post-wrapper { padding: 0 0 0 10px !important; }
-.bnet-comments { padding: 60px 30px 30px 30px; background: url("../images/layout/cms/comments-bg.jpg?v=2") 0 0 no-repeat; zoom: 1; }
+.bnet-comments { padding: 60px 30px 30px 30px; background: url("http://us.battle.net/d3/static/images/layout/cms/comments-bg.jpg?v=2") 0 0 no-repeat; zoom: 1; }
 .bnet-comments .subheader-2 span { color:#F3E6D0 }
 .bnet-comments .comment-tile { background: #0e0d0c; }
 
@@ -822,9 +822,9 @@ a:hover .icon-custom-infographic { background-position: -345px -42px }
 
 .bnet-comments .comment-tile .comment-head .timestamp { color: #AD835A; font-weight: normal; }
 .bnet-comments .comment-tile .karma { position: relative; top: -10px; z-index: 1; }
-.bnet-comments .comments-loading { background-image: url("../images/loaders/brighter.gif?v=2"); }
+.bnet-comments .comments-loading { background-image: url("http://us.battle.net/d3/static/images/loaders/brighter.gif?v=2"); }
 .bnet-comments .comment-hot .comment-tile { background: #000; }
-.bnet-comments.comments-error .comments-loading { background-image: url("../images/icons/alert-big.png?v=2"); }
+.bnet-comments.comments-error .comments-loading { background-image: url("http://us.battle.net/d3/static/images/icons/alert-big.png?v=2"); }
 .bnet-comments .comments-pull-link { color: #DED2AB; background: #2d1b01; border: 1px solid #733c1c; border-right-color: #8f4b23; border-bottom-color: #a35528; border-radius: 3px; box-shadow: 0 0 5px #000; }
 .bnet-comments .comments-pull-link span span { color: #ff6911; font-weight: bold; }
 .bnet-comments .comments-pull-link:hover { background: #3e2403; border-color: #BF642F; color: #fff; }
@@ -860,13 +860,13 @@ a:hover .icon-custom-infographic { background-position: -345px -42px }
 .poll .results .result span { text-align:center; color:#FFF; font-weight:bold; font-size:11px; display:block }
 .cjk .poll .results .result span { font-weight:normal; font-size:12px }
 
-#sidebar .banner-gamescom-2014 { background: url("../images/sidebar/gamescom-2014/D3_GamesCom2014_Side-Banner_EN_299x208.png") no-repeat;
+#sidebar .banner-gamescom-2014 { background: url("http://us.battle.net/d3/static/images/sidebar/gamescom-2014/D3_GamesCom2014_Side-Banner_EN_299x208.png") no-repeat;
 	width: 297px; height: 100px; background-position: -1px -4px; display: block; cursor: pointer; margin: 7px 0 0px 6px; }
 #sidebar .banner-gamescom-2014:hover { background-position: -1px -108px; }
 
-.de-de #sidebar .banner-gamescom-2014 { background-image: url("../images/sidebar/gamescom-2014/D3_GamesCom2014_Side-Banner_DE_299x208.png"); }
-.es-es #sidebar .banner-gamescom-2014 { background-image: url("../images/sidebar/gamescom-2014/D3_GamesCom2014_Side-Banner_ES_299x208.png"); }
-.fr-fr #sidebar .banner-gamescom-2014 { background-image: url("../images/sidebar/gamescom-2014/D3_GamesCom2014_Side-Banner_FR_299x208.png"); }
-.it-it #sidebar .banner-gamescom-2014 { background-image: url("../images/sidebar/gamescom-2014/D3_GamesCom2014_Side-Banner_IT_299x208.png"); }
-.pl-pl #sidebar .banner-gamescom-2014 { background-image: url("../images/sidebar/gamescom-2014/D3_GamesCom2014_Side-Banner_PL_299x208.png"); }
-.ru-ru #sidebar .banner-gamescom-2014 { background-image: url("../images/sidebar/gamescom-2014/D3_GamesCom2014_Side-Banner_RU_299x208.png"); }
+.de-de #sidebar .banner-gamescom-2014 { background-image: url("http://us.battle.net/d3/static/images/sidebar/gamescom-2014/D3_GamesCom2014_Side-Banner_DE_299x208.png"); }
+.es-es #sidebar .banner-gamescom-2014 { background-image: url("http://us.battle.net/d3/static/images/sidebar/gamescom-2014/D3_GamesCom2014_Side-Banner_ES_299x208.png"); }
+.fr-fr #sidebar .banner-gamescom-2014 { background-image: url("http://us.battle.net/d3/static/images/sidebar/gamescom-2014/D3_GamesCom2014_Side-Banner_FR_299x208.png"); }
+.it-it #sidebar .banner-gamescom-2014 { background-image: url("http://us.battle.net/d3/static/images/sidebar/gamescom-2014/D3_GamesCom2014_Side-Banner_IT_299x208.png"); }
+.pl-pl #sidebar .banner-gamescom-2014 { background-image: url("http://us.battle.net/d3/static/images/sidebar/gamescom-2014/D3_GamesCom2014_Side-Banner_PL_299x208.png"); }
+.ru-ru #sidebar .banner-gamescom-2014 { background-image: url("http://us.battle.net/d3/static/images/sidebar/gamescom-2014/D3_GamesCom2014_Side-Banner_RU_299x208.png"); }

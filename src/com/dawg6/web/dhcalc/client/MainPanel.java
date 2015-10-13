@@ -1959,8 +1959,22 @@ public class MainPanel extends BasePanel {
 			return;
 		}
 
-		final String profile = battleTag.getText();
+		String profileS = battleTag.getText();
 
+		if (profileS.indexOf('#') >= 0) {
+			String[] split = profileS.split("#");
+			profileS = split[0];
+			tagNumber.setText(split[1]);
+			battleTag.setText(split[0]);
+		} else if (profileS.indexOf('-') >= 0) {
+			String[] split = profileS.split("-");
+			profileS = split[0];
+			tagNumber.setText(split[1]);
+			battleTag.setText(split[0]);
+		}
+		
+		final String profile = profileS;
+		
 		if (tagNumber.getValue() == null) {
 			ApplicationPanel.showErrorDialog("Enter Battle Tag Number");
 			return;
@@ -1988,34 +2002,7 @@ public class MainPanel extends BasePanel {
 						MainPanel.this.server = server;
 						MainPanel.this.tag = tag;
 
-						boolean first = true;
-						disableListeners = true;
-						situational.setDisableListeners(true);
-
-						for (Hero h : result.heroes) {
-
-							if (h.clazz
-									.equalsIgnoreCase(Const.CLASS_DEMONHUNTER)) {
-
-								if (first) {
-									heroList.clear();
-									first = false;
-								}
-
-								addHero(h);
-							}
-
-						}
-						if (first) {
-							heroList.clear();
-							heroList.addItem(
-									"No Demon Hunters found on profile", "");
-						}
-
-						heroList.setSelectedIndex(0);
-
-						situational.setDisableListeners(false);
-						disableListeners = false;
+						setHeroList(result.heroes);
 
 						saveForm();
 
@@ -2392,6 +2379,7 @@ public class MainPanel extends BasePanel {
 				new Field(this.realms, "Realm", ""),
 				new Field(this.battleTag, "BattleTag", "BnetName"),
 				new Field(this.tagNumber, "BattleTagNumber", "1234"),
+				new Field(this.heroList, "Heroes", ""),
 				new Field(this.timeLimit, "TimeLimit", "120"),
 				new Field(this.paragonPanel.getParagonIAS(), "ParagonIas", "0"),
 				new Field(this.paragonPanel.getParagonDexterity(),
@@ -3312,37 +3300,114 @@ public class MainPanel extends BasePanel {
 		super.saveForm();
 
 		super.saveField("passives",
-				super.getFieldValue(passives.getPassives(), null));
+				getFieldValue(passives.getPassives(), null));
 		super.saveField("gems",
 				super.getGemsFieldValue(gemPanel.getGems(), null));
 		super.saveField("equipment",
 				super.getSpecialItemsFieldValue(itemPanel.getItems(), itemPanel.getSetCounts(), null));
 		super.saveField("elemental.Damage",
-				super.getFieldValue(this.typeDamage.getValues(), null));
+				getFieldValue(this.typeDamage.getValues(), null));
 		super.saveField("skill.Damage",
-				super.getFieldValue(this.skillDamage.getValues(), null));
+				getFieldValue(this.skillDamage.getValues(), null));
 		super.saveField("skills",
-				super.getFieldValue(this.skills.getSkills(), null));
+				getFieldValue(this.skills.getSkills(), null));
 	}
 
 	@Override
 	protected void loadForm() {
 		super.loadForm();
 		
-		super.setFieldValue(skills, super.getFieldValue("skills", null));
-		super.setFieldValue(passives, super.getFieldValue("passives", null));
-		super.setFieldValue(gemPanel, super.getFieldValue("gems", null));
-		super.setFieldValue(itemPanel, super.getFieldValue("equipment", null));
+		this.realm = this.getSelectedRealm();
+		this.profile = this.battleTag.getValue();
+		
+		try {
+			this.tag = Integer.parseInt(this.tagNumber.getValue());
+		} catch (Exception e) {
+			this.tag = 1234;
+			this.tagNumber.setText("1234");
+		}
+		
+		super.setFieldValue(skills, getFieldValue("skills", null));
+		super.setFieldValue(passives, getFieldValue("passives", null));
+		super.setFieldValue(gemPanel, getFieldValue("gems", null));
+		super.setFieldValue(itemPanel, getFieldValue("equipment", null));
 		super.setFieldValue(typeDamage,
-				super.getFieldValue("elemental.Damage", null));
+				getFieldValue("elemental.Damage", null));
 		super.setFieldValue(skillDamage,
-				super.getFieldValue("skill.Damage", null));
+				getFieldValue("skill.Damage", null));
 
 		calculator.setDefaultSkill(skills.getSkills().keySet());
 
 		calculator.saveForm();
 		calculator.calculate();
 
+	}
+	
+	@Override
+	protected String getFieldValue(ListBox field, String defaultValue) {
+		
+		if (field == this.heroList) {
+			return getHeroList(defaultValue);
+		} else
+			return super.getFieldValue(field, defaultValue);
+	}
+
+	private String getHeroList(String defaultValue) {
+		
+		if ((this.career == null) || (this.career.heroes == null) || (this.career.heroes.length == 0))
+			return defaultValue;
+
+		return JsonUtil.toJSONObject(career.heroes).toString();
+	}
+
+	@Override
+	protected void setFieldValue(ListBox field, String value) {
+		if (field == this.heroList) {
+			setHeroList(value);
+		} else
+			super.setFieldValue(field, value);
+	}
+	
+	private void setHeroList(String value) {
+		Hero[] heroes = JsonUtil.parseHeroList(value);
+		
+		this.career = new CareerProfile();
+		this.career.heroes = heroes;
+		
+		if (heroes != null) {
+			setHeroList(heroes);
+		}
+	}
+
+	private void setHeroList(Hero[] heroes) {
+		boolean first = true;
+		disableListeners = true;
+		situational.setDisableListeners(true);
+
+		for (Hero h : heroes) {
+
+			if (h.clazz
+					.equalsIgnoreCase(Const.CLASS_DEMONHUNTER)) {
+
+				if (first) {
+					heroList.clear();
+					first = false;
+				}
+
+				addHero(h);
+			}
+
+		}
+		if (first) {
+			heroList.clear();
+			heroList.addItem(
+					"No Demon Hunters found on profile", "");
+		}
+
+		heroList.setSelectedIndex(0);
+
+		situational.setDisableListeners(false);
+		disableListeners = false;
 	}
 
 	@Override

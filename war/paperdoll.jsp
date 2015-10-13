@@ -179,7 +179,9 @@
 			if (p != null) {
 %>
 <td align="center">
-<a href="http://us.battle.net/d3/en/<%= p.tooltipParams %>?itemLevel=70">
+<a href="http://us.battle.net/d3/en/<%= p.tooltipParams %>?itemLevel=70"
+onClick="javascript:window.open('json?<%=JsonServlet.REALM%>=<%=realm.name()%>&<%=JsonServlet.ITEM%>=<%=URLEncoder.encode(p.tooltipParams, "UTF-8")%>','_blank'); return false;"
+>
 <img src="http://media.blizzard.com/d3/icons/items/large/<%= p.icon %>.png"></img></a>
 </td>
 <td></td>

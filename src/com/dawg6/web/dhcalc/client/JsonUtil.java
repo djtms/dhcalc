@@ -18,10 +18,12 @@
  *******************************************************************************/
 package com.dawg6.web.dhcalc.client;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.Vector;
 
 import com.dawg6.gwt.client.ApplicationPanel;
 import com.dawg6.web.dhcalc.shared.calculator.FormData;
@@ -32,9 +34,12 @@ import com.dawg6.web.dhcalc.shared.calculator.Slot;
 import com.dawg6.web.dhcalc.shared.calculator.Util;
 import com.dawg6.web.dhcalc.shared.calculator.Version;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.CareerProfile;
+import com.dawg6.web.dhcalc.shared.calculator.d3api.Hero;
 import com.dawg6.web.dhcalc.shared.calculator.d3api.HeroProfile;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONBoolean;
+import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
@@ -63,6 +68,55 @@ public class JsonUtil {
 		obj.put("career", JsonUtil.toJSONObject(data.career));
 
 		return obj;
+	}
+	
+	public static JSONArray toJSONObject(Hero[] heros) {
+
+		JSONArray obj = new JSONArray();
+
+		int i = 0;
+		
+		for (Hero h : heros) 
+			obj.set(i++, toJSONObject(h));
+		
+		return obj;
+		
+	}
+
+	public static JSONObject toJSONObject(Hero hero) {
+
+		JSONObject obj = new JSONObject();
+
+		obj.put("name", new JSONString(hero.name));
+		obj.put("id", new JSONNumber(hero.id));
+		obj.put("level", new JSONNumber(hero.level));
+		obj.put("paragonLevel", new JSONNumber(hero.paragonLevel));
+		obj.put("lastUpdated", new JSONNumber(hero.lastUpdated));
+		obj.put("hardcore", JSONBoolean.getInstance(hero.hardcore));
+		obj.put("seasonal", JSONBoolean.getInstance(hero.seasonal));
+		obj.put("dead", JSONBoolean.getInstance(hero.dead));
+		obj.put("clazz", new JSONString(hero.clazz));
+		
+		return obj;
+		
+	}
+	
+	public static Hero toHero(JSONObject obj) {
+
+		Hero hero = new Hero();
+		
+		hero.name = obj.get("name").isString().stringValue();
+		hero.id = (int) obj.get("id").isNumber().doubleValue();
+		hero.level = (int) obj.get("level").isNumber().doubleValue();
+		hero.paragonLevel = (int) obj.get("paragonLevel").isNumber().doubleValue();
+		hero.lastUpdated = (long)obj.get("lastUpdated").isNumber().doubleValue();
+		hero.hardcore = obj.get("hardcore").isBoolean().booleanValue();
+		hero.seasonal = obj.get("seasonal").isBoolean().booleanValue();
+		hero.dead = obj.get("dead").isBoolean().booleanValue();
+		hero.clazz = obj.get("clazz").isString().stringValue();
+
+		return hero;
+		
 	}
 	
 	public static FormData parseFormData(String text) {
@@ -346,6 +400,37 @@ public class JsonUtil {
 			Map<String, String> smap = JsonUtil.parseMap(v);
 
 			return Util.createSetCounts(smap);
+		}
+	}
+
+	public static Hero[] parseHeroList(String text) {
+		
+		if (text == null) {
+			return new Hero[0];
+		} else {
+		
+			JSONValue value = JSONParser.parseLenient(text);
+			JSONArray array = value.isArray();
+			
+			if (array == null)
+				return null;
+			
+			List<Hero> list = new Vector<Hero>(array.size());
+			
+			for (int i = 0; i < array.size(); i++) {
+				JSONValue e = array.get(i);
+				
+				if (e  != null) {
+					JSONObject obj = e.isObject();
+					
+					if (obj != null) {
+						Hero h = JsonUtil.toHero(obj);
+						list.add(h);
+					}
+				}
+			}
+			
+			return list.toArray(new Hero[0]);
 		}
 	}
 }
