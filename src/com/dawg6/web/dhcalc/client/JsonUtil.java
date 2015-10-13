@@ -409,28 +409,33 @@ public class JsonUtil {
 			return new Hero[0];
 		} else {
 		
-			JSONValue value = JSONParser.parseLenient(text);
-			JSONArray array = value.isArray();
-			
-			if (array == null)
-				return null;
-			
-			List<Hero> list = new Vector<Hero>(array.size());
-			
-			for (int i = 0; i < array.size(); i++) {
-				JSONValue e = array.get(i);
+			try {
+				JSONValue value = JSONParser.parseLenient(text);
+				JSONArray array = value.isArray();
 				
-				if (e  != null) {
-					JSONObject obj = e.isObject();
+				if (array == null)
+					return null;
+				
+				List<Hero> list = new Vector<Hero>(array.size());
+				
+				for (int i = 0; i < array.size(); i++) {
+					JSONValue e = array.get(i);
 					
-					if (obj != null) {
-						Hero h = JsonUtil.toHero(obj);
-						list.add(h);
+					if (e  != null) {
+						JSONObject obj = e.isObject();
+						
+						if (obj != null) {
+							Hero h = JsonUtil.toHero(obj);
+							list.add(h);
+						}
 					}
 				}
+				
+				return list.toArray(new Hero[0]);
 			}
-			
-			return list.toArray(new Hero[0]);
+			catch (Exception e) {
+				return new Hero[0];
+			}
 		}
 	}
 }
