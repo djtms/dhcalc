@@ -372,7 +372,7 @@ public enum DamageMultiplier {
 				public Double getValue(SimulationState state) {
 					return state.getData().getEsDamage();
 				}
-			}), BOLAS("BOLAS", DamageAccumulator.Additive,
+			}), BOLAS("Bolas", DamageAccumulator.Additive,
 			"Bolas Skill Damage Bonus", new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
@@ -385,7 +385,7 @@ public enum DamageMultiplier {
 				public Double getValue(SimulationState state) {
 					return state.getData().getEfDamage();
 				}
-			}), GRENADE("GRENADE", DamageAccumulator.Additive,
+			}), GRENADE("Grenade", DamageAccumulator.Additive,
 			"Grenade Skill Damage Bonus", new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {

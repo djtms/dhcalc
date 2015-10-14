@@ -497,7 +497,22 @@ This panel displays computed values for the current hero:
 <h2 id="legend">Legend</h2>
 <img src="images/help/legend.png"></img>
 <p/>
-This dialog displays descriptions for abbreviations used in the damage calculator, particularly those in the <a href="#log">Damage Log</a>.
+This dialog displays descriptions for abbreviations for Damage Modifiers used in the damage calculator, particularly those in the <a href="#log">Damage Log</a>.
+<p/>
+Each row in the Legend table is a Damage Modifier. For each Damage Modifier, three columns of data are provided:
+<ul>
+<li><b>Key</b>: The abbreviation used for the Damage Modifier in the <a href="#log">Damage Log</a> Notes and Calculations columns</li>
+<li><b>How Calculated</b>: How the damage is included in the calculations (see below)</li>
+<li><b>Description</b>: A short description of the damage modifier</li>
+</ul>
+<p/>
+Damage Modifiers are combined, depending on the value of the "How Calculated" column. The possible values are:
+<ul>
+<li><b>Multiplicative</b>: The Damage Modifier is independently multiplicative. The value of this modifiers is multiplied against all other modifiers. For example, if the Modifier's value is X%, then the damage is multiplied by (1 + X/100).</li> 
+<li><b>Additive</b>: The Damage Modifier is grouped with other Additive modifiers. The total value of all Additive modifiers is multiplied against all other modifiers. For example, if the three Additive Modifier's value are X%, Y% and Z%, then the damage is multiplied by (1 + X/100 + Y/100 + Z/100).</li> 
+<li><b>Elemental Additive</b>: The Damage Modifier is grouped with other Elemental Additive modifiers and Elemental Damage Bonus. The total value of all Additive modifiers is multiplied against all other modifiers. For example, if the Elemental Additive Modifier's value is X% and the Elemetal Damage Bonus is Y%, then the damage is multiplied by (1 + X/100 + Y/100).</li> 
+<li><b>Special</b>: This category is for Damage Modifiers that do not fit into one of the three categories above. For example, Crit Hit Chance and Crit Hit Damage.</li> 
+</ul>
 <hr/>
 <h2 id="bp">Break Points</h2>
 <img src="images/help/bp.png"></img>
