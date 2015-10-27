@@ -6,12 +6,16 @@
 <project basedir="." default="build" name="dhcalc-compile">
 	<property environment="env" />
 	<property name="dawg6-common.location" value="../dawg6-common" />
+	<property name="dawg6-d3api.location" value="../dawg6-d3api" />
 	<property name="dawg6-gwt-common.location" value="../dawg6-gwt-common" />
 	<property name="debuglevel" value="source,lines,vars" />
 	<property name="target" value="1.7" />
 	<property name="source" value="1.7" />
 	<path id="dawg6-common.classpath">
 		<pathelement location="${dawg6-common.location}/bin" />
+	</path>
+	<path id="dawg6-d3api.classpath">
+		<pathelement location="${dawg6-d3api.location}/bin" />
 	</path>
 	<path id="GWT SDK [gwt-2.7.0 - 2.7.0].libraryclasspath">
 		<pathelement location="../../gwt-2.7.0/gwt-user.jar" />
@@ -28,6 +32,7 @@
 			location="${dawg6-gwt-common.location}/lib/commons-logging-1.1.1.jar" />
 		<pathelement location="${dawg6-gwt-common.location}/lib/log4j-1.2.17.jar" />
 		<path refid="dawg6-common.classpath" />
+		<path refid="dawg6-d3api.classpath" />
 	</path>
 	<path id="dhcalc.classpath">
 		<pathelement location="war/WEB-INF/classes" />
@@ -40,6 +45,7 @@
 		<pathelement location="war/WEB-INF/lib/gson-2.1.jar" />
 		<pathelement location="war/WEB-INF/lib/lightcouch-0.1.6.jar" />
 		<path refid="dawg6-common.classpath" />
+		<path refid="dawg6-d3api.classpath" />
 		<path refid="dawg6-gwt-common.classpath" />
 		<path refid="GWT SDK [gwt-2.7.0 - 2.7.0].libraryclasspath" />
 	</path>
@@ -67,12 +73,16 @@
 	<target depends="clean" name="cleanall">
 		<ant antfile="build-ant.xml" dir="${dawg6-common.location}"
 			inheritAll="false" target="clean" />
+		<ant antfile="build-ant.xml" dir="${dawg6-d3api.location}"
+			inheritAll="false" target="clean" />
 		<ant antfile="build-ant.xml" dir="${dawg6-gwt-common.location}"
 			inheritAll="false" target="clean" />
 	</target>
 	<target depends="build-subprojects,build-project" name="build" />
 	<target name="build-subprojects">
 		<ant antfile="build-ant.xml" dir="${dawg6-common.location}"
+			inheritAll="false" target="build-project" />
+		<ant antfile="build-ant.xml" dir="${dawg6-d3api.location}"
 			inheritAll="false" target="build-project" />
 		<ant antfile="build-ant.xml" dir="${dawg6-gwt-common.location}"
 			inheritAll="false" target="build-project" />
@@ -108,6 +118,7 @@
 			<classpath>
 				<pathelement location="src" />
 				<pathelement location="../dawg6-common/src" />
+				<pathelement location="../dawg6-d3api/src" />
 				<pathelement location="../dawg6-gwt-common/src" />
 				<pathelement location="war/WEB-INF/classes" />
 				<path refid="dhcalc.classpath" />

@@ -18,8 +18,11 @@
  *******************************************************************************/
 package com.dawg6.web.dhcalc.shared.calculator;
 
+import com.dawg6.d3api.shared.ApiData;
 
-public class NewsItem extends JsonObject implements Comparable<NewsItem> {
+
+
+public class NewsItem extends ApiData implements Comparable<NewsItem> {
 
 	private static final long serialVersionUID = 4903862888670789419L;
 

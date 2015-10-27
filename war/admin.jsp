@@ -1,9 +1,10 @@
 <%@ page import="com.dawg6.web.dhcalc.server.ClientBuffer"%>
-<%@ page import="java.util.Map"%>
-<%@ page import="com.dawg6.web.dhcalc.shared.calculator.d3api.*"%>
 <%@ page import="com.dawg6.web.dhcalc.server.IO"%>
+<%@ page import="java.util.Map"%>
+<%@ page import="com.dawg6.d3api.server.*"%>
+<%@ page import="com.dawg6.d3api.shared.*"%>
 <%@ page import="com.dawg6.web.dhcalc.server.util.ServerUtils"%>
-<%@ page import="com.dawg6.web.dhcalc.server.Cache"%>
+<%@ page import="com.dawg6.d3api.server.Cache"%>
 <%@ page import="com.dawg6.web.dhcalc.server.db.couchdb.CouchDBDHCalcParameters"%>
 <%@ page import="com.dawg6.web.dhcalc.server.DHCalcServiceImpl"%>
 
@@ -114,7 +115,6 @@
 			long hits = IO.getInstance().getCacheHits();
 			long misses = IO.getInstance().getCacheMisses();
 			long requests = IO.getInstance().getNumRequests();
-			double wait = IO.getInstance().getAverageBlockTime();
 			long total = hits + misses;
 			double hitPercent = 0.0;
 			double missPercent = 0.0;
@@ -129,11 +129,11 @@
 		<col width="100px" />
 		<tr>
 			<td>Max Size:</td>
-			<td colspan="2"><%=IO.getInstance().itemCache.getMaxSize()%></td>
+			<td colspan="2"><%=IO.getInstance().getItemCache().getMaxSize()%></td>
 		</tr>
 		<tr>
 			<td>Current Size:</td>
-			<td colspan="2"><%=IO.getInstance().itemCache.size()%></td>
+			<td colspan="2"><%=IO.getInstance().getItemCache().size()%></td>
 		</tr>
 		<tr>
 			<td>Hits:</td>
@@ -150,10 +150,6 @@
 		<tr>
 			<td># Requests:</td>
 			<td colspan="2"><%=requests%></td>
-		</tr>
-		<tr>
-			<td>Avg Block Time:</td>
-			<td colspan="2"><%=(Math.round(wait * 1000.0) / 1000.0)%>ms</td>
 		</tr>
 	</table>
 	<br />

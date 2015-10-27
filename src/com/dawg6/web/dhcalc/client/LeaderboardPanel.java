@@ -21,17 +21,18 @@ package com.dawg6.web.dhcalc.client;
 import java.util.List;
 import java.util.Vector;
 
+import com.dawg6.d3api.shared.Account;
+import com.dawg6.d3api.shared.Leaderboard;
+import com.dawg6.d3api.shared.LeaderboardData;
+import com.dawg6.d3api.shared.LeaderboardRow;
+import com.dawg6.d3api.shared.Realm;
+import com.dawg6.d3api.shared.SeasonIndex;
 import com.dawg6.gwt.client.ApplicationPanel;
 import com.dawg6.gwt.common.util.DefaultCallback;
 import com.dawg6.web.dhcalc.shared.calculator.LeaderboardType;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.Leaderboard;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.Leaderboard.Data;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.Leaderboard.Player;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.Leaderboard.Row;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.Realm;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.SeasonIndex;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
@@ -147,12 +148,12 @@ public class LeaderboardPanel extends ApplicationPanel {
 	protected void populateLeaders(Leaderboard result) {
 		leaders = new ListBox();
 		
-		for (Row row : result.rows) {
+		for (LeaderboardRow row : result.rows) {
 			Long rift = null;
 			Long time = null;
 			Long rank = null;
 			
-			for (Data d : row.data) {
+			for (LeaderboardData d : row.data) {
 				if (d.id.equals("Rank")) {
 					rank = d.number;
 				} else if (d.id.equals("RiftLevel")) {
@@ -168,12 +169,12 @@ public class LeaderboardPanel extends ApplicationPanel {
 			
 			if ((rift != null) && (time != null) && (rank != null)) {
 			
-				for (Player pl : row.players) {
+				for (Account pl : row.players) {
 					String btag = null;
 					Long heroId = null;
 					boolean isDh = false;
 					
-					for (Data d : pl.data) {
+					for (LeaderboardData d : pl.data) {
 						if (d.id.equals("HeroClass")) {
 							if (d.string.equals("demon hunter")) {
 								isDh = true;
@@ -232,6 +233,24 @@ public class LeaderboardPanel extends ApplicationPanel {
 				showHero();
 			}});
 
+		hero.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				showHero();
+			}});
+
+		Anchor paperdoll = new Anchor("paperdoll");
+		paperdoll.setHref("javascript:void(0)");
+		row.add(paperdoll);
+		
+		paperdoll.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				showPaperdoll();
+			}});
+
 		Button button = new Button("Import Profile");
 		row.add(button);
 		
@@ -241,6 +260,17 @@ public class LeaderboardPanel extends ApplicationPanel {
 			public void onClick(ClickEvent event) {
 				getHeroList();
 			}});
+	}
+
+	protected void showPaperdoll() {
+		String btag = getSelectedAccount();
+		Realm realm = mainPanel.getSelectedRealm();
+
+		if ((realm != null) && (btag != null)) {
+			String[] split = btag.split("#");
+
+			MainPanel.openPaperdoll(realm.name(), URL.encodePathSegment(split[0]), Integer.valueOf(split[1]), Integer.valueOf(split[2]));
+		}
 	}
 
 	protected void showHero() {

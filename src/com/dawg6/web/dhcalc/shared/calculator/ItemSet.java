@@ -20,7 +20,7 @@ package com.dawg6.web.dhcalc.shared.calculator;
 
 import java.util.Comparator;
 
-import com.dawg6.web.dhcalc.shared.calculator.d3api.Const;
+import com.dawg6.d3api.shared.Const;
 
 public enum ItemSet {
 

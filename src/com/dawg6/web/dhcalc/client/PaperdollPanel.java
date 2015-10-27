@@ -18,7 +18,7 @@
  *******************************************************************************/
 package com.dawg6.web.dhcalc.client;
 
-import com.dawg6.web.dhcalc.shared.calculator.d3api.Realm;
+import com.dawg6.d3api.shared.Realm;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Frame;

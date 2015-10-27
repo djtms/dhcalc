@@ -23,8 +23,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation.D3Set;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.Realm;
+import com.dawg6.d3api.shared.ItemInformationSet;
+import com.dawg6.d3api.shared.Realm;
 
 public class CharacterData implements Serializable {
 
@@ -119,7 +119,7 @@ public class CharacterData implements Serializable {
 	private double offHand_weaponDamagePercent;
 	private double offHand_weaponIas;
 	private Map<String, Integer> setCounts;
-	private Map<String, D3Set> sets;
+	private Map<String, ItemInformationSet> sets;
 	private double equipIas;
 	private int paragon;
 	private String heroName;
@@ -1276,11 +1276,11 @@ public class CharacterData implements Serializable {
 		this.setCounts = setCounts;
 	}
 
-	public Map<String, D3Set> getSets() {
+	public Map<String, ItemInformationSet> getSets() {
 		return sets;
 	}
 
-	public void setSets(Map<String, D3Set> sets) {
+	public void setSets(Map<String, ItemInformationSet> sets) {
 		this.sets = sets;
 	}
 

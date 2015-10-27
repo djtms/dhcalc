@@ -18,6 +18,7 @@
 	<!-- Other module inherits -->
 	<inherits name='com.dawg6.gwt.client' />
 	<inherits name='com.dawg6.gwt.common' />
+	<inherits name='com.dawg6.d3api.shared' />
 	<inherits name='com.dawg6.common' />
 	<inherits name="com.google.gwt.json.JSON" />
 	

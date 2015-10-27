@@ -32,6 +32,7 @@
 	<target name="external-jar" depends="build-subprojects">
 		<jar destfile="${external-jar}">
 			<fileset dir="../dawg6-common/bin" />
+			<fileset dir="../dawg6-d3api/bin" />
 			<fileset dir="../dawg6-gwt-common/bin" />
 		</jar>
 	</target>

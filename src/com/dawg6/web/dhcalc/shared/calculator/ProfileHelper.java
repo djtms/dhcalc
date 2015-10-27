@@ -25,12 +25,16 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.Vector;
 
-import com.dawg6.web.dhcalc.shared.calculator.d3api.Const;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.HeroProfile;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation.Attributes.Attribute;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation.D3Set;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.Value;
+import com.dawg6.d3api.shared.ActiveSkillData;
+import com.dawg6.d3api.shared.Const;
+import com.dawg6.d3api.shared.HeroProfile;
+import com.dawg6.d3api.shared.ItemInformation;
+import com.dawg6.d3api.shared.ItemInformationAttribute;
+import com.dawg6.d3api.shared.ItemInformationGem;
+import com.dawg6.d3api.shared.ItemInformationSet;
+import com.dawg6.d3api.shared.LegendaryPowers;
+import com.dawg6.d3api.shared.PassiveSkill;
+import com.dawg6.d3api.shared.Value;
 
 public class ProfileHelper {
 
@@ -243,7 +247,7 @@ public class ProfileHelper {
 		Map<ActiveSkill, Rune> skills = new TreeMap<ActiveSkill, Rune>();
 
 		if ((hero.skills != null) && (hero.skills.active != null)) {
-			for (HeroProfile.Skills.Active s : hero.skills.active) {
+			for (ActiveSkillData s : hero.skills.active) {
 				if ((s != null) && (s.skill != null) && (s.skill.slug != null)) {
 
 					for (ActiveSkill sk : ActiveSkill.values()) {
@@ -273,7 +277,7 @@ public class ProfileHelper {
 
 		Set<Passive> passives = new TreeSet<Passive>();
 
-		for (HeroProfile.Skills.Passive p : hero.skills.passive) {
+		for (PassiveSkill p : hero.skills.passive) {
 
 			if ((p != null) && (p.skill != null) && (p.skill.slug != null)) {
 				Passive passive = Passive.fromSlug(p.skill.slug);
@@ -288,7 +292,7 @@ public class ProfileHelper {
 			if ((item != null) && (item.attributes != null)
 					&& (item.attributes.passive != null)) {
 
-				for (Attribute a : item.attributes.passive) {
+				for (ItemInformationAttribute a : item.attributes.passive) {
 
 					if ((a != null) && (a.text != null)
 							&& (a.text.length() > 0)) {
@@ -362,7 +366,7 @@ public class ProfileHelper {
 		for (ItemInformation i : hero.items.values()) {
 
 			if ((i != null) && (i.gems != null)) {
-				for (ItemInformation.Gem g : i.gems) {
+				for (ItemInformationGem g : i.gems) {
 
 					if (g.item.name != null) {
 						GemSkill gem = GemSkill.getGemByName(g.item.name);
@@ -560,7 +564,7 @@ public class ProfileHelper {
 				}
 
 				if (i.gems != null) {
-					for (ItemInformation.Gem g : i.gems) {
+					for (ItemInformationGem g : i.gems) {
 						v = g.attributesRaw.get(Const.CRIT_DAMAGE_RAW);
 
 						if (v != null) {
@@ -611,9 +615,9 @@ public class ProfileHelper {
 			if ((count > 1) && data.isRoyalRing())
 				count++;
 
-			ItemInformation.D3Set set = data.getSets().get(e.getKey());
+			ItemInformationSet set = data.getSets().get(e.getKey());
 
-			for (ItemInformation.D3Set.Rank r : set.ranks) {
+			for (ItemInformationSet.Rank r : set.ranks) {
 				if (r.required <= count) {
 					if (r.attributesRaw != null) {
 						Value<Float> v = r.attributesRaw
@@ -678,7 +682,7 @@ public class ProfileHelper {
 		Map<Slot, ItemHolder> items = new TreeMap<Slot, ItemHolder>();
 		double elite = 0;
 		Map<String, Integer> setCounts = new TreeMap<String, Integer>();
-		Map<String, D3Set> sets = new TreeMap<String, D3Set>();
+		Map<String, ItemInformationSet> sets = new TreeMap<String, ItemInformationSet>();
 		data.setSets(sets);
 		double hatredPerSecond = 0.0;
 		int discipline = 0;
@@ -753,7 +757,7 @@ public class ProfileHelper {
 		}
 
 		if (hero.legendaryPowers != null) {
-			for (HeroProfile.LegendaryPowers lp : hero.legendaryPowers) {
+			for (LegendaryPowers lp : hero.legendaryPowers) {
 
 				for (SpecialItemType type : SpecialItemType.values()) {
 					if (lp.name.equals(type.getName())) {
@@ -787,11 +791,11 @@ public class ProfileHelper {
 			if ((count > 1) && data.isRoyalRing())
 				count++;
 
-			D3Set set = sets.get(e.getKey());
+			ItemInformationSet set = sets.get(e.getKey());
 
 			// GWT.log("set " + e.getKey() + " count " + count);
 
-			for (D3Set.Rank r : set.ranks) {
+			for (ItemInformationSet.Rank r : set.ranks) {
 				if (r.required <= count) {
 					if (r.attributesRaw != null) {
 						Value<Float> v = r.attributesRaw
@@ -860,7 +864,7 @@ public class ProfileHelper {
 
 		if (helm != null) {
 			if (helm.gems != null) {
-				for (ItemInformation.Gem gem : helm.gems) {
+				for (ItemInformationGem gem : helm.gems) {
 					Value<Float> value = gem.attributesRaw.get(Const.CDR);
 
 					if (value != null) {

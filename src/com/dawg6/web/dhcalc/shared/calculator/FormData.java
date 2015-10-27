@@ -22,10 +22,11 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.dawg6.web.dhcalc.shared.calculator.d3api.CareerProfile;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.HeroProfile;
+import com.dawg6.d3api.shared.CareerProfile;
+import com.dawg6.d3api.shared.HeroProfile;
+import com.dawg6.d3api.shared.ApiData;
 
-public class FormData extends JsonObject implements Serializable {
+public class FormData extends ApiData implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	

@@ -38,6 +38,12 @@ import org.lightcouch.NoDocumentException;
 import org.lightcouch.Response;
 import org.lightcouch.View;
 
+import com.dawg6.d3api.shared.CareerProfile;
+import com.dawg6.d3api.shared.Hero;
+import com.dawg6.d3api.shared.HeroProfile;
+import com.dawg6.d3api.shared.ItemInformation;
+import com.dawg6.d3api.shared.ItemInformationGem;
+import com.dawg6.d3api.shared.Realm;
 import com.dawg6.web.dhcalc.server.DHCalcServiceImpl;
 import com.dawg6.web.dhcalc.server.util.DHCalcProperties;
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
@@ -45,12 +51,6 @@ import com.dawg6.web.dhcalc.shared.calculator.Build;
 import com.dawg6.web.dhcalc.shared.calculator.CharacterData;
 import com.dawg6.web.dhcalc.shared.calculator.ProfileHelper;
 import com.dawg6.web.dhcalc.shared.calculator.Rune;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.CareerProfile;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.Hero;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.HeroProfile;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation.Gem;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.Realm;
 import com.dawg6.web.dhcalc.shared.calculator.stats.DBStatistics;
 import com.dawg6.web.dhcalc.shared.calculator.stats.DocumentBase;
 import com.dawg6.web.dhcalc.shared.calculator.stats.DpsTableEntry;
@@ -475,19 +475,19 @@ public class CouchDBDHCalcDatabase {
 
 				Build build = e.getBuild();
 
-//				if ((sentryRune == Rune.All_Runes)
+//				if ((sentryRune == RuneData.All_Runes)
 //						|| (sentryRune == build.getSentryRune())) {
 //
 //					int match = 0;
 //
 //					for (int i = 0; i < skills.length; i++) {
 //						ActiveSkill s1 = skills[i];
-//						Rune r2 = build.getRune(s1);
+//						RuneData r2 = build.getRune(s1);
 //
 //						if ((s1 == ActiveSkill.Any) || (r2 != null)) {
-//							Rune r1 = runes[i];
+//							RuneData r1 = runes[i];
 //
-//							if ((r1 == Rune.All_Runes) || (r1 == r2)) {
+//							if ((r1 == RuneData.All_Runes) || (r1 == r2)) {
 //								match++;
 //							}
 //						}
@@ -548,10 +548,10 @@ public class CouchDBDHCalcDatabase {
 //			
 //			Build build = new Build();
 //			build.setSentry(true);
-//			build.setSentryRune(Rune.Polar_Station);
+//			build.setSentryRune(RuneData.Polar_Station);
 //			Set<SkillAndRune> skills = new TreeSet<SkillAndRune>();
-//			skills.add(new SkillAndRune(ActiveSkill.CA, Rune.Maelstrom));
-//			skills.add(new SkillAndRune(ActiveSkill.EF, Rune.Focus));
+//			skills.add(new SkillAndRune(ActiveSkill.CA, RuneData.Maelstrom));
+//			skills.add(new SkillAndRune(ActiveSkill.EF, RuneData.Focus));
 //			build.setSkills(skills);
 //			
 //			DBStats stats = db.getStatistics(build);
@@ -651,7 +651,7 @@ public class CouchDBDHCalcDatabase {
 									attributes.addAll(i.attributesRaw.keySet());
 									
 									if (i.gems != null) {
-										for (Gem g : i.gems) {
+										for (ItemInformationGem g : i.gems) {
 											attributes.addAll(g.attributesRaw.keySet());
 										}
 									}

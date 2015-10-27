@@ -511,7 +511,7 @@ th { text-align: left; }
 .page-body { margin: 30px 0; padding: 0 30px; }
 
 /* sections */
-.page-section { margin-bottom: 25px; background: url("http://us.battle.net/d3/static/images/layout/section-bg.jpg") 0 37px repeat-x; }
+.page-section { margin-bottom: 25px; background: }
 .page-section .section-body { padding: 20px 0 20px 0; }
 .page-section .section-header { height: 30px; padding: 6px; position: relative; }
 .page-section .section-header.has-icon { background: url("http://us.battle.net/d3/static/images/layout/section-icon.png") 0 0 no-repeat; padding-left: 55px; }

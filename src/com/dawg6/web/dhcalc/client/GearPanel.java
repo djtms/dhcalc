@@ -21,13 +21,13 @@ package com.dawg6.web.dhcalc.client;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.dawg6.d3api.shared.HeroProfile;
+import com.dawg6.d3api.shared.ItemInformation;
+import com.dawg6.d3api.shared.Realm;
 import com.dawg6.gwt.client.ApplicationPanel;
 import com.dawg6.gwt.client.ApplicationPanel.DialogBoxResultHandler;
 import com.dawg6.gwt.common.util.DefaultCallback;
 import com.dawg6.web.dhcalc.shared.calculator.Slot;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.HeroProfile;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.Realm;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsonUtils;
 import com.google.gwt.event.dom.client.ClickEvent;

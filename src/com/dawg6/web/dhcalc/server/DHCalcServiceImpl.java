@@ -28,6 +28,13 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.dawg6.d3api.shared.CareerProfile;
+import com.dawg6.d3api.shared.HeroProfile;
+import com.dawg6.d3api.shared.ItemInformation;
+import com.dawg6.d3api.shared.ApiData;
+import com.dawg6.d3api.shared.Leaderboard;
+import com.dawg6.d3api.shared.Realm;
+import com.dawg6.d3api.shared.SeasonIndex;
 import com.dawg6.web.dhcalc.client.DHCalcService;
 import com.dawg6.web.dhcalc.server.db.couchdb.CouchDBDHCalcDatabase;
 import com.dawg6.web.dhcalc.server.db.couchdb.NewsDocument;
@@ -39,18 +46,11 @@ import com.dawg6.web.dhcalc.shared.calculator.DamageResult;
 import com.dawg6.web.dhcalc.shared.calculator.ExportData;
 import com.dawg6.web.dhcalc.shared.calculator.FiringData;
 import com.dawg6.web.dhcalc.shared.calculator.FormData;
-import com.dawg6.web.dhcalc.shared.calculator.JsonObject;
 import com.dawg6.web.dhcalc.shared.calculator.NewsItem;
 import com.dawg6.web.dhcalc.shared.calculator.ProfileHelper;
 import com.dawg6.web.dhcalc.shared.calculator.Rune;
 import com.dawg6.web.dhcalc.shared.calculator.Util;
 import com.dawg6.web.dhcalc.shared.calculator.Version;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.CareerProfile;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.HeroProfile;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.ItemInformation;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.Leaderboard;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.Realm;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.SeasonIndex;
 import com.dawg6.web.dhcalc.shared.calculator.stats.DBStatistics;
 import com.dawg6.web.dhcalc.shared.calculator.stats.DpsTableEntry;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -270,7 +270,7 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 		return Version.getVersion();
 	}
 
-	public String toJson(JsonObject object) {
+	public String toJson(ApiData object) {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
@@ -285,10 +285,10 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 		}
 	}
 
-	public JsonObject fromJson(String json, String type) {
+	public ApiData fromJson(String json, String type) {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-			return (JsonObject) mapper.readValue(json, Class.forName(type));
+			return (ApiData) mapper.readValue(json, Class.forName(type));
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "Exception Deserializing JSON", e);
 			return null;

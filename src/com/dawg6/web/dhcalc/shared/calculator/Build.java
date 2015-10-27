@@ -20,7 +20,9 @@ package com.dawg6.web.dhcalc.shared.calculator;
 
 import java.util.Map;
 
-public class Build extends JsonObject  implements Comparable<Build> {
+import com.dawg6.d3api.shared.ApiData;
+
+public class Build extends ApiData  implements Comparable<Build> {
 
 	private static final long serialVersionUID = 4903862888670789419L;
 

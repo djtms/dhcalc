@@ -1,7 +1,7 @@
-<%@ page import="com.dawg6.web.dhcalc.shared.calculator.d3api.*"%>
+<%@ page import="com.dawg6.d3api.shared.*"%>
+<%@ page import="com.dawg6.d3api.server.*"%>
 <%@ page import="com.dawg6.web.dhcalc.server.DHCalcServiceImpl"%>
 <%@ page import="com.dawg6.web.dhcalc.server.JsonServlet"%>
-<%@ page import="com.dawg6.web.dhcalc.server.IO"%>
 <%@ page import="java.util.Map"%>
 <%@ page import="java.net.URLDecoder"%>
 <%@ page import="java.net.URLEncoder"%>
@@ -18,7 +18,7 @@
 <link rel="stylesheet" type="text/css" media="all"
 	href="http://us.battle.net/d3/static/local-common/css/common-game-site.min.css?v=58-85" />
 <link rel="stylesheet" type="text/css" media="all"
-	href="paperdoll.css?v=3" />
+	href="paperdoll.css?v=4" />
 <link rel="stylesheet" type="text/css" media="all"
 	href="http://us.battle.net/d3/static/css/tooltips.css?v=85" />
 <link rel="stylesheet" type="text/css" media="all"
@@ -133,8 +133,8 @@
 %>
 
  <span class="sockets-wrapper"> <span class="sockets-align">
- <% 		
- 					for (ItemInformation.Gem g : i.gems) {
+ <%
+ 	for (ItemInformationGem g : i.gems) {
  %>
 						<span class="socket"> <img class="gem"
 							src="http://media.blizzard.com/d3/icons/items/small/<%=g.item.icon%>.png" />
@@ -174,7 +174,7 @@
 <tr>
 <%
 	if (hero.legendaryPowers != null) {
-		for (HeroProfile.LegendaryPowers p : hero.legendaryPowers) {
+		for (LegendaryPowers p : hero.legendaryPowers) {
 			
 			if (p != null) {
 %>

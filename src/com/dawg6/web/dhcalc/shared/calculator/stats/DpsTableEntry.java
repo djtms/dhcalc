@@ -20,8 +20,8 @@ package com.dawg6.web.dhcalc.shared.calculator.stats;
 
 import java.io.Serializable;
 
+import com.dawg6.d3api.shared.Realm;
 import com.dawg6.web.dhcalc.shared.calculator.Build;
-import com.dawg6.web.dhcalc.shared.calculator.d3api.Realm;
 
 public class DpsTableEntry extends DocumentBase implements Serializable {
 
