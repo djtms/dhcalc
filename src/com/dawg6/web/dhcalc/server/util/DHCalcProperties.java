@@ -30,12 +30,13 @@ public class DHCalcProperties {
 
 	private static final Logger log = Logger.getLogger(DHCalcProperties.class.getName());
 	
-	private static final String FILE_NAME = "dawg6/dhcalc.properties";
-	private static final String DEVMODE = "com.dawg6.dhcalc.devmode";
-	private static final String API_KEY = "com.dawg6.dhcalc.api_key";
-	private static final String API_SECRET = "com.dawg6.dhcalc.api_secret";
-	private static final String ACCESS_TOKEN = "com.dawg6.dhcalc.access_token";
-	private static final String DB = "com.dawg6.dhcalc.db";
+	private static final String APP_NAME = "dhcalc";
+	private static final String FILE_NAME = "dawg6/" + APP_NAME + ".properties";
+	private static final String DEVMODE = "com.dawg6." + APP_NAME + ".devmode";
+	private static final String API_KEY = "com.dawg6." + APP_NAME + ".api_key";
+	private static final String API_SECRET = "com.dawg6." + APP_NAME + ".api_secret";
+	private static final String ACCESS_TOKEN = "com.dawg6." + APP_NAME + ".access_token";
+	private static final String DB = "com.dawg6." + APP_NAME + ".db";
 	
 	private static final DHCalcProperties instance = new DHCalcProperties();
 
