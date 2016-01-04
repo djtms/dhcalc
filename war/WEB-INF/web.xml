@@ -34,6 +34,14 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	<servlet>
+		<servlet-name>InitServlet</servlet-name>
+		<servlet-class>com.dawg6.web.dhcalc.server.InitServlet</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<listener>
+		<listener-class>com.dawg6.web.dhcalc.server.ServletListener</listener-class>
+	</listener>
 	<servlet-mapping>
 		<servlet-name>dhcalcServlet</servlet-name>
 		<url-pattern>/dhcalc/dhcalc</url-pattern>

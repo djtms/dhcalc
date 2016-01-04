@@ -6,6 +6,10 @@
 <%@ page import="com.dawg6.web.dhcalc.server.util.ServerUtils"%>
 <%@ page import="com.dawg6.d3api.server.Cache"%>
 <%@ page import="com.dawg6.web.dhcalc.server.db.couchdb.CouchDBDHCalcParameters"%>
+<%@ page import="com.dawg6.web.dhcalc.server.db.couchdb.CouchDBDHCalcDatabase"%>
+<%@ page import="com.dawg6.web.dhcalc.server.db.couchdb.ItemDocument"%>
+<%@ page import="com.dawg6.web.dhcalc.server.db.couchdb.SetDocument"%>
+<%@ page import="com.dawg6.web.dhcalc.server.db.couchdb.AccountDocument"%>
 <%@ page import="com.dawg6.web.dhcalc.server.DHCalcServiceImpl"%>
 
 <%
@@ -115,7 +119,12 @@
 			long hits = IO.getInstance().getCacheHits();
 			long misses = IO.getInstance().getCacheMisses();
 			long requests = IO.getInstance().getNumRequests();
+			int accounts = CouchDBDHCalcDatabase.getInstance().findAll(AccountDocument.class).size(); 
+			int items = CouchDBDHCalcDatabase.getInstance().findAll(ItemDocument.class).size(); 
+			int setItems = CouchDBDHCalcDatabase.getInstance().findAll(SetDocument.class).size(); 
 			long total = hits + misses;
+			long errors = IO.getInstance().getErrors();
+			long retryAttempts = IO.getInstance().getRetryAttempts();
 			double hitPercent = 0.0;
 			double missPercent = 0.0;
 
@@ -154,11 +163,40 @@
 	</table>
 	<br />
 	<br />
+	Statistical Data
+	<table border="1">
+		<col width="200px" />
+		<col width="100px" />
+		<tr>
+			<td># Errors:</td>
+			<td><%=errors%></td>
+		</tr>
+		<tr>
+			<td># Retry Attempts:</td>
+			<td><%=retryAttempts%></td>
+		</tr>
+		<tr>
+			<td># Accounts:</td>
+			<td><%=accounts%></td>
+		</tr>
+		<tr>
+			<td># Item Types:</td>
+			<td><%=items%></td>
+		</tr>
+		<tr>
+			<td># Set Types:</td>
+			<td><%=setItems%></td>
+		</tr>
+	</table>
+	<br />
+	<br />
 	<form action="admin.jsp" method="post">
 		<input type="hidden" name="clear" value="parameterCache" />
 		Parametric Data <input type="submit" name="submit" value="Reload" />
 	</form>
 	<table border="1">
+		<col width="150px" />
+		<col width="150px" />
 		<tr>
 			<th>Key</th>
 			<th>Value</th>

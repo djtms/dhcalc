@@ -21,22 +21,30 @@ package com.dawg6.web.dhcalc.server;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.dawg6.d3api.shared.ApiData;
 import com.dawg6.d3api.shared.CareerProfile;
+import com.dawg6.d3api.shared.Const;
+import com.dawg6.d3api.shared.Hero;
 import com.dawg6.d3api.shared.HeroProfile;
 import com.dawg6.d3api.shared.ItemInformation;
-import com.dawg6.d3api.shared.ApiData;
 import com.dawg6.d3api.shared.Leaderboard;
 import com.dawg6.d3api.shared.Realm;
 import com.dawg6.d3api.shared.SeasonIndex;
+import com.dawg6.gwt.server.util.ThreadPool;
 import com.dawg6.web.dhcalc.client.DHCalcService;
+import com.dawg6.web.dhcalc.server.db.couchdb.AccountDocument;
 import com.dawg6.web.dhcalc.server.db.couchdb.CouchDBDHCalcDatabase;
+import com.dawg6.web.dhcalc.server.db.couchdb.CouchDBDHCalcParameters;
 import com.dawg6.web.dhcalc.server.db.couchdb.NewsDocument;
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.Build;
@@ -66,6 +74,9 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class DHCalcServiceImpl extends RemoteServiceServlet implements
 		DHCalcService {
 
+	private final static Object lock = new Object();
+	private final static ThreadPool pool = new ThreadPool(20);
+	
 	private static final Logger log = Logger.getLogger(DHCalcServiceImpl.class
 			.getName());
 
@@ -85,7 +96,7 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 	private final Gson gson = new Gson();
 	
 	@Override
-	public CareerProfile getProfile(Realm realm, String profile, int tag) {
+	public CareerProfile getProfile(final Realm realm, String profile, final int tag) {
 
 		try {
 			String server = realm.getApiHost();
@@ -108,12 +119,103 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 				log.info(realm.getDisplayName() + "/" + profile + "-" + tag
 						+ " Code: " + career.code + ", Reason: "
 						+ career.reason);
+			else {
+				
+				final CareerProfile c2 = career;
+				final String p2 = profile;
+				
+				pool.add(new Runnable(){
 
+					@Override
+					public void run() {
+						scanHeroes(realm, p2, tag, c2);
+					}});
+				
+			}
+			
 			return career;
 
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "Exception Getting Profile", e);
 			return null;
+		}
+	}
+
+	private static Set<AccountDocument> accountLock = new HashSet<AccountDocument>();
+	
+	private void scanHeroes(Realm realm, String profile, int tag, CareerProfile career) {
+		
+		AccountDocument a = new AccountDocument();
+		a.setRealm(realm);
+		a.setProfile(profile.toLowerCase());
+		a.setTag(tag);
+
+		try {
+			synchronized (accountLock) {
+				if (accountLock.contains(a)) {
+					return;
+				} else {
+					accountLock.add(a);
+				}
+			}
+			
+			List<AccountDocument> accounts = CouchDBDHCalcDatabase.getInstance().findAll(AccountDocument.class);
+			
+			boolean changed = false;
+			boolean found = false;
+			
+			for (AccountDocument ad : accounts) {
+				if (ad.equals(a)) {
+					a = ad;
+					found = true;
+					break;
+				}
+			}
+			
+			if (!found) {
+				changed = true;
+			}
+	
+			if (a.getHeroes() == null)
+				a.setHeroes(new TreeSet<Integer>());
+	
+			if ((career.heroes != null) && (career.heroes.length > 0)) {
+				Set<Integer> set = a.getHeroes();
+				
+				for (Hero h : career.heroes) {
+					
+					if ((h != null)  && (h.clazz != null) && (h.clazz.equals(Const.CLASS_DEMONHUNTER))) {
+						if (!set.contains(h.id)) {
+							set.add(h.id);
+							changed = true;
+						}
+						
+						HeroProfile hero = getHero(realm, profile, tag, h.id);
+						
+						if ((hero.code != null) && (hero.code.equals(Const.NOT_FOUND))) {
+							set.remove(h.id);
+							changed = true;
+						}
+					}
+				}
+			} else if (!a.getHeroes().isEmpty()) {
+				a.setHeroes(new TreeSet<Integer>());
+				changed = true;
+			}
+			
+			if (changed) {
+				if (a.getRevision() == null)
+					log.info("Creating account " + a);
+				else
+					log.info("Updating account " + a);
+				
+				CouchDBDHCalcDatabase.getInstance().persist(a);
+			}
+		}
+		finally {
+			synchronized (accountLock) {
+				accountLock.remove(a);
+			}
 		}
 	}
 
@@ -451,5 +553,16 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 			log.log(Level.SEVERE, "Exception", e2);
 			throw new RuntimeException(e2);
 		}
+	}
+
+	public static void terminate() {
+		log.info("terminate");
+
+	}
+
+	public static void initialize() {
+		log.info("initialize()");
+		CouchDBDHCalcDatabase.getInstance();
+		CouchDBDHCalcParameters.getInstance();
 	}
 }

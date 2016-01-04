@@ -18,12 +18,22 @@
  *******************************************************************************/
 package com.dawg6.web.dhcalc.server;
 
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
 import com.dawg6.d3api.server.Cache;
 import com.dawg6.d3api.server.D3IO;
 import com.dawg6.d3api.server.oauth.Token;
+import com.dawg6.d3api.shared.Const;
 import com.dawg6.d3api.shared.ItemInformation;
+import com.dawg6.d3api.shared.ItemInformationSet.Rank;
 import com.dawg6.d3api.shared.Realm;
+import com.dawg6.web.dhcalc.server.db.couchdb.CouchDBDHCalcDatabase;
 import com.dawg6.web.dhcalc.server.db.couchdb.CouchDBDHCalcParameters;
+import com.dawg6.web.dhcalc.server.db.couchdb.ItemDocument;
+import com.dawg6.web.dhcalc.server.db.couchdb.SetDocument;
 import com.dawg6.web.dhcalc.server.util.DHCalcProperties;
 
 public class IO extends D3IO {
@@ -164,5 +174,116 @@ public class IO extends D3IO {
 
 	public Cache<String, ItemInformation> getItemCache() {
 		return this.itemCache;
+	}
+	
+	@Override
+	protected void newItem(ItemInformation item) {
+//		log.info("Potential new Item " + item.name);
+
+		String name = item.name;
+		
+		if (name.equals(Const.HELLFIRE_AMULET)) {
+			if ((item.attributes != null) && (item.attributes.passive != null) && (item.attributes.passive.length == 1)) {
+				int i = item.attributes.passive[0].text.indexOf(Const.PASSIVE);
+				String sub = item.attributes.passive[0].text.substring(Const.HELLFIRE_PASSIVE.length(), i).replaceAll(" ", "_");
+				name = name + "." + sub;
+			}
+		}
+		
+		ItemDocument doc = CouchDBDHCalcDatabase.getInstance().get(ItemDocument.class, name);
+		boolean changed = false;
+		
+		if (doc == null) {
+//			log.info("New Item " + item.name);
+			
+			doc = new ItemDocument();
+			doc.setId(name);
+			
+			doc.setIcon(item.icon);
+			doc.setItemId(item.id);
+			doc.setTooltipParams(item.tooltipParams);
+			changed = true;
+		}
+
+		if (doc.getRawAttributes() == null)
+			doc.setRawAttributes(new TreeSet<String>());
+		
+		if ((doc.getTooltipParams() == null) && (item.tooltipParams != null)) {
+			doc.setTooltipParams(item.tooltipParams);
+			changed = true;
+		}
+		
+		if (item.attributesRaw != null) {
+			Set<String> set = doc.getRawAttributes();
+			
+			for (String a : item.attributesRaw.keySet()) {
+				if (!set.contains(a)) {
+					set.add(a);
+					changed = true;
+				}
+			}
+		}
+		
+		if (changed) {
+			if (doc.getRevision() == null)
+				log.info("Creating Item " + doc.getId());
+			else
+				log.info("Updating Item " + doc.getId());
+			
+			CouchDBDHCalcDatabase.getInstance().persist(doc);
+		}
+		
+		if (item.set != null) {
+			newSetItem(item);
+		}
+
+	}
+
+	private void newSetItem(ItemInformation item) {
+		SetDocument doc = CouchDBDHCalcDatabase.getInstance().get(SetDocument.class, item.set.name);
+		boolean changed = false;
+		
+		if (doc == null) {
+			doc = new SetDocument();
+			doc.setId(item.set.name);
+			doc.setSlug(item.set.slug);
+			changed = true;
+		}
+		
+		if (doc.getRawAttributes() == null)
+			doc.setRawAttributes(new TreeMap<String, Integer>());
+		
+		if (doc.getTooltipParams() == null) {
+			doc.setTooltipParams(item.tooltipParams);
+			changed = true;
+		}
+		
+		if (item.set.ranks != null) {
+			Map<String, Integer> map = doc.getRawAttributes();
+			
+			for (Rank r : item.set.ranks) {
+				Integer n = r.required;
+				
+				for (String a : r.attributesRaw.keySet()) {
+					
+					Integer o = map.get(a);
+					
+					if ((o == null) || (o != n)) {
+						map.put(a, n);
+						changed = true;
+					}
+				}
+			}
+		}
+		
+		
+		if (changed) {
+			if (doc.getRevision() == null)
+				log.info("Creating Set Type " + doc.getId());
+			else
+				log.info("Updating Set Type " + doc.getId());
+			
+			CouchDBDHCalcDatabase.getInstance().persist(doc);
+		}
 	}
 }
