@@ -27,30 +27,30 @@ import java.util.Vector;
 public class DamageFunction {
 
 	public static final DamageRow[] ALL = {
-			new DamageRow(ActiveSkill.CA, Rune.None, 5.5, true,
+			new DamageRow(ActiveSkill.CA, Rune.None, 6.5, true,
 					Integer.MAX_VALUE, 1, 8, "AoE", DamageType.Fire),
 			new DamageRow(ActiveSkill.CA, Rune.None, 2.2, true,
 					Integer.MAX_VALUE, 4, 4, "AoE Grenades", DamageType.Fire,
 					DamageMultiplier.Grenades),
-			new DamageRow(ActiveSkill.CA, Rune.Dazzling_Arrow, 5.5, true,
+			new DamageRow(ActiveSkill.CA, Rune.Dazzling_Arrow, 6.5, true,
 					Integer.MAX_VALUE, 1, 8, "AoE", DamageType.Lightning),
-			new DamageRow(ActiveSkill.CA, Rune.Dazzling_Arrow, 2.2, true,
+			new DamageRow(ActiveSkill.CA, Rune.Dazzling_Arrow, 2.5, true,
 					Integer.MAX_VALUE, 4, 4, "AoE Grenades",
 					DamageType.Lightning, DamageMultiplier.Grenades),
-			new DamageRow(ActiveSkill.CA, Rune.Shooting_Stars, 5.5, true,
+			new DamageRow(ActiveSkill.CA, Rune.Shooting_Stars, 6.5, true,
 					Integer.MAX_VALUE, 1, 8, "AoE", DamageType.Physical),
-			new DamageRow(ActiveSkill.CA, Rune.Shooting_Stars, 6.0, true, 2, 3,
+			new DamageRow(ActiveSkill.CA, Rune.Shooting_Stars, 6.0, true, 1, 2,
 					"Rockets", DamageType.Physical, DamageMultiplier.Rockets),
-			new DamageRow(ActiveSkill.CA, Rune.Maelstrom, 5.5, true,
+			new DamageRow(ActiveSkill.CA, Rune.Maelstrom, 6.5, true,
 					Integer.MAX_VALUE, 1, 8, "AoE", DamageType.Cold),
-			new DamageRow(ActiveSkill.CA, Rune.Maelstrom, 4.5, true, 4, 5,
+			new DamageRow(ActiveSkill.CA, Rune.Maelstrom, 4.5, true, 2, 3,
 					"Rockets", DamageType.Cold, DamageMultiplier.Rockets),
-			new DamageRow(ActiveSkill.CA, Rune.Cluster_Bombs, 5.25, true,
+			new DamageRow(ActiveSkill.CA, Rune.Cluster_Bombs, 6.5, true,
 					Integer.MAX_VALUE, 4, 4, "AoE Grenades", DamageType.Fire,
 					DamageMultiplier.Grenades),
-			new DamageRow(ActiveSkill.CA, Rune.Loaded_For_Bear, 7.7, true,
+			new DamageRow(ActiveSkill.CA, Rune.Loaded_For_Bear, 8.5, true,
 					Integer.MAX_VALUE, 1, 8, "AoE", DamageType.Fire),
-			new DamageRow(ActiveSkill.CA, Rune.Loaded_For_Bear, 2.2, true,
+			new DamageRow(ActiveSkill.CA, Rune.Loaded_For_Bear, 2.5, true,
 					Integer.MAX_VALUE, 4, 4, "AoE Grenades", DamageType.Fire,
 					DamageMultiplier.Grenades),
 
@@ -58,13 +58,11 @@ public class DamageFunction {
 					Integer.MAX_VALUE, Integer.MAX_VALUE, DamageType.Physical),
 			new DamageRow(ActiveSkill.MS, Rune.Fire_at_Will, 3.6, true,
 					Integer.MAX_VALUE, Integer.MAX_VALUE, DamageType.Lightning),
-			new DamageRow(ActiveSkill.MS, Rune.Burst_Fire, 3.6, true,
-					Integer.MAX_VALUE, Integer.MAX_VALUE, DamageType.Cold),
-			new DamageRow(ActiveSkill.MS, Rune.Burst_Fire, 2.0, true,
-					Integer.MAX_VALUE, 1, "Burst", DamageType.Cold),
+			new DamageRow(ActiveSkill.MS, Rune.Wind_Chill, 3.6, true,
+					Integer.MAX_VALUE, Integer.MAX_VALUE, DamageType.Cold), // @TODO 15% Crit Chance on chilled for 3 secs
 			new DamageRow(ActiveSkill.MS, Rune.Suppression_Fire, 3.6, true,
 					Integer.MAX_VALUE, Integer.MAX_VALUE, DamageType.Physical),
-			new DamageRow(ActiveSkill.MS, Rune.Full_Broadside, 4.6, true,
+			new DamageRow(ActiveSkill.MS, Rune.Full_Broadside, 5.0, true,
 					Integer.MAX_VALUE, Integer.MAX_VALUE, DamageType.Physical),
 			new DamageRow(ActiveSkill.MS, Rune.Arsenal, 3.6, true,
 					Integer.MAX_VALUE, Integer.MAX_VALUE, DamageType.Fire),
@@ -119,7 +117,7 @@ public class DamageFunction {
 					Integer.MAX_VALUE, 0, DamageType.Physical),
 			new DamageRow(ActiveSkill.CHAK, Rune.Boomerang, 4.0, true,
 					Integer.MAX_VALUE, 0, DamageType.Lightning),
-			new DamageRow(ActiveSkill.CHAK, Rune.Shuriken_Cloud, 2.0, 120.0,
+			new DamageRow(ActiveSkill.CHAK, Rune.Shuriken_Cloud, 2.0, 600.0,
 					true, Integer.MAX_VALUE, 0, "DoT", DamageType.Physical,
 					DamageMultiplier.DoT),
 
@@ -377,7 +375,7 @@ public class DamageFunction {
 
 			new DamageRow(ActiveSkill.Vengeance, Rune.None, 0.6, true, 3,
 					"Side Guns", DamageType.Physical),
-			new DamageRow(ActiveSkill.Vengeance, Rune.None, 0.4, true, 3,
+			new DamageRow(ActiveSkill.Vengeance, Rune.None, 0.8, true, 1,
 					"Homing Rockets", DamageType.Physical,
 					DamageMultiplier.Rockets),
 			new DamageRow(ActiveSkill.Vengeance, Rune.Personal_Mortar, 0.6,
@@ -387,7 +385,7 @@ public class DamageFunction {
 					DamageType.Physical, DamageMultiplier.Grenades),
 			new DamageRow(ActiveSkill.Vengeance, Rune.Dark_Heart, 0.6, true, 3,
 					"Side Guns", DamageType.Lightning),
-			new DamageRow(ActiveSkill.Vengeance, Rune.Dark_Heart, 0.4, true, 3,
+			new DamageRow(ActiveSkill.Vengeance, Rune.Dark_Heart, 0.8, true, 1,
 					"Homing Rockets", DamageType.Lightning,
 					DamageMultiplier.Rockets),
 			new DamageRow(ActiveSkill.Vengeance, Rune.Dark_Heart, 3.25, 15.0,
@@ -397,7 +395,7 @@ public class DamageFunction {
 					3, "Side Guns", DamageType.Physical),
 			new DamageRow(ActiveSkill.Vengeance, Rune.Seethe, 0.6, true, 3,
 					"Side Guns", DamageType.Physical),
-			new DamageRow(ActiveSkill.Vengeance, Rune.Seethe, 0.4, true, 3,
+			new DamageRow(ActiveSkill.Vengeance, Rune.Seethe, 0.8, true, 1,
 					"Homing Rockets", DamageType.Physical,
 					DamageMultiplier.Rockets),
 			new DamageRow(ActiveSkill.Vengeance, Rune.From_the_Shadows, 0.6,
@@ -741,11 +739,18 @@ public class DamageFunction {
 							if (isPlayer
 									&& ((skillType == SkillType.Spender) || (skillType == SkillType.Primary))) {
 								dlist.add(DamageMultiplier.M6);
+							} else if ((skill == ActiveSkill.Companion) || (skill == ActiveSkill.Vengeance)) {
+								dlist.add(DamageMultiplier.M6);
 							}
-
-							if (isPlayer)
+							
+							if (isPlayer) {
+								dlist.add(DamageMultiplier.VenBuff);
+								dlist.add(DamageMultiplier.LoN);
 								dlist.add(DamageMultiplier.AD);
-
+							} else if (isSentry) {
+								dlist.add(DamageMultiplier.M4);
+							}
+							
 							if ((skill != ActiveSkill.Companion)) {
 								dlist.add(DamageMultiplier.Ambush);
 							}
@@ -753,7 +758,7 @@ public class DamageFunction {
 							if (skill != null) {
 
 								if ((state.getData().getNumUe() >= 6)
-										&& ((source.skill == ActiveSkill.MS) || (new SkillAndRune(
+										&& ((source.skill == ActiveSkill.MS) || (source.skill == ActiveSkill.Vengeance) || (new SkillAndRune(
 												skill, dr.source.rune)
 												.getHatred(state.getData()) > 0))) {
 									dlist.add(DamageMultiplier.UE6);

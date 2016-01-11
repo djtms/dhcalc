@@ -46,7 +46,7 @@ public enum Rune {
 	
 	// Multishot
 	Fire_at_Will("d", 7, 0.25),
-	Burst_Fire("b", 0, 0.2),
+	Wind_Chill("b", 0, 0.2),
 	Suppression_Fire("e", 0, 0.25),
 	Full_Broadside("a", 0, 0.25),
 	Arsenal("c", 0, 0.18),

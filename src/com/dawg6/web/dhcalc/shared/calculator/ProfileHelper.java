@@ -413,6 +413,7 @@ public class ProfileHelper {
 		double offHand_addDelta = 0.0;
 		int equipmentDexterity = 0;
 		double areaDamage = 0.0;
+		int numAncients = 0;
 
 		ItemInformation bow = hero.items.get(Slot.MainHand.getSlot());
 
@@ -562,6 +563,12 @@ public class ProfileHelper {
 				if (v != null) {
 					critDamage += v.min;
 				}
+				
+				v = i.attributesRaw.get(Const.ANCIENT);
+				
+				if ((v != null) && (v.min >= 1.0)) {
+					numAncients++;
+				}
 
 				if (i.gems != null) {
 					for (ItemInformationGem g : i.gems) {
@@ -663,7 +670,8 @@ public class ProfileHelper {
 		data.setWeaponDamagePercent(wpnDamage);
 		data.setOffHand_weaponDamagePercent(offHand_wpnDamage);
 		data.setEquipmentDexterity(equipmentDexterity);
-
+		data.setNumAncients(numAncients);
+		
 		if (paragonDexterity != null)
 			data.setParagonDexterity(paragonDexterity);
 		else {

@@ -137,6 +137,13 @@ public enum DamageMultiplier {
 					return d
 							* (0.04 + (state.getData().getZeisLevel() * 0.0005));
 				}
+			}), M4("M4", DamageAccumulator.Multiplicative,
+			"M4 Damage Bonus for Sentries (300%)",
+			new Test<SimulationState, Double>() {
+				@Override
+				public Double getValue(SimulationState state) {
+					return (state.getData().getNumMarauders() >= 4) ? 3.0 : 0.0;
+				}
 			}), SentryM4("SentryM4", DamageAccumulator.Multiplicative,
 			"Sentry Skill Damage Bonus for skills fired by M4",
 			new Test<SimulationState, Double>() {
@@ -240,21 +247,21 @@ public enum DamageMultiplier {
 			}), UE4(
 			"UE4",
 			DamageAccumulator.Multiplicative,
-			"Unhallowed Essence 4 item set bonus (20% if no enemies within 10 yards)",
+			"Unhallowed Essence 4 item set bonus (60% if no enemies within 10 yards)",
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return (state.getData().getNumUe() >= 4) ? (0.2 * state
+					return (state.getData().getNumUe() >= 4) ? (0.6 * state
 							.getData().getPercentAtLeast10Yards()) : 0.0;
 				}
 			}), UE6(
 			"UE6",
 			DamageAccumulator.Multiplicative,
-			"Unhallowed Essence 6 item set bonus (15% per point of discipline)",
+			"Unhallowed Essence 6 item set bonus (20% per point of discipline)",
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return (state.getData().getNumUe() >= 6) ? (0.15 * state
+					return (state.getData().getNumUe() >= 6) ? (0.2 * state
 							.getDisc()) : 0.0;
 				}
 			}), BW1("BWg", DamageAccumulator.Multiplicative,
@@ -440,12 +447,28 @@ public enum DamageMultiplier {
 							.getData().getPercentSlowedChilled()) : 0.0;
 				}
 			}), M6("M6", DamageAccumulator.Multiplicative,
-			"Marauder's 6 piece bonus (+100% per Sentry)",
+			"Marauder's 6 piece bonus (+600% per Sentry)",
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return (state.getData().getNumMarauders() >= 6) ? (double) (state
-							.getData().getNumSentries()) : 0;
+					return (state.getData().getNumMarauders() >= 6) ? (state
+							.getData().getNumSentries() * 6.0) : 0;
+				}
+			}), VenBuff("VenBuff", DamageAccumulator.Multiplicative,
+			"Vengeance damage buff (+40%)",
+			new Test<SimulationState, Double>() {
+				@Override
+				public Double getValue(SimulationState state) {
+					return state.getBuffs().isActive(Buff.Vengeance) ? 0.4 : 0;
+				}
+			}), LoN("LoN", DamageAccumulator.Multiplicative,
+			"Legacy of Nightmares buff (+100% per ancient item)",
+			new Test<SimulationState, Double>() {
+				@Override
+				public Double getValue(SimulationState state) {
+					return ((state.getData().getNumLoN() >= 2) && (state
+							.getData().getSetCounts().size() == 1)) ? (1.0 * state
+							.getData().getNumAncients()) : 0;
 				}
 			}), N4("N4", DamageAccumulator.Multiplicative,
 			"Nat's 4 piece bonus (+100% to RoV)",
@@ -457,7 +480,7 @@ public enum DamageMultiplier {
 			}), RoVN6(
 			"N6RoV",
 			DamageAccumulator.Multiplicative,
-			"Nat's 6 piece bonus to RoV (+400% damage for 5 seconds after RoV)",
+			"Nat's 6 piece bonus to RoV (+400% damage for 10 seconds after RoV)",
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {

@@ -77,17 +77,25 @@ public class SkillAndRune implements Serializable, Comparable<SkillAndRune> {
 					}
 				}
 				
+				if (data.isManticore() && (skill == ActiveSkill.CA)) {
+					rcr = 1.0 - ((1.0 - rcr) * (1.0 - data.getManticorePercent()));
+				}
+				
 				if ((hatred < 0) && (rcr > 0.0)) {
 					hatred = hatred * (1.0 - rcr);
 				}
 				
-			}
+			} 
 			
 			if ((skill.getSkillType() == SkillType.Primary) && data.isNightStalker()) {
 				hatred += 4;
 			}
 
 			h = hatred;
+		}
+		
+		if ((h > 0) && (data.getNumUe() >= 2)) {
+			h += 2;
 		}
 		
 		if ((h > 0) && data.isHexingPants()) {

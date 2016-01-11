@@ -2261,7 +2261,7 @@ public class MainPanel extends BasePanel {
 		if (itemPanel.getNumNats() >= 2) {
 			double interval = (1.0 / calculator.getSheetAps())
 					+ (situational.getFiringDelay().getValue() / 1000.0);
-			double numAttacks = rovCD / (interval + 2.0);
+			double numAttacks = rovCD / (interval + 4.0);
 			rovCD = numAttacks * interval;
 		}
 
@@ -2324,6 +2324,8 @@ public class MainPanel extends BasePanel {
 				(int) Math.round(data.getEliteDamage() * 100.0));
 		this.itemPanel.getAreaDamageEquipment().setValue(
 				(int) Math.round(data.getAreaDamageEquipment() * 100.0));
+		this.itemPanel.getNumAncients().setValue(
+				data.getNumAncients());
 
 		this.skillDamage.setValues(data.getSkillDamage());
 	}
@@ -2420,6 +2422,8 @@ public class MainPanel extends BasePanel {
 						"EliteDamage", "0"),
 				new Field(this.itemPanel.getAreaDamageEquipment(),
 						"AreaDamageEquipment", "0"),
+				new Field(this.itemPanel.getNumAncients(),
+						"NumAncients", "0"),
 				new Field(this.situational.getDistance(), "TargetDistance",
 						"50"),
 				new Field(this.situational.getTargetSpacing(), "TargetSpacing",
@@ -2572,6 +2576,7 @@ public class MainPanel extends BasePanel {
 			data.setEliteDamage(getValue(this.itemPanel.getEliteDamagePercent()) / 100.0);
 			data.setAreaDamageEquipment(getValue(this.itemPanel
 					.getAreaDamageEquipment()) / 100.0);
+			data.setNumAncients(getValue(this.itemPanel.getNumAncients()));
 			data.setGems(gemPanel.getGems());
 			data.setSpecialItems(itemPanel.getItems());
 			data.setSetCounts(itemPanel.getSetCounts());

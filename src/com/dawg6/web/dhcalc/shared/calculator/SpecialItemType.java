@@ -47,6 +47,14 @@ public enum SpecialItemType {
 			Slot.MainHand, Slot.OffHand, Slot.CubeWeapon }, new Attribute(
 			SpecialItemType.PERCENT, Const.HELLTRAPPER_PERCENT, 7, 10)),
 
+	Manticore(Const.MANTICORE, "manticore", false, new Slot[] {
+			Slot.MainHand, Slot.CubeWeapon }, new Attribute(
+			SpecialItemType.PERCENT, Const.MANTICORE_PERCENT, 75, 100)),
+
+	Dawn(Const.DAWN, "dawn", false, new Slot[] {
+			Slot.MainHand, Slot.OffHand, Slot.CubeWeapon }, new Attribute(
+			SpecialItemType.PERCENT, Const.DAWN_PERCENT, 50, 65)),
+
 	Yangs(Const.YANGS, "yangs-recurve", false, new Slot[] { Slot.MainHand,
 			Slot.CubeWeapon }),
 

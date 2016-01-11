@@ -31,7 +31,7 @@ public enum ActiveSkill {
 			"http://us.battle.net/d3/en/class/demon-hunter/active/cluster-arrow", 18),
 
 	MS(SkillType.Spender, "MS", "Multishot", -25, DamageMultiplier.MS, 0.25, new Rune[] { Rune.None,
-			Rune.Fire_at_Will, Rune.Burst_Fire, Rune.Suppression_Fire,
+			Rune.Fire_at_Will, Rune.Wind_Chill, Rune.Suppression_Fire,
 			Rune.Full_Broadside, Rune.Arsenal },
 			"http://us.battle.net/d3/en/class/demon-hunter/active/multishot", 18),
 
@@ -60,15 +60,15 @@ public enum ActiveSkill {
 			Rune.Polar_Station, Rune.Guardian_Turret },
 			"http://us.battle.net/d3/en/class/demon-hunter/active/sentry", 15),
 
-	HA(SkillType.Primary, "HA", "Hungering Arrow", 3, DamageMultiplier.HA,
+	HA(SkillType.Primary, "HA", "Hungering Arrow", 4, DamageMultiplier.HA,
 			0.65, new Rune[] { Rune.None, Rune.Puncturing_Arrow, Rune.Serrated_Arrow, Rune.Shatter_Shot, Rune.Devouring_Arrow, Rune.Spray_of_Teeth },
 			"http://us.battle.net/d3/en/class/demon-hunter/active/hungering-arrow", -1),
 			
-	ES(SkillType.Primary, "ES", "Entangling Shot", 3, DamageMultiplier.ES,
+	ES(SkillType.Primary, "ES", "Entangling Shot", 4, DamageMultiplier.ES,
 			1.0, new Rune[] { Rune.None, Rune.Chain_Gang, Rune.Shock_Collar, Rune.Heavy_Burden, Rune.Justice_is_Served, Rune.Bounty_Hunter },
 			"http://us.battle.net/d3/en/class/demon-hunter/active/entangling-shot", -1),
 			
-	BOLAS(SkillType.Primary, "BOLAS", "Bolas", 3, DamageMultiplier.BOLAS,
+	BOLAS(SkillType.Primary, "BOLAS", "Bolas", 4, DamageMultiplier.BOLAS,
 			0.4, new Rune[] { Rune.None, Rune.Volatile_Exolosives, Rune.Thunder_Ball, Rune.Freezing_Strike, Rune.Bitter_Pill, Rune.Imminent_Doom },
 			"http://us.battle.net/d3/en/class/demon-hunter/active/bolas", 18),
 			
@@ -76,7 +76,7 @@ public enum ActiveSkill {
 			1.0 / 3.0, new Rune[] { Rune.None, Rune.Hardened, Rune.Parting_Gift, Rune.Covering_Fire, Rune.Focus, Rune.Surge },
 			"http://us.battle.net/d3/en/class/demon-hunter/active/evasive-fire", -1),
 			
-	GRENADE(SkillType.Primary, "GRENADE", "Grenade", 3, DamageMultiplier.GRENADE,
+	GRENADE(SkillType.Primary, "GRENADE", "Grenade", 4, DamageMultiplier.GRENADE,
 			2.0 / 3.0, new Rune[] { Rune.None, Rune.Tinkerer, Rune.Cluster_Grenades, Rune.Grenade_Cache, Rune.Stun_Grenade, Rune.Cold_Grenade },
 			"http://us.battle.net/d3/en/class/demon-hunter/active/grenade", 17),
 

@@ -159,6 +159,7 @@ public class CharacterData implements Serializable {
 	private Map<GemSkill, GemAttributeData> gems;
 	private Map<Slot, ItemHolder> items;
 	private double sharpshooterCC;
+	private int numAncients;
 
 	public CharacterData copy() {
 		return new CharacterData(this);
@@ -166,6 +167,10 @@ public class CharacterData implements Serializable {
 
 	public int getNumMarauders() {
 		return getSetCount(ItemSet.Marauders.getSlug());
+	}
+	
+	public int getNumLoN() {
+		return getSetCount(ItemSet.LoN.getSlug());
 	}
 
 
@@ -289,6 +294,7 @@ public class CharacterData implements Serializable {
 		this.mfdUptime = other.mfdUptime;
 		this.name = other.name;
 		this.numAdditional = other.numAdditional;
+		this.numAncients = other.numAncients;
 		this.numAoeTargets = other.numAoeTargets;
 		this.numHealthGlobes = other.numHealthGlobes;
 		this.numPlayers = other.numPlayers;
@@ -1577,6 +1583,14 @@ public class CharacterData implements Serializable {
 		return isItem(SpecialItemType.HellTrapper);
 	}
 
+	public boolean isDawn() {
+		return isItem(SpecialItemType.Dawn);
+	}
+
+	public boolean isManticore() {
+		return isItem(SpecialItemType.Manticore);
+	}
+
 	public WeaponType getOffHand_weaponType() {
 		return offHand_weaponType;
 	}
@@ -1680,6 +1694,14 @@ public class CharacterData implements Serializable {
 
 	public double getHelltrapperPercent() {
 		return getItemAttribute(SpecialItemType.HellTrapper, SpecialItemType.PERCENT);
+	}
+
+	public double getDawnPercent() {
+		return getItemAttribute(SpecialItemType.Dawn, SpecialItemType.PERCENT);
+	}
+
+	public double getManticorePercent() {
+		return getItemAttribute(SpecialItemType.Manticore, SpecialItemType.PERCENT);
 	}
 
 	public double getHuntersWrathPercent() {
@@ -1879,7 +1901,7 @@ public class CharacterData implements Serializable {
 		Rune r = skills.get(ActiveSkill.Preparation);
 
 		if (r == Rune.Invigoration)
-			d += 15.0;
+			d += 20.0;
 
 		return d;
 	}
@@ -2090,6 +2112,14 @@ public class CharacterData implements Serializable {
 
 	public int getMirinaeLevel() {
 		return getGemLevel(GemSkill.Mirinae);
+	}
+
+	public int getNumAncients() {
+		return numAncients;
+	}
+
+	public void setNumAncients(int numAncients) {
+		this.numAncients = numAncients;
 	}
 
 }

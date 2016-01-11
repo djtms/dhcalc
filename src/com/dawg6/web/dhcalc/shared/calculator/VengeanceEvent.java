@@ -27,6 +27,9 @@ public class VengeanceEvent extends CooldownEvent {
 	public VengeanceEvent(CharacterData data) {
 		this.rune = data.getSkills().get(ActiveSkill.Vengeance);
 		this.cooldown = 90.0 * (1.0 - data.getCdr());
+		
+		if (data.isDawn())
+			this.cooldown *= (1.0 - data.getDawnPercent());
 	}
 
 	@Override
@@ -43,10 +46,10 @@ public class VengeanceEvent extends CooldownEvent {
 
 		if (use) {
 			this.time += this.cooldown;
-			state.getBuffs().set(Buff.Vengeance, state.getTime() + 15.0);
+			state.getBuffs().set(Buff.Vengeance, state.getTime() + 20.0);
 			
 			if (rune == Rune.Seethe)
-				state.getBuffs().set(Buff.Seethe, state.getTime() + 15.0);
+				state.getBuffs().set(Buff.Seethe, state.getTime() + 20.0);
 			
 		} else {
 			this.time = queue.nextTime(this.time);

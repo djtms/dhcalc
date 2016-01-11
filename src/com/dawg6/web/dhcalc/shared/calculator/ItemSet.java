@@ -28,9 +28,9 @@ public enum ItemSet {
 	Marauders("Embodiment of the Marauder", Const.MARAUDERS, "marauders-visage", false, 6),
 	UE("Unhallowed Essence", Const.UE, "accursed-visage", false, 6),
 	Nats("Natalya's Vengeance", Const.NATS, "natalyas-slayer", false, 7),
+	LoN("Legacy of Nightmares", Const.LON, "the-wailing-host", false, 2),
 	Crimson("Captain Crimson's Trimmings", Const.CAPTAIN_CRIMSON, "captain-crimsons-silk-girdle", true, 3),
 	Borns("Born's Command", Const.BORNS, "borns-frozen-soul", true, 3),
-	
 	;
 	
 	private final String name;

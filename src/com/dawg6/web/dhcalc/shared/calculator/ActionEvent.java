@@ -323,7 +323,7 @@ public class ActionEvent extends Event {
 				
 				if (rov.getTime() > this.time) {
 					queue.remove(rov);
-					rov.setTime(Math.max(rov.getTime() - 2.0, this.time));
+					rov.setTime(Math.max(rov.getTime() - 4.0, this.time));
 					queue.push(rov);
 				}
 			}

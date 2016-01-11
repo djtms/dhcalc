@@ -41,7 +41,7 @@ public class RoVEvent extends CooldownEvent {
 			SimulationState state) {
 
 		if (n6) {
-			state.getBuffs().set(Buff.N6, state.getTime() + 5.0);
+			state.getBuffs().set(Buff.N6, state.getTime() + 10.0);
 		}
 
 		List<Damage> dList = DamageFunction.getDamages(true, false, "Player", new DamageSource(ActiveSkill.RoV, rune), state);

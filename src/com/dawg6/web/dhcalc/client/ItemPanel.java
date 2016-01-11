@@ -56,6 +56,7 @@ public class ItemPanel extends Composite {
 	private final Map <Slot, Integer> rows = new TreeMap<Slot, Integer>();
 	private final Map <Slot, SpecialItemType> selected = new TreeMap<Slot, SpecialItemType>();
 	private final Map <Slot, Map<String, NumberSpinner>> attributeSpinners = new TreeMap<Slot, Map<String, NumberSpinner>>();
+	private final NumberSpinner numAncients;
 	
 	public ItemPanel() {
 
@@ -72,6 +73,16 @@ public class ItemPanel extends Composite {
 		Label label_1 = new Label("General", false);
 		label_1.addStyleName("boldText");
 		table.setWidget(row, 0, label_1);
+
+		row++;
+		
+		Label label_4 = new Label("# Ancient Items:", false);
+		table.setWidget(row, 0, label_4);
+		
+		numAncients = new NumberSpinner();
+		numAncients.setVisibleLength(4);
+		numAncients.setTitle("# Ancient items worn");
+		table.setWidget(row, 1, numAncients);
 
 		row++;
 		
@@ -586,5 +597,9 @@ public class ItemPanel extends Composite {
 	public boolean isYangs() {
 		return (this.getSelectedItem(Slot.MainHand) == SpecialItemType.Yangs) ||
 				(this.getSelectedItem(Slot.CubeWeapon) == SpecialItemType.Yangs);
+	}
+	
+	public NumberSpinner getNumAncients() {
+		return numAncients;
 	}
 }
