@@ -1,5 +1,19 @@
 Change Log:
 
+**1/12/16**
+
+- Updated (mostly) for 2.4, still need to implement Shadow set, melee weapons and a few other things
+-- Updated primary skills hatred generation
+-- Updated damage for Cluster Arrow runes
+-- Replaced Multishot's Burst Fire rune with Wind Chill (todo: implement crit chance buff effect from this rune)
+-- Updated Vengeance damage
+-- Updated damage bonus from M4, M6
+-- Updated hatred from UE2 and damage bonus from U4, UE6
+-- Updated RoV CDR from N2 and duration of N6 buff
+-- Added Manticore (todo: import legendary power)
+-- Added Dawn (todo: import legendary power)
+-- Added new Legacy of Nightmares set bonus
+
 **10/13/15**
 
 - The form now saves the hero list
