@@ -42,8 +42,8 @@ public class PreparationEvent extends Event {
 		
 		if (rune == Rune.Punishment) {
 			this.hatred = 75.0 + (data.isHexingPants() ? ((75.0 * data
-					.getHexingPantsUptime() * .25) - (75.0 * (1.0 - data
-					.getHexingPantsUptime()) * data.getHexingPantsPercent())) : 0.0);
+					.getPercentMoving() * .25) - (75.0 * (1.0 - data
+					.getPercentMoving()) * data.getHexingPantsPercent())) : 0.0);
 	
 			this.cd = 20.0 * (1.0 - data.getCdr());
 		} else if (rune != Rune.Focused_Mind) {

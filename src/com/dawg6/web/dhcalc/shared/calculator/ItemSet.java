@@ -25,10 +25,11 @@ import com.dawg6.d3api.shared.Const;
 public enum ItemSet {
 
 	BW("Bastions of Will", Const.BASTIONS_OF_WILL, "focus", false, 2),
+	LoN("Legacy of Nightmares", Const.LON, "the-wailing-host", false, 2),
+	EndlessWalk("Endless Walk", Const.ENDLESS_WALK, "the-travelers-pledge", false, 2),
 	Marauders("Embodiment of the Marauder", Const.MARAUDERS, "marauders-visage", false, 6),
 	UE("Unhallowed Essence", Const.UE, "accursed-visage", false, 6),
 	Nats("Natalya's Vengeance", Const.NATS, "natalyas-slayer", false, 7),
-	LoN("Legacy of Nightmares", Const.LON, "the-wailing-host", false, 2),
 	Crimson("Captain Crimson's Trimmings", Const.CAPTAIN_CRIMSON, "captain-crimsons-silk-girdle", true, 3),
 	Borns("Born's Command", Const.BORNS, "borns-frozen-soul", true, 3),
 	;

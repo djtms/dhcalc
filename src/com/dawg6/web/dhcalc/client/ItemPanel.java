@@ -55,8 +55,9 @@ public class ItemPanel extends Composite {
 	private final Map <ItemSet, SimpleCheckBox> setToggles = new TreeMap<ItemSet, SimpleCheckBox>();
 	private final Map <Slot, Integer> rows = new TreeMap<Slot, Integer>();
 	private final Map <Slot, SpecialItemType> selected = new TreeMap<Slot, SpecialItemType>();
-	private final Map <Slot, Map<String, NumberSpinner>> attributeSpinners = new TreeMap<Slot, Map<String, NumberSpinner>>();
+	private final Map <Slot, Map<String, BaseSpinner<?>>> attributeSpinners = new TreeMap<Slot, Map<String, BaseSpinner<?>>>();
 	private final NumberSpinner numAncients;
+	private final SimpleCheckBox otherSets;
 	
 	public ItemPanel() {
 
@@ -122,6 +123,15 @@ public class ItemPanel extends Composite {
 		
 		row++;
 
+		Label label_4b = new Label("Other Sets?", false);
+		table.setWidget(row, 0, label_4b);
+
+		this.otherSets = new SimpleCheckBox();
+		this.otherSets.setTitle("Select if any sets not listed below are worn.");
+		table.setWidget(row, 1, this.otherSets);
+		
+		row++;
+		
 		for (ItemSet set : ItemSet.values()) {
 			Anchor anchor = new Anchor(set.getName());
 			anchor.setWordWrap(false);
@@ -173,7 +183,7 @@ public class ItemPanel extends Composite {
 		table.getFlexCellFormatter().setColSpan(row, 0, 2);
 
 		row++;
-		
+
 		Label label_6 = new Label("Special Item Bonuses", false);
 		label_6.addStyleName("boldText");
 		table.setWidget(row, 0, label_6);
@@ -215,7 +225,7 @@ public class ItemPanel extends Composite {
 				listBoxes.put(slot,  list);
 				table.setWidget(row, 1, list);
 				
-				attributeSpinners.put(slot, new TreeMap<String, NumberSpinner>());
+				attributeSpinners.put(slot, new TreeMap<String, BaseSpinner<?>>());
 				
 				row += 2;
 			}
@@ -291,11 +301,18 @@ public class ItemPanel extends Composite {
 					map.put(slot, item);
 					
 					for (SpecialItemType.Attribute a : type.getAttributes()) {
-						NumberSpinner spinner = this.attributeSpinners.get(slot).get(a.getLabel());
+						
+						BaseSpinner<?> spinner = this.attributeSpinners.get(slot).get(a.getLabel());
 						
 						if (spinner != null) {
-							int n = spinner.getValue();
-							data.put(a.getLabel(), n);
+							
+							if (spinner instanceof NumberSpinner) {
+								int n = ((NumberSpinner)spinner).getValue();
+								data.put(a.getLabel(), n);
+							} else {
+								double n = ((DoubleSpinner)spinner).getValue();
+								data.put(a.getLabel(), (int)(n * 10.0));
+							}
 						}
 					}
 				}
@@ -370,21 +387,43 @@ public class ItemPanel extends Composite {
 				String name = a.getLabel();
 				Label label = new Label(name + ":", false);
 				aTable.setWidget(n, 0, label);
-				NumberSpinner spinner = new NumberSpinner();
-				spinner.setMin(a.getMin());
-				spinner.setMax(a.getMax());
-				spinner.setVisibleLength(6);
-				aTable.setWidget(n, 1, spinner);
-				attributeSpinners.get(slot).put(name, spinner);
 				
-				final SpecialItemType.Attribute thisAttribute = a;
+				double s = a.getScalar();
 				
-				spinner.addChangeHandler(new ChangeHandler(){
-
-					@Override
-					public void onChange(ChangeEvent event) {
-						attributeValueChanged(slot, thisAttribute);
-					}});
+				if (s > 100) {
+					DoubleSpinner spinner = new DoubleSpinner();
+					spinner.setIncrement(0.1);
+					spinner.setMin(a.getMin() / 10.0);
+					spinner.setMax(a.getMax() / 10.0);
+					spinner.setVisibleLength(6);
+					aTable.setWidget(n, 1, spinner);
+					attributeSpinners.get(slot).put(name, spinner);
+					
+					final SpecialItemType.Attribute thisAttribute = a;
+					
+					spinner.addChangeHandler(new ChangeHandler(){
+	
+						@Override
+						public void onChange(ChangeEvent event) {
+							attributeValueChanged(slot, thisAttribute);
+						}});
+				} else {
+					NumberSpinner spinner = new NumberSpinner();
+					spinner.setMin(a.getMin());
+					spinner.setMax(a.getMax());
+					spinner.setVisibleLength(6);
+					aTable.setWidget(n, 1, spinner);
+					attributeSpinners.get(slot).put(name, spinner);
+					
+					final SpecialItemType.Attribute thisAttribute = a;
+					
+					spinner.addChangeHandler(new ChangeHandler(){
+	
+						@Override
+						public void onChange(ChangeEvent event) {
+							attributeValueChanged(slot, thisAttribute);
+						}});
+				}
 				
 				n++;
 			}
@@ -395,7 +434,7 @@ public class ItemPanel extends Composite {
 			SpecialItemType.Attribute[] aList = type.getAttributes();
 			
 			for (SpecialItemType.Attribute a : aList) {
-				NumberSpinner spinner = attributeSpinners.get(slot).get(a.getLabel());
+				BaseSpinner<?> spinner = attributeSpinners.get(slot).get(a.getLabel());
 				Integer value = (data != null) ? data.get(a.getLabel()) : null;
 				
 				if (value == null) {
@@ -414,10 +453,17 @@ public class ItemPanel extends Composite {
 					}
 				}
 
-				if (value != spinner.getValue()) {
-					spinner.setValue(value);
-					changed = true;
-				} 
+				if (spinner instanceof NumberSpinner) {
+					if (value != ((NumberSpinner)spinner).getValue()) {
+						((NumberSpinner)spinner).setValue(value);
+						changed = true;
+					} 
+				} else {
+					if (value != (int)(((DoubleSpinner)spinner).getValue() * 10.0)) {
+						((DoubleSpinner)spinner).setValue(value / 10.0);
+						changed = true;
+					} 
+				}
 			}
 		}
 
@@ -497,13 +543,21 @@ public class ItemPanel extends Composite {
 
 	private double getItemAttributeValue(Slot slot, Attribute attribute) {
 		
-		NumberSpinner spinner = this.attributeSpinners.get(slot).get(attribute.getLabel());
+		BaseSpinner<?> spinner = this.attributeSpinners.get(slot).get(attribute.getLabel());
 		
-		if (spinner == null)
-			return attribute.getMin();
+		if (spinner == null) {
+			if (attribute.getScalar() > 100.0) {
+				return attribute.getMin() / 10.0;
+			} else {
+				return attribute.getMin();
+			}
+		}
 		
-		
-		return attribute.getRawAttributeValue(spinner.getValue());
+		if (spinner instanceof NumberSpinner) {
+			return attribute.getRawAttributeValue(((NumberSpinner)spinner).getValue());
+		} else {
+			return attribute.getRawAttributeValue((int)(((DoubleSpinner)spinner).getValue() * 10.0));
+		}
 	}
 
 	public boolean isPridesFall() {
@@ -602,4 +656,9 @@ public class ItemPanel extends Composite {
 	public NumberSpinner getNumAncients() {
 		return numAncients;
 	}
+
+	public SimpleCheckBox getOtherSets() {
+		return otherSets;
+	}
+
 }

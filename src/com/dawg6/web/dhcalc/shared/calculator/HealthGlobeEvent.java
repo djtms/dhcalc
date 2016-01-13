@@ -40,8 +40,8 @@ public class HealthGlobeEvent extends Event {
 
 		if (data.isHexingPants()) {
 			h = h
-					+ (h * data.getHexingPantsUptime() * .25)
-					- (h * (1.0 - data.getHexingPantsUptime()) * data
+					+ (h * data.getPercentMoving() * .25)
+					- (h * (1.0 - data.getPercentMoving()) * data
 							.getHexingPantsPercent());
 		}
 		

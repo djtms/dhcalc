@@ -66,6 +66,14 @@ public enum SpecialItemType {
 			Slot.MainHand, Slot.CubeWeapon }, new Attribute(
 			SpecialItemType.PERCENT, Const.ODYSSEYS_END_PERCENT, 20, 25)),
 
+	KarleisPoint(Const.KARLEIS_POINT, "karleis-point", false, new Slot[] {
+			Slot.MainHand, Slot.CubeWeapon }, new Attribute(
+			SpecialItemType.HATRED, Const.KARLEIS_POINT_PERCENT, 10, 15, 1.0)),
+
+	IllWill(Const.ILL_WILL, "sword-of-ill-will", false, new Slot[] {
+			Slot.MainHand, Slot.CubeWeapon }, new Attribute(
+			SpecialItemType.PERCENT, Const.ILL_WILL_PERCENT, 10, 14, 1000.0)),
+
 	TnT(Const.TASKER_AND_THEO, "tasker-and-theo", false, new Slot[] {
 			Slot.Hands, Slot.CubeArmor }, new Attribute(
 			SpecialItemType.PERCENT, Const.TNT_IAS, 40, 50)),
@@ -106,7 +114,7 @@ public enum SpecialItemType {
 	HexingPants(Const.HEXING_PANTS, "hexing-pants-of-mr-yan", false,
 			new Slot[] { Slot.Legs, Slot.CubeArmor },
 			new Attribute(SpecialItemType.PERCENT, Const.HEXING_PANTS_PERCENT,
-					20, 25), new Attribute(SpecialItemType.PERCENT_MOVING)),
+					20, 25)),
 
 	DepthDiggers(Const.DEPTH_DIGGERS, "depth-diggers", false, new Slot[] {
 			Slot.Legs, Slot.CubeArmor }, new Attribute(SpecialItemType.PERCENT,

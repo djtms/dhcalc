@@ -99,8 +99,8 @@ public class SkillAndRune implements Serializable, Comparable<SkillAndRune> {
 		}
 		
 		if ((h > 0) && data.isHexingPants()) {
-			h = h +  (h * data.getHexingPantsUptime() * .25) -
-					(h * (1.0 - data.getHexingPantsUptime()) * data.getHexingPantsPercent());
+			h = h +  (h * data.getPercentMoving() * .25) -
+					(h * (1.0 - data.getPercentMoving()) * data.getHexingPantsPercent());
 		}
 		
 		return h;

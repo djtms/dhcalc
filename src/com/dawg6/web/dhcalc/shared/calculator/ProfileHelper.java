@@ -694,7 +694,8 @@ public class ProfileHelper {
 		data.setSets(sets);
 		double hatredPerSecond = 0.0;
 		int discipline = 0;
-
+		boolean otherSets = false;
+		
 		for (Map.Entry<String, ItemInformation> e : hero.items.entrySet()) {
 
 			if ((e != null) && (e.getKey() != null) && (e.getValue() != null)) {
@@ -801,6 +802,18 @@ public class ProfileHelper {
 
 			ItemInformationSet set = sets.get(e.getKey());
 
+			boolean found = false;
+			
+			for (ItemSet ss : ItemSet.values()) {
+				if (ss.getSlug().equals(e.getKey())) {
+					found = true;
+					break;
+				}
+			}
+			
+			if (!found)
+				otherSets = true;
+			
 			// GWT.log("set " + e.getKey() + " count " + count);
 
 			for (ItemInformationSet.Rank r : set.ranks) {
@@ -818,7 +831,8 @@ public class ProfileHelper {
 		}
 
 		data.setSetCounts(setCounts);
-
+		data.setOtherSets(otherSets);
+		
 		for (ActiveSkill skill : ActiveSkill.values()) {
 			String slug = skill.getDamageAttribute();
 			String attr = Const.SKILL_DAMAGE_BONUS + slug;

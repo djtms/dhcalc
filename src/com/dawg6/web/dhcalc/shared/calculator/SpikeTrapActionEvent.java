@@ -28,8 +28,8 @@ public class SpikeTrapActionEvent extends Event {
 	public SpikeTrapActionEvent(CharacterData data) {
 		this.rune = data.getSkills().get(ActiveSkill.ST);
 		double cost = 30.0 + (data.isHexingPants() ? ((30.0 * data
-				.getHexingPantsUptime() * .25) - (30.0 * (1.0 - data
-				.getHexingPantsUptime()) * data.getHexingPantsPercent())) : 0.0);
+				.getPercentMoving() * .25) - (30.0 * (1.0 - data
+				.getPercentMoving()) * data.getHexingPantsPercent())) : 0.0);
 		this.cost = cost * (1.0 - data.getRcr());
 		this.time = 0.0;
 	}

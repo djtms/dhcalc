@@ -34,8 +34,8 @@ public class CompanionBuffEvent extends Event {
 				|| (data.getCompanionRune() == Rune.Wolf);
 
 		this.batAmount = 50.0 + (data.isHexingPants() ? ((50.0 * data
-				.getHexingPantsUptime() * .25) - (50.0 * (1.0 - data
-				.getHexingPantsUptime()) * data.getHexingPantsPercent())) : 0.0);
+				.getPercentMoving() * .25) - (50.0 * (1.0 - data
+				.getPercentMoving()) * data.getHexingPantsPercent())) : 0.0);
 
 		cd = 30.0 * (1.0 - data.getCdr());
 	}

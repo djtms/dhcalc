@@ -57,6 +57,8 @@ public class ActionEvent extends Event {
 	private final double delay;
 	private final WeaponType mainHand;
 	private final boolean bots;
+	private final boolean karleis;
+	private final double karleisHatred;
 
 	public ActionEvent(CharacterData data) {
 		this.hand = Hand.MainHand;
@@ -74,11 +76,16 @@ public class ActionEvent extends Event {
 		this.mainHand = data.getWeaponType();
 		this.bots = data.isBotS();
 		this.venRune = data.getSkills().get(ActiveSkill.Vengeance);
-
+		this.karleis = data.isKarleis();
+		
 		this.markedAmount = 4.0 + (data.isHexingPants() ? ((4.0 * data
-				.getHexingPantsUptime() * .25) - (4.0 * (1.0 - data
-				.getHexingPantsUptime()) * data.getHexingPantsPercent())) : 0.0);
+				.getPercentMoving() * .25) - (4.0 * (1.0 - data
+				.getPercentMoving()) * data.getHexingPantsPercent())) : 0.0);
 
+		this.karleisHatred = data.getKarlieshatred() +  (data.isHexingPants() ? ((data.getKarlieshatred() * data
+				.getPercentMoving() * .25) - (data.getKarlieshatred() * (1.0 - data
+				.getPercentMoving()) * data.getHexingPantsPercent())) : 0.0);
+				
 		this.mainHandAps = data.getAps();
 		this.delay = data.getDelay() / 1000.0;
 		
@@ -305,6 +312,25 @@ public class ActionEvent extends Event {
 					d.hatred = mh;
 					d.time = t;
 					d.note = "MfD/ME Hatred";
+					d.currentHatred = state.getHatred();
+					d.currentDisc = state.getDisc();
+					log.add(d);
+				}
+			}
+
+			if (karleis
+					&& (selected.getSkill() == ActiveSkill.IMP)) {
+
+				double mh = state.addHatred(karleisHatred);
+
+				if (mh > 0) {
+
+					Damage d = new Damage();
+					d.shooter = "Player";
+					d.source = new DamageSource(selected.getSkill(), selected.getRune());
+					d.hatred = mh;
+					d.time = t;
+					d.note = "Karlei's Point Hatred";
 					d.currentHatred = state.getHatred();
 					d.currentDisc = state.getDisc();
 					log.add(d);

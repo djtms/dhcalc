@@ -44,14 +44,16 @@ public abstract class BaseSpinner<T> extends Composite {
 	protected final Button down;
 	protected T min;
 	protected T max;
-
+	protected T increment;
+	
 	/**
 	 * @wbp.parser.constructor
 	 */
-	protected BaseSpinner(ValueBox<T> box, String text, T min, T max) {
+	protected BaseSpinner(ValueBox<T> box, String text, T min, T max, T increment) {
 		this.box = box;
 		this.min = min;
 		this.max = max;
+		this.increment = increment;
 
 		box.addKeyUpHandler(new KeyUpHandler(){
 
@@ -196,6 +198,14 @@ public abstract class BaseSpinner<T> extends Composite {
 	@Override
 	public String getTitle() {
 		return box.getTitle();
+	}
+	
+	public T getIncrement() {
+		return this.increment;
+	}
+
+	public void setIncrement(T i) {
+		this.increment = i;
 	}
 	
 	protected abstract boolean isEqual(T a, T b);

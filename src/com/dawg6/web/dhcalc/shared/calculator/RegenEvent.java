@@ -43,12 +43,12 @@ public class RegenEvent extends Event {
 
 		if (data.isHexingPants()) {
 			venRegenTick = venRegenTick
-					+ (venRegenTick * data.getHexingPantsUptime() * .25)
-					- (venRegenTick * (1.0 - data.getHexingPantsUptime()) * data
+					+ (venRegenTick * data.getPercentMoving() * .25)
+					- (venRegenTick * (1.0 - data.getPercentMoving()) * data
 							.getHexingPantsPercent());
 			regen = regen
-					+ (regen * data.getHexingPantsUptime() * .25)
-					- (regen * (1.0 - data.getHexingPantsUptime()) * data
+					+ (regen * data.getPercentMoving() * .25)
+					- (regen * (1.0 - data.getPercentMoving()) * data
 							.getHexingPantsPercent());
 		}
 	}

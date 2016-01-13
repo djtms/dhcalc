@@ -501,6 +501,7 @@ public class ExportExcel {
 		createInput(inputs, data.data.getTargetSize().getDisplayName(),
 				"Target Size");
 		createInput(inputs, data.data.getDelay(), "Player Action Delay");
+		createInput(inputs, data.data.getPercentMoving(), "% of time moving", pctStyle);
 
 		createInputHeader(inputs, "Elemental Damage Modifiers");
 		for (Map.Entry<DamageType, Double> e : data.data.getElementalDamage()
@@ -518,6 +519,8 @@ public class ExportExcel {
 		}
 
 		createInputHeader(inputs, "Item Data");
+		createInput(inputs, data.data.getNumAncients(),
+				"# of Ancient Items");
 		createInput(inputs, data.data.getEliteDamage(),
 				"Equipment Elite Damage (minus BotP passive)", pctStyle);
 		createInput(inputs, data.data.getAreaDamageEquipment(),
@@ -540,6 +543,9 @@ public class ExportExcel {
 		}
 
 		createInputHeader(inputs, "Set Items");
+
+		createInput(inputs, data.data.isOtherSets(),
+				"Other Sets are Worn");
 
 		for (ItemSet set : ItemSet.values()) {
 			Integer i = data.data.getSetCount(set.getSlug());

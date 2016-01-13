@@ -30,12 +30,12 @@ public class LongSpinner extends BaseSpinner<Long> {
 	}		
 
 	public LongSpinner(String text) {
-		super(new LongBox(), text, 0L, Long.MAX_VALUE);
+		super(new LongBox(), text, 0L, Long.MAX_VALUE, 1L);
 	}
 	
 	@Override
 	protected void increment(int step) {
-		setValue(getValue() + step);
+		setValue(getValue() + (step * this.increment));
 	}
 	
 	@Override

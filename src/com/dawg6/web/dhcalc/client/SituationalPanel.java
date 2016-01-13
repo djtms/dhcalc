@@ -46,7 +46,8 @@ public class SituationalPanel extends Composite {
 	private final NumberSpinner numPlayers;
 	private final ListBox additionalTargetType;
 	private boolean disableListeners = false;
-
+	private final NumberSpinner percentMoving;
+	
 	public SituationalPanel() {
 
 		CaptionPanel captionPanel = new CaptionPanel("Situational");
@@ -56,9 +57,11 @@ public class SituationalPanel extends Composite {
 		flexTable.setCellPadding(2);
 		captionPanel.setContentWidget(flexTable);
 		
+		int row = 0;
+		
 		Label lblGreaterRiftLevel = new Label("Greater Rift Level:");
 		lblGreaterRiftLevel.setWordWrap(false);
-		flexTable.setWidget(0, 0, lblGreaterRiftLevel);
+		flexTable.setWidget(row, 0, lblGreaterRiftLevel);
 		
 		riftLevel = new NumberSpinner();
 		riftLevel.setVisibleLength(4);
@@ -66,11 +69,11 @@ public class SituationalPanel extends Composite {
 		riftLevel.setText("1");
 		riftLevel.setMin(1);
 		riftLevel.setMax(100);
-		flexTable.setWidget(0, 1, riftLevel);
+		flexTable.setWidget(row++, 1, riftLevel);
 		
 		Label lblNumberOfPlayers = new Label("Number of Players:");
 		lblNumberOfPlayers.setWordWrap(false);
-		flexTable.setWidget(1, 0, lblNumberOfPlayers);
+		flexTable.setWidget(row, 0, lblNumberOfPlayers);
 		
 		numPlayers = new NumberSpinner();
 		numPlayers.setVisibleLength(4);
@@ -78,139 +81,153 @@ public class SituationalPanel extends Composite {
 		numPlayers.setText("1");
 		numPlayers.setMin(1);
 		numPlayers.setMax(4);
-		flexTable.setWidget(1, 1, numPlayers);
+		flexTable.setWidget(row++, 1, numPlayers);
 		
 		Label lblPrimaryTargetType = new Label("Primary Target Type:");
 		lblPrimaryTargetType.setWordWrap(false);
-		flexTable.setWidget(2, 0, lblPrimaryTargetType);
+		flexTable.setWidget(row, 0, lblPrimaryTargetType);
 		
 		primaryTargetType = new ListBox();
-		flexTable.setWidget(2, 1, primaryTargetType);
+		flexTable.setWidget(row++, 1, primaryTargetType);
 		primaryTargetType.setWidth("100%");
 		
 		Label lblPrimaryTargetHealth = new Label("Primary Target Health:");
 		lblPrimaryTargetHealth.setWordWrap(false);
-		flexTable.setWidget(3, 0, lblPrimaryTargetHealth);
+		flexTable.setWidget(row, 0, lblPrimaryTargetHealth);
 		
 		primaryTargetHealth = new LongSpinner();
 		primaryTargetHealth.setVisibleLength(20);
 		primaryTargetHealth.setTitle("Number of additional targets to account for.");
 		primaryTargetHealth.setText("0");
-		flexTable.setWidget(3, 1, primaryTargetHealth);
+		flexTable.setWidget(row++, 1, primaryTargetHealth);
 		
 		Label lblAdditionalTargetsType = new Label("Additional Targets Type:");
 		lblAdditionalTargetsType.setWordWrap(false);
-		flexTable.setWidget(4, 0, lblAdditionalTargetsType);
+		flexTable.setWidget(row, 0, lblAdditionalTargetsType);
 		
 		additionalTargetType = new ListBox();
-		flexTable.setWidget(4, 1, additionalTargetType);
+		flexTable.setWidget(row++, 1, additionalTargetType);
 		additionalTargetType.setWidth("100%");
 
 		Label lblOfadditional = new Label("# of Additional targets:");
 		lblOfadditional.setWordWrap(false);
-		flexTable.setWidget(5, 0, lblOfadditional);
+		flexTable.setWidget(row, 0, lblOfadditional);
 
 		additional = new NumberSpinner();
 		additional.setVisibleLength(4);
 		additional
 				.setTitle("Number of additional targets to account for.");
 		additional.setText("0");
-		flexTable.setWidget(5, 1, additional);
+		flexTable.setWidget(row++, 1, additional);
 		this.additional.setMax(10);
 		
 		Label lblAdditionalTargetsHealth = new Label("Additional Targets Health:");
 		lblAdditionalTargetsHealth.setWordWrap(false);
-		flexTable.setWidget(6, 0, lblAdditionalTargetsHealth);
+		flexTable.setWidget(row, 0, lblAdditionalTargetsHealth);
 		
 		additionalTargetsHealth = new LongSpinner();
 		additionalTargetsHealth.setVisibleLength(20);
 		additionalTargetsHealth.setTitle("Number of additional targets to account for.");
 		additionalTargetsHealth.setText("0");
-		flexTable.setWidget(6, 1, additionalTargetsHealth);
+		flexTable.setWidget(row++, 1, additionalTargetsHealth);
 
 		Label lblPercentOfTargets = new Label(
 				"Percent of targets slowed/chilled?");
 		lblPercentOfTargets.setWordWrap(false);
-		flexTable.setWidget(7, 0, lblPercentOfTargets);
+		flexTable.setWidget(row, 0, lblPercentOfTargets);
 
 		percentSlowedChilled = new NumberSpinner();
 		percentSlowedChilled.setVisibleLength(4);
 		percentSlowedChilled
 				.setTitle("Percent of targets slowed or chilled (apply Cull the Weak).");
 		percentSlowedChilled.setText("0");
-		flexTable.setWidget(7, 1, percentSlowedChilled);
+		flexTable.setWidget(row++, 1, percentSlowedChilled);
 
 		Label lblPercentOfTargets_1 = new Label(
 				"Percent of targets control impaired?");
 		lblPercentOfTargets_1.setWordWrap(false);
-		flexTable.setWidget(8, 0, lblPercentOfTargets_1);
+		flexTable.setWidget(row, 0, lblPercentOfTargets_1);
 
 		percentControlled = new NumberSpinner();
 		percentControlled.setVisibleLength(4);
 		percentControlled
 				.setTitle("Percent of targets control impaired (apply Bane of the Trapped).");
 		percentControlled.setText("0");
-		flexTable.setWidget(8, 1, percentControlled);
+		flexTable.setWidget(row++, 1, percentControlled);
 
 		Label lblPercentOfTargets_2 = new Label(
 				"Percent of targets at least 10 yards away?");
 		lblPercentOfTargets_2.setWordWrap(false);
-		flexTable.setWidget(9, 0, lblPercentOfTargets_2);
+		flexTable.setWidget(row, 0, lblPercentOfTargets_2);
 
 		percentAtLeast10Yards = new NumberSpinner();
 		percentAtLeast10Yards.setVisibleLength(4);
 		percentAtLeast10Yards
 				.setTitle("Percent of targets at least 10 yards away (apply Steady Aim/UE4).");
 		percentAtLeast10Yards.setText("0");
-		flexTable.setWidget(9, 1, percentAtLeast10Yards);
+		flexTable.setWidget(row++, 1, percentAtLeast10Yards);
 
 		Label label_8 = new Label("Distance to target(s) (yards)");
 		label_8.setWordWrap(false);
-		flexTable.setWidget(10, 0, label_8);
+		flexTable.setWidget(row, 0, label_8);
 
 		distance = new NumberSpinner();
 		distance.setVisibleLength(4);
 		distance.setTitle("Average distance (in yards) to target(s) (for Zei's Stone of Vengeance).");
 		distance.setText("0");
-		flexTable.setWidget(10, 1, distance);
+		flexTable.setWidget(row++, 1, distance);
 
 		Label lblSpacingBetweenTargets = new Label(
 				"Spacing between targets (yards):");
 		lblSpacingBetweenTargets.setWordWrap(false);
-		flexTable.setWidget(11, 0, lblSpacingBetweenTargets);
+		flexTable.setWidget(row, 0, lblSpacingBetweenTargets);
 
 		targetSpacing = new NumberSpinner();
 		targetSpacing.setVisibleLength(4);
 		targetSpacing
 				.setTitle("Average distance (in yards) between target(s) (for Grenades, certain Marked for Death runes and Single Out).");
 		targetSpacing.setText("0");
-		flexTable.setWidget(11, 1, targetSpacing);
+		flexTable.setWidget(row++, 1, targetSpacing);
+
+		Label moving = new Label(
+				"% of time Moving:");
+		moving.setWordWrap(false);
+		flexTable.setWidget(row, 0, moving);
+
+		percentMoving = new NumberSpinner();
+		percentMoving.setVisibleLength(4);
+		percentMoving
+				.setTitle("Percent of the time that the player is moving (vs standing still)");
+		percentMoving.setMin(0);
+		percentMoving.setMax(100);
+		percentMoving.setText("50");
+		flexTable.setWidget(row++, 1, percentMoving);
 
 		Label lblTargetSizefor = new Label("Target Size (for Ball Lightning):");
 		lblTargetSizefor.setWordWrap(false);
-		flexTable.setWidget(12, 0, lblTargetSizefor);
+		flexTable.setWidget(row, 0, lblTargetSizefor);
 
 		targetSize = new ListBox();
 		targetSize.setTitle("Target Size");
-		flexTable.setWidget(12, 1, targetSize);
+		flexTable.setWidget(row++, 1, targetSize);
 		targetSize.setWidth("100%");
 		
 		Label label = new Label("# Health Globes:");
-		flexTable.setWidget(13, 0, label);
+		flexTable.setWidget(row, 0, label);
 		
 		numHealthGlobes = new NumberSpinner();
 		numHealthGlobes.setVisibleLength(4);
 		numHealthGlobes.setTitle("# of Health Globes picked up during fight");
-		flexTable.setWidget(13, 1, numHealthGlobes);
+		flexTable.setWidget(row++, 1, numHealthGlobes);
 		
 		Label label_1 = new Label("Average Firing Delay (ms):");
 		label_1.setWordWrap(false);
-		flexTable.setWidget(14, 0, label_1);
+		flexTable.setWidget(row, 0, label_1);
 		
 		firingDelay = new NumberSpinner();
 		firingDelay.setVisibleLength(4);
 		firingDelay.setTitle("Average delay (in milliseconds) of player actions.");
-		flexTable.setWidget(14, 1, firingDelay);
+		flexTable.setWidget(row++, 1, firingDelay);
 		
 		this.distance.setMax(100);
 		this.targetSpacing.setMax(100);
@@ -367,6 +384,10 @@ public class SituationalPanel extends Composite {
 
 	public void setDisableListeners(boolean disableListeners) {
 		this.disableListeners = disableListeners;
+	}
+	
+	public NumberSpinner getPercentMoving() {
+		return this.percentMoving;
 	}
 	
 }

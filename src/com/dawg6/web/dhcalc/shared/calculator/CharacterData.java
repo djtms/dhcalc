@@ -160,6 +160,8 @@ public class CharacterData implements Serializable {
 	private Map<Slot, ItemHolder> items;
 	private double sharpshooterCC;
 	private int numAncients;
+	private double percentMoving;
+	private boolean otherSets;
 
 	public CharacterData copy() {
 		return new CharacterData(this);
@@ -226,6 +228,7 @@ public class CharacterData implements Serializable {
 		timeLimit = 2 * 60;
 		stretchTime = false;
 		timeWarp = false;
+		percentMoving = 0.5;
 	}
 
 	public CharacterData() {
@@ -311,6 +314,7 @@ public class CharacterData implements Serializable {
 		this.offHand_weaponDps = other.offHand_weaponDps;
 		this.offHand_weaponIas = other.offHand_weaponIas;
 		this.offHand_weaponType = other.offHand_weaponType;
+		this.otherSets = other.otherSets;
 		this.overawe = other.overawe;
 		this.paragon = other.paragon;
 		this.paragonAD = other.paragonAD;
@@ -324,6 +328,7 @@ public class CharacterData implements Serializable {
 		this.passives = Util.copy(other.passives);
 		this.percentAtLeast10Yards = other.percentAtLeast10Yards;
 		this.percentControlled = other.percentControlled;
+		this.percentMoving = other.percentMoving;
 		this.percentSlowedChilled = other.percentSlowedChilled;
 		this.piranhas = other.piranhas;
 		this.piranhasUptime = other.piranhasUptime;
@@ -1113,10 +1118,6 @@ public class CharacterData implements Serializable {
 
 	public double getHexingPantsPercent() {
 		return getItemAttribute(SpecialItemType.HexingPants, SpecialItemType.PERCENT);
-	}
-
-	public double getHexingPantsUptime() {
-		return getItemAttribute(SpecialItemType.HexingPants, SpecialItemType.UPTIME);
 	}
 
 	public Realm getRealm() {
@@ -2122,4 +2123,39 @@ public class CharacterData implements Serializable {
 		this.numAncients = numAncients;
 	}
 
+	public double getPercentMoving() {
+		return percentMoving;
+	}
+
+	public void setPercentMoving(double percentMoving) {
+		this.percentMoving = percentMoving;
+	}
+
+	public boolean isEndlessWalk() {
+		return getSetCount(ItemSet.EndlessWalk.getSlug()) >= 2;
+	}
+
+	public boolean isIllWill() {
+		return isItem(SpecialItemType.IllWill);
+	}
+
+	public boolean isKarleis() {
+		return isItem(SpecialItemType.KarleisPoint);
+	}
+
+	public double getKarlieshatred() {
+		return getItemAttribute(SpecialItemType.KarleisPoint, SpecialItemType.HATRED);
+	}
+
+	public double getIllWillPercent() {
+		return getItemAttribute(SpecialItemType.IllWill, SpecialItemType.PERCENT);
+	}
+
+	public boolean isOtherSets() {
+		return otherSets;
+	}
+
+	public void setOtherSets(boolean otherSets) {
+		this.otherSets = otherSets;
+	}
 }

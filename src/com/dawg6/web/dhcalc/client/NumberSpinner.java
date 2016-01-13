@@ -30,12 +30,12 @@ public class NumberSpinner extends BaseSpinner<Integer> {
 	}		
 
 	public NumberSpinner(String text) {
-		super(new IntegerBox(), text, 0, Integer.MAX_VALUE);
+		super(new IntegerBox(), text, 0, Integer.MAX_VALUE, 1);
 	}
 	
 	@Override
 	protected void increment(int step) {
-		setValue(getValue() + step);
+		setValue(getValue()  + (step * this.increment));
 	}
 	
 	@Override

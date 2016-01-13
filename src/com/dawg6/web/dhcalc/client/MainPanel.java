@@ -2326,6 +2326,8 @@ public class MainPanel extends BasePanel {
 				(int) Math.round(data.getAreaDamageEquipment() * 100.0));
 		this.itemPanel.getNumAncients().setValue(
 				data.getNumAncients());
+		this.itemPanel.getOtherSets().setValue(
+				data.isOtherSets());
 
 		this.skillDamage.setValues(data.getSkillDamage());
 	}
@@ -2424,10 +2426,14 @@ public class MainPanel extends BasePanel {
 						"AreaDamageEquipment", "0"),
 				new Field(this.itemPanel.getNumAncients(),
 						"NumAncients", "0"),
+				new Field(this.itemPanel.getOtherSets(),
+						"OtherSets", "false"),
 				new Field(this.situational.getDistance(), "TargetDistance",
 						"50"),
 				new Field(this.situational.getTargetSpacing(), "TargetSpacing",
 						"10"),
+				new Field(this.situational.getPercentMoving(), "PercentMoving",
+						"50"),
 				new Field(this.situational.getRiftLevel(), "GRiftlevel", "25"),
 				new Field(this.situational.getNumPlayers(), "NumPlayers", "1"),
 				new Field(this.situational.getPrimaryTargetType(),
@@ -2577,6 +2583,7 @@ public class MainPanel extends BasePanel {
 			data.setAreaDamageEquipment(getValue(this.itemPanel
 					.getAreaDamageEquipment()) / 100.0);
 			data.setNumAncients(getValue(this.itemPanel.getNumAncients()));
+			data.setOtherSets(this.itemPanel.getOtherSets().getValue());
 			data.setGems(gemPanel.getGems());
 			data.setSpecialItems(itemPanel.getItems());
 			data.setSetCounts(itemPanel.getSetCounts());
@@ -2596,6 +2603,8 @@ public class MainPanel extends BasePanel {
 					.getMonsterType(this.situational.getAdditionalTargetType()));
 			data.setTargetSpacing(this.situational.getTargetSpacing()
 					.getValue());
+			data.setPercentMoving((double)this.situational.getPercentMoving()
+					.getValue() / 100.0);
 			data.setEquipIas(calculator.getEquipIAS());
 			data.setEquipCritDamage(calculator.getEquipmentCritDamage());
 			data.setEquipCritChance(calculator.getEquipmentCritChance());

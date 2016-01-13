@@ -30,12 +30,12 @@ public class DoubleSpinner extends BaseSpinner<Double> {
 	}		
 
 	public DoubleSpinner(String text) {
-		super(new DoubleBox(), text, 0.0, Double.MAX_VALUE);
+		super(new DoubleBox(), text, 0.0, Double.MAX_VALUE, 1.0);
 	}
 	
 	@Override
 	protected void increment(int step) {
-		setValue(getValue() + step);
+		setValue(getValue() + (step * this.increment));
 	}
 
 	@Override
