@@ -18,6 +18,7 @@
  *******************************************************************************/
 package com.dawg6.web.dhcalc.server;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -39,71 +40,89 @@ import com.dawg6.web.dhcalc.server.util.DHCalcProperties;
 public class IO extends D3IO {
 
 	private static IO instance;
-	
+	private final Set<String> itemLocks = new HashSet<String>();
+	private final Set<String> setLocks = new HashSet<String>();
+
 	public static synchronized IO getInstance() {
 		if (instance == null)
 			instance = new IO();
-		
+
 		return instance;
 	}
-	
-	
+
 	private IO() {
-		String value = CouchDBDHCalcParameters.getInstance().getParameter(CouchDBDHCalcParameters.MAX_REQUESTS, String.valueOf(DEFAULT_MAX_REQUESTS_PER_SECOND), new CouchDBDHCalcParameters.Listener() {
-			
-			@Override
-			public void parameterChanged(String parameter, String value) {
-				setMaxRequests(Integer.parseInt(value));
-			}
-		});
+		String value = CouchDBDHCalcParameters.getInstance().getParameter(
+				CouchDBDHCalcParameters.MAX_REQUESTS,
+				String.valueOf(DEFAULT_MAX_REQUESTS_PER_SECOND),
+				new CouchDBDHCalcParameters.Listener() {
+
+					@Override
+					public void parameterChanged(String parameter, String value) {
+						setMaxRequests(Integer.parseInt(value));
+					}
+				});
 		setMaxRequests(Integer.parseInt(value));
-		
-		value = CouchDBDHCalcParameters.getInstance().getParameter(CouchDBDHCalcParameters.CACHE_SIZE, String.valueOf(Cache.DEFAULT_MAX_SIZE), new CouchDBDHCalcParameters.Listener() {
-			
-			@Override
-			public void parameterChanged(String parameter, String value) {
-				setCacheSize(Integer.parseInt(value));
-			}
-		});
+
+		value = CouchDBDHCalcParameters.getInstance().getParameter(
+				CouchDBDHCalcParameters.CACHE_SIZE,
+				String.valueOf(Cache.DEFAULT_MAX_SIZE),
+				new CouchDBDHCalcParameters.Listener() {
+
+					@Override
+					public void parameterChanged(String parameter, String value) {
+						setCacheSize(Integer.parseInt(value));
+					}
+				});
 		setCacheSize(Integer.parseInt(value));
-		
-		value = CouchDBDHCalcParameters.getInstance().getParameter(CouchDBDHCalcParameters.CONNECT_TIMEOUT, String.valueOf(DEFAULT_CONNECT_TIMEOUT), new CouchDBDHCalcParameters.Listener() {
-			
-			@Override
-			public void parameterChanged(String parameter, String value) {
-				setConnectTimeout(Integer.parseInt(value));
-			}
-		});
+
+		value = CouchDBDHCalcParameters.getInstance().getParameter(
+				CouchDBDHCalcParameters.CONNECT_TIMEOUT,
+				String.valueOf(DEFAULT_CONNECT_TIMEOUT),
+				new CouchDBDHCalcParameters.Listener() {
+
+					@Override
+					public void parameterChanged(String parameter, String value) {
+						setConnectTimeout(Integer.parseInt(value));
+					}
+				});
 		setConnectTimeout(Integer.parseInt(value));
 
-		value = CouchDBDHCalcParameters.getInstance().getParameter(CouchDBDHCalcParameters.READ_TIMEOUT, String.valueOf(DEFAULT_READ_TIMEOUT), new CouchDBDHCalcParameters.Listener() {
-			
-			@Override
-			public void parameterChanged(String parameter, String value) {
-				setReadTimeout(Integer.parseInt(value));
-			}
-		});
+		value = CouchDBDHCalcParameters.getInstance().getParameter(
+				CouchDBDHCalcParameters.READ_TIMEOUT,
+				String.valueOf(DEFAULT_READ_TIMEOUT),
+				new CouchDBDHCalcParameters.Listener() {
+
+					@Override
+					public void parameterChanged(String parameter, String value) {
+						setReadTimeout(Integer.parseInt(value));
+					}
+				});
 		setReadTimeout(Integer.parseInt(value));
-		
-		value = CouchDBDHCalcParameters.getInstance().getParameter(CouchDBDHCalcParameters.TIMEOUT_RETRIES, String.valueOf(DEFAULT_TIMEOUT_RETRIES), new CouchDBDHCalcParameters.Listener() {
-			
-			@Override
-			public void parameterChanged(String parameter, String value) {
-				setTimeoutRetries(Integer.parseInt(value));
-			}
-		});
+
+		value = CouchDBDHCalcParameters.getInstance().getParameter(
+				CouchDBDHCalcParameters.TIMEOUT_RETRIES,
+				String.valueOf(DEFAULT_TIMEOUT_RETRIES),
+				new CouchDBDHCalcParameters.Listener() {
+
+					@Override
+					public void parameterChanged(String parameter, String value) {
+						setTimeoutRetries(Integer.parseInt(value));
+					}
+				});
 		setTimeoutRetries(Integer.parseInt(value));
 
-		value = CouchDBDHCalcParameters.getInstance().getParameter(CouchDBDHCalcParameters.ITEM_REALM, DEFAULT_ITEM_REALM.name(), new CouchDBDHCalcParameters.Listener() {
-			
-			@Override
-			public void parameterChanged(String parameter, String value) {
-				setItemRealm(Realm.valueOf(value));
-			}
-		});
+		value = CouchDBDHCalcParameters.getInstance().getParameter(
+				CouchDBDHCalcParameters.ITEM_REALM, DEFAULT_ITEM_REALM.name(),
+				new CouchDBDHCalcParameters.Listener() {
+
+					@Override
+					public void parameterChanged(String parameter, String value) {
+						setItemRealm(Realm.valueOf(value));
+					}
+				});
 		setItemRealm(Realm.valueOf(value));
 	}
-	
+
 	protected void setTimeoutRetries(int value) {
 		this.timeoutRetries = value;
 	}
@@ -123,7 +142,7 @@ public class IO extends D3IO {
 	protected void setCacheSize(int value) {
 		synchronized (itemCache) {
 			log.info("Setting ItemCache Size to " + value);
-			
+
 			itemCache.setMaxSize(value);
 		}
 	}
@@ -131,32 +150,32 @@ public class IO extends D3IO {
 	private void setMaxRequests(int value) {
 		synchronized (requests) {
 			log.info("Setting Max # of Requests Per Second to " + value);
-			
+
 			maxRequests = value;
 		}
 	}
 
 	@Override
 	public synchronized String getApiKey() {
-		
+
 		if (apiKey == null) {
 			apiKey = DHCalcProperties.getInstance().getApiKey();
 		}
-		
+
 		return super.getApiKey();
 	}
 
 	@Override
 	protected synchronized Token requestToken() throws Exception {
-		
+
 		if (apiKey == null) {
 			apiKey = DHCalcProperties.getInstance().getApiKey();
 		}
-		
+
 		if (apiSecret == null) {
 			apiSecret = DHCalcProperties.getInstance().getApiSecret();
 		}
-		
+
 		return super.requestToken();
 	}
 
@@ -165,8 +184,6 @@ public class IO extends D3IO {
 			return numRequests;
 		}
 	}
-	
-
 
 	public Realm getItemRealm() {
 		return itemRealm;
@@ -175,64 +192,87 @@ public class IO extends D3IO {
 	public Cache<String, ItemInformation> getItemCache() {
 		return this.itemCache;
 	}
-	
+
 	@Override
 	protected void newItem(ItemInformation item) {
-//		log.info("Potential new Item " + item.name);
+		// log.info("Potential new Item " + item.name);
 
 		String name = item.name;
-		
+
 		if (name.equals(Const.HELLFIRE_AMULET)) {
-			if ((item.attributes != null) && (item.attributes.passive != null) && (item.attributes.passive.length == 1)) {
+			if ((item.attributes != null) && (item.attributes.passive != null)
+					&& (item.attributes.passive.length == 1)) {
 				int i = item.attributes.passive[0].text.indexOf(Const.PASSIVE);
-				String sub = item.attributes.passive[0].text.substring(Const.HELLFIRE_PASSIVE.length(), i).replaceAll(" ", "_");
+				String sub = item.attributes.passive[0].text.substring(
+						Const.HELLFIRE_PASSIVE.length(), i)
+						.replaceAll(" ", "_");
 				name = name + "." + sub;
 			}
 		}
-		
-		ItemDocument doc = CouchDBDHCalcDatabase.getInstance().get(ItemDocument.class, name);
-		boolean changed = false;
-		
-		if (doc == null) {
-//			log.info("New Item " + item.name);
-			
-			doc = new ItemDocument();
-			doc.setId(name);
-			
-			doc.setIcon(item.icon);
-			doc.setItemId(item.id);
-			doc.setTooltipParams(item.tooltipParams);
-			changed = true;
-		}
 
-		if (doc.getRawAttributes() == null)
-			doc.setRawAttributes(new TreeSet<String>());
-		
-		if ((doc.getTooltipParams() == null) && (item.tooltipParams != null)) {
-			doc.setTooltipParams(item.tooltipParams);
-			changed = true;
-		}
-		
-		if (item.attributesRaw != null) {
-			Set<String> set = doc.getRawAttributes();
-			
-			for (String a : item.attributesRaw.keySet()) {
-				if (!set.contains(a)) {
-					set.add(a);
-					changed = true;
+		synchronized (itemLocks) {
+			while (itemLocks.contains(name)) {
+				try {
+					itemLocks.wait();
+				} catch (Exception e) {
 				}
 			}
+
+			itemLocks.add(name);
 		}
-		
-		if (changed) {
-			if (doc.getRevision() == null)
-				log.info("Creating Item " + doc.getId());
-			else
-				log.info("Updating Item " + doc.getId());
-			
-			CouchDBDHCalcDatabase.getInstance().persist(doc);
+
+		try {
+			ItemDocument doc = CouchDBDHCalcDatabase.getInstance().get(
+					ItemDocument.class, name);
+			boolean changed = false;
+
+			if (doc == null) {
+				// log.info("New Item " + item.name);
+
+				doc = new ItemDocument();
+				doc.setId(name);
+
+				doc.setIcon(item.icon);
+				doc.setItemId(item.id);
+				doc.setTooltipParams(item.tooltipParams);
+				changed = true;
+			}
+
+			if (doc.getRawAttributes() == null)
+				doc.setRawAttributes(new TreeSet<String>());
+
+			if ((doc.getTooltipParams() == null)
+					&& (item.tooltipParams != null)) {
+				doc.setTooltipParams(item.tooltipParams);
+				changed = true;
+			}
+
+			if (item.attributesRaw != null) {
+				Set<String> set = doc.getRawAttributes();
+
+				for (String a : item.attributesRaw.keySet()) {
+					if (!set.contains(a)) {
+						set.add(a);
+						changed = true;
+					}
+				}
+			}
+
+			if (changed) {
+				if (doc.getRevision() == null)
+					log.info("Creating Item " + doc.getId());
+				else
+					log.info("Updating Item " + doc.getId());
+
+				CouchDBDHCalcDatabase.getInstance().persist(doc);
+			}
+		} finally {
+			synchronized (itemLocks) {
+				itemLocks.remove(name);
+				itemLocks.notifyAll();
+			}
 		}
-		
+
 		if (item.set != null) {
 			newSetItem(item);
 		}
@@ -240,50 +280,67 @@ public class IO extends D3IO {
 	}
 
 	private void newSetItem(ItemInformation item) {
-		SetDocument doc = CouchDBDHCalcDatabase.getInstance().get(SetDocument.class, item.set.name);
-		boolean changed = false;
-		
-		if (doc == null) {
-			doc = new SetDocument();
-			doc.setId(item.set.name);
-			doc.setSlug(item.set.slug);
-			changed = true;
-		}
-		
-		if (doc.getRawAttributes() == null)
-			doc.setRawAttributes(new TreeMap<String, Integer>());
-		
-		if (doc.getTooltipParams() == null) {
-			doc.setTooltipParams(item.tooltipParams);
-			changed = true;
-		}
-		
-		if (item.set.ranks != null) {
-			Map<String, Integer> map = doc.getRawAttributes();
-			
-			for (Rank r : item.set.ranks) {
-				Integer n = r.required;
-				
-				for (String a : r.attributesRaw.keySet()) {
-					
-					Integer o = map.get(a);
-					
-					if ((o == null) || (o != n)) {
-						map.put(a, n);
-						changed = true;
-					}
+
+		synchronized (setLocks) {
+			while (setLocks.contains(item.set.name)) {
+				try {
+					setLocks.wait();
+				} catch (Exception e) {
 				}
 			}
 		}
-		
-		
-		if (changed) {
-			if (doc.getRevision() == null)
-				log.info("Creating Set Type " + doc.getId());
-			else
-				log.info("Updating Set Type " + doc.getId());
-			
-			CouchDBDHCalcDatabase.getInstance().persist(doc);
+
+		try {
+			SetDocument doc = CouchDBDHCalcDatabase.getInstance().get(
+					SetDocument.class, item.set.name);
+			boolean changed = false;
+
+			if (doc == null) {
+				doc = new SetDocument();
+				doc.setId(item.set.name);
+				doc.setSlug(item.set.slug);
+				changed = true;
+			}
+
+			if (doc.getRawAttributes() == null)
+				doc.setRawAttributes(new TreeMap<String, Integer>());
+
+			if (doc.getTooltipParams() == null) {
+				doc.setTooltipParams(item.tooltipParams);
+				changed = true;
+			}
+
+			if (item.set.ranks != null) {
+				Map<String, Integer> map = doc.getRawAttributes();
+
+				for (Rank r : item.set.ranks) {
+					Integer n = r.required;
+
+					for (String a : r.attributesRaw.keySet()) {
+
+						Integer o = map.get(a);
+
+						if ((o == null) || (o != n)) {
+							map.put(a, n);
+							changed = true;
+						}
+					}
+				}
+			}
+
+			if (changed) {
+				if (doc.getRevision() == null)
+					log.info("Creating Set Type " + doc.getId());
+				else
+					log.info("Updating Set Type " + doc.getId());
+
+				CouchDBDHCalcDatabase.getInstance().persist(doc);
+			}
+		} finally {
+			synchronized (setLocks) {
+				setLocks.remove(item.set.name);
+				setLocks.notifyAll();
+			}
 		}
 	}
 }
