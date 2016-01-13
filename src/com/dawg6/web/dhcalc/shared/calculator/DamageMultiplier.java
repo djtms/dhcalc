@@ -232,13 +232,11 @@ public enum DamageMultiplier {
 				@Override
 				public Double getValue(SimulationState state) {
 					return state.getData().isHexingPants() ? ((0.25 * state
-							.getData().getPercentMoving()) - (state
-							.getData().getHexingPantsPercent() * (1.0 - state
-							.getData().getPercentMoving()))) : 0.0;
+							.getData().getPercentMoving()) - (state.getData()
+							.getHexingPantsPercent() * (1.0 - state.getData()
+							.getPercentMoving()))) : 0.0;
 				}
-			}), EW(
-			"EW",
-			DamageAccumulator.Additive,
+			}), EW("EW", DamageAccumulator.Additive,
 			"Endless Walk (+100% while stationary)",
 			new Test<SimulationState, Double>() {
 				@Override
@@ -361,10 +359,12 @@ public enum DamageMultiplier {
 					return state.getData().getChakDamage();
 				}
 			}), ILLWILL("IW", DamageAccumulator.Additive,
-			"Sword of Ill Will Chakram Bonus (1.0-1.4% per point of Hatred)", new Test<SimulationState, Double>() {
+			"Sword of Ill Will Chakram Bonus (1.0-1.4% per point of Hatred)",
+			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return state.getData().isIllWill() ? (state.getData().getIllWillPercent() * state.getHatred()) : 0.0;
+					return state.getData().isIllWill() ? (state.getData()
+							.getIllWillPercent() * state.getHatred()) : 0.0;
 				}
 			}), HA("HA", DamageAccumulator.Additive,
 			"Hungering Arrow Skill Damage Bonus",
@@ -470,6 +470,20 @@ public enum DamageMultiplier {
 					return (state.getData().getNumMarauders() >= 6) ? (state
 							.getData().getNumSentries() * 6.0) : 0;
 				}
+			}), S2("S2", DamageAccumulator.Multiplicative,
+			"Shadow 2 piece bonus (+600% is using Melee)",
+			new Test<SimulationState, Double>() {
+				@Override
+				public Double getValue(SimulationState state) {
+					return ((state.getData().getNumShadow() >= 2) && (state.getData().getWeaponType() == WeaponType.Melee)) ? 6.0 : 0;
+				}
+			}), S6("S6", DamageAccumulator.Additive,
+					"Shadow 6 piece Impale damage bonus (+40,000% to first target)",
+					new Test<SimulationState, Double>() {
+						@Override
+						public Double getValue(SimulationState state) {
+							return (state.getData().getNumShadow() >= 6) ? 400.0 : 0;
+						}
 			}), VenBuff("VenBuff", DamageAccumulator.Multiplicative,
 			"Vengeance damage buff (+40%)",
 			new Test<SimulationState, Double>() {
@@ -482,9 +496,10 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return ((state.getData().getNumLoN() >= 2) && (state
-							.getData().getSetCounts().size() == 1) && !state.getData().isOtherSets()) ? (1.0 * state
-							.getData().getNumAncients()) : 0;
+					return ((state.getData().getNumLoN() >= 2)
+							&& (state.getData().getSetCounts().size() == 1) && !state
+							.getData().isOtherSets()) ? (1.0 * state.getData()
+							.getNumAncients()) : 0;
 				}
 			}), N4("N4", DamageAccumulator.Multiplicative,
 			"Nat's 4 piece bonus (+100% to RoV)",

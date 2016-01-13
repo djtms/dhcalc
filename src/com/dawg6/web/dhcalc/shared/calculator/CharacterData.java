@@ -171,6 +171,10 @@ public class CharacterData implements Serializable {
 		return getSetCount(ItemSet.Marauders.getSlug());
 	}
 	
+	public int getNumShadow() {
+		return getSetCount(ItemSet.Shadow.getSlug());
+	}
+	
 	public int getNumLoN() {
 		return getSetCount(ItemSet.LoN.getSlug());
 	}

@@ -30,6 +30,7 @@ public enum ItemSet {
 	Marauders("Embodiment of the Marauder", Const.MARAUDERS, "marauders-visage", false, 6),
 	UE("Unhallowed Essence", Const.UE, "accursed-visage", false, 6),
 	Nats("Natalya's Vengeance", Const.NATS, "natalyas-slayer", false, 7),
+	Shadow("The Shadow's Bane", Const.SHADOW, "the-shadows-bane", false, 6),
 	Crimson("Captain Crimson's Trimmings", Const.CAPTAIN_CRIMSON, "captain-crimsons-silk-girdle", true, 3),
 	Borns("Born's Command", Const.BORNS, "borns-frozen-soul", true, 3),
 	;

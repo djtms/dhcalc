@@ -415,10 +415,10 @@ public class ProfileHelper {
 		double areaDamage = 0.0;
 		int numAncients = 0;
 
-		ItemInformation bow = hero.items.get(Slot.MainHand.getSlot());
+		ItemInformation mainHand = hero.items.get(Slot.MainHand.getSlot());
 
-		if (bow != null) {
-			String bowType = bow.type.id;
+		if (mainHand != null) {
+			String bowType = mainHand.type.id;
 
 			if (bowType.equalsIgnoreCase(Const.HANDXBOW)) {
 				type = WeaponType.HandCrossbow;
@@ -427,7 +427,7 @@ public class ProfileHelper {
 			} else if (bowType.equalsIgnoreCase(Const.CROSSBOW)) {
 				type = WeaponType.Crossbow;
 			} else {
-				type = null;
+				type = WeaponType.Melee;
 			}
 		}
 
@@ -451,9 +451,9 @@ public class ProfileHelper {
 
 		data.setOffHand_weaponType(offHand_type);
 
-		if ((bow != null) && (type != null)) {
+		if ((mainHand != null) && (type != null)) {
 
-			for (Map.Entry<String, Value<Float>> e : bow.attributesRaw
+			for (Map.Entry<String, Value<Float>> e : mainHand.attributesRaw
 					.entrySet()) {
 
 				if ((e != null) && (e.getKey() != null)
@@ -587,7 +587,7 @@ public class ProfileHelper {
 					}
 				}
 
-				if ((i != bow) && ((i != offHand) || (offHand_type == null))) {
+				if ((i != mainHand) && ((i != offHand) || (offHand_type == null))) {
 
 					if (i.attributesRaw != null) {
 						Value<Float> min = i.attributesRaw

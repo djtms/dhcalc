@@ -744,6 +744,14 @@ public class DamageFunction {
 							}
 							
 							if (isPlayer) {
+								dlist.add(DamageMultiplier.S2);
+							}
+							
+							if ((source.skill == ActiveSkill.IMP) && target.isPrimary()) {
+								dlist.add(DamageMultiplier.S6);
+							}
+							
+							if (isPlayer) {
 								dlist.add(DamageMultiplier.VenBuff);
 								dlist.add(DamageMultiplier.LoN);
 								dlist.add(DamageMultiplier.AD);

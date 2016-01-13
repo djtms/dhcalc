@@ -1,13 +1,15 @@
 Change Log:
 
 **1/13/16**
-- Added Karlei's Point (tested in cube, have not implemented melee weapons yet)
-- Added Sword of Ill Will (tested in cube, have not implemented melee weapons yet)
+- Added Karlei's Point 
+- Added Sword of Ill Will 
 - Added Endless Walk
 - Fixed import of legendary powers for Manticore and Dawn from battle.net profile
 - Added new situational input for "percent time moving" which applies to Hexing Pants and Endless Walk
 - Removed "percent time moving" from Hexing Pants special input
 - Added checkbox for "Other Sets" (for Legacy of Nightmares) to indicate a Set other than those displayed in the calculator is being worn
+- Added Shadow Set
+- Added support for Melee weapons (not enforced in skill selection, and don't have fps/breakpoint data for melee weapons yet)
 
 **1/12/16**
 
