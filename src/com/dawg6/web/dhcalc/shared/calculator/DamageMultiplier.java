@@ -477,7 +477,7 @@ public enum DamageMultiplier {
 				public Double getValue(SimulationState state) {
 					return ((state.getData().getNumShadow() >= 2) && (state.getData().getWeaponType() == WeaponType.Melee)) ? 6.0 : 0;
 				}
-			}), S6("S6", DamageAccumulator.Additive,
+			}), S6("S6", DamageAccumulator.Special,
 					"Shadow 6 piece Impale damage bonus (+40,000% to first target)",
 					new Test<SimulationState, Double>() {
 						@Override

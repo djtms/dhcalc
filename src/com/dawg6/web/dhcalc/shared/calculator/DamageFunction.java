@@ -89,21 +89,23 @@ public class DamageFunction {
 					Integer.MAX_VALUE, DamageType.Physical),
 
 			new DamageRow(ActiveSkill.IMP, Rune.None, 7.5, true, 0,
-					DamageType.Physical),
+					DamageType.Physical, DamageMultiplier.S6),
 			new DamageRow(ActiveSkill.IMP, Rune.Impact, 7.5, true, 0,
-					DamageType.Physical),
+					DamageType.Physical, DamageMultiplier.S6),
 			new DamageRow(ActiveSkill.IMP, Rune.Chemical_Burn, 7.5, true, 0,
-					DamageType.Fire),
+					DamageType.Fire, DamageMultiplier.S6),
 			new DamageRow(ActiveSkill.IMP, Rune.Chemical_Burn, 5.0, 2.0, true,
 					0, "Burning DoT", DamageType.Fire, DamageMultiplier.DoT),
 			new DamageRow(ActiveSkill.IMP, Rune.Overpenetration, 7.5, true,
-					Integer.MAX_VALUE, DamageType.Cold),
+					0, DamageType.Cold, DamageMultiplier.S6),
+			new DamageRow(ActiveSkill.IMP, Rune.Overpenetration, 7.5, false,
+					Integer.MAX_VALUE, "Pierce", DamageType.Cold),
 			new DamageRow(ActiveSkill.IMP, Rune.Ricochet, 7.5, true, 0,
-					"Initial", DamageType.Lightning),
+					"Initial", DamageType.Lightning, DamageMultiplier.S6),
 			new DamageRow(ActiveSkill.IMP, Rune.Ricochet, 7.5, false, 2, 2,
 					"Ricochet", DamageType.Lightning),
 			new DamageRow(ActiveSkill.IMP, Rune.Grievous_Wounds, 7.5, true, 0,
-					"Initial", DamageType.Physical),
+					"Initial", DamageType.Physical, DamageMultiplier.S6),
 			new DamageRow(ActiveSkill.IMP, Rune.Grievous_Wounds, 3.3, true, 0,
 					"On Crit", DamageType.Physical, DamageMultiplier.OnCrit),
 
@@ -546,8 +548,21 @@ public class DamageFunction {
 
 							}
 
-							multBuf.append(Util.format(scalar) + " x ");
+							if (dr.multipliers.contains(DamageMultiplier.S6)) {
+								double s6 = DamageMultiplier.S6.getValue(state);
+								
+								if (s6 > 0) {
+									multBuf.append("(" + scalar + " + S6(" + s6 + ")) x ");
+									scalar += s6;
+								} else {
+									multBuf.append(Util.format(scalar) + " x ");
 
+								}
+							}  else {
+								multBuf.append(Util.format(scalar) + " x ");
+
+							}
+							
 							if ((dr.source.proc != null) && !dr.dot) {
 								if (m > 0) {
 									double pc = dr.source.proc.getProc() * state.getLastAttack().getProc();
@@ -745,10 +760,6 @@ public class DamageFunction {
 							
 							if (isPlayer) {
 								dlist.add(DamageMultiplier.S2);
-							}
-							
-							if ((source.skill == ActiveSkill.IMP) && target.isPrimary()) {
-								dlist.add(DamageMultiplier.S6);
 							}
 							
 							if (isPlayer) {
