@@ -100,4 +100,8 @@ public class AccountDocument extends DocumentBase {
 		return true;
 	}
 	
+	@Override
+	public String toString() {
+		return realm + "." + profile + "#" + tag;
+	}
 }
