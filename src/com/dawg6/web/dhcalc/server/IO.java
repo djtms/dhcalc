@@ -199,6 +199,11 @@ public class IO extends D3IO {
 
 		String name = item.name;
 
+		String color = item.displayColor;
+		
+		if ((color == null) || color.equals("blue") || color.equals("white") || color.equals("yellow"))
+			return;
+		
 		if (name.equals(Const.HELLFIRE_AMULET)) {
 			if ((item.attributes != null) && (item.attributes.passive != null)
 					&& (item.attributes.passive.length == 1)) {
