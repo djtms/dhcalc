@@ -554,13 +554,13 @@ public class DamageFunction {
 								if (s6 > 0) {
 									multBuf.append("(" + scalar + " + S6(" + s6 + ")) x ");
 									scalar += s6;
+									m = scalar;
 								} else {
 									multBuf.append(Util.format(scalar) + " x ");
 
 								}
 							}  else {
 								multBuf.append(Util.format(scalar) + " x ");
-
 							}
 							
 							if ((dr.source.proc != null) && !dr.dot) {
