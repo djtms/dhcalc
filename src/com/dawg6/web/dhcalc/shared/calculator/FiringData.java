@@ -126,12 +126,11 @@ public class FiringData {
 		if (data.isCompanion() && (data.getNumMarauders() >= 2) || (data.getCompanionRune() == Rune.Bat) || (data.getCompanionRune() == Rune.Wolf)) 
 			eventQueue.push(new CompanionBuffEvent(data));
 		
-		ActionEvent action = new ActionEvent(data);
-		eventQueue.push(action);
-		
 		if (data.getSkills().containsKey(ActiveSkill.Vengeance))
 			eventQueue.push(new VengeanceEvent(data));
 
+		ActionEvent action = new ActionEvent(data);
+		
 		if (data.getSkills().containsKey(ActiveSkill.RoV)) {
 			RoVEvent rov = new RoVEvent(data);
 			eventQueue.push(rov);
@@ -141,6 +140,8 @@ public class FiringData {
 		if (data.getSkills().containsKey(ActiveSkill.FoK) && (data.getSkills().get(ActiveSkill.FoK) != Rune.Knives_Expert)) {
 			eventQueue.push(new FoKEvent(data));
 		}
+
+		eventQueue.push(action);
 
 		if (data.isSentry())
 			eventQueue.push(new SentryBoltEvent(data));

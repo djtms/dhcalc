@@ -36,25 +36,12 @@ public class VengeanceEvent extends CooldownEvent {
 	public void execute(EventQueue queue, List<Damage> log,
 			SimulationState state) {
 		
-		boolean use = false;
+		this.time += this.cooldown;
+		state.getBuffs().set(Buff.Vengeance, state.getTime() + 20.0);
 		
-		if ((rune == Rune.Seethe) && (state.getHatred() <= 50.0)) {
-			use = true;
-		} else if (rune != Rune.Seethe) {
-			use = true;
-		}
-
-		if (use) {
-			this.time += this.cooldown;
-			state.getBuffs().set(Buff.Vengeance, state.getTime() + 20.0);
+		if (rune == Rune.Seethe)
+			state.getBuffs().set(Buff.Seethe, state.getTime() + 20.0);
 			
-			if (rune == Rune.Seethe)
-				state.getBuffs().set(Buff.Seethe, state.getTime() + 20.0);
-			
-		} else {
-			this.time = queue.nextTime(this.time);
-		}
-		
 		queue.push(this);
 	}
 
