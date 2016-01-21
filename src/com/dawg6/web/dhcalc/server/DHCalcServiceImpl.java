@@ -149,6 +149,8 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 		a.setRealm(realm);
 		a.setProfile(profile.toLowerCase());
 		a.setTag(tag);
+		long now = System.currentTimeMillis();
+		long old = now - (1000L * 60L * 60L * 4L);
 
 		try {
 			synchronized (accountLock) {
@@ -162,20 +164,21 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 			List<AccountDocument> accounts = CouchDBDHCalcDatabase.getInstance().findAll(AccountDocument.class);
 			
 			boolean changed = false;
-			boolean found = false;
 			
 			for (AccountDocument ad : accounts) {
 				if (ad.equals(a)) {
+
+					if (ad.getLastChecked() >= old)
+						return;
+					
 					a = ad;
-					found = true;
 					break;
 				}
 			}
 			
-			if (!found) {
-				changed = true;
-			}
-	
+			changed = true;
+			a.setLastChecked(now);
+
 			if (a.getHeroes() == null)
 				a.setHeroes(new TreeSet<Integer>());
 	
@@ -190,7 +193,7 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 							changed = true;
 						}
 						
-						HeroProfile hero = getHero(realm, profile, tag, h.id);
+						HeroProfile hero = getHero(realm, profile, tag, h.id, false);
 						
 						if ((hero.code != null) && (hero.code.equals(Const.NOT_FOUND))) {
 							set.remove(h.id);
@@ -253,6 +256,23 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public HeroProfile getHero(Realm realm, String profile, int tag, int id) {
+		return getHero(realm, profile, tag, id, true);
+	}
+	
+	public HeroProfile getHero(final Realm realm, String profile, final int tag, int id, boolean updateAccount) {
+		
+		if (updateAccount) {
+			
+			final String p2 = profile;
+			
+			new Thread(new Runnable(){
+
+				@Override
+				public void run() {
+					getProfile(realm, p2, tag);
+				}}).start();
+		}
+		
 		try {
 			String server = realm.getApiHost();
 			profile = URLEncoder.encode(profile, "UTF-8");

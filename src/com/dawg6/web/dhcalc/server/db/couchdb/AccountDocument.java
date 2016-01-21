@@ -34,6 +34,7 @@ public class AccountDocument extends DocumentBase {
 	private Realm realm;
 	private String profile;
 	private int tag;
+	private long lastChecked;
 	
 	public AccountDocument() {
 		super(DOCUMENT_TYPE);
@@ -103,5 +104,13 @@ public class AccountDocument extends DocumentBase {
 	@Override
 	public String toString() {
 		return realm + "." + profile + "#" + tag;
+	}
+
+	public long getLastChecked() {
+		return lastChecked;
+	}
+
+	public void setLastChecked(long lastChecked) {
+		this.lastChecked = lastChecked;
 	}
 }
