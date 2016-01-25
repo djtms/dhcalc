@@ -30,7 +30,7 @@ public class TestApp {
 		Gson gson = new Gson();
 //		SeasonProfile s = IO.getInstance().readSeason(Realm.US.getApiHost(), 4);
 //		SeasonIndex s = IO.getInstance().readSeasonIndex(Realm.US.getApiHost());
-		Leaderboard s = IO.getInstance().readSeasonLeaderboard(Realm.US.getApiHost(), 4, "rift-hardcore-team-2");
+		Leaderboard s = IO.getInstance().readSeasonLeaderboard(Realm.US, 4, "rift-hardcore-team-2");
 		
 		System.out.println("s = " + gson.toJson(s));
 	}
