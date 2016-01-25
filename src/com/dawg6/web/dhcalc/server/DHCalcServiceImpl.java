@@ -99,12 +99,11 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 	public CareerProfile getProfile(final Realm realm, String profile, final int tag) {
 
 		try {
-			String server = realm.getApiHost();
 			profile = URLEncoder.encode(profile, "UTF-8");
 
 			log.info("getProfile(" + realm.getDisplayName() + "," + profile
 					+ "-" + tag + ")");
-			CareerProfile career = IO.getInstance().readCareerProfile(server,
+			CareerProfile career = IO.getInstance().readCareerProfile(realm,
 					profile, tag);
 
 //			log.info("Career: " + gson.toJson(career));
@@ -226,11 +225,9 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 	public ItemInformation getItem(Realm realm, String item) {
 
 		try {
-			String server = realm.getApiHost();
-
 //			log.info("getItem(" + realm.getDisplayName() + "," + item + ")");
 	
-			ItemInformation result = IO.getInstance().readItemInformation(server,
+			ItemInformation result = IO.getInstance().readItemInformation(realm,
 					item);
 
 //			log.info("Item: " + gson.toJson(result));
@@ -274,13 +271,12 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 		}
 		
 		try {
-			String server = realm.getApiHost();
 			profile = URLEncoder.encode(profile, "UTF-8");
 
 			log.info("getHero(" + realm.getDisplayName() + "," + profile + "-"
 					+ tag + "/" + id + ")");
 
-			HeroProfile hero = IO.getInstance().readHeroProfile(server,
+			HeroProfile hero = IO.getInstance().readHeroProfile(realm,
 					profile, tag, id);
 
 			if (hero == null) {
@@ -300,9 +296,12 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 
 				for (Map.Entry<String, ItemInformation> e : hero.items
 						.entrySet()) {
-					ItemInformation item = getItem(server,
+					ItemInformation item = getItemNoLog(realm,
 							e.getValue().tooltipParams);
-					items.put(e.getKey(), item);
+					
+					if (item != null) {
+						items.put(e.getKey(), item);
+					}
 
 					// if (item.gems != null) {
 					// for (int i = 0; i < item.gems.length; i++) {
@@ -323,9 +322,9 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 		}
 	}
 
-	private ItemInformation getItem(String server, String tooltipParams)
+	private ItemInformation getItemNoLog(Realm realm, String tooltipParams)
 			throws JsonParseException, IOException {
-		return IO.getInstance().readItemInformation(server, tooltipParams);
+		return IO.getInstance().readItemInformation(realm, tooltipParams);
 	}
 
 	public String serializeFormData(FormData data) {
@@ -518,8 +517,8 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public SeasonIndex getSeasonEraIndex(Realm realm) {
 		try {
-			SeasonIndex seasons = IO.getInstance().readSeasonIndex(realm.getApiHost());
-			SeasonIndex eras = IO.getInstance().readEraIndex(realm.getApiHost());
+			SeasonIndex seasons = IO.getInstance().readSeasonIndex(realm);
+			SeasonIndex eras = IO.getInstance().readEraIndex(realm);
 			
 			seasons.eras = eras.eras;
 			seasons.current_era = eras.current_era;
@@ -540,9 +539,9 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 			boolean isEra, String which) {
 		try {
 			if (isEra) {
-				return IO.getInstance().readEraLeaderboard(realm.getApiHost(), seasonEra, which);
+				return IO.getInstance().readEraLeaderboard(realm, seasonEra, which);
 			} else {
-				return IO.getInstance().readSeasonLeaderboard(realm.getApiHost(), seasonEra, which);
+				return IO.getInstance().readSeasonLeaderboard(realm, seasonEra, which);
 			}
 			
 		} catch (RuntimeException e) {

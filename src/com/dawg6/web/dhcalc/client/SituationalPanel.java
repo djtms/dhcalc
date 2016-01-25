@@ -77,7 +77,7 @@ public class SituationalPanel extends Composite {
 		
 		numPlayers = new NumberSpinner();
 		numPlayers.setVisibleLength(4);
-		numPlayers.setTitle("Greater Rift Level");
+		numPlayers.setTitle("# of players in rift (used to calculate monster health)");
 		numPlayers.setText("1");
 		numPlayers.setMin(1);
 		numPlayers.setMax(4);
