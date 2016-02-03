@@ -81,13 +81,13 @@ public enum DamageMultiplier {
 				public Double getValue(SimulationState state) {
 					return state.getData().getPhysDamage();
 				}
-			}), SharpShooter("SS", DamageAccumulator.Special,
-			"SharpShooter Bonus (+4% crit chance/second after last crit)",
+			}), SharpShooter("CCX", DamageAccumulator.Special,
+			"Effective Crit Chance Bonus from Sharpshooter and/or Broken Promises",
 			new Test<SimulationState, Double>() {
 
 				@Override
 				public Double getValue(SimulationState data) {
-					return data.getData().isSharpshooter() ? data.getData()
+					return (data.getData().isSharpshooter() || data.getData().isBrokenPromises()) ? data.getData()
 							.getSharpshooterCC() : 0.0;
 				}
 			}), Lightning("Lightning", DamageAccumulator.ElementalAdditive,
@@ -475,15 +475,17 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return ((state.getData().getNumShadow() >= 2) && (state.getData().getWeaponType() == WeaponType.Melee)) ? 6.0 : 0;
+					return ((state.getData().getNumShadow() >= 2) && (state
+							.getData().getWeaponType() == WeaponType.Melee)) ? 6.0
+							: 0;
 				}
 			}), S6("S6", DamageAccumulator.Special,
-					"Shadow 6 piece Impale damage bonus (+40,000% to first target)",
-					new Test<SimulationState, Double>() {
-						@Override
-						public Double getValue(SimulationState state) {
-							return (state.getData().getNumShadow() >= 6) ? 400.0 : 0;
-						}
+			"Shadow 6 piece Impale damage bonus (+40,000% to first target)",
+			new Test<SimulationState, Double>() {
+				@Override
+				public Double getValue(SimulationState state) {
+					return (state.getData().getNumShadow() >= 6) ? 400.0 : 0;
+				}
 			}), VenBuff("VenBuff", DamageAccumulator.Multiplicative,
 			"Vengeance damage buff (+40%)",
 			new Test<SimulationState, Double>() {

@@ -127,6 +127,9 @@ public enum SpecialItemType {
 			Slot.Ring2, Slot.CubeJewelry }, new Attribute(
 			SpecialItemType.PERCENT, Const.COE_PERCENT, 150, 200)),
 
+	BrokenPromises(Const.BROKEN_PROMISES, "broken-promises", false, new Slot[] { Slot.Ring1,
+			Slot.Ring2, Slot.CubeJewelry }),
+
 	Cindercoat(Const.CINDERCOAT, "cindercoat", false, new Slot[] { Slot.Torso,
 			Slot.CubeArmor }, new Attribute(SpecialItemType.PERCENT,
 			Const.CINDERCOAT_RCR, 23, 30)),

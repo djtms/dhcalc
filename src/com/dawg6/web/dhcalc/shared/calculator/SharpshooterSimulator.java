@@ -20,44 +20,72 @@ package com.dawg6.web.dhcalc.shared.calculator;
 
 public class SharpshooterSimulator {
 
-	public static double simulate(double aps, double delayMs, double baseCC, int count, int num) {
+	public static double simulate(double aps, double delayMs, double baseCC, int count, int num, boolean bp, boolean ss) {
 		double total = 0;
 		
 		for (int i = 0; i < num; i++) {
-			total += simulate(aps, delayMs, baseCC, count);
+			total += simulate(aps, delayMs, baseCC, count, bp, ss);
 		}
 		
 		return total/num;
 	}
 	
-	public static double simulate(double aps, double delayMs, double baseCC, int count) {
+	public static double simulate(double aps, double delayMs, double baseCC, int count, boolean bp, boolean ss) {
 		double cc = baseCC;
 		double interval = (1.0 / aps) + (delayMs / 1000.0);
 		double t = 0;
 		double next = 1.0;
 		double reset = Integer.MAX_VALUE;
 		double total = 0;
-
+		int non = 0;
+		double bpReset = Integer.MAX_VALUE;
+		
 		for (int i = 0; i < count; i++) {
 
-			if (t >= reset) {
-				cc = baseCC;
-				reset = Integer.MAX_VALUE;
+			if (ss) {
+				if (t >= reset) {
+					cc = baseCC;
+					reset = Integer.MAX_VALUE;
+				}
+
+				if (t >= next) {
+					cc += 0.04;
+					cc = Math.min(cc,  1.0);
+	
+					next += 1.0;
+				}
 			}
 
-			if (t >= next) {
-				cc += 0.04;
-
-				next += 1.0;
+			if (bp) {
+				if (t > bpReset) {
+					cc = baseCC;
+					bpReset = Integer.MAX_VALUE;
+				}
 			}
-
-			cc = Math.min(cc,  1.0);
-
+			
 			total += cc;
 
-			if (Math.random() <= cc) {
-				reset = t + 1.0;
-				next = reset + 1.0;
+			double roll = Math.random();
+			
+			System.out.println("t = " + t + ", cc = " + cc + ", roll = " + ((roll <= cc)?"CRIT":"non-crit"));
+			
+			if (roll <= cc) {
+				
+				if (bp) {
+					non = 0;
+				}
+				
+				if (ss) {
+					reset = t + 1.0;
+					next = reset + 1.0;
+				}
+			} else if (bp) {
+				non++;
+				
+				if (non == 5) {
+					cc = 1.0;
+					bpReset = t + 3.0;
+				}
 			}
 
 			t += interval;
@@ -70,12 +98,13 @@ public class SharpshooterSimulator {
 
 	public static double getValue(CharacterData data) {
 		
-		if (!data.isSharpshooter())
+		if (!data.isSharpshooter() && !data.isBrokenPromises())
 			return 0.0;
 		
 		double mainHandAps = data.getAps();
 		double aps = mainHandAps;
 		double cc = data.getCritChance();
+		boolean ss = data.isSharpshooter();
 		
 		if (data.isSingleOut() && (data.getTargetSpacing() >= 20))
 			cc += 0.25;
@@ -83,6 +112,8 @@ public class SharpshooterSimulator {
 		if (data.getGems().containsKey(GemSkill.Iceblink) && (data.getGemLevel(GemSkill.Iceblink) >= 25)) {
 			cc += (0.1 * data.getPercentSlowedChilled());
 		}
+		
+		boolean bp = data.isBrokenPromises();
 		
 		if (data.getSkills().get(ActiveSkill.Caltrops) == Rune.Bait_the_Trap) {
 			cc += 0.1;
@@ -96,7 +127,7 @@ public class SharpshooterSimulator {
 			aps = (mainHandAps + offHandAps) / 2.0;
 		}
 
-		double value = simulate(aps, data.getDelay(), cc, 1000, 100);
+		double value = simulate(aps, data.getDelay(), cc, 1000, 100, bp, ss);
 
 		return Math.round(value * 1000.0) / 1000.0;
 	}

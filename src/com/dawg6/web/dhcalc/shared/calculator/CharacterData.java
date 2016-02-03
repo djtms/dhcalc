@@ -2162,4 +2162,8 @@ public class CharacterData implements Serializable {
 	public void setOtherSets(boolean otherSets) {
 		this.otherSets = otherSets;
 	}
+
+	public boolean isBrokenPromises() {
+		return isItem(SpecialItemType.BrokenPromises);
+	}
 }
