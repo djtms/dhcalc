@@ -556,6 +556,18 @@ public class ProfileHelper {
 				if (v != null) {
 					equipmentDexterity += v.min;
 				}
+				
+				v = i.attributesRaw.get(Const.CUBE_GEM_TYPE);
+				
+				if ((v != null) && (v.min == Const.CUBE_DEXTERITY_GEM_TYPE)) {
+					
+					v = i.attributesRaw.get(Const.CUBE_GEM_RANK);
+					
+					if (v != null) {
+						int l = Math.round(v.min);
+						equipmentDexterity += (l * 5);
+					}
+				}
 
 				v = i.attributesRaw.get(Const.AREA_DAMAGE);
 
