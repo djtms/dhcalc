@@ -1,5 +1,11 @@
 Change Log:
 
+**2/4/16**
+- Added base +4% CHC for Sharpshooter
+
+**2/3/16**
+- Added Broken Promises
+
 **1/21/16**
 - Fixed S6 damage (was in log but not included in calculations)
 - Cooldown skills (Vengeance, RoV, FoK) now start immediately and Vengeance/Seethe no longer waits until hatred has been reduced before starting
