@@ -43,7 +43,7 @@ public class SharpshooterSimulator {
 		for (int i = 0; i < count; i++) {
 
 			if (ss) {
-				if (t >= reset) {
+				if (t > reset) {
 					cc = baseCC;
 					reset = Integer.MAX_VALUE;
 				}
@@ -67,7 +67,7 @@ public class SharpshooterSimulator {
 
 			double roll = Math.random();
 			
-			System.out.println("t = " + t + ", cc = " + cc + ", roll = " + ((roll <= cc)?"CRIT":"non-crit"));
+//			System.out.println("t = " + t + ", cc = " + cc + ", roll = " + ((roll <= cc)?"CRIT":"non-crit"));
 			
 			if (roll <= cc) {
 				

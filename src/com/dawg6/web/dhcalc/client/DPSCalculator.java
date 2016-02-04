@@ -666,6 +666,7 @@ public class DPSCalculator extends BasePanel {
 		double aCC = 0.0;
 		double aDam = 0.0;
 		double aCD = 0.0;
+		double ssCC = 0.0;
 		buffIas = 0.0;
 
 		if (main.getPlayerBuffs().getBbv().getValue()
@@ -698,6 +699,10 @@ public class DPSCalculator extends BasePanel {
 			buffIas += 0.1;
 		}
 
+		if (main.getPassivesPanel().getPassives().contains(Passive.Sharpshooter)) {
+			ssCC = 0.04;
+		}
+		
 		if (main.getPassivesPanel().getPassives().contains(Passive.Archery)) {
 			if (type == WeaponType.HandCrossbow) {
 				aCC += 0.05;
@@ -716,7 +721,7 @@ public class DPSCalculator extends BasePanel {
 				: 0.0;
 
 		double critChance = Math.min(1.0, .05
-				+ (getValue(this.critChance) / 100.0) + pCC + aCC + anatomy);
+				+ (getValue(this.critChance) / 100.0) + pCC + aCC + anatomy + ssCC);
 		double critDamage = getValue(this.critDamage) / 100.0 + pCD + aCD;
 
 		this.eIas = (getValue(this.equipIAS)) / 100.0;

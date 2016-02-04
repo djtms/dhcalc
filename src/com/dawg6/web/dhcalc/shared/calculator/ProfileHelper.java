@@ -152,7 +152,12 @@ public class ProfileHelper {
 		double aCC = 0.0;
 		double aDam = 0.0;
 		double aCD = 0.0;
-
+		double ssCC = 0.0;
+		
+		if (data.isSharpshooter()) {
+			ssCC = 0.04;
+		}
+		
 		if (data.isArchery()) {
 			if (type == WeaponType.HandCrossbow) {
 				aCC += 0.05;
@@ -168,7 +173,7 @@ public class ProfileHelper {
 		}
 
 		double critChance = Math.min(1.0, 0.05 + data.getEquipCritChance()
-				+ pCC + aCC);
+				+ pCC + aCC + ssCC);
 		double critDamage = data.getEquipCritDamage() + pCD + aCD;
 
 		double eIas = data.getEquipIas();
@@ -217,8 +222,8 @@ public class ProfileHelper {
 
 		data.setSheetDps(sheetDps);
 		data.setAps(aps);
-		double petIasValue = data.isTnt() ? data.getTntPercent() : 0.0;
-		double petApsValue = aps * (1.0 + petIasValue) * (1.0 + gogokIas);
+//		double petIasValue = data.isTnt() ? data.getTntPercent() : 0.0;
+//		double petApsValue = aps * (1.0 + petIasValue) * (1.0 + gogokIas);
 		data.setCritChance(critChance);
 		data.setCritHitDamage(critDamage);
 
