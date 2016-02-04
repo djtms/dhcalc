@@ -2,6 +2,7 @@ Change Log:
 
 **2/4/16**
 - Added base +4% CHC for Sharpshooter
+- Added support for parsing Caldesann's Repair dexterity bonus from hero profile
 
 **2/3/16**
 - Added Broken Promises
