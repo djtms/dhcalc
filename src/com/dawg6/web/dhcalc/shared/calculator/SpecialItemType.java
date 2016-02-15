@@ -49,7 +49,7 @@ public enum SpecialItemType {
 
 	Manticore(Const.MANTICORE, "manticore", false, new Slot[] {
 			Slot.MainHand, Slot.CubeWeapon }, new Attribute(
-			SpecialItemType.PERCENT, Const.MANTICORE_PERCENT, 75, 100)),
+			SpecialItemType.PERCENT, Const.MANTICORE_PERCENT, 40, 50)),
 
 	Dawn(Const.DAWN, "dawn", false, new Slot[] {
 			Slot.MainHand, Slot.OffHand, Slot.CubeWeapon }, new Attribute(
