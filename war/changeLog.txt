@@ -9,6 +9,7 @@ Change Log:
    - Correct Max # of traps (6 for Custom Engineering, 3 otherwise)
    - Spike Traps now require time to be placed (based on breakpoint calculations) and will trigger Focus/Restraint spender buff
    - Spike Traps will always be deployed first, if less than maximum are currently active and if there is enough hatred to do so
+   - Scatter rune now correctly deploys 3 traps at once
    
 **2/4/16**
 - Added base +4% CHC for Sharpshooter
