@@ -2163,6 +2163,10 @@ public class CharacterData implements Serializable {
 		this.otherSets = otherSets;
 	}
 
+	public int getMaxTraps() {
+		return this.isCustomEngineering() ? 6 : 3;
+	}
+	
 	public boolean isBrokenPromises() {
 		return isItem(SpecialItemType.BrokenPromises);
 	}

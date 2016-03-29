@@ -1,5 +1,15 @@
 Change Log:
 
+**3/29/16**
+- Added Skill-specific APS calculation to DPS/Breakpoint calculator
+- Fixed several Spike Traps mechanics
+   - Spike Traps now arm properly (3 seconds for Long Fuse, 1 second for Sticky Trap, 1.5 seconds for all others)
+   - Spike Traps now rearm properly (0.5 seconds after first charge)
+   - Correct # of charges for spike traps (1 for Long Fuse, Sticky Trap and Echoing Blast, 3 for all others)
+   - Correct Max # of traps (6 for Custom Engineering, 3 otherwise)
+   - Spike Traps now require time to be placed (based on breakpoint calculations) and will trigger Focus/Restraint spender buff
+   - Spike Traps will always be deployed first, if less than maximum are currently active and if there is enough hatred to do so
+   
 **2/4/16**
 - Added base +4% CHC for Sharpshooter
 - Added support for parsing Caldesann's Repair dexterity bonus from hero profile

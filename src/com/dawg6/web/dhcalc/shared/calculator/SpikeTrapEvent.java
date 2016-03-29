@@ -25,10 +25,24 @@ public class SpikeTrapEvent extends Event {
 	private final Rune rune;
 	private int charges;
 	private final int num;
+	private final int maxCharges;
 	
 	public SpikeTrapEvent(CharacterData data, int num) {
 		this.rune = data.getSkills().get(ActiveSkill.ST);
-		this.charges = 3;
+		
+		switch (rune) {
+			case Long_Fuse:
+			case Sticky_Trap:
+			case Echoing_Blast:
+				this.maxCharges = 1;
+				break;
+				
+			default:
+				this.maxCharges = 3;
+		}
+		
+		this.charges = maxCharges;
+		
 		this.num = num;
 	}
 
@@ -40,12 +54,12 @@ public class SpikeTrapEvent extends Event {
 
 		List<Damage> dList = DamageFunction.getDamages(true, false, "Player", new DamageSource(ActiveSkill.ST, rune), state);
 		
-		String noteStr = "Trap#" +num + " Charge #" + (3 - this.charges);
+		String noteStr = "Trap#" +num + " Charge #" + (this.maxCharges - this.charges);
 		
 		applyDamages(state, log, dList, noteStr);
 		
 		if (charges > 0) {
-			this.time += ((rune == Rune.Long_Fuse) ? 3.0 : 2.0);
+			this.time += 0.5;
 			queue.push(this);
 		} else {
 			state.removeSpikeTrap(num);

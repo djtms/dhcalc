@@ -256,7 +256,7 @@ public class DPSCalculator extends BasePanel {
 		label_11.setStyleName("boldText");
 
 		skillApsLabel = new Label("0");
-		skillApsLabel.setTitle("APS selected skill");
+		skillApsLabel.setTitle("APS for selected skill");
 		flexTable_6.setWidget(1, 3, skillApsLabel);
 		skillApsLabel.setStyleName("boldText");
 

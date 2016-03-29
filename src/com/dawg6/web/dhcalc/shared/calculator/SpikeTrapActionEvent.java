@@ -24,51 +24,77 @@ public class SpikeTrapActionEvent extends Event {
 
 	private final Rune rune;
 	private final double cost;
-
+	private final int max;
+	private final SkillAndRune skr;
+	
 	public SpikeTrapActionEvent(CharacterData data) {
 		this.rune = data.getSkills().get(ActiveSkill.ST);
+		this.max = data.getMaxTraps();
+		this.skr = new SkillAndRune(ActiveSkill.ST, rune);
+		
 		double cost = 30.0 + (data.isHexingPants() ? ((30.0 * data
 				.getPercentMoving() * .25) - (30.0 * (1.0 - data
 				.getPercentMoving()) * data.getHexingPantsPercent())) : 0.0);
+		
 		this.cost = cost * (1.0 - data.getRcr());
 		this.time = 0.0;
 	}
 
+	public int getQtyAvailable(SimulationState state) {
+		int num = state.getNumSpikeTraps();
+		int qty = (rune == Rune.Scatter) ? 3 : 1;
+		
+		if (((num + qty) <= max) && (state.getHatred() >= cost)) {
+			return qty;
+		} else {
+			return 0;
+		}
+	}
+	
 	@Override
 	public void execute(EventQueue queue, List<Damage> log,
 			SimulationState state) {
 
-		int num = state.getNumSpikeTraps();
+		int qty = getQtyAvailable(state);
 		
-		if ((num < 3) && (state.getHatred() >= cost)) {
-			int n = (rune == Rune.Scatter) ? (3 - state.getNumSpikeTraps()) : 1;
+		if (qty > 0) {
 			int trapNumber = 0;
 
 			state.addHatred(-cost);
 			
-			for (int i = 0; i < n; i++) {
+			for (int i = 0; i < qty; i++) {
 				trapNumber = state.addSpikeTrap();
 				SpikeTrapEvent e = new SpikeTrapEvent(state.getData(), trapNumber);
-				e.time = this.time + ((rune == Rune.Long_Fuse) ? 3.0 : 2.0);
+				
+				switch (rune) {
+					case Long_Fuse:
+						e.time = state.getTime() + 3.0;
+						break;
+
+					case Sticky_Trap:
+						e.time = state.getTime() + 1.0;
+						break;
+						
+					default:
+						e.time = state.getTime() + 1.5;
+				
+				}
 				queue.push(e);
 			}
 			
 			Damage d = new Damage();
-			d.time = this.time;
+			d.time = state.getTime();
 			d.shooter = "Player";
 			d.source = new DamageSource(ActiveSkill.ST, rune);
 			d.hatred = -cost;
 			d.currentDisc = state.getDisc();
 			d.currentHatred = state.getHatred();
-			d.note = "Deploy Trap" + ((rune == Rune.Scatter) ? "s" : ("#" + trapNumber));
+			d.note = "Deploy " + ((rune == Rune.Scatter) ? (qty + " Traps") : ("Trap#" + trapNumber));
 			log.add(d);
-			
-			this.time += 1.0;
-		} else {
-			this.time = queue.nextTime(this.time);
-		}
-		
-		queue.push(this);
+		} 
 	}
 
+	public SkillAndRune getSkillAndRune() {
+		return skr;
+	}
 }

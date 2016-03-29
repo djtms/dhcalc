@@ -170,7 +170,9 @@ public class SimulationState implements Serializable {
 
 	public int addSpikeTrap() {
 		
-		for (Integer i = 1; i <= 3; i++) {
+		int max = data.getMaxTraps();
+		
+		for (Integer i = 1; i <= max; i++) {
 			if (!spikeTraps.contains(i)) {
 				spikeTraps.add(i);
 				return i;

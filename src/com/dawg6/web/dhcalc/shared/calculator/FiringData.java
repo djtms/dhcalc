@@ -98,9 +98,6 @@ public class FiringData {
 		if (data.isMarked() && (data.getMfdUptime() > 0)) 
 			eventQueue.push(new BuffEvent.MfDPrimaryBuff(data));
 
-		if (data.isSpikeTrap()) 
-			eventQueue.push(new SpikeTrapActionEvent(data));
-
 		Rune caltropsRune = data.getCaltropsRune();
 		
 		if ((caltropsRune != null) && (data.getCaltropsUptime() > 0)) {

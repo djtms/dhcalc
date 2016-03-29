@@ -59,6 +59,7 @@ public class ActionEvent extends Event {
 	private final boolean bots;
 	private final boolean karleis;
 	private final double karleisHatred;
+	private SpikeTrapActionEvent spikeTrap;
 
 	public ActionEvent(CharacterData data) {
 		this.hand = Hand.MainHand;
@@ -141,6 +142,12 @@ public class ActionEvent extends Event {
 		}
 
 		Collections.sort(skills, new SkillAndRune.HatredSorter(data));
+		
+		if (data.isSpikeTrap()) 
+			spikeTrap = new SpikeTrapActionEvent(data);
+		else
+			spikeTrap = null;
+
 	}
 
 	@Override
@@ -149,6 +156,14 @@ public class ActionEvent extends Event {
 
 		SkillAndRune selected = null;
 
+		if (spikeTrap != null) {
+			int qty = spikeTrap.getQtyAvailable(state);
+			
+			if (qty > 0) {
+				selected = spikeTrap.getSkillAndRune();
+			}
+		}
+		
 		double interval = (this.hand == Hand.MainHand) ? mainHandInterval
 				: offHandInterval;
 		double t = this.time;
@@ -156,51 +171,53 @@ public class ActionEvent extends Event {
 
 		state.setHand(hand);
 
-		if (this.odysseys && (esRune != null)) {
-			
-			BuffState oeBuff = state.getBuffs().getBuffs().get(Buff.OdysseysEnd);
-			
-			if ((oeBuff == null) || ((t + interval) >= oeBuff.getExpires())) {
-				selected = new SkillAndRune(ActiveSkill.ES, esRune);
+		if (selected == null) {
+			if (this.odysseys && (esRune != null)) {
+				
+				BuffState oeBuff = state.getBuffs().getBuffs().get(Buff.OdysseysEnd);
+				
+				if ((oeBuff == null) || ((t + interval) >= oeBuff.getExpires())) {
+					selected = new SkillAndRune(ActiveSkill.ES, esRune);
+				}
 			}
-		}
-		
-		if (bastions) {
-			double bwgExpires = state.getBuffs().getBuffs().get(Buff.BwGen)
-					.getExpires();
-			double bwsExpires = state.getBuffs().getBuffs().get(Buff.BwSpend)
-					.getExpires();
-
-			if ((t + interval) >= bwgExpires) {
-				selected = generator;
-			}
-
-			if ((t + interval) >= bwsExpires) {
-
-				if (spender != null) {
-					double h = spender.getHatred(state.getData());
-
-					if (h <= hatred) {
-						selected = spender;
+			
+			if (bastions) {
+				double bwgExpires = state.getBuffs().getBuffs().get(Buff.BwGen)
+						.getExpires();
+				double bwsExpires = state.getBuffs().getBuffs().get(Buff.BwSpend)
+						.getExpires();
+	
+				if ((t + interval) >= bwgExpires) {
+					selected = generator;
+				}
+	
+				if ((t + interval) >= bwsExpires) {
+	
+					if (spender != null) {
+						double h = spender.getHatred(state.getData());
+	
+						if (h <= hatred) {
+							selected = spender;
+						}
 					}
 				}
 			}
-		}
-
-		if ((selected == null) && kridershot && meticulousBolts
-				&& (generator != null)
-				&& (generator.getSkill() == ActiveSkill.EA)
-				&& (generator.getRune() == Rune.Ball_Lightning)) {
-			selected = generator;
-		}
-
-		if (selected == null) {
-			for (SkillAndRune skr : skills) {
-				double h = skr.getHatred(state.getData());
-
-				if ((h + hatred) >= 0) {
-					selected = skr;
-					break;
+	
+			if ((selected == null) && kridershot && meticulousBolts
+					&& (generator != null)
+					&& (generator.getSkill() == ActiveSkill.EA)
+					&& (generator.getRune() == Rune.Ball_Lightning)) {
+				selected = generator;
+			}
+	
+			if (selected == null) {
+				for (SkillAndRune skr : skills) {
+					double h = skr.getHatred(state.getData());
+	
+					if ((h + hatred) >= 0) {
+						selected = skr;
+						break;
+					}
 				}
 			}
 		}
@@ -211,13 +228,15 @@ public class ActionEvent extends Event {
 			
 			String botsLog = null;
 			
-			if (bots) {
-				TargetHolder target = state.getTargets().getTarget(TargetType.Primary);
-				
-				if (target.isAlive() && (target.getNextBots() <= t)) {
-					target.setBotsStacks(target.getBotsStacks() + 1);
-					target.setNextBots(t + 0.3);
-					botsLog = " BotS(" + target.getBotsStacks() + ")";
+			if (selected.getSkill() != ActiveSkill.ST) { 
+				if (bots) {
+					TargetHolder target = state.getTargets().getTarget(TargetType.Primary);
+					
+					if (target.isAlive() && (target.getNextBots() <= t)) {
+						target.setBotsStacks(target.getBotsStacks() + 1);
+						target.setNextBots(t + 0.3);
+						botsLog = " BotS(" + target.getBotsStacks() + ")";
+					}
 				}
 			}
 
@@ -254,87 +273,94 @@ public class ActionEvent extends Event {
 				}
 			}
 
-			List<Damage> dList = DamageFunction.getDamages(true, false,
-					"Player",
-					new DamageSource(selected.getSkill(), selected.getRune()),
-					state);
+			List<Damage> dList = new Vector<Damage>();
 			
-			for (Damage d : dList) {
+			if (selected.getSkill() == ActiveSkill.ST) {
+				spikeTrap.execute(queue, log, state);
+			} else {
+				dList = DamageFunction.getDamages(true, false,
+						"Player",
+						new DamageSource(selected.getSkill(), selected.getRune()),
+						state);
 				
-				if ((botsLog != null) && (d.target == TargetType.Primary)) {
-					d.note += botsLog;
-					botsLog = null;
+				for (Damage d : dList) {
+					
+					if ((botsLog != null) && (d.target == TargetType.Primary)) {
+						d.note += botsLog;
+						botsLog = null;
+					}
+					
+					if (d.hatred > 0)
+						d.hatred = actualHatred;
 				}
 				
-				if (d.hatred > 0)
-					d.hatred = actualHatred;
-			}
-			
-			applyDamages(state, log, dList);
-
-			if (ue2 && (h > 0)) {
-				double actual = state.addDisc(1.0);
-
-				if (actual > 0) {
-					Damage d = new Damage();
-					d.time = state.getTime();
-					d.disc = actual;
-					d.shooter = "Player";
-					d.note = "UE2 Disc";
-					d.currentDisc = state.getDisc();
-					d.currentHatred = state.getHatred();
-					log.add(d);
+				applyDamages(state, log, dList);
+	
+				if (ue2 && (h > 0)) {
+					double actual = state.addDisc(1.0);
+	
+					if (actual > 0) {
+						Damage d = new Damage();
+						d.time = state.getTime();
+						d.disc = actual;
+						d.shooter = "Player";
+						d.note = "UE2 Disc";
+						d.currentDisc = state.getDisc();
+						d.currentHatred = state.getHatred();
+						log.add(d);
+					}
 				}
-			}
-
-			if (m4 && (selected.getSkill().getSkillType() == SkillType.Spender)) {
-				
-				List<Damage> sList = DamageFunction.getDamages(false, true,
-						"Sentry", new DamageSource(selected.getSkill(),
-								selected.getRune()), state);
-				applyDamages(state, log, sList);
-				state.setLastSpenderTime(t);
-				dList.addAll(sList);
-			}
-
-			if (mortalEnemy
-					&& (state.getBuffs().isActive(Buff.MfdPrimary) || state
-							.getBuffs().isActive(Buff.MfdAdditional))) {
-
-				double mh = state.addHatred(markedAmount);
-
-				if (mh > 0) {
-
-					Damage d = new Damage();
-					d.shooter = "Player";
-					d.source = new DamageSource(ActiveSkill.MFD,
-							Rune.Mortal_Enemy);
-					d.hatred = mh;
-					d.time = t;
-					d.note = "MfD/ME Hatred";
-					d.currentHatred = state.getHatred();
-					d.currentDisc = state.getDisc();
-					log.add(d);
+	
+				if (m4 && (selected.getSkill().getSkillType() == SkillType.Spender)) {
+					
+					List<Damage> sList = DamageFunction.getDamages(false, true,
+							"Sentry", new DamageSource(selected.getSkill(),
+									selected.getRune()), state);
+					applyDamages(state, log, sList);
+					state.setLastSpenderTime(t);
+					dList.addAll(sList);
 				}
-			}
-
-			if (karleis
-					&& (selected.getSkill() == ActiveSkill.IMP)) {
-
-				double mh = state.addHatred(karleisHatred);
-
-				if (mh > 0) {
-
-					Damage d = new Damage();
-					d.shooter = "Player";
-					d.source = new DamageSource(selected.getSkill(), selected.getRune());
-					d.hatred = mh;
-					d.time = t;
-					d.note = "Karlei's Point Hatred";
-					d.currentHatred = state.getHatred();
-					d.currentDisc = state.getDisc();
-					log.add(d);
+	
+				if (mortalEnemy
+						&& (state.getBuffs().isActive(Buff.MfdPrimary) || state
+								.getBuffs().isActive(Buff.MfdAdditional))) {
+	
+					double mh = state.addHatred(markedAmount);
+	
+					if (mh > 0) {
+	
+						Damage d = new Damage();
+						d.shooter = "Player";
+						d.source = new DamageSource(ActiveSkill.MFD,
+								Rune.Mortal_Enemy);
+						d.hatred = mh;
+						d.time = t;
+						d.note = "MfD/ME Hatred";
+						d.currentHatred = state.getHatred();
+						d.currentDisc = state.getDisc();
+						log.add(d);
+					}
 				}
+	
+				if (karleis
+						&& (selected.getSkill() == ActiveSkill.IMP)) {
+	
+					double mh = state.addHatred(karleisHatred);
+	
+					if (mh > 0) {
+	
+						Damage d = new Damage();
+						d.shooter = "Player";
+						d.source = new DamageSource(selected.getSkill(), selected.getRune());
+						d.hatred = mh;
+						d.time = t;
+						d.note = "Karlei's Point Hatred";
+						d.currentHatred = state.getHatred();
+						d.currentDisc = state.getDisc();
+						log.add(d);
+					}
+				}
+
 			}
 
 			if (state.getBuffs().isActive(Buff.Vengeance)) {
