@@ -1,6 +1,7 @@
 <%@ page import="com.dawg6.web.dhcalc.server.ClientBuffer"%>
 <%@ page import="com.dawg6.web.dhcalc.server.IO"%>
 <%@ page import="java.util.Map"%>
+<%@ page import="java.util.concurrent.TimeUnit"%>
 <%@ page import="com.dawg6.d3api.server.*"%>
 <%@ page import="com.dawg6.d3api.shared.*"%>
 <%@ page import="com.dawg6.web.dhcalc.server.util.ServerUtils"%>
@@ -11,6 +12,7 @@
 <%@ page import="com.dawg6.web.dhcalc.server.db.couchdb.SetDocument"%>
 <%@ page import="com.dawg6.web.dhcalc.server.db.couchdb.AccountDocument"%>
 <%@ page import="com.dawg6.web.dhcalc.server.DHCalcServiceImpl"%>
+<%@ page import="com.dawg6.web.dhcalc.server.util.DHCalcProperties"%>
 
 <%
 	Runtime runtime = Runtime.getRuntime();
@@ -127,11 +129,28 @@
 			long retryAttempts = IO.getInstance().getRetryAttempts();
 			double hitPercent = 0.0;
 			double missPercent = 0.0;
+			long up = DHCalcProperties.getInstance().getUptime();
+			int days = (int) TimeUnit.MILLISECONDS.toDays(up);
+			int hours = (int) TimeUnit.MILLISECONDS.toHours(up) % 24;
+			int minutes = (int) TimeUnit.MILLISECONDS.toMinutes(up) % 60;
+			int seconds = (int) TimeUnit.MILLISECONDS.toSeconds(up) % 60;
+			
+			StringBuffer buf = new StringBuffer();
+			
+			if (days > 0)
+				buf.append(String.format("%d day%s ", days, (days > 1) ? "s":"" ));
+			
+			if (hours > 0)
+				buf.append(String.format("%d hour%s ", hours, (hours > 1) ? "s":"" ));
+			
+			if (minutes > 0)
+				buf.append(String.format("%d minute%s ", minutes, (minutes > 1) ? "s":"" ));
+			
+			if (seconds > 0)
+				buf.append(String.format("%d second%s ", seconds, (seconds > 1) ? "s":"" ));
 
-			if (total > 0) {
-				hitPercent = (double) hits / (double) total;
-				missPercent = 1.0 - hitPercent;
-			}
+			String uptime = buf.toString();
+					
 		%>
 		<col width="100px" />
 		<col width="100px" />
@@ -167,6 +186,10 @@
 	<table border="1">
 		<col width="200px" />
 		<col width="100px" />
+		<tr>
+			<td>Uptime:</td>
+			<td nowrap><%=uptime%></td>
+		</tr>
 		<tr>
 			<td># Errors:</td>
 			<td><%=errors%></td>

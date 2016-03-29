@@ -90,6 +90,7 @@ public class DPSCalculator extends BasePanel {
 	private final ListBox skillBox;
 	private double mainHand_Aps;
 	private double offHand_aps;
+	private Label skillApsLabel;
 
 	public DPSCalculator(MainPanel main) {
 
@@ -249,14 +250,24 @@ public class DPSCalculator extends BasePanel {
 		flexTable_6.setWidget(0, 1, dps);
 		dps.setStyleName("boldText");
 
+		Label label_11 = new Label("Skill APS:");
+		flexTable_6.setWidget(1, 2, label_11);
+		label_11.setWordWrap(false);
+		label_11.setStyleName("boldText");
+
+		skillApsLabel = new Label("0");
+		skillApsLabel.setTitle("APS selected skill");
+		flexTable_6.setWidget(1, 3, skillApsLabel);
+		skillApsLabel.setStyleName("boldText");
+
 		Label lblBreakPoint = new Label("Break Point #:");
-		flexTable_6.setWidget(1, 2, lblBreakPoint);
+		flexTable_6.setWidget(2, 2, lblBreakPoint);
 		lblBreakPoint.setWordWrap(false);
 		lblBreakPoint.setStyleName("boldText");
 
 		breakpoint = new Label("0");
 		breakpoint.setTitle("Break Point # for selected skill");
-		flexTable_6.setWidget(1, 3, breakpoint);
+		flexTable_6.setWidget(2, 3, breakpoint);
 		breakpoint.setStyleName("boldText");
 
 		CaptionPanel cptnpnlNewPanel = new CaptionPanel(
@@ -378,12 +389,12 @@ public class DPSCalculator extends BasePanel {
 		Label lblAttacksPer = new Label("FPA");
 		lblAttacksPer.setWordWrap(false);
 		lblAttacksPer.setStyleName("boldText");
-		flexTable_6.setWidget(2, 2, lblAttacksPer);
+		flexTable_6.setWidget(3, 2, lblAttacksPer);
 
 		fpaLabel = new Label("0");
 		fpaLabel.setTitle("Frames per Attack");
 		fpaLabel.setStyleName("boldText");
-		flexTable_6.setWidget(2, 3, fpaLabel);
+		flexTable_6.setWidget(3, 3, fpaLabel);
 
 		Label lblTotalCritDamage = new Label("Total Crit Hit Damage:");
 		flexTable_6.setWidget(3, 0, lblTotalCritDamage);
@@ -395,13 +406,13 @@ public class DPSCalculator extends BasePanel {
 		actualCD.setStyleName("boldText");
 
 		Label lblBpAps = new Label("Actual APS:");
-		flexTable_6.setWidget(3, 2, lblBpAps);
+		flexTable_6.setWidget(4, 2, lblBpAps);
 		lblBpAps.setWordWrap(false);
 		lblBpAps.setStyleName("boldText");
 
 		actualAps = new Label("0");
 		actualAps.setTitle("Actual APS (based on Breakpoint)");
-		flexTable_6.setWidget(3, 3, actualAps);
+		flexTable_6.setWidget(4, 3, actualAps);
 		actualAps.setStyleName("boldText");
 
 		Label lblTotalDexterity = new Label("Total Dexterity:");
@@ -490,6 +501,8 @@ public class DPSCalculator extends BasePanel {
 				&& this.main.getItemPanel().isHuntersWrath())
 			aps *= 1.3;
 
+		skillApsLabel.setText(Util.format(Math.round(aps * 10000.0) / 10000.0));
+		
 		this.currentBp = bp.get(aps);
 
 		this.breakpoint.setText(String.valueOf(this.currentBp.bp));

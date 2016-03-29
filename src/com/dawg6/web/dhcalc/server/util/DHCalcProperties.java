@@ -39,7 +39,8 @@ public class DHCalcProperties {
 	private static final String DB = "com.dawg6." + APP_NAME + ".db";
 	
 	private static final DHCalcProperties instance = new DHCalcProperties();
-
+	private static final long started = System.currentTimeMillis();
+	
 	private boolean devmode;
 	private String apiKey;
 	private String apiSecret;
@@ -69,6 +70,10 @@ public class DHCalcProperties {
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "Error setting properties", e);
 		}
+	}
+	
+	public long getUptime() {
+		return System.currentTimeMillis() - started;
 	}
 	
 	public static DHCalcProperties getInstance() {
