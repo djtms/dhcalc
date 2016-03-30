@@ -292,14 +292,16 @@ public class DamageFunction {
 
 			new DamageRow(ActiveSkill.ST, Rune.None, 3.4, true,
 					Integer.MAX_VALUE, 0, 8, "AoE", DamageType.Fire),
-			new DamageRow(ActiveSkill.ST, Rune.Echoing_Blast, 4.2, true,
-					Integer.MAX_VALUE, 0, 8, "AoE", DamageType.Cold),
-			new DamageRow(ActiveSkill.ST, Rune.Sticky_Trap, 8.0, true,
+			new DamageRow(ActiveSkill.ST, Rune.Echoing_Blast, 5.75, true,
+					Integer.MAX_VALUE, 0, 8, "AoE", DamageType.Cold), // TODO Frozen
+			new DamageRow(ActiveSkill.ST, Rune.Sticky_Trap, 9.15, true,
 					Integer.MAX_VALUE, 0, 16, "AoE", DamageType.Fire),
-			new DamageRow(ActiveSkill.ST, Rune.Long_Fuse, 5.2, true,
+			new DamageRow(ActiveSkill.ST, Rune.Long_Fuse, 9.3, true,
 					Integer.MAX_VALUE, 0, 8, "AoE", DamageType.Fire),
-			new DamageRow(ActiveSkill.ST, Rune.Lightning_Rod, 5, true, 2,
+			new DamageRow(ActiveSkill.ST, Rune.Lightning_Rod, 0.88, true, 2,
 					DamageType.Lightning),
+			new DamageRow(ActiveSkill.ST, Rune.Lightning_Rod, 0.88, true, Integer.MAX_VALUE,
+					"Arc", DamageType.Lightning, DamageMultiplier.Traps),
 			new DamageRow(ActiveSkill.ST, Rune.Scatter, 3.4, true,
 					Integer.MAX_VALUE, 0, 8, "AoE", DamageType.Fire),
 

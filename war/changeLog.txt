@@ -1,5 +1,12 @@
 Change Log:
 
+**3/30/16**
+- Fixed Spike Trap damage multipliers for 2.3 changes
+- Lightning Rod now has 10 ticks (charges). Each tick does 88% damage. The delay between ticks is based on APS.
+- Lightning also Arcs between traps for every other trap. This causes an additional 88% damage for every enemy between any two traps. 
+- The # of lightning arcs is based on the # of traps. With 2 traps up, there will be one arc per tick. With 3 traps up, there will be 2 arcs per tick, etc... Added a new Multiplier "Traps" for the arcs.
+- There does not appear to be any limit to the # of targets that can be hit by the arcs, so it arcs hit the primary target and all additional targets (we'll assume the traps are placed optimally).
+
 **3/29/16**
 - Added Skill-specific APS calculation to DPS/Breakpoint calculator
 - Fixed several Spike Traps mechanics

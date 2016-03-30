@@ -36,11 +36,15 @@ public class SpikeTrapEvent extends Event {
 			case Echoing_Blast:
 				this.maxCharges = 1;
 				break;
+			
+			case Lightning_Rod:
+				this.maxCharges = 10;
+				break;
 				
 			default:
 				this.maxCharges = 3;
 		}
-		
+
 		this.charges = maxCharges;
 		
 		this.num = num;
@@ -54,12 +58,18 @@ public class SpikeTrapEvent extends Event {
 
 		List<Damage> dList = DamageFunction.getDamages(true, false, "Player", new DamageSource(ActiveSkill.ST, rune), state);
 		
-		String noteStr = "Trap#" +num + " Charge #" + (this.maxCharges - this.charges);
+		String noteStr = "Trap#" + num + ((rune == Rune.Lightning_Rod) ? " Tick#" : " Charge#") + (this.maxCharges - this.charges);
 		
 		applyDamages(state, log, dList, noteStr);
 		
 		if (charges > 0) {
-			this.time += 0.5;
+			
+			if (rune == Rune.Lightning_Rod) {
+				this.time += (1.0 / state.getLastAps());
+			} else {
+				this.time += 0.5;
+			}
+			
 			queue.push(this);
 		} else {
 			state.removeSpikeTrap(num);

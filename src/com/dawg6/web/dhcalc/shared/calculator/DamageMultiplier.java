@@ -81,13 +81,16 @@ public enum DamageMultiplier {
 				public Double getValue(SimulationState state) {
 					return state.getData().getPhysDamage();
 				}
-			}), SharpShooter("CCX", DamageAccumulator.Special,
+			}), SharpShooter(
+			"CCX",
+			DamageAccumulator.Special,
 			"Effective Crit Chance Bonus from Sharpshooter and/or Broken Promises",
 			new Test<SimulationState, Double>() {
 
 				@Override
 				public Double getValue(SimulationState data) {
-					return (data.getData().isSharpshooter() || data.getData().isBrokenPromises()) ? data.getData()
+					return (data.getData().isSharpshooter() || data.getData()
+							.isBrokenPromises()) ? data.getData()
 							.getSharpshooterCC() : 0.0;
 				}
 			}), Lightning("Lightning", DamageAccumulator.ElementalAdditive,
@@ -136,6 +139,15 @@ public enum DamageMultiplier {
 
 					return d
 							* (0.04 + (state.getData().getZeisLevel() * 0.0005));
+				}
+			}), Traps("Traps", DamageAccumulator.Multiplicative,
+			"# of Other Traps (Spike Trap arcs)",
+			new Test<SimulationState, Double>() {
+				@Override
+				public Double getValue(SimulationState state) {
+					double n = state.getNumSpikeTraps();
+					
+					return (n > 1) ? (n - 2) : 0;
 				}
 			}), M4("M4", DamageAccumulator.Multiplicative,
 			"M4 Damage Bonus for Sentries (300%)",
