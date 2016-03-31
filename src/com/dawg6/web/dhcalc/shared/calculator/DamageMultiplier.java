@@ -809,11 +809,12 @@ public enum DamageMultiplier {
 			"Area Damage (20% chance)", new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return 0.0;
-					// return ((state.getData().getNumAdditional() > 0) &&
-					// (state
-					// .getData().getTargetSpacing() <= 10)) ? (0.2 * state
-					// .getData().getAreaDamage()) : 0.0;
+					return (
+							(state.getTargets().getNumAlive() > 1) && 
+							(state.getData().getTargetSpacing() <= 10)
+							) ? 
+									state.getData().getAreaDamage() : 
+									0.0;
 				}
 			}), Calamity("Calamity", DamageAccumulator.Additive,
 			"Calamity Marked for Death bonus (20% while applied)",

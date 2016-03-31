@@ -107,6 +107,39 @@ public abstract class Event implements Comparable<Event> {
 						state.getDots().addDot(state, dr);
 				}
 			}
+			
+			// apply Area Damage
+			double ad = DamageMultiplier.AD.getValue(state);
+			
+			if ((dr.source.proc == null) && (dr.actualDamage > 0) && dr.shooter.equals("Player") && (ad > 0.0)) {
+				for (TargetType t : state.getTargets().toList()) {
+					
+					if (!t.equals(dr.target)) {
+						TargetHolder target = state.getTargets().getTarget(t);
+						
+						if (target.isAlive()) {
+							Damage copy = dr.copy();
+							copy.target = t;
+							copy.damage = ad * dr.damage * 0.2;
+							copy.note = "Area Damage";
+							copy.hatred = 0;
+							copy.disc = 0;
+							
+							StringBuffer buf = new StringBuffer();
+							buf.append(Util.format(Math.round(dr.damage)));
+							buf.append(" x 0.2 x Area(");
+							buf.append(Util.format(ad));
+							buf.append(")");
+							
+							copy.log = buf.toString();
+							applyDamage(target, state, log, copy, null);
+							
+							if (copy.actualDamage > 0)
+								log.add(copy);
+						}
+					}
+				}
+			}
 		}
 
 		// DML hits twice

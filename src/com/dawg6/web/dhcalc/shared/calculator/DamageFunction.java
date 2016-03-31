@@ -767,7 +767,6 @@ public class DamageFunction {
 							if (isPlayer) {
 								dlist.add(DamageMultiplier.VenBuff);
 								dlist.add(DamageMultiplier.LoN);
-								dlist.add(DamageMultiplier.AD);
 							} else if (isSentry) {
 								dlist.add(DamageMultiplier.M4);
 							}
