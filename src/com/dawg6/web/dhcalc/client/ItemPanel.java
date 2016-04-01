@@ -123,11 +123,11 @@ public class ItemPanel extends Composite {
 		
 		row++;
 
-		Label label_4b = new Label("Other Sets?", false);
+		Label label_4b = new Label("Other Set Bonuses?", false);
 		table.setWidget(row, 0, label_4b);
 
 		this.otherSets = new SimpleCheckBox();
-		this.otherSets.setTitle("Select if any sets not listed below are worn.");
+		this.otherSets.setTitle("Select if any set bonuses not listed below are in effect.");
 		table.setWidget(row, 1, this.otherSets);
 		
 		row++;

@@ -1,5 +1,10 @@
 Change Log:
 
+**4/1/16**
+- Fixed Diamond ranks
+- Fixed import of "Other set bonuses" (was always setting to true)
+- Collapsed skill and elemental damage modifier panels so only skills/types with non-zero values are displayed
+
 **3/31/16**
 - Re-enabled Area Damage
 

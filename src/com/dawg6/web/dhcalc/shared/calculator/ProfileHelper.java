@@ -828,8 +828,10 @@ public class ProfileHelper {
 				}
 			}
 			
-			if (!found)
+			if ((count > 1) && !found) {
 				otherSets = true;
+//				GWT.log("OtherSets = true because of " + e.getKey());
+			}
 			
 			// GWT.log("set " + e.getKey() + " count " + count);
 

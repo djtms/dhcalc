@@ -518,9 +518,6 @@ public class MainPanel extends BasePanel {
 		CaptionPanel captionPanel = new CaptionPanel("Compare Builds");
 		verticalPanel_2.add(captionPanel);
 
-		hatredPanel = new HatredPanel();
-		verticalPanel_2.add(hatredPanel);
-
 		compareTable = new FlexTable();
 		captionPanel.setContentWidget(compareTable);
 		compareTable.setCellPadding(2);
@@ -672,16 +669,8 @@ public class MainPanel extends BasePanel {
 		skills = new SkillsPanel();
 		verticalPanel_1.add(skills);
 
-		FlexTable row = new FlexTable();
-		verticalPanel_1.add(row);
-		row.setWidth("100%");
-
 		passives = new PassivesPanel();
-		row.setWidget(0, 0, passives);
-		row.getFlexCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
-
-		typeDamage = new DamageTypePanel();
-		row.setWidget(0, 1, typeDamage);
+		verticalPanel_1.add(passives);
 
 		situational = new SituationalPanel();
 		verticalPanel_1.add(situational);
@@ -695,11 +684,17 @@ public class MainPanel extends BasePanel {
 		skillDamage = new SkillDamagePanel();
 		verticalPanel_3.add(skillDamage);
 
+		typeDamage = new DamageTypePanel();
+		verticalPanel_3.add(typeDamage);
+		
 		itemPanel = new ItemPanel();
 		verticalPanel_3.add(itemPanel);
 
 		buffPanel = new BuffPanel();
 		verticalPanel_3.add(buffPanel);
+
+		hatredPanel = new HatredPanel();
+		verticalPanel_3.add(hatredPanel);
 
 		playerBuffPanel = new PlayerBuffPanel();
 		verticalPanel_1.add(playerBuffPanel);
