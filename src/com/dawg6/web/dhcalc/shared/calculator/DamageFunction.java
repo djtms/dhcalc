@@ -762,17 +762,19 @@ public class DamageFunction {
 							
 							if (isPlayer) {
 								dlist.add(DamageMultiplier.S2);
-							}
-							
-							if (isPlayer) {
 								dlist.add(DamageMultiplier.VenBuff);
 								dlist.add(DamageMultiplier.LoN);
 							} else if (isSentry) {
+								dlist.add(DamageMultiplier.LoN);
 								dlist.add(DamageMultiplier.M4);
+								dlist.add(DamageMultiplier.VenBuff);
 							}
 							
 							if ((skill != ActiveSkill.Companion)) {
 								dlist.add(DamageMultiplier.Ambush);
+							} else {
+								dlist.add(DamageMultiplier.VenBuff);
+								dlist.add(DamageMultiplier.LoN);
 							}
 
 							if (skill != null) {

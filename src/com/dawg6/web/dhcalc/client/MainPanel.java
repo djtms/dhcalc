@@ -518,6 +518,35 @@ public class MainPanel extends BasePanel {
 		CaptionPanel captionPanel = new CaptionPanel("Compare Builds");
 		verticalPanel_2.add(captionPanel);
 
+		CaptionPanel cptnpnlNewPanel2 = new CaptionPanel("Simulate");
+		verticalPanel_2.add(cptnpnlNewPanel2);
+
+		FlexTable simTable = new FlexTable();
+		cptnpnlNewPanel2.add(simTable);
+		
+		Label l1 = new Label("Simulation Time Limit (seconds):", false);
+		simTable.setWidget(0, 0, l1);
+		
+		timeLimit = new NumberSpinner();
+		timeLimit.setMin(1);
+		timeLimit.setMax(FiringData.MAX_DURATION);
+		timeLimit.setVisibleLength(5);
+		timeLimit.setTitle("Maximum time (in simulation seconds) to let the simulation run");
+		simTable.setWidget(0,1,timeLimit);
+		
+		Button calcButton = new Button("Simulate");
+		calcButton.setTitle("Press to run damage simulation");
+		simTable.setWidget(0, 2, calcButton);
+		calcButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				Service.getInstance().checkVersion(null);
+				calculate();
+			}
+		});
+
+
 		compareTable = new FlexTable();
 		captionPanel.setContentWidget(compareTable);
 		compareTable.setCellPadding(2);
@@ -760,7 +789,7 @@ public class MainPanel extends BasePanel {
 		
 		gemPanel.addChangeHandler(changeHandler);
 
-		CaptionPanel cptnpnlNewPanel = new CaptionPanel("Output");
+		CaptionPanel cptnpnlNewPanel = new CaptionPanel("Simulation Output");
 		panel.add(cptnpnlNewPanel);
 		cptnpnlNewPanel.setWidth("");
 
@@ -773,10 +802,6 @@ public class MainPanel extends BasePanel {
 		horizontalPanel_19
 				.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		horizontalPanel_19.setSpacing(5);
-
-		Button calcButton = new Button("New button");
-		calcButton.setText("Simulate");
-		calcButton.setTitle("Press to run damage simulation");
 
 		Button legendButton = new Button("New button");
 		legendButton.setText("Legend...");
@@ -844,17 +869,6 @@ public class MainPanel extends BasePanel {
 		eliteDamage = new Label("00000");
 		outputHeader.setWidget(3, 5, eliteDamage);
 		eliteDamage.setStyleName("boldText");
-
-		Label l1 = new Label("Simulation Time Limit (seconds):", false);
-		outputHeader.setWidget(4, 0, l1);
-		
-		timeLimit = new NumberSpinner();
-		timeLimit.setMin(1);
-		timeLimit.setMax(FiringData.MAX_DURATION);
-		timeLimit.setVisibleLength(5);
-		outputHeader.setWidget(4,1,timeLimit);
-		
-		outputHeader.setWidget(4, 2, calcButton);
 
 		Button bpButton = new Button("New button");
 		bpButton.setText("Break Points...");
@@ -1313,15 +1327,6 @@ public class MainPanel extends BasePanel {
 		Button aboutButton = new Button("New button");
 		aboutButton.setText("About...");
 		horizontalPanel_19.add(aboutButton);
-
-		calcButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				Service.getInstance().checkVersion(null);
-				calculate();
-			}
-		});
 
 		aboutButton.addClickHandler(new ClickHandler() {
 

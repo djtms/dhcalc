@@ -1,5 +1,8 @@
 Change Log:
 
+**4/7/16**
+- Fixed Vengeance and Legacy of Nightmares buffs to also apply to sentries and pets
+
 **4/1/16**
 - Fixed Diamond ranks
 - Fixed import of "Other set bonuses" (was always setting to true)
