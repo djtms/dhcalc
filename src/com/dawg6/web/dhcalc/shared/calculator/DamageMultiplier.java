@@ -115,7 +115,7 @@ public enum DamageMultiplier {
 				}
 			}), Enforcer(
 			"Enforcer",
-			DamageAccumulator.ElementalAdditive,
+			DamageAccumulator.Multiplicative,
 			"Enforcer gem bonus (15% + 3%/rank pet damage). Does not apply to Sentry Spitfire rockets.",
 			new Test<SimulationState, Double>() {
 				@Override
@@ -126,7 +126,7 @@ public enum DamageMultiplier {
 			}), Zeis(
 			"Zei's",
 			DamageAccumulator.Multiplicative,
-			"Zei's stone of vengeance gem bonus (4% + .05%/rank per 10 yards up to 50 yards).",
+			"Zei's stone of vengeance gem bonus (4% + .08%/rank per 10 yards up to 50 yards).",
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
@@ -138,7 +138,7 @@ public enum DamageMultiplier {
 							state.getData().getDistanceToTarget() / 10, 5);
 
 					return d
-							* (0.04 + (state.getData().getZeisLevel() * 0.0005));
+							* (0.04 + (state.getData().getZeisLevel() * 0.0008));
 				}
 			}), Traps("Traps", DamageAccumulator.Multiplicative,
 			"# of Other Traps (Spike Trap arcs)",
@@ -150,11 +150,11 @@ public enum DamageMultiplier {
 					return (n > 1) ? (n - 2) : 0;
 				}
 			}), M4("M4", DamageAccumulator.Multiplicative,
-			"M4 Damage Bonus for Sentries (300%)",
+			"M4 Damage Bonus for Sentries (400%)",
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return (state.getData().getNumMarauders() >= 4) ? 3.0 : 0.0;
+					return (state.getData().getNumMarauders() >= 4) ? 4.0 : 0.0;
 				}
 			}), SentryM4("SentryM4", DamageAccumulator.Multiplicative,
 			"Sentry Skill Damage Bonus for skills fired by M4",
@@ -210,7 +210,7 @@ public enum DamageMultiplier {
 				public Double getValue(SimulationState state) {
 					return state.getData().isGrenadier() ? 0.1 : 0.0;
 				}
-			}), SteadyAim("SteadyAim", DamageAccumulator.Additive,
+			}), SteadyAim("SteadyAim", DamageAccumulator.Multiplicative,
 			"Steady Aim passive bonus (20% when no enemies within 10 yards)",
 			new Test<SimulationState, Double>() {
 				@Override
@@ -281,7 +281,7 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return (state.getData().getNumUe() >= 6) ? (0.2 * state
+					return (state.getData().getNumUe() >= 6) ? (0.4 * state
 							.getDisc()) : 0.0;
 				}
 			}), BW1("BWg", DamageAccumulator.Multiplicative,
@@ -475,20 +475,20 @@ public enum DamageMultiplier {
 							.getData().getPercentSlowedChilled()) : 0.0;
 				}
 			}), M6("M6", DamageAccumulator.Multiplicative,
-			"Marauder's 6 piece bonus (+600% per Sentry)",
+			"Marauder's 6 piece bonus (+800% per Sentry)",
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
 					return (state.getData().getNumMarauders() >= 6) ? (state
-							.getData().getNumSentries() * 6.0) : 0;
+							.getData().getNumSentries() * 8.0) : 0;
 				}
 			}), S2("S2", DamageAccumulator.Multiplicative,
-			"Shadow 2 piece bonus (+600% is using Melee)",
+			"Shadow 2 piece bonus (+1200% is using Melee)",
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
 					return ((state.getData().getNumShadow() >= 2) && (state
-							.getData().getWeaponType() == WeaponType.Melee)) ? 6.0
+							.getData().getWeaponType() == WeaponType.Melee)) ? 12.0
 							: 0;
 				}
 			}), S6("S6", DamageAccumulator.Special,
@@ -525,16 +525,16 @@ public enum DamageMultiplier {
 			}), RoVN6(
 			"N6RoV",
 			DamageAccumulator.Multiplicative,
-			"Nat's 6 piece bonus to RoV (+400% damage for 10 seconds after RoV)",
+			"Nat's 6 piece bonus to RoV (+500% damage for 10 seconds after RoV)",
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return state.getBuffs().isActive(Buff.N6) ? 4.0 : 0.0;
+					return state.getBuffs().isActive(Buff.N6) ? 5.0 : 0.0;
 				}
 			}), N6(
 			"N6",
 			DamageAccumulator.Multiplicative,
-			"Nat's 6 piece bonus to other skills(+400% damage for 5 seconds after RoV)",
+			"Nat's 6 piece bonus to other skills(+500% damage for 5 seconds after RoV)",
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
@@ -551,9 +551,9 @@ public enum DamageMultiplier {
 					rovCD = numAttacks * interval;
 
 					if (rovCD <= 5.0)
-						return 4.0;
+						return 5.0;
 					else
-						return Math.round(400.0 * (5.0 / rovCD)) / 100.0;
+						return Math.round(500.0 * (5.0 / rovCD)) / 100.0;
 				}
 			}), Elite("Elite", DamageAccumulator.Multiplicative,
 			"Elite damage bonus (includes BotP if rank 25+)",
@@ -580,7 +580,7 @@ public enum DamageMultiplier {
 							.getData().getPercentControlled())
 							: 0.0;
 				}
-			}), BotP("BotP", DamageAccumulator.Additive,
+			}), BotP("BotP", DamageAccumulator.Multiplicative,
 			"Bane of the Powerful active gem bonus (20% while active)",
 			new Test<SimulationState, Double>() {
 				@Override
@@ -648,17 +648,17 @@ public enum DamageMultiplier {
 				public Double getValue(SimulationState state) {
 					return state.getBuffs().isActive(Buff.Caltrops) ? 0.1 : 0.0;
 				}
-			}), Taeguk("Taeguk", DamageAccumulator.Additive,
-			"Taeguk active gem bonus (0.5% per stack)",
+			}), Taeguk("Taeguk", DamageAccumulator.Multiplicative,
+			"Taeguk active gem bonus (2% + 0.04% per stack)",
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return state.getData().isTaeguk() ? (0.005 * state
+					return state.getData().isTaeguk() ? ((0.02 + (0.0004 * state.getData().getTaegukLevel())) * state
 							.getData().getTaegukStacks()) : 0.0;
 				}
 			}), Simplicity(
 			"Simplicity",
-			DamageAccumulator.Additive,
+			DamageAccumulator.Multiplicative,
 			"Simplicity's Strenght gem bonus (25% + 0.5 % per level to Primary skills)",
 			new Test<SimulationState, Double>() {
 				@Override
@@ -666,7 +666,7 @@ public enum DamageMultiplier {
 					return state.getData().isSimplicity() ? (0.25 + (state
 							.getData().getSimplicityLevel() * .005)) : 0.0;
 				}
-			}), Wolf("Wolf", DamageAccumulator.Additive,
+			}), Wolf("Wolf", DamageAccumulator.Multiplicative,
 			"Wolf Companion active bonus (30% during uptime)",
 			new Test<SimulationState, Double>() {
 				@Override

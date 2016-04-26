@@ -75,7 +75,7 @@ public enum GemSkill {
 
 		@Override
 		public int getMaxValue(int level) {
-			return 20 + level;
+			return 10;
 		}
 	}),
 

@@ -1,4 +1,22 @@
 Change Log:
+**4/26/16**
+- Updated for patch 2.4.1
+-- Steady Aim passive is now Multiplicative
+-- Companion/Wolf is now Multiplicative
+-- Bane of the Powerful damage bonus is now Multiplicative
+-- Enforcer pet damage bonus is now Multiplicative
+-- Simplicity's Strength damage bonus is now Multiplicative
+-- Taeguk gem now grants 2% + (0.04% per level) damage per stack (up to 10 stacks) and is now Multiplicative (D3 patch notes did not say this changed to multiplicative; probably it already was supposed to be). Note that stacks will only count if using Rapid Fire or Strafe. Also note that the calculator does not currently implement Rapid Fire.
+-- Zei's gem now grants 0.08% damage per 10 yards between you and enemy
+-- Depth Diggers damage bonus is now Multiplicative 
+-- M4 bonus increased to 400%
+-- M6 bonus increased to 800%
+-- N6 bonus increased to 500%
+-- S2 bonus increased to 1200%
+-- UE6 bonus increased to 40% per point of discipline
+
+TODO: Need to find a new Magefist to parse the new legendary power attribute
+TODO: Find Augustine's Panacea to parse the legendary power attribute
 
 **4/7/16**
 - Fixed Vengeance and Legacy of Nightmares buffs to also apply to sentries and pets

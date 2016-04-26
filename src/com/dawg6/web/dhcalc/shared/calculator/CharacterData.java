@@ -921,7 +921,11 @@ public class CharacterData implements Serializable {
 	}
 
 	public int getTaegukStacks() {
-		return getGemAttribute(GemSkill.Taeguk, GemSkill.STACKS);
+		
+		if (this.skills.containsKey(ActiveSkill.RF) || this.skills.containsKey(ActiveSkill.Strafe))
+			return getGemAttribute(GemSkill.Taeguk, GemSkill.STACKS);
+		else
+			return 0;
 	}
 
 	public double getWolfUptime() {
