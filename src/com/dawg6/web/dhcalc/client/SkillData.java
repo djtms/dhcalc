@@ -26,6 +26,7 @@ import java.util.Vector;
 import com.dawg6.gwt.client.ApplicationPanel;
 import com.dawg6.gwt.common.util.Pair;
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
+import com.dawg6.web.dhcalc.shared.calculator.CharacterData;
 import com.dawg6.web.dhcalc.shared.calculator.DamageFunction;
 import com.dawg6.web.dhcalc.shared.calculator.DamageMultiplier;
 import com.dawg6.web.dhcalc.shared.calculator.DamageProc;
@@ -46,9 +47,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class SkillData extends ApplicationPanel {
 	private final FlexTable table;
 	private final ListBox skills;
+	private final CharacterData data = new CharacterData();
 
 	public SkillData() {
 
+		data.setDefaults();
+		
 		VerticalPanel panel = new VerticalPanel();
 		initWidget(panel);
 		
@@ -173,7 +177,7 @@ public class SkillData extends ApplicationPanel {
 	}
 
 	protected void skillChanged() {
-		
+
 		int index = skills.getSelectedIndex();
 		
 		while (table.getRowCount() > 1)
@@ -237,7 +241,7 @@ public class SkillData extends ApplicationPanel {
 					addLabel(row, col++, "N/A");
 
 				addLabel(row, col++, dr.type.name());
-				addLabel(row, col++, String.valueOf(Math.round(dr.scalar * 100.0)) + "%");
+				addLabel(row, col++, String.valueOf(Math.round(dr.getScalar(data) * 100.0)) + "%");
 				
 				if ((skill != null)  && (skill.getFrames() > 0)) {
 					addLabel(row, col++, String.valueOf(skill.getFrames()));
@@ -251,7 +255,7 @@ public class SkillData extends ApplicationPanel {
 				addLabel(row, col++, (dr.radius > 0) ? String.valueOf(dr.radius) : "");
 				addLabel(row, col++, dr.multipliers.contains(DamageMultiplier.Grenades)?"Yes":"");
 				addLabel(row, col++, dr.multipliers.contains(DamageMultiplier.Rockets)?"Yes":"");
-				addLabel(row, col++, dr.multipliers.contains(DamageMultiplier.DoT)?"Yes":"");
+				addLabel(row, col++, dr.multipliers.contains(DamageMultiplier.DoT)?"Yes - " + dr.dotDuration + " seconds":"");
 				addLabel(row, col++, dr.note, "notes");
 				
 				row++;

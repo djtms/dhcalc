@@ -83,6 +83,11 @@ public enum SpecialItemType {
 					SpecialItemType.PERCENT, Const.METICULOUS_BOLTS_PERCENT,
 					30, 40)),
 
+	AugustinesPanacea(Const.AUGUSTINES_PANACEA, "augustines-panacea", false,
+			new Slot[] { Slot.OffHand, Slot.CubeWeapon }, new Attribute(
+					SpecialItemType.PERCENT, Const.AUGUSTINES_PANACEA_POWER,
+					200, 250)),
+
 	Bombadiers(Const.BOMBADIERS, "bombardiers-rucksack", false, new Slot[] {
 			Slot.OffHand, Slot.CubeWeapon }),
 

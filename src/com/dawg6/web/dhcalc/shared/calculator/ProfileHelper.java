@@ -353,6 +353,14 @@ public class ProfileHelper {
 
 						d += f.min;
 					}
+
+					if (t == DamageType.Fire) {
+						f = i.attributesRaw.get(Const.MAGEFIST_FIRE_DAMAGE);
+						
+						if (f != null) {
+							d += f.min;
+						}
+					}
 				}
 			}
 

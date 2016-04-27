@@ -21,16 +21,16 @@ package com.dawg6.web.dhcalc.shared.calculator;
 public class DamageRow {
 
 	public final DamageMultiplierList multipliers = new DamageMultiplierList();
-	public final double scalar;
+	private final double scalar;
 	public final boolean primary;
 	public final int maxAdditional;
-	public int numProjectiles;
-	public DamageSource source;
-	public String note;
-	public DamageType type;
-	public int radius;
-	public double dotDuration;
-	public boolean dot;
+	public final int numProjectiles;
+	public final DamageSource source;
+	public final String note;
+	public final DamageType type;
+	public final int radius;
+	public final double dotDuration;
+	public final boolean dot;
 	
 	public DamageRow(ActiveSkill skill, Rune rune, double scalar,
 			boolean primary, int maxAdditional, int numProjectiles, 
@@ -213,5 +213,16 @@ public class DamageRow {
 		this.primary = primary;
 		this.maxAdditional = maxAdditional;
 		this.note = note;
+	}
+	
+	public double getScalar(CharacterData data) {
+
+		double d = this.scalar;
+		
+		if ((this.source.skill == ActiveSkill.EA) && (this.source.rune == Rune.Immolation_Arrow) && data.isAugustinesPanacea()) {
+			d *= (1 + data.getAugustinesPanaceaPercent());
+		}
+		
+		return d;
 	}
 }

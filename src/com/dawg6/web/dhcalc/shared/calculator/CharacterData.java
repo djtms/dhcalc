@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import com.dawg6.d3api.shared.ItemInformationSet;
 import com.dawg6.d3api.shared.Realm;
@@ -100,9 +101,9 @@ public class CharacterData implements Serializable {
 	private double valorActiveUptime;
 	private double retributionUptime;
 	private double caltropsUptime;
-	private Map<ActiveSkill, Rune> skills;
-	private Map<String, Integer> cdrData;
-	private Map<String, Integer> rcrData;
+	private Map<ActiveSkill, Rune> skills = new TreeMap<ActiveSkill, Rune>();
+	private Map<String, Integer> cdrData = new TreeMap<String, Integer>();
+	private Map<String, Integer> rcrData = new TreeMap<String, Integer>();
 	private GemLevel diamond;
 	private WeaponType weaponType;
 	private double baseMin;
@@ -118,8 +119,8 @@ public class CharacterData implements Serializable {
 	private double offHand_addMax;
 	private double offHand_weaponDamagePercent;
 	private double offHand_weaponIas;
-	private Map<String, Integer> setCounts;
-	private Map<String, ItemInformationSet> sets;
+	private Map<String, Integer> setCounts = new TreeMap<String, Integer>();
+	private Map<String, ItemInformationSet> sets = new TreeMap<String, ItemInformationSet>();
 	private double equipIas;
 	private int paragon;
 	private String heroName;
@@ -142,9 +143,9 @@ public class CharacterData implements Serializable {
 	private double areaDamageEquipment;
 	private int paragonAD;
 	private int equipmentDiscipline;
-	private Set<Passive> passives;
-	private Map<DamageType, Double> elementalDamage;
-	private Map<ActiveSkill, Double> skillDamage;
+	private Set<Passive> passives = new TreeSet<Passive>();
+	private Map<DamageType, Double> elementalDamage = new TreeMap<DamageType, Double>();
+	private Map<ActiveSkill, Double> skillDamage = new TreeMap<ActiveSkill, Double>();
 	private MonsterType primaryTargetType;
 	private MonsterType additionalTargetType;
 	private int riftLevel;
@@ -156,8 +157,8 @@ public class CharacterData implements Serializable {
 	private boolean stretchTime;
 	private double timeWarpUptime;
 	private double stretchTimeUptime;
-	private Map<GemSkill, GemAttributeData> gems;
-	private Map<Slot, ItemHolder> items;
+	private Map<GemSkill, GemAttributeData> gems = new TreeMap<GemSkill, GemAttributeData>();
+	private Map<Slot, ItemHolder> items = new TreeMap<Slot, ItemHolder>();
 	private double sharpshooterCC;
 	private int numAncients;
 	private double percentMoving;
@@ -1025,11 +1026,15 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isMeticulousBolts() {
-		return isItem(SpecialItemType.MeticulousBolts);
+		return isItem(SpecialItemType.MeticulousBolts) || isAugustinesPanacea();
 	}
 
 	public double getMeticulousBoltsPercent() {
-		return getItemAttribute(SpecialItemType.MeticulousBolts, SpecialItemType.PERCENT);
+		
+		if (isAugustinesPanacea())
+			return 0.30;
+		else
+			return getItemAttribute(SpecialItemType.MeticulousBolts, SpecialItemType.PERCENT);
 	}
 
 	public boolean isTnt() {
@@ -2151,8 +2156,16 @@ public class CharacterData implements Serializable {
 		return isItem(SpecialItemType.KarleisPoint);
 	}
 
+	public boolean isAugustinesPanacea() {
+		return isItem(SpecialItemType.AugustinesPanacea);
+	}
+
 	public double getKarlieshatred() {
 		return getItemAttribute(SpecialItemType.KarleisPoint, SpecialItemType.HATRED);
+	}
+
+	public double getAugustinesPanaceaPercent() {
+		return getItemAttribute(SpecialItemType.AugustinesPanacea, SpecialItemType.PERCENT);
 	}
 
 	public double getIllWillPercent() {

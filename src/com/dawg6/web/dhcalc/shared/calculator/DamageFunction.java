@@ -493,7 +493,7 @@ public class DamageFunction {
 
 							double wd = baseWd;
 
-							double m = dr.scalar;
+							double m = dr.getScalar(state.getData());
 
 							if (dr.source.skill == ActiveSkill.CR) {
 								m = state.getData().getCrashingRainPercent();
