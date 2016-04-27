@@ -1,4 +1,11 @@
 Change Log:
+**4/27/16**
+-- Added support for Magefist's new legendary power (fire damage)
+-- Added support for Augustine's Panacea.
+---- Has same effect on Ball Lightning as Meticulous Bolts
+---- Increases Immolation Arrow DoT damage by 200-250% (implemented as a multiplier against the DoT base damage)
+-- Both should import from profile, but untested (I need a profile with the new items equipped)
+
 **4/26/16**
 - Updated for patch 2.4.1
 -- Steady Aim passive is now Multiplicative
