@@ -364,6 +364,17 @@ public class ProfileHelper {
 				}
 			}
 
+			if (t == DamageType.Fire) {
+				if (hero.legendaryPowers != null) {
+					for (LegendaryPowers lp : hero.legendaryPowers) {
+
+						if (lp.name.equals(Const.MAGEFIST)) {
+							d += 0.2;
+						}
+					}
+				}
+			}
+
 			if (d > 0.0) {
 				damage.put(t, d);
 			}
