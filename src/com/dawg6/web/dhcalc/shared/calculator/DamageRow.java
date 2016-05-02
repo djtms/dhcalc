@@ -216,13 +216,6 @@ public class DamageRow {
 	}
 	
 	public double getScalar(CharacterData data) {
-
-		double d = this.scalar;
-		
-		if ((this.source.skill == ActiveSkill.EA) && (this.source.rune == Rune.Immolation_Arrow) && data.isAugustinesPanacea()) {
-			d *= (1 + data.getAugustinesPanaceaPercent());
-		}
-		
-		return d;
+		return this.scalar;
 	}
 }

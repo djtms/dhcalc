@@ -69,6 +69,12 @@ public enum DamageMultiplier {
 				public Double getValue(SimulationState state) {
 					return state.getData().getFireDamage();
 				}
+			}), Augustines("AP", DamageAccumulator.Multiplicative,
+			"Augustine's Panacea Damage Bonus (200%-250%)", new Test<SimulationState, Double>() {
+				@Override
+				public Double getValue(SimulationState state) {
+					return state.getData().isAugustinesPanacea() ? state.getData().getAugustinesPanaceaPercent() : 0.0;
+				}
 			}), Cold("Cold", DamageAccumulator.ElementalAdditive,
 			"Cold Elemental Damage Bonus", new Test<SimulationState, Double>() {
 				@Override

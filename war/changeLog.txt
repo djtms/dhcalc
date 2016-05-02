@@ -1,5 +1,8 @@
 Change Log:
 
+**4/29/16**
+-- Augustine's Panacea now properly includes damage bonus for Frost Arrow, Nether Tentacles and Lightning Bolts runes
+
 **4/28/16**
 - Now properly adds 20% Fire Damage if Magefist is cubed on profile import
 
