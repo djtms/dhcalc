@@ -58,6 +58,12 @@ public class ItemPanel extends Composite {
 	private final Map <Slot, Map<String, BaseSpinner<?>>> attributeSpinners = new TreeMap<Slot, Map<String, BaseSpinner<?>>>();
 	private final NumberSpinner numAncients;
 	private final SimpleCheckBox otherSets;
+	private final Set<ItemsChangedListener> listeners = new TreeSet<ItemsChangedListener>();
+	
+	public interface ItemsChangedListener {
+		void itemsChanged(Map<Slot, ItemHolder> items);
+		void setCountsChanged(Map<String, Integer> sets);
+	}
 	
 	public ItemPanel() {
 
@@ -236,8 +242,23 @@ public class ItemPanel extends Composite {
 		
 	}
 
+	public void addItemsChangedListener(ItemsChangedListener l) {
+		listeners.add(l);
+	}
+	
+	public void removeItemsChangedListener(ItemsChangedListener l) {
+		listeners.remove(l);
+	}
+	
 	protected void setChanged(ItemSet set) {
 		itemsChanged(null);
+		
+		if (!disableListeners) {
+			Map<String, Integer> sets = this.getSetCounts();
+			
+			for (ItemsChangedListener l : listeners)
+				l.setCountsChanged(sets);
+		}
 	}
 
 	protected void itemChanged(Slot slot) {
@@ -503,6 +524,11 @@ public class ItemPanel extends Composite {
 		if (!disableListeners) {
 			for (ChangeHandler h : handlers)
 				h.onChange(event);
+			
+			Map<Slot, ItemHolder> items = this.getItems();
+			
+			for (ItemsChangedListener l : listeners)
+				l.itemsChanged(items);
 		}
 
 	}

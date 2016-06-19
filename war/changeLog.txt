@@ -1,4 +1,8 @@
 Change Log:
+**6/19/16**
+-- Fixed error with importing profile with unset legendary powers
+-- Updated (and moved) cooldown list to show only skills currently selected
+-- Now shows uptime for cooldown skills
 
 **4/29/16**
 -- Augustine's Panacea now properly includes damage bonus for Frost Arrow, Nether Tentacles and Lightning Bolts runes

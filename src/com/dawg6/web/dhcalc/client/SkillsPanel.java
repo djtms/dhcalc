@@ -22,7 +22,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.Vector;
 
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
@@ -46,7 +48,12 @@ public class SkillsPanel extends Composite {
 	private final List<ListBox> skillBoxes = new Vector<ListBox>(NUM_SKILLS);
 	private final List<Anchor> runeAnchors = new Vector<Anchor>(NUM_SKILLS);
 	private final List<ListBox> runeBoxes = new Vector<ListBox>(NUM_SKILLS);
-
+	private final Set<SkillsChangedListener> listeners = new TreeSet<SkillsChangedListener>();
+	
+	public interface SkillsChangedListener {
+		void skillsChanged(Map<ActiveSkill, Rune> skills);
+	}
+	
 	public static final int NUM_SKILLS = 6;
 	private boolean disableListeners = false;
 
@@ -201,12 +208,20 @@ public class SkillsPanel extends Composite {
 
 	}
 
+	public void addSkillsChangedListener(SkillsChangedListener l) {
+		listeners.add(l);
+	}
+	
+	public void removeSkillsChangedListener(SkillsChangedListener l) {
+		listeners.remove(l);
+	}
+	
 	protected void runeChanged(ListBox list, Anchor anchor2, ListBox list2) {
 
 		ActiveSkill skill = getSelectedSkill(list);
 		Rune rune = getSelectedRune(list2);
 		setRuneAnchor(skill, anchor2, rune);
-
+		this.skillsChanged(this.getSkills());
 	}
 
 	private void setRuneAnchor(ActiveSkill skill, Anchor anchor2, Rune rune) {
@@ -240,6 +255,8 @@ public class SkillsPanel extends Composite {
 		setSkillAnchor(anchor, skill);
 
 		checkDuplicate(list);
+		
+		this.skillsChanged(this.getSkills());
 	}
 
 	private void checkDuplicate(ListBox lb) {
@@ -384,7 +401,14 @@ public class SkillsPanel extends Composite {
 		disableListeners = false;
 
 		if (changed) {
-			// TODO
+			skillsChanged(skills);
+		}
+	}
+
+	private void skillsChanged(Map<ActiveSkill, Rune> skills) {
+		if (!disableListeners) {
+			for (SkillsChangedListener l : listeners)
+				l.skillsChanged(skills);
 		}
 	}
 

@@ -59,11 +59,11 @@ public enum Rune {
 	Loaded_For_Bear("a", 0, 0.15),
 	
 	// Sentry
-	Spitfire_Turret("c", 0, 0),
-	Impaling_Bolt("b", 0, 0),
-	Chain_of_Torment("a", 0, 0),
-	Polar_Station("d", 0, 0),
-	Guardian_Turret("e", 0, 0),
+	Spitfire_Turret("c", 0, 0, 8, 30),
+	Impaling_Bolt("b", 0, 0, 8, 30),
+	Chain_of_Torment("a", 0, 0, 8, 30),
+	Polar_Station("d", 0, 0, 8, 30),
+	Guardian_Turret("e", 0, 0, 8, 30),
 	
 	// Marked for Death
 	Grim_Reaper("a", 0, 0),
@@ -117,11 +117,11 @@ public enum Rune {
 	Bait_the_Trap("e", 0, 0),
 	
 	// Companion
-	Spider("a", 0, 0),
-	Boar("b", 0, 0),
-	Wolf("c", 0, 0),
-	Bat("d", 0, 0),
-	Ferret("e", 0, 0),
+	Spider("a", 0, 0, 30, 0),
+	Boar("b", 0, 0, 30, 0),
+	Wolf("c", 0, 0, 30, 10),
+	Bat("d", 0, 0, 30, 0),
+	Ferret("e", 0, 0, 30, 0),
 
 	// Spike Trap
 	Long_Fuse("a", 0, 0.15),
@@ -187,22 +187,30 @@ public enum Rune {
 	Demolition("a", 0, 0.5),
 	
 	//  Vengeance
-	Personal_Mortar("c", 0, 0.05),
-	Dark_Heart("b", 0, 0.05),
-	Side_Cannons("d", 0, 0.2),
-	Seethe("e", 0, 0.05),
-	From_the_Shadows("a", 0, 0.1),
+	Personal_Mortar("c", 0, 0.05, 90, 20),
+	Dark_Heart("b", 0, 0.05, 90, 20),
+	Side_Cannons("d", 0, 0.2, 90, 20),
+	Seethe("e", 0, 0.05, 90, 20),
+	From_the_Shadows("a", 0, 0.1, 90, 20),
 	
 	;
 	
 	private String slug;
 	private int hatred;
 	private double proc;
+	private double cd;
+	private double duration;
 	
 	private Rune(String slug, int hatred, double proc) {
+		this(slug, hatred, proc, 0.0, 0.0);
+	}
+	
+	private Rune(String slug, int hatred, double proc, double cd, double duration) {
 		this.slug = slug;
 		this.hatred = hatred;
 		this.proc = proc;
+		this.cd = cd;
+		this.duration = duration;
 	}
 
 	public double getProc() {
@@ -220,5 +228,12 @@ public enum Rune {
 	public int getHatred() {
 		return hatred;
 	}
+
+	public double getCooldown() {
+		return cd;
+	}
 	
+	public double getDuration() {
+		return duration;
+	}
 }

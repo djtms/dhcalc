@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import com.dawg6.web.dhcalc.shared.calculator.Slot;
+import com.dawg6.web.dhcalc.shared.calculator.Util;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -38,7 +39,9 @@ public class RCRPanel extends Composite {
 	private final NumberSpinner belt;
 	private final NumberSpinner weapon;
 	private final NumberSpinner quiver;
-
+	private final Label effRCR;
+	private final FlexTable skillTable;
+	
 	public RCRPanel() {
 
 		CaptionPanel cptnpnlResourceReduction = new CaptionPanel(
@@ -109,7 +112,7 @@ public class RCRPanel extends Composite {
 		belt.setVisibleLength(4);
 		flexTable.setWidget(6, 1, belt);
 
-		Label lblWeapon = new Label("Weapon (%):");
+		Label lblWeapon = new Label("Main Hand (%):");
 		lblWeapon.setWordWrap(false);
 		lblWeapon.setStyleName("boldText");
 		flexTable.setWidget(7, 0, lblWeapon);
@@ -118,7 +121,7 @@ public class RCRPanel extends Composite {
 		weapon.setVisibleLength(4);
 		flexTable.setWidget(7, 1, weapon);
 
-		Label lblQuiver = new Label("Quiver (%):");
+		Label lblQuiver = new Label("Off Hand(%):");
 		lblQuiver.setWordWrap(false);
 		lblQuiver.setStyleName("boldText");
 		flexTable.setWidget(8, 0, lblQuiver);
@@ -140,6 +143,16 @@ public class RCRPanel extends Composite {
 		this.weapon.setMax(60); // yang's 50% + 10%
 		this.quiver.setMax(10);
 		this.amulet.setMax(10);
+
+		Label l10 = new Label("Effective RCR:");
+		l10.addStyleName("boldText");
+		l10.setWordWrap(false);
+		flexTable.setWidget(10, 0, l10);
+		this.effRCR = new Label("0.0%");
+		this.effRCR.addStyleName("boldText");
+		flexTable.setWidget(10, 1, effRCR);
+		
+		this.skillTable = new FlexTable();
 	}
 
 	public NumberSpinner getShoulders() {
@@ -187,5 +200,9 @@ public class RCRPanel extends Composite {
 		map.put(Slot.OffHand.name(), quiver.getValue());
 
 		return map;
+	}
+	
+	public void setEffectiveRcr(double rcr) {
+		this.effRCR.setText(Util.format(Math.round(rcr * 10000.0) / 100.0) + "%");
 	}
 }

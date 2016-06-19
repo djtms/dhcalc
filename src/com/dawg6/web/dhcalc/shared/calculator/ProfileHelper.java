@@ -368,8 +368,10 @@ public class ProfileHelper {
 				if (hero.legendaryPowers != null) {
 					for (LegendaryPowers lp : hero.legendaryPowers) {
 
-						if (lp.name.equals(Const.MAGEFIST)) {
-							d += 0.2;
+						if ((lp != null) && (lp.name != null)) {
+							if (lp.name.equals(Const.MAGEFIST)) {
+								d += 0.2;
+							}
 						}
 					}
 				}
@@ -805,22 +807,25 @@ public class ProfileHelper {
 			for (LegendaryPowers lp : hero.legendaryPowers) {
 
 				for (SpecialItemType type : SpecialItemType.values()) {
-					if (lp.name.equals(type.getName())) {
-						AttributeData ad = new AttributeData();
-
-						for (SpecialItemType.Attribute a : type.getAttributes()) {
-							int value = a.setRawAttributeValue(a.getMax());
-							ad.put(a.getLabel(), value);
-						}
-
-						ItemHolder item = new ItemHolder();
-						item.setType(type);
-						item.setAttributes(ad);
-
-						for (Slot slot : type.getSlots()) {
-							if (slot.isCube()) {
-								items.put(slot, item);
-								break;
+					
+					if ((lp != null) && (lp.name != null)) {
+						if (lp.name.equals(type.getName())) {
+							AttributeData ad = new AttributeData();
+	
+							for (SpecialItemType.Attribute a : type.getAttributes()) {
+								int value = a.setRawAttributeValue(a.getMax());
+								ad.put(a.getLabel(), value);
+							}
+	
+							ItemHolder item = new ItemHolder();
+							item.setType(type);
+							item.setAttributes(ad);
+	
+							for (Slot slot : type.getSlots()) {
+								if (slot.isCube()) {
+									items.put(slot, item);
+									break;
+								}
 							}
 						}
 					}

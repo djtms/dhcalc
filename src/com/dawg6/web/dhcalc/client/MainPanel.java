@@ -35,8 +35,10 @@ import com.dawg6.d3api.shared.Realm;
 import com.dawg6.gwt.client.ApplicationPanel;
 import com.dawg6.gwt.common.util.AsyncTaskHandler;
 import com.dawg6.gwt.common.util.DefaultCallback;
+import com.dawg6.web.dhcalc.client.ItemPanel.ItemsChangedListener;
 import com.dawg6.web.dhcalc.client.SavePanel.FormListener;
 import com.dawg6.web.dhcalc.client.Service.NewsHandler;
+import com.dawg6.web.dhcalc.client.SkillsPanel.SkillsChangedListener;
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.Build;
 import com.dawg6.web.dhcalc.shared.calculator.CharacterData;
@@ -50,6 +52,7 @@ import com.dawg6.web.dhcalc.shared.calculator.FiringData;
 import com.dawg6.web.dhcalc.shared.calculator.FormData;
 import com.dawg6.web.dhcalc.shared.calculator.GemLevel;
 import com.dawg6.web.dhcalc.shared.calculator.GemSkill;
+import com.dawg6.web.dhcalc.shared.calculator.ItemHolder;
 import com.dawg6.web.dhcalc.shared.calculator.MonsterHealth;
 import com.dawg6.web.dhcalc.shared.calculator.MonsterType;
 import com.dawg6.web.dhcalc.shared.calculator.MultipleSummary;
@@ -126,22 +129,14 @@ public class MainPanel extends BasePanel {
 	private final ParagonPanel paragonPanel;
 	private final CDRPanel cdrPanel;
 	private final RCRPanel rcrPanel;
-	private final Label rawCDRLabel;
-	private final Label effectiveCDRLabel;
-	private final Label punishmentCDLabel;
 	private double rawCdr;
 	private double effCdr;
-	private double punishmentCD;
-	private final Label rovCDLabel;
-	private final Label wolfCDLabel;
 	private final BuffPanel buffPanel;
 	private final SavePanel savePanel;
 	private PlayerBuffPanel playerBuffPanel;
 	private FlexTable compareTable;
 	private final CompareData[] compareData = { null, null, null };
-	private Label eliteDamage;
-	private Label sentryCDLabel;
-	private double sentryCD;
+	private final Label eliteDamage;
 	private CaptionPanel captionPanelTypeSummary;
 	private CaptionPanel captionPanelSkillSummary;
 	private CaptionPanel captionPanelDamageLog;
@@ -155,8 +150,6 @@ public class MainPanel extends BasePanel {
 	protected DialogBox statsDialog;
 	private FlexTable outputHeader;
 	private HatredPanel hatredPanel;
-	private Label rawRCRLabel;
-	private Label effectiveRCRLabel;
 	private double rawRcr;
 	private double effRcr;
 	private AboutDialog about;
@@ -445,74 +438,12 @@ public class MainPanel extends BasePanel {
 		critDamage.setStyleName("boldText");
 		grid_1.setWidget(2, 3, critDamage);
 
-		Label lblRawCdr = new Label("Raw CDR:");
-		lblRawCdr.setWordWrap(false);
-		grid_1.setWidget(3, 0, lblRawCdr);
-
-		rawCDRLabel = new Label("0%", false);
-		rawCDRLabel.setStyleName("boldText");
-		grid_1.setWidget(3, 1, rawCDRLabel);
-
-		Label lblEfgfectiveCdr = new Label("Effective CDR:");
-		lblEfgfectiveCdr.setWordWrap(false);
-		grid_1.setWidget(3, 2, lblEfgfectiveCdr);
-
-		effectiveCDRLabel = new Label("0%", false);
-		effectiveCDRLabel.setStyleName("boldText");
-		grid_1.setWidget(3, 3, effectiveCDRLabel);
-
-		Label lblRawRcr = new Label("Raw RCR:");
-		lblRawRcr.setWordWrap(false);
-		grid_1.setWidget(4, 0, lblRawRcr);
-
-		rawRCRLabel = new Label("0%", false);
-		rawRCRLabel.setStyleName("boldText");
-		grid_1.setWidget(4, 1, rawRCRLabel);
-
-		Label lblEfgfectiveRcr = new Label("Effective RCR:");
-		lblEfgfectiveRcr.setWordWrap(false);
-		grid_1.setWidget(4, 2, lblEfgfectiveRcr);
-
-		effectiveRCRLabel = new Label("0%", false);
-		effectiveRCRLabel.setStyleName("boldText");
-		grid_1.setWidget(4, 3, effectiveRCRLabel);
-
-		Label lblPetAps = new Label("Companion Cooldown:");
-		grid_1.setWidget(5, 0, lblPetAps);
-
-		wolfCDLabel = new Label("0.0", false);
-		wolfCDLabel.setStyleName("boldText");
-		grid_1.setWidget(5, 1, wolfCDLabel);
-
-		Label lblPunishmentCooldown = new Label("Punishment Cooldown:");
-		lblPunishmentCooldown.setWordWrap(false);
-		grid_1.setWidget(5, 2, lblPunishmentCooldown);
-
-		Label sentryCooldown = new Label("Sentry Cooldown:");
-		sentryCooldown.setWordWrap(false);
-		grid_1.setWidget(6, 2, sentryCooldown);
-
-		punishmentCDLabel = new Label("0.0 sec", false);
-		punishmentCDLabel.setStyleName("boldText");
-		grid_1.setWidget(5, 3, punishmentCDLabel);
-
-		sentryCDLabel = new Label("0.0 sec", false);
-		sentryCDLabel.setStyleName("boldText");
-		grid_1.setWidget(6, 3, sentryCDLabel);
-
-		Label label_3 = new Label("(approx) RoV Cooldown:");
-		grid_1.setWidget(6, 0, label_3);
-
-		rovCDLabel = new Label("0.0", false);
-		rovCDLabel.setStyleName("boldText");
-		grid_1.setWidget(6, 1, rovCDLabel);
-
 		Button calcDps = new Button("DPS/Break Point Calculator...");
-		grid_1.setWidget(7, 2, calcDps);
-		grid_1.getFlexCellFormatter().setColSpan(7, 2, 2);
-		grid_1.getCellFormatter().setHorizontalAlignment(7, 2,
+		grid_1.setWidget(3, 2, calcDps);
+		grid_1.getFlexCellFormatter().setColSpan(3, 2, 2);
+		grid_1.getCellFormatter().setHorizontalAlignment(3, 2,
 				HasHorizontalAlignment.ALIGN_RIGHT);
-		grid_1.getCellFormatter().setVerticalAlignment(7, 2,
+		grid_1.getCellFormatter().setVerticalAlignment(3, 2,
 				HasVerticalAlignment.ALIGN_MIDDLE);
 
 		CaptionPanel captionPanel = new CaptionPanel("Compare Builds");
@@ -697,7 +628,7 @@ public class MainPanel extends BasePanel {
 
 		skills = new SkillsPanel();
 		verticalPanel_1.add(skills);
-
+		
 		passives = new PassivesPanel();
 		verticalPanel_1.add(passives);
 
@@ -720,7 +651,7 @@ public class MainPanel extends BasePanel {
 		verticalPanel_3.add(itemPanel);
 
 		buffPanel = new BuffPanel();
-		verticalPanel_3.add(buffPanel);
+		verticalPanel_2.add(buffPanel);
 
 		hatredPanel = new HatredPanel();
 		verticalPanel_3.add(hatredPanel);
@@ -1367,6 +1298,25 @@ public class MainPanel extends BasePanel {
 			@Override
 			public void newsChanged(List<NewsItem> news) {
 				setNews(news);
+			}});
+		
+		skills.addSkillsChangedListener(new SkillsChangedListener(){
+
+			@Override
+			public void skillsChanged(Map<ActiveSkill, Rune> skills) {
+				cdrPanel.setSkills(skills, itemPanel.getItems(), itemPanel.getSetCounts());
+			}});
+		
+		itemPanel.addItemsChangedListener(new ItemsChangedListener(){
+
+			@Override
+			public void itemsChanged(Map<Slot, ItemHolder> items) {
+				cdrPanel.setSkills(skills.getSkills(), items, itemPanel.getSetCounts());
+			}
+
+			@Override
+			public void setCountsChanged(Map<String, Integer> sets) {
+				cdrPanel.setSkills(skills.getSkills(), itemPanel.getItems(), sets);
 			}});
 	}
 	
@@ -2190,12 +2140,16 @@ public class MainPanel extends BasePanel {
 		this.rawRcr = rawRcr;
 		this.effRcr = effRcr;
 
-		this.rawRCRLabel
-				.setText(Util.format(Math.round(rawRcr * 10000.0) / 100.0)
-						+ "%");
-		this.effectiveRCRLabel
-				.setText(Util.format(Math.round(effRcr * 10000.0) / 100.0)
-						+ "%");
+		// TODO set RCR labels
+		
+		this.rcrPanel.setEffectiveRcr(this.effRcr);
+		
+//		this.rawRCRLabel
+//				.setText(Util.format(Math.round(rawRcr * 10000.0) / 100.0)
+//						+ "%");
+//		this.effectiveRCRLabel
+//				.setText(Util.format(Math.round(effRcr * 10000.0) / 100.0)
+//						+ "%");
 	}
 
 	private void updateCDRLabels() {
@@ -2249,38 +2203,44 @@ public class MainPanel extends BasePanel {
 
 		this.rawCdr = rawCdr;
 		this.effCdr = effCdr;
-		this.punishmentCD = 20.0 * (1 - effCdr);
-		this.sentryCD = 8.0 * (1 - effCdr);
-		double wolfCD = 30.0 * (1 - effCdr);
-		double rovCD = 30.0 * (1 - effCdr);
 
-		// if (itemPanel.getNumNats().getValue() >= 4)
-		// rovCD = Math.max(0.0, rovCD - (skills.getRovKilled().getValue() *
-		// 2.0));
-
-		if (itemPanel.getNumNats() >= 2) {
-			double interval = (1.0 / calculator.getSheetAps())
-					+ (situational.getFiringDelay().getValue() / 1000.0);
-			double numAttacks = rovCD / (interval + 4.0);
-			rovCD = numAttacks * interval;
-		}
-
-		this.rawCDRLabel
-				.setText(Util.format(Math.round(rawCdr * 10000.0) / 100.0)
-						+ "%");
-		this.effectiveCDRLabel
-				.setText(Util.format(Math.round(effCdr * 10000.0) / 100.0)
-						+ "%");
-		this.punishmentCDLabel.setText(Util.format(Math
-				.round(punishmentCD * 100.0) / 100.0) + " sec");
-		this.sentryCDLabel
-				.setText(Util.format(Math.round(sentryCD * 100.0) / 100.0)
-						+ " sec");
-		this.wolfCDLabel
-				.setText(Util.format(Math.round(wolfCD * 100.0) / 100.0)
-						+ " sec");
-		this.rovCDLabel.setText(Util.format(Math.round(rovCD * 100.0) / 100.0)
-				+ " sec");
+		cdrPanel.setEffectiveCdr(this.effCdr);
+		
+		// TODO set CDR labels 
+		cdrPanel.setSkills(skills.getSkills(), itemPanel.getItems(), itemPanel.getSetCounts());
+		
+//		this.punishmentCD = 20.0 * (1 - effCdr);
+//		this.sentryCD = 8.0 * (1 - effCdr);
+//		double wolfCD = 30.0 * (1 - effCdr);
+//		double rovCD = 30.0 * (1 - effCdr);
+//
+//		// if (itemPanel.getNumNats().getValue() >= 4)
+//		// rovCD = Math.max(0.0, rovCD - (skills.getRovKilled().getValue() *
+//		// 2.0));
+//
+//		if (itemPanel.getNumNats() >= 2) {
+//			double interval = (1.0 / calculator.getSheetAps())
+//					+ (situational.getFiringDelay().getValue() / 1000.0);
+//			double numAttacks = rovCD / (interval + 4.0);
+//			rovCD = numAttacks * interval;
+//		}
+//
+//		this.rawCDRLabel
+//				.setText(Util.format(Math.round(rawCdr * 10000.0) / 100.0)
+//						+ "%");
+//		this.effectiveCDRLabel
+//				.setText(Util.format(Math.round(effCdr * 10000.0) / 100.0)
+//						+ "%");
+//		this.punishmentCDLabel.setText(Util.format(Math
+//				.round(punishmentCD * 100.0) / 100.0) + " sec");
+//		this.sentryCDLabel
+//				.setText(Util.format(Math.round(sentryCD * 100.0) / 100.0)
+//						+ " sec");
+//		this.wolfCDLabel
+//				.setText(Util.format(Math.round(wolfCD * 100.0) / 100.0)
+//						+ " sec");
+//		this.rovCDLabel.setText(Util.format(Math.round(rovCD * 100.0) / 100.0)
+//				+ " sec");
 	}
 
 	protected void updateDpsLabels() {
