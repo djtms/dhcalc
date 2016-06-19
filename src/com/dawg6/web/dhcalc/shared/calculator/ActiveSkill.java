@@ -84,13 +84,13 @@ public enum ActiveSkill {
 			Rune.None, Rune.Bat, Rune.Spider, Rune.Wolf, Rune.Boar, Rune.Ferret
 		}, "http://us.battle.net/d3/en/class/demon-hunter/active/companion", 27, 30, 0),
 		
-	ST(SkillType.NA, "ST", "Spike Trap", 0, DamageMultiplier.ST, 0.15, new Rune[] { 
+	ST(SkillType.Other, "ST", "Spike Trap", 0, DamageMultiplier.ST, 0.15, new Rune[] { 
 			Rune.None, Rune.Echoing_Blast, Rune.Sticky_Trap, Rune.Long_Fuse, Rune.Lightning_Rod, Rune.Scatter }, "http://us.battle.net/d3/en/class/demon-hunter/active/spike-trap", 21),
 		
 	Preparation(SkillType.Cooldown, "Preparation", "Preparation", 0, null, 0, new Rune[] { 
 			Rune.None, Rune.Invigoration, Rune.Punishment, Rune.Battle_Scars, Rune.Focused_Mind, Rune.Backup_Plan }, "http://us.battle.net/d3/en/class/demon-hunter/active/preparation", 34),
 
-	Caltrops(SkillType.NA, "Caltrops", "Caltrops", 0, null, 0, new Rune[] { 
+	Caltrops(SkillType.Other, "Caltrops", "Caltrops", 0, null, 0, new Rune[] { 
 			Rune.None, Rune.Hooked_Spines, Rune.Torturous_Ground, Rune.Jagged_Spikes, Rune.Carved_Stakes, Rune.Bait_the_Trap }, "http://us.battle.net/d3/en/class/demon-hunter/active/caltrops", 8),
 
 	RoV(SkillType.Cooldown, "RoV", "Rain of Vengeance", 0, DamageMultiplier.RoV, 0.04, new Rune[] { 
@@ -102,7 +102,7 @@ public enum ActiveSkill {
 			0, new Rune[] { Rune.None, Rune.Displacement, Rune.Lingering_Fog, Rune.Healing_Vapors, Rune.Special_Recipe, Rune.Vanishing_Powder }, 
 			"http://us.battle.net/d3/en/class/demon-hunter/active/smoke-screen", 34),
 	
-	Vault(SkillType.NA, "Vault", "Vault", 0, null, 
+	Vault(SkillType.Other, "Vault", "Vault", 0, null, 
 			0, new Rune[] { Rune.None, Rune.Action_Shot, Rune.Rattling_Roll, Rune.Tumble, Rune.Acrobatics, Rune.Trail_of_Cinders }, 
 			"http://us.battle.net/d3/en/class/demon-hunter/active/vault", 18),
 
@@ -110,7 +110,7 @@ public enum ActiveSkill {
 			1.0 / 3.0, new Rune[] { Rune.None, Rune.Pinpoint_Accuracy, Rune.Bladed_Armor, Rune.Knives_Expert, Rune.Fan_of_Daggers, Rune.Assassins_Knives }, 
 			"http://us.battle.net/d3/en/class/demon-hunter/active/fan-of-knives", 15),
 
-	SP(SkillType.NA, "SP", "Shadow Power", 0, null, 
+	SP(SkillType.Other, "SP", "Shadow Power", 0, null, 
 			0, new Rune[] { Rune.None, Rune.Night_Bane, Rune.Blood_Moon, Rune.Well_of_Darkness, Rune.Gloom, Rune.Shadow_Glide }, 
 			"http://us.battle.net/d3/en/class/demon-hunter/active/shadow-power", 34),
 
@@ -126,7 +126,7 @@ public enum ActiveSkill {
 			0.166, new Rune[] { Rune.None, Rune.Withering_Fire, Rune.Frost_Shots, Rune.Fire_Support, Rune.High_Velocity, Rune.Bombardment }, 
 			"http://us.battle.net/d3/en/class/demon-hunter/active/rapid-fire", 5),
 
-	MFD(SkillType.NA, "MFD", "Marked for Death", 0, null, 
+	MFD(SkillType.Other, "MFD", "Marked for Death", 0, null, 
 			0, new Rune[] { Rune.None, Rune.Contagion, Rune.Valley_Of_Death, Rune.Grim_Reaper, Rune.Mortal_Enemy, Rune.Death_Toll }, 
 			"http://us.battle.net/d3/en/class/demon-hunter/active/marked-for-death", 28),
 

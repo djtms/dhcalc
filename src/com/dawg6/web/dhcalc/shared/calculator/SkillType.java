@@ -24,5 +24,6 @@ public enum SkillType {
 	Sentry,
 	Cooldown,
 	Channeled,
+	Other,
 	NA
 }
