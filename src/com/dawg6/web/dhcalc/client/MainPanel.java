@@ -449,6 +449,9 @@ public class MainPanel extends BasePanel {
 		CaptionPanel captionPanel = new CaptionPanel("Compare Builds");
 		verticalPanel_2.add(captionPanel);
 
+		buffPanel = new BuffPanel();
+		verticalPanel_2.add(buffPanel);
+
 		CaptionPanel cptnpnlNewPanel2 = new CaptionPanel("Simulate");
 		verticalPanel_2.add(cptnpnlNewPanel2);
 
@@ -649,9 +652,6 @@ public class MainPanel extends BasePanel {
 		
 		itemPanel = new ItemPanel();
 		verticalPanel_3.add(itemPanel);
-
-		buffPanel = new BuffPanel();
-		verticalPanel_2.add(buffPanel);
 
 		hatredPanel = new HatredPanel();
 		verticalPanel_3.add(hatredPanel);
