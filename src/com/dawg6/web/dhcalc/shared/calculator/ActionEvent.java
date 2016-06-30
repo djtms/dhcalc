@@ -371,6 +371,15 @@ public class ActionEvent extends Event {
 				dList.addAll(vList);
 			}
 
+			if (state.getData().isSashOfKnives()) {
+				List<Damage> l2 = DamageFunction.getDamages(true, false,
+						"Sash of Knives",
+						new DamageSource(ActiveSkill.SoK, Rune.None),
+						state);
+				applyDamages(state, log, l2);
+				dList.addAll(l2);
+			}
+			
 			if (n2 && (rov != null)) {
 				
 				if (rov.getTime() > this.time) {

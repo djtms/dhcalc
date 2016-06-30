@@ -1,4 +1,8 @@
 Change Log:
+
+**6/30/16**
+-- Added support for Sash of Knives
+
 **6/19/16**
 -- Fixed error with importing profile with unset legendary powers
 -- Updated (and moved) cooldown list to show only skills currently selected

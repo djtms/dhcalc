@@ -70,10 +70,12 @@ public enum DamageMultiplier {
 					return state.getData().getFireDamage();
 				}
 			}), Augustines("AP", DamageAccumulator.Multiplicative,
-			"Augustine's Panacea Damage Bonus (200%-250%)", new Test<SimulationState, Double>() {
+			"Augustine's Panacea Damage Bonus (200%-250%)",
+			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return state.getData().isAugustinesPanacea() ? state.getData().getAugustinesPanaceaPercent() : 0.0;
+					return state.getData().isAugustinesPanacea() ? state
+							.getData().getAugustinesPanaceaPercent() : 0.0;
 				}
 			}), Cold("Cold", DamageAccumulator.ElementalAdditive,
 			"Cold Elemental Damage Bonus", new Test<SimulationState, Double>() {
@@ -152,7 +154,7 @@ public enum DamageMultiplier {
 				@Override
 				public Double getValue(SimulationState state) {
 					double n = state.getNumSpikeTraps();
-					
+
 					return (n > 1) ? (n - 2) : 0;
 				}
 			}), M4("M4", DamageAccumulator.Multiplicative,
@@ -659,8 +661,9 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return state.getData().isTaeguk() ? ((0.02 + (0.0004 * state.getData().getTaegukLevel())) * state
-							.getData().getTaegukStacks()) : 0.0;
+					return state.getData().isTaeguk() ? ((0.02 + (0.0004 * state
+							.getData().getTaegukLevel())) * state.getData()
+							.getTaegukStacks()) : 0.0;
 				}
 			}), Simplicity(
 			"Simplicity",
@@ -815,12 +818,9 @@ public enum DamageMultiplier {
 			"Area Damage (20% chance)", new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return (
-							(state.getTargets().getNumAlive() > 1) && 
-							(state.getData().getTargetSpacing() <= 10)
-							) ? 
-									state.getData().getAreaDamage() : 
-									0.0;
+					return ((state.getTargets().getNumAlive() > 1) && (state
+							.getData().getTargetSpacing() <= 10)) ? state
+							.getData().getAreaDamage() : 0.0;
 				}
 			}), Calamity("Calamity", DamageAccumulator.Additive,
 			"Calamity Marked for Death bonus (20% while applied)",

@@ -341,6 +341,9 @@ public class DamageFunction {
 			new DamageRow(ActiveSkill.CR, Rune.Flying_Strike, 1.0, true, 0,
 					DamageType.Cold),
 
+			new DamageRow(ActiveSkill.SoK, Rune.None, 1.0, true, 0,
+					DamageType.Physical),
+
 			new DamageRow(ActiveSkill.Strafe, Rune.None, 6.75, true, 3,
 					DamageType.Physical),
 			new DamageRow(ActiveSkill.Strafe, Rune.Icy_Trail, 6.75, true, 3,
@@ -497,6 +500,8 @@ public class DamageFunction {
 
 							if (dr.source.skill == ActiveSkill.CR) {
 								m = state.getData().getCrashingRainPercent();
+							} else if (dr.source.skill == ActiveSkill.SoK) {
+								m = state.getData().getSashOfKnivesPercent();
 							} else if (dr.source.proc != null) {
 								m = dr.source.proc.getScalar(state);
 								

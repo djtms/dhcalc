@@ -40,6 +40,10 @@ public enum SpecialItemType {
 			Slot.CubeArmor }, new Attribute(SpecialItemType.PERCENT,
 			Const.CRASHING_RAIN_PERCENT, 3000, 4000)),
 
+	SoK(Const.SASH_OF_KNIVES, "sash-of-knives", false, new Slot[] { Slot.Waist,
+			Slot.CubeArmor }, new Attribute(SpecialItemType.PERCENT,
+			Const.SASH_OF_KNIVES_PERCENT, 500, 650)),
+
 	Calamity(Const.CALAMITY, "calamity", false, new Slot[] { Slot.MainHand,
 			Slot.CubeWeapon, Slot.OffHand }),
 

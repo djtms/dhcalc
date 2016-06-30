@@ -98,6 +98,8 @@ public enum ActiveSkill {
 	
 	CR(SkillType.NA, "CR", "Crashing Rain", 0, DamageMultiplier.RoV, 0, new Rune[0], "http://us.battle.net/d3/en/item/crashing-rain", 0),
 
+	SoK(SkillType.NA, "SoK", "Sash of Knives", 0, null, 0, new Rune[0], "http://us.battle.net/d3/en/item/sash-of-knives", 0),
+
 	SS(SkillType.Cooldown, "SS", "Smoke Screen", 0, null, 
 			0, new Rune[] { Rune.None, Rune.Displacement, Rune.Lingering_Fog, Rune.Healing_Vapors, Rune.Special_Recipe, Rune.Vanishing_Powder }, 
 			"http://us.battle.net/d3/en/class/demon-hunter/active/smoke-screen", 34),

@@ -2160,6 +2160,10 @@ public class CharacterData implements Serializable {
 		return isItem(SpecialItemType.AugustinesPanacea);
 	}
 
+	public boolean isSashOfKnives() {
+		return isItem(SpecialItemType.SoK);
+	}
+
 	public double getKarlieshatred() {
 		return getItemAttribute(SpecialItemType.KarleisPoint, SpecialItemType.HATRED);
 	}
@@ -2170,6 +2174,10 @@ public class CharacterData implements Serializable {
 
 	public double getIllWillPercent() {
 		return getItemAttribute(SpecialItemType.IllWill, SpecialItemType.PERCENT);
+	}
+
+	public double getSashOfKnivesPercent() {
+		return getItemAttribute(SpecialItemType.SoK, SpecialItemType.PERCENT);
 	}
 
 	public boolean isOtherSets() {
