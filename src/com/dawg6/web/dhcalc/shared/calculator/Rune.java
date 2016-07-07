@@ -166,11 +166,11 @@ public enum Rune {
 	Trail_of_Cinders("a", 0, 0.4),
 	
 	// Fan of Knives
-	Pinpoint_Accuracy("d", 0, 0.4),
-	Bladed_Armor("e", 0, 1.0 / 3.0),
-	Knives_Expert("a", 0, 0.2),
-	Fan_of_Daggers("c", 0, 1.0 / 3.0),
-	Assassins_Knives("b", 0, 0.2),
+	Pinpoint_Accuracy("d", 0, 0.4, 15, 0),
+	Bladed_Armor("e", 0, 1.0 / 3.0, 10, 0),
+	Knives_Expert("a", 30, 0.2),
+	Fan_of_Daggers("c", 0, 1.0 / 3.0, 10, 0),
+	Assassins_Knives("b", 0, 0.2, 10, 0),
 	
 	// Shadow Power
 	Night_Bane("a", 0, 0),

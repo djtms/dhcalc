@@ -43,12 +43,14 @@ public class SimulationState implements Serializable {
 	private final Map<DamageProc, Double> procAvail = new TreeMap<DamageProc, Double>();
 	private SkillAndRune lastAttack;
 	private double lastAps;
+	private double lastFoK;
 	
 	public SimulationState() {
 		this.time = 0.0;
 		this.buffs = new BuffList();
 		this.dots = new DotList();
 		this.lastSpenderTime = 0.0;
+		this.lastFoK = 0.0;
 		
 		for (DamageProc dp : DamageProc.values()) {
 			procAvail.put(dp, 0.0);
@@ -204,5 +206,17 @@ public class SimulationState implements Serializable {
 
 	public void setLastAps(double lastAps) {
 		this.lastAps = lastAps;
+	}
+
+	public void setLastFoK(double time) {
+		this.lastFoK = time;
+	}
+	
+	public int getLGFStacks() {
+		return Math.min((int)Math.floor(this.time - this.lastFoK), 30);
+	}
+	
+	public double getLastFoK() {
+		return this.lastFoK;
 	}
 }

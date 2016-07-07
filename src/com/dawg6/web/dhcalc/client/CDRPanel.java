@@ -313,10 +313,14 @@ public class CDRPanel extends Composite {
 						+ Util.format(Math.round(cd * 100.0) / 100.0) + "s");
 				flexTable.setWidget(row, 2, l);
 
-				Label l2 = new Label("Uptime "
-						+ Util.format(Math.round(uptime * 10000.0) / 100.0)
-						+ "%");
-				flexTable.setWidget(row, 3, l2);
+				if (duration == 0) {
+					flexTable.setWidget(row, 3, new Label("N/A"));
+				} else {
+					Label l2 = new Label("Uptime "
+							+ Util.format(Math.round(uptime * 10000.0) / 100.0)
+							+ "%");
+					flexTable.setWidget(row, 3, l2);
+				}
 
 				row++;
 			}

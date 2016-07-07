@@ -50,7 +50,12 @@ public class FoKEvent extends CooldownEvent {
 		if (!targetsHit.isEmpty())
 			applyDamages(state, log, DamageFunction.getDamages(false, false, "Player", null, state, targetsHit));
 
-		this.time += this.cooldown;
+		state.setLastFoK(this.time);
+		
+//		if (state.getData().isLGF() && (rune != Rune.Pinpoint_Accuracy))
+//			this.time += Math.max(this.cooldown, 30.0);
+//		else
+			this.time += this.cooldown;
 		
 		queue.push(this);
 	}

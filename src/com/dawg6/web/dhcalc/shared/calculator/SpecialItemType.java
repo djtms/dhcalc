@@ -78,6 +78,10 @@ public enum SpecialItemType {
 			Slot.MainHand, Slot.CubeWeapon }, new Attribute(
 			SpecialItemType.PERCENT, Const.ILL_WILL_PERCENT, 10, 14, 1000.0)),
 
+	LGF(Const.LGF, "lord-greenstones-fan", false, new Slot[] {
+			Slot.MainHand, Slot.CubeWeapon }, new Attribute(
+			SpecialItemType.PERCENT, Const.LGF_PERCENT, 160, 200, 100.0)),
+
 	TnT(Const.TASKER_AND_THEO, "tasker-and-theo", false, new Slot[] {
 			Slot.Hands, Slot.CubeArmor }, new Attribute(
 			SpecialItemType.PERCENT, Const.TNT_IAS, 40, 50)),

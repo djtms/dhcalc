@@ -52,6 +52,15 @@ public enum DamageMultiplier {
 				public Double getValue(SimulationState state) {
 					return state.getLastAttack().getProc();
 				}
+			}), LGF("LGF", DamageAccumulator.Multiplicative,
+			"Lord Greenstone's Fan bonus to Fan of Knives (+160-200%, per stack)",
+			new Test<SimulationState, Double>() {
+
+				@Override
+				public Double getValue(SimulationState state) {
+					return state.getData().isLGF() ? (state.getLGFStacks() * state.getData()
+							.getLGFPercent()) : 0.0;
+				}
 			}), DD("DD", DamageAccumulator.Multiplicative,
 			"Depth Diggers (80%-100% for primary skills)",
 			new Test<SimulationState, Double>() {

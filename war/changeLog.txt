@@ -1,5 +1,9 @@
 Change Log:
 
+**7/7/16**
+-- Added support for Lord Greenstone's Fan
+-- Added Fan of Knives to skill cooldown list
+
 **6/30/16**
 -- Added support for Sash of Knives
 

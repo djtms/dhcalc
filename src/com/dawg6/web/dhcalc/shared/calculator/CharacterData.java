@@ -2152,6 +2152,10 @@ public class CharacterData implements Serializable {
 		return isItem(SpecialItemType.IllWill);
 	}
 
+	public boolean isLGF() {
+		return isItem(SpecialItemType.LGF);
+	}
+
 	public boolean isKarleis() {
 		return isItem(SpecialItemType.KarleisPoint);
 	}
@@ -2170,6 +2174,10 @@ public class CharacterData implements Serializable {
 
 	public double getAugustinesPanaceaPercent() {
 		return getItemAttribute(SpecialItemType.AugustinesPanacea, SpecialItemType.PERCENT);
+	}
+
+	public double getLGFPercent() {
+		return getItemAttribute(SpecialItemType.LGF, SpecialItemType.PERCENT);
 	}
 
 	public double getIllWillPercent() {
