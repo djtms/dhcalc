@@ -314,7 +314,7 @@ public class CDRPanel extends Composite {
 				flexTable.setWidget(row, 2, l);
 
 				if (duration == 0) {
-					flexTable.setWidget(row, 3, new Label("N/A"));
+					flexTable.setWidget(row, 3, new Label("Uptime N/A"));
 				} else {
 					Label l2 = new Label("Uptime "
 							+ Util.format(Math.round(uptime * 10000.0) / 100.0)
