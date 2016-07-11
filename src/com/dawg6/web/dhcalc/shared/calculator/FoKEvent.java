@@ -92,10 +92,10 @@ public class FoKEvent extends CooldownEvent {
 
 		state.setLastFoK(this.time);
 
-		// if (state.getData().isLGF() && (rune != Rune.Pinpoint_Accuracy))
-		// this.time += Math.max(this.cooldown, 30.0);
-		// else
-		this.time += this.cooldown;
+		if (state.getData().isLGF()) // && (rune != Rune.Pinpoint_Accuracy))
+			this.time += Math.max(this.cooldown, 30.0);
+		else
+			this.time += this.cooldown;
 
 		queue.push(this);
 	}
