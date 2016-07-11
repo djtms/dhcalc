@@ -2,7 +2,7 @@ Change Log:
 
 **7/11/16**
 -- Added new input field to synchronize cooldowns (FoK, RoV, Companion) with CoE (default is "selected"). When selected, FoK, RoV and Companion (wolf/bat) will only activate when appropriate CoE element buff is up. Desired CoE buff is selected based on rune of FoK, RoV, Spender or Primary skill.
--- When using Lord Grrenstone's Fan, FoK will only activate after maximum # of stacks (30)
+-- When using Lord Greenstone's Fan, FoK will only activate after maximum # of stacks (30)
 
 **7/7/16**
 -- Added support for Lord Greenstone's Fan
