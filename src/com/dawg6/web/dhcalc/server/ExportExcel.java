@@ -463,6 +463,7 @@ public class ExportExcel {
 
 		createInput(inputs, data.data.getCaltropsUptime(), "Caltrops Uptime",
 				pctStyle);
+		createInput(inputs, data.data.isSyncWithCoe(), "Sync Cooldowns with CoE");
 		createInput(inputs, data.data.getMfdUptime(),
 				"Marked for Death Primary Target Uptime", pctStyle);
 		createInput(inputs, data.data.getMfdAddUptime(),

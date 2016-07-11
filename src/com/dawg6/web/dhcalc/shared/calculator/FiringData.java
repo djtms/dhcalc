@@ -61,8 +61,12 @@ public class FiringData {
 		if (data.getNumHealthGlobes() > 0)
 			eventQueue.push(new HealthGlobeEvent(data));
 		
-		if (data.isCoe())
-			eventQueue.push(new CoEBuffEvent());
+		CoEBuffEvent coe = null;
+		
+		if (data.isCoe()) {
+			coe = new CoEBuffEvent();
+			eventQueue.push(coe);
+		}
 		
 		if (data.isPreparation()
 				&& (data.getPreparationRune() == Rune.Punishment)) 
@@ -121,7 +125,7 @@ public class FiringData {
 			eventQueue.push(new BuffEvent.BotPBuff(data.getBotpLevel()));
 		
 		if (data.isCompanion() && (data.getNumMarauders() >= 2) || (data.getCompanionRune() == Rune.Bat) || (data.getCompanionRune() == Rune.Wolf)) 
-			eventQueue.push(new CompanionBuffEvent(data));
+			eventQueue.push(new CompanionBuffEvent(data, coe));
 		
 		if (data.getSkills().containsKey(ActiveSkill.Vengeance))
 			eventQueue.push(new VengeanceEvent(data));
@@ -129,13 +133,13 @@ public class FiringData {
 		ActionEvent action = new ActionEvent(data);
 		
 		if (data.getSkills().containsKey(ActiveSkill.RoV)) {
-			RoVEvent rov = new RoVEvent(data);
+			RoVEvent rov = new RoVEvent(data, coe);
 			eventQueue.push(rov);
 			action.setRov(rov);
 		}
 		
 		if (data.getSkills().containsKey(ActiveSkill.FoK) && (data.getSkills().get(ActiveSkill.FoK) != Rune.Knives_Expert)) {
-			eventQueue.push(new FoKEvent(data));
+			eventQueue.push(new FoKEvent(data, coe));
 		}
 
 		eventQueue.push(action);
@@ -143,7 +147,7 @@ public class FiringData {
 		if (data.isSentry())
 			eventQueue.push(new SentryBoltEvent(data));
 		
-		if (data.isCompanion())
+		if (data.isCompanion()) 
 			eventQueue.push(new CompanionDamageEvent(data));
 		
 		eventQueue.push(new DotEvent());

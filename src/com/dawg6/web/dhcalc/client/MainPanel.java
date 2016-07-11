@@ -2364,6 +2364,8 @@ public class MainPanel extends BasePanel {
 						"100"),
 				new Field(this.skills.getCaltropsUptime(), "CaltropsUptime",
 						"100"),
+				new Field(this.skills.getSyncWithCoe(), "SyncWithCoE",
+						Boolean.TRUE.toString()),
 				new Field(this.hatredPanel.getHatredPerSecond(),
 						"EquipHatredPerSecond", "0.0"),
 				new Field(this.hatredPanel.getEquipmentDiscipline(),
@@ -2642,6 +2644,7 @@ public class MainPanel extends BasePanel {
 			data.setValorPassiveUptime(playerBuffPanel.getValorPassiveUptime().getValue() / 100.0);
 			data.setSlamDance(playerBuffPanel.getSlamDance().getValue());
 			data.setCaltropsUptime(skills.getCaltropsUptime().getValue() / 100.0);
+			data.setSyncWithCoe(skills.getSyncWithCoe().getValue());
 			data.setHatredPerSecond(hatredPanel.getHatredPerSecond().getValue());
 			data.setEquipmentDiscipline(hatredPanel.getEquipmentDiscipline()
 					.getValue());

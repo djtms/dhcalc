@@ -25,38 +25,78 @@ import java.util.TreeSet;
 public class FoKEvent extends CooldownEvent {
 
 	private final Rune rune;
+	private final CoEBuffEvent coe;
+	private DamageType type;
+	private final boolean syncWithCoe;
 
-	public FoKEvent(CharacterData data) {
+	public FoKEvent(CharacterData data, CoEBuffEvent coe) {
 		this.rune = data.getSkills().get(ActiveSkill.FoK);
-		this.cooldown = ((rune == Rune.Pinpoint_Accuracy) ? 15.0 : 10.0) * (1.0 - data.getCdr());
+		this.cooldown = ((rune == Rune.Pinpoint_Accuracy) ? 15.0 : 10.0)
+				* (1.0 - data.getCdr());
 		this.time = 0.0;
+		this.coe = coe;
+
+		switch (rune) {
+		case Pinpoint_Accuracy:
+			type = DamageType.Lightning;
+			break;
+
+		case Bladed_Armor:
+			type = DamageType.Cold;
+			break;
+
+		case Knives_Expert:
+		case Fan_of_Daggers:
+			type = DamageType.Fire;
+			break;
+
+		default:
+			type = DamageType.Physical;
+			break;
+
+		}
+		
+		this.syncWithCoe = data.isSyncWithCoe();
 	}
 
 	@Override
 	public void execute(EventQueue queue, List<Damage> log,
 			SimulationState state) {
 
-		List<Damage> dList = DamageFunction.getDamages(true, false, "Player", new DamageSource(ActiveSkill.FoK, rune), state);
+		if (syncWithCoe && (coe != null)) {
+			DamageType t = coe.getDamageType();
+			
+			if (t != type) {
+				this.time = coe.time;
+				queue.push(this);
+				return;
+			}
+		}
+
+		List<Damage> dList = DamageFunction.getDamages(true, false, "Player",
+				new DamageSource(ActiveSkill.FoK, rune), state);
 
 		applyDamages(state, log, dList);
 
 		Set<TargetType> targetsHit = new TreeSet<TargetType>();
-		
+
 		for (Damage d : dList) {
-			if ((d.target != null) && (d.damage > 0) && state.getTargets().getTarget(d.target).isAlive())
+			if ((d.target != null) && (d.damage > 0)
+					&& state.getTargets().getTarget(d.target).isAlive())
 				targetsHit.add(d.target);
 		}
-		
+
 		if (!targetsHit.isEmpty())
-			applyDamages(state, log, DamageFunction.getDamages(false, false, "Player", null, state, targetsHit));
+			applyDamages(state, log, DamageFunction.getDamages(false, false,
+					"Player", null, state, targetsHit));
 
 		state.setLastFoK(this.time);
-		
-//		if (state.getData().isLGF() && (rune != Rune.Pinpoint_Accuracy))
-//			this.time += Math.max(this.cooldown, 30.0);
-//		else
-			this.time += this.cooldown;
-		
+
+		// if (state.getData().isLGF() && (rune != Rune.Pinpoint_Accuracy))
+		// this.time += Math.max(this.cooldown, 30.0);
+		// else
+		this.time += this.cooldown;
+
 		queue.push(this);
 	}
 

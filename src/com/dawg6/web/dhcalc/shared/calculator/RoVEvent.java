@@ -27,18 +27,54 @@ public class RoVEvent extends CooldownEvent {
 	private final Rune rune;
 	private final boolean n6;
 	private final boolean cr;
+	private final CoEBuffEvent coe;
+	private DamageType type;
+	private final boolean syncWithCoe;
 
-	public RoVEvent(CharacterData data) {
+	public RoVEvent(CharacterData data, CoEBuffEvent coe) {
 		this.rune = data.getSkills().get(ActiveSkill.RoV);
 		this.cooldown = 30.0 * (1.0 - data.getCdr());
 		this.cr = data.isCrashingRain();
 		this.n6 = data.getNumNats() >= 6;
 		this.time = 0.0;
+		this.coe = coe;
+		switch (rune) {
+
+		case Shade:
+			type = DamageType.Lightning;
+			break;
+
+		case Flying_Strike:
+			type = DamageType.Cold;
+			break;
+
+		case Stampede:
+		case Anathema:
+			type = DamageType.Fire;
+			break;
+
+		default:
+			type = DamageType.Physical;
+			break;
+
+		}
+		
+		this.syncWithCoe = data.isSyncWithCoe();
 	}
 
 	@Override
 	public void execute(EventQueue queue, List<Damage> log,
 			SimulationState state) {
+
+		if (syncWithCoe && (coe != null)) {
+			DamageType t = coe.getDamageType();
+			
+			if (t != type) {
+				this.time = coe.time;
+				queue.push(this);
+				return;
+			}
+		}
 
 		if (n6) {
 			state.getBuffs().set(Buff.N6, state.getTime() + 10.0);

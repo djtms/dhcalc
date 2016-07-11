@@ -163,6 +163,7 @@ public class CharacterData implements Serializable {
 	private int numAncients;
 	private double percentMoving;
 	private boolean otherSets;
+	private boolean syncWithCoe;
 
 	public CharacterData copy() {
 		return new CharacterData(this);
@@ -357,6 +358,7 @@ public class CharacterData implements Serializable {
 		this.slamDance = other.slamDance;
 		this.stretchTime = other.stretchTime;
 		this.stretchTimeUptime = other.stretchTimeUptime;
+		this.syncWithCoe = other.syncWithCoe;
 		this.tag = other.tag;
 		this.targetSize = other.targetSize;
 		this.targetSpacing = other.targetSpacing;
@@ -2202,5 +2204,13 @@ public class CharacterData implements Serializable {
 	
 	public boolean isBrokenPromises() {
 		return isItem(SpecialItemType.BrokenPromises);
+	}
+
+	public void setSyncWithCoe(boolean value) {
+		this.syncWithCoe = value;
+	}
+	
+	public boolean isSyncWithCoe() {
+		return this.syncWithCoe;
 	}
 }

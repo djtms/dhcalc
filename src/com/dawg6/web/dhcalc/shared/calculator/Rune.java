@@ -131,11 +131,11 @@ public enum Rune {
 	Lightning_Rod("e", 0, 0.15),
 
 	// Rain of Vengeance
-	Shade("a", 0, 0.04),
-	Dark_Cloud("b", 0, 0.06),
-	Anathema("c", 0, 0.12),
-	Flying_Strike("d", 0, 0.15),
-	Stampede("e", 0, 0.15),
+	Shade("a", 0, 0.04, 30, 5),
+	Dark_Cloud("b", 0, 0.06, 30, 8),
+	Anathema("c", 0, 0.12, 30, 2),
+	Flying_Strike("d", 0, 0.15, 30, 5),
+	Stampede("e", 0, 0.15, 30, 3),
 	
 	// Preparation
 	Invigoration("b", 0, 0),
@@ -166,11 +166,11 @@ public enum Rune {
 	Trail_of_Cinders("a", 0, 0.4),
 	
 	// Fan of Knives
-	Pinpoint_Accuracy("d", 0, 0.4, 15, 0),
-	Bladed_Armor("e", 0, 1.0 / 3.0, 10, 0),
-	Knives_Expert("a", 30, 0.2),
-	Fan_of_Daggers("c", 0, 1.0 / 3.0, 10, 0),
-	Assassins_Knives("b", 0, 0.2, 10, 0),
+	Pinpoint_Accuracy("d", 0, 0.4, 15, 1),
+	Bladed_Armor("e", 0, 1.0 / 3.0, 10, 1),
+	Knives_Expert("a", 30, 0.2, 0, 1),
+	Fan_of_Daggers("c", 0, 1.0 / 3.0, 10, 1),
+	Assassins_Knives("b", 0, 0.2, 10, 1),
 	
 	// Shadow Power
 	Night_Bane("a", 0, 0),

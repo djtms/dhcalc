@@ -19,6 +19,7 @@
 package com.dawg6.web.dhcalc.shared.calculator;
 
 import java.util.List;
+import java.util.Map;
 
 public class CompanionBuffEvent extends Event {
 
@@ -26,8 +27,11 @@ public class CompanionBuffEvent extends Event {
 	private final boolean hasWolf;
 	private final double batAmount;
 	private final double cd;
-
-	public CompanionBuffEvent(CharacterData data) {
+	private final CoEBuffEvent coe;
+	private final DamageType type;
+	private final boolean syncWithCoe;
+	
+	public CompanionBuffEvent(CharacterData data, CoEBuffEvent coe) {
 		this.hasBat = (data.getNumMarauders() >= 2)
 				|| (data.getCompanionRune() == Rune.Bat);
 		this.hasWolf = (data.getNumMarauders() >= 2)
@@ -38,6 +42,49 @@ public class CompanionBuffEvent extends Event {
 				.getPercentMoving()) * data.getHexingPantsPercent())) : 0.0);
 
 		cd = 30.0 * (1.0 - data.getCdr());
+		
+		this.coe = coe;
+		this.syncWithCoe = data.isSyncWithCoe();
+
+		Rune r = data.getSkills().get(ActiveSkill.FoK);
+		DamageType t = null;
+		
+		if (r != null)
+			t = DamageFunction.getDamageType(new SkillAndRune(ActiveSkill.FoK, r));
+		else {
+			r = data.getSkills().get(ActiveSkill.RoV);
+
+			if (r != null)
+				t = DamageFunction.getDamageType(new SkillAndRune(ActiveSkill.RoV, r));
+			else {
+				for (Map.Entry<ActiveSkill, Rune> e : data.getSkills().entrySet()) {
+					ActiveSkill skill = e.getKey();
+					Rune rune = e.getValue();
+					
+					if ((skill.getSkillType() == SkillType.Spender)) {
+						t = DamageFunction.getDamageType(new SkillAndRune(skill, rune));
+						break;
+					}
+				}
+
+				if (t == null) {
+					for (Map.Entry<ActiveSkill, Rune> e : data.getSkills().entrySet()) {
+						ActiveSkill skill = e.getKey();
+						Rune rune = e.getValue();
+						
+						if ((skill.getSkillType() == SkillType.Primary)) {
+							t = DamageFunction.getDamageType(new SkillAndRune(skill, rune));
+							break;
+						}
+					}
+				}
+			}
+		}
+		
+		if (t == null)
+			t = DamageType.Physical;
+		
+		this.type = t;
 	}
 
 	@Override
@@ -45,6 +92,16 @@ public class CompanionBuffEvent extends Event {
 			SimulationState state) {
 		boolean use = false;
 
+		if (syncWithCoe && (coe != null)) {
+			DamageType t = coe.getDamageType();
+			
+			if (t != type) {
+				this.time = coe.time;
+				queue.push(this);
+				return;
+			}
+		}
+		
 		if (hasBat && (state.getHatred() <= 50.0) && !state.getBuffs().isActive(Buff.Seethe)) {
 			use = true;
 		} else if (hasWolf && !state.getBuffs().isActive(Buff.OtherWolf)) {

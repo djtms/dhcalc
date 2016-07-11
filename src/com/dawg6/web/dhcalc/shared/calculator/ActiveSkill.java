@@ -94,7 +94,7 @@ public enum ActiveSkill {
 			Rune.None, Rune.Hooked_Spines, Rune.Torturous_Ground, Rune.Jagged_Spikes, Rune.Carved_Stakes, Rune.Bait_the_Trap }, "http://us.battle.net/d3/en/class/demon-hunter/active/caltrops", 8),
 
 	RoV(SkillType.Cooldown, "RoV", "Rain of Vengeance", 0, DamageMultiplier.RoV, 0.04, new Rune[] { 
-			Rune.None, Rune.Dark_Cloud, Rune.Shade, Rune.Stampede, Rune.Anathema, Rune.Flying_Strike }, "http://us.battle.net/d3/en/class/demon-hunter/active/rain-of-vengeance", 23),
+			Rune.None, Rune.Dark_Cloud, Rune.Shade, Rune.Stampede, Rune.Anathema, Rune.Flying_Strike }, "http://us.battle.net/d3/en/class/demon-hunter/active/rain-of-vengeance", 23, 30, 5),
 	
 	CR(SkillType.NA, "CR", "Crashing Rain", 0, DamageMultiplier.RoV, 0, new Rune[0], "http://us.battle.net/d3/en/item/crashing-rain", 0),
 
@@ -110,7 +110,7 @@ public enum ActiveSkill {
 
 	FoK(SkillType.Cooldown, "FoK", "Fan of Knives", 0, DamageMultiplier.FoK, 
 			1.0 / 3.0, new Rune[] { Rune.None, Rune.Pinpoint_Accuracy, Rune.Bladed_Armor, Rune.Knives_Expert, Rune.Fan_of_Daggers, Rune.Assassins_Knives }, 
-			"http://us.battle.net/d3/en/class/demon-hunter/active/fan-of-knives", 15),
+			"http://us.battle.net/d3/en/class/demon-hunter/active/fan-of-knives", 15, 10, 1),
 
 	SP(SkillType.Other, "SP", "Shadow Power", 0, null, 
 			0, new Rune[] { Rune.None, Rune.Night_Bane, Rune.Blood_Moon, Rune.Well_of_Darkness, Rune.Gloom, Rune.Shadow_Glide }, 
@@ -265,4 +265,5 @@ public enum ActiveSkill {
 			return rune.getDuration();
 		
 	}
+	
 }

@@ -23,6 +23,7 @@ import java.util.List;
 public class CoEBuffEvent extends Event {
 
 	private int index;
+	private DamageType type;
 	
 	public static final DamageType[] TYPES = { DamageType.Cold, DamageType.Fire, DamageType.Lightning, DamageType.Physical };
 	public static final Buff[] BUFFS = { Buff.CoeCold, Buff.CoeFire, Buff.CoeLightning, Buff.CoePhysical };
@@ -36,6 +37,7 @@ public class CoEBuffEvent extends Event {
 	public void execute(EventQueue queue, List<Damage> log,
 			SimulationState state) {
 		
+		this.type = TYPES[index];
 		Buff buff = BUFFS[index++];
 
 		state.getBuffs().set(buff, this.time + 4.0);
@@ -54,6 +56,10 @@ public class CoEBuffEvent extends Event {
 		this.time += 4.0;
 		
 		queue.push(this);
+	}
+
+	public DamageType getDamageType() {
+		return type;
 	}
 
 }

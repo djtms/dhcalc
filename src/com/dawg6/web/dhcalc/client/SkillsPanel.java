@@ -39,6 +39,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.SimpleCheckBox;
 
 public class SkillsPanel extends Composite {
 	private final NumberSpinner mfdUptime;
@@ -49,6 +50,7 @@ public class SkillsPanel extends Composite {
 	private final List<Anchor> runeAnchors = new Vector<Anchor>(NUM_SKILLS);
 	private final List<ListBox> runeBoxes = new Vector<ListBox>(NUM_SKILLS);
 	private final Set<SkillsChangedListener> listeners = new TreeSet<SkillsChangedListener>();
+	private SimpleCheckBox syncWithCoe;
 	
 	public interface SkillsChangedListener {
 		void skillsChanged(Map<ActiveSkill, Rune> skills);
@@ -143,6 +145,21 @@ public class SkillsPanel extends Composite {
 			row++;
 		}
 
+		Label label_1 = new Label("Sync Cooldowns with CoE:");
+		label_1.setWordWrap(false);
+		flexTable.setWidget(row, 0, label_1);
+		flexTable.getFlexCellFormatter().setColSpan(row, 0, 2);
+		flexTable.getFlexCellFormatter().setHorizontalAlignment(row, 0,
+				HasHorizontalAlignment.ALIGN_RIGHT);
+
+		syncWithCoe = new SimpleCheckBox();
+		syncWithCoe
+				.setTitle("If set and wearing CoE, cooldowns (FoK, RoV, Companion) will only be used when proper CoE buff is up.");
+		flexTable.setWidget(row, 1, syncWithCoe);
+		flexTable.getFlexCellFormatter().setColSpan(row, 1, 2);
+
+		row++;
+		
 		Label label = new Label("Caltrops Uptime:");
 		label.setWordWrap(false);
 		flexTable.setWidget(row, 0, label);
@@ -159,7 +176,7 @@ public class SkillsPanel extends Composite {
 		caltropsUptime.setMax(100);
 
 		row++;
-
+		
 		Label lblUptime = new Label("Primary Target MfD Uptime:");
 		lblUptime.setWordWrap(false);
 		flexTable.setWidget(row, 0, lblUptime);
@@ -455,4 +472,7 @@ public class SkillsPanel extends Composite {
 		this.setRunes(anchor2, list2, skill);
 	}
 
+	public SimpleCheckBox getSyncWithCoe() {
+		return this.syncWithCoe;
+	}
 }
