@@ -213,6 +213,10 @@ public class SimulationState implements Serializable {
 	}
 	
 	public int getLGFStacks() {
+		
+		if (this.lastFoK <= 0.0)
+			return 30;
+		
 		return Math.min((int)Math.floor(this.time - this.lastFoK), 30);
 	}
 	

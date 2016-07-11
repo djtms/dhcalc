@@ -33,6 +33,7 @@ public class FoKEvent extends CooldownEvent {
 		this.rune = data.getSkills().get(ActiveSkill.FoK);
 		this.cooldown = ((rune == Rune.Pinpoint_Accuracy) ? 15.0 : 10.0)
 				* (1.0 - data.getCdr());
+		
 		this.time = 0.0;
 		this.coe = coe;
 
