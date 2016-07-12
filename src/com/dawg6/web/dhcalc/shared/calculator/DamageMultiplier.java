@@ -265,8 +265,8 @@ public enum DamageMultiplier {
 							.getHexingPantsPercent() * (1.0 - state.getData()
 							.getPercentMoving()))) : 0.0;
 				}
-			}), EW("EW", DamageAccumulator.Additive,
-			"Endless Walk (+100% while stationary)",
+			}), EW("EW", DamageAccumulator.Multiplicative,
+			"Endless Walk (up to +100% while stationary)",
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
