@@ -1,5 +1,13 @@
 Change Log:
 
+**8/3/16**
+- Updated for patch 2.4.2:
+-- Companion/Wolf reduced from 30% to 15%
+-- Marked for Death reduced from 20% to 15%
+-- Calamity now uses your selected MfD rune and does not stack with other MfDs
+-- Added The Demon's Demise mechanics
+-- Added 2.4.2 Spike Trap Mechanics
+
 **7/12/16**
 -- Fixed Endless Walk buff to be Multiplicative
 

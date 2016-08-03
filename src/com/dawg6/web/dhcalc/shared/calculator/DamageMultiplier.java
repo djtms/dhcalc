@@ -52,14 +52,16 @@ public enum DamageMultiplier {
 				public Double getValue(SimulationState state) {
 					return state.getLastAttack().getProc();
 				}
-			}), LGF("LGF", DamageAccumulator.Multiplicative,
+			}), LGF(
+			"LGF",
+			DamageAccumulator.Multiplicative,
 			"Lord Greenstone's Fan bonus to Fan of Knives (+160-200%, per stack)",
 			new Test<SimulationState, Double>() {
 
 				@Override
 				public Double getValue(SimulationState state) {
-					return state.getData().isLGF() ? (state.getLGFStacks() * state.getData()
-							.getLGFPercent()) : 0.0;
+					return state.getData().isLGF() ? (state.getLGFStacks() * state
+							.getData().getLGFPercent()) : 0.0;
 				}
 			}), DD("DD", DamageAccumulator.Multiplicative,
 			"Depth Diggers (80%-100% for primary skills)",
@@ -685,12 +687,12 @@ public enum DamageMultiplier {
 							.getData().getSimplicityLevel() * .005)) : 0.0;
 				}
 			}), Wolf("Wolf", DamageAccumulator.Multiplicative,
-			"Wolf Companion active bonus (30% during uptime)",
+			"Wolf Companion active bonus (15% during uptime)",
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
 					return (state.getBuffs().isActive(Buff.Wolf) || state
-							.getBuffs().isActive(Buff.OtherWolf)) ? 0.3 : 0.0;
+							.getBuffs().isActive(Buff.OtherWolf)) ? 0.15 : 0.0;
 				}
 			}), Bbv("Bbv", DamageAccumulator.Additive,
 			"Big Bad Voodoo/Slam Dance active bonus (30% during uptime)",
@@ -754,10 +756,8 @@ public enum DamageMultiplier {
 				public Double getValue(SimulationState state) {
 					return state.getBuffs().isActive(Buff.Paranoia) ? 0.2 : 0.0;
 				}
-			}), MfD(
-			"MfD",
-			DamageAccumulator.Additive,
-			"Marked for Death active skill bonus (20%+ while applied, depending on selected Rune)",
+			}), MfD("MfD", DamageAccumulator.Additive,
+			"Marked for Death active skill bonus (15%)",
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
@@ -771,32 +771,13 @@ public enum DamageMultiplier {
 							&& !state.getBuffs().isActive(Buff.MfdAdditional))
 						return 0.0;
 
-					double scalar = 0.2;
+					double scalar = 0.15;
 					double aoe = 0.0;
 
-					switch (state.getData().getMfdRune()) {
-					case Valley_Of_Death:
-						scalar = 0.15;
-						break;
-
-					case Grim_Reaper:
-
-						if (state.getData().getNumAdditional() <= 0)
-							break;
-
-						if (state.getData().getTargetSpacing() <= 20) {
-							aoe = (0.20 / state.getData().getNumAdditional());
-						}
-
-						break;
-
-					case Contagion:
-						break;
-
-					case Mortal_Enemy:
-					case None:
-					default:
-						break;
+					if ((state.getData().getMfdRune() == Rune.Grim_Reaper)
+							&& (state.getData().getNumAdditional() > 0)
+							&& (state.getData().getTargetSpacing() <= 20)) {
+						aoe = (0.15 / state.getData().getNumAdditional());
 					}
 
 					return scalar + aoe;
@@ -832,11 +813,40 @@ public enum DamageMultiplier {
 							.getData().getAreaDamage() : 0.0;
 				}
 			}), Calamity("Calamity", DamageAccumulator.Additive,
-			"Calamity Marked for Death bonus (20% while applied)",
+			"Calamity Marked for Death bonus (15% while applied)",
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return state.getBuffs().isActive(Buff.Calamity) ? 0.2 : 0.0;
+					TargetType type = state.getData().getTargetType();
+					Rune rune = Rune.None;
+
+					if (state.getData().isMarked()) {
+						rune = state.getData().getMfdRune();
+					}
+
+					double scalar = 0.15;
+					double aoe = 0.0;
+
+					if ((rune == Rune.Grim_Reaper)
+							&& (state.getData().getNumAdditional() > 0)
+							&& (state.getData().getTargetSpacing() <= 20)) {
+						aoe = (0.15 / state.getData().getNumAdditional());
+
+					}
+
+					if (state.getBuffs().isActive(Buff.Calamity) && !state.getBuffs().isActive(Buff.Vaxo)) {
+						if (type == TargetType.Primary) {
+							return !state
+									.getBuffs().isActive(Buff.MfdPrimary) ? (scalar + aoe)
+									: 0.0;
+						} else {
+							return !state
+									.getBuffs().isActive(Buff.MfdAdditional) ? (scalar + aoe)
+									: 0.0;
+						}
+					} else {
+						return 0.0;
+					}
 				}
 			}), Toxicity("Toxicity", DamageAccumulator.Additive,
 			"Gem of Efficacious Toxin rank 25+ bonus (10%)",

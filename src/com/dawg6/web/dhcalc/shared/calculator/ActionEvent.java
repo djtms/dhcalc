@@ -283,6 +283,18 @@ public class ActionEvent extends Event {
 						new DamageSource(selected.getSkill(), selected.getRune()),
 						state);
 				
+				boolean wasSpender = false;
+				boolean wasGenerator = false;
+				
+				if (selected.getSkill().getSkillType() == SkillType.Primary)
+					wasGenerator = true;
+				else if (selected.getSkill().getSkillType() == SkillType.Spender) {
+					if (h < 0)
+						wasSpender = true;
+					else
+						wasGenerator = true;
+					
+				}
 				for (Damage d : dList) {
 					
 					if ((botsLog != null) && (d.target == TargetType.Primary)) {
@@ -296,6 +308,14 @@ public class ActionEvent extends Event {
 				
 				applyDamages(state, log, dList);
 	
+				if (state.hasSpikeTraps()) {
+					Rune r = state.getData().getSpikeTrapRune();
+					
+					if (((r == Rune.Custom_Trigger) && wasGenerator) || ((r != Rune.Custom_Trigger) && wasSpender)) {
+						state.detonateTraps(queue, log);
+					}
+				}
+				
 				if (ue2 && (h > 0)) {
 					double actual = state.addDisc(1.0);
 	

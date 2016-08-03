@@ -124,10 +124,10 @@ public enum Rune {
 	Ferret("e", 0, 0, 30, 0),
 
 	// Spike Trap
-	Long_Fuse("a", 0, 0.15),
+	Custom_Trigger("c", 0, 0.15),
 	Echoing_Blast("b", 0, 0.15),
-	Sticky_Trap("c", 0, 1.0 / 3.0),
-	Scatter("d", 0, 0.5),
+	Impaling_Spines("a", 0, 0.15),
+	Scatter("d", 0, 0.15),
 	Lightning_Rod("e", 0, 0.15),
 
 	// Rain of Vengeance

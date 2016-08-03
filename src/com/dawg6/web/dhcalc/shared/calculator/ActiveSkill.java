@@ -85,7 +85,7 @@ public enum ActiveSkill {
 		}, "http://us.battle.net/d3/en/class/demon-hunter/active/companion", 27, 30, 0),
 		
 	ST(SkillType.Other, "ST", "Spike Trap", 0, DamageMultiplier.ST, 0.15, new Rune[] { 
-			Rune.None, Rune.Echoing_Blast, Rune.Sticky_Trap, Rune.Long_Fuse, Rune.Lightning_Rod, Rune.Scatter }, "http://us.battle.net/d3/en/class/demon-hunter/active/spike-trap", 21),
+			Rune.None, Rune.Echoing_Blast, Rune.Impaling_Spines, Rune.Custom_Trigger, Rune.Lightning_Rod, Rune.Scatter }, "http://us.battle.net/d3/en/class/demon-hunter/active/spike-trap", 21),
 		
 	Preparation(SkillType.Cooldown, "Preparation", "Preparation", 0, null, 0, new Rune[] { 
 			Rune.None, Rune.Invigoration, Rune.Punishment, Rune.Battle_Scars, Rune.Focused_Mind, Rune.Backup_Plan }, "http://us.battle.net/d3/en/class/demon-hunter/active/preparation", 34),

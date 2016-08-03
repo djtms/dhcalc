@@ -47,6 +47,9 @@ public enum SpecialItemType {
 	Calamity(Const.CALAMITY, "calamity", false, new Slot[] { Slot.MainHand,
 			Slot.CubeWeapon, Slot.OffHand }),
 
+	DemonsDemise(Const.DEMONS_DEMISE, "the-demons-demise", false, new Slot[] { Slot.MainHand,
+					Slot.CubeWeapon, Slot.OffHand }),
+
 	HellTrapper(Const.HELLTRAPPER, "helltrapper", false, new Slot[] {
 			Slot.MainHand, Slot.OffHand, Slot.CubeWeapon }, new Attribute(
 			SpecialItemType.PERCENT, Const.HELLTRAPPER_PERCENT, 7, 10)),

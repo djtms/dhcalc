@@ -19,10 +19,9 @@
 package com.dawg6.web.dhcalc.shared.calculator;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 public class SimulationState implements Serializable {
 
@@ -39,11 +38,11 @@ public class SimulationState implements Serializable {
 	private Hand hand;
 	private double disc;
 	private double maxDisc;
-	private final Set<Integer> spikeTraps = new TreeSet<Integer>();
 	private final Map<DamageProc, Double> procAvail = new TreeMap<DamageProc, Double>();
 	private SkillAndRune lastAttack;
 	private double lastAps;
 	private double lastFoK;
+	private final Map<Integer, SpikeTrapEvent> spikeTraps = new TreeMap<Integer, SpikeTrapEvent>();
 	
 	public SimulationState() {
 		this.time = 0.0;
@@ -175,17 +174,14 @@ public class SimulationState implements Serializable {
 		int max = data.getMaxTraps();
 		
 		for (Integer i = 1; i <= max; i++) {
-			if (!spikeTraps.contains(i)) {
-				spikeTraps.add(i);
+			if (!spikeTraps.containsKey(i)) {
+				SpikeTrapEvent e = new SpikeTrapEvent(this.getData(), i);
+				spikeTraps.put(i, e);
 				return i;
 			}
 		}
 
 		return 0;
-	}
-
-	public void removeSpikeTrap(Integer num) {
-		spikeTraps.remove(num);
 	}
 
 	public Map<DamageProc, Double> getProcAvail() {
@@ -222,5 +218,17 @@ public class SimulationState implements Serializable {
 	
 	public double getLastFoK() {
 		return this.lastFoK;
+	}
+
+	public boolean hasSpikeTraps() {
+		return !spikeTraps.isEmpty();
+	}
+
+	public void detonateTraps(EventQueue queue, List<Damage> log) {
+		for (SpikeTrapEvent e : spikeTraps.values()) {
+			e.execute(queue, log, this);
+		}
+		
+		spikeTraps.clear();
 	}
 }

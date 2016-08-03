@@ -26,14 +26,18 @@ public class SpikeTrapActionEvent extends Event {
 	private final double cost;
 	private final int max;
 	private final SkillAndRune skr;
+	private int charges;
+	private double rechargeTime;
 	
 	public SpikeTrapActionEvent(CharacterData data) {
 		this.rune = data.getSkills().get(ActiveSkill.ST);
 		this.max = data.getMaxTraps();
 		this.skr = new SkillAndRune(ActiveSkill.ST, rune);
+		this.charges = max;
+		this.rechargeTime = 0.0;
 		
-		double cost = 30.0 + (data.isHexingPants() ? ((30.0 * data
-				.getPercentMoving() * .25) - (30.0 * (1.0 - data
+		double cost = 15.0 + (data.isHexingPants() ? ((15.0 * data
+				.getPercentMoving() * .25) - (15.0 * (1.0 - data
 				.getPercentMoving()) * data.getHexingPantsPercent())) : 0.0);
 		
 		this.cost = cost * (1.0 - data.getRcr());
@@ -41,8 +45,17 @@ public class SpikeTrapActionEvent extends Event {
 	}
 
 	public int getQtyAvailable(SimulationState state) {
+		
+		while ((charges < max) && (state.getTime() >= rechargeTime)) {
+			charges++;
+			rechargeTime += 10.0;
+		}
+		
+		if (charges < 1)
+			return 0;
+		
 		int num = state.getNumSpikeTraps();
-		int qty = (rune == Rune.Scatter) ? 3 : 1;
+		int qty = 1;
 		
 		if (((num + qty) <= max) && (state.getHatred() >= cost)) {
 			return qty;
@@ -58,29 +71,13 @@ public class SpikeTrapActionEvent extends Event {
 		int qty = getQtyAvailable(state);
 		
 		if (qty > 0) {
-			int trapNumber = 0;
-
-			state.addHatred(-cost);
 			
-			for (int i = 0; i < qty; i++) {
-				trapNumber = state.addSpikeTrap();
-				SpikeTrapEvent e = new SpikeTrapEvent(state.getData(), trapNumber);
-				
-				switch (rune) {
-					case Long_Fuse:
-						e.time = state.getTime() + 3.0;
-						break;
-
-					case Sticky_Trap:
-						e.time = state.getTime() + 1.0;
-						break;
-						
-					default:
-						e.time = state.getTime() + 1.5;
-				
-				}
-				queue.push(e);
-			}
+			if (charges == max)
+				this.rechargeTime = state.getTime() + 10.0;
+			
+			charges--;
+			int trapNumber = state.addSpikeTrap();
+			state.addHatred(-cost);
 			
 			Damage d = new Damage();
 			d.time = state.getTime();
@@ -89,7 +86,7 @@ public class SpikeTrapActionEvent extends Event {
 			d.hatred = -cost;
 			d.currentDisc = state.getDisc();
 			d.currentHatred = state.getHatred();
-			d.note = "Deploy " + ((rune == Rune.Scatter) ? (qty + " Traps") : ("Trap#" + trapNumber));
+			d.note = "Deploy Trap#" + trapNumber + ((rune == Rune.Scatter) ? ("x2") : "");
 			log.add(d);
 		} 
 	}

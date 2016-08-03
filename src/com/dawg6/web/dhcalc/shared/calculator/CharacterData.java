@@ -2199,7 +2199,7 @@ public class CharacterData implements Serializable {
 	}
 
 	public int getMaxTraps() {
-		return this.isCustomEngineering() ? 6 : 3;
+		return this.isCustomEngineering() ? 3 : 2;
 	}
 	
 	public boolean isBrokenPromises() {
@@ -2212,5 +2212,9 @@ public class CharacterData implements Serializable {
 	
 	public boolean isSyncWithCoe() {
 		return this.syncWithCoe;
+	}
+
+	public boolean isDemonsDemise() {
+		return isItem(SpecialItemType.DemonsDemise);
 	}
 }

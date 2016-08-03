@@ -210,15 +210,6 @@ public class SkillsPanel extends Composite {
 
 		row++;
 
-		Label lblNoteThisStacks = new Label(
-				"Note: This stacks with Calamity's MfD");
-		lblNoteThisStacks.setWordWrap(false);
-		lblNoteThisStacks.setStyleName("boldText");
-		flexTable.setWidget(row, 0, lblNoteThisStacks);
-		flexTable.getFlexCellFormatter().setColSpan(row, 0, 4);
-
-		row++;
-
 		mfdUptime.setMax(100);
 		mfdAddUptime.setMax(100);
 		caltropsUptime.setMax(100);

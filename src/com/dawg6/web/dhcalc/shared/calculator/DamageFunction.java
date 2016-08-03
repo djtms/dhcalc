@@ -59,7 +59,15 @@ public class DamageFunction {
 			new DamageRow(ActiveSkill.MS, Rune.Fire_at_Will, 3.6, true,
 					Integer.MAX_VALUE, Integer.MAX_VALUE, DamageType.Lightning),
 			new DamageRow(ActiveSkill.MS, Rune.Wind_Chill, 3.6, true,
-					Integer.MAX_VALUE, Integer.MAX_VALUE, DamageType.Cold), // @TODO 15% Crit Chance on chilled for 3 secs
+					Integer.MAX_VALUE, Integer.MAX_VALUE, DamageType.Cold), // @TODO
+																			// 8%
+																			// Crit
+																			// Chance
+																			// on
+																			// chilled
+																			// for
+																			// 3
+																			// secs
 			new DamageRow(ActiveSkill.MS, Rune.Suppression_Fire, 3.6, true,
 					Integer.MAX_VALUE, Integer.MAX_VALUE, DamageType.Physical),
 			new DamageRow(ActiveSkill.MS, Rune.Full_Broadside, 5.0, true,
@@ -82,11 +90,14 @@ public class DamageFunction {
 					DamageType.Fire),
 			new DamageRow(ActiveSkill.EA, Rune.Immolation_Arrow, 3.15, 2.0,
 					true, Integer.MAX_VALUE, 1, 10, "Burning DoT",
-					DamageType.Fire, DamageMultiplier.DoT, DamageMultiplier.Augustines),
+					DamageType.Fire, DamageMultiplier.DoT,
+					DamageMultiplier.Augustines),
 			new DamageRow(ActiveSkill.EA, Rune.Lightning_Bolts, 3.0, true,
-					Integer.MAX_VALUE, DamageType.Lightning, DamageMultiplier.Augustines),
+					Integer.MAX_VALUE, DamageType.Lightning,
+					DamageMultiplier.Augustines),
 			new DamageRow(ActiveSkill.EA, Rune.Nether_Tentacles, 3.0, true,
-					Integer.MAX_VALUE, DamageType.Physical, DamageMultiplier.Augustines),
+					Integer.MAX_VALUE, DamageType.Physical,
+					DamageMultiplier.Augustines),
 
 			new DamageRow(ActiveSkill.IMP, Rune.None, 7.5, true, 0,
 					DamageType.Physical, DamageMultiplier.S6),
@@ -96,8 +107,8 @@ public class DamageFunction {
 					DamageType.Fire, DamageMultiplier.S6),
 			new DamageRow(ActiveSkill.IMP, Rune.Chemical_Burn, 5.0, 2.0, true,
 					0, "Burning DoT", DamageType.Fire, DamageMultiplier.DoT),
-			new DamageRow(ActiveSkill.IMP, Rune.Overpenetration, 7.5, true,
-					0, DamageType.Cold, DamageMultiplier.S6),
+			new DamageRow(ActiveSkill.IMP, Rune.Overpenetration, 7.5, true, 0,
+					DamageType.Cold, DamageMultiplier.S6),
 			new DamageRow(ActiveSkill.IMP, Rune.Overpenetration, 7.5, false,
 					Integer.MAX_VALUE, "Pierce", DamageType.Cold),
 			new DamageRow(ActiveSkill.IMP, Rune.Ricochet, 7.5, true, 0,
@@ -262,13 +273,14 @@ public class DamageFunction {
 			new DamageRow(new DamageSource(DamageProc.Mirinae), 1.0, true,
 					Integer.MAX_VALUE, 1, 25, "", DamageType.Holy),
 
-			new DamageRow(new DamageSource(DamageProc.Fulminator), 1.0, 6.0, true,
-					Integer.MAX_VALUE, 1, 10, "DoT", DamageType.Lightning),
+			new DamageRow(new DamageSource(DamageProc.Fulminator), 1.0, 6.0,
+					true, Integer.MAX_VALUE, 1, 10, "DoT", DamageType.Lightning),
 
-			new DamageRow(new DamageSource(DamageProc.WreathOfLightning), 1.0, 3.0, true,
-					Integer.MAX_VALUE, 1, 40, "DoT", DamageType.Lightning),
-			new DamageRow(new DamageSource(DamageProc.MirinaeTick), 1.0, 3.0, true,
-					Integer.MAX_VALUE, 1, 25, "Periodic", DamageType.Holy),
+			new DamageRow(new DamageSource(DamageProc.WreathOfLightning), 1.0,
+					3.0, true, Integer.MAX_VALUE, 1, 40, "DoT",
+					DamageType.Lightning),
+			new DamageRow(new DamageSource(DamageProc.MirinaeTick), 1.0, 3.0,
+					true, Integer.MAX_VALUE, 1, 25, "Periodic", DamageType.Holy),
 
 			new DamageRow(new DamageSource(GemSkill.Toxin), 20.0, 10.0, true,
 					Integer.MAX_VALUE, "DoT", DamageType.Poison,
@@ -290,20 +302,20 @@ public class DamageFunction {
 			new DamageRow(ActiveSkill.Companion, Rune.Wolf, 1.0, true, 0,
 					DamageType.Physical),
 
-			new DamageRow(ActiveSkill.ST, Rune.None, 3.4, true,
-					Integer.MAX_VALUE, 0, 8, "AoE", DamageType.Fire),
-			new DamageRow(ActiveSkill.ST, Rune.Echoing_Blast, 5.75, true,
-					Integer.MAX_VALUE, 0, 8, "AoE", DamageType.Cold), // TODO Frozen
-			new DamageRow(ActiveSkill.ST, Rune.Sticky_Trap, 9.15, true,
+			new DamageRow(ActiveSkill.ST, Rune.None, 11.6, true,
+					Integer.MAX_VALUE, 0, 8, "AoE", DamageType.Physical),
+			new DamageRow(ActiveSkill.ST, Rune.Echoing_Blast, 20.2, true,
+					Integer.MAX_VALUE, 0, 8, "AoE", DamageType.Cold),
+			new DamageRow(ActiveSkill.ST, Rune.Custom_Trigger, 19.0, true,
 					Integer.MAX_VALUE, 0, 16, "AoE", DamageType.Fire),
-			new DamageRow(ActiveSkill.ST, Rune.Long_Fuse, 9.3, true,
-					Integer.MAX_VALUE, 0, 8, "AoE", DamageType.Fire),
-			new DamageRow(ActiveSkill.ST, Rune.Lightning_Rod, 0.88, true, 2,
-					DamageType.Lightning),
-			new DamageRow(ActiveSkill.ST, Rune.Lightning_Rod, 0.88, true, Integer.MAX_VALUE,
-					"Arc", DamageType.Lightning, DamageMultiplier.Traps),
-			new DamageRow(ActiveSkill.ST, Rune.Scatter, 3.4, true,
-					Integer.MAX_VALUE, 0, 8, "AoE", DamageType.Fire),
+			new DamageRow(ActiveSkill.ST, Rune.Impaling_Spines, 19.3, true,
+					Integer.MAX_VALUE, 0, 8, "AoE", DamageType.Physical),
+			new DamageRow(ActiveSkill.ST, Rune.Lightning_Rod, 20.1, true,
+					Integer.MAX_VALUE, 0, 10, DamageType.Lightning),
+			new DamageRow(ActiveSkill.ST, Rune.Scatter, 9.6, true,
+					Integer.MAX_VALUE, 0, 8, "AoE Trap-A", DamageType.Fire),
+			new DamageRow(ActiveSkill.ST, Rune.Scatter, 9.6, true,
+					Integer.MAX_VALUE, 0, 8, "AoE Trap-B", DamageType.Fire),
 
 			new DamageRow(ActiveSkill.Caltrops, Rune.Jagged_Spikes, 2.7, 6.0,
 					true, Integer.MAX_VALUE, 0, 12, "DoT", DamageType.Physical,
@@ -365,20 +377,26 @@ public class DamageFunction {
 					DamageMultiplier.Grenades),
 
 			new DamageRow(ActiveSkill.FoK, Rune.None, 6.2, true,
-					Integer.MAX_VALUE, 1, 20, DamageType.Physical, DamageMultiplier.LGF),
+					Integer.MAX_VALUE, 1, 20, DamageType.Physical,
+					DamageMultiplier.LGF),
 			new DamageRow(ActiveSkill.FoK, Rune.Pinpoint_Accuracy, 16.0, true,
-					Integer.MAX_VALUE, 1, 20, DamageType.Lightning, DamageMultiplier.LGF),
+					Integer.MAX_VALUE, 1, 20, DamageType.Lightning,
+					DamageMultiplier.LGF),
 			new DamageRow(ActiveSkill.FoK, Rune.Bladed_Armor, 6.2, true,
-					Integer.MAX_VALUE, 1, 20, DamageType.Physical, DamageMultiplier.LGF),
+					Integer.MAX_VALUE, 1, 20, DamageType.Physical,
+					DamageMultiplier.LGF),
 			new DamageRow(ActiveSkill.FoK, Rune.Knives_Expert, 6.2, true,
-					Integer.MAX_VALUE, 1, 20, DamageType.Physical, DamageMultiplier.LGF),
+					Integer.MAX_VALUE, 1, 20, DamageType.Physical,
+					DamageMultiplier.LGF),
 			new DamageRow(ActiveSkill.FoK, Rune.Fan_of_Daggers, 6.2, true,
-					Integer.MAX_VALUE, 1, 20, DamageType.Fire, DamageMultiplier.LGF),
+					Integer.MAX_VALUE, 1, 20, DamageType.Fire,
+					DamageMultiplier.LGF),
 			new DamageRow(ActiveSkill.FoK, Rune.Assassins_Knives, 6.2, true,
 					Integer.MAX_VALUE, 1, 20, "Short Range",
 					DamageType.Physical, DamageMultiplier.LGF),
 			new DamageRow(ActiveSkill.FoK, Rune.Assassins_Knives, 6.2, true, 4,
-					1, Integer.MAX_VALUE, "Long Range", DamageType.Physical, DamageMultiplier.LGF),
+					1, Integer.MAX_VALUE, "Long Range", DamageType.Physical,
+					DamageMultiplier.LGF),
 
 			new DamageRow(ActiveSkill.Vengeance, Rune.None, 0.6, true, 3,
 					"Side Guns", DamageType.Physical),
@@ -477,11 +495,11 @@ public class DamageFunction {
 				int addNum = 0;
 
 				Collection<TargetType> tlist = targetTypes;
-				
+
 				if (dr.source.proc != null) {
 					tlist = state.getTargets().toList();
 				}
-				
+
 				for (TargetType target : tlist) {
 
 					if (state.getTargets().getTarget(target).isAlive()) {
@@ -504,11 +522,11 @@ public class DamageFunction {
 								m = state.getData().getSashOfKnivesPercent();
 							} else if (dr.source.proc != null) {
 								m = dr.source.proc.getScalar(state);
-								
+
 								if (dr.dot) {
 									m /= dr.dotDuration;
 								}
-								
+
 							} else if (dr.source.gem != null) {
 								m = dr.source.gem.getScalar(state);
 							} else if (dr.dot) {
@@ -557,35 +575,43 @@ public class DamageFunction {
 
 							if (dr.multipliers.contains(DamageMultiplier.S6)) {
 								double s6 = DamageMultiplier.S6.getValue(state);
-								
+
 								if (s6 > 0) {
-									multBuf.append("(" + scalar + " + S6(" + s6 + ")) x ");
+									multBuf.append("(" + scalar + " + S6(" + s6
+											+ ")) x ");
 									scalar += s6;
 									m = scalar;
 								} else {
 									multBuf.append(Util.format(scalar) + " x ");
 
 								}
-							}  else {
+							} else {
 								multBuf.append(Util.format(scalar) + " x ");
 							}
-							
+
 							if ((dr.source.proc != null) && !dr.dot) {
 								if (m > 0) {
-									double pc = dr.source.proc.getProc() * state.getLastAttack().getProc();
+									double pc = dr.source.proc.getProc()
+											* state.getLastAttack().getProc();
 									double max = dr.source.proc.getIcd();
-									
+
 									if ((max > 0) && (pc > max)) {
 										m *= max;
-										multBuf.append("PC(" + Util.format(max) + ") x ");
+										multBuf.append("PC(" + Util.format(max)
+												+ ") x ");
 									} else {
 										m *= pc;
-										multBuf.append("PC(" + Util.format(dr.source.proc.getProc()) + ") x ");
-										multBuf.append("PC(" + Util.format(state.getLastAttack().getProc()) + ") x ");
+										multBuf.append("PC("
+												+ Util.format(dr.source.proc
+														.getProc()) + ") x ");
+										multBuf.append("PC("
+												+ Util.format(state
+														.getLastAttack()
+														.getProc()) + ") x ");
 									}
 								}
 							}
-							
+
 							multBuf.append(wDMult.getAbbreviation());
 
 							// if (dr.source.skill != ActiveSkill.Companion) {
@@ -761,10 +787,11 @@ public class DamageFunction {
 							if (isPlayer
 									&& ((skillType == SkillType.Spender) || (skillType == SkillType.Primary))) {
 								dlist.add(DamageMultiplier.M6);
-							} else if ((skill == ActiveSkill.Companion) || (skill == ActiveSkill.Vengeance)) {
+							} else if ((skill == ActiveSkill.Companion)
+									|| (skill == ActiveSkill.Vengeance)) {
 								dlist.add(DamageMultiplier.M6);
 							}
-							
+
 							if (isPlayer) {
 								dlist.add(DamageMultiplier.S2);
 								dlist.add(DamageMultiplier.VenBuff);
@@ -774,7 +801,7 @@ public class DamageFunction {
 								dlist.add(DamageMultiplier.M4);
 								dlist.add(DamageMultiplier.VenBuff);
 							}
-							
+
 							if ((skill != ActiveSkill.Companion)) {
 								dlist.add(DamageMultiplier.Ambush);
 							} else {
@@ -785,7 +812,8 @@ public class DamageFunction {
 							if (skill != null) {
 
 								if ((state.getData().getNumUe() >= 6)
-										&& ((source.skill == ActiveSkill.MS) || (source.skill == ActiveSkill.Vengeance) || (new SkillAndRune(
+										&& ((source.skill == ActiveSkill.MS)
+												|| (source.skill == ActiveSkill.Vengeance) || (new SkillAndRune(
 												skill, dr.source.rune)
 												.getHatred(state.getData()) > 0))) {
 									dlist.add(DamageMultiplier.UE6);

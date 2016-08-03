@@ -23,57 +23,28 @@ import java.util.List;
 public class SpikeTrapEvent extends Event {
 
 	private final Rune rune;
-	private int charges;
-	private final int num;
-	private final int maxCharges;
+	private boolean demise;
+	private String note;
 	
 	public SpikeTrapEvent(CharacterData data, int num) {
 		this.rune = data.getSkills().get(ActiveSkill.ST);
-		
-		switch (rune) {
-			case Long_Fuse:
-			case Sticky_Trap:
-			case Echoing_Blast:
-				this.maxCharges = 1;
-				break;
-			
-			case Lightning_Rod:
-				this.maxCharges = 10;
-				break;
-				
-			default:
-				this.maxCharges = 3;
-		}
-
-		this.charges = maxCharges;
-		
-		this.num = num;
+		this.demise = data.isDemonsDemise();
+		this.note = "Trap#" + num;
 	}
 
 	@Override
 	public void execute(EventQueue queue, List<Damage> log,
 			SimulationState state) {
 
-		charges--;
-
 		List<Damage> dList = DamageFunction.getDamages(true, false, "Player", new DamageSource(ActiveSkill.ST, rune), state);
 		
-		String noteStr = "Trap#" + num + ((rune == Rune.Lightning_Rod) ? " Tick#" : " Charge#") + (this.maxCharges - this.charges);
+		applyDamages(state, log, dList, note);
 		
-		applyDamages(state, log, dList, noteStr);
-		
-		if (charges > 0) {
-			
-			if (rune == Rune.Lightning_Rod) {
-				this.time += (1.0 / state.getLastAps());
-			} else {
-				this.time += 0.5;
-			}
-			
+		if (demise) {
+			this.note += " Demon's Demise";
+			this.demise = false;
+			this.time = state.getTime() + 1.0;
 			queue.push(this);
-		} else {
-			state.removeSpikeTrap(num);
 		}
 	}
-
 }
