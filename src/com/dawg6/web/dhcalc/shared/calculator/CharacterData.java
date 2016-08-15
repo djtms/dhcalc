@@ -105,6 +105,7 @@ public class CharacterData implements Serializable {
 	private Map<String, Integer> cdrData = new TreeMap<String, Integer>();
 	private Map<String, Integer> rcrData = new TreeMap<String, Integer>();
 	private GemLevel diamond;
+	private GemLevel topaz;
 	private WeaponType weaponType;
 	private double baseMin;
 	private double baseMax;
@@ -366,6 +367,7 @@ public class CharacterData implements Serializable {
 		this.timeLimit = other.timeLimit;
 		this.timeWarp = other.timeWarp;
 		this.timeWarpUptime = other.timeWarpUptime;
+		this.topaz= other.topaz;
 		this.transgression = other.transgression;
 		this.valor = other.valor;
 		this.valorPassiveUptime = other.valorPassiveUptime;
@@ -2216,5 +2218,13 @@ public class CharacterData implements Serializable {
 
 	public boolean isDemonsDemise() {
 		return isItem(SpecialItemType.DemonsDemise);
+	}
+
+	public GemLevel getTopaz() {
+		return topaz;
+	}
+
+	public void setTopaz(GemLevel topaz) {
+		this.topaz = topaz;
 	}
 }

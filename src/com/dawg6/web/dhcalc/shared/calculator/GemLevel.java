@@ -47,6 +47,10 @@ public enum GemLevel {
 		return cdr;
 	}
 	
+	public double getRcr() {
+		return cdr;
+	}
+	
 	public String getDisplayName() {
 		return name().replaceAll("_"," ") + " (" + Util.format(cdr * 100.0) + "%)";
 	}

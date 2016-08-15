@@ -71,14 +71,15 @@ public class ProfileHelper {
 		if (data.isGogok() && data.getGogokLevel() >= 25)
 			list.add(data.getGogokStacks() * .01);
 
-		if (data.isLeorics())
-			list.add(data.getDiamond().getCdr()
-					* (1 + (data.getLeoricsPercent() / 100.0)));
-		else {
-			GemLevel gem = data.getDiamond();
+		GemLevel gem = data.getDiamond();
 
-			if (gem != null)
+		if (gem != null) {
+			if (data.isLeorics()) {
+				list.add(gem.getCdr()
+						* (1 + (data.getLeoricsPercent() / 100.0)));
+			} else {
 				list.add(gem.getCdr());
+			}
 		}
 
 		for (Integer i : data.getCdrData().values()) {
@@ -153,11 +154,11 @@ public class ProfileHelper {
 		double aDam = 0.0;
 		double aCD = 0.0;
 		double ssCC = 0.0;
-		
+
 		if (data.isSharpshooter()) {
 			ssCC = 0.04;
 		}
-		
+
 		if (data.isArchery()) {
 			if (type == WeaponType.HandCrossbow) {
 				aCC += 0.05;
@@ -222,8 +223,8 @@ public class ProfileHelper {
 
 		data.setSheetDps(sheetDps);
 		data.setAps(aps);
-//		double petIasValue = data.isTnt() ? data.getTntPercent() : 0.0;
-//		double petApsValue = aps * (1.0 + petIasValue) * (1.0 + gogokIas);
+		// double petIasValue = data.isTnt() ? data.getTntPercent() : 0.0;
+		// double petApsValue = aps * (1.0 + petIasValue) * (1.0 + gogokIas);
 		data.setCritChance(critChance);
 		data.setCritHitDamage(critDamage);
 
@@ -356,7 +357,7 @@ public class ProfileHelper {
 
 					if (t == DamageType.Fire) {
 						f = i.attributesRaw.get(Const.MAGEFIST_FIRE_DAMAGE);
-						
+
 						if (f != null) {
 							d += f.min;
 						}
@@ -577,13 +578,13 @@ public class ProfileHelper {
 				if (v != null) {
 					equipmentDexterity += v.min;
 				}
-				
+
 				v = i.attributesRaw.get(Const.CUBE_GEM_TYPE);
-				
+
 				if ((v != null) && (v.min == Const.CUBE_DEXTERITY_GEM_TYPE)) {
-					
+
 					v = i.attributesRaw.get(Const.CUBE_GEM_RANK);
-					
+
 					if (v != null) {
 						int l = Math.round(v.min);
 						equipmentDexterity += (l * 5);
@@ -601,9 +602,9 @@ public class ProfileHelper {
 				if (v != null) {
 					critDamage += v.min;
 				}
-				
+
 				v = i.attributesRaw.get(Const.ANCIENT);
-				
+
 				if ((v != null) && (v.min >= 1.0)) {
 					numAncients++;
 				}
@@ -625,7 +626,8 @@ public class ProfileHelper {
 					}
 				}
 
-				if ((i != mainHand) && ((i != offHand) || (offHand_type == null))) {
+				if ((i != mainHand)
+						&& ((i != offHand) || (offHand_type == null))) {
 
 					if (i.attributesRaw != null) {
 						Value<Float> min = i.attributesRaw
@@ -709,7 +711,7 @@ public class ProfileHelper {
 		data.setOffHand_weaponDamagePercent(offHand_wpnDamage);
 		data.setEquipmentDexterity(equipmentDexterity);
 		data.setNumAncients(numAncients);
-		
+
 		if (paragonDexterity != null)
 			data.setParagonDexterity(paragonDexterity);
 		else {
@@ -733,7 +735,7 @@ public class ProfileHelper {
 		double hatredPerSecond = 0.0;
 		int discipline = 0;
 		boolean otherSets = false;
-		
+
 		for (Map.Entry<String, ItemInformation> e : hero.items.entrySet()) {
 
 			if ((e != null) && (e.getKey() != null) && (e.getValue() != null)) {
@@ -807,20 +809,21 @@ public class ProfileHelper {
 			for (LegendaryPowers lp : hero.legendaryPowers) {
 
 				for (SpecialItemType type : SpecialItemType.values()) {
-					
+
 					if ((lp != null) && (lp.name != null)) {
 						if (lp.name.equals(type.getName())) {
 							AttributeData ad = new AttributeData();
-	
-							for (SpecialItemType.Attribute a : type.getAttributes()) {
+
+							for (SpecialItemType.Attribute a : type
+									.getAttributes()) {
 								int value = a.setRawAttributeValue(a.getMax());
 								ad.put(a.getLabel(), value);
 							}
-	
+
 							ItemHolder item = new ItemHolder();
 							item.setType(type);
 							item.setAttributes(ad);
-	
+
 							for (Slot slot : type.getSlots()) {
 								if (slot.isCube()) {
 									items.put(slot, item);
@@ -844,19 +847,19 @@ public class ProfileHelper {
 			ItemInformationSet set = sets.get(e.getKey());
 
 			boolean found = false;
-			
+
 			for (ItemSet ss : ItemSet.values()) {
 				if (ss.getSlug().equals(e.getKey())) {
 					found = true;
 					break;
 				}
 			}
-			
+
 			if ((count > 1) && !found) {
 				otherSets = true;
-//				GWT.log("OtherSets = true because of " + e.getKey());
+				// GWT.log("OtherSets = true because of " + e.getKey());
 			}
-			
+
 			// GWT.log("set " + e.getKey() + " count " + count);
 
 			for (ItemInformationSet.Rank r : set.ranks) {
@@ -875,7 +878,7 @@ public class ProfileHelper {
 
 		data.setSetCounts(setCounts);
 		data.setOtherSets(otherSets);
-		
+
 		for (ActiveSkill skill : ActiveSkill.values()) {
 			String slug = skill.getDamageAttribute();
 			String attr = Const.SKILL_DAMAGE_BONUS + slug;
@@ -903,6 +906,7 @@ public class ProfileHelper {
 		ItemInformation helm = hero.items.get(Const.HEAD);
 
 		GemLevel diamond = GemLevel.None;
+		GemLevel topaz = GemLevel.None;
 
 		Map<String, Integer> cdrData = new TreeMap<String, Integer>();
 		addCdr(hero, Const.SHOULDERS, cdrData);
@@ -944,6 +948,21 @@ public class ProfileHelper {
 							}
 						}
 					}
+
+					value = gem.attributesRaw.get(Const.RCR);
+
+					if (value != null) {
+						int a = (int) Math.round(value.min * 10000.0);
+
+						for (GemLevel l : GemLevel.values()) {
+							int b = (int) Math.round(l.getCdr() * 10000.0);
+
+							if (a == b) {
+								topaz = l;
+								break;
+							}
+						}
+					}
 				}
 			}
 		}
@@ -952,6 +971,7 @@ public class ProfileHelper {
 		data.setEquipmentDiscipline(discipline);
 		data.setEliteDamage(elite);
 		data.setDiamond(diamond);
+		data.setTopaz(topaz);
 
 	}
 
@@ -1013,6 +1033,17 @@ public class ProfileHelper {
 
 		if (data.getSetCount(ItemSet.Crimson.getSlug()) >= 3)
 			list.add(0.10);
+
+		GemLevel gem = data.getTopaz();
+
+		if (gem != null) {
+			if (data.isLeorics()) {
+				list.add(gem.getRcr()
+						* (1 + (data.getLeoricsPercent() / 100.0)));
+			} else {
+				list.add(gem.getRcr());
+			}
+		}
 
 		double effRcr = 0.0;
 

@@ -1,5 +1,8 @@
 Change Log:
 
+**8/15/16**
+- Added support for socketed Topaz in Helm (RCR)
+
 **8/3/16**
 - Updated for patch 2.4.2:
 -- Companion/Wolf reduced from 30% to 15%

@@ -21,6 +21,7 @@ package com.dawg6.web.dhcalc.client;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.dawg6.web.dhcalc.shared.calculator.GemLevel;
 import com.dawg6.web.dhcalc.shared.calculator.Slot;
 import com.dawg6.web.dhcalc.shared.calculator.Util;
 import com.google.gwt.user.client.ui.CaptionPanel;
@@ -29,6 +30,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 
 public class RCRPanel extends Composite {
 	private final NumberSpinner shoulders;
@@ -40,7 +42,7 @@ public class RCRPanel extends Composite {
 	private final NumberSpinner weapon;
 	private final NumberSpinner quiver;
 	private final Label effRCR;
-	private final FlexTable skillTable;
+	private final ListBox topaz;
 	
 	public RCRPanel() {
 
@@ -52,88 +54,118 @@ public class RCRPanel extends Composite {
 		flexTable.setCellPadding(2);
 		cptnpnlResourceReduction.setContentWidget(flexTable);
 
-		HorizontalPanel horizontalPanel_1 = new HorizontalPanel();
-		horizontalPanel_1
-				.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		horizontalPanel_1.setSpacing(5);
-		flexTable.setWidget(0, 0, horizontalPanel_1);
+		int row = 0;
+		
+		Label lblNewLabel = new Label("Helm (Topaz):");
+		lblNewLabel.setStyleName("boldText");
+		lblNewLabel.setWordWrap(false);
+		flexTable.setWidget(row, 0, lblNewLabel);
 
+		topaz = new ListBox();
+		flexTable.setWidget(row, 1, topaz);
+
+		row++;
+		
 		Label lblShoulders = new Label("Shoulders (%):");
 		lblShoulders.setWordWrap(false);
 		lblShoulders.setStyleName("boldText");
-		flexTable.setWidget(1, 0, lblShoulders);
+		flexTable.setWidget(row, 0, lblShoulders);
 
 		shoulders = new NumberSpinner();
 		shoulders.setVisibleLength(4);
-		flexTable.setWidget(1, 1, shoulders);
+		flexTable.setWidget(row, 1, shoulders);
 
+		row++;
+		
 		Label lblGloves = new Label("Gloves (%):");
 		lblGloves.setWordWrap(false);
 		lblGloves.setStyleName("boldText");
-		flexTable.setWidget(2, 0, lblGloves);
+		flexTable.setWidget(row, 0, lblGloves);
 
 		gloves = new NumberSpinner();
 		gloves.setVisibleLength(4);
-		flexTable.setWidget(2, 1, gloves);
+		flexTable.setWidget(row, 1, gloves);
 
+		row++;
+		
 		Label lblAmulet = new Label("Amulet (%):");
 		lblAmulet.setWordWrap(false);
 		lblAmulet.setStyleName("boldText");
-		flexTable.setWidget(3, 0, lblAmulet);
+		flexTable.setWidget(row, 0, lblAmulet);
 
 		amulet = new NumberSpinner();
 		amulet.setVisibleLength(4);
-		flexTable.setWidget(3, 1, amulet);
+		flexTable.setWidget(row, 1, amulet);
 
+		row++;
+		
 		Label lblRing = new Label("Ring 1 (%):");
 		lblRing.setWordWrap(false);
 		lblRing.setStyleName("boldText");
-		flexTable.setWidget(4, 0, lblRing);
+		flexTable.setWidget(row, 0, lblRing);
 
 		ring1 = new NumberSpinner();
 		ring1.setVisibleLength(4);
-		flexTable.setWidget(4, 1, ring1);
+		flexTable.setWidget(row, 1, ring1);
 
+		row++;
+		
 		Label lblRing_1 = new Label("Ring 2 (%):");
 		lblRing_1.setWordWrap(false);
 		lblRing_1.setStyleName("boldText");
-		flexTable.setWidget(5, 0, lblRing_1);
+		flexTable.setWidget(row, 0, lblRing_1);
 
 		ring2 = new NumberSpinner();
 		ring2.setVisibleLength(4);
-		flexTable.setWidget(5, 1, ring2);
+		flexTable.setWidget(row, 1, ring2);
 
+		row++;
+		
 		Label lblBelt = new Label("Belt (%):");
 		lblBelt.setWordWrap(false);
 		lblBelt.setStyleName("boldText");
-		flexTable.setWidget(6, 0, lblBelt);
+		flexTable.setWidget(row, 0, lblBelt);
 
 		belt = new NumberSpinner();
 		belt.setVisibleLength(4);
-		flexTable.setWidget(6, 1, belt);
+		flexTable.setWidget(row, 1, belt);
 
+		row++;
+		
 		Label lblWeapon = new Label("Main Hand (%):");
 		lblWeapon.setWordWrap(false);
 		lblWeapon.setStyleName("boldText");
-		flexTable.setWidget(7, 0, lblWeapon);
+		flexTable.setWidget(row, 0, lblWeapon);
 
 		weapon = new NumberSpinner();
 		weapon.setVisibleLength(4);
-		flexTable.setWidget(7, 1, weapon);
+		flexTable.setWidget(row, 1, weapon);
 
+		row++;
+		
 		Label lblQuiver = new Label("Off Hand(%):");
 		lblQuiver.setWordWrap(false);
 		lblQuiver.setStyleName("boldText");
-		flexTable.setWidget(8, 0, lblQuiver);
+		flexTable.setWidget(row, 0, lblQuiver);
 
 		quiver = new NumberSpinner();
 		quiver.setVisibleLength(4);
-		flexTable.setWidget(8, 1, quiver);
+		flexTable.setWidget(row, 1, quiver);
 
+		row++;
+		
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		horizontalPanel.setSpacing(5);
-		flexTable.setWidget(9, 0, horizontalPanel);
+		flexTable.setWidget(row, 0, horizontalPanel);
+
+		row++;
+		
+		for (GemLevel l : GemLevel.values()) {
+			this.topaz.addItem(l.getDisplayName(), l.name());
+		}
+
+		topaz.setSelectedIndex(0);
 
 		this.shoulders.setMax(10);
 		this.gloves.setMax(10);
@@ -152,7 +184,6 @@ public class RCRPanel extends Composite {
 		this.effRCR.addStyleName("boldText");
 		flexTable.setWidget(10, 1, effRCR);
 		
-		this.skillTable = new FlexTable();
 	}
 
 	public NumberSpinner getShoulders() {
@@ -205,4 +236,29 @@ public class RCRPanel extends Composite {
 	public void setEffectiveRcr(double rcr) {
 		this.effRCR.setText(Util.format(Math.round(rcr * 10000.0) / 100.0) + "%");
 	}
+
+	public ListBox getTopaz() {
+		return topaz;
+	}
+
+	public GemLevel getSelectedTopaz() {
+		int i = this.topaz.getSelectedIndex();
+		String value = this.topaz.getValue(i);
+
+		return GemLevel.valueOf(value);
+	}
+
+	public void setTopaz(GemLevel topaz) {
+		for (int i = 0; i < this.topaz.getItemCount(); i++) {
+			String value = this.topaz.getValue(i);
+
+			if (value.equals(topaz.name())) {
+				this.topaz.setSelectedIndex(i);
+				return;
+			}
+		}
+
+		this.topaz.setSelectedIndex(0);
+	}
+
 }

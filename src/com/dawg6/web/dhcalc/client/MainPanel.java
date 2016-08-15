@@ -1178,6 +1178,7 @@ public class MainPanel extends BasePanel {
 		itemPanel.addChangeHandler(handler);
 
 		paragonPanel.getParagonRCR().addChangeHandler(handler2);
+		rcrPanel.getTopaz().addChangeHandler(handler2);
 		rcrPanel.getShoulders().addChangeHandler(handler2);
 		rcrPanel.getAmulet().addChangeHandler(handler2);
 		rcrPanel.getGloves().addChangeHandler(handler2);
@@ -2107,6 +2108,12 @@ public class MainPanel extends BasePanel {
 		if (itemPanel.isPridesFall())
 			list.add(0.30);
 
+		if (itemPanel.isLeorics())
+			list.add(rcrPanel.getSelectedTopaz().getRcr()
+					* (1 + (itemPanel.getLeoricsPercent())));
+		else
+			list.add(rcrPanel.getSelectedTopaz().getRcr());
+
 		list.add(rcrPanel.getShoulders().getValue() / 100.0);
 		list.add(rcrPanel.getGloves().getValue() / 100.0);
 		list.add(rcrPanel.getAmulet().getValue() / 100.0);
@@ -2278,6 +2285,8 @@ public class MainPanel extends BasePanel {
 		getSetRCR(rcrPanel.getQuiver(), Const.QUIVER);
 		getSetRCR(rcrPanel.getAmulet(), Const.AMULET);
 
+		this.rcrPanel.setTopaz(data.getTopaz());
+
 		this.itemPanel.setItems(data.getSpecialItems());
 		this.itemPanel.setSetCounts(data.getSetCounts());
 		this.itemPanel.getEliteDamagePercent().setValue(
@@ -2420,6 +2429,9 @@ public class MainPanel extends BasePanel {
 				new Field(this.cdrPanel.getShoulders(), "CDR.Shoulders", "0"),
 				new Field(this.cdrPanel.getWeapon(), "CDR.Weapon", "0"),
 
+				new Field(this.rcrPanel.getTopaz(), "RCR.Topaz",
+						GemLevel.None.name()),
+				new Field(this.rcrPanel.getAmulet(), "RCR.Amulet", "0"),
 				new Field(this.rcrPanel.getBelt(), "RCR.Belt", "0"),
 				new Field(this.rcrPanel.getGloves(), "RCR.Gloves", "0"),
 				new Field(this.rcrPanel.getQuiver(), "RCR.Quiver", "0"),
@@ -2598,6 +2610,7 @@ public class MainPanel extends BasePanel {
 					.getValue());
 
 			data.setDiamond(cdrPanel.getSelectedDiamond());
+			data.setTopaz(rcrPanel.getSelectedTopaz());
 			data.setCdrData(cdrPanel.getData());
 			data.setCdr(this.effCdr);
 			data.setRcrData(rcrPanel.getData());
