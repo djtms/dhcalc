@@ -86,6 +86,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -95,7 +96,6 @@ public class MainPanel extends BasePanel {
 	private final Label totalDamage;
 	private final Label dps;
 	private final FlexTable damageLog;
-	private final VerticalPanel outputPanel;
 	private final FlexTable summary;
 	private final TextBox battleTag;
 	private final TextBox tagNumber;
@@ -168,21 +168,19 @@ public class MainPanel extends BasePanel {
 	private final HorizontalPanel newsPanel;
 
 	public MainPanel() {
-		VerticalPanel panel = new VerticalPanel();
-		initWidget(panel);
-		panel.setWidth("");
+		FlexTable mainTable = new FlexTable();
+		initWidget(mainTable);
 
+		int mainRow = 0;
+		
 		newsPanel = new HorizontalPanel();
-		panel.add(newsPanel);
-
-		HorizontalPanel horizontalPanel_4 = new HorizontalPanel();
-		panel.add(horizontalPanel_4);
-
-		VerticalPanel verticalPanel_2 = new VerticalPanel();
-		horizontalPanel_4.add(verticalPanel_2);
+		mainTable.setWidget(mainRow++, 0, newsPanel);
+		
+		TabPanel tabs = new TabPanel();
+		mainTable.setWidget(mainRow++, 0, tabs);
 
 		CaptionPanel cptnpnlNewPanel_7 = new CaptionPanel("Battle.Net Import");
-		verticalPanel_2.add(cptnpnlNewPanel_7);
+		tabs.add(cptnpnlNewPanel_7, "Import");
 
 		VerticalPanel verticalPanel_6 = new VerticalPanel();
 		verticalPanel_6.setSpacing(5);
@@ -201,28 +199,29 @@ public class MainPanel extends BasePanel {
 		realms = new ListBox();
 		horizontalPanel_5.add(realms);
 
-		
 		Button ldrButton = new Button("Leaderboards...");
 		horizontalPanel_5.add(ldrButton);
-		
-		ldrButton.addClickHandler(new ClickHandler(){
+
+		ldrButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				Service.getInstance().checkVersion(null);
 				showLeaderboards();
-			}});
-		
+			}
+		});
+
 		Button helpButton = new Button("Help...");
 		horizontalPanel_5.add(helpButton);
-		
-		helpButton.addClickHandler(new ClickHandler(){
+
+		helpButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				Service.getInstance().checkVersion(null);
 				showHelp();
-			}});
+			}
+		});
 
 		HorizontalPanel horizontalPanel_7 = new HorizontalPanel();
 		horizontalPanel_7
@@ -323,7 +322,7 @@ public class MainPanel extends BasePanel {
 		});
 
 		paragonPanel = new ParagonPanel();
-		verticalPanel_2.add(paragonPanel);
+		tabs.add(paragonPanel, "Paragon");
 
 		this.paragonPanel.getParagonIAS().addChangeHandler(new ChangeHandler() {
 
@@ -367,7 +366,7 @@ public class MainPanel extends BasePanel {
 		});
 
 		savePanel = new SavePanel();
-		verticalPanel_2.add(savePanel);
+		tabs.add(savePanel, "Save/Load");
 
 		savePanel.setFormListener(new FormListener() {
 
@@ -383,7 +382,7 @@ public class MainPanel extends BasePanel {
 		});
 
 		CaptionPanel cptnpnlNewPanel_4 = new CaptionPanel("Character Data");
-		verticalPanel_2.add(cptnpnlNewPanel_4);
+		tabs.add(cptnpnlNewPanel_4, "Sheet");
 
 		FlexTable grid_1 = new FlexTable();
 		grid_1.setCellPadding(5);
@@ -447,39 +446,10 @@ public class MainPanel extends BasePanel {
 				HasVerticalAlignment.ALIGN_MIDDLE);
 
 		CaptionPanel captionPanel = new CaptionPanel("Compare Builds");
-		verticalPanel_2.add(captionPanel);
+		tabs.add(captionPanel, "Compare");
 
 		buffPanel = new BuffPanel();
-		verticalPanel_2.add(buffPanel);
-
-		CaptionPanel cptnpnlNewPanel2 = new CaptionPanel("Simulate");
-		verticalPanel_2.add(cptnpnlNewPanel2);
-
-		FlexTable simTable = new FlexTable();
-		cptnpnlNewPanel2.add(simTable);
-		
-		Label l1 = new Label("Simulation Time Limit (seconds):", false);
-		simTable.setWidget(0, 0, l1);
-		
-		timeLimit = new NumberSpinner();
-		timeLimit.setMin(1);
-		timeLimit.setMax(FiringData.MAX_DURATION);
-		timeLimit.setVisibleLength(5);
-		timeLimit.setTitle("Maximum time (in simulation seconds) to let the simulation run");
-		simTable.setWidget(0,1,timeLimit);
-		
-		Button calcButton = new Button("Simulate");
-		calcButton.setTitle("Press to run damage simulation");
-		simTable.setWidget(0, 2, calcButton);
-		calcButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				Service.getInstance().checkVersion(null);
-				calculate();
-			}
-		});
-
+		tabs.add(buffPanel, "Buffs");
 
 		compareTable = new FlexTable();
 		captionPanel.setContentWidget(compareTable);
@@ -626,38 +596,32 @@ public class MainPanel extends BasePanel {
 			}
 		});
 
-		VerticalPanel verticalPanel_1 = new VerticalPanel();
-		horizontalPanel_4.add(verticalPanel_1);
-
 		skills = new SkillsPanel();
-		verticalPanel_1.add(skills);
-		
+		tabs.add(skills, "Skills");
+
 		passives = new PassivesPanel();
-		verticalPanel_1.add(passives);
+		tabs.add(passives, "Passives");
 
 		situational = new SituationalPanel();
-		verticalPanel_1.add(situational);
+		tabs.add(situational, "Situational");
 
 		gemPanel = new GemsPanel();
-		verticalPanel_1.add(gemPanel);
-
-		VerticalPanel verticalPanel_3 = new VerticalPanel();
-		horizontalPanel_4.add(verticalPanel_3);
+		tabs.add(gemPanel, "Gems");
 
 		skillDamage = new SkillDamagePanel();
-		verticalPanel_3.add(skillDamage);
+		tabs.add(skillDamage, "+Skill Damage");
 
 		typeDamage = new DamageTypePanel();
-		verticalPanel_3.add(typeDamage);
-		
+		tabs.add(typeDamage, "+Elemental Damage");
+
 		itemPanel = new ItemPanel();
-		verticalPanel_3.add(itemPanel);
+		tabs.add(itemPanel, "Items");
 
 		hatredPanel = new HatredPanel();
-		verticalPanel_3.add(hatredPanel);
+		tabs.add(hatredPanel, "Hatred/Disc");
 
 		playerBuffPanel = new PlayerBuffPanel();
-		verticalPanel_1.add(playerBuffPanel);
+		tabs.add(playerBuffPanel, "Party Buffs");
 
 		playerBuffPanel.getCalcWolfButton().addClickHandler(new ClickHandler() {
 
@@ -668,14 +632,11 @@ public class MainPanel extends BasePanel {
 			}
 		});
 
-		VerticalPanel vpanel = new VerticalPanel();
-		horizontalPanel_4.add(vpanel);
-
 		cdrPanel = new CDRPanel();
-		vpanel.add(cdrPanel);
+		tabs.add(cdrPanel, "CDR");
 
 		rcrPanel = new RCRPanel();
-		vpanel.add(rcrPanel);
+		tabs.add(rcrPanel, "RCR");
 
 		ClickHandler clickHandler3 = new ClickHandler() {
 
@@ -688,7 +649,7 @@ public class MainPanel extends BasePanel {
 				}
 			}
 		};
-		
+
 		ChangeHandler changeHandler = new ChangeHandler() {
 
 			@Override
@@ -701,7 +662,7 @@ public class MainPanel extends BasePanel {
 				}
 			}
 		};
-		
+
 		itemPanel.addChangeHandler(changeHandler);
 
 		playerBuffPanel.getBbv().addClickHandler(clickHandler3);
@@ -717,19 +678,20 @@ public class MainPanel extends BasePanel {
 		buffPanel.getAnatomy().addClickHandler(clickHandler3);
 		buffPanel.getFocusedMind().addClickHandler(clickHandler3);
 		buffPanel.getHysteria().addClickHandler(clickHandler3);
-		
+
 		gemPanel.addChangeHandler(changeHandler);
 
 		CaptionPanel cptnpnlNewPanel = new CaptionPanel("Simulation Output");
-		panel.add(cptnpnlNewPanel);
-		cptnpnlNewPanel.setWidth("");
+		mainTable.setWidget(mainRow++, 0, cptnpnlNewPanel);
+//		cptnpnlNewPanel.setWidth("");
 
-		VerticalPanel verticalPanel_5 = new VerticalPanel();
-		cptnpnlNewPanel.setContentWidget(verticalPanel_5);
-		verticalPanel_5.setSize("100%", "3cm");
-
+		int outputRow = 0;
+		
+		FlexTable outputTable = new FlexTable();
+		cptnpnlNewPanel.setContentWidget(outputTable);
+		
 		HorizontalPanel horizontalPanel_19 = new HorizontalPanel();
-		verticalPanel_5.add(horizontalPanel_19);
+		outputTable.setWidget(outputRow++, 0, horizontalPanel_19);
 		horizontalPanel_19
 				.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		horizontalPanel_19.setSpacing(5);
@@ -738,9 +700,35 @@ public class MainPanel extends BasePanel {
 		legendButton.setText("Legend...");
 		horizontalPanel_19.add(legendButton);
 
+		FlexTable simTable = new FlexTable();
+		outputTable.setWidget(outputRow++, 0, simTable);
+
+		Label l1 = new Label("Simulation Time Limit (seconds):", false);
+		simTable.setWidget(0, 0, l1);
+
+		timeLimit = new NumberSpinner();
+		timeLimit.setMin(1);
+		timeLimit.setMax(FiringData.MAX_DURATION);
+		timeLimit.setVisibleLength(5);
+		timeLimit
+				.setTitle("Maximum time (in simulation seconds) to let the simulation run");
+		simTable.setWidget(0, 1, timeLimit);
+
+		Button calcButton = new Button("Simulate");
+		calcButton.setTitle("Press to run damage simulation");
+		simTable.setWidget(0, 2, calcButton);
+		calcButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				Service.getInstance().checkVersion(null);
+				calculate();
+			}
+		});
+		
 		outputHeader = new FlexTable();
 		outputHeader.setCellPadding(2);
-		verticalPanel_5.add(outputHeader);
+		outputTable.setWidget(outputRow++, 0, outputHeader);
 
 		Label lblNewLabel_27 = new Label("Average Weapon Damage (Main Hand):");
 		outputHeader.setWidget(0, 0, lblNewLabel_27);
@@ -804,6 +792,9 @@ public class MainPanel extends BasePanel {
 		Button bpButton = new Button("New button");
 		bpButton.setText("Break Points...");
 		horizontalPanel_19.add(bpButton);
+		
+		TabPanel outputTabs = new TabPanel();
+		outputTable.setWidget(outputRow++, 0, outputTabs);
 
 		bpButton.addClickHandler(new ClickHandler() {
 
@@ -839,20 +830,14 @@ public class MainPanel extends BasePanel {
 			}
 		});
 
-		outputPanel = new VerticalPanel();
-		verticalPanel_5.add(outputPanel);
-
-		HorizontalPanel horizontalPanel_9 = new HorizontalPanel();
-		outputPanel.add(horizontalPanel_9);
+		captionPanelDamageLog = new CaptionPanel("Damage Log");
+		outputTabs.add(captionPanelDamageLog, "Log");
 
 		statTableCaption = new CaptionPanel("Stat Calculator");
-		horizontalPanel_9.add(statTableCaption);
-
-		VerticalPanel panel_1 = new VerticalPanel();
-		horizontalPanel_9.add(panel_1);
+		outputTabs.add(statTableCaption, "Stats Calc");
 
 		captionPanelTypeSummary = new CaptionPanel("Damage Type Summary");
-		panel_1.add(captionPanelTypeSummary);
+		outputTabs.add(captionPanelTypeSummary, "Damage Types");
 
 		summary = new FlexTable();
 		summary.setCellPadding(5);
@@ -893,7 +878,7 @@ public class MainPanel extends BasePanel {
 		summary.setWidget(0, 5, lblOfTotal);
 
 		captionPanelSkillSummary = new CaptionPanel("Skill Damage Summary");
-		panel_1.add(captionPanelSkillSummary);
+		outputTabs.add(captionPanelSkillSummary, "Skills");
 
 		skillSummary = new FlexTable();
 		skillSummary.setStyleName("outputTable");
@@ -935,7 +920,7 @@ public class MainPanel extends BasePanel {
 		skillSummary.setWidget(0, 5, label_6);
 
 		captionPanelShooterSummary = new CaptionPanel("Shooter Summary");
-		panel_1.add(captionPanelShooterSummary);
+		outputTabs.add(captionPanelShooterSummary, "Shooters");
 
 		shooterSummary = new FlexTable();
 		captionPanelShooterSummary.setContentWidget(shooterSummary);
@@ -981,12 +966,6 @@ public class MainPanel extends BasePanel {
 		summary.getRowFormatter().addStyleName(0, "headerRow");
 		shooterSummary.getColumnFormatter().addStyleName(3, "dpsCol");
 		shooterSummary.getRowFormatter().addStyleName(0, "headerRow");
-
-		HorizontalPanel horizontalPanel_2 = new HorizontalPanel();
-		outputPanel.add(horizontalPanel_2);
-
-		captionPanelDamageLog = new CaptionPanel("Damage Log");
-		horizontalPanel_2.add(captionPanelDamageLog);
 
 		damageLog = new FlexTable();
 		damageLog.setCellPadding(5);
@@ -1294,49 +1273,58 @@ public class MainPanel extends BasePanel {
 			realms.addItem(r.getDisplayName(), r.name());
 		}
 
-		Service.getInstance().addNewsHandler(new NewsHandler(){
+		Service.getInstance().addNewsHandler(new NewsHandler() {
 
 			@Override
 			public void newsChanged(List<NewsItem> news) {
 				setNews(news);
-			}});
-		
-		skills.addSkillsChangedListener(new SkillsChangedListener(){
+			}
+		});
+
+		skills.addSkillsChangedListener(new SkillsChangedListener() {
 
 			@Override
 			public void skillsChanged(Map<ActiveSkill, Rune> skills) {
-				cdrPanel.setSkills(skills, itemPanel.getItems(), itemPanel.getSetCounts());
-			}});
-		
-		itemPanel.addItemsChangedListener(new ItemsChangedListener(){
+				cdrPanel.setSkills(skills, itemPanel.getItems(),
+						itemPanel.getSetCounts());
+			}
+		});
+
+		itemPanel.addItemsChangedListener(new ItemsChangedListener() {
 
 			@Override
 			public void itemsChanged(Map<Slot, ItemHolder> items) {
-				cdrPanel.setSkills(skills.getSkills(), items, itemPanel.getSetCounts());
+				cdrPanel.setSkills(skills.getSkills(), items,
+						itemPanel.getSetCounts());
 			}
 
 			@Override
 			public void setCountsChanged(Map<String, Integer> sets) {
-				cdrPanel.setSkills(skills.getSkills(), itemPanel.getItems(), sets);
-			}});
+				cdrPanel.setSkills(skills.getSkills(), itemPanel.getItems(),
+						sets);
+			}
+		});
+		
+		tabs.selectTab(0);
+		outputTabs.selectTab(0);
 	}
-	
+
 	protected void showHelp() {
 		Window.open("help.html", "_blank", "");
 	}
 
 	protected void setNews(List<NewsItem> news) {
 		newsPanel.clear();
-		
+
 		if (!news.isEmpty()) {
-			newsPanel.setWidth("100%");
+//			newsPanel.setWidth("100%");
 			CaptionPanel border = new CaptionPanel("News");
-			border.setWidth("100%");
+//			border.setWidth("100%");
 			newsPanel.add(border);
-			
+
 			VerticalPanel panel = new VerticalPanel();
 			border.setContentWidget(panel);
-			
+
 			for (NewsItem n : news) {
 				HorizontalPanel row = new HorizontalPanel();
 				HTML label = new HTML(n.getText());
@@ -1345,24 +1333,26 @@ public class MainPanel extends BasePanel {
 				panel.add(row);
 			}
 		}
-		
+
 	}
 
 	private LeaderboardPanel leaderboards = null;
 	private DialogBox leaderboardDlg = null;
-	
+
 	protected void showLeaderboards() {
 		if (leaderboards == null) {
 			leaderboards = new LeaderboardPanel(this);
 		}
-		
-		leaderboardDlg = ApplicationPanel.showDialogBox("Leaderboards", leaderboards,
-				ApplicationPanel.OK, new DialogBoxResultHandler(){
+
+		leaderboardDlg = ApplicationPanel.showDialogBox("Leaderboards",
+				leaderboards, ApplicationPanel.OK,
+				new DialogBoxResultHandler() {
 
 					@Override
 					public void dialogBoxResult(int result) {
 						leaderboardDlg = null;
-					}});
+					}
+				});
 	}
 
 	protected void setBuild(Build build) {
@@ -1638,7 +1628,6 @@ public class MainPanel extends BasePanel {
 
 			int row = 2;
 
-			
 			Label aps = (Label) compareTable.getWidget(row, col);
 			Label wd = (Label) compareTable.getWidget(row + 1, col);
 			Label elapsed = (Label) compareTable.getWidget(row + 3, col);
@@ -1658,13 +1647,14 @@ public class MainPanel extends BasePanel {
 				Label elapsedPctL = (Label) compareTable
 						.getWidget(row + 4, col);
 
-				double wdPct = (baseline.exportData.data.getWeaponDamage() > 0) ? ((data.exportData.data.getWeaponDamage() - baseline.exportData.data
-						.getWeaponDamage())
-						/ baseline.exportData.data.getWeaponDamage()) : 0.0;
-				double dpsPct = (baseline.exportData.sentryDps > 0) ? ((data.exportData.sentryDps - baseline.exportData.sentryDps)
-						/ baseline.exportData.sentryDps) : 0.0;
-				double elapsedPct = (baseline.exportData.output.duration > 0) ? ((data.exportData.output.duration - baseline.exportData.output.duration)
-						/ baseline.exportData.output.duration) : 0.0;
+				double wdPct = (baseline.exportData.data.getWeaponDamage() > 0) ? ((data.exportData.data
+						.getWeaponDamage() - baseline.exportData.data
+						.getWeaponDamage()) / baseline.exportData.data
+						.getWeaponDamage()) : 0.0;
+				double dpsPct = (baseline.exportData.sentryDps > 0) ? ((data.exportData.sentryDps - baseline.exportData.sentryDps) / baseline.exportData.sentryDps)
+						: 0.0;
+				double elapsedPct = (baseline.exportData.output.duration > 0) ? ((data.exportData.output.duration - baseline.exportData.output.duration) / baseline.exportData.output.duration)
+						: 0.0;
 
 				wdPctL.setText("(" + ((wdPct >= 0) ? "+" : "")
 						+ Util.format(Math.round(wdPct * 1000.0) / 10.0) + "%)");
@@ -1717,7 +1707,7 @@ public class MainPanel extends BasePanel {
 		heroList.addItem("Enter BattleTag and Fetch", "");
 
 		calculator.restoreFormData(data.calculator);
-		
+
 		this.career = null;
 		this.hero = null;
 
@@ -1793,7 +1783,8 @@ public class MainPanel extends BasePanel {
 
 		data.passives = Util.createMap(passives.getPassives());
 		data.gems = Util.createGemsMap(gemPanel.getGems());
-		data.specialItems = Util.createSpecialItemsMap(itemPanel.getItems(), itemPanel.getSetCounts());
+		data.specialItems = Util.createSpecialItemsMap(itemPanel.getItems(),
+				itemPanel.getSetCounts());
 		data.skillDamage = Util.createMap(this.skillDamage.getValues());
 		data.elementalDamage = Util.createMap(this.typeDamage.getValues());
 		data.skills = Util.createEnumMap(skills.getSkills());
@@ -1854,6 +1845,7 @@ public class MainPanel extends BasePanel {
 			label.setHref("javascript:void(0)");
 			label.setTarget("_self");
 		}
+		
 	}
 
 	protected void updateSkillLabel(Anchor label, ListBox skills) {
@@ -1870,7 +1862,6 @@ public class MainPanel extends BasePanel {
 
 	protected void showDpsCalculator() {
 
-		
 		ApplicationPanel.showDialogBox("DPS/Break Point Calculator",
 				calculator, ApplicationPanel.OK + ApplicationPanel.CANCEL,
 				new DialogBoxResultHandler() {
@@ -1882,7 +1873,7 @@ public class MainPanel extends BasePanel {
 
 							calculator.saveForm();
 							calculator.calculate();
-							
+
 							updateDpsLabels();
 							updateCDRLabels();
 
@@ -1924,9 +1915,9 @@ public class MainPanel extends BasePanel {
 			tagNumber.setText(split[1]);
 			battleTag.setText(split[0]);
 		}
-		
+
 		final String profile = profileS;
-		
+
 		if (tagNumber.getValue() == null) {
 			ApplicationPanel.showErrorDialog("Enter Battle Tag Number");
 			return;
@@ -2043,7 +2034,7 @@ public class MainPanel extends BasePanel {
 
 		if (paragonDexterity == null) {
 			paragonPanel.getParagonDexterity().setValue(
-					data.getParagonDexterity() );
+					data.getParagonDexterity());
 		}
 
 		data.setRealm(realm);
@@ -2148,15 +2139,15 @@ public class MainPanel extends BasePanel {
 		this.effRcr = effRcr;
 
 		// TODO set RCR labels
-		
+
 		this.rcrPanel.setEffectiveRcr(this.effRcr);
-		
-//		this.rawRCRLabel
-//				.setText(Util.format(Math.round(rawRcr * 10000.0) / 100.0)
-//						+ "%");
-//		this.effectiveRCRLabel
-//				.setText(Util.format(Math.round(effRcr * 10000.0) / 100.0)
-//						+ "%");
+
+		// this.rawRCRLabel
+		// .setText(Util.format(Math.round(rawRcr * 10000.0) / 100.0)
+		// + "%");
+		// this.effectiveRCRLabel
+		// .setText(Util.format(Math.round(effRcr * 10000.0) / 100.0)
+		// + "%");
 	}
 
 	private void updateCDRLabels() {
@@ -2212,42 +2203,44 @@ public class MainPanel extends BasePanel {
 		this.effCdr = effCdr;
 
 		cdrPanel.setEffectiveCdr(this.effCdr);
-		
-		// TODO set CDR labels 
-		cdrPanel.setSkills(skills.getSkills(), itemPanel.getItems(), itemPanel.getSetCounts());
-		
-//		this.punishmentCD = 20.0 * (1 - effCdr);
-//		this.sentryCD = 8.0 * (1 - effCdr);
-//		double wolfCD = 30.0 * (1 - effCdr);
-//		double rovCD = 30.0 * (1 - effCdr);
-//
-//		// if (itemPanel.getNumNats().getValue() >= 4)
-//		// rovCD = Math.max(0.0, rovCD - (skills.getRovKilled().getValue() *
-//		// 2.0));
-//
-//		if (itemPanel.getNumNats() >= 2) {
-//			double interval = (1.0 / calculator.getSheetAps())
-//					+ (situational.getFiringDelay().getValue() / 1000.0);
-//			double numAttacks = rovCD / (interval + 4.0);
-//			rovCD = numAttacks * interval;
-//		}
-//
-//		this.rawCDRLabel
-//				.setText(Util.format(Math.round(rawCdr * 10000.0) / 100.0)
-//						+ "%");
-//		this.effectiveCDRLabel
-//				.setText(Util.format(Math.round(effCdr * 10000.0) / 100.0)
-//						+ "%");
-//		this.punishmentCDLabel.setText(Util.format(Math
-//				.round(punishmentCD * 100.0) / 100.0) + " sec");
-//		this.sentryCDLabel
-//				.setText(Util.format(Math.round(sentryCD * 100.0) / 100.0)
-//						+ " sec");
-//		this.wolfCDLabel
-//				.setText(Util.format(Math.round(wolfCD * 100.0) / 100.0)
-//						+ " sec");
-//		this.rovCDLabel.setText(Util.format(Math.round(rovCD * 100.0) / 100.0)
-//				+ " sec");
+
+		// TODO set CDR labels
+		cdrPanel.setSkills(skills.getSkills(), itemPanel.getItems(),
+				itemPanel.getSetCounts());
+
+		// this.punishmentCD = 20.0 * (1 - effCdr);
+		// this.sentryCD = 8.0 * (1 - effCdr);
+		// double wolfCD = 30.0 * (1 - effCdr);
+		// double rovCD = 30.0 * (1 - effCdr);
+		//
+		// // if (itemPanel.getNumNats().getValue() >= 4)
+		// // rovCD = Math.max(0.0, rovCD - (skills.getRovKilled().getValue() *
+		// // 2.0));
+		//
+		// if (itemPanel.getNumNats() >= 2) {
+		// double interval = (1.0 / calculator.getSheetAps())
+		// + (situational.getFiringDelay().getValue() / 1000.0);
+		// double numAttacks = rovCD / (interval + 4.0);
+		// rovCD = numAttacks * interval;
+		// }
+		//
+		// this.rawCDRLabel
+		// .setText(Util.format(Math.round(rawCdr * 10000.0) / 100.0)
+		// + "%");
+		// this.effectiveCDRLabel
+		// .setText(Util.format(Math.round(effCdr * 10000.0) / 100.0)
+		// + "%");
+		// this.punishmentCDLabel.setText(Util.format(Math
+		// .round(punishmentCD * 100.0) / 100.0) + " sec");
+		// this.sentryCDLabel
+		// .setText(Util.format(Math.round(sentryCD * 100.0) / 100.0)
+		// + " sec");
+		// this.wolfCDLabel
+		// .setText(Util.format(Math.round(wolfCD * 100.0) / 100.0)
+		// + " sec");
+		// this.rovCDLabel.setText(Util.format(Math.round(rovCD * 100.0) /
+		// 100.0)
+		// + " sec");
 	}
 
 	protected void updateDpsLabels() {
@@ -2293,10 +2286,8 @@ public class MainPanel extends BasePanel {
 				(int) Math.round(data.getEliteDamage() * 100.0));
 		this.itemPanel.getAreaDamageEquipment().setValue(
 				(int) Math.round(data.getAreaDamageEquipment() * 100.0));
-		this.itemPanel.getNumAncients().setValue(
-				data.getNumAncients());
-		this.itemPanel.getOtherSets().setValue(
-				data.isOtherSets());
+		this.itemPanel.getNumAncients().setValue(data.getNumAncients());
+		this.itemPanel.getOtherSets().setValue(data.isOtherSets());
 
 		this.skillDamage.setValues(data.getSkillDamage());
 	}
@@ -2385,7 +2376,8 @@ public class MainPanel extends BasePanel {
 						"PercentSlowedChilled", "100"),
 				new Field(this.situational.getPercentControlled(),
 						"PercentControlled", "100"),
-				new Field(this.situational.getAdditional(), "AdditionalTargets", "0"),
+				new Field(this.situational.getAdditional(),
+						"AdditionalTargets", "0"),
 				new Field(this.situational.getTargetSize(), "TargetSize",
 						TargetSize.Small.name()),
 				new Field(this.situational.getPercentAtLeast10Yards(),
@@ -2395,10 +2387,8 @@ public class MainPanel extends BasePanel {
 						"EliteDamage", "0"),
 				new Field(this.itemPanel.getAreaDamageEquipment(),
 						"AreaDamageEquipment", "0"),
-				new Field(this.itemPanel.getNumAncients(),
-						"NumAncients", "0"),
-				new Field(this.itemPanel.getOtherSets(),
-						"OtherSets", "false"),
+				new Field(this.itemPanel.getNumAncients(), "NumAncients", "0"),
+				new Field(this.itemPanel.getOtherSets(), "OtherSets", "false"),
 				new Field(this.situational.getDistance(), "TargetDistance",
 						"50"),
 				new Field(this.situational.getTargetSpacing(), "TargetSpacing",
@@ -2457,12 +2447,12 @@ public class MainPanel extends BasePanel {
 						Boolean.FALSE.toString()),
 				new Field(this.playerBuffPanel.getStretchTime(), "StretchTime",
 						Boolean.FALSE.toString()),
-				new Field(this.playerBuffPanel.getStretchTimeUptime(), "StretchTimeUptime",
-						"0"),
+				new Field(this.playerBuffPanel.getStretchTimeUptime(),
+						"StretchTimeUptime", "0"),
 				new Field(this.playerBuffPanel.getTimeWarp(), "TimeWarp",
 						Boolean.FALSE.toString()),
-				new Field(this.playerBuffPanel.getTimeWarpUptime(), "TimeWarpUptime",
-						"0"),
+				new Field(this.playerBuffPanel.getTimeWarpUptime(),
+						"TimeWarpUptime", "0"),
 				new Field(this.playerBuffPanel.getPiranhasUptime(),
 						"PiranhasUptime", "100"),
 				new Field(this.playerBuffPanel.getInnerSanctuary(),
@@ -2495,10 +2485,10 @@ public class MainPanel extends BasePanel {
 						Boolean.FALSE.toString()),
 				new Field(this.playerBuffPanel.getSlamDance(), "SlamDance",
 						Boolean.FALSE.toString()),
-				new Field(this.playerBuffPanel.getValorActiveUptime(), "ValorActiveUptime",
-						"0"),
-				new Field(this.playerBuffPanel.getValorPassiveUptime(), "ValorPassiveUptime",
-						"0"),
+				new Field(this.playerBuffPanel.getValorActiveUptime(),
+						"ValorActiveUptime", "0"),
+				new Field(this.playerBuffPanel.getValorPassiveUptime(),
+						"ValorPassiveUptime", "0"),
 				new Field(this.playerBuffPanel.getRetributionUptime(),
 						"RetributionUptime", "0"),
 
@@ -2537,7 +2527,8 @@ public class MainPanel extends BasePanel {
 			data.setParagonIAS(paragonPanel.getParagonIAS().getValue());
 			data.setParagonCHD(paragonPanel.getParagonCHD().getValue());
 			data.setParagonCDR(paragonPanel.getParagonCDR().getValue());
-			data.setParagonDexterity(paragonPanel.getParagonDexterity().getValue());
+			data.setParagonDexterity(paragonPanel.getParagonDexterity()
+					.getValue());
 			data.setHeroLevel(calculator.getHeroLevel());
 			data.setParagonHatred(paragonPanel.getParagonHatred().getValue());
 			data.setParagonRCR(paragonPanel.getParagonRCR().getValue());
@@ -2577,7 +2568,7 @@ public class MainPanel extends BasePanel {
 					.getMonsterType(this.situational.getAdditionalTargetType()));
 			data.setTargetSpacing(this.situational.getTargetSpacing()
 					.getValue());
-			data.setPercentMoving((double)this.situational.getPercentMoving()
+			data.setPercentMoving((double) this.situational.getPercentMoving()
 					.getValue() / 100.0);
 			data.setEquipIas(calculator.getEquipIAS());
 			data.setEquipCritDamage(calculator.getEquipmentCritDamage());
@@ -2624,9 +2615,11 @@ public class MainPanel extends BasePanel {
 			data.setBbv(playerBuffPanel.getBbv().getValue());
 			data.setBbvUptime(playerBuffPanel.getBbvUptime().getValue() / 100.0);
 			data.setStretchTime(playerBuffPanel.getStretchTime().getValue());
-			data.setStretchTimeUptime(playerBuffPanel.getStretchTimeUptime().getValue() / 100.0);
+			data.setStretchTimeUptime(playerBuffPanel.getStretchTimeUptime()
+					.getValue() / 100.0);
 			data.setTimeWarp(playerBuffPanel.getTimeWarp().getValue());
-			data.setTimeWarpUptime(playerBuffPanel.getTimeWarpUptime().getValue() / 100.0);
+			data.setTimeWarpUptime(playerBuffPanel.getTimeWarpUptime()
+					.getValue() / 100.0);
 			data.setMassConfusion(playerBuffPanel.getMassConfusion().getValue());
 			data.setMassConfusionUptime(playerBuffPanel
 					.getMassConfusionUptime().getValue() / 100.0);
@@ -2653,8 +2646,10 @@ public class MainPanel extends BasePanel {
 			data.setValor(playerBuffPanel.getValor().getValue());
 			data.setRetributionUptime(playerBuffPanel.getRetributionUptime()
 					.getValue() / 100.0);
-			data.setValorActiveUptime(playerBuffPanel.getValorActiveUptime().getValue() / 100.0);
-			data.setValorPassiveUptime(playerBuffPanel.getValorPassiveUptime().getValue() / 100.0);
+			data.setValorActiveUptime(playerBuffPanel.getValorActiveUptime()
+					.getValue() / 100.0);
+			data.setValorPassiveUptime(playerBuffPanel.getValorPassiveUptime()
+					.getValue() / 100.0);
 			data.setSlamDance(playerBuffPanel.getSlamDance().getValue());
 			data.setCaltropsUptime(skills.getCaltropsUptime().getValue() / 100.0);
 			data.setSyncWithCoe(skills.getSyncWithCoe().getValue());
@@ -2665,7 +2660,8 @@ public class MainPanel extends BasePanel {
 			data.setDelay(situational.getFiringDelay().getValue());
 
 			ProfileHelper.updateWeaponDamage(data);
-			this.avgWeaponDamage.setText(Util.format(Math.round(data.getWeaponDamage() * 10.0) / 10.0));
+			this.avgWeaponDamage.setText(Util.format(Math.round(data
+					.getWeaponDamage() * 10.0) / 10.0));
 
 			try {
 				this.damage = FiringData.calculateDamages(data);
@@ -2773,7 +2769,8 @@ public class MainPanel extends BasePanel {
 
 		}
 
-		double dps = (damage.duration > 0) ? Math.round(total / damage.duration) : total;
+		double dps = (damage.duration > 0) ? Math
+				.round(total / damage.duration) : total;
 
 		this.exportData.sentryDps = dps;
 		this.exportData.totalDamage = total;
@@ -2898,8 +2895,9 @@ public class MainPanel extends BasePanel {
 				col++;
 
 			if (d.hatred != 0) {
-				Label hatredLabel = new Label(((d.hatred > 0) ? "+" : "") + Util.format(Math
-						.round(d.hatred * 10.0) / 10.0), false);
+				Label hatredLabel = new Label(((d.hatred > 0) ? "+" : "")
+						+ Util.format(Math.round(d.hatred * 10.0) / 10.0),
+						false);
 				hatredLabel.addStyleName("dpsCol");
 				damageLog.setWidget(row + 1, col++, hatredLabel);
 			} else {
@@ -2912,8 +2910,8 @@ public class MainPanel extends BasePanel {
 			damageLog.setWidget(row + 1, col++, hatredLabel2);
 
 			if (d.disc != 0) {
-				Label discLabel = new Label(((d.disc > 0) ? "+" : "") + Util.format(Math
-						.round(d.disc * 10.0) / 10.0), false);
+				Label discLabel = new Label(((d.disc > 0) ? "+" : "")
+						+ Util.format(Math.round(d.disc * 10.0) / 10.0), false);
 				discLabel.addStyleName("dpsCol");
 				damageLog.setWidget(row + 1, col++, discLabel);
 			} else {
@@ -2944,7 +2942,8 @@ public class MainPanel extends BasePanel {
 			}
 
 			if (d.target != null) {
-				damageLog.setWidget(row + 1, col++, new Label(d.target.toString(), false));
+				damageLog.setWidget(row + 1, col++,
+						new Label(d.target.toString(), false));
 			} else {
 				damageLog.setWidget(row + 1, col++, new Label("", false));
 			}
@@ -3093,7 +3092,8 @@ public class MainPanel extends BasePanel {
 			row++;
 		}
 
-		double dps = (damage.duration > 0) ? Math.round(total / damage.duration) : total;
+		double dps = (damage.duration > 0) ? Math
+				.round(total / damage.duration) : total;
 
 		weaponDamage
 				.setText(Util.format(Math.round(data.getWeaponDamage() * 100.0) / 100.0));
@@ -3150,10 +3150,10 @@ public class MainPanel extends BasePanel {
 				spinner.setMin(value * -100.0);
 
 				final String field = "Stat." + stat.getLabel();
-				
+
 				try {
 					value = Double.parseDouble(this.getFieldValue(field,
-						String.valueOf(value)));
+							String.valueOf(value)));
 				} catch (Exception e) {
 					saveField(field, String.valueOf(value));
 				}
@@ -3229,10 +3229,13 @@ public class MainPanel extends BasePanel {
 		}
 
 		double dpsRow = (d.duration > 0) ? (totalRow / d.duration) : totalRow;
-		double baselineDps = (baselineDuration > 0) ? (baseline / baselineDuration) : baseline;
+		double baselineDps = (baselineDuration > 0) ? (baseline / baselineDuration)
+				: baseline;
 		double duration = d.duration;
-		double pct = (baselineDps > 0) ? ((dpsRow - baselineDps) / baselineDps) : 0.0;
-		double pctDuration = (baselineDuration > 0) ? ((d.duration - baselineDuration) / baselineDuration) : 0.0;
+		double pct = (baselineDps > 0) ? ((dpsRow - baselineDps) / baselineDps)
+				: 0.0;
+		double pctDuration = (baselineDuration > 0) ? ((d.duration - baselineDuration) / baselineDuration)
+				: 0.0;
 
 		int col = 1;
 		((Label) statTable.getWidget(row, col++)).setText(Util.format(Math
@@ -3290,42 +3293,40 @@ public class MainPanel extends BasePanel {
 	protected void saveForm() {
 		super.saveForm();
 
-		super.saveField("passives",
-				getFieldValue(passives.getPassives(), null));
+		super.saveField("passives", getFieldValue(passives.getPassives(), null));
 		super.saveField("gems",
 				super.getGemsFieldValue(gemPanel.getGems(), null));
-		super.saveField("equipment",
-				super.getSpecialItemsFieldValue(itemPanel.getItems(), itemPanel.getSetCounts(), null));
+		super.saveField(
+				"equipment",
+				super.getSpecialItemsFieldValue(itemPanel.getItems(),
+						itemPanel.getSetCounts(), null));
 		super.saveField("elemental.Damage",
 				getFieldValue(this.typeDamage.getValues(), null));
 		super.saveField("skill.Damage",
 				getFieldValue(this.skillDamage.getValues(), null));
-		super.saveField("skills",
-				getFieldValue(this.skills.getSkills(), null));
+		super.saveField("skills", getFieldValue(this.skills.getSkills(), null));
 	}
 
 	@Override
 	protected void loadForm() {
 		super.loadForm();
-		
+
 		this.realm = this.getSelectedRealm();
 		this.profile = this.battleTag.getValue();
-		
+
 		try {
 			this.tag = Integer.parseInt(this.tagNumber.getValue());
 		} catch (Exception e) {
 			this.tag = 1234;
 			this.tagNumber.setText("1234");
 		}
-		
+
 		super.setFieldValue(skills, getFieldValue("skills", null));
 		super.setFieldValue(passives, getFieldValue("passives", null));
 		super.setFieldValue(gemPanel, getFieldValue("gems", null));
 		super.setFieldValue(itemPanel, getFieldValue("equipment", null));
-		super.setFieldValue(typeDamage,
-				getFieldValue("elemental.Damage", null));
-		super.setFieldValue(skillDamage,
-				getFieldValue("skill.Damage", null));
+		super.setFieldValue(typeDamage, getFieldValue("elemental.Damage", null));
+		super.setFieldValue(skillDamage, getFieldValue("skill.Damage", null));
 
 		calculator.setDefaultSkill(skills.getSkills().keySet());
 
@@ -3333,10 +3334,10 @@ public class MainPanel extends BasePanel {
 		calculator.calculate();
 
 	}
-	
+
 	@Override
 	protected String getFieldValue(ListBox field, String defaultValue) {
-		
+
 		if (field == this.heroList) {
 			return getHeroList(defaultValue);
 		} else
@@ -3344,8 +3345,9 @@ public class MainPanel extends BasePanel {
 	}
 
 	private String getHeroList(String defaultValue) {
-		
-		if ((this.career == null) || (this.career.heroes == null) || (this.career.heroes.length == 0))
+
+		if ((this.career == null) || (this.career.heroes == null)
+				|| (this.career.heroes.length == 0))
 			return defaultValue;
 
 		return JsonUtil.toJSONObject(career.heroes).toString();
@@ -3358,13 +3360,13 @@ public class MainPanel extends BasePanel {
 		} else
 			super.setFieldValue(field, value);
 	}
-	
+
 	private void setHeroList(String value) {
 		Hero[] heroes = JsonUtil.parseHeroList(value);
-		
+
 		this.career = new CareerProfile();
 		this.career.heroes = heroes;
-		
+
 		if (heroes != null) {
 			setHeroList(heroes);
 		}
@@ -3377,8 +3379,7 @@ public class MainPanel extends BasePanel {
 
 		for (Hero h : heroes) {
 
-			if (h.clazz
-					.equalsIgnoreCase(Const.CLASS_DEMONHUNTER)) {
+			if (h.clazz.equalsIgnoreCase(Const.CLASS_DEMONHUNTER)) {
 
 				if (first) {
 					heroList.clear();
@@ -3391,8 +3392,7 @@ public class MainPanel extends BasePanel {
 		}
 		if (first) {
 			heroList.clear();
-			heroList.addItem(
-					"No Demon Hunters found on profile", "");
+			heroList.addItem("No Demon Hunters found on profile", "");
 		}
 
 		heroList.setSelectedIndex(0);
@@ -3682,38 +3682,40 @@ public class MainPanel extends BasePanel {
 			leaderboardDlg.hide();
 			leaderboardDlg = null;
 		}
-		
+
 		this.battleTag.setValue(profile);
 		this.tagNumber.setValue(tag);
-		fetchHeros(new AsyncTaskHandler(){
+		fetchHeros(new AsyncTaskHandler() {
 
 			@Override
 			public void taskCompleted() {
 				Hero hero = null;
-				
+
 				for (Hero h : MainPanel.this.career.heroes) {
 					if (h.id == heroId) {
 						hero = h;
 						break;
 					}
 				}
-				
+
 				if (hero == null) {
-					MainPanel.showErrorDialog("Hero " + heroId + " does not exist.");
+					MainPanel.showErrorDialog("Hero " + heroId
+							+ " does not exist.");
 				} else {
 					selectHero(heroId);
 					importHero();
 				}
-			}});
+			}
+		});
 	}
 
 	protected void selectHero(int heroId) {
 		int n = this.heroList.getItemCount();
 		String s = String.valueOf(heroId);
-		
+
 		for (int i = 0; i < n; i++) {
 			String value = heroList.getValue(i);
-			
+
 			if (value.equals(s)) {
 				heroList.setSelectedIndex(i);
 				return;
