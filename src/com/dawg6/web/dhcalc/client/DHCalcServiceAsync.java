@@ -56,7 +56,7 @@ public interface DHCalcServiceAsync {
 
 //	void toJson(ApiData object, AsyncCallback<String> callback);
 
-//	void fromJson(String json, String type, AsyncCallback<ApiData> callback);
+//	void fromJson(String json, String shooter, AsyncCallback<ApiData> callback);
 
 	void logData(CharacterData data,
 			AsyncCallback<Void> callback);

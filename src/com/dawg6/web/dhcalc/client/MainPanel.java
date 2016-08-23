@@ -96,7 +96,7 @@ public class MainPanel extends BasePanel {
 	private final Label totalDamage;
 	private final Label dps;
 	private final FlexTable damageLog;
-	private final FlexTable summary;
+	private final DamageTypeSummary dts;
 	private final TextBox battleTag;
 	private final TextBox tagNumber;
 	private final ListBox heroList;
@@ -106,7 +106,6 @@ public class MainPanel extends BasePanel {
 	protected HeroProfile hero;
 	private final Label weaponDamage;
 	private final DPSCalculator calculator;
-	private final FlexTable skillSummary;
 	private final ListBox realms;
 	private final Anchor profileLink;
 	protected CareerProfile career;
@@ -158,7 +157,6 @@ public class MainPanel extends BasePanel {
 	private BPData bpData;
 	private SkillData skillData;
 	private GearPanel gearPanel;
-	private FlexTable shooterSummary;
 	private Label offHand_weaponDamage;
 	private Label dw_weaponDamage;
 	private FlexTable statTable;
@@ -166,6 +164,8 @@ public class MainPanel extends BasePanel {
 	private Label timeElapsed;
 	private NumberSpinner timeLimit;
 	private final HorizontalPanel newsPanel;
+	private SkillDamageSummary sds;
+	private ShooterDamageSummary shds;
 
 	public MainPanel() {
 		FlexTable mainTable = new FlexTable();
@@ -795,7 +795,8 @@ public class MainPanel extends BasePanel {
 		
 		TabPanel outputTabs = new TabPanel();
 		outputTable.setWidget(outputRow++, 0, outputTabs);
-
+		outputTabs.setWidth("100%");
+		
 		bpButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -836,136 +837,14 @@ public class MainPanel extends BasePanel {
 		statTableCaption = new CaptionPanel("Stat Calculator");
 		outputTabs.add(statTableCaption, "Stats Calc");
 
-		captionPanelTypeSummary = new CaptionPanel("Damage Type Summary");
-		outputTabs.add(captionPanelTypeSummary, "Damage Types");
+		dts = new DamageTypeSummary();
+		outputTabs.add(dts, "Damage Types");
 
-		summary = new FlexTable();
-		summary.setCellPadding(5);
-		summary.setBorderWidth(1);
-		summary.setStyleName("outputTable");
-		summary.setWidth("100%");
-		captionPanelTypeSummary.setContentWidget(summary);
+		sds = new SkillDamageSummary();
+		outputTabs.add(sds, "Skills");
 
-		Label lblNewLabel_17 = new Label("Type");
-		lblNewLabel_17.setWordWrap(false);
-		summary.setWidget(0, 0, lblNewLabel_17);
-
-		Label label_1 = new Label("# Attacks");
-		label_1.setWordWrap(false);
-		label_1.setStyleName("dpsHeader");
-		summary.setWidget(0, 1, label_1);
-
-		Label label_2 = new Label("Per Attack");
-		label_2.setWordWrap(false);
-		label_2.setStyleName("dpsHeader");
-		summary.setWidget(0, 2, label_2);
-
-		Label lblTotalDamage = new Label("Total");
-		lblTotalDamage.setStyleName("dpsHeader");
-		lblTotalDamage.setWordWrap(false);
-		summary.setWidget(0, 3, lblTotalDamage);
-		summary.getColumnFormatter().addStyleName(1, "dpsCol");
-
-		Label lblDps_1 = new Label("DPS");
-		lblDps_1.setStyleName("dpsHeader");
-		lblDps_1.setWordWrap(false);
-		summary.setWidget(0, 4, lblDps_1);
-		summary.getColumnFormatter().addStyleName(2, "dpsCol");
-
-		Label lblOfTotal = new Label("% of Total");
-		lblOfTotal.setStyleName("dpsHeader");
-		lblOfTotal.setWordWrap(false);
-		summary.setWidget(0, 5, lblOfTotal);
-
-		captionPanelSkillSummary = new CaptionPanel("Skill Damage Summary");
-		outputTabs.add(captionPanelSkillSummary, "Skills");
-
-		skillSummary = new FlexTable();
-		skillSummary.setStyleName("outputTable");
-		skillSummary.setCellPadding(5);
-		skillSummary.setBorderWidth(1);
-		skillSummary.setWidth("100%");
-
-		captionPanelSkillSummary.setContentWidget(skillSummary);
-
-		Label lblSkill_2 = new Label("Skill");
-		lblSkill_2.setWordWrap(false);
-		skillSummary.setWidget(0, 0, lblSkill_2);
-
-		Label lblAttacks = new Label("# Attacks");
-		lblAttacks.setWordWrap(false);
-		lblAttacks.setStyleName("dpsHeader");
-		skillSummary.setWidget(0, 1, lblAttacks);
-
-		Label lblPerAttack = new Label("Per Attack");
-		lblPerAttack.setWordWrap(false);
-		lblPerAttack.setStyleName("dpsHeader");
-		skillSummary.setWidget(0, 2, lblPerAttack);
-
-		Label lblTotal = new Label("Total");
-		lblTotal.setStyleName("dpsHeader");
-		lblTotal.setWordWrap(false);
-		skillSummary.setWidget(0, 3, lblTotal);
-		skillSummary.getColumnFormatter().addStyleName(1, "dpsCol");
-
-		Label label_5 = new Label("DPS");
-		label_5.setStyleName("dpsHeader");
-		label_5.setWordWrap(false);
-		skillSummary.setWidget(0, 4, label_5);
-		skillSummary.getColumnFormatter().addStyleName(2, "dpsCol");
-
-		Label label_6 = new Label("% of Total");
-		label_6.setStyleName("dpsHeader");
-		label_6.setWordWrap(false);
-		skillSummary.setWidget(0, 5, label_6);
-
-		captionPanelShooterSummary = new CaptionPanel("Shooter Summary");
-		outputTabs.add(captionPanelShooterSummary, "Shooters");
-
-		shooterSummary = new FlexTable();
-		captionPanelShooterSummary.setContentWidget(shooterSummary);
-		shooterSummary.setStyleName("outputTable");
-		shooterSummary.setCellPadding(5);
-		shooterSummary.setBorderWidth(1);
-		shooterSummary.setWidth("100%");
-
-		Label lblSkill_2a = new Label("Shooter");
-		lblSkill_2a.setWordWrap(false);
-		shooterSummary.setWidget(0, 0, lblSkill_2a);
-
-		Label lblAttacksa = new Label("# Attacks");
-		lblAttacksa.setWordWrap(false);
-		lblAttacksa.setStyleName("dpsHeader");
-		shooterSummary.setWidget(0, 1, lblAttacksa);
-
-		Label lblPerAttacka = new Label("Per Attack");
-		lblPerAttacka.setWordWrap(false);
-		lblPerAttacka.setStyleName("dpsHeader");
-		shooterSummary.setWidget(0, 2, lblPerAttacka);
-
-		Label lblTotala = new Label("Total");
-		lblTotala.setStyleName("dpsHeader");
-		lblTotala.setWordWrap(false);
-		shooterSummary.setWidget(0, 3, lblTotala);
-		shooterSummary.getColumnFormatter().addStyleName(1, "dpsCol");
-
-		Label label_5a = new Label("DPS");
-		label_5a.setStyleName("dpsHeader");
-		label_5a.setWordWrap(false);
-		shooterSummary.setWidget(0, 4, label_5a);
-		shooterSummary.getColumnFormatter().addStyleName(2, "dpsCol");
-
-		Label label_6b = new Label("% of Total");
-		label_6b.setStyleName("dpsHeader");
-		label_6b.setWordWrap(false);
-		shooterSummary.setWidget(0, 5, label_6b);
-
-		skillSummary.getColumnFormatter().addStyleName(3, "dpsCol");
-		skillSummary.getRowFormatter().addStyleName(0, "headerRow");
-		summary.getColumnFormatter().addStyleName(3, "dpsCol");
-		summary.getRowFormatter().addStyleName(0, "headerRow");
-		shooterSummary.getColumnFormatter().addStyleName(3, "dpsCol");
-		shooterSummary.getRowFormatter().addStyleName(0, "headerRow");
+		shds = new ShooterDamageSummary();
+		outputTabs.add(shds, "Shooters");
 
 		damageLog = new FlexTable();
 		damageLog.setCellPadding(5);
@@ -2138,16 +2017,8 @@ public class MainPanel extends BasePanel {
 		this.rawRcr = rawRcr;
 		this.effRcr = effRcr;
 
-		// TODO set RCR labels
-
 		this.rcrPanel.setEffectiveRcr(this.effRcr);
 
-		// this.rawRCRLabel
-		// .setText(Util.format(Math.round(rawRcr * 10000.0) / 100.0)
-		// + "%");
-		// this.effectiveRCRLabel
-		// .setText(Util.format(Math.round(effRcr * 10000.0) / 100.0)
-		// + "%");
 	}
 
 	private void updateCDRLabels() {
@@ -2204,43 +2075,8 @@ public class MainPanel extends BasePanel {
 
 		cdrPanel.setEffectiveCdr(this.effCdr);
 
-		// TODO set CDR labels
 		cdrPanel.setSkills(skills.getSkills(), itemPanel.getItems(),
 				itemPanel.getSetCounts());
-
-		// this.punishmentCD = 20.0 * (1 - effCdr);
-		// this.sentryCD = 8.0 * (1 - effCdr);
-		// double wolfCD = 30.0 * (1 - effCdr);
-		// double rovCD = 30.0 * (1 - effCdr);
-		//
-		// // if (itemPanel.getNumNats().getValue() >= 4)
-		// // rovCD = Math.max(0.0, rovCD - (skills.getRovKilled().getValue() *
-		// // 2.0));
-		//
-		// if (itemPanel.getNumNats() >= 2) {
-		// double interval = (1.0 / calculator.getSheetAps())
-		// + (situational.getFiringDelay().getValue() / 1000.0);
-		// double numAttacks = rovCD / (interval + 4.0);
-		// rovCD = numAttacks * interval;
-		// }
-		//
-		// this.rawCDRLabel
-		// .setText(Util.format(Math.round(rawCdr * 10000.0) / 100.0)
-		// + "%");
-		// this.effectiveCDRLabel
-		// .setText(Util.format(Math.round(effCdr * 10000.0) / 100.0)
-		// + "%");
-		// this.punishmentCDLabel.setText(Util.format(Math
-		// .round(punishmentCD * 100.0) / 100.0) + " sec");
-		// this.sentryCDLabel
-		// .setText(Util.format(Math.round(sentryCD * 100.0) / 100.0)
-		// + " sec");
-		// this.wolfCDLabel
-		// .setText(Util.format(Math.round(wolfCD * 100.0) / 100.0)
-		// + " sec");
-		// this.rovCDLabel.setText(Util.format(Math.round(rovCD * 100.0) /
-		// 100.0)
-		// + " sec");
 	}
 
 	protected void updateDpsLabels() {
@@ -2794,10 +2630,6 @@ public class MainPanel extends BasePanel {
 			statTable.removeRow(i - 1);
 		}
 
-		for (int i = shooterSummary.getRowCount(); i > 1; --i) {
-			shooterSummary.removeRow(i - 1);
-		}
-
 		this.captionPanelDamageLog.setCaptionHTML("Damage Log ("
 				+ damage.duration + " seconds)");
 
@@ -2964,133 +2796,9 @@ public class MainPanel extends BasePanel {
 
 		}
 
-		for (int i = summary.getRowCount(); i > 1; --i) {
-			summary.removeRow(i - 1);
-		}
-
-		int row = 1;
-		for (Map.Entry<DamageType, DamageHolder> e : types.entrySet()) {
-			if ((row % 2) == 0)
-				summary.getRowFormatter().addStyleName(row, "evenRow");
-			else
-				summary.getRowFormatter().addStyleName(row, "oddRow");
-
-			summary.setWidget(row, 0, new Label(e.getKey().name(), false));
-
-			int attacks = e.getValue().attacks;
-			double d = e.getValue().damage;
-			double da = Math.round((d / attacks));
-
-			Label label1 = new Label(String.valueOf(attacks), false);
-			label1.addStyleName("dpsCol");
-			summary.setWidget(row, 1, label1);
-
-			Label label2 = new Label(Util.format(da), false);
-			label2.addStyleName("dpsCol");
-			summary.setWidget(row, 2, label2);
-
-			Label damageLabel = new Label(Util.format(Math.round(d)), false);
-			damageLabel.addStyleName("dpsCol");
-			summary.setWidget(row, 3, damageLabel);
-
-			Label dpsLabel = new Label(Util.format(Math.round((d)
-					/ damage.duration)), false);
-			dpsLabel.addStyleName("dpsCol");
-			summary.setWidget(row, 4, dpsLabel);
-
-			double pct = Math.round((d / total) * 10000.0) / 100.0;
-			Label pctLabel = new Label(String.valueOf(pct) + "%", false);
-			pctLabel.addStyleName("dpsCol");
-			summary.setWidget(row, 5, pctLabel);
-			row++;
-		}
-
-		for (int i = skillSummary.getRowCount(); i > 1; --i) {
-			skillSummary.removeRow(i - 1);
-		}
-
-		row = 1;
-		for (Map.Entry<DamageSource, DamageHolder> e : skillDamages.entrySet()) {
-			if ((row % 2) == 0)
-				skillSummary.getRowFormatter().addStyleName(row, "evenRow");
-			else
-				skillSummary.getRowFormatter().addStyleName(row, "oddRow");
-
-			DamageSource source = e.getKey();
-
-			Anchor a = new Anchor(source.getName());
-			a.setTarget("_blank");
-			a.setWordWrap(false);
-			String url = source.getUrl();
-			a.setHref(url);
-			skillSummary.setWidget(row, 0, a);
-
-			int attacks = e.getValue().attacks;
-			double d = e.getValue().damage;
-			double da = Math.round((d / attacks));
-
-			Label label1 = new Label(String.valueOf(attacks), false);
-			label1.addStyleName("dpsCol");
-			skillSummary.setWidget(row, 1, label1);
-
-			Label label2 = new Label(Util.format(da), false);
-			label2.addStyleName("dpsCol");
-			skillSummary.setWidget(row, 2, label2);
-
-			Label damageLabel = new Label(Util.format(Math.round(d)), false);
-			damageLabel.addStyleName("dpsCol");
-			skillSummary.setWidget(row, 3, damageLabel);
-
-			Label dpsLabel = new Label(Util.format(Math.round((d)
-					/ damage.duration)), false);
-			dpsLabel.addStyleName("dpsCol");
-			skillSummary.setWidget(row, 4, dpsLabel);
-
-			double pct = Math.round((d / total) * 10000.0) / 100.0;
-			Label pctLabel = new Label(String.valueOf(pct) + "%", false);
-			pctLabel.addStyleName("dpsCol");
-			skillSummary.setWidget(row, 5, pctLabel);
-			row++;
-		}
-
-		row = 1;
-		for (Map.Entry<String, DamageHolder> e : shooterDamages.entrySet()) {
-			if ((row % 2) == 0)
-				shooterSummary.getRowFormatter().addStyleName(row, "evenRow");
-			else
-				shooterSummary.getRowFormatter().addStyleName(row, "oddRow");
-
-			Label a = new Label(e.getKey());
-			a.setWordWrap(false);
-			shooterSummary.setWidget(row, 0, a);
-
-			int attacks = e.getValue().attacks;
-			double d = e.getValue().damage;
-			double da = Math.round((d / attacks));
-
-			Label label1 = new Label(String.valueOf(attacks), false);
-			label1.addStyleName("dpsCol");
-			shooterSummary.setWidget(row, 1, label1);
-
-			Label label2 = new Label(Util.format(da), false);
-			label2.addStyleName("dpsCol");
-			shooterSummary.setWidget(row, 2, label2);
-
-			Label damageLabel = new Label(Util.format(Math.round(d)), false);
-			damageLabel.addStyleName("dpsCol");
-			shooterSummary.setWidget(row, 3, damageLabel);
-
-			Label dpsLabel = new Label(Util.format(Math.round((d)
-					/ damage.duration)), false);
-			dpsLabel.addStyleName("dpsCol");
-			shooterSummary.setWidget(row, 4, dpsLabel);
-
-			double pct = Math.round((d / total) * 10000.0) / 100.0;
-			Label pctLabel = new Label(String.valueOf(pct) + "%", false);
-			pctLabel.addStyleName("dpsCol");
-			shooterSummary.setWidget(row, 5, pctLabel);
-			row++;
-		}
+		dts.setData(types, total, damage.duration);
+		sds.setData(skillDamages, total, damage.duration);
+		shds.setData(shooterDamages, total, damage.duration);
 
 		double dps = (damage.duration > 0) ? Math
 				.round(total / damage.duration) : total;
@@ -3112,7 +2820,7 @@ public class MainPanel extends BasePanel {
 
 		}
 
-		row = 1;
+		int row = 1;
 
 		this.dps.setText(Util.format(Math.round(dps)));
 		this.totalDamage.setText(Util.format(Math.round(total)));
@@ -3459,15 +3167,15 @@ public class MainPanel extends BasePanel {
 		form.setAttribute("target", "_self");
 		form.setAttribute("enctype", "multipart/form-data");
 		var hiddenField = document.createElement("input");
-		hiddenField.setAttribute("type", "hidden");
+		hiddenField.setAttribute("shooter", "hidden");
 		hiddenField.setAttribute("name", "key");
 		hiddenField.setAttribute("value", key);
 		var hiddenField2 = document.createElement("input");
-		hiddenField2.setAttribute("type", "hidden");
+		hiddenField2.setAttribute("shooter", "hidden");
 		hiddenField2.setAttribute("name", "filename");
 		hiddenField2.setAttribute("value", filename);
 		var hiddenField3 = document.createElement("input");
-		hiddenField3.setAttribute("type", "hidden");
+		hiddenField3.setAttribute("shooter", "hidden");
 		hiddenField3.setAttribute("name", "isFile");
 		hiddenField3.setAttribute("value", isFile);
 		form.appendChild(hiddenField);
@@ -3626,25 +3334,25 @@ public class MainPanel extends BasePanel {
 		form.enctype = "application/x-www-form-urlencoded";
 
 		var serverField = document.createElement("input");
-		serverField.setAttribute("type", "hidden");
+		serverField.setAttribute("shooter", "hidden");
 		serverField.setAttribute("name", "realm");
 		serverField.setAttribute("value", realm);
 		form.appendChild(serverField);
 
 		var profileField = document.createElement("input");
-		profileField.setAttribute("type", "hidden");
+		profileField.setAttribute("shooter", "hidden");
 		profileField.setAttribute("name", "profile");
 		profileField.setAttribute("value", profile);
 		form.appendChild(profileField);
 
 		var tagField = document.createElement("input");
-		tagField.setAttribute("type", "hidden");
+		tagField.setAttribute("shooter", "hidden");
 		tagField.setAttribute("name", "tag");
 		tagField.setAttribute("value", tag);
 		form.appendChild(tagField);
 
 		var idField = document.createElement("input");
-		idField.setAttribute("type", "hidden");
+		idField.setAttribute("shooter", "hidden");
 		idField.setAttribute("name", "id");
 		idField.setAttribute("value", id);
 		form.appendChild(idField);

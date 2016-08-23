@@ -73,7 +73,7 @@ public class FileSaveServlet extends HttpServlet {
 						else if (part.getName().equals("isFile"))
 							isFile = Boolean.valueOf(((ParamPart)part).getStringValue());
 					} else {
-						log.info("Skipping part of type "
+						log.info("Skipping part of shooter "
 								+ part.getClass().getName());
 					}
 

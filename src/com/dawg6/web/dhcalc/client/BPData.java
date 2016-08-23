@@ -31,12 +31,12 @@ import com.dawg6.web.dhcalc.shared.calculator.DamageFunction;
 import com.dawg6.web.dhcalc.shared.calculator.WeaponType;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class BPData extends ApplicationPanel {
@@ -72,11 +72,11 @@ public class BPData extends ApplicationPanel {
 			weaponType.addItem(t.getName(), t.name());
 		}
 
-		CaptionPanel cptnpnlNewPanel = new CaptionPanel("Skill Break Point Data");
-		panel.add(cptnpnlNewPanel);
-		
 		table = new FlexTable();
-		cptnpnlNewPanel.setContentWidget(table);
+		ScrollPanel scroll = new ScrollPanel(table);
+		scroll.setWidth("400px");
+		scroll.setHeight("600px");
+		panel.add(scroll);
 		table.setSize("5cm", "3cm");
 		table.setStyleName("breakpointTable");
 		table.setCellPadding(5);

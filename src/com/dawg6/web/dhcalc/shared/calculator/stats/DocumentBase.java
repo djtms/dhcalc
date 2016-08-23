@@ -29,7 +29,7 @@ public abstract class DocumentBase extends UniqueObject {
 	protected String id;
 	@SerializedName("_rev")
 	private String revision;
-	@SerializedName("type")
+	@SerializedName("shooter")
 	private String documentType;
 	
 	protected DocumentBase(String documentType) {

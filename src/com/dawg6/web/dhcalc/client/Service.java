@@ -349,13 +349,13 @@ public class Service implements DHCalcServiceAsync {
 	// }
 	//
 	// @Override
-	// public void fromJson(final String json, final String type,
+	// public void fromJson(final String json, final String shooter,
 	// final AsyncCallback<JsonObject> callback) {
 	// execute(new AsyncTask() {
 	//
 	// @Override
 	// public void run(AsyncTaskHandler handler) {
-	// SERVICE.fromJson(json, type, new DelegateCallback<JsonObject>(
+	// SERVICE.fromJson(json, shooter, new DelegateCallback<JsonObject>(
 	// handler, callback));
 	// }
 	// });
