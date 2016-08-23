@@ -18,10 +18,10 @@
  *******************************************************************************/
 package com.dawg6.web.dhcalc.client;
 
+import com.dawg6.gwt.client.widgets.SimpleCaptionPanel;
 import com.dawg6.web.dhcalc.shared.calculator.Util;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -61,15 +61,15 @@ public class ParagonPanel extends Composite {
 	
 	public ParagonPanel() {
 		
-		CaptionPanel captionPanel = new CaptionPanel("Paragon");
-		initWidget(captionPanel);
+		SimpleCaptionPanel SimpleCaptionPanel = new SimpleCaptionPanel("Paragon");
+		initWidget(SimpleCaptionPanel);
 		
 		FlexTable flexTable = new FlexTable();
 		flexTable.setCellPadding(2);
-		captionPanel.setContentWidget(flexTable);
+		SimpleCaptionPanel.setContentWidget(flexTable);
 		
 		lblNewLabel = new Label("Note: Paragon points other than Dexterity must be entered manually (they are not available via the battle.net API)");
-		lblNewLabel.setWordWrap(true);
+		lblNewLabel.setWordWrap(false);
 		lblNewLabel.addStyleName("boldText");
 		flexTable.setWidget(0, 0, lblNewLabel);
 		lblNewLabel.setWidth("300px");

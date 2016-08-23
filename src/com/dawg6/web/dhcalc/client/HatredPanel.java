@@ -18,7 +18,7 @@
  *******************************************************************************/
 package com.dawg6.web.dhcalc.client;
 
-import com.google.gwt.user.client.ui.CaptionPanel;
+import com.dawg6.gwt.client.widgets.SimpleCaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
@@ -29,12 +29,12 @@ public class HatredPanel extends Composite {
 
 	public HatredPanel() {
 		
-		CaptionPanel captionPanel = new CaptionPanel("Hatred/Discipline");
-		initWidget(captionPanel);
+		SimpleCaptionPanel SimpleCaptionPanel = new SimpleCaptionPanel("Hatred/Discipline");
+		initWidget(SimpleCaptionPanel);
 		
 		FlexTable flexTable = new FlexTable();
 		flexTable.setCellPadding(2);
-		captionPanel.setContentWidget(flexTable);
+		SimpleCaptionPanel.setContentWidget(flexTable);
 		
 		Label lblHatredPerSecond = new Label("+ Hatred per Second:");
 		flexTable.setWidget(0, 0, lblHatredPerSecond);

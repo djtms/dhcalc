@@ -25,11 +25,11 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
 
+import com.dawg6.gwt.client.widgets.SimpleCaptionPanel;
 import com.dawg6.web.dhcalc.shared.calculator.Passive;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.ListBox;
@@ -46,12 +46,12 @@ public class PassivesPanel extends Composite {
 	
 	public PassivesPanel() {
 		
-		CaptionPanel captionPanel = new CaptionPanel("Passives");
-		initWidget(captionPanel);
+		SimpleCaptionPanel SimpleCaptionPanel = new SimpleCaptionPanel("Passives");
+		initWidget(SimpleCaptionPanel);
 		
 		FlexTable flexTable = new FlexTable();
 		flexTable.setCellPadding(2);
-		captionPanel.setContentWidget(flexTable);
+		SimpleCaptionPanel.setContentWidget(flexTable);
 		
 		List<Passive> list = new Vector<Passive>();
 		for (Passive p : Passive.values())

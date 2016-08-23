@@ -27,13 +27,13 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.Vector;
 
+import com.dawg6.gwt.client.widgets.SimpleCaptionPanel;
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.Rune;
 import com.dawg6.web.dhcalc.shared.calculator.SkillType;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -61,11 +61,11 @@ public class SkillsPanel extends Composite {
 
 	public SkillsPanel() {
 
-		CaptionPanel captionPanel = new CaptionPanel("Active Skills");
-		initWidget(captionPanel);
+		SimpleCaptionPanel SimpleCaptionPanel = new SimpleCaptionPanel("Active Skills");
+		initWidget(SimpleCaptionPanel);
 
 		FlexTable flexTable = new FlexTable();
-		captionPanel.setContentWidget(flexTable);
+		SimpleCaptionPanel.setContentWidget(flexTable);
 
 		int row = 0;
 

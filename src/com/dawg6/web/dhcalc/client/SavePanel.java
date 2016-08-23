@@ -21,6 +21,7 @@ package com.dawg6.web.dhcalc.client;
 import java.beans.Beans;
 
 import com.dawg6.gwt.client.ApplicationPanel;
+import com.dawg6.gwt.client.widgets.SimpleCaptionPanel;
 import com.dawg6.gwt.common.util.AsyncTaskHandler;
 import com.dawg6.gwt.common.util.DefaultCallback;
 import com.dawg6.web.dhcalc.shared.calculator.FormData;
@@ -31,7 +32,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -59,12 +59,12 @@ public class SavePanel extends Composite {
 
 	public SavePanel() {
 
-		CaptionPanel captionPanel = new CaptionPanel("Save/Load");
-		initWidget(captionPanel);
+		SimpleCaptionPanel SimpleCaptionPanel = new SimpleCaptionPanel("Save/Load");
+		initWidget(SimpleCaptionPanel);
 
 		FlexTable flexTable_3 = new FlexTable();
 		flexTable_3.setCellPadding(2);
-		captionPanel.setContentWidget(flexTable_3);
+		SimpleCaptionPanel.setContentWidget(flexTable_3);
 
 		tabPanel = new TabPanel();
 		flexTable_3.setWidget(0, 0, tabPanel);

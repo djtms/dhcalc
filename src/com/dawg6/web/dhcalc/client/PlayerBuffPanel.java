@@ -18,11 +18,11 @@
  *******************************************************************************/
 package com.dawg6.web.dhcalc.client;
 
+import com.dawg6.gwt.client.widgets.SimpleCaptionPanel;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
@@ -62,7 +62,7 @@ public class PlayerBuffPanel extends Composite {
 		
 		disableListeners = true;
 
-		CaptionPanel cptnpnlNewPanel = new CaptionPanel("Other Player Buffs");
+		SimpleCaptionPanel cptnpnlNewPanel = new SimpleCaptionPanel("Other Player Buffs");
 		initWidget(cptnpnlNewPanel);
 
 		FlexTable flexTable = new FlexTable();

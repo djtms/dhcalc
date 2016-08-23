@@ -36,7 +36,6 @@ import com.dawg6.web.dhcalc.shared.calculator.Rune;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -68,11 +67,8 @@ public class SkillData extends ApplicationPanel {
 		skills = new ListBox();
 		horizontalPanel.add(skills);
 		
-		CaptionPanel cptnpnlNewPanel = new CaptionPanel("Skill Damage");
-		panel.add(cptnpnlNewPanel);
-		
 		table = new FlexTable();
-		cptnpnlNewPanel.setContentWidget(table);
+		panel.add(table);
 		table.setSize("5cm", "3cm");
 		table.setStyleName("breakpointTable");
 		table.setCellPadding(5);

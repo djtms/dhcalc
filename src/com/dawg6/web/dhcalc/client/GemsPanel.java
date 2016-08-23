@@ -25,12 +25,12 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Vector;
 
+import com.dawg6.gwt.client.widgets.SimpleCaptionPanel;
 import com.dawg6.web.dhcalc.shared.calculator.GemAttributeData;
 import com.dawg6.web.dhcalc.shared.calculator.GemSkill;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
@@ -54,11 +54,11 @@ public class GemsPanel extends Composite {
 
 	public GemsPanel() {
 
-		CaptionPanel captionPanel = new CaptionPanel("Legendary Gems");
-		initWidget(captionPanel);
+		SimpleCaptionPanel SimpleCaptionPanel = new SimpleCaptionPanel("Legendary Gems");
+		initWidget(SimpleCaptionPanel);
 
 		table = new FlexTable();
-		captionPanel.setContentWidget(table);
+		SimpleCaptionPanel.setContentWidget(table);
 
 		List<GemSkill> gems = new Vector<GemSkill>();
 

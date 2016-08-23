@@ -18,8 +18,8 @@
  *******************************************************************************/
 package com.dawg6.web.dhcalc.client;
 
+import com.dawg6.gwt.client.widgets.SimpleCaptionPanel;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -34,7 +34,7 @@ public class BuffPanel extends Composite {
 	private final SimpleCheckBox inspire;
 	public BuffPanel() {
 		
-		CaptionPanel cptnpnlNewPanel = new CaptionPanel("Follower Buffs");
+		SimpleCaptionPanel cptnpnlNewPanel = new SimpleCaptionPanel("Follower Buffs");
 		initWidget(cptnpnlNewPanel);
 		
 		FlexTable flexTable = new FlexTable();

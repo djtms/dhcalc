@@ -25,6 +25,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.Vector;
 
+import com.dawg6.gwt.client.widgets.SimpleCaptionPanel;
 import com.dawg6.web.dhcalc.shared.calculator.AttributeData;
 import com.dawg6.web.dhcalc.shared.calculator.ItemHolder;
 import com.dawg6.web.dhcalc.shared.calculator.ItemSet;
@@ -36,9 +37,9 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SimpleCheckBox;
@@ -46,7 +47,7 @@ import com.google.gwt.user.client.ui.SimpleCheckBox;
 public class ItemPanel extends Composite {
 	private final NumberSpinner areaDamageEquipment;
 	private final NumberSpinner eliteDamagePercent;
-	private final FlexTable table;
+	private final FlexTable table1;
 	private final Map<Slot, Anchor> anchors = new TreeMap<Slot, Anchor>();
 	private final Map<Slot, ListBox> listBoxes = new TreeMap<Slot, ListBox>();
 	private boolean disableListeners;
@@ -59,6 +60,8 @@ public class ItemPanel extends Composite {
 	private final NumberSpinner numAncients;
 	private final SimpleCheckBox otherSets;
 	private final Set<ItemsChangedListener> listeners = new TreeSet<ItemsChangedListener>();
+	private final FlexTable table2;
+	private final FlexTable table3;
 	
 	public interface ItemsChangedListener {
 		void itemsChanged(Map<Slot, ItemHolder> items);
@@ -69,48 +72,62 @@ public class ItemPanel extends Composite {
 
 		disableListeners = false;
 		
-		CaptionPanel cptnpnlSpecialItems = new CaptionPanel("Items");
+		SimpleCaptionPanel cptnpnlSpecialItems = new SimpleCaptionPanel("Items");
 		initWidget(cptnpnlSpecialItems);
 
-		table = new FlexTable();
+		FlexTable table = new FlexTable();
 		cptnpnlSpecialItems.setContentWidget(table);
+		
+		SimpleCaptionPanel c1 = new SimpleCaptionPanel("General");
+		table.setWidget(0, 0, c1);
+		table.getFlexCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
+		
+		table1 = new FlexTable();
+		c1.setContentWidget(table1);
+
+		SimpleCaptionPanel c3 = new SimpleCaptionPanel("Set Bonuses");
+		table.setWidget(1, 0, c3);
+		table.getFlexCellFormatter().setVerticalAlignment(1, 0, HasVerticalAlignment.ALIGN_TOP);
+		table3 = new FlexTable();
+		c3.setContentWidget(table3);
+
+		SimpleCaptionPanel c2 = new SimpleCaptionPanel("Special Item Bonuses");
+		table.setWidget(0, 1, c2);
+		table.getFlexCellFormatter().setRowSpan(0, 1, 2);
+		table.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
+		table2 = new FlexTable();
+		c2.setContentWidget(table2);
 
 		int row = 0;
 		
-		Label label_1 = new Label("General", false);
-		label_1.addStyleName("boldText");
-		table.setWidget(row, 0, label_1);
-
-		row++;
-		
 		Label label_4 = new Label("# Ancient Items:", false);
-		table.setWidget(row, 0, label_4);
+		table1.setWidget(row, 0, label_4);
 		
 		numAncients = new NumberSpinner();
 		numAncients.setVisibleLength(4);
 		numAncients.setTitle("# Ancient items worn");
-		table.setWidget(row, 1, numAncients);
+		table1.setWidget(row, 1, numAncients);
 
 		row++;
 		
 		Label label_2 = new Label("Area Damage +%:", false);
-		table.setWidget(row, 0, label_2);
+		table1.setWidget(row, 0, label_2);
 		
 		areaDamageEquipment = new NumberSpinner();
 		areaDamageEquipment.setMax(100);
 		areaDamageEquipment.setVisibleLength(4);
 		areaDamageEquipment.setTitle("Added Area Damage from Equipment only");
-		table.setWidget(row, 1, areaDamageEquipment);
+		table1.setWidget(row, 1, areaDamageEquipment);
 		
 		row++;
 		
 		Label label_3 = new Label("Elite Damage +%:", false);
-		table.setWidget(row, 0, label_3);
+		table1.setWidget(row, 0, label_3);
 		
 		eliteDamagePercent = new NumberSpinner();
 		eliteDamagePercent.setVisibleLength(4);
 		eliteDamagePercent.setTitle("Added Elite Damage from Armor and Weapons only (do not include Bane of the Powerful bonus)");
-		table.setWidget(row, 1, eliteDamagePercent);
+		table1.setWidget(row, 1, eliteDamagePercent);
 
 		
 		row++;
@@ -118,23 +135,17 @@ public class ItemPanel extends Composite {
 		Label label_3a = new Label("Note: subtract 15% from the value displayed in-game if Bane of the Powerful is rank 25 or more.", true);
 		label_3a.addStyleName("boldText");
 		label_3a.setWidth("350px");
-		table.setWidget(row, 0, label_3a);
-		table.getFlexCellFormatter().setColSpan(row, 0, 2);
+		table1.setWidget(row, 0, label_3a);
+		table1.getFlexCellFormatter().setColSpan(row, 0, 2);
 
-		row++;
+		row = 0;
 		
-		Label label_5 = new Label("Set Bonuses", false);
-		label_5.addStyleName("boldText");
-		table.setWidget(row, 0, label_5);
-		
-		row++;
-
 		Label label_4b = new Label("Other Set Bonuses?", false);
-		table.setWidget(row, 0, label_4b);
+		table3.setWidget(row, 0, label_4b);
 
 		this.otherSets = new SimpleCheckBox();
 		this.otherSets.setTitle("Select if any set bonuses not listed below are in effect.");
-		table.setWidget(row, 1, this.otherSets);
+		table3.setWidget(row, 1, this.otherSets);
 		
 		row++;
 		
@@ -143,7 +154,7 @@ public class ItemPanel extends Composite {
 			anchor.setWordWrap(false);
 			anchor.setTarget("_blank");
 			anchor.setHref(set.getUrl());
-			table.setWidget(row, 0, anchor);
+			table3.setWidget(row, 0, anchor);
 			
 			final ItemSet thisSet = set;
 			
@@ -153,7 +164,7 @@ public class ItemPanel extends Composite {
 				number.setMax(set.getMaxPieces());
 				number.setVisibleLength(2);
 				number.setTitle("# of pieces of this set worn (add 1 if using RoRG)");
-				table.setWidget(row, 1, number);
+				table3.setWidget(row, 1, number);
 				
 				setCounts.put(thisSet, number);
 				
@@ -167,7 +178,7 @@ public class ItemPanel extends Composite {
 				
 			} else {
 				SimpleCheckBox checkBox = new SimpleCheckBox();
-				table.setWidget(row, 1, checkBox);
+				table3.setWidget(row, 1, checkBox);
 				
 				setToggles.put(thisSet, checkBox);
 				
@@ -185,16 +196,10 @@ public class ItemPanel extends Composite {
 		Label label_4a = new Label("Note: Add 1 to Set Item count if using RROG", true);
 		label_4a.addStyleName("boldText");
 		label_4a.setWidth("350px");
-		table.setWidget(row, 0, label_4a);
-		table.getFlexCellFormatter().setColSpan(row, 0, 2);
+		table3.setWidget(row, 0, label_4a);
+		table3.getFlexCellFormatter().setColSpan(row, 0, 2);
 
-		row++;
-
-		Label label_6 = new Label("Special Item Bonuses", false);
-		label_6.addStyleName("boldText");
-		table.setWidget(row, 0, label_6);
-		
-		row++;
+		row = 0;
 
 		for (Slot slot : Slot.values()) {
 			List<SpecialItemType> types = SpecialItemType.getItemsBySlot(slot);
@@ -207,7 +212,7 @@ public class ItemPanel extends Composite {
 				anchor.setWordWrap(false);
 				anchor.setHref("javascript:void(0)");
 				anchor.setTarget("_blank");
-				table.setWidget(row, 0, anchor);
+				table2.setWidget(row, 0, anchor);
 				anchors.put(slot, anchor);
 
 				ListBox list = new ListBox();
@@ -229,7 +234,7 @@ public class ItemPanel extends Composite {
 					}});
 				
 				listBoxes.put(slot,  list);
-				table.setWidget(row, 1, list);
+				table2.setWidget(row, 1, list);
 				
 				attributeSpinners.put(slot, new TreeMap<String, BaseSpinner<?>>());
 				
@@ -384,7 +389,7 @@ public class ItemPanel extends Composite {
 		int row = rows.get(slot);
 		
 		if ((prev != null) && (type != prev)) {
-			table.removeCell(row+1, 1);
+			table2.removeCell(row+1, 1);
 			attributeSpinners.get(slot).clear();
 			
 			changed |= true;
@@ -398,7 +403,7 @@ public class ItemPanel extends Composite {
 			changed |= true;
 
 			FlexTable aTable = new FlexTable();
-			table.setWidget(row+1, 1, aTable);
+			table2.setWidget(row+1, 1, aTable);
 			
 			SpecialItemType.Attribute[] aList = type.getAttributes();
 			

@@ -25,13 +25,13 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Vector;
 
+import com.dawg6.gwt.client.widgets.SimpleCaptionPanel;
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.SkillType;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
@@ -55,11 +55,11 @@ public class SkillDamagePanel extends Composite {
 	
 	public SkillDamagePanel() {
 
-		CaptionPanel captionPanel = new CaptionPanel("Skill Damage Modifiers");
-		initWidget(captionPanel);
+		SimpleCaptionPanel SimpleCaptionPanel = new SimpleCaptionPanel("Skill Damage Modifiers");
+		initWidget(SimpleCaptionPanel);
 		
 		flexTable = new FlexTable();
-		captionPanel.setContentWidget(flexTable);		
+		SimpleCaptionPanel.setContentWidget(flexTable);		
 
 		List<ActiveSkill> list = new Vector<ActiveSkill>(ActiveSkill.values().length);
 		listBox = new ListBox();

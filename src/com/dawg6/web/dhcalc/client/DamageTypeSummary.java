@@ -5,16 +5,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import com.dawg6.gwt.client.widgets.SimpleCaptionPanel;
 import com.dawg6.gwt.client.widgets.SortableTable;
 import com.dawg6.gwt.client.widgets.SortableTable.Column;
 import com.dawg6.web.dhcalc.shared.calculator.DamageHolder;
 import com.dawg6.web.dhcalc.shared.calculator.DamageType;
 import com.dawg6.web.dhcalc.shared.calculator.Util;
-import com.google.gwt.user.client.ui.CaptionPanel;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 
-public class DamageTypeSummary extends Composite {
+public class DamageTypeSummary extends SimpleCaptionPanel {
 
 	private SortableTable<Holder> summary;
 
@@ -28,9 +27,8 @@ public class DamageTypeSummary extends Composite {
 	}
 
 	public DamageTypeSummary() {
-		CaptionPanel captionPanelTypeSummary = new CaptionPanel("Damage Type Summary");
-		initWidget(captionPanelTypeSummary);
-
+		super("Damage Type Summary");
+		
 		List<Column<Holder>> list = new Vector<Column<Holder>>();
 
 		list.add(new Column<Holder>("Type", "dpsCol", new Comparator<Holder>(){
@@ -118,7 +116,7 @@ public class DamageTypeSummary extends Composite {
 		summary.setBorderWidth(1);
 		summary.setStyleName("outputTable");
 
-		captionPanelTypeSummary.setContentWidget(summary);
+		this.setContentWidget(summary);
 	}
 
 	public void setData(Map<DamageType, DamageHolder> values, double total,

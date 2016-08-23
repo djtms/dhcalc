@@ -21,10 +21,10 @@ package com.dawg6.web.dhcalc.client;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.dawg6.gwt.client.widgets.SimpleCaptionPanel;
 import com.dawg6.web.dhcalc.shared.calculator.GemLevel;
 import com.dawg6.web.dhcalc.shared.calculator.Slot;
 import com.dawg6.web.dhcalc.shared.calculator.Util;
-import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -46,7 +46,7 @@ public class RCRPanel extends Composite {
 	
 	public RCRPanel() {
 
-		CaptionPanel cptnpnlResourceReduction = new CaptionPanel(
+		SimpleCaptionPanel cptnpnlResourceReduction = new SimpleCaptionPanel(
 				"Resource Cost Reduction");
 		initWidget(cptnpnlResourceReduction);
 

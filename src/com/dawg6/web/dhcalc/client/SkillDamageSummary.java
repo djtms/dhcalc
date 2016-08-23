@@ -5,17 +5,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import com.dawg6.gwt.client.widgets.SimpleCaptionPanel;
 import com.dawg6.gwt.client.widgets.SortableTable;
 import com.dawg6.gwt.client.widgets.SortableTable.Column;
 import com.dawg6.web.dhcalc.shared.calculator.DamageHolder;
 import com.dawg6.web.dhcalc.shared.calculator.DamageSource;
 import com.dawg6.web.dhcalc.shared.calculator.Util;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.CaptionPanel;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 
-public class SkillDamageSummary extends Composite {
+public class SkillDamageSummary extends SimpleCaptionPanel {
 
 	private SortableTable<Holder> summary;
 
@@ -29,9 +28,8 @@ public class SkillDamageSummary extends Composite {
 	}
 
 	public SkillDamageSummary() {
-		CaptionPanel captionPanelTypeSummary = new CaptionPanel("Skill Damage Summary");
-		initWidget(captionPanelTypeSummary);
-
+		super("Skill Damage Summary");
+		
 		List<Column<Holder>> list = new Vector<Column<Holder>>();
 
 		list.add(new Column<Holder>("Skill", "dpsCol", new Comparator<Holder>(){
@@ -125,7 +123,7 @@ public class SkillDamageSummary extends Composite {
 		summary.setBorderWidth(1);
 		summary.setStyleName("outputTable");
 
-		captionPanelTypeSummary.setContentWidget(summary);
+		this.setContentWidget(summary);
 	}
 
 	public void setData(Map<DamageSource, DamageHolder> values, double total,

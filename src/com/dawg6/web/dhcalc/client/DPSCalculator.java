@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
+import com.dawg6.gwt.client.widgets.SimpleCaptionPanel;
 import com.dawg6.gwt.common.util.Pair;
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.Breakpoint;
@@ -38,7 +39,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -128,7 +128,7 @@ public class DPSCalculator extends BasePanel {
 		grid.setWidget(1, 0, offHand);
 		grid.getFlexCellFormatter().setColSpan(1, 0, 2);
 
-		CaptionPanel cptnpnlNewPanel_2 = new CaptionPanel("Equipment");
+		SimpleCaptionPanel cptnpnlNewPanel_2 = new SimpleCaptionPanel("Equipment");
 		grid.setWidget(2, 0, cptnpnlNewPanel_2);
 
 		FlexTable flexTable_2 = new FlexTable();
@@ -197,7 +197,7 @@ public class DPSCalculator extends BasePanel {
 		flexTable_7.getCellFormatter().setHorizontalAlignment(0, 0,
 				HasHorizontalAlignment.ALIGN_LEFT);
 
-		CaptionPanel cptnpnlNewPanel_4 = new CaptionPanel("Hero");
+		SimpleCaptionPanel cptnpnlNewPanel_4 = new SimpleCaptionPanel("Hero");
 		grid.setWidget(2, 1, cptnpnlNewPanel_4);
 		grid.getCellFormatter().setVerticalAlignment(2, 1,
 				HasVerticalAlignment.ALIGN_TOP);
@@ -231,7 +231,7 @@ public class DPSCalculator extends BasePanel {
 
 		dexterity.addChangeHandler(handler);
 
-		CaptionPanel cptnpnlNewPanel_6 = new CaptionPanel(
+		SimpleCaptionPanel cptnpnlNewPanel_6 = new SimpleCaptionPanel(
 				"Breakpoint Calculator");
 		grid.setWidget(3, 0, cptnpnlNewPanel_6);
 		grid.getFlexCellFormatter().setColSpan(3, 0, 2);
@@ -270,7 +270,7 @@ public class DPSCalculator extends BasePanel {
 		flexTable_6.setWidget(2, 3, breakpoint);
 		breakpoint.setStyleName("boldText");
 
-		CaptionPanel cptnpnlNewPanel = new CaptionPanel(
+		SimpleCaptionPanel cptnpnlNewPanel = new SimpleCaptionPanel(
 				"Next/Previous Breakpoint");
 		flexTable_6.setWidget(0, 4, cptnpnlNewPanel);
 		cptnpnlNewPanel.setStyleName("boldText");

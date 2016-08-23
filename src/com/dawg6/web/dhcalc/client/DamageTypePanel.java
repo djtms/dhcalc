@@ -25,11 +25,11 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Vector;
 
+import com.dawg6.gwt.client.widgets.SimpleCaptionPanel;
 import com.dawg6.web.dhcalc.shared.calculator.DamageType;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
@@ -52,11 +52,11 @@ public class DamageTypePanel extends Composite {
 	
 	public DamageTypePanel() {
 
-		CaptionPanel captionPanel = new CaptionPanel("Elemental Damage Modifiers");
-		initWidget(captionPanel);
+		SimpleCaptionPanel SimpleCaptionPanel = new SimpleCaptionPanel("Elemental Damage Modifiers");
+		initWidget(SimpleCaptionPanel);
 		
 		flexTable = new FlexTable();
-		captionPanel.setContentWidget(flexTable);		
+		SimpleCaptionPanel.setContentWidget(flexTable);		
 
 		List<DamageType> list = new Vector<DamageType>(DamageType.values().length);
 		listBox = new ListBox();

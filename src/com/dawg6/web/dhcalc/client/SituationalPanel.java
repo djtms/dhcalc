@@ -18,12 +18,12 @@
  *******************************************************************************/
 package com.dawg6.web.dhcalc.client;
 
+import com.dawg6.gwt.client.widgets.SimpleCaptionPanel;
 import com.dawg6.web.dhcalc.shared.calculator.MonsterHealth;
 import com.dawg6.web.dhcalc.shared.calculator.MonsterType;
 import com.dawg6.web.dhcalc.shared.calculator.TargetSize;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
@@ -50,12 +50,12 @@ public class SituationalPanel extends Composite {
 	
 	public SituationalPanel() {
 
-		CaptionPanel captionPanel = new CaptionPanel("Situational");
-		initWidget(captionPanel);
+		SimpleCaptionPanel SimpleCaptionPanel = new SimpleCaptionPanel("Situational");
+		initWidget(SimpleCaptionPanel);
 
 		FlexTable flexTable = new FlexTable();
 		flexTable.setCellPadding(2);
-		captionPanel.setContentWidget(flexTable);
+		SimpleCaptionPanel.setContentWidget(flexTable);
 		
 		int row = 0;
 		
