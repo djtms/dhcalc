@@ -1,5 +1,14 @@
 Change Log:
 
+**8/24/16**
+- Fixed base hatred regen to be 4/second
+- When importing a hero, if the paragon level is >= 797 and Karlei's Point is equipped, Paragon Hatred Points will be set to 50
+- When importing a hero, if the paragon level is >= 798, all offensive Paragon points will be set to 50 
+- When importing a hero, if the paragon level is >= 800 then Paragon RCR and Paragon AD points will be set to 50
+- Moved Paragon Points to the Import panel, so that paragon points can easily be set before/after importing a hero
+- Added paragon level input field (this will default to 0 until you import a hero)
+- Added a "Fill" button on the paragon panel to fill the offensive paragon points, based on paragon level and desired priorities. Added up/down buttons for each type, defaults to order displayed in-game. Pressing the Fill button will allocate paragon points into each of the 4 offensive stats, based on the priority order shown in the calculator (top to bottom).
+
 **8/16/16**
 - Streamlined user interface (moved all panels in tab controls)
 

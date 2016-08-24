@@ -53,6 +53,7 @@ public class ProfileHelper {
 		setElementalDamage(hero, data);
 		setSkillDamage(hero, data);
 		setGemDamage(hero, data);
+
 		importWeaponData(hero, data, paragonDexterity);
 
 		data.setDefaults();

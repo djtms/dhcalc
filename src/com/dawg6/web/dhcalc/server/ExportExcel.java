@@ -446,6 +446,7 @@ public class ExportExcel {
 				"Equipment +Max Discipline");
 		createInput(inputs, data.data.getParagonDexterity(),
 				"Paragon Dexterity");
+		createInput(inputs, data.data.getParagon(), "Paragon Level");
 		createInput(inputs, data.data.getParagonIAS(), "Paragon IAS");
 		createInput(inputs, data.data.getParagonCC(), "Paragon CC");
 		createInput(inputs, data.data.getParagonCHD(), "Paragon CHD");

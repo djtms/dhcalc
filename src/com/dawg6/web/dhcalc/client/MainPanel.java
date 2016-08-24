@@ -182,10 +182,18 @@ public class MainPanel extends BasePanel {
 		SimpleCaptionPanel cptnpnlNewPanel_7 = new SimpleCaptionPanel("Battle.Net Import");
 		tabs.add(cptnpnlNewPanel_7, "Import");
 
+		FlexTable iTable = new FlexTable();
+		cptnpnlNewPanel_7.setContentWidget(iTable);
+
+		paragonPanel = new ParagonPanel();
+		iTable.setWidget(0, 1, paragonPanel);
+		iTable.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
+		
 		VerticalPanel verticalPanel_6 = new VerticalPanel();
 		verticalPanel_6.setSpacing(5);
 		verticalPanel_6.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		cptnpnlNewPanel_7.setContentWidget(verticalPanel_6);
+		iTable.setWidget(0, 0, verticalPanel_6);
+		iTable.getFlexCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
 
 		HorizontalPanel horizontalPanel_5 = new HorizontalPanel();
 		horizontalPanel_5
@@ -320,9 +328,6 @@ public class MainPanel extends BasePanel {
 				showGearPanel();
 			}
 		});
-
-		paragonPanel = new ParagonPanel();
-		tabs.add(paragonPanel, "Paragon");
 
 		this.paragonPanel.getParagonIAS().addChangeHandler(new ChangeHandler() {
 
@@ -1619,6 +1624,8 @@ public class MainPanel extends BasePanel {
 		this.skills.setSkills(Util.createEnumMap(ActiveSkill.class, Rune.class,
 				data.skills));
 
+		this.paragonPanel.setParagonPriorities(data.main.get("ParagonPriorities"));
+		
 		calculator.setDefaultSkill(skills.getSkills().keySet());
 
 		calculator.saveForm();
@@ -1668,6 +1675,7 @@ public class MainPanel extends BasePanel {
 		data.skills = Util.createEnumMap(skills.getSkills());
 
 		data.version = Version.getVersion();
+		data.main.put("ParagonPriorities", paragonPanel.getParagonPriorities());
 
 		return data;
 	}
@@ -1910,10 +1918,32 @@ public class MainPanel extends BasePanel {
 			AsyncTaskHandler handler) {
 		data = ProfileHelper.importHero(hero, paragonDexterity);
 
+		paragonPanel.getParagonLevel().setValue(data.getParagon());
+		
 		if (paragonDexterity == null) {
 			paragonPanel.getParagonDexterity().setValue(
 					data.getParagonDexterity());
 		}
+
+		if (data.getParagon() >= 797) {
+			
+			if (data.isKarleis()) {
+				paragonPanel.getParagonHatred().setValue(50);
+			}
+
+			if (data.getParagon() >= 798) {
+				paragonPanel.getParagonIAS().setValue(50);
+				paragonPanel.getParagonCDR().setValue(50);
+				paragonPanel.getParagonCC().setValue(50);
+				paragonPanel.getParagonCHD().setValue(50);
+				
+				if (data.getParagon() >= 800) {
+					paragonPanel.getParagonRCR().setValue(50);
+					paragonPanel.getParagonAD().setValue(50);
+				}
+			}
+		}
+
 
 		data.setRealm(realm);
 		data.setProfile(profile);
@@ -2181,6 +2211,7 @@ public class MainPanel extends BasePanel {
 				new Field(this.tagNumber, "BattleTagNumber", "1234"),
 				new Field(this.heroList, "Heroes", ""),
 				new Field(this.timeLimit, "TimeLimit", "120"),
+				new Field(this.paragonPanel.getParagonLevel(), "Paragon", "0"),
 				new Field(this.paragonPanel.getParagonIAS(), "ParagonIas", "0"),
 				new Field(this.paragonPanel.getParagonDexterity(),
 						"ParagonDex", "0"),
@@ -2358,6 +2389,7 @@ public class MainPanel extends BasePanel {
 			data.setTimeLimit(timeLimit.getValue());
 			data.setSkills(skills.getSkills());
 			data.setEquipmentDexterity(calculator.getEquipmentDexterity());
+			data.setParagon(paragonPanel.getParagonLevel().getValue());
 			data.setParagonCC(paragonPanel.getParagonCC().getValue());
 			data.setParagonIAS(paragonPanel.getParagonIAS().getValue());
 			data.setParagonCHD(paragonPanel.getParagonCHD().getValue());
@@ -3013,6 +3045,8 @@ public class MainPanel extends BasePanel {
 		super.saveField("skill.Damage",
 				getFieldValue(this.skillDamage.getValues(), null));
 		super.saveField("skills", getFieldValue(this.skills.getSkills(), null));
+		
+		super.saveField("ParagonPriorities", paragonPanel.getParagonPriorities());
 	}
 
 	@Override
@@ -3036,6 +3070,8 @@ public class MainPanel extends BasePanel {
 		super.setFieldValue(typeDamage, getFieldValue("elemental.Damage", null));
 		super.setFieldValue(skillDamage, getFieldValue("skill.Damage", null));
 
+		paragonPanel.setParagonPriorities(getFieldValue("ParagonPriorities", null));
+		
 		calculator.setDefaultSkill(skills.getSkills().keySet());
 
 		calculator.saveForm();

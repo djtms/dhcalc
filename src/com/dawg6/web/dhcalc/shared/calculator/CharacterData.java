@@ -2227,4 +2227,5 @@ public class CharacterData implements Serializable {
 	public void setTopaz(GemLevel topaz) {
 		this.topaz = topaz;
 	}
+
 }

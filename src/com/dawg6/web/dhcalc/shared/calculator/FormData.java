@@ -22,9 +22,9 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.dawg6.d3api.shared.ApiData;
 import com.dawg6.d3api.shared.CareerProfile;
 import com.dawg6.d3api.shared.HeroProfile;
-import com.dawg6.d3api.shared.ApiData;
 
 public class FormData extends ApiData implements Serializable {
 	

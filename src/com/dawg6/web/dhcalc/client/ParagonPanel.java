@@ -18,16 +18,21 @@
  *******************************************************************************/
 package com.dawg6.web.dhcalc.client;
 
+import com.dawg6.gwt.client.widgets.ImageButton;
 import com.dawg6.gwt.client.widgets.SimpleCaptionPanel;
 import com.dawg6.web.dhcalc.shared.calculator.Util;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 public class ParagonPanel extends Composite {
 	private final NumberSpinner paragonIAS;
@@ -58,30 +63,49 @@ public class ParagonPanel extends Composite {
 	private final Label label_4;
 	private final NumberSpinner paragonAD;
 	private final Label adLabel;
+	private final NumberSpinner paragonLevel;
+	private int firstRow = 999;
+	private int lastRow = -1;
+	private final int[] priorities = { 0, 1, 2, 3};
+	private final FlexTable table3;
 	
 	public ParagonPanel() {
 		
-		SimpleCaptionPanel SimpleCaptionPanel = new SimpleCaptionPanel("Paragon");
-		initWidget(SimpleCaptionPanel);
+		SimpleCaptionPanel caption = new SimpleCaptionPanel("Paragon");
+		initWidget(caption);
 		
-		FlexTable flexTable = new FlexTable();
-		flexTable.setCellPadding(2);
-		SimpleCaptionPanel.setContentWidget(flexTable);
+		FlexTable table1 = new FlexTable();
+		caption.setContentWidget(table1);
+		
+		FlexTable table2 = new FlexTable();
+		table2.setCellPadding(2);
+		table1.setWidget(0, 0, table2);
+		table1.getFlexCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
+		
+		table3 = new FlexTable();
+		table3.setCellPadding(2);
+		table1.setWidget(0, 1, table3);
+		table1.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
+
+		int row = 0;
 		
 		lblNewLabel = new Label("Note: Paragon points other than Dexterity must be entered manually (they are not available via the battle.net API)");
-		lblNewLabel.setWordWrap(false);
+		lblNewLabel.setWordWrap(true);
 		lblNewLabel.addStyleName("boldText");
-		flexTable.setWidget(0, 0, lblNewLabel);
+		table2.setWidget(row, 0, lblNewLabel);
 		lblNewLabel.setWidth("300px");
+		table2.getFlexCellFormatter().setColSpan(row, 0, 3);
+		
+		row++;
 		
 		lblParagonDexteritypoints = new Label("Paragon Dexterity (points):");
 		lblParagonDexteritypoints.setWordWrap(false);
-		flexTable.setWidget(1, 0, lblParagonDexteritypoints);
+		table2.setWidget(row, 0, lblParagonDexteritypoints);
 		
 		paragonDexterity = new NumberSpinner();
 		paragonDexterity.setVisibleLength(6);
 		paragonDexterity.setTitle("Each paragon Dexterity point adds 5 Dexterity");
-		flexTable.setWidget(1, 1, paragonDexterity);
+		table2.setWidget(row, 1, paragonDexterity);
 		paragonDexterity.setMax(10000);
 		
 		paragonDexterity.addChangeHandler(new ChangeHandler(){
@@ -93,17 +117,19 @@ public class ParagonPanel extends Composite {
 
 		dexLabel = new Label("(0)");
 		dexLabel.setStyleName("boldText");
-		flexTable.setWidget(1, 2, dexLabel);
+		table2.setWidget(row, 2, dexLabel);
+		
+		row++;
 		
 		lblParagonHatredpoints = new Label("Paragon Hatred (points):");
 		lblParagonHatredpoints.setWordWrap(false);
-		flexTable.setWidget(2, 0, lblParagonHatredpoints);
+		table2.setWidget(row, 0, lblParagonHatredpoints);
 		
 		paragonHatred = new NumberSpinner();
 		paragonHatred.setVisibleLength(6);
 		paragonHatred.setTitle("Each paragon Hatred point adds 0.5 Max Hatred");
 		paragonHatred.setText("0");
-		flexTable.setWidget(2, 1, paragonHatred);
+		table2.setWidget(row, 1, paragonHatred);
 		paragonHatred.setMax(50);
 		
 		paragonHatred.addChangeHandler(new ChangeHandler(){
@@ -115,17 +141,19 @@ public class ParagonPanel extends Composite {
 		
 		hatredLabel = new Label("(0)");
 		hatredLabel.setStyleName("boldText");
-		flexTable.setWidget(2, 2, hatredLabel);
+		table2.setWidget(row, 2, hatredLabel);
+		
+		row++;
 		
 		lblParagonRcrpoints = new Label("Paragon RCR (points):");
 		lblParagonRcrpoints.setWordWrap(false);
-		flexTable.setWidget(3, 0, lblParagonRcrpoints);
+		table2.setWidget(row, 0, lblParagonRcrpoints);
 		
 		paragonRCR = new NumberSpinner();
 		paragonRCR.setVisibleLength(6);
 		paragonRCR.setTitle("Each paragon RCR point adds 0.1% Resource Cost Reduction");
 		paragonRCR.setText("0");
-		flexTable.setWidget(3, 1, paragonRCR);
+		table2.setWidget(row, 1, paragonRCR);
 		paragonRCR.setMax(50);
 		
 		paragonRCR.addChangeHandler(new ChangeHandler(){
@@ -137,17 +165,19 @@ public class ParagonPanel extends Composite {
 		
 		rcrLabel = new Label("(0%)");
 		rcrLabel.setStyleName("boldText");
-		flexTable.setWidget(3, 2, rcrLabel);
+		table2.setWidget(row, 2, rcrLabel);
+		
+		row++;
 		
 		label_4 = new Label("Paragon Area Damage (points):");
 		label_4.setWordWrap(false);
-		flexTable.setWidget(4, 0, label_4);
+		table2.setWidget(row, 0, label_4);
 		
 		paragonAD = new NumberSpinner();
 		paragonAD.setVisibleLength(6);
 		paragonAD.setTitle("Each paragon AD point adds 1% Area Damage");
 		paragonAD.setText("0");
-		flexTable.setWidget(4, 1, paragonAD);
+		table2.setWidget(row, 1, paragonAD);
 		
 		paragonAD.addChangeHandler(new ChangeHandler(){
 
@@ -158,21 +188,52 @@ public class ParagonPanel extends Composite {
 
 		adLabel = new Label("(0%)");
 		adLabel.setStyleName("boldText");
-		flexTable.setWidget(4, 2, adLabel);
+		table2.setWidget(row, 2, adLabel);
+		
+		row = 0;
+		
+		Label label1 = new Label("Paragon Level:");
+		label1.setWordWrap(false);
+		table3.setWidget(row, 0, label1);
+		
+		paragonLevel = new NumberSpinner();
+		paragonLevel.setTitle("Hero Paragon Level");
+		paragonLevel.setMin(0);
+		paragonLevel.setVisibleLength(6);
+		table3.setWidget(row, 1, paragonLevel);
+		
+		Button calcButton = new Button("Fill");
+		calcButton.setTitle("Click to fill paragon offense points based on level and order of priorities");
+		calcButton.setWidth("100%");
+		table3.setWidget(row, 3, calcButton);
+		table3.getFlexCellFormatter().setColSpan(row, 3, 2);
+		
+		calcButton.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				calculateParagonPoints(table3);
+				
+			}});
+		
+		row++;
 		
 		lblOffensePoints = new Label("Offense Points:");
 		lblOffensePoints.setWordWrap(false);
 		lblOffensePoints.addStyleName("boldText");
-		flexTable.setWidget(5, 0, lblOffensePoints);
+		table3.setWidget(row, 0, lblOffensePoints);
+		table3.getFlexCellFormatter().setColSpan(row, 0, 3);
+		
+		row++;
 		
 		Label label = new Label("Paragon IAS (points):");
 		label.setWordWrap(false);
-		flexTable.setWidget(6, 0, label);
+		table3.setWidget(row, 0, label);
 		
 		paragonIAS = new NumberSpinner();
 		paragonIAS.setTitle("Each paragon IAS point adds .2% IAS");
 		paragonIAS.setVisibleLength(6);
-		flexTable.setWidget(6, 1, paragonIAS);
+		table3.setWidget(row, 1, paragonIAS);
 		
 		paragonIAS.addChangeHandler(new ChangeHandler(){
 
@@ -184,16 +245,20 @@ public class ParagonPanel extends Composite {
 		
 		iasLabel = new Label("(0%)");
 		iasLabel.setStyleName("boldText");
-		flexTable.setWidget(6, 2, iasLabel);
+		table3.setWidget(row, 2, iasLabel);
+		
+		addUpDownButtons(table3, row);
+		
+		row++;
 		
 		Label paragonCDRlabel = new Label("Paragon CDR (points):");
 		paragonCDRlabel.setWordWrap(false);
-		flexTable.setWidget(7, 0, paragonCDRlabel);
+		table3.setWidget(row, 0, paragonCDRlabel);
 		
 		paragonCDR = new NumberSpinner();
 		paragonCDR.setTitle("Each paragon CDR point adds .2% Cooldown Reduction");
 		paragonCDR.setVisibleLength(6);
-		flexTable.setWidget(7, 1, paragonCDR);
+		table3.setWidget(row, 1, paragonCDR);
 		
 		paragonCDR.addChangeHandler(new ChangeHandler(){
 
@@ -205,17 +270,21 @@ public class ParagonPanel extends Composite {
 
 		cdrLabel = new Label("(0%)");
 		cdrLabel.setStyleName("boldText");
-		flexTable.setWidget(7, 2, cdrLabel);
+		table3.setWidget(row, 2, cdrLabel);
 		
-		Label label_1 = new Label("Paragon CC  (points):");
+		addUpDownButtons(table3, row);
+		
+		row++;
+		
+		Label label_1 = new Label("Paragon CHC  (points):");
 		label_1.setWordWrap(false);
-		flexTable.setWidget(8, 0, label_1);
+		table3.setWidget(row, 0, label_1);
 		
 		paragonCC = new NumberSpinner();
-		paragonCC.setTitle("Each paragon CC point adds .1 % Crit Chance");
+		paragonCC.setTitle("Each paragon CHC point adds .1 % Crit Chance");
 		paragonCC.setVisibleLength(6);
 		paragonCC.setText("0");
-		flexTable.setWidget(8, 1, paragonCC);
+		table3.setWidget(row, 1, paragonCC);
 		
 		paragonCC.addChangeHandler(new ChangeHandler(){
 
@@ -227,17 +296,21 @@ public class ParagonPanel extends Composite {
 		
 		ccLabel = new Label("(0%)");
 		ccLabel.setStyleName("boldText");
-		flexTable.setWidget(8, 2, ccLabel);
+		table3.setWidget(row, 2, ccLabel);
+		
+		addUpDownButtons(table3, row);
+		
+		row++;
 		
 		Label label_2 = new Label("Paragon CHD (points):");
 		label_2.setWordWrap(false);
-		flexTable.setWidget(9, 0, label_2);
+		table3.setWidget(row, 0, label_2);
 		
 		paragonCHD = new NumberSpinner();
 		paragonCHD.setTitle("Each paragon CHD point add 1% Crit Hit Damage");
 		paragonCHD.setVisibleLength(6);
 		paragonCHD.setText("0");
-		flexTable.setWidget(9, 1, paragonCHD);
+		table3.setWidget(row, 1, paragonCHD);
 		
 		paragonCHD.addChangeHandler(new ChangeHandler(){
 
@@ -250,12 +323,16 @@ public class ParagonPanel extends Composite {
 		
 		chdLabel = new Label("(0%)");
 		chdLabel.setStyleName("boldText");
-		flexTable.setWidget(9, 2, chdLabel);
+		table3.setWidget(row, 2, chdLabel);
+		
+		addUpDownButtons(table3, row);
+		
+		row++;
 		
 		horizontalPanel = new HorizontalPanel();
 		horizontalPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		horizontalPanel.setSpacing(2);
-		flexTable.setWidget(10, 0, horizontalPanel);
+		table3.setWidget(row, 0, horizontalPanel);
 		
 		lblTotal = new Label("Total Offense Points:");
 		horizontalPanel.add(lblTotal);
@@ -276,18 +353,77 @@ public class ParagonPanel extends Composite {
 		label_3 = new Label(")");
 		label_3.setWordWrap(false);
 		horizontalPanel.add(label_3);
-		flexTable.getCellFormatter().setHorizontalAlignment(10, 0, HasHorizontalAlignment.ALIGN_RIGHT);
-		flexTable.getFlexCellFormatter().setColSpan(10, 0, 3);
-		flexTable.getFlexCellFormatter().setColSpan(0, 0, 3);
-		flexTable.getFlexCellFormatter().setColSpan(5, 0, 3);
-		
+		table3.getCellFormatter().setHorizontalAlignment(row, 0, HasHorizontalAlignment.ALIGN_RIGHT);
+		table3.getFlexCellFormatter().setColSpan(row, 0, 5);
+
 		paragonIAS.setMax(50);
 		paragonCC.setMax(50);
 		paragonCHD.setMax(50);
 		paragonCDR.setMax(50);
 		paragonAD.setMax(50);
+
 	}
 	
+	private void addUpDownButtons(final FlexTable table, final int row) {
+		
+		if (row < firstRow)
+			firstRow = row;
+		
+		if (row > lastRow)
+			lastRow = row;
+		
+		ImageButton up = new ImageButton(Images.UP, "move up in priority");
+		ImageButton down = new ImageButton(Images.DOWN, "move down in priority");
+		
+		table.setWidget(row, 3, up);
+		table.setWidget(row, 4, down);
+		
+		up.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				
+				if (row > firstRow) 
+					moveFields(table, row, -1);
+			}});
+
+		down.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				
+				if (row < lastRow) 
+					moveFields(table, row, 1);
+			}});
+	}
+
+	protected void moveFields(FlexTable table, int row, int dir) {
+		for (int i = 0; i < 3; i++) {
+			Widget a = table.getWidget(row, i);
+			Widget b = table.getWidget(row + dir, i);
+			table.setWidget(row, i, b);
+			table.setWidget(row + dir, i, a);
+		}
+		
+		int a = priorities[row - firstRow];
+		int b = priorities[row - firstRow + dir];
+		priorities[row - firstRow] = b;
+		priorities[row - firstRow + dir] = a;
+	}
+
+	protected void calculateParagonPoints(FlexTable table) {
+		int level = this.paragonLevel.getValue();
+		int points = (level + 2) / 4;
+		
+		for (int i = 0; i < 4; i++) {
+			NumberSpinner n = (NumberSpinner)table.getWidget(firstRow + i, 1);
+			int value = Math.min(50, points);
+			
+			n.setValue(value);
+			points -= value;
+		}
+	}
+
 	protected void updateTotal() {
 		int total = paragonIAS.getValue() + paragonCDR.getValue() + paragonCC.getValue() + paragonCHD.getValue();
 		this.total.setText(String.valueOf(total));
@@ -348,6 +484,10 @@ public class ParagonPanel extends Composite {
 		return paragonRCR;
 	}
 
+	public NumberSpinner getParagonLevel() {
+		return paragonLevel;
+	}
+
 	public NumberSpinner getParagonAD() {
 		return paragonAD;
 	}
@@ -356,4 +496,58 @@ public class ParagonPanel extends Composite {
 		return paragonDexterity;
 	}
 
+	public String getParagonPriorities() {
+		StringBuffer buf = new StringBuffer();
+		
+		for (int i = 0; i < 4; i++)
+			buf.append(String.valueOf(this.priorities[i]));
+
+		return buf.toString();
+	}
+	
+	public void setParagonPriorities(String s) {
+		if (s == null)
+			s = "0123";
+		
+		s = s.trim();
+		
+		if (s.length() != 4)
+			s = "0123";
+
+		int[] def = { 0, 1, 2, 3};
+		int[] p = new int[4];
+		
+		for (int i = 0; i < 4; i++) {
+			char c = s.charAt(i);
+
+			if ((c < '0') || (c > '4')) {
+				p = def;
+				break;
+			} else {
+				p[i] = c - '0';
+			}
+		}
+		
+		setParagonPriorities(p);
+	}
+	
+	public void setParagonPriorities(int[] p) {
+		
+		Widget[][] widgets = new Widget[4][3];
+		
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 3; j++) {
+				widgets[priorities[i]][j] = table3.getWidget(firstRow + i, j);
+			}
+		}
+		
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 3; j++) {
+				Widget w = widgets[p[i]][j];
+				table3.setWidget(firstRow + i, j, w);
+			}
+
+			priorities[i] = p[i];
+		}
+	}
 }

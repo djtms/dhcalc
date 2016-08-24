@@ -109,3 +109,21 @@ background: #f1f8ee; font: .9em/1.2em Georgia, "Times New Roman", Times, serif; 
 
 .spinnerDownButton {
 }
+
+.imageIcon {
+	width: 16px;
+	height: 16px;
+}
+
+.imageButton {
+	border: 1px solid;
+	border-color: #888;
+	border-radius: 5px;
+	text-align: center;
+	vertical-align: middle;
+	width: 22px;
+	height: 22px;
+	cursor: pointer;
+  	cursor: hand;
+  	padding: 2px 2px;
+}

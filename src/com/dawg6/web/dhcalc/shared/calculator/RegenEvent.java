@@ -30,7 +30,7 @@ public class RegenEvent extends Event {
 		
 		Rune companionRune = data.getCompanionRune();
 		
-		regen = 5.0
+		regen = 4.0
 				+ data.getHatredPerSecond()
 				+ (data.isInspire() ? 1.0 : 0.0)
 				+ (((companionRune == Rune.Bat) || ((companionRune != null) && data
