@@ -520,7 +520,7 @@ public class ParagonPanel extends Composite {
 		for (int i = 0; i < 4; i++) {
 			char c = s.charAt(i);
 
-			if ((c < '0') || (c > '4')) {
+			if ((c < '0') || (c > '3')) {
 				p = def;
 				break;
 			} else {
