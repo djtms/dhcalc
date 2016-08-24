@@ -16,6 +16,7 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/httpclient-4.5.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/httpcore-4.4.3.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/lightcouch-0.1.8.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/org.moxieapps.gwt.highcharts-1.7.0.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/dawg6-common"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/dawg6-gwt-common"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>

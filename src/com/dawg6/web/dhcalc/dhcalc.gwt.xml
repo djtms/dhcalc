@@ -21,6 +21,7 @@
 	<inherits name='com.dawg6.d3api.shared' />
 	<inherits name='com.dawg6.common' />
 	<inherits name="com.google.gwt.json.JSON" />
+	<inherits name="org.moxieapps.gwt.highcharts.Highcharts" />
 	
 	<!-- Specify the app entry point class. -->
 	<entry-point class='com.dawg6.web.dhcalc.client.DHCalc' />
