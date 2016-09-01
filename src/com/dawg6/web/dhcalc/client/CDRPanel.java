@@ -303,11 +303,15 @@ public class CDRPanel extends Composite {
 				}
 				
 				double uptime;
-
-				if (cd <= duration)
+				double downtime;
+				
+				if (cd <= duration) {
 					uptime = 1.0;
-				else
+					downtime = 0.0;
+				} else {
 					uptime = duration / cd;
+					downtime = duration * (1 - uptime);
+				}
 
 				Label l = new Label("Cooldown "
 						+ Util.format(Math.round(cd * 100.0) / 100.0) + "s");
@@ -315,11 +319,16 @@ public class CDRPanel extends Composite {
 
 				if (duration == 0) {
 					flexTable.setWidget(row, 3, new Label("Uptime N/A"));
+					flexTable.setWidget(row, 4, new Label("Downtime N/A"));
 				} else {
 					Label l2 = new Label("Uptime "
 							+ Util.format(Math.round(uptime * 10000.0) / 100.0)
 							+ "%");
+					Label l3 = new Label("Downtime "
+							+ Util.format(Math.round(downtime * 100.0) / 100.0)
+							+ " sec");
 					flexTable.setWidget(row, 3, l2);
+					flexTable.setWidget(row, 4, l3);
 				}
 
 				row++;
