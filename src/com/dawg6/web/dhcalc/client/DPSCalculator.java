@@ -26,6 +26,7 @@ import java.util.Vector;
 
 import com.dawg6.gwt.client.widgets.SimpleCaptionPanel;
 import com.dawg6.gwt.common.util.Pair;
+import com.dawg6.web.dhcalc.client.ParagonPanel.Listener;
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.Breakpoint;
 import com.dawg6.web.dhcalc.shared.calculator.CharacterData;
@@ -96,6 +97,13 @@ public class DPSCalculator extends BasePanel {
 
 		this.main = main;
 
+		this.main.getParagonPanel().addListener(new Listener(){
+
+			@Override
+			public void paragonsChanged() {
+				DPSCalculator.this.paragonsChanged();
+			}});
+		
 		ChangeHandler handler = new ChangeHandler() {
 
 			@Override
@@ -464,6 +472,10 @@ public class DPSCalculator extends BasePanel {
 
 	}
 
+	protected void paragonsChanged() {
+		this.calculate();
+	}
+
 	protected void bpDataChanged() {
 		updateBpData();
 	}
@@ -726,9 +738,10 @@ public class DPSCalculator extends BasePanel {
 			}
 		}
 
-		if (main.getPassivesPanel().getPassives().contains(Passive.Steady_Aim)) {
-			aDam += .2;
-		}
+		// Steady Aim is now multiplicative and doesn't show up in Sheet DPS
+//		if (main.getPassivesPanel().getPassives().contains(Passive.Steady_Aim)) {
+//			aDam += .2;
+//		}
 
 		double anatomy = main.getBuffPanel().getAnatomy().getValue() ? 0.018
 				: 0.0;

@@ -1943,6 +1943,8 @@ public class MainPanel extends BasePanel {
 				}
 			}
 		}
+		
+		paragonPanel.fillOffensePoints();
 
 		data.setRealm(realm);
 		data.setProfile(profile);
