@@ -35,6 +35,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SimpleCheckBox;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ParagonPanel extends Composite {
@@ -73,6 +74,7 @@ public class ParagonPanel extends Composite {
 	private final FlexTable offenseTable;
 	private final List<Listener> listeners = new Vector<Listener>();
 	private boolean disableListeners = false;
+	private final SimpleCheckBox autoFill;
 	
 	public interface Listener {
 		void paragonsChanged();
@@ -239,6 +241,16 @@ public class ParagonPanel extends Composite {
 				fillOffensePoints();
 				
 			}});
+		
+		row++;
+		
+		Label label2 = new Label("Auto Fill on Import:");
+		label2.setWordWrap(false);
+		offenseTable.setWidget(row, 0, label2);
+
+		autoFill = new SimpleCheckBox();
+		autoFill.setTitle("Check this to fill Offense paragon points on import");
+		offenseTable.setWidget(row, 1, autoFill);
 		
 		row++;
 		
@@ -603,5 +615,9 @@ public class ParagonPanel extends Composite {
 	
 	public void removeListener(Listener l) {
 		listeners.remove(l);
+	}
+	
+	public SimpleCheckBox getAutoFill() {
+		return autoFill;
 	}
 }

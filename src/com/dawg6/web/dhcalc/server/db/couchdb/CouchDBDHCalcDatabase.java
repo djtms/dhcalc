@@ -18,15 +18,10 @@
  *******************************************************************************/
 package com.dawg6.web.dhcalc.server.db.couchdb;
 
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,25 +33,13 @@ import org.lightcouch.NoDocumentException;
 import org.lightcouch.Response;
 import org.lightcouch.View;
 
-import com.dawg6.d3api.shared.CareerProfile;
-import com.dawg6.d3api.shared.Hero;
-import com.dawg6.d3api.shared.HeroProfile;
 import com.dawg6.d3api.shared.ItemInformation;
-import com.dawg6.d3api.shared.ItemInformationGem;
 import com.dawg6.d3api.shared.Realm;
-import com.dawg6.web.dhcalc.server.DHCalcServiceImpl;
 import com.dawg6.web.dhcalc.server.IO;
 import com.dawg6.web.dhcalc.server.util.DHCalcProperties;
-import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.Build;
-import com.dawg6.web.dhcalc.shared.calculator.CharacterData;
-import com.dawg6.web.dhcalc.shared.calculator.ProfileHelper;
-import com.dawg6.web.dhcalc.shared.calculator.Rune;
-import com.dawg6.web.dhcalc.shared.calculator.stats.DBStatistics;
 import com.dawg6.web.dhcalc.shared.calculator.stats.DocumentBase;
 import com.dawg6.web.dhcalc.shared.calculator.stats.DpsTableEntry;
-import com.dawg6.web.dhcalc.shared.calculator.stats.StatCategory;
-import com.dawg6.web.dhcalc.shared.calculator.stats.Statistics;
 import com.google.gson.JsonObject;
 
 public class CouchDBDHCalcDatabase {
@@ -343,53 +326,53 @@ public class CouchDBDHCalcDatabase {
 		return new Vector<String>(list);
 	}
 
-	protected void updateDpsData(Long since) {
-
-		DHCalcServiceImpl service = new DHCalcServiceImpl();
-		Long start = (long) 0;
-		List<DpsTableEntry> list = this.viewRange(DpsTableEntry.class,
-				DpsTableEntry.BY_TIME, start, since);
-		int count = 1;
-		int num = list.size();
-
-		for (DpsTableEntry source : list) {
-
-			System.out.println(count + "/" + num + ": Updating DPS for "
-					+ source.getRealm().name() + "/" + source.getBattletag());
-			Realm realm = source.getRealm();
-			String battletag = source.getBattletag();
-			String[] split1 = battletag.split("/");
-			String[] split2 = split1[0].split("-");
-			String profile = split2[0];
-			Integer tag = Integer.parseInt(split2[1]);
-			Integer heroId = Integer.parseInt(split1[1]);
-			HeroProfile hero = service.getHero(realm, profile, tag, heroId);
-
-			if (hero.code == null) {
-				CharacterData data = ProfileHelper.importHero(hero, null);
-				data.setRealm(realm);
-				data.setProfile(profile);
-				data.setTag(tag);
-				data.setHero(heroId);
-				data.setParagonCC(source.getParagon_cc());
-				data.setParagonCHD(source.getParagon_chd());
-				data.setParagonCDR(source.getParagon_cdr());
-				data.setParagonIAS(source.getParagon_ias());
-				data.setParagonHatred(getValue(source.getParagon_hatred(), 0));
-				data.setParagonRCR(getValue(source.getParagon_rcr(), 0));
-
-				DpsTableEntry entry = service.calculateDps(data);
-				entry.setId(source.getId());
-				entry.setRevision(source.getRevision());
-
-				persist(entry);
-			} else {
-				log.warning("Unable to find hero: " + battletag);
-			}
-
-			count++;
-		}
-	}
+//	protected void updateDpsData(Long since) {
+//
+//		DHCalcServiceImpl service = new DHCalcServiceImpl();
+//		Long start = (long) 0;
+//		List<DpsTableEntry> list = this.viewRange(DpsTableEntry.class,
+//				DpsTableEntry.BY_TIME, start, since);
+//		int count = 1;
+//		int num = list.size();
+//
+//		for (DpsTableEntry source : list) {
+//
+//			System.out.println(count + "/" + num + ": Updating DPS for "
+//					+ source.getRealm().name() + "/" + source.getBattletag());
+//			Realm realm = source.getRealm();
+//			String battletag = source.getBattletag();
+//			String[] split1 = battletag.split("/");
+//			String[] split2 = split1[0].split("-");
+//			String profile = split2[0];
+//			Integer tag = Integer.parseInt(split2[1]);
+//			Integer heroId = Integer.parseInt(split1[1]);
+//			HeroProfile hero = service.getHero(realm, profile, tag, heroId);
+//
+//			if (hero.code == null) {
+//				CharacterData data = ProfileHelper.importHero(hero, null);
+//				data.setRealm(realm);
+//				data.setProfile(profile);
+//				data.setTag(tag);
+//				data.setHero(heroId);
+//				data.setParagonCC(source.getParagon_cc());
+//				data.setParagonCHD(source.getParagon_chd());
+//				data.setParagonCDR(source.getParagon_cdr());
+//				data.setParagonIAS(source.getParagon_ias());
+//				data.setParagonHatred(getValue(source.getParagon_hatred(), 0));
+//				data.setParagonRCR(getValue(source.getParagon_rcr(), 0));
+//
+//				DpsTableEntry entry = service.calculateDps(data);
+//				entry.setId(source.getId());
+//				entry.setRevision(source.getRevision());
+//
+//				persist(entry);
+//			} else {
+//				log.warning("Unable to find hero: " + battletag);
+//			}
+//
+//			count++;
+//		}
+//	}
 
 	public int getValue(Integer value, int defaultValue) {
 		return (value == null) ? defaultValue : value;
@@ -520,93 +503,93 @@ public class CouchDBDHCalcDatabase {
 		}
 	}
 
-	public DBStatistics getStatistics(Rune sentryRune, ActiveSkill[] skills,
-			Rune[] runes) {
-		DBStatistics stats = new DBStatistics();
-
-		Map<ActiveSkill, Rune> skillMap = new HashMap<ActiveSkill, Rune>();
-
-		int skillCount = 0;
-
-		for (int i = 0; i < skills.length; i++) {
-			if (skills[i] != null)
-				skillCount++;
-		}
-
-		synchronized (dpsLock) {
-
-			for (DpsTableEntry e : this.findAll(DpsTableEntry.class)) {
-				addStatistics(stats.stats, e);
-
-				Build build = e.getBuild();
-
-				// if ((sentryRune == RuneData.All_Runes)
-				// || (sentryRune == build.getSentryRune())) {
-				//
-				// int match = 0;
-				//
-				// for (int i = 0; i < skills.length; i++) {
-				// ActiveSkill s1 = skills[i];
-				// RuneData r2 = build.getRune(s1);
-				//
-				// if ((s1 == ActiveSkill.Any) || (r2 != null)) {
-				// RuneData r1 = runes[i];
-				//
-				// if ((r1 == RuneData.All_Runes) || (r1 == r2)) {
-				// match++;
-				// }
-				// }
-				// }
-				//
-				// if ((match == skillCount)
-				// && (build.getSkills().size() <= skillCount)) {
-				//
-				// Statistics s = stats.builds.get(build);
-				//
-				// if (s == null) {
-				// s = new Statistics();
-				// stats.builds.put(build, s);
-				// }
-				//
-				// addStatistics(s, e);
-				// }
-				// }
-			}
-		}
-
-		return stats;
-	}
-
-	private void addStatistics(Statistics stats, DpsTableEntry e) {
-
-		for (StatCategory c : StatCategory.values()) {
-			DpsTableEntry old = stats.max.get(c);
-			double value = c.getValue(e);
-
-			if ((old == null) || (value > c.getValue(old))) {
-				stats.max.put(c, e);
-			}
-
-			Double avg = stats.average.get(c);
-
-			if (avg == null) {
-				stats.average.put(c, value);
-			} else {
-				Double newAverage = ((avg * stats.total) + value)
-						/ (stats.total + 1);
-				stats.average.put(c, newAverage);
-			}
-		}
-
-		stats.total++;
-	}
+//	public DBStatistics getStatistics(Rune sentryRune, ActiveSkill[] skills,
+//			Rune[] runes) {
+//		DBStatistics stats = new DBStatistics();
+//
+//		Map<ActiveSkill, Rune> skillMap = new HashMap<ActiveSkill, Rune>();
+//
+//		int skillCount = 0;
+//
+//		for (int i = 0; i < skills.length; i++) {
+//			if (skills[i] != null)
+//				skillCount++;
+//		}
+//
+//		synchronized (dpsLock) {
+//
+//			for (DpsTableEntry e : this.findAll(DpsTableEntry.class)) {
+//				addStatistics(stats.stats, e);
+//
+//				Build build = e.getBuild();
+//
+//				// if ((sentryRune == RuneData.All_Runes)
+//				// || (sentryRune == build.getSentryRune())) {
+//				//
+//				// int match = 0;
+//				//
+//				// for (int i = 0; i < skills.length; i++) {
+//				// ActiveSkill s1 = skills[i];
+//				// RuneData r2 = build.getRune(s1);
+//				//
+//				// if ((s1 == ActiveSkill.Any) || (r2 != null)) {
+//				// RuneData r1 = runes[i];
+//				//
+//				// if ((r1 == RuneData.All_Runes) || (r1 == r2)) {
+//				// match++;
+//				// }
+//				// }
+//				// }
+//				//
+//				// if ((match == skillCount)
+//				// && (build.getSkills().size() <= skillCount)) {
+//				//
+//				// Statistics s = stats.builds.get(build);
+//				//
+//				// if (s == null) {
+//				// s = new Statistics();
+//				// stats.builds.put(build, s);
+//				// }
+//				//
+//				// addStatistics(s, e);
+//				// }
+//				// }
+//			}
+//		}
+//
+//		return stats;
+//	}
+//
+//	private void addStatistics(Statistics stats, DpsTableEntry e) {
+//
+//		for (StatCategory c : StatCategory.values()) {
+//			DpsTableEntry old = stats.max.get(c);
+//			double value = c.getValue(e);
+//
+//			if ((old == null) || (value > c.getValue(old))) {
+//				stats.max.put(c, e);
+//			}
+//
+//			Double avg = stats.average.get(c);
+//
+//			if (avg == null) {
+//				stats.average.put(c, value);
+//			} else {
+//				Double newAverage = ((avg * stats.total) + value)
+//						/ (stats.total + 1);
+//				stats.average.put(c, newAverage);
+//			}
+//		}
+//
+//		stats.total++;
+//	}
 
 	public static void main(String[] args) {
 		try {
-			getAttributes();
-			CouchDBDHCalcDatabase db = CouchDBDHCalcDatabase.getInstance();
+//			getAttributes();
+//			CouchDBDHCalcDatabase db = CouchDBDHCalcDatabase.getInstance();
 
-			List<DpsTableEntry> list = db.findAll(DpsTableEntry.class);
+//			List<DpsTableEntry> list = db.findAll(DpsTableEntry.class);
 
 			// long since = System.currentTimeMillis();
 			// System.out.println("Start Time = " + since);
@@ -689,66 +672,66 @@ public class CouchDBDHCalcDatabase {
 
 	}
 
-	private static void getAttributes() {
-		try {
-			CouchDBDHCalcDatabase db = CouchDBDHCalcDatabase.getInstance();
-			Set<String> attributes = new TreeSet<String>();
-			DHCalcServiceImpl service = new DHCalcServiceImpl();
-
-			Collection<Profile> profiles = db.getAllProfiles();
-
-			int n = 0;
-
-			for (Profile p : profiles) {
-				n++;
-
-				try {
-					System.out.println("Profile " + n + "/" + profiles.size());
-
-					CareerProfile career = service.getProfile(p.realm,
-							p.profile, p.tag);
-
-					if (career.heroes != null) {
-						System.out.println(career.heroes.length + " Heroes");
-
-						for (Hero h : career.heroes) {
-							HeroProfile hp = service.getHero(p.realm,
-									p.profile, p.tag, h.id);
-
-							if (hp.items != null) {
-								for (ItemInformation i : hp.items.values()) {
-									attributes.addAll(i.attributesRaw.keySet());
-
-									if (i.gems != null) {
-										for (ItemInformationGem g : i.gems) {
-											attributes.addAll(g.attributesRaw
-													.keySet());
-										}
-									}
-								}
-							}
-						}
-					}
-				} catch (Exception e) {
-					log.log(Level.SEVERE, e.getMessage(), e);
-				}
-			}
-
-			FileOutputStream stream = new FileOutputStream("attributes.txt");
-			PrintWriter writer = new PrintWriter(stream);
-
-			for (String s : attributes) {
-				System.out.println(s);
-				writer.println(s);
-			}
-
-			writer.flush();
-			stream.close();
-
-		} catch (Exception e) {
-			log.log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
+//	private static void getAttributes() {
+//		try {
+//			CouchDBDHCalcDatabase db = CouchDBDHCalcDatabase.getInstance();
+//			Set<String> attributes = new TreeSet<String>();
+//			DHCalcServiceImpl service = new DHCalcServiceImpl();
+//
+//			Collection<Profile> profiles = db.getAllProfiles();
+//
+//			int n = 0;
+//
+//			for (Profile p : profiles) {
+//				n++;
+//
+//				try {
+//					System.out.println("Profile " + n + "/" + profiles.size());
+//
+//					CareerProfile career = service.getProfile(p.realm,
+//							p.profile, p.tag);
+//
+//					if (career.heroes != null) {
+//						System.out.println(career.heroes.length + " Heroes");
+//
+//						for (Hero h : career.heroes) {
+//							HeroProfile hp = service.getHero(p.realm,
+//									p.profile, p.tag, h.id);
+//
+//							if (hp.items != null) {
+//								for (ItemInformation i : hp.items.values()) {
+//									attributes.addAll(i.attributesRaw.keySet());
+//
+//									if (i.gems != null) {
+//										for (ItemInformationGem g : i.gems) {
+//											attributes.addAll(g.attributesRaw
+//													.keySet());
+//										}
+//									}
+//								}
+//							}
+//						}
+//					}
+//				} catch (Exception e) {
+//					log.log(Level.SEVERE, e.getMessage(), e);
+//				}
+//			}
+//
+//			FileOutputStream stream = new FileOutputStream("attributes.txt");
+//			PrintWriter writer = new PrintWriter(stream);
+//
+//			for (String s : attributes) {
+//				System.out.println(s);
+//				writer.println(s);
+//			}
+//
+//			writer.flush();
+//			stream.close();
+//
+//		} catch (Exception e) {
+//			log.log(Level.SEVERE, e.getMessage(), e);
+//		}
+//	}
 
 	public Collection<Profile> getAllProfiles() {
 		Set<Profile> profiles = new HashSet<Profile>();

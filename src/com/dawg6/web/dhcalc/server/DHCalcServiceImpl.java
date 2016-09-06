@@ -21,50 +21,32 @@ package com.dawg6.web.dhcalc.server;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.dawg6.d3api.shared.ApiData;
 import com.dawg6.d3api.shared.CareerProfile;
-import com.dawg6.d3api.shared.Const;
-import com.dawg6.d3api.shared.Hero;
 import com.dawg6.d3api.shared.HeroProfile;
 import com.dawg6.d3api.shared.ItemInformation;
 import com.dawg6.d3api.shared.Leaderboard;
 import com.dawg6.d3api.shared.Realm;
 import com.dawg6.d3api.shared.SeasonIndex;
-import com.dawg6.gwt.server.util.ThreadPool;
 import com.dawg6.web.dhcalc.client.DHCalcService;
-import com.dawg6.web.dhcalc.server.db.couchdb.AccountDocument;
 import com.dawg6.web.dhcalc.server.db.couchdb.CouchDBDHCalcDatabase;
 import com.dawg6.web.dhcalc.server.db.couchdb.CouchDBDHCalcParameters;
 import com.dawg6.web.dhcalc.server.db.couchdb.NewsDocument;
-import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
-import com.dawg6.web.dhcalc.shared.calculator.Build;
-import com.dawg6.web.dhcalc.shared.calculator.CharacterData;
-import com.dawg6.web.dhcalc.shared.calculator.Damage;
-import com.dawg6.web.dhcalc.shared.calculator.DamageResult;
 import com.dawg6.web.dhcalc.shared.calculator.ExportData;
-import com.dawg6.web.dhcalc.shared.calculator.FiringData;
 import com.dawg6.web.dhcalc.shared.calculator.FormData;
 import com.dawg6.web.dhcalc.shared.calculator.NewsItem;
-import com.dawg6.web.dhcalc.shared.calculator.ProfileHelper;
-import com.dawg6.web.dhcalc.shared.calculator.Rune;
 import com.dawg6.web.dhcalc.shared.calculator.Util;
 import com.dawg6.web.dhcalc.shared.calculator.Version;
-import com.dawg6.web.dhcalc.shared.calculator.stats.DBStatistics;
-import com.dawg6.web.dhcalc.shared.calculator.stats.DpsTableEntry;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -74,8 +56,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class DHCalcServiceImpl extends RemoteServiceServlet implements
 		DHCalcService {
 
-	private final static Object lock = new Object();
-	private final static ThreadPool pool = new ThreadPool(20);
+//	private final static Object lock = new Object();
+//	private final static ThreadPool pool = new ThreadPool(20);
 	
 	private static final Logger log = Logger.getLogger(DHCalcServiceImpl.class
 			.getName());
@@ -93,7 +75,7 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 		});
 	}
 
-	private final Gson gson = new Gson();
+//	private final Gson gson = new Gson();
 	
 	@Override
 	public CareerProfile getProfile(final Realm realm, String profile, final int tag) {
@@ -114,23 +96,25 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 				career.reason = "Timeout";
 				
 			}
+
 			if (career.code != null)
 				log.info(realm.getDisplayName() + "/" + profile + "-" + tag
-						+ " Code: " + career.code + ", Reason: "
-						+ career.reason);
-			else {
-				
-				final CareerProfile c2 = career;
-				final String p2 = profile;
-				
-				pool.add(new Runnable(){
+					+ " Code: " + career.code + ", Reason: "
+					+ career.reason);
 
-					@Override
-					public void run() {
-						scanHeroes(realm, p2, tag, c2);
-					}});
-				
-			}
+//			else {
+//				
+//				final CareerProfile c2 = career;
+//				final String p2 = profile;
+//				
+//				pool.add(new Runnable(){
+//
+//					@Override
+//					public void run() {
+//						scanHeroes(realm, p2, tag, c2);
+//					}});
+//				
+//			}
 			
 			return career;
 
@@ -140,86 +124,86 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 		}
 	}
 
-	private static Set<AccountDocument> accountLock = new HashSet<AccountDocument>();
+//	private static Set<AccountDocument> accountLock = new HashSet<AccountDocument>();
 	
-	private void scanHeroes(Realm realm, String profile, int tag, CareerProfile career) {
-		
-		AccountDocument a = new AccountDocument();
-		a.setRealm(realm);
-		a.setProfile(profile.toLowerCase());
-		a.setTag(tag);
-		long now = System.currentTimeMillis();
-		long old = now - (1000L * 60L * 60L * 4L);
-
-		try {
-			synchronized (accountLock) {
-				if (accountLock.contains(a)) {
-					return;
-				} else {
-					accountLock.add(a);
-				}
-			}
-			
-			List<AccountDocument> accounts = CouchDBDHCalcDatabase.getInstance().findAll(AccountDocument.class);
-			
-			boolean changed = false;
-			
-			for (AccountDocument ad : accounts) {
-				if (ad.equals(a)) {
-
-					if (ad.getLastChecked() >= old)
-						return;
-					
-					a = ad;
-					break;
-				}
-			}
-			
-			changed = true;
-			a.setLastChecked(now);
-
-			if (a.getHeroes() == null)
-				a.setHeroes(new TreeSet<Integer>());
-	
-			if ((career.heroes != null) && (career.heroes.length > 0)) {
-				Set<Integer> set = a.getHeroes();
-				
-				for (Hero h : career.heroes) {
-					
-					if ((h != null)  && (h.clazz != null) && (h.clazz.equals(Const.CLASS_DEMONHUNTER))) {
-						if (!set.contains(h.id)) {
-							set.add(h.id);
-							changed = true;
-						}
-						
-						HeroProfile hero = getHero(realm, profile, tag, h.id, false);
-						
-						if ((hero.code != null) && (hero.code.equals(Const.NOT_FOUND))) {
-							set.remove(h.id);
-							changed = true;
-						}
-					}
-				}
-			} else if (!a.getHeroes().isEmpty()) {
-				a.setHeroes(new TreeSet<Integer>());
-				changed = true;
-			}
-			
-			if (changed) {
-				if (a.getRevision() == null)
-					log.info("Creating account " + a);
-				else
-					log.info("Updating account " + a);
-				
-				CouchDBDHCalcDatabase.getInstance().persist(a);
-			}
-		}
-		finally {
-			synchronized (accountLock) {
-				accountLock.remove(a);
-			}
-		}
-	}
+//	private void scanHeroes(Realm realm, String profile, int tag, CareerProfile career) {
+//		
+//		AccountDocument a = new AccountDocument();
+//		a.setRealm(realm);
+//		a.setProfile(profile.toLowerCase());
+//		a.setTag(tag);
+//		long now = System.currentTimeMillis();
+//		long old = now - (1000L * 60L * 60L * 4L);
+//
+//		try {
+//			synchronized (accountLock) {
+//				if (accountLock.contains(a)) {
+//					return;
+//				} else {
+//					accountLock.add(a);
+//				}
+//			}
+//			
+//			List<AccountDocument> accounts = CouchDBDHCalcDatabase.getInstance().findAll(AccountDocument.class);
+//			
+//			boolean changed = false;
+//			
+//			for (AccountDocument ad : accounts) {
+//				if (ad.equals(a)) {
+//
+//					if (ad.getLastChecked() >= old)
+//						return;
+//					
+//					a = ad;
+//					break;
+//				}
+//			}
+//			
+//			changed = true;
+//			a.setLastChecked(now);
+//
+//			if (a.getHeroes() == null)
+//				a.setHeroes(new TreeSet<Integer>());
+//	
+//			if ((career.heroes != null) && (career.heroes.length > 0)) {
+//				Set<Integer> set = a.getHeroes();
+//				
+//				for (Hero h : career.heroes) {
+//					
+//					if ((h != null)  && (h.clazz != null) && (h.clazz.equals(Const.CLASS_DEMONHUNTER))) {
+//						if (!set.contains(h.id)) {
+//							set.add(h.id);
+//							changed = true;
+//						}
+//						
+//						HeroProfile hero = getHero(realm, profile, tag, h.id, false);
+//						
+//						if ((hero.code != null) && (hero.code.equals(Const.NOT_FOUND))) {
+//							set.remove(h.id);
+//							changed = true;
+//						}
+//					}
+//				}
+//			} else if (!a.getHeroes().isEmpty()) {
+//				a.setHeroes(new TreeSet<Integer>());
+//				changed = true;
+//			}
+//			
+//			if (changed) {
+//				if (a.getRevision() == null)
+//					log.info("Creating account " + a);
+//				else
+//					log.info("Updating account " + a);
+//				
+//				CouchDBDHCalcDatabase.getInstance().persist(a);
+//			}
+//		}
+//		finally {
+//			synchronized (accountLock) {
+//				accountLock.remove(a);
+//			}
+//		}
+//	}
 
 	@Override
 	public ItemInformation getItem(Realm realm, String item) {
@@ -258,17 +242,17 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 	
 	public HeroProfile getHero(final Realm realm, String profile, final int tag, int id, boolean updateAccount) {
 		
-		if (updateAccount) {
-			
-			final String p2 = profile;
-			
-			new Thread(new Runnable(){
-
-				@Override
-				public void run() {
-					getProfile(realm, p2, tag);
-				}}).start();
-		}
+//		if (updateAccount) {
+//			
+//			final String p2 = profile;
+//			
+//			new Thread(new Runnable(){
+//
+//				@Override
+//				public void run() {
+//					getProfile(realm, p2, tag);
+//				}}).start();
+//		}
 		
 		try {
 			profile = URLEncoder.encode(profile, "UTF-8");
@@ -288,7 +272,7 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 
 			if (hero.code != null)
 				log.warning(realm.getDisplayName() + "/" + profile + "-" + tag
-						+ " Code: " + hero.code + ", Reason: " + hero.reason);
+					+ " Code: " + hero.code + ", Reason: " + hero.reason);
 
 			if (hero.items != null) {
 
@@ -416,103 +400,103 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 		}
 	}
 
-	@Override
-	public void logData(final CharacterData data) {
+//	@Override
+//	public void logData(final CharacterData data) {
+//
+//		new Thread(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				data.setDefaults();
+//
+//				log.info("Logging data for " + data.getProfile() + "-"
+//						+ data.getTag() + "(" + data.getRealm().name() + ")/"
+//						+ data.getHero());
+//
+//				DpsTableEntry entry = calculateDps(data);
+//
+//				CouchDBDHCalcDatabase.getInstance().logDps(entry);
+//			}
+//		}).start();
+//
+//	}
 
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				data.setDefaults();
-
-				log.info("Logging data for " + data.getProfile() + "-"
-						+ data.getTag() + "(" + data.getRealm().name() + ")/"
-						+ data.getHero());
-
-				DpsTableEntry entry = calculateDps(data);
-
-				CouchDBDHCalcDatabase.getInstance().logDps(entry);
-			}
-		}).start();
-
-	}
-
-	public DpsTableEntry calculateDps(CharacterData data) {
-
-		Build build = new Build();
-		build.setSkills(data.getSkills());
-
-		DpsTableEntry entry = new DpsTableEntry();
-
-		data.setDefaults();
-		ProfileHelper.updateWeaponDamage(data);
-		ProfileHelper.updateCdr(data);
-		data.setDefaults();
-
-		entry.setBattletag(data.getProfile() + "-" + data.getTag() + "/"
-				+ data.getHero());
-		entry.setRealm(data.getRealm());
-		entry.setBuild(build);
-		entry.setParagon_dex(data.getParagonDexterity());
-		entry.setParagon_cc(data.getParagonCC());
-		entry.setParagon_cdr(data.getParagonCDR());
-		entry.setParagon_chd(data.getParagonCHD());
-		entry.setParagon_ias(data.getParagonIAS());
-		entry.setParagon_hatred(data.getParagonHatred());
-		entry.setParagon_rcr(data.getParagonRCR());
-		entry.setParagon(data.getParagon());
-		entry.setProfile(data.getProfile());
-		entry.setTag(data.getTag());
-		entry.setHeroId(data.getHero());
-		entry.setHeroName(data.getHeroName());
-		entry.setPlayerAps(data.getAps());
-		entry.setSeasonal(data.isSeasonal());
-		entry.setHardcore(data.isHardcore());
-		entry.setDead(data.isDead());
-		entry.setSheetDps(data.getSheetDps());
-		entry.setLevel(data.getLevel());
-
-		data.setNumAdditional(0);
-		calculateDamage(data, entry);
-		data.setNumAdditional(10);
-		calculateDamage(data, entry);
-
-		entry.setWhen(System.currentTimeMillis());
-
-		return entry;
-	}
-
-	private void calculateDamage(CharacterData data, DpsTableEntry entry) {
-
-		DamageResult damage = FiringData.calculateDamages(data);
-
-		double total = 0.0;
-		double totalElite = 0.0;
-		double e = 1.0 + data.getTotalEliteDamage();
-
-		for (Damage d : damage.damages) {
-			total += d.actualDamage;
-			// System.out.println(d.log);
-		}
-
-		total = total / damage.duration;
-
-		totalElite = total * e;
-
-		if (data.getNumAdditional() == 0) {
-			entry.setSingle(total);
-			entry.setSingle_elite(totalElite);
-		} else {
-			entry.setMultiple(total);
-			entry.setMultiple_elite(totalElite);
-		}
-	}
-
-	@Override
-	public DBStatistics getStats(Rune sentryRune, ActiveSkill[] skills,
-			Rune[] runes) {
-		return CouchDBDHCalcDatabase.getInstance().getStatistics(sentryRune, skills, runes);
-	}
+//	public DpsTableEntry calculateDps(CharacterData data) {
+//
+//		Build build = new Build();
+//		build.setSkills(data.getSkills());
+//
+//		DpsTableEntry entry = new DpsTableEntry();
+//
+//		data.setDefaults();
+//		ProfileHelper.updateWeaponDamage(data);
+//		ProfileHelper.updateCdr(data);
+//		data.setDefaults();
+//
+//		entry.setBattletag(data.getProfile() + "-" + data.getTag() + "/"
+//				+ data.getHero());
+//		entry.setRealm(data.getRealm());
+//		entry.setBuild(build);
+//		entry.setParagon_dex(data.getParagonDexterity());
+//		entry.setParagon_cc(data.getParagonCC());
+//		entry.setParagon_cdr(data.getParagonCDR());
+//		entry.setParagon_chd(data.getParagonCHD());
+//		entry.setParagon_ias(data.getParagonIAS());
+//		entry.setParagon_hatred(data.getParagonHatred());
+//		entry.setParagon_rcr(data.getParagonRCR());
+//		entry.setParagon(data.getParagon());
+//		entry.setProfile(data.getProfile());
+//		entry.setTag(data.getTag());
+//		entry.setHeroId(data.getHero());
+//		entry.setHeroName(data.getHeroName());
+//		entry.setPlayerAps(data.getAps());
+//		entry.setSeasonal(data.isSeasonal());
+//		entry.setHardcore(data.isHardcore());
+//		entry.setDead(data.isDead());
+//		entry.setSheetDps(data.getSheetDps());
+//		entry.setLevel(data.getLevel());
+//
+//		data.setNumAdditional(0);
+//		calculateDamage(data, entry);
+//		data.setNumAdditional(10);
+//		calculateDamage(data, entry);
+//
+//		entry.setWhen(System.currentTimeMillis());
+//
+//		return entry;
+//	}
+//
+//	private void calculateDamage(CharacterData data, DpsTableEntry entry) {
+//
+//		DamageResult damage = FiringData.calculateDamages(data);
+//
+//		double total = 0.0;
+//		double totalElite = 0.0;
+//		double e = 1.0 + data.getTotalEliteDamage();
+//
+//		for (Damage d : damage.damages) {
+//			total += d.actualDamage;
+//			// System.out.println(d.log);
+//		}
+//
+//		total = total / damage.duration;
+//
+//		totalElite = total * e;
+//
+//		if (data.getNumAdditional() == 0) {
+//			entry.setSingle(total);
+//			entry.setSingle_elite(totalElite);
+//		} else {
+//			entry.setMultiple(total);
+//			entry.setMultiple_elite(totalElite);
+//		}
+//	}
+//
+//	@Override
+//	public DBStatistics getStats(Rune sentryRune, ActiveSkill[] skills,
+//			Rune[] runes) {
+//		return CouchDBDHCalcDatabase.getInstance().getStatistics(sentryRune, skills, runes);
+//	}
 
 	@Override
 	public SeasonIndex getSeasonEraIndex(Realm realm) {

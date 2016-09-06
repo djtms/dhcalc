@@ -31,15 +31,11 @@ import com.dawg6.gwt.client.ApplicationPanel;
 import com.dawg6.gwt.client.ApplicationPanel.DialogBoxResultHandler;
 import com.dawg6.gwt.common.util.AsyncTask;
 import com.dawg6.gwt.common.util.AsyncTaskHandler;
-import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
-import com.dawg6.web.dhcalc.shared.calculator.CharacterData;
 import com.dawg6.web.dhcalc.shared.calculator.ExportData;
 import com.dawg6.web.dhcalc.shared.calculator.FormData;
 import com.dawg6.web.dhcalc.shared.calculator.NewsItem;
-import com.dawg6.web.dhcalc.shared.calculator.Rune;
 import com.dawg6.web.dhcalc.shared.calculator.Util;
 import com.dawg6.web.dhcalc.shared.calculator.Version;
-import com.dawg6.web.dhcalc.shared.calculator.stats.DBStatistics;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
@@ -466,31 +462,31 @@ public class Service implements DHCalcServiceAsync {
 		$wnd.location.reload(true);
 	}-*/;
 
-	@Override
-	public void logData(final CharacterData data,
-			final AsyncCallback<Void> callback) {
-		execute(new AsyncTask() {
-
-			@Override
-			public void run(AsyncTaskHandler handler) {
-				SERVICE.logData(data, new DelegateCallback<Void>(handler,
-						callback));
-			}
-		});
-	}
-
-	@Override
-	public void getStats(final Rune sentryRune, final ActiveSkill[] skills,
-			final Rune[] runes, final AsyncCallback<DBStatistics> callback) {
-		execute(new AsyncTask() {
-
-			@Override
-			public void run(AsyncTaskHandler handler) {
-				SERVICE.getStats(sentryRune, skills, runes,
-						new DelegateCallback<DBStatistics>(handler, callback));
-			}
-		});
-	}
+//	@Override
+//	public void logData(final CharacterData data,
+//			final AsyncCallback<Void> callback) {
+//		execute(new AsyncTask() {
+//
+//			@Override
+//			public void run(AsyncTaskHandler handler) {
+//				SERVICE.logData(data, new DelegateCallback<Void>(handler,
+//						callback));
+//			}
+//		});
+//	}
+//
+//	@Override
+//	public void getStats(final Rune sentryRune, final ActiveSkill[] skills,
+//			final Rune[] runes, final AsyncCallback<DBStatistics> callback) {
+//		execute(new AsyncTask() {
+//
+//			@Override
+//			public void run(AsyncTaskHandler handler) {
+//				SERVICE.getStats(sentryRune, skills, runes,
+//						new DelegateCallback<DBStatistics>(handler, callback));
+//			}
+//		});
+//	}
 
 	@Override
 	public void getSeasonEraIndex(final Realm realm, final AsyncCallback<SeasonIndex> callback) {

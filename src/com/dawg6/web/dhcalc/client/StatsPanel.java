@@ -22,7 +22,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Vector;
 
-import com.dawg6.gwt.common.util.DefaultCallback;
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.Build;
 import com.dawg6.web.dhcalc.shared.calculator.Rune;
@@ -479,14 +478,14 @@ public class StatsPanel extends Composite {
 			runes[i] = getSelectedRune(i);
 		}
 
-		Service.getInstance().getStats(sentryRune, skills, runes,
-				new DefaultCallback<DBStatistics>() {
-
-					@Override
-					protected void doOnSuccess(DBStatistics result) {
-						showStats(result);
-					}
-				});
+//		Service.getInstance().getStats(sentryRune, skills, runes,
+//				new DefaultCallback<DBStatistics>() {
+//
+//					@Override
+//					protected void doOnSuccess(DBStatistics result) {
+//						showStats(result);
+//					}
+//				});
 
 	}
 

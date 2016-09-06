@@ -145,8 +145,8 @@ public class MainPanel extends BasePanel {
 	private double total;
 	private double nonStacking;
 	private CharacterData data = new CharacterData();
-	private boolean firstTimeStats;
-	protected DialogBox statsDialog;
+//	private boolean firstTimeStats;
+//	protected DialogBox statsDialog;
 	private FlexTable outputHeader;
 	private HatredPanel hatredPanel;
 	private double rawRcr;
@@ -461,7 +461,16 @@ public class MainPanel extends BasePanel {
 		tabs.add(SimpleCaptionPanel, "Compare");
 
 		buffPanel = new BuffPanel();
-		tabs.add(buffPanel, "Buffs");
+
+		FlexTable table7 = new FlexTable();
+		table7.setWidget(0, 1, buffPanel);
+		table7.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
+		
+		playerBuffPanel = new PlayerBuffPanel();
+		table7.setWidget(0, 0, playerBuffPanel);
+		table7.getFlexCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
+
+		tabs.add(table7, "Buffs");
 
 		compareTable = new FlexTable();
 		SimpleCaptionPanel.setContentWidget(compareTable);
@@ -609,10 +618,16 @@ public class MainPanel extends BasePanel {
 		});
 
 		skills = new SkillsPanel();
-		tabs.add(skills, "Skills");
+		
+		FlexTable table8 = new FlexTable();
+		table8.setWidget(0, 0, skills);
+		table8.getFlexCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
+
+		tabs.add(table8, "Skills");
 
 		passives = new PassivesPanel();
-		tabs.add(passives, "Passives");
+		table8.setWidget(0, 1, passives);
+		table8.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
 
 		situational = new SituationalPanel();
 		tabs.add(situational, "Situational");
@@ -621,19 +636,22 @@ public class MainPanel extends BasePanel {
 		tabs.add(gemPanel, "Gems");
 
 		skillDamage = new SkillDamagePanel();
-		tabs.add(skillDamage, "+Skill Damage");
+
+		FlexTable table9 = new FlexTable();
+		table9.setWidget(0, 0, skillDamage);
+		table9.getFlexCellFormatter().setVerticalAlignment(0, 0, HasVerticalAlignment.ALIGN_TOP);
+
+		tabs.add(table9, "+Damage");
 
 		typeDamage = new DamageTypePanel();
-		tabs.add(typeDamage, "+Elemental Damage");
+		table9.setWidget(0, 1, typeDamage);
+		table9.getFlexCellFormatter().setVerticalAlignment(0, 1, HasVerticalAlignment.ALIGN_TOP);
 
 		itemPanel = new ItemPanel();
 		tabs.add(itemPanel, "Items");
 
 		hatredPanel = new HatredPanel();
 		tabs.add(hatredPanel, "Hatred/Disc");
-
-		playerBuffPanel = new PlayerBuffPanel();
-		tabs.add(playerBuffPanel, "Party Buffs");
 
 		playerBuffPanel.getCalcWolfButton().addClickHandler(new ClickHandler() {
 
@@ -1063,58 +1081,58 @@ public class MainPanel extends BasePanel {
 
 		});
 
-		Button statsButton = new Button("Statistics...");
-
-		firstTimeStats = true;
-
-		statsButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-				Service.getInstance().checkVersion(null);
-
-				if (stats == null) {
-					stats = new StatsPanel();
-
-					stats.setActionListener(new StatsPanel.ActionListener() {
-
-						@Override
-						public void importEntry(DpsTableEntry entry) {
-							MainPanel.this.importEntry(entry);
-						}
-
-						@Override
-						public void closePanel() {
-							if (statsDialog != null) {
-								statsDialog.hide();
-								statsDialog = null;
-							}
-						}
-
-						@Override
-						public Build getBuild() {
-							return MainPanel.this.getBuild();
-						}
-
-						@Override
-						public void setBuild(Build build) {
-							MainPanel.this.setBuild(build);
-
-						}
-					});
-
-				}
-
-				statsDialog = ApplicationPanel.showDialogBox("Statistics",
-						stats, ApplicationPanel.OK, null);
-
-				if (firstTimeStats) {
-					firstTimeStats = false;
-					stats.updateStats();
-				}
-			}
-		});
+//		Button statsButton = new Button("Statistics...");
+//
+//		firstTimeStats = true;
+//
+//		statsButton.addClickHandler(new ClickHandler() {
+//
+//			@Override
+//			public void onClick(ClickEvent event) {
+//
+//				Service.getInstance().checkVersion(null);
+//
+//				if (stats == null) {
+//					stats = new StatsPanel();
+//
+//					stats.setActionListener(new StatsPanel.ActionListener() {
+//
+//						@Override
+//						public void importEntry(DpsTableEntry entry) {
+//							MainPanel.this.importEntry(entry);
+//						}
+//
+//						@Override
+//						public void closePanel() {
+//							if (statsDialog != null) {
+//								statsDialog.hide();
+//								statsDialog = null;
+//							}
+//						}
+//
+//						@Override
+//						public Build getBuild() {
+//							return MainPanel.this.getBuild();
+//						}
+//
+//						@Override
+//						public void setBuild(Build build) {
+//							MainPanel.this.setBuild(build);
+//
+//						}
+//					});
+//
+//				}
+//
+//				statsDialog = ApplicationPanel.showDialogBox("Statistics",
+//						stats, ApplicationPanel.OK, null);
+//
+//				if (firstTimeStats) {
+//					firstTimeStats = false;
+//					stats.updateStats();
+//				}
+//			}
+//		});
 
 		Button aboutButton = new Button("New button");
 		aboutButton.setText("About...");
@@ -1944,7 +1962,8 @@ public class MainPanel extends BasePanel {
 			}
 		}
 		
-		paragonPanel.fillOffensePoints();
+		if (paragonPanel.getAutoFill().getValue())
+			paragonPanel.fillOffensePoints();
 
 		data.setRealm(realm);
 		data.setProfile(profile);
@@ -2212,6 +2231,7 @@ public class MainPanel extends BasePanel {
 				new Field(this.tagNumber, "BattleTagNumber", "1234"),
 				new Field(this.heroList, "Heroes", ""),
 				new Field(this.timeLimit, "TimeLimit", "120"),
+				new Field(this.paragonPanel.getAutoFill(), "AutoFill", Boolean.TRUE.toString()),
 				new Field(this.paragonPanel.getParagonLevel(), "Paragon", "0"),
 				new Field(this.paragonPanel.getParagonIAS(), "ParagonIas", "0"),
 				new Field(this.paragonPanel.getParagonDexterity(),
