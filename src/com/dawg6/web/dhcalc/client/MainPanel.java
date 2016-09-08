@@ -2784,7 +2784,7 @@ public class MainPanel extends BasePanel {
 
 			if (d.hatred != 0) {
 				Label hatredLabel = new Label(((d.hatred > 0) ? "+" : "")
-						+ Util.format(Math.round(d.hatred * 10.0) / 10.0),
+						+ Util.format(Math.round(d.hatred * 100.0) / 100.0),
 						false);
 				hatredLabel.addStyleName("dpsCol");
 				damageLog.setWidget(row + 1, col++, hatredLabel);
@@ -2793,13 +2793,13 @@ public class MainPanel extends BasePanel {
 			}
 
 			Label hatredLabel2 = new Label(Util.format(Math
-					.round(d.currentHatred * 10.0) / 10.0), false);
+					.round(d.currentHatred * 100.0) / 100.0), false);
 			hatredLabel2.addStyleName("dpsCol");
 			damageLog.setWidget(row + 1, col++, hatredLabel2);
 
 			if (d.disc != 0) {
 				Label discLabel = new Label(((d.disc > 0) ? "+" : "")
-						+ Util.format(Math.round(d.disc * 10.0) / 10.0), false);
+						+ Util.format(Math.round(d.disc * 100.0) / 100.0), false);
 				discLabel.addStyleName("dpsCol");
 				damageLog.setWidget(row + 1, col++, discLabel);
 			} else {
@@ -2807,7 +2807,7 @@ public class MainPanel extends BasePanel {
 			}
 
 			Label discLabel2 = new Label(Util.format(Math
-					.round(d.currentDisc * 10.0) / 10.0), false);
+					.round(d.currentDisc * 100.0) / 100.0), false);
 			discLabel2.addStyleName("dpsCol");
 			damageLog.setWidget(row + 1, col++, discLabel2);
 
