@@ -1425,6 +1425,7 @@ public enum DamageMultiplier {
 					double scalar = 0.15;
 					double aoe = 0.0;
 
+					// TODO fix
 					if ((state.getData().getMfdRune() == Rune.Grim_Reaper)
 							&& (state.getData().getNumAdditional() > 0)
 							&& (state.getData().getTargetSpacing() <= 20)) {
@@ -1437,7 +1438,11 @@ public enum DamageMultiplier {
 				@Override
 				public Double getMax(boolean sentry, DamageRow row,
 						CharacterData data) {
-					return data.getSkills().containsKey(ActiveSkill.MFD) ? 0.15
+					
+					if ((data.getMfdRune() == Rune.Grim_Reaper) && (data.getNumAdditional() > 0) && (data.getTargetSpacing() <= 20))
+						return 0.3; 
+					else
+						return data.isMarked() ? 0.15
 							: 0.0;
 				}
 			}), Vaxo("Vaxo", DamageAccumulator.Additive,
