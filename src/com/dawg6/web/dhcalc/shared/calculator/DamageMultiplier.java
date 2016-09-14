@@ -292,7 +292,7 @@ public enum DamageMultiplier {
 				@Override
 				public Double getMax(boolean sentry, DamageRow row,
 						CharacterData data) {
-					return data.isZeis() ? (5 * (0.04 + (data.getZeisLevel() * 0.0008)))
+					return (data.isZeis() && (row.source.skill != ActiveSkill.Companion)) ? (5 * (0.04 + (data.getZeisLevel() * 0.0008)))
 							: 0.0;
 				}
 			}), Traps("Traps", DamageAccumulator.Multiplicative,
@@ -550,7 +550,7 @@ public enum DamageMultiplier {
 				@Override
 				public Double getMax(boolean sentry, DamageRow row,
 						CharacterData data) {
-					return (data.getNumUe() >= 6) ? (0.4 * data
+					return ((data.getNumUe() >= 6) && (row.source.skill != ActiveSkill.Companion) && !sentry) ? (0.4 * data
 							.getMaxDiscipline()) : 0.0;
 				}
 			}), BW1("BWg", DamageAccumulator.Multiplicative,
