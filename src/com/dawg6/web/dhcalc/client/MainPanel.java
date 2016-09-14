@@ -44,6 +44,7 @@ import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.Build;
 import com.dawg6.web.dhcalc.shared.calculator.CharacterData;
 import com.dawg6.web.dhcalc.shared.calculator.Damage;
+import com.dawg6.web.dhcalc.shared.calculator.DamageFunction;
 import com.dawg6.web.dhcalc.shared.calculator.DamageHolder;
 import com.dawg6.web.dhcalc.shared.calculator.DamageResult;
 import com.dawg6.web.dhcalc.shared.calculator.DamageSource;
@@ -54,6 +55,7 @@ import com.dawg6.web.dhcalc.shared.calculator.FormData;
 import com.dawg6.web.dhcalc.shared.calculator.GemLevel;
 import com.dawg6.web.dhcalc.shared.calculator.GemSkill;
 import com.dawg6.web.dhcalc.shared.calculator.ItemHolder;
+import com.dawg6.web.dhcalc.shared.calculator.MaxHit;
 import com.dawg6.web.dhcalc.shared.calculator.MonsterHealth;
 import com.dawg6.web.dhcalc.shared.calculator.MonsterType;
 import com.dawg6.web.dhcalc.shared.calculator.MultipleSummary;
@@ -167,6 +169,7 @@ public class MainPanel extends BasePanel {
 	private SkillDamageSummary sds;
 	private ShooterDamageSummary shds;
 	private GraphPanel graphPanel;
+	private MaxHitTable maxHitTable;
 
 	public MainPanel() {
 		FlexTable mainTable = new FlexTable();
@@ -888,6 +891,9 @@ public class MainPanel extends BasePanel {
 		shds = new ShooterDamageSummary();
 		outputTabs.add(shds, "Shooters");
 
+		maxHitTable = new MaxHitTable();
+		outputTabs.add(maxHitTable, "Max Hit");
+
 		damageLog = new FlexTable();
 		damageLog.setCellPadding(5);
 		damageLog.setBorderWidth(1);
@@ -1341,6 +1347,7 @@ public class MainPanel extends BasePanel {
 	private static final int NUM_COMPARE_ROWS = 7;
 	private SimpleCaptionPanel captionPanelShooterSummary;
 	private Map<String, DamageHolder> shooterDamages;
+	private List<MaxHit> minMaxData;
 
 	protected void clearBuild(int which) {
 		compareData[which] = null;
@@ -2553,8 +2560,9 @@ public class MainPanel extends BasePanel {
 			// .getWeaponDamage() * 10.0) / 10.0));
 
 			try {
+				this.minMaxData = DamageFunction.calculateMinMax(data);
 				this.damage = FiringData.calculateDamages(data);
-
+				
 				if (graphOpen)
 					graphPanel.setLog(this.damage);
 				
@@ -2855,7 +2863,8 @@ public class MainPanel extends BasePanel {
 		dts.setData(types, total, damage.duration);
 		sds.setData(skillDamages, total, damage.duration);
 		shds.setData(shooterDamages, total, damage.duration);
-
+		maxHitTable.setData(minMaxData);
+		
 		double dps = (damage.duration > 0) ? Math
 				.round(total / damage.duration) : total;
 

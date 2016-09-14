@@ -148,6 +148,10 @@ public class ProfileHelper {
 
 		min += data.getJewelryMin();
 		max += data.getJewelryMax();
+		
+		offHand_min += data.getJewelryMin();
+		offHand_max += data.getJewelryMax();
+
 		double dex = data.getDexterity();
 		double pCC = (data.getParagonCC() * 0.1) / 100.0;
 		double pCD = (data.getParagonCHD() * 1.0) / 100.0;

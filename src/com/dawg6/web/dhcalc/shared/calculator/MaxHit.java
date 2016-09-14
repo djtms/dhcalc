@@ -18,10 +18,17 @@
  *******************************************************************************/
 package com.dawg6.web.dhcalc.shared.calculator;
 
-public abstract class Test<T, V> {
+import java.io.Serializable;
 
-	public abstract V getValue(T data);
-	
-	public abstract V getMax(boolean sentry, DamageRow row, CharacterData data);
-	
+public class MaxHit implements Serializable {
+
+	private static final long serialVersionUID = 904003085426419308L;
+
+	public double noCrit;
+	public double maxCrit;
+	public String log;
+	public DamageSource source;
+	public DamageType type;
+	public String shooter;
+	public String notes;
 }

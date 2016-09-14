@@ -21,7 +21,9 @@ package com.dawg6.web.dhcalc.shared.calculator;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.Vector;
 
 public class DamageFunction {
@@ -847,11 +849,11 @@ public class DamageFunction {
 
 										if (dw.getAccumulator() == DamageAccumulator.Multiplicative) {
 											m *= (1.0 + v);
-											multBuf.append(" X "
+											multBuf.append(" X (1 + "
 													+ dw.getAbbreviation()
 													+ "("
-													+ Util.format(1.0 + v)
-													+ ")");
+													+ Util.format(v)
+													+ "))");
 										} else if (dw.getAccumulator() == DamageAccumulator.ElementalAdditive) {
 											ea += v;
 
@@ -977,5 +979,130 @@ public class DamageFunction {
 				return true;
 
 		return false;
+	}
+	
+	public static List<MaxHit> calculateMinMax(CharacterData data) {
+		List<MaxHit> list = new Vector<MaxHit>();
+		
+		for (Map.Entry<ActiveSkill, Rune> e : data.getSkills().entrySet()) {
+			list.addAll(calculateMinMax(false, e.getKey(), e.getValue(), data));
+			
+			if (data.getNumMarauders() >= 2) {
+				if (e.getKey().getSkillType() == SkillType.Spender) {
+					list.addAll(calculateMinMax(true, e.getKey(), e.getValue(), data));
+				}
+			}
+		}
+		
+		if (data.getSkills().containsKey(ActiveSkill.SENTRY)) {
+			list.addAll(calculateMinMax(true, ActiveSkill.BOLT, data.getSkills().get(ActiveSkill.SENTRY), data));
+		}
+
+		return list;
+	}
+	
+	public static List<MaxHit> calculateMinMax(boolean sentry, ActiveSkill skill, Rune rune, CharacterData data) {
+		List<MaxHit> list = new Vector<MaxHit>();
+		DamageSource source = new DamageSource(skill, rune);
+		
+		SimulationState state = new SimulationState();
+		state.setData(data);
+		
+		Set<DamageMultiplier> ignored = new TreeSet<DamageMultiplier>();
+		ignored.add(DamageMultiplier.WD);
+		ignored.add(DamageMultiplier.MAXWD);
+		ignored.add(DamageMultiplier.OHWD);
+		ignored.add(DamageMultiplier.CC);
+		ignored.add(DamageMultiplier.CHD);
+		ignored.add(DamageMultiplier.PC);
+		ignored.add(DamageMultiplier.Traps);
+		
+		for (DamageRow dr : ALL) {
+			if ((dr.source.skill != null) && dr.primary && (dr.source.test(source, state, dr.radius) ||
+					((skill == ActiveSkill.Companion) && (dr.source.skill == (ActiveSkill.Companion) && (data.getNumMarauders() >= 2) && (dr.source.rune != Rune.None))))) {
+				MaxHit row = new MaxHit();
+				row.source = dr.source;
+				row.shooter = "Player";
+				row.type = dr.type;
+				
+				double value = DamageMultiplier.MAXWD.getMax(sentry, dr, data);
+				
+				StringBuffer notes = new StringBuffer();
+				StringBuffer log = new StringBuffer();
+				StringBuffer multLog = new StringBuffer();
+				StringBuffer addLog = new StringBuffer();
+				StringBuffer elemAddLog = new StringBuffer();
+				StringBuffer critLog = new StringBuffer();
+				
+				double crit = 1.0;
+				double mult = 1.0;
+				double add = 0.0;
+				double elemAdd = 0.0 ;
+				
+				double scalar = dr.getScalar(data);
+
+				double chd = DamageMultiplier.CHD.getMax(sentry, dr, data);
+				
+				log.append(Util.format(scalar) + " X " + DamageMultiplier.MAXWD.getAbbreviation() + "(" + Util.format(value) + ")");
+				
+				if (dr.note != null)
+					notes.append(dr.note);
+				
+				if (chd > 0) {
+					crit = chd + 1.0;
+					critLog.append(" X CHD(1 + " + Util.format(chd) + ")");
+				}
+				
+				for (DamageMultiplier dm : DamageMultiplier.values()) {
+					
+					if (dm.hasTest() && !ignored.contains(dm)) {
+						DamageAccumulator a = dm.getAccumulator();
+						double v = dm.getMax(sentry, dr, data);
+						
+						if (v > 0) {
+							if (a == DamageAccumulator.Additive) {
+								if (add == 0.0) 
+									addLog.append(" X (1");
+								
+								add += v;
+								addLog.append(" + " + dm.getAbbreviation() + "(" + Util.format(v) + ")");
+							} else if (a == DamageAccumulator.ElementalAdditive) {
+								if (elemAdd == 0.0) 
+									elemAddLog.append(" X (1");
+								
+								elemAdd += v;
+								elemAddLog.append(" + " + dm.getAbbreviation() + "(" + Util.format(v) + ")");
+							} else if (a == DamageAccumulator.Multiplicative) {
+								mult *= (1.0 + v);
+								multLog.append(" X (1 + " + dm.getAbbreviation() + "(" + Util.format(v) + "))");
+							}
+						}
+					}
+				}
+				
+				if (add > 0)
+					addLog.append(")");
+
+				if (elemAdd > 0)
+					elemAddLog.append(")");
+
+				row.notes = notes.toString();
+				
+				row.log = log.toString() + critLog.toString() + multLog.toString() + addLog.toString() + elemAddLog.toString();
+				row.noCrit = Math.round(value * scalar * mult * (1.0 + add) * (1.0 + elemAdd));
+				row.maxCrit = Math.round(value * scalar * crit * mult * (1.0 + add) * (1.0 + elemAdd));
+				
+				if (sentry)
+					row.shooter = "Sentry";
+				else if (skill == ActiveSkill.Companion)
+					row.shooter = "Companion";
+				else
+					row.shooter = "Player";
+				
+				list.add(row);
+			}
+		}
+		
+		return list;
 	}
 }

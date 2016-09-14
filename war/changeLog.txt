@@ -1,5 +1,8 @@
 Change Log:
 
+**9/14/16**
+- Added "Max Hit" table that shows the maximum damage possible for each attack
+
 **8/24/16**
 - Fixed base hatred regen to be 4/second
 - When importing a hero, if the paragon level is >= 797 and Karlei's Point is equipped, Paragon Hatred Points will be set to 50

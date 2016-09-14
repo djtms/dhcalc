@@ -825,7 +825,7 @@ public class CharacterData implements Serializable {
 	public double getWeaponDamage() {
 		return this.weaponDamage;
 	}
-
+	
 	public void setWeaponDamage(double weaponDamage) {
 		this.weaponDamage = weaponDamage;
 	}
@@ -2226,6 +2226,22 @@ public class CharacterData implements Serializable {
 
 	public void setTopaz(GemLevel topaz) {
 		this.topaz = topaz;
+	}
+
+	public double getWeaponMinimumDamage() {
+		return ((this.baseMin + this.addMin) * (1.0 + this.weaponDamagePercent)) + this.jewelryMin;
+	}
+
+	public double getWeaponMaximumDamage() {
+		return ((this.baseMax + this.addMax) * (1.0 + this.weaponDamagePercent)) + this.jewelryMax;
+	}
+
+	public Double getOffHand_minDamage() {
+		return ((this.offHand_baseMin + this.offHand_addMin) * (1.0 + this.offHand_weaponDamagePercent)) + this.jewelryMin;
+	}
+
+	public Double getOffHand_maxDamage() {
+		return ((this.offHand_baseMax + this.offHand_addMax) * (1.0 + this.offHand_weaponDamagePercent)) + this.jewelryMax;
 	}
 
 }
