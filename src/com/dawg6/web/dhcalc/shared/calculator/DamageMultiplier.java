@@ -33,21 +33,21 @@ public enum DamageMultiplier {
 						CharacterData data) {
 					return data.getWeaponMaximumDamage();
 				}
-			}),MAXWD("MaxWD", DamageAccumulator.Multiplicative,
-					"Maximum Main Hand Weapon Damage",
-					new Test<SimulationState, Double>() {
+			}), MAXWD("MaxWD", DamageAccumulator.Multiplicative,
+			"Maximum Main Hand Weapon Damage",
+			new Test<SimulationState, Double>() {
 
-						@Override
-						public Double getValue(SimulationState state) {
-							return state.getData().getWeaponMaximumDamage();
-						}
+				@Override
+				public Double getValue(SimulationState state) {
+					return state.getData().getWeaponMaximumDamage();
+				}
 
-						@Override
-						public Double getMax(boolean sentry, DamageRow row,
-								CharacterData data) {
-							return data.getWeaponMaximumDamage();
-						}
-					}), OHWD("OHWD", DamageAccumulator.Multiplicative,
+				@Override
+				public Double getMax(boolean sentry, DamageRow row,
+						CharacterData data) {
+					return data.getWeaponMaximumDamage();
+				}
+			}), OHWD("OHWD", DamageAccumulator.Multiplicative,
 			"Average Off-Hand Weapon Damage",
 			new Test<SimulationState, Double>() {
 
@@ -292,8 +292,8 @@ public enum DamageMultiplier {
 				@Override
 				public Double getMax(boolean sentry, DamageRow row,
 						CharacterData data) {
-					return (data.isZeis() && (row.source.skill != ActiveSkill.Companion)) ? (5 * (0.04 + (data.getZeisLevel() * 0.0008)))
-							: 0.0;
+					return (data.isZeis() && (row.source.skill != ActiveSkill.Companion)) ? (5 * (0.04 + (data
+							.getZeisLevel() * 0.0008))) : 0.0;
 				}
 			}), Traps("Traps", DamageAccumulator.Multiplicative,
 			"# of Other Traps (Spike Trap arcs)",
@@ -550,7 +550,11 @@ public enum DamageMultiplier {
 				@Override
 				public Double getMax(boolean sentry, DamageRow row,
 						CharacterData data) {
-					return ((data.getNumUe() >= 6) && (row.source.skill != ActiveSkill.Companion) && !sentry) ? (0.4 * data
+
+					return ((data.getNumUe() >= 6)
+							&& ((row.source.skill == ActiveSkill.MS) || ((row.source.skill == ActiveSkill.Vengeance) || (new SkillAndRune(
+									row.source.skill, row.source.rune)
+									.getHatred(data) > 0))) && !sentry) ? (0.4 * data
 							.getMaxDiscipline()) : 0.0;
 				}
 			}), BW1("BWg", DamageAccumulator.Multiplicative,
@@ -1438,12 +1442,13 @@ public enum DamageMultiplier {
 				@Override
 				public Double getMax(boolean sentry, DamageRow row,
 						CharacterData data) {
-					
-					if ((data.getMfdRune() == Rune.Grim_Reaper) && (data.getNumAdditional() > 0) && (data.getTargetSpacing() <= 20))
-						return 0.3; 
+
+					if ((data.getMfdRune() == Rune.Grim_Reaper)
+							&& (data.getNumAdditional() > 0)
+							&& (data.getTargetSpacing() <= 20))
+						return 0.3;
 					else
-						return data.isMarked() ? 0.15
-							: 0.0;
+						return data.isMarked() ? 0.15 : 0.0;
 				}
 			}), Vaxo("Vaxo", DamageAccumulator.Additive,
 			"Haunt of Vaxo Marked for Death bonus (15% during uptime)",
@@ -1646,11 +1651,11 @@ public enum DamageMultiplier {
 	public boolean hasTest() {
 		return test != null;
 	}
-	
+
 	public double getValue(SimulationState state) {
 		return test.getValue(state);
 	}
-	
+
 	public double getMax(boolean sentry, DamageRow row, CharacterData data) {
 		return test.getMax(sentry, row, data);
 	}
