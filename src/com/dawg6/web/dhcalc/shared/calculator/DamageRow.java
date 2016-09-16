@@ -161,6 +161,7 @@ public class DamageRow {
 		this.multipliers.add(DamageMultiplier.BW2);
 		this.multipliers.add(DamageMultiplier.UE4);
 		this.multipliers.add(DamageMultiplier.COE);
+		this.multipliers.add(DamageMultiplier.Occulus);
 		this.multipliers.add(DamageMultiplier.EW);
 
 		if ((source.skill != null) && (source.skill.getSkillType() == SkillType.Primary)) {

@@ -143,6 +143,10 @@ public enum SpecialItemType {
 			Slot.Ring2, Slot.CubeJewelry }, new Attribute(
 			SpecialItemType.PERCENT, Const.COE_PERCENT, 150, 200)),
 
+	OCULUS(Const.OCULUS_RING, "oculus-ring", false, new Slot[] { Slot.Ring1,
+			Slot.Ring2, Slot.CubeJewelry }, new Attribute(
+			SpecialItemType.PERCENT, Const.OCULUS_RING_PERCENT, 70, 85), new Attribute(SpecialItemType.UPTIME)),
+
 	BrokenPromises(Const.BROKEN_PROMISES, "broken-promises", false, new Slot[] { Slot.Ring1,
 			Slot.Ring2, Slot.CubeJewelry }),
 

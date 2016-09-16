@@ -583,6 +583,52 @@ public enum DamageMultiplier {
 						CharacterData data) {
 					return data.isBastions() ? 0.5 : 0.0;
 				}
+			}), Occulus("Oculus", DamageAccumulator.Multiplicative,
+			"Oculus Ring Bonus(70-85% while Active)",
+			new Test<SimulationState, Double>() {
+				@Override
+				public Double getValue(SimulationState state) {
+					
+					boolean a = state.getData().isOculus();
+					boolean b = state.getData().isFollowerOculus();
+					boolean c = state.getData().isPartyOculus();
+
+					if (!a && !b && !c)
+						return 0.0;
+
+					double t = 0.0;
+					int n = 0;
+					
+					if (a) {
+						t += (state.getData().getOculusPercent() * state.getData().getOculusUptime());
+						n++;
+					}
+
+					if (b) {
+						t += (state.getData().getFollowerOculusPercent() * state.getData().getFollowerOculusUptime());
+						n++;
+					}
+
+					if (c) {
+						t += (state.getData().getPartyOculusPercent() * state.getData().getPartyOculusUptime());
+						n++;
+					}
+					
+					return t / n;
+				}
+
+				@Override
+				public Double getMax(boolean sentry, DamageRow row,
+						CharacterData data) {
+					return Math.max(
+							data.isOculus() ? data.getOculusPercent() : 0.0,
+							Math.max(
+								data.isFollowerOculus() ? data
+										.getFollowerOculusPercent() : 0.0,
+								data.isPartyOculus() ? data
+										.getPartyOculusPercent() : 0.0));
+
+				}
 			}), Dexterity("Dex", DamageAccumulator.Multiplicative,
 			"Dexterity bonus (1% damage per dex)",
 			new Test<SimulationState, Double>() {

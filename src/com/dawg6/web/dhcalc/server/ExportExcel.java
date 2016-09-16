@@ -578,6 +578,9 @@ public class ExportExcel {
 		createInput(inputs, data.data.isAnatomy(), "Scoundrel Anatomy");
 		createInput(inputs, data.data.isHysteria(), "Scoundrel Hysteria");
 		createInput(inputs, data.data.isInspire(), "Templar Inspire");
+		createInput(inputs, data.data.isFollowerOculus(), "Follower Oculus Ring");
+		createInput(inputs, data.data.getFollowerOculusPercent(), "Follower Oculus Ring Percent", pctStyle);
+		createInput(inputs, data.data.getFollowerOculusUptime(), "Follower Oculus Ring Uptime", pctStyle);
 
 		createInputHeader(inputs, "Player Buffs");
 		createInput(inputs, data.data.isWolf(), "Wolf Companion");
@@ -622,6 +625,9 @@ public class ExportExcel {
 				"Conviction Passive Uptime", pctStyle);
 		createInput(inputs, data.data.getConvictionActiveUptime(),
 				"Conviction Active Uptime", pctStyle);
+		createInput(inputs, data.data.isPartyOculus(), "Party Oculus Ring");
+		createInput(inputs, data.data.getPartyOculusPercent(), "Party Oculus Ring Percent", pctStyle);
+		createInput(inputs, data.data.getPartyOculusUptime(), "Party Oculus Ring Uptime", pctStyle);
 
 		inputs.autoSizeColumn(0, true);
 		inputs.autoSizeColumn(1, true);

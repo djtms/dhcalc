@@ -2333,6 +2333,20 @@ public class MainPanel extends BasePanel {
 				new Field(this.buffPanel.getInspire(), "Inspire",
 						Boolean.FALSE.toString()),
 
+				new Field(this.buffPanel.getOculus(), "Follower.Oculus",
+						Boolean.FALSE.toString()),
+				new Field(this.buffPanel.getOculusPercent(), "Follower.OculusPct",
+						"85"),
+				new Field(this.buffPanel.getOculusUptime(), "Follower.OculusUptime",
+						"0"),
+						
+				new Field(this.playerBuffPanel.getOculus(), "Party.Oculus",
+						Boolean.FALSE.toString()),
+				new Field(this.playerBuffPanel.getOculusPercent(), "Party.OculusPct",
+						"85"),
+				new Field(this.playerBuffPanel.getOculusUptime(), "Party.OculusUptime",
+						"0"),
+
 				new Field(this.playerBuffPanel.getBbv(), "BBV",
 						Boolean.FALSE.toString()),
 				new Field(this.playerBuffPanel.getBbvUptime(), "BBVUptime",
@@ -2348,7 +2362,7 @@ public class MainPanel extends BasePanel {
 				new Field(this.playerBuffPanel.getTimeWarpUptime(),
 						"TimeWarpUptime", "0"),
 				new Field(this.playerBuffPanel.getPiranhasUptime(),
-						"PiranhasUptime", "100"),
+						"PiranhasUptime", "0"),
 				new Field(this.playerBuffPanel.getInnerSanctuary(),
 						"InnerSanctuary", Boolean.FALSE.toString()),
 				new Field(this.playerBuffPanel.getInnerSanctuaryUptime(),
@@ -2356,7 +2370,7 @@ public class MainPanel extends BasePanel {
 				new Field(this.playerBuffPanel.getCripplingWave(),
 						"CripplingWave", Boolean.FALSE.toString()),
 				new Field(this.playerBuffPanel.getCripplingWaveUptime(),
-						"CripplingWaveUptime", "100"),
+						"CripplingWaveUptime", "0"),
 				new Field(this.playerBuffPanel.getConviction(), "Conviction",
 						Boolean.FALSE.toString()),
 				new Field(this.playerBuffPanel.getOverawe(), "Overawe",
@@ -2505,6 +2519,12 @@ public class MainPanel extends BasePanel {
 			data.setInspire(buffPanel.getInspire().getValue());
 			data.setHysteria(buffPanel.getHysteria().getValue());
 			data.setAnatomy(buffPanel.getAnatomy().getValue());
+			data.setFollowerOculus(buffPanel.getOculus().getValue());
+			data.setFollowerOculusPercent(buffPanel.getOculusPercent().getValue() / 100.0);
+			data.setFollowerOculusUptime(buffPanel.getOculusUptime().getValue() / 100.0);
+			data.setPartyOculus(playerBuffPanel.getOculus().getValue());
+			data.setPartyOculusPercent(playerBuffPanel.getOculusPercent().getValue() / 100.0);
+			data.setPartyOculusUptime(playerBuffPanel.getOculusUptime().getValue() / 100.0);
 			data.setWolf(playerBuffPanel.getWolf().getValue());
 			data.setWolfUptime(playerBuffPanel.getWolfUptime().getValue() / 100.0);
 			data.setBbv(playerBuffPanel.getBbv().getValue());

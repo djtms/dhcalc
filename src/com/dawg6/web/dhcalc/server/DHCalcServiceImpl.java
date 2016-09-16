@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 
 import com.dawg6.d3api.shared.ApiData;
 import com.dawg6.d3api.shared.CareerProfile;
+import com.dawg6.d3api.shared.Follower;
 import com.dawg6.d3api.shared.HeroProfile;
 import com.dawg6.d3api.shared.ItemInformation;
 import com.dawg6.d3api.shared.Leaderboard;
@@ -47,6 +48,8 @@ import com.dawg6.web.dhcalc.shared.calculator.Version;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -287,15 +290,46 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 						items.put(e.getKey(), item);
 					}
 
-					// if (item.gems != null) {
-					// for (int i = 0; i < item.gems.length; i++) {
-					// ItemInformation.Gem g = item.gems[i];
-					// g.item = getItem(server, g.item.tooltipParams);
-					// }
-					// }
 				}
 
 				hero.items = items;
+			}
+			
+			if (hero.followers != null) {
+				Follower[] flist = { hero.followers.templar, hero.followers.enchantress, hero.followers.scoundrel };
+				
+				for (Follower f : flist) {
+					if ((f != null) && f.items != null) {
+
+						ItemInformation[] ilist = { f.items.leftFinger, f.items.rightFinger, f.items.neck, f.items.mainHand,
+								f.items.offHand, f.items.special };
+						
+						int n = 0;
+						
+						for (ItemInformation i : ilist) {
+							
+							if ((i != null) && (i.tooltipParams != null)) {
+								ItemInformation item = getItemNoLog(realm,
+										i.tooltipParams);
+								
+								if (item != null) {
+									ilist[n] = item;
+								}
+							}
+							
+							n++;
+						}
+						
+						n = 0;
+						f.items.leftFinger = ilist[n++];
+						f.items.rightFinger = ilist[n++];
+						f.items.neck = ilist[n++];
+						f.items.mainHand = ilist[n++];
+						f.items.offHand = ilist[n++];
+						f.items.special = ilist[n++];
+					}
+				}
+				
 			}
 
 			return hero;
@@ -567,5 +601,14 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 		log.info("initialize()");
 		CouchDBDHCalcDatabase.getInstance();
 		CouchDBDHCalcParameters.getInstance();
+	}
+	
+	public static void main(String[] args) {
+		DHCalcServiceImpl.initialize();
+		
+		DHCalcServiceImpl i = new DHCalcServiceImpl();
+		HeroProfile p = i.getHero(Realm.US, "dawg6", 1416, 72386632);
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		log.info(gson.toJson(p));
 	}
 }

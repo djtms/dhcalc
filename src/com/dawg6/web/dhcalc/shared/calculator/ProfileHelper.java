@@ -27,6 +27,7 @@ import java.util.Vector;
 
 import com.dawg6.d3api.shared.ActiveSkillData;
 import com.dawg6.d3api.shared.Const;
+import com.dawg6.d3api.shared.Follower;
 import com.dawg6.d3api.shared.HeroProfile;
 import com.dawg6.d3api.shared.ItemInformation;
 import com.dawg6.d3api.shared.ItemInformationAttribute;
@@ -53,7 +54,8 @@ public class ProfileHelper {
 		setElementalDamage(hero, data);
 		setSkillDamage(hero, data);
 		setGemDamage(hero, data);
-
+		setFollowerData(hero, data);
+		
 		importWeaponData(hero, data, paragonDexterity);
 
 		data.setDefaults();
@@ -61,6 +63,41 @@ public class ProfileHelper {
 		data.setDefaults();
 
 		return data;
+	}
+
+	private static void setFollowerData(HeroProfile hero, CharacterData data) {
+		boolean followerOculus = false;
+		double followerOculusPercent = 0.0;
+
+		if (hero.followers != null) {
+			Follower[] flist = { hero.followers.templar, hero.followers.enchantress, hero.followers.scoundrel };
+			
+			for (Follower f : flist) {
+				if ((f != null) && (f.items != null)) {
+
+					ItemInformation[] ilist = { f.items.leftFinger, f.items.rightFinger };
+					
+					for (ItemInformation i : ilist) {
+						if ((i != null) && (i.name != null)) {
+							if (!followerOculus && i.name.equals(Const.OCULUS_RING)) {
+								followerOculus = true;
+								Value<Float> v = i.attributesRaw.get(Const.OCULUS_RING_PERCENT);
+								
+								if (v != null) {
+									followerOculusPercent = v.min;
+								} else {
+									followerOculusPercent = 0.7;
+								}
+							}
+						}
+					}
+					
+				}
+			}
+		}
+
+		data.setFollowerOculus(followerOculus);
+		data.setFollowerOculusPercent(followerOculusPercent);
 	}
 
 	public static void updateCdr(CharacterData data) {

@@ -19,6 +19,7 @@
 package com.dawg6.web.dhcalc.client;
 
 import com.dawg6.gwt.client.widgets.SimpleCaptionPanel;
+import com.dawg6.web.dhcalc.shared.calculator.SpecialItemType;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Anchor;
@@ -57,6 +58,9 @@ public class PlayerBuffPanel extends Composite {
 	private final SimpleCheckBox stretchTime;
 	private final NumberSpinner timeWarpUptime;
 	private final NumberSpinner stretchTimeUptime;
+	private final SimpleCheckBox oculus;
+	private final NumberSpinner oculusPercent;
+	private final NumberSpinner oculusUptime;
 
 	public PlayerBuffPanel() {
 		
@@ -332,6 +336,38 @@ public class PlayerBuffPanel extends Composite {
 		
 		row++;
 		
+		Anchor anchor_11 = new Anchor(SpecialItemType.OCULUS.getName() + ":");
+		anchor_11.setHref(SpecialItemType.OCULUS.getUrl());
+		anchor_11.setTarget("_blank");
+		flexTable.setWidget(row, 0, anchor_11);
+		
+		oculus = new SimpleCheckBox();
+		flexTable.setWidget(row, 1, oculus);
+
+		Label label1 = new Label("% Damage:", false);
+		flexTable.setWidget(row, 2, label1);
+		
+		oculusPercent = new NumberSpinner();
+		oculusPercent.setMin(70);
+		oculusPercent.setMax(85);
+		oculusPercent.setVisibleLength(4);
+		oculusPercent.setTitle("Damage Increased by Percent");
+		flexTable.setWidget(row, 3, oculusPercent);
+
+		row++;
+		
+		Label label2 = new Label("% Uptime:", false);
+		flexTable.setWidget(row, 2, label2);
+		
+		oculusUptime = new NumberSpinner();
+		oculusUptime.setMin(0);
+		oculusUptime.setMax(100);
+		oculusUptime.setVisibleLength(4);
+		oculusUptime.setTitle("Percent of time you are receiving other Player's Oculus buff");
+		flexTable.setWidget(row, 3, oculusUptime);
+		
+		row++;
+		
 		wolfUptime.setMax(100.0);
 		bbvUptime.setMax(100.0);
 		massConfusionUptime.setMax(100.0);
@@ -528,5 +564,14 @@ public class PlayerBuffPanel extends Composite {
 
 	public DoubleSpinner getValorPassiveUptime() {
 		return valorPassiveUptime;
+	}
+	public SimpleCheckBox getOculus() {
+		return oculus;
+	}
+	public NumberSpinner getOculusPercent() {
+		return oculusPercent;
+	}
+	public NumberSpinner getOculusUptime() {
+		return oculusUptime;
 	}
 }

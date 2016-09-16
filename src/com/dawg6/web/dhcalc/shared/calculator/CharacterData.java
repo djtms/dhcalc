@@ -50,6 +50,12 @@ public class CharacterData implements Serializable {
 	private double critChance;
 	private double critHitDamage;
 	private double eliteDamage;
+	private boolean followerOculus;
+	private double followerOculusPercent;
+	private double followerOculusUptime;
+	private boolean partyOculus;
+	private double partyOculusPercent;
+	private double partyOculusUptime;
 	private boolean wolf;
 	private boolean charmed;
 	private boolean bigBadVoodo;
@@ -236,6 +242,12 @@ public class CharacterData implements Serializable {
 		stretchTime = false;
 		timeWarp = false;
 		percentMoving = 0.5;
+		followerOculus = false;
+		followerOculusPercent = 0.0;
+		followerOculusUptime = 0.0;
+		partyOculus = false;
+		partyOculusPercent = 0.0;
+		partyOculusUptime = 0.0;
 	}
 
 	public CharacterData() {
@@ -283,6 +295,9 @@ public class CharacterData implements Serializable {
 		this.equipIas = other.equipIas;
 		this.equipmentDexterity = other.equipmentDexterity;
 		this.equipmentDiscipline = other.equipmentDiscipline;
+		this.followerOculus = other.followerOculus;
+		this.followerOculusPercent = other.followerOculusPercent;
+		this.followerOculusUptime = other.followerOculusUptime;
 		this.focusedMind = other.focusedMind;
 		this.gems = copy(other.gems);
 		this.hardcore = other.hardcore;
@@ -332,6 +347,9 @@ public class CharacterData implements Serializable {
 		this.paragonHatred = other.paragonHatred;
 		this.paragonIAS = other.paragonIAS;
 		this.paragonRCR = other.paragonRCR;
+		this.partyOculus = other.partyOculus;
+		this.partyOculusPercent = other.partyOculusPercent;
+		this.partyOculusUptime = other.partyOculusUptime;
 		this.passives = Util.copy(other.passives);
 		this.percentAtLeast10Yards = other.percentAtLeast10Yards;
 		this.percentControlled = other.percentControlled;
@@ -2242,6 +2260,66 @@ public class CharacterData implements Serializable {
 
 	public Double getOffHand_maxDamage() {
 		return ((this.offHand_baseMax + this.offHand_addMax) * (1.0 + this.offHand_weaponDamagePercent)) + this.jewelryMax;
+	}
+
+	public boolean isOculus() {
+		return isItem(SpecialItemType.OCULUS);
+	}
+
+	public double getOculusPercent() {
+		return getItemAttribute(SpecialItemType.OCULUS, SpecialItemType.PERCENT);
+	}
+
+	public double getOculusUptime() {
+		return getItemAttribute(SpecialItemType.OCULUS, SpecialItemType.UPTIME);
+	}
+
+	public boolean isFollowerOculus() {
+		return followerOculus;
+	}
+
+	public void setFollowerOculus(boolean followerOculus) {
+		this.followerOculus = followerOculus;
+	}
+
+	public double getFollowerOculusPercent() {
+		return followerOculusPercent;
+	}
+
+	public void setFollowerOculusPercent(double followerOculusPercent) {
+		this.followerOculusPercent = followerOculusPercent;
+	}
+
+	public double getFollowerOculusUptime() {
+		return followerOculusUptime;
+	}
+
+	public void setFollowerOculusUptime(double followerOculusUptime) {
+		this.followerOculusUptime = followerOculusUptime;
+	}
+
+	public boolean isPartyOculus() {
+		return partyOculus;
+	}
+
+	public void setPartyOculus(boolean partyOculus) {
+		this.partyOculus = partyOculus;
+	}
+
+	public double getPartyOculusPercent() {
+		return partyOculusPercent;
+	}
+
+	public void setPartyOculusPercent(double partyOculusPercent) {
+		this.partyOculusPercent = partyOculusPercent;
+	}
+
+	public double getPartyOculusUptime() {
+		return partyOculusUptime;
+	}
+
+	public void setPartyOculusUptime(double partyOculusUptime) {
+		this.partyOculusUptime = partyOculusUptime;
 	}
 
 }
