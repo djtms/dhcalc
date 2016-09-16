@@ -1,5 +1,8 @@
 Change Log:
 
+**9/16/16**
+- Added Oculus Ring. Can be selected by player (worn or in cube), follower and/or other players. If multiple rings are specified, the buff is averaged (weighted by % uptime).
+
 **9/14/16**
 - Added "Max Hit" table that shows the maximum damage possible for each attack
 
