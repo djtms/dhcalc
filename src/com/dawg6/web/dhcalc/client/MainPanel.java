@@ -1945,6 +1945,12 @@ public class MainPanel extends BasePanel {
 
 		paragonPanel.getParagonLevel().setValue(data.getParagon());
 
+		buffPanel.getOculus().setValue(data.isFollowerOculus());
+		
+		
+		if (data.isFollowerOculus())
+			buffPanel.getOculusPercent().setValue((int) Math.round(data.getFollowerOculusPercent() * 100.0));
+		
 		if (paragonDexterity == null) {
 			paragonPanel.getParagonDexterity().setValue(
 					data.getParagonDexterity());

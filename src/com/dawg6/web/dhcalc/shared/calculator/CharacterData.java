@@ -242,8 +242,6 @@ public class CharacterData implements Serializable {
 		stretchTime = false;
 		timeWarp = false;
 		percentMoving = 0.5;
-		followerOculus = false;
-		followerOculusPercent = 0.0;
 		followerOculusUptime = 0.0;
 		partyOculus = false;
 		partyOculusPercent = 0.0;
