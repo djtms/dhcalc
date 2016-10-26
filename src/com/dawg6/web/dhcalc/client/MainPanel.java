@@ -64,6 +64,7 @@ import com.dawg6.web.dhcalc.shared.calculator.Passive;
 import com.dawg6.web.dhcalc.shared.calculator.ProfileHelper;
 import com.dawg6.web.dhcalc.shared.calculator.Rune;
 import com.dawg6.web.dhcalc.shared.calculator.Slot;
+import com.dawg6.web.dhcalc.shared.calculator.SpenderLogic;
 import com.dawg6.web.dhcalc.shared.calculator.TargetSize;
 import com.dawg6.web.dhcalc.shared.calculator.Util;
 import com.dawg6.web.dhcalc.shared.calculator.Version;
@@ -2266,6 +2267,8 @@ public class MainPanel extends BasePanel {
 						"100"),
 				new Field(this.skills.getSyncWithCoe(), "SyncWithCoE",
 						Boolean.TRUE.toString()),
+				new Field(this.skills.getSpenderFullHatred(), "SpenderFullHatred",
+						Boolean.FALSE.toString()),
 				new Field(this.hatredPanel.getHatredPerSecond(),
 						"EquipHatredPerSecond", "0.0"),
 				new Field(this.hatredPanel.getEquipmentDiscipline(),
@@ -2574,6 +2577,7 @@ public class MainPanel extends BasePanel {
 			data.setSlamDance(playerBuffPanel.getSlamDance().getValue());
 			data.setCaltropsUptime(skills.getCaltropsUptime().getValue() / 100.0);
 			data.setSyncWithCoe(skills.getSyncWithCoe().getValue());
+			data.setSpenderLogic(skills.getSpenderFullHatred().getValue() ? SpenderLogic.FullHatred : SpenderLogic.AnyTime);
 			data.setHatredPerSecond(hatredPanel.getHatredPerSecond().getValue());
 			data.setEquipmentDiscipline(hatredPanel.getEquipmentDiscipline()
 					.getValue());

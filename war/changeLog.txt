@@ -1,5 +1,9 @@
 Change Log:
 
+**10/26/16**
+- Fixed FoK/Knives Expert to include RCR in hatred cost.
+- Added option (on Skills tab) to only use Spender when Full Hatred (e.g. for when using Sword of Ill Will with FoK/Knives Expert). 
+
 **9/16/16**
 - Added Oculus Ring. Can be selected by player (worn or in cube), follower and/or other players. If multiple rings are specified, the buff is averaged (weighted by % uptime).
 

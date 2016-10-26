@@ -50,7 +50,8 @@ public class SkillsPanel extends Composite {
 	private final List<Anchor> runeAnchors = new Vector<Anchor>(NUM_SKILLS);
 	private final List<ListBox> runeBoxes = new Vector<ListBox>(NUM_SKILLS);
 	private final Set<SkillsChangedListener> listeners = new TreeSet<SkillsChangedListener>();
-	private SimpleCheckBox syncWithCoe;
+	private final SimpleCheckBox syncWithCoe;
+	private final SimpleCheckBox spenderFullHatred;
 	
 	public interface SkillsChangedListener {
 		void skillsChanged(Map<ActiveSkill, Rune> skills);
@@ -156,6 +157,21 @@ public class SkillsPanel extends Composite {
 		syncWithCoe
 				.setTitle("If set and wearing CoE, cooldowns (FoK, RoV, Companion) will only be used when proper CoE buff is up.");
 		flexTable.setWidget(row, 1, syncWithCoe);
+		flexTable.getFlexCellFormatter().setColSpan(row, 1, 2);
+
+		row++;
+		
+		Label label_1a = new Label("Spender Requires Full Hatred:");
+		label_1a.setWordWrap(false);
+		flexTable.setWidget(row, 0, label_1a);
+		flexTable.getFlexCellFormatter().setColSpan(row, 0, 2);
+		flexTable.getFlexCellFormatter().setHorizontalAlignment(row, 0,
+				HasHorizontalAlignment.ALIGN_RIGHT);
+
+		spenderFullHatred = new SimpleCheckBox();
+		spenderFullHatred
+				.setTitle("Only use spender when Hatred is full (or needed for a buff).");
+		flexTable.setWidget(row, 1, spenderFullHatred);
 		flexTable.getFlexCellFormatter().setColSpan(row, 1, 2);
 
 		row++;
@@ -465,5 +481,9 @@ public class SkillsPanel extends Composite {
 
 	public SimpleCheckBox getSyncWithCoe() {
 		return this.syncWithCoe;
+	}
+
+	public SimpleCheckBox getSpenderFullHatred() {
+		return spenderFullHatred;
 	}
 }

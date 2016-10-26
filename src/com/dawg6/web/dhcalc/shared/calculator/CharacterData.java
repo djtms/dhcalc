@@ -171,6 +171,8 @@ public class CharacterData implements Serializable {
 	private double percentMoving;
 	private boolean otherSets;
 	private boolean syncWithCoe;
+	private SpenderLogic spenderLogic;
+	private GeneratorLogic generatorLogic;
 
 	public CharacterData copy() {
 		return new CharacterData(this);
@@ -298,6 +300,7 @@ public class CharacterData implements Serializable {
 		this.followerOculusUptime = other.followerOculusUptime;
 		this.focusedMind = other.focusedMind;
 		this.gems = copy(other.gems);
+		this.generatorLogic = other.generatorLogic;
 		this.hardcore = other.hardcore;
 		this.hatredPerSecond = other.hatredPerSecond;
 		this.hero = other.hero;
@@ -373,6 +376,7 @@ public class CharacterData implements Serializable {
 		this.skillDamage = Util.copy(other.skillDamage);
 		this.skills = Util.copy(other.skills);
 		this.slamDance = other.slamDance;
+		this.spenderLogic = other.spenderLogic;
 		this.stretchTime = other.stretchTime;
 		this.stretchTimeUptime = other.stretchTimeUptime;
 		this.syncWithCoe = other.syncWithCoe;
@@ -2318,6 +2322,22 @@ public class CharacterData implements Serializable {
 
 	public void setPartyOculusUptime(double partyOculusUptime) {
 		this.partyOculusUptime = partyOculusUptime;
+	}
+
+	public SpenderLogic getSpenderLogic() {
+		return spenderLogic;
+	}
+
+	public void setSpenderLogic(SpenderLogic spenderLogic) {
+		this.spenderLogic = spenderLogic;
+	}
+
+	public GeneratorLogic getGeneratorLogic() {
+		return generatorLogic;
+	}
+
+	public void setGeneratorLogic(GeneratorLogic generatorLogic) {
+		this.generatorLogic = generatorLogic;
 	}
 
 }
