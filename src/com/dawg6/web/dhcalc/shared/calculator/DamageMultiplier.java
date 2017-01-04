@@ -986,19 +986,19 @@ public enum DamageMultiplier {
 					return data.isCullTheWeak() ? 0.2 : 0.0;
 				}
 			}), M6("M6", DamageAccumulator.Multiplicative,
-			"Marauder's 6 piece bonus (+800% per Sentry)",
+			"Marauder's 6 piece bonus (+1200% per Sentry)",
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
 					return (state.getData().getNumMarauders() >= 6) ? (state
-							.getData().getNumSentries() * 8.0) : 0;
+							.getData().getNumSentries() * 12.0) : 0;
 				}
 
 				@Override
 				public Double getMax(boolean sentry, DamageRow row,
 						CharacterData data) {
 					return (!sentry && (data.getNumMarauders() >= 6)) ? (data
-							.getNumSentries() * 8.0) : 0.0;
+							.getNumSentries() * 12.0) : 0.0;
 				}
 			}), S2("S2", DamageAccumulator.Multiplicative,
 			"Shadow 2 piece bonus (+1200% if using Melee)",

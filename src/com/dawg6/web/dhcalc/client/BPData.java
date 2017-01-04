@@ -23,8 +23,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 
+import com.dawg6.common.util.Pair;
 import com.dawg6.gwt.client.ApplicationPanel;
-import com.dawg6.gwt.common.util.Pair;
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.Breakpoint;
 import com.dawg6.web.dhcalc.shared.calculator.DamageFunction;

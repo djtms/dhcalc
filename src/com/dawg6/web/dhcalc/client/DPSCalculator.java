@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
+import com.dawg6.common.util.Pair;
 import com.dawg6.gwt.client.widgets.SimpleCaptionPanel;
-import com.dawg6.gwt.common.util.Pair;
 import com.dawg6.web.dhcalc.client.ParagonPanel.Listener;
 import com.dawg6.web.dhcalc.shared.calculator.ActiveSkill;
 import com.dawg6.web.dhcalc.shared.calculator.Breakpoint;
