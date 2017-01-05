@@ -44,6 +44,10 @@ public enum SpecialItemType {
 			Slot.CubeArmor }, new Attribute(SpecialItemType.PERCENT,
 			Const.SASH_OF_KNIVES_PERCENT, 500, 650)),
 
+	Hellcat(Const.HELLCAT, "hellcat-waistguard", false, new Slot[] { Slot.Waist,
+			Slot.CubeArmor }, new Attribute(SpecialItemType.BOUNCES,
+			Const.HELLCAT_BOUNCES, 3, 5, 1.0)),
+
 	Calamity(Const.CALAMITY, "calamity", false, new Slot[] { Slot.MainHand,
 			Slot.CubeWeapon, Slot.OffHand }),
 
@@ -167,6 +171,7 @@ public enum SpecialItemType {
 	;
 
 	public static final String PERCENT = "Percent";
+	public static final String BOUNCES = "Bounces";
 	public static final String PERCENT_MOVING = "Percent Moving";
 	public static final String UPTIME = "Uptime";
 	public static final String HATRED = "Hatred";

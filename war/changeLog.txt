@@ -1,5 +1,11 @@
 Change Log:
 
+**1/5/17**
+- Added Hellcat Waistguard mechanics
+
+**1/4/17**
+- Updated (partially) for 2.4.3 (M6 to 1200%)
+
 **10/26/16**
 - Fixed FoK/Knives Expert to include RCR in hatred cost.
 - Added option (on Skills tab) to only use Spender when Full Hatred (e.g. for when using Sword of Ill Will with FoK/Knives Expert). 

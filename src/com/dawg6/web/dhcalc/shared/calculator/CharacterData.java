@@ -2268,8 +2268,16 @@ public class CharacterData implements Serializable {
 		return isItem(SpecialItemType.OCULUS);
 	}
 
+	public boolean isHellcat() {
+		return isItem(SpecialItemType.Hellcat);
+	}
+
 	public double getOculusPercent() {
 		return getItemAttribute(SpecialItemType.OCULUS, SpecialItemType.PERCENT);
+	}
+
+	public int getHellcatBounces() {
+		return (int) getItemAttribute(SpecialItemType.Hellcat, SpecialItemType.BOUNCES);
 	}
 
 	public double getOculusUptime() {

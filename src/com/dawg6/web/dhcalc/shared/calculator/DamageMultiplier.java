@@ -79,6 +79,25 @@ public enum DamageMultiplier {
 							: 0.0;
 				}
 
+			}), Hellcat("HCB", DamageAccumulator.Multiplicative,
+			"Hellcat Bounces (2-4 x 50% + 1 x 800%)",
+			new Test<SimulationState, Double>() {
+
+				@Override
+				public Double getValue(SimulationState state) {
+					return state.getData().isHellcat() ? (((state.getData()
+							.getHellcatBounces() - 1) * 0.5) + 8.0) : 0.0;
+				}
+
+				@Override
+				public Double getMax(boolean sentry, DamageRow row,
+						CharacterData data) {
+					
+					
+					return (row.multipliers.contains(DamageMultiplier.Grenades) && data.isHellcat()) ? (((data.getHellcatBounces() - 1) * 0.5) + 8.0)
+							: 0.0;
+				}
+
 			}), PC("PC", DamageAccumulator.Multiplicative,
 			"Proc Coefficient (depends on skill)",
 			new Test<SimulationState, Double>() {
@@ -131,7 +150,7 @@ public enum DamageMultiplier {
 							: 0.0;
 				}
 
-			}), NumGrenades("#Grenades", DamageAccumulator.Multiplicative,
+			}), NumGrenades("#G", DamageAccumulator.Multiplicative,
 			"# of Grenades per Target", null), Fire("Fire",
 			DamageAccumulator.ElementalAdditive, "Fire Elemental Damage Bonus",
 			new Test<SimulationState, Double>() {
@@ -588,7 +607,7 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					
+
 					boolean a = state.getData().isOculus();
 					boolean b = state.getData().isFollowerOculus();
 					boolean c = state.getData().isPartyOculus();
@@ -598,35 +617,37 @@ public enum DamageMultiplier {
 
 					double t = 0.0;
 					int n = 0;
-					
+
 					if (a) {
-						t += (state.getData().getOculusPercent() * state.getData().getOculusUptime());
+						t += (state.getData().getOculusPercent() * state
+								.getData().getOculusUptime());
 						n++;
 					}
 
 					if (b) {
-						t += (state.getData().getFollowerOculusPercent() * state.getData().getFollowerOculusUptime());
+						t += (state.getData().getFollowerOculusPercent() * state
+								.getData().getFollowerOculusUptime());
 						n++;
 					}
 
 					if (c) {
-						t += (state.getData().getPartyOculusPercent() * state.getData().getPartyOculusUptime());
+						t += (state.getData().getPartyOculusPercent() * state
+								.getData().getPartyOculusUptime());
 						n++;
 					}
-					
+
 					return t / n;
 				}
 
 				@Override
 				public Double getMax(boolean sentry, DamageRow row,
 						CharacterData data) {
-					return Math.max(
-							data.isOculus() ? data.getOculusPercent() : 0.0,
-							Math.max(
-								data.isFollowerOculus() ? data
-										.getFollowerOculusPercent() : 0.0,
-								data.isPartyOculus() ? data
-										.getPartyOculusPercent() : 0.0));
+					return Math.max(data.isOculus() ? data.getOculusPercent()
+							: 0.0, Math.max(
+							data.isFollowerOculus() ? data
+									.getFollowerOculusPercent() : 0.0,
+							data.isPartyOculus() ? data.getPartyOculusPercent()
+									: 0.0));
 
 				}
 			}), Dexterity("Dex", DamageAccumulator.Multiplicative,
