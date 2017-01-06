@@ -94,7 +94,7 @@ public enum DamageMultiplier {
 						CharacterData data) {
 					
 					
-					return (row.multipliers.contains(DamageMultiplier.Grenades) && data.isHellcat()) ? (((data.getHellcatBounces() - 1) * 0.5) + 8.0)
+					return (!sentry && row.multipliers.contains(DamageMultiplier.Grenades) && data.isHellcat()) ? (((data.getHellcatBounces() - 1) * 0.5) + 8.0)
 							: 0.0;
 				}
 

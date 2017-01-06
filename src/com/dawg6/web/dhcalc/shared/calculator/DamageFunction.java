@@ -802,6 +802,7 @@ public class DamageFunction {
 								dlist.add(DamageMultiplier.LoN);
 								dlist.add(DamageMultiplier.M4);
 								dlist.add(DamageMultiplier.VenBuff);
+								dlist.remove(DamageMultiplier.Hellcat);
 							}
 
 							if ((skill != ActiveSkill.Companion)) {
