@@ -2348,4 +2348,14 @@ public class CharacterData implements Serializable {
 		this.generatorLogic = generatorLogic;
 	}
 
+	public double getHellcatDamageMultiplier() {
+		
+		if (!this.isHellcat())
+			return 0.0;
+		
+		int bounces = this.getHellcatBounces();
+		
+		return (bounces >= 5) ? 16.0 : ((bounces <= 3) ? 10.5 : 13.0);
+	}
+
 }

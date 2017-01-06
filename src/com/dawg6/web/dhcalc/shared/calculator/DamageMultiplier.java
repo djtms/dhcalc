@@ -85,19 +85,16 @@ public enum DamageMultiplier {
 
 				@Override
 				public Double getValue(SimulationState state) {
-
-					
-					return state.getData().isHellcat() ? (((state.getData()
-							.getHellcatBounces() - 1) * 0.5) + 8.0) : 0.0;
+					return state.getData().getHellcatDamageMultiplier();
 				}
 
 				@Override
 				public Double getMax(boolean sentry, DamageRow row,
 						CharacterData data) {
-					
-					
-					return (!sentry && row.multipliers.contains(DamageMultiplier.Grenades) && data.isHellcat()) ? (((data.getHellcatBounces() - 1) * 0.5) + 8.0)
-							: 0.0;
+
+					return (!sentry && row.multipliers
+							.contains(DamageMultiplier.Grenades)) ? data
+							.getHellcatDamageMultiplier() : 0.0;
 				}
 
 			}), PC("PC", DamageAccumulator.Multiplicative,
