@@ -38,7 +38,8 @@ public class DamageFunction {
 					Integer.MAX_VALUE, 1, 8, "AoE", DamageType.Lightning),
 			new DamageRow(ActiveSkill.CA, Rune.Dazzling_Arrow, 2.5, true,
 					Integer.MAX_VALUE, 4, 4, "AoE Grenades",
-					DamageType.Lightning, DamageMultiplier.Grenades, DamageMultiplier.Hellcat),
+					DamageType.Lightning, DamageMultiplier.Grenades,
+					DamageMultiplier.Hellcat),
 			new DamageRow(ActiveSkill.CA, Rune.Shooting_Stars, 6.5, true,
 					Integer.MAX_VALUE, 1, 8, "AoE", DamageType.Physical),
 			new DamageRow(ActiveSkill.CA, Rune.Shooting_Stars, 6.0, true, 1, 2,
@@ -233,22 +234,22 @@ public class DamageFunction {
 
 			new DamageRow(ActiveSkill.GRENADE, Rune.None, 1.6, true,
 					Integer.MAX_VALUE, 0, 6, DamageType.Fire,
-					DamageMultiplier.Grenades),
+					DamageMultiplier.Grenades, DamageMultiplier.Hellcat),
 			new DamageRow(ActiveSkill.GRENADE, Rune.Tinkerer, 1.6, true,
 					Integer.MAX_VALUE, 0, 6, DamageType.Fire,
-					DamageMultiplier.Grenades),
+					DamageMultiplier.Grenades, DamageMultiplier.Hellcat),
 			new DamageRow(ActiveSkill.GRENADE, Rune.Cluster_Grenades, 2.0,
 					true, Integer.MAX_VALUE, 0, 9, DamageType.Fire,
-					DamageMultiplier.Grenades),
+					DamageMultiplier.Grenades, DamageMultiplier.Hellcat),
 			new DamageRow(ActiveSkill.GRENADE, Rune.Grenade_Cache, 1.6, true,
 					Integer.MAX_VALUE, 3, 6, DamageType.Fire,
-					DamageMultiplier.Grenades),
+					DamageMultiplier.Grenades, DamageMultiplier.Hellcat),
 			new DamageRow(ActiveSkill.GRENADE, Rune.Stun_Grenade, 1.6, true,
 					Integer.MAX_VALUE, 0, 6, DamageType.Lightning,
-					DamageMultiplier.Grenades),
+					DamageMultiplier.Grenades, DamageMultiplier.Hellcat),
 			new DamageRow(ActiveSkill.GRENADE, Rune.Cold_Grenade, 1.6, true,
 					Integer.MAX_VALUE, 0, 6, DamageType.Lightning,
-					DamageMultiplier.Grenades),
+					DamageMultiplier.Grenades, DamageMultiplier.Hellcat),
 			new DamageRow(ActiveSkill.GRENADE, Rune.Cold_Grenade, 1.2, 3.0,
 					true, Integer.MAX_VALUE, 0, 6, "DoT", DamageType.Cold,
 					DamageMultiplier.Grenades, DamageMultiplier.DoT),
@@ -337,7 +338,8 @@ public class DamageFunction {
 					DamageMultiplier.DoT),
 			new DamageRow(ActiveSkill.RoV, Rune.Anathema, 58.0, 2.0, true,
 					Integer.MAX_VALUE, "DoT", DamageType.Fire,
-					DamageMultiplier.DoT, DamageMultiplier.Grenades, DamageMultiplier.Hellcat),
+					DamageMultiplier.DoT, DamageMultiplier.Grenades,
+					DamageMultiplier.Hellcat),
 			new DamageRow(ActiveSkill.RoV, Rune.Flying_Strike, 38.0, 4.0, true,
 					Integer.MAX_VALUE, "DoT", DamageType.Cold,
 					DamageMultiplier.DoT),
@@ -849,12 +851,27 @@ public class DamageFunction {
 									if (Math.abs(v) > 0.0) {
 
 										if (dw.getAccumulator() == DamageAccumulator.Multiplicative) {
-											m *= (1.0 + v);
-											multBuf.append(" X (1 + "
-													+ dw.getAbbreviation()
-													+ "("
-													+ Util.format(v)
-													+ "))");
+
+											if (dw == DamageMultiplier.Hellcat) {
+												double pc = 0.5;
+
+												multBuf.append(" X (1 + ("
+														+ "PC("
+														+ Util.format(pc) + ") X "
+														+ dw.getAbbreviation()
+														+ "(" + Util.format(v)
+														+ ")))");
+
+												m *= (1.0 + (v * pc));
+
+											} else {
+												m *= (1.0 + v);
+												multBuf.append(" X (1 + "
+														+ dw.getAbbreviation()
+														+ "(" + Util.format(v)
+														+ "))");
+											}
+
 										} else if (dw.getAccumulator() == DamageAccumulator.ElementalAdditive) {
 											ea += v;
 
@@ -981,34 +998,37 @@ public class DamageFunction {
 
 		return false;
 	}
-	
+
 	public static List<MaxHit> calculateMinMax(CharacterData data) {
 		List<MaxHit> list = new Vector<MaxHit>();
-		
+
 		for (Map.Entry<ActiveSkill, Rune> e : data.getSkills().entrySet()) {
 			list.addAll(calculateMinMax(false, e.getKey(), e.getValue(), data));
-			
+
 			if (data.getNumMarauders() >= 2) {
 				if (e.getKey().getSkillType() == SkillType.Spender) {
-					list.addAll(calculateMinMax(true, e.getKey(), e.getValue(), data));
+					list.addAll(calculateMinMax(true, e.getKey(), e.getValue(),
+							data));
 				}
 			}
 		}
-		
+
 		if (data.getSkills().containsKey(ActiveSkill.SENTRY)) {
-			list.addAll(calculateMinMax(true, ActiveSkill.BOLT, data.getSkills().get(ActiveSkill.SENTRY), data));
+			list.addAll(calculateMinMax(true, ActiveSkill.BOLT, data
+					.getSkills().get(ActiveSkill.SENTRY), data));
 		}
 
 		return list;
 	}
-	
-	public static List<MaxHit> calculateMinMax(boolean sentry, ActiveSkill skill, Rune rune, CharacterData data) {
+
+	public static List<MaxHit> calculateMinMax(boolean sentry,
+			ActiveSkill skill, Rune rune, CharacterData data) {
 		List<MaxHit> list = new Vector<MaxHit>();
 		DamageSource source = new DamageSource(skill, rune);
-		
+
 		SimulationState state = new SimulationState();
 		state.setData(data);
-		
+
 		Set<DamageMultiplier> ignored = new TreeSet<DamageMultiplier>();
 		ignored.add(DamageMultiplier.WD);
 		ignored.add(DamageMultiplier.MAXWD);
@@ -1017,70 +1037,78 @@ public class DamageFunction {
 		ignored.add(DamageMultiplier.CHD);
 		ignored.add(DamageMultiplier.PC);
 		ignored.add(DamageMultiplier.Traps);
-		
+
 		for (DamageRow dr : ALL) {
-			if ((dr.source.skill != null) && dr.primary && (dr.source.test(source, state, dr.radius) ||
-					((skill == ActiveSkill.Companion) && (dr.source.skill == (ActiveSkill.Companion) && (data.getNumMarauders() >= 2) && (dr.source.rune != Rune.None))))) {
+			if ((dr.source.skill != null)
+					&& dr.primary
+					&& (dr.source.test(source, state, dr.radius) || ((skill == ActiveSkill.Companion) && (dr.source.skill == (ActiveSkill.Companion)
+							&& (data.getNumMarauders() >= 2) && (dr.source.rune != Rune.None))))) {
 				MaxHit row = new MaxHit();
 				row.source = dr.source;
 				row.shooter = "Player";
 				row.type = dr.type;
-				
+
 				double value = DamageMultiplier.MAXWD.getMax(sentry, dr, data);
-				
+
 				StringBuffer notes = new StringBuffer();
 				StringBuffer log = new StringBuffer();
 				StringBuffer multLog = new StringBuffer();
 				StringBuffer addLog = new StringBuffer();
 				StringBuffer elemAddLog = new StringBuffer();
 				StringBuffer critLog = new StringBuffer();
-				
+
 				double crit = 1.0;
 				double mult = 1.0;
 				double add = 0.0;
-				double elemAdd = 0.0 ;
-				
+				double elemAdd = 0.0;
+
 				double scalar = dr.getScalar(data);
 
 				double chd = DamageMultiplier.CHD.getMax(sentry, dr, data);
-				
-				log.append(Util.format(scalar) + " X " + DamageMultiplier.MAXWD.getAbbreviation() + "(" + Util.format(value) + ")");
-				
+
+				log.append(Util.format(scalar) + " X "
+						+ DamageMultiplier.MAXWD.getAbbreviation() + "("
+						+ Util.format(value) + ")");
+
 				if (dr.note != null)
 					notes.append(dr.note);
-				
+
 				if (chd > 0) {
 					crit = chd + 1.0;
 					critLog.append(" X CHD(1 + " + Util.format(chd) + ")");
 				}
-				
+
 				for (DamageMultiplier dm : DamageMultiplier.values()) {
-					
+
 					if (dm.hasTest() && !ignored.contains(dm)) {
 						DamageAccumulator a = dm.getAccumulator();
 						double v = dm.getMax(sentry, dr, data);
-						
+
 						if (v > 0) {
 							if (a == DamageAccumulator.Additive) {
-								if (add == 0.0) 
+								if (add == 0.0)
 									addLog.append(" X (1");
-								
+
 								add += v;
-								addLog.append(" + " + dm.getAbbreviation() + "(" + Util.format(v) + ")");
+								addLog.append(" + " + dm.getAbbreviation()
+										+ "(" + Util.format(v) + ")");
 							} else if (a == DamageAccumulator.ElementalAdditive) {
-								if (elemAdd == 0.0) 
+								if (elemAdd == 0.0)
 									elemAddLog.append(" X (1");
-								
+
 								elemAdd += v;
-								elemAddLog.append(" + " + dm.getAbbreviation() + "(" + Util.format(v) + ")");
+								elemAddLog.append(" + " + dm.getAbbreviation()
+										+ "(" + Util.format(v) + ")");
 							} else if (a == DamageAccumulator.Multiplicative) {
 								mult *= (1.0 + v);
-								multLog.append(" X (1 + " + dm.getAbbreviation() + "(" + Util.format(v) + "))");
+								multLog.append(" X (1 + "
+										+ dm.getAbbreviation() + "("
+										+ Util.format(v) + "))");
 							}
 						}
 					}
 				}
-				
+
 				if (add > 0)
 					addLog.append(")");
 
@@ -1088,22 +1116,26 @@ public class DamageFunction {
 					elemAddLog.append(")");
 
 				row.notes = notes.toString();
-				
-				row.log = log.toString() + critLog.toString() + multLog.toString() + addLog.toString() + elemAddLog.toString();
-				row.noCrit = Math.round(value * scalar * mult * (1.0 + add) * (1.0 + elemAdd));
-				row.maxCrit = Math.round(value * scalar * crit * mult * (1.0 + add) * (1.0 + elemAdd));
-				
+
+				row.log = log.toString() + critLog.toString()
+						+ multLog.toString() + addLog.toString()
+						+ elemAddLog.toString();
+				row.noCrit = Math.round(value * scalar * mult * (1.0 + add)
+						* (1.0 + elemAdd));
+				row.maxCrit = Math.round(value * scalar * crit * mult
+						* (1.0 + add) * (1.0 + elemAdd));
+
 				if (sentry)
 					row.shooter = "Sentry";
 				else if (skill == ActiveSkill.Companion)
 					row.shooter = "Companion";
 				else
 					row.shooter = "Player";
-				
+
 				list.add(row);
 			}
 		}
-		
+
 		return list;
 	}
 }

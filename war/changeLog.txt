@@ -2,6 +2,8 @@ Change Log:
 
 **1/6/17**
 - Hellcat damage bonus no longer applies to Sentries
+- Hellcat damage adjusted by proc coefficient. Note: currently it is believed that Hellcat has an universal Proc Coefficient of 50%, regardless of skill. This is currently implemented in the calculator as "all or nothing" (i.e. you either get 0 bounces, or 3-5 bounces, based on the belt's legendary power value).
+- Hellcat now affects Grenade (primary skill)
 
 **1/5/17**
 - Added Hellcat Waistguard mechanics

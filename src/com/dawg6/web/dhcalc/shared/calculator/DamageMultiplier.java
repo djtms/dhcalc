@@ -85,6 +85,8 @@ public enum DamageMultiplier {
 
 				@Override
 				public Double getValue(SimulationState state) {
+
+					
 					return state.getData().isHellcat() ? (((state.getData()
 							.getHellcatBounces() - 1) * 0.5) + 8.0) : 0.0;
 				}
