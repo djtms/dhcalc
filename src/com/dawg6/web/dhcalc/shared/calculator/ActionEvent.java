@@ -134,20 +134,28 @@ public class ActionEvent extends Event {
 			if ((type == SkillType.Primary)
 					|| (type == SkillType.Spender)
 					|| (type == SkillType.Channeled)
-					|| ((skill == ActiveSkill.FoK) && (rune == Rune.Knives_Expert))) {
+					|| ((skill == ActiveSkill.FoK) && (rune == Rune.Knives_Expert)) 
+					|| ((skill == ActiveSkill.Vault) && (rune == Rune.Action_Shot) && data.isDanettas() && (spender == null) && data.isBastions())
+					) {
 				SkillAndRune skr = new SkillAndRune(skill, rune);
 				skills.add(skr);
 
-				if ((skr.getHatred(data) > 0)
-						&& ((generator == null) || (skr.getHatred(data) > generator
+				double h = skr.getHatred(data);
+				
+//				GWT.log("skill = " + skill.name() + " h = " + h);
+				
+				if ((h > 0)
+						&& ((generator == null) || (h > generator
 								.getHatred(data)))) {
 
 					if ((generator == null) || !kridershot || !meticulousBolts)
 						generator = skr;
 				}
 
-				if ((spender == null) && (skr.getHatred(data) < 0))
+				if ((spender == null) && (h < 0)) {
 					spender = skr;
+//					GWT.log("Spender = " + spender.getSkill().name());
+				}
 			}
 		}
 
@@ -223,6 +231,9 @@ public class ActionEvent extends Event {
 
 			if ((selected == null) && (generator != null) && (spenderLogic == SpenderLogic.FullHatred) && (hatred < maxHatred))
 				selected = generator;
+			
+			if ((selected == null) && (generator != null) && ((spender == null) || (spender.getSkill() == ActiveSkill.Vault)))
+					selected = generator;
 			
 			if (selected == null) {
 				for (SkillAndRune skr : skills) {

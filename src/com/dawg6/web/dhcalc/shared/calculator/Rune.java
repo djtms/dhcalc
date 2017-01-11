@@ -167,7 +167,7 @@ public enum Rune {
 	
 	// Fan of Knives
 	Pinpoint_Accuracy("d", 0, 0.4, 15, 1),
-	Bladed_Armor("e", 0, 1.0 / 3.0, 10, 1),
+	Bladed_Armor("e", 0, 1.0 / 3.0, 10, 6),
 	Knives_Expert("a", 30, 0.2, 0, 1),
 	Fan_of_Daggers("c", 0, 1.0 / 3.0, 10, 1),
 	Assassins_Knives("b", 0, 0.2, 10, 1),

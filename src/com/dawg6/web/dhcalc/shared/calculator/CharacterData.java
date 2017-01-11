@@ -1790,6 +1790,10 @@ public class CharacterData implements Serializable {
 		return getSetCount(ItemSet.BW.getSlug()) >= 2;
 	}
 
+	public boolean isDanettas() {
+		return getSetCount(ItemSet.Danettas.getSlug()) >= 2;
+	}
+
 	public boolean hasGenerator() {
 
 		for (Map.Entry<ActiveSkill, Rune> e : this.getSkills().entrySet()) {

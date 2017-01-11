@@ -64,7 +64,9 @@ public class SkillAndRune implements Serializable, Comparable<SkillAndRune> {
 		} else {
 			double hatred = skill.getHatred() + rune.getHatred();
 			
-			if ((skill == ActiveSkill.FoK) && (rune == Rune.Knives_Expert)) {
+			if ((skill == ActiveSkill.Vault) && data.isDanettas()) {
+				hatred = -8.0;
+			} else if ((skill == ActiveSkill.FoK) && (rune == Rune.Knives_Expert)) {
 				hatred = -30.0;
 			}
 			

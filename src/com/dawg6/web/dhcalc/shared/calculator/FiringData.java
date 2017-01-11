@@ -158,11 +158,11 @@ public class FiringData {
 		
 		if (data.isBastions()) {
 			
-			if (data.hasGenerator())
-				state.getBuffs().set(Buff.BwGen, 5.0);
-			
-			if (data.hasSpender())
-				state.getBuffs().set(Buff.BwSpend, 5.0);
+//			if (data.hasGenerator())
+//				state.getBuffs().set(Buff.BwGen, 5.0);
+//			
+//			if (data.hasSpender())
+//				state.getBuffs().set(Buff.BwSpend, 5.0);
 		}
 		
 		double timeLimit = data.getTimeLimit();

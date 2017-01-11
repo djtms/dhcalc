@@ -30,6 +30,7 @@ public class FoKEvent extends CooldownEvent {
 	private final boolean syncWithCoe;
 
 	public FoKEvent(CharacterData data, CoEBuffEvent coe) {
+		
 		this.rune = data.getSkills().get(ActiveSkill.FoK);
 		this.cooldown = ((rune == Rune.Pinpoint_Accuracy) ? 15.0 : 10.0)
 				* (1.0 - data.getCdr());
@@ -57,7 +58,7 @@ public class FoKEvent extends CooldownEvent {
 
 		}
 		
-		this.syncWithCoe = data.isSyncWithCoe();
+		this.syncWithCoe = data.isCoe() && data.isSyncWithCoe();
 	}
 
 	@Override
@@ -77,6 +78,8 @@ public class FoKEvent extends CooldownEvent {
 		List<Damage> dList = DamageFunction.getDamages(true, false, "Player",
 				new DamageSource(ActiveSkill.FoK, rune), state);
 
+//		GWT.log("Fok.dList = " + dList.size());
+		
 		applyDamages(state, log, dList);
 
 		Set<TargetType> targetsHit = new TreeSet<TargetType>();
