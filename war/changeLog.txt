@@ -1,5 +1,9 @@
 Change Log:
 
+**2/23/16**
+
+- Fixed logic in parsing leaderboard data
+
 **1/11/17**
 - Added Danetta's Spite Set Bonus (Vault costs 8 hatred)
 - When equipped with Danetta's Spite and Action Shot rune is selected for Vault and Focus+Restraint equipped, Vault will be used to keep the spender buff up

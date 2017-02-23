@@ -556,11 +556,23 @@ public class DHCalcServiceImpl extends RemoteServiceServlet implements
 	public Leaderboard getLeaderboard(Realm realm, int seasonEra,
 			boolean isEra, String which) {
 		try {
+			Leaderboard lb = null;
+			
 			if (isEra) {
-				return IO.getInstance().readEraLeaderboard(realm, seasonEra, which);
+				lb = IO.getInstance().readEraLeaderboard(realm, seasonEra, which);
 			} else {
-				return IO.getInstance().readSeasonLeaderboard(realm, seasonEra, which);
+				lb =  IO.getInstance().readSeasonLeaderboard(realm, seasonEra, which);
 			}
+			
+//			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//			
+//			FileOutputStream os = new FileOutputStream("C:\\code\\out.json");
+//			PrintWriter writer = new PrintWriter(os);
+//			writer.println(gson.toJson(lb));
+//			writer.flush();
+//			writer.close();
+			
+			return lb;
 			
 		} catch (RuntimeException e) {
 			log.log(Level.SEVERE, "Exception", e);
