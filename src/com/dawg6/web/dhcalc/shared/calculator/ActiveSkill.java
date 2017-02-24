@@ -165,7 +165,12 @@ public enum ActiveSkill {
 		this.proc = proc;
 		this.hatred = hatred;
 		this.skillType = skillType;
-		this.damageAttribute = name.replaceAll(" of ", "Of").replaceAll(" ", "");
+		
+		if (name.equals("Grenade"))
+			this.damageAttribute = "Grenades";
+		else
+			this.damageAttribute = name.replaceAll(" of ", "Of").replaceAll(" ", "");
+			
 		this.slug = name.toLowerCase().replaceAll(" ", "-");
 		this.frames = frames;
 		this.cd = cd;

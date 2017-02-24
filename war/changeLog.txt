@@ -1,5 +1,9 @@
 Change Log:
 
+**2/24/16**
+
+- Fixed import of Grenade skill damage on import
+
 **2/23/16**
 
 - Fixed logic in parsing leaderboard data
