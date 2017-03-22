@@ -1025,9 +1025,9 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return ((state.getData().getNumShadow() >= 2) && (state
-							.getData().getWeaponType() == WeaponType.Melee)) ? 12.0
-							: 0;
+					return ((state.getData().getNumShadow() >= 2)
+							&& (state.getData().getWeaponType() != null) && state
+							.getData().getWeaponType().isMelee()) ? 12.0 : 0;
 				}
 
 				@Override
@@ -1035,8 +1035,9 @@ public enum DamageMultiplier {
 						CharacterData data) {
 					return (!sentry
 							&& (row.source.skill != ActiveSkill.Companion)
-							&& (data.getNumShadow() >= 2) && (data
-							.getWeaponType() == WeaponType.Melee)) ? 12.0 : 0.0;
+							&& (data.getNumShadow() >= 2)
+							&& (data.getWeaponType() != null) && data
+							.getWeaponType().isMelee()) ? 12.0 : 0.0;
 				}
 			}), S6(
 			"S6",
@@ -1051,9 +1052,8 @@ public enum DamageMultiplier {
 				@Override
 				public Double getMax(boolean sentry, DamageRow row,
 						CharacterData data) {
-					return (!sentry && (row.source.skill == ActiveSkill.IMP)
-							&& (data.getNumShadow() >= 6)) ? 400.0
-							: 0.0;
+					return (!sentry && (row.source.skill == ActiveSkill.IMP) && (data
+							.getNumShadow() >= 6)) ? 400.0 : 0.0;
 				}
 			}), VenBuff("VenBuff", DamageAccumulator.Multiplicative,
 			"Vengeance damage buff (+40%)",

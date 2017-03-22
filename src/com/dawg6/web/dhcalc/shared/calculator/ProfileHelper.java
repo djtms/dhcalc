@@ -487,17 +487,9 @@ public class ProfileHelper {
 		ItemInformation mainHand = hero.items.get(Slot.MainHand.getSlot());
 
 		if (mainHand != null) {
-			String bowType = mainHand.type.id;
+			String t = mainHand.type.id;
 
-			if (bowType.equalsIgnoreCase(Const.HANDXBOW)) {
-				type = WeaponType.HandCrossbow;
-			} else if (bowType.equalsIgnoreCase(Const.BOW)) {
-				type = WeaponType.Bow;
-			} else if (bowType.equalsIgnoreCase(Const.CROSSBOW)) {
-				type = WeaponType.Crossbow;
-			} else {
-				type = WeaponType.Melee;
-			}
+			type = WeaponType.fromSlug(t);
 		}
 
 		data.setWeaponType(type);
