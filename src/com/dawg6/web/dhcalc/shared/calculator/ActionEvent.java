@@ -393,35 +393,6 @@ public class ActionEvent extends Event {
 						log.add(d);
 					}
 				}
-
-				if (karleis && (selected.getSkill() == ActiveSkill.IMP)) {
-
-					double mh = state.addHatred(karleisHatred);
-					int mm = 1;
-					
-					if (state.getData().isHolyPointShot()) {
-						mm += 2;
-					}
-					
-					if (selected.getRune() == Rune.Ricochet) {
-						mm += Math.min(2, state.getTargets().getNumAlive() - 1);
-					}
-					
-					if (mh > 0) {
-
-						Damage d = new Damage();
-						d.shooter = "Player";
-						d.source = new DamageSource(selected.getSkill(),
-								selected.getRune());
-						d.hatred = mh * mm;
-						d.time = t;
-						d.note = "Karlei's Point Hatred";
-						d.currentHatred = state.getHatred();
-						d.currentDisc = state.getDisc();
-						log.add(d);
-					}
-				}
-
 			}
 
 			if (state.getBuffs().isActive(Buff.Vengeance)) {
@@ -457,6 +428,44 @@ public class ActionEvent extends Event {
 					targetsHit.add(d.target);
 			}
 
+			if (karleis && (selected.getSkill() == ActiveSkill.IMP)) {
+
+				double mh = state.addHatred(karleisHatred);
+
+				if (mh > 0) {
+					int mm = 0;
+	
+					for (TargetType target : targetsHit) {
+						if (state.getTargets().getTarget(target).isImpaled())
+							mm++;
+					}
+					
+					if ((mm > 0) && state.getData().isHolyPointShot()) {
+						mm += 2;
+					}
+					
+					if (mm > 0) {
+	
+						Damage d = new Damage();
+						d.shooter = "Player";
+						d.source = new DamageSource(selected.getSkill(),
+								selected.getRune());
+						d.hatred = mh * mm;
+						d.time = t;
+						d.note = "Karlei's Point Hatred";
+						d.currentHatred = state.getHatred();
+						d.currentDisc = state.getDisc();
+						log.add(d);
+					}
+				}
+			}
+			
+			if (selected.getSkill() == ActiveSkill.IMP) {
+				for (TargetType target : targetsHit) {
+					state.getTargets().getTarget(target).setImpaled(true);
+				}
+			}
+			
 			// Gem procs
 			if (!targetsHit.isEmpty()) {
 				applyDamages(state, log, DamageFunction.getDamages(false,

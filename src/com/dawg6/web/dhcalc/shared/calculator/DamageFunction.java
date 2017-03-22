@@ -479,8 +479,17 @@ public class DamageFunction {
 					aoeRange *= 1.2;
 				}
 
-				int maxAdd = Math.min(dr.maxAdditional, state.getData()
+				int maxAdd = dr.maxAdditional;
+
+				
+				if ((dr.source.skill == ActiveSkill.IMP) && (dr.source.rune == Rune.Ricochet) && (maxAdd > 0) &&
+						state.getData().isHolyPointShot()) {
+					maxAdd *= 3;
+				}
+				
+				maxAdd = Math.min(maxAdd, state.getData()
 						.getNumAdditional());
+				
 				int hpsAdd = 0;
 				
 				if ((dr.source.skill == ActiveSkill.IMP) && (dr.maxAdditional == 0)

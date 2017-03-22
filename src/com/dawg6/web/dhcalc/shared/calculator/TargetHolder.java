@@ -30,6 +30,7 @@ public class TargetHolder implements Serializable {
 	private long maxHp;
 	private int botsStacks;
 	private double nextBots;
+	private boolean impaled;
 	
 	public TargetHolder() {
 		botsStacks = 0;
@@ -85,5 +86,13 @@ public class TargetHolder implements Serializable {
 	}
 	public void setNextBots(double nextBots) {
 		this.nextBots = nextBots;
+	}
+
+	public boolean isImpaled() {
+		return impaled;
+	}
+
+	public void setImpaled(boolean impaled) {
+		this.impaled = impaled;
 	}
 }
