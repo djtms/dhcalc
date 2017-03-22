@@ -5,6 +5,8 @@ Change Log:
 - Added Holy Point Shot (patch 2.5)
 - Fixed missing S6 calculation in Max Hit tab
 - Added Melee weapon types (Dagger, Sword, etc...)
+- Holy Point shot can hit multiple targets
+- Karlei's will return hatred for each target hit (include extra targets from HPS and Ricochet rune).
 
 **2/24/16**
 

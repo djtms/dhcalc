@@ -165,8 +165,8 @@ public class DamageFunction {
 					Integer.MAX_VALUE, 0, 10, "On Crit", DamageType.Physical,
 					DamageMultiplier.OnCrit),
 
-			new DamageRow(ActiveSkill.Vault, Rune.Action_Shot, 0.75, true, 3, 0,
-					DamageType.Physical),
+			new DamageRow(ActiveSkill.Vault, Rune.Action_Shot, 0.75, true, 3,
+					0, DamageType.Physical),
 
 			new DamageRow(ActiveSkill.ES, Rune.None, 2.0, true, 0, 0,
 					DamageType.Physical),
@@ -479,9 +479,14 @@ public class DamageFunction {
 					aoeRange *= 1.2;
 				}
 
-				int maxAdd = Math.min(dr.maxAdditional +
-						(((dr.maxAdditional == 0) && (dr.source.skill == ActiveSkill.IMP) && state.getData().isHolyPointShot()) ? 2 : 0), state.getData()
+				int maxAdd = Math.min(dr.maxAdditional, state.getData()
 						.getNumAdditional());
+				int hpsAdd = 0;
+				
+				if ((dr.source.skill == ActiveSkill.IMP) && (dr.maxAdditional == 0)
+						&& state.getData().isHolyPointShot()) {
+					hpsAdd = 2;
+				}
 
 				if (dr.multipliers.contains(DamageMultiplier.Grenades)
 						&& (dr.numProjectiles > 0) && (spacing > aoeRange)) {
@@ -510,6 +515,13 @@ public class DamageFunction {
 
 				for (TargetType target : tlist) {
 
+					int otherTargets = 0;
+					
+					for (TargetType t2 : tlist) {
+						if ((t2 != target) && state.getTargets().getTarget(t2).isAlive())
+							otherTargets++;
+					}
+					
 					if (state.getTargets().getTarget(target).isAlive()) {
 
 						state.getData().setTargetType(target);
@@ -518,7 +530,7 @@ public class DamageFunction {
 							addNum++;
 
 						if ((target.isPrimary() && dr.primary)
-								|| (!target.isPrimary() && (addNum <= maxAdd))) {
+								|| (!target.isPrimary() && (addNum <= (maxAdd + hpsAdd)))) {
 
 							double wd = baseWd;
 
@@ -544,6 +556,7 @@ public class DamageFunction {
 							double scalar = m;
 							double a = 0.0;
 							double ea = 0.0;
+							int hps = 1;
 
 							StringBuffer addBuf = new StringBuffer();
 							StringBuffer multBuf = new StringBuffer();
@@ -552,6 +565,11 @@ public class DamageFunction {
 							if (numShooters > 1)
 								multBuf.append(numShooters + " x ");
 
+							if (target.isPrimary() && (hpsAdd > otherTargets)) {
+								hps = (1 + hpsAdd) - otherTargets;
+								multBuf.append(hps + " x ");
+							}
+							
 							if (dr.multipliers
 									.contains(DamageMultiplier.Grenades)
 									&& (dr.numProjectiles > 0)) {
@@ -585,8 +603,12 @@ public class DamageFunction {
 								double s6 = DamageMultiplier.S6.getValue(state);
 
 								if (s6 > 0) {
-									multBuf.append("(" + scalar + " + " + DamageMultiplier.S6.getAbbreviation() + "(" + s6
-											+ ")) x ");
+									multBuf.append("("
+											+ scalar
+											+ " + "
+											+ DamageMultiplier.S6
+													.getAbbreviation() + "("
+											+ s6 + ")) x ");
 									scalar += s6;
 									m = scalar;
 								} else {
@@ -624,170 +646,184 @@ public class DamageFunction {
 
 							double cd = DamageMultiplier.CHD.getValue(state);
 
-							if ((dr.source.skill == ActiveSkill.Vault) && (dr.source.rune == Rune.Action_Shot)) {
-								
+							if ((dr.source.skill == ActiveSkill.Vault)
+									&& (dr.source.rune == Rune.Action_Shot)) {
+
 								if (cd > 0) {
-									multBuf.append(" x (1 + CHD(" + Util.format(cd) + "))");
-	
+									multBuf.append(" x (1 + CHD("
+											+ Util.format(cd) + "))");
+
 									m *= (1.0 + cd);
 								}
-								
+
 							} else {
-								// if (dr.source.skill != ActiveSkill.Companion) {
+								// if (dr.source.skill != ActiveSkill.Companion)
+								// {
 								double cc = DamageMultiplier.CC.getValue(state);
-								double iced = DamageMultiplier.Iced.getValue(state);
+								double iced = DamageMultiplier.Iced
+										.getValue(state);
 								double ss = DamageMultiplier.SharpShooter
 										.getValue(state);
 								double caltrops = DamageMultiplier.CaltropsBT
 										.getValue(state);
 								double singleOut = DamageMultiplier.SingleOut
 										.getValue(state);
-	
+
 								int ccCount = ((cc > 0.0) ? 1 : 0)
 										+ ((iced > 0.0) ? 1 : 0)
 										+ ((ss > 0.0) ? 1 : 0)
 										+ ((singleOut > 0.0) ? 1 : 0)
 										+ ((caltrops > 0.0) ? 1 : 0);
-	
+
 								if (dr.multipliers
 										.contains(DamageMultiplier.OnCrit)
 										&& (((cc > 0.0) || (singleOut > 0.0)
-												|| (caltrops > 0.0) || (iced > 0.0) || (ss > 0.0)))) {
+												|| (caltrops > 0.0)
+												|| (iced > 0.0) || (ss > 0.0)))) {
 									StringBuffer ccStr = new StringBuffer();
 									boolean isFirst = true;
-	
+
 									if (ccCount > 1) {
 										ccStr.append("(");
 									}
-	
+
 									if (cc > 0.0) {
-										ccStr.append("CC(" + Util.format(cc) + ")");
+										ccStr.append("CC(" + Util.format(cc)
+												+ ")");
 										isFirst = false;
 									}
-	
+
 									if (ss > 0.0) {
-	
+
 										if (!isFirst)
 											ccStr.append(" + ");
-	
+
 										ccStr.append(DamageMultiplier.SharpShooter
-												.getAbbreviation() + "(" + ss + ")");
-	
+												.getAbbreviation()
+												+ "("
+												+ ss
+												+ ")");
+
 										isFirst = false;
 									}
-	
+
 									if (singleOut > 0.0) {
 										if (!isFirst)
 											ccStr.append(" + ");
-	
+
 										ccStr.append(DamageMultiplier.SingleOut
 												.getAbbreviation()
 												+ "("
 												+ singleOut + ")");
-	
+
 										isFirst = false;
 									}
-	
+
 									if (caltrops > 0.0) {
 										if (!isFirst)
 											ccStr.append(" + ");
-	
+
 										ccStr.append(DamageMultiplier.CaltropsBT
 												.getAbbreviation()
 												+ "("
 												+ Util.format(caltrops) + ")");
-	
+
 										isFirst = false;
 									}
-	
+
 									if (iced > 0.0) {
 										if (!isFirst)
 											ccStr.append(" + ");
-	
+
 										ccStr.append(DamageMultiplier.Iced
 												.getAbbreviation()
 												+ "("
 												+ Util.format(iced) + ")");
-	
+
 										isFirst = false;
 									}
-	
+
 									if (ccCount > 1)
 										ccStr.append(")");
-	
+
 									multBuf.append(" x " + ccStr.toString());
-	
-									m *= Math.min(1.0, cc + singleOut + caltrops
-											+ iced + ss);
-	
+
+									m *= Math.min(1.0, cc + singleOut
+											+ caltrops + iced + ss);
+
 								} else if (((cc > 0.0) || (singleOut > 0.0)
 										|| (caltrops > 0.0) || (iced > 0.0) || (ss > 0.0))
 										&& (cd > 0.0)) {
 									StringBuffer ccStr = new StringBuffer();
 									boolean isFirst = true;
-	
+
 									if (ccCount > 1) {
 										ccStr.append("(");
 									}
-	
+
 									if (cc > 0.0) {
-										ccStr.append("CC(" + Util.format(cc) + ")");
+										ccStr.append("CC(" + Util.format(cc)
+												+ ")");
 										isFirst = false;
 									}
-	
+
 									if (ss > 0.0) {
-	
+
 										if (!isFirst)
 											ccStr.append(" + ");
-	
+
 										ccStr.append(DamageMultiplier.SharpShooter
-												.getAbbreviation() + "(" + ss + ")");
-	
+												.getAbbreviation()
+												+ "("
+												+ ss
+												+ ")");
+
 										isFirst = false;
 									}
-	
+
 									if (singleOut > 0.0) {
 										if (!isFirst)
 											ccStr.append(" + ");
-	
+
 										ccStr.append(DamageMultiplier.SingleOut
 												.getAbbreviation()
 												+ "("
 												+ singleOut + ")");
-	
+
 										isFirst = false;
 									}
-	
+
 									if (caltrops > 0.0) {
 										if (!isFirst)
 											ccStr.append(" + ");
-	
+
 										ccStr.append(DamageMultiplier.CaltropsBT
 												.getAbbreviation()
 												+ "("
 												+ Util.format(caltrops) + ")");
-	
+
 										isFirst = false;
 									}
-	
+
 									if (iced > 0.0) {
 										if (!isFirst)
 											ccStr.append(" + ");
-	
+
 										ccStr.append(DamageMultiplier.Iced
 												.getAbbreviation()
 												+ "("
 												+ Util.format(iced) + ")");
-	
+
 										isFirst = false;
 									}
-	
+
 									if (ccCount > 1)
 										ccStr.append(")");
-	
-									multBuf.append(" x (1 + " + ccStr.toString()
-											+ " x CHD(" + Util.format(cd) + "))");
-	
+
+									multBuf.append(" x (1 + "
+											+ ccStr.toString() + " x CHD("
+											+ Util.format(cd) + "))");
+
 									m *= (1.0 + (Math.min(1.0, cc + singleOut
 											+ caltrops + iced + ss) * cd));
 								}
@@ -872,7 +908,8 @@ public class DamageFunction {
 
 												multBuf.append(" X (1 + ("
 														+ "PC("
-														+ Util.format(pc) + ") X "
+														+ Util.format(pc)
+														+ ") X "
 														+ dw.getAbbreviation()
 														+ "(" + Util.format(v)
 														+ ")))");
@@ -928,7 +965,7 @@ public class DamageFunction {
 
 							Damage d = new Damage();
 							d.shooter = shooter;
-							d.damage = numShooters * wd * m * (1.0 + a)
+							d.damage = numShooters * hps * wd * m * (1.0 + a)
 									* (1.0 + ea);
 							d.index = index++;
 							d.note = dr.note;
@@ -1078,15 +1115,21 @@ public class DamageFunction {
 				double elemAdd = 0.0;
 
 				double scalar = dr.getScalar(data);
-
 				double chd = DamageMultiplier.CHD.getMax(sentry, dr, data);
 
+				if ((dr.source.skill == ActiveSkill.IMP) && (dr.maxAdditional == 0) && data.isHolyPointShot()) {
+					log.append("3 x ");
+					mult *= 3.0;
+				}
+				
 				if (dr.multipliers.contains(DamageMultiplier.S6)) {
 
 					double v = DamageMultiplier.S6.getMax(sentry, dr, data);
-					
+
 					if (v > 0) {
-						log.append("(" + Util.format(scalar) + " + " + DamageMultiplier.S6.getAbbreviation() + "(" + v + "))"+ " x ");
+						log.append("(" + Util.format(scalar) + " + "
+								+ DamageMultiplier.S6.getAbbreviation() + "("
+								+ v + "))" + " x ");
 						scalar += v;
 					} else {
 						log.append(Util.format(scalar) + " x ");
@@ -1094,7 +1137,7 @@ public class DamageFunction {
 				} else {
 					log.append(Util.format(scalar) + " x ");
 				}
-				
+
 				log.append(DamageMultiplier.MAXWD.getAbbreviation() + "("
 						+ Util.format(value) + ")");
 
@@ -1132,7 +1175,7 @@ public class DamageFunction {
 								multLog.append(" x (1 + "
 										+ dm.getAbbreviation() + "("
 										+ Util.format(v) + "))");
-							} 
+							}
 						}
 					}
 				}

@@ -397,14 +397,23 @@ public class ActionEvent extends Event {
 				if (karleis && (selected.getSkill() == ActiveSkill.IMP)) {
 
 					double mh = state.addHatred(karleisHatred);
-
+					int mm = 1;
+					
+					if (state.getData().isHolyPointShot()) {
+						mm += 2;
+					}
+					
+					if (selected.getRune() == Rune.Ricochet) {
+						mm += Math.min(2, state.getTargets().getNumAlive() - 1);
+					}
+					
 					if (mh > 0) {
 
 						Damage d = new Damage();
 						d.shooter = "Player";
 						d.source = new DamageSource(selected.getSkill(),
 								selected.getRune());
-						d.hatred = mh;
+						d.hatred = mh * mm;
 						d.time = t;
 						d.note = "Karlei's Point Hatred";
 						d.currentHatred = state.getHatred();
