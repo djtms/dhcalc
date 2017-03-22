@@ -20,7 +20,7 @@ package com.dawg6.web.dhcalc.shared.calculator;
 
 public enum WeaponType {
 
-	Melee("Melee", 1.4, 126, 714, 19), 
+	Melee("Melee", 1.5, 107, 321, 19), 
 	HandCrossbow("Hand Crossbow", 1.6, 126, 714, 19), 
 	Bow("2H Bow", 1.4, 143, 815, 27), 
 	Crossbow("2H Crossbow", 1.1, 779, 945, 23);
