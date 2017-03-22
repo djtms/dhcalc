@@ -1052,8 +1052,7 @@ public enum DamageMultiplier {
 				public Double getMax(boolean sentry, DamageRow row,
 						CharacterData data) {
 					return (!sentry && (row.source.skill == ActiveSkill.IMP)
-							&& (data.getNumShadow() >= 6) && (data
-							.getWeaponType() == WeaponType.Melee)) ? 400.0
+							&& (data.getNumShadow() >= 6)) ? 400.0
 							: 0.0;
 				}
 			}), VenBuff("VenBuff", DamageAccumulator.Multiplicative,

@@ -1,5 +1,10 @@
 Change Log:
 
+**3/22/17**
+
+- Added Holy Point Shot (patch 2.5)
+- Fixed missing S6 calculation in Max Hit tab
+
 **2/24/16**
 
 - Fixed import of Grenade skill damage on import

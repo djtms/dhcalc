@@ -479,7 +479,8 @@ public class DamageFunction {
 					aoeRange *= 1.2;
 				}
 
-				int maxAdd = Math.min(dr.maxAdditional, state.getData()
+				int maxAdd = Math.min(dr.maxAdditional +
+						(((dr.maxAdditional == 0) && (dr.source.skill == ActiveSkill.IMP) && state.getData().isHolyPointShot()) ? 2 : 0), state.getData()
 						.getNumAdditional());
 
 				if (dr.multipliers.contains(DamageMultiplier.Grenades)
@@ -584,7 +585,7 @@ public class DamageFunction {
 								double s6 = DamageMultiplier.S6.getValue(state);
 
 								if (s6 > 0) {
-									multBuf.append("(" + scalar + " + S6(" + s6
+									multBuf.append("(" + scalar + " + " + DamageMultiplier.S6.getAbbreviation() + "(" + s6
 											+ ")) x ");
 									scalar += s6;
 									m = scalar;
@@ -1080,8 +1081,21 @@ public class DamageFunction {
 
 				double chd = DamageMultiplier.CHD.getMax(sentry, dr, data);
 
-				log.append(Util.format(scalar) + " X "
-						+ DamageMultiplier.MAXWD.getAbbreviation() + "("
+				if (dr.multipliers.contains(DamageMultiplier.S6)) {
+
+					double v = DamageMultiplier.S6.getMax(sentry, dr, data);
+					
+					if (v > 0) {
+						log.append("(" + Util.format(scalar) + " + " + DamageMultiplier.S6.getAbbreviation() + "(" + v + "))"+ " x ");
+						scalar += v;
+					} else {
+						log.append(Util.format(scalar) + " x ");
+					}
+				} else {
+					log.append(Util.format(scalar) + " x ");
+				}
+				
+				log.append(DamageMultiplier.MAXWD.getAbbreviation() + "("
 						+ Util.format(value) + ")");
 
 				if (dr.note != null)
@@ -1089,7 +1103,7 @@ public class DamageFunction {
 
 				if (chd > 0) {
 					crit = chd + 1.0;
-					critLog.append(" X (1 + CHD(" + Util.format(chd) + "))");
+					critLog.append(" x (1 + CHD(" + Util.format(chd) + "))");
 				}
 
 				for (DamageMultiplier dm : DamageMultiplier.values()) {
@@ -1101,24 +1115,24 @@ public class DamageFunction {
 						if (v > 0) {
 							if (a == DamageAccumulator.Additive) {
 								if (add == 0.0)
-									addLog.append(" X (1");
+									addLog.append(" x (1");
 
 								add += v;
 								addLog.append(" + " + dm.getAbbreviation()
 										+ "(" + Util.format(v) + ")");
 							} else if (a == DamageAccumulator.ElementalAdditive) {
 								if (elemAdd == 0.0)
-									elemAddLog.append(" X (1");
+									elemAddLog.append(" x (1");
 
 								elemAdd += v;
 								elemAddLog.append(" + " + dm.getAbbreviation()
 										+ "(" + Util.format(v) + ")");
 							} else if (a == DamageAccumulator.Multiplicative) {
 								mult *= (1.0 + v);
-								multLog.append(" X (1 + "
+								multLog.append(" x (1 + "
 										+ dm.getAbbreviation() + "("
 										+ Util.format(v) + "))");
-							}
+							} 
 						}
 					}
 				}

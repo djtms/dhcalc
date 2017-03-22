@@ -2272,6 +2272,10 @@ public class CharacterData implements Serializable {
 		return isItem(SpecialItemType.OCULUS);
 	}
 
+	public boolean isHolyPointShot() {
+		return isItem(SpecialItemType.HolyPointShot);
+	}
+
 	public boolean isHellcat() {
 		return isItem(SpecialItemType.Hellcat);
 	}

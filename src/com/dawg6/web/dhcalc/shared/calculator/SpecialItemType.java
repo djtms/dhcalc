@@ -103,6 +103,9 @@ public enum SpecialItemType {
 					SpecialItemType.PERCENT, Const.AUGUSTINES_PANACEA_POWER,
 					200, 250)),
 
+	HolyPointShot(Const.HOLY_POINT_SHOT, "holy-point-shot", false, new Slot[] {
+			Slot.OffHand, Slot.CubeWeapon }),
+
 	Bombadiers(Const.BOMBADIERS, "bombardiers-rucksack", false, new Slot[] {
 			Slot.OffHand, Slot.CubeWeapon }),
 
