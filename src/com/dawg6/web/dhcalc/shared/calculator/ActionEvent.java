@@ -430,7 +430,7 @@ public class ActionEvent extends Event {
 
 			if (karleis && (selected.getSkill() == ActiveSkill.IMP)) {
 
-				double mh = state.addHatred(karleisHatred);
+				double mh = karleisHatred;
 
 				if (mh > 0) {
 					int mm = 0;
@@ -444,15 +444,16 @@ public class ActionEvent extends Event {
 						mm += 2;
 					}
 					
-					if (mm > 0) {
-	
+					double mmh = state.addHatred(mh*mm);
+
+					if (mmh > 0) {
 						Damage d = new Damage();
 						d.shooter = "Player";
 						d.source = new DamageSource(selected.getSkill(),
 								selected.getRune());
-						d.hatred = mh * mm;
+						d.hatred = mmh;
 						d.time = t;
-						d.note = "Karlei's Point Hatred";
+						d.note = "Karlei's Point Hatred (" + mm + " x " + mh +")";
 						d.currentHatred = state.getHatred();
 						d.currentDisc = state.getDisc();
 						log.add(d);

@@ -1,5 +1,9 @@
 Change Log:
 
+**4/3/17**
+
+- Fixed calculation of hatred returned by Karlei's Point
+
 **3/22/17**
 
 - Added Holy Point Shot (patch 2.5)
