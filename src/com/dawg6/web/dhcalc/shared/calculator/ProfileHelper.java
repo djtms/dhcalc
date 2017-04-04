@@ -404,6 +404,14 @@ public class ProfileHelper {
 							d += f.min;
 						}
 					}
+					
+					if (t == DamageType.Cold) {
+						f = i.attributesRaw.get(Const.FROSTBURN_COLD_DAMAGE);
+
+						if (f != null) {
+							d += f.min;
+						}
+					}
 				}
 			}
 
@@ -413,6 +421,19 @@ public class ProfileHelper {
 
 						if ((lp != null) && (lp.name != null)) {
 							if (lp.name.equals(Const.MAGEFIST)) {
+								d += 0.2;
+							}
+						}
+					}
+				}
+			}
+
+			if (t == DamageType.Cold) {
+				if (hero.legendaryPowers != null) {
+					for (LegendaryPowers lp : hero.legendaryPowers) {
+
+						if ((lp != null) && (lp.name != null)) {
+							if (lp.name.equals(Const.FROSTBURN)) {
 								d += 0.2;
 							}
 						}

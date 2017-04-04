@@ -1,5 +1,9 @@
 Change Log:
 
+**4/4/17**
+
+- Added Frostburn 
+
 **4/3/17**
 
 - Fixed calculation of hatred returned by Karlei's Point
