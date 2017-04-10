@@ -119,6 +119,31 @@ public class Stat {
 		}
 	}),
 
+	new Stat("% IAS (MH Weapon)", new StatAdapter() {
+
+		@Override
+		public void apply(double inc, CharacterData data) {
+			double value = data.getWeaponIas();
+			data.setWeaponIas(value + (inc / 100.0));
+			ProfileHelper.updateWeaponDamage(data);
+		}
+	}),
+
+	new Stat("% IAS (OH Weapon)", new StatAdapter() {
+
+		@Override
+		public boolean test(CharacterData data, Set<DamageType> types) {
+			return data.getOffHand_weaponType() != null;
+		}
+
+		@Override
+		public void apply(double inc, CharacterData data) {
+			double value = data.getOffHand_weaponIas();
+			data.setOffHand_weaponIas(value + (inc / 100.0));
+			ProfileHelper.updateWeaponDamage(data);
+		}
+	}),
+
 	new Stat("IAS (Paragon Points)", new StatAdapter() {
 
 		@Override

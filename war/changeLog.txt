@@ -3,6 +3,7 @@ Change Log:
 **4/10/17**
 
 - Fixed "downtime" calculation in CDR panel
+- Added MH and OH Weapon IAS to "Stats Calc" list of available stats to play with
 
 **4/4/17**
 
