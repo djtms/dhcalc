@@ -310,7 +310,7 @@ public class CDRPanel extends Composite {
 					downtime = 0.0;
 				} else {
 					uptime = duration / cd;
-					downtime = duration * (1 - uptime);
+					downtime = cd - duration;
 				}
 
 				Label l = new Label("Cooldown "

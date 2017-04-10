@@ -1,5 +1,9 @@
 Change Log:
 
+**4/10/17**
+
+- Fixed "downtime" calculation in CDR panel
+
 **4/4/17**
 
 - Added Frostburn 
