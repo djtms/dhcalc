@@ -494,25 +494,30 @@ public class MainPanel extends BasePanel {
 			}
 		});
 
+		Label label_11a = new Label("Hero:");
+		label_11a.setWordWrap(false);
+		label_11a.setStyleName("boldText");
+		compareTable.setWidget(2, 0, label_11a);
+
 		Label label_11 = new Label("APS:");
 		label_11.setWordWrap(false);
 		label_11.setStyleName("boldText");
-		compareTable.setWidget(2, 0, label_11);
+		compareTable.setWidget(3, 0, label_11);
 
 		Label label_8 = new Label("Weapon Damage:");
 		label_8.setWordWrap(false);
 		label_8.setStyleName("boldText");
-		compareTable.setWidget(3, 0, label_8);
+		compareTable.setWidget(4, 0, label_8);
 
 		Label label_14a = new Label("Time:");
 		label_14a.setWordWrap(false);
 		label_14a.setStyleName("boldText");
-		compareTable.setWidget(5, 0, label_14a);
+		compareTable.setWidget(6, 0, label_14a);
 
 		Label label_14 = new Label("DPS:");
 		label_14.setWordWrap(false);
 		label_14.setStyleName("boldText");
-		compareTable.setWidget(7, 0, label_14);
+		compareTable.setWidget(8, 0, label_14);
 
 		for (int j = 0; j < 3; j++) {
 			final int which = j;
@@ -553,9 +558,9 @@ public class MainPanel extends BasePanel {
 			Anchor label_1 = new Anchor("Clear");
 			label_1.setHref("javascript:void(0)");
 			label_1.setTitle("Click to clear this build");
-			compareTable.setWidget(9, col, label_1);
-			compareTable.getFlexCellFormatter().setWidth(9, col + 1, "5px");
-			compareTable.getFlexCellFormatter().setHorizontalAlignment(9, col,
+			compareTable.setWidget(10, col, label_1);
+			compareTable.getFlexCellFormatter().setWidth(10, col + 1, "5px");
+			compareTable.getFlexCellFormatter().setHorizontalAlignment(10, col,
 					HasHorizontalAlignment.ALIGN_CENTER);
 
 			label_1.addClickHandler(new ClickHandler() {
@@ -567,8 +572,8 @@ public class MainPanel extends BasePanel {
 				}
 			});
 
-			for (int i = 0; i < 4; i++) {
-				int row = 2 + ((i > 0) ? 1 + ((i - 1) * 2) : 0);
+			for (int i = 0; i < 5; i++) {
+				int row = 2 + ((i > 1) ? (2 + ((i - 2) * 2)) : i);
 
 				Label l = new Label("No Data");
 				l.setWordWrap(false);
@@ -576,12 +581,14 @@ public class MainPanel extends BasePanel {
 				compareTable.getFlexCellFormatter().setHorizontalAlignment(row,
 						col, HasHorizontalAlignment.ALIGN_CENTER);
 
-				if (j > 0) {
-					Label pct = new Label("No Data");
-					pct.setWordWrap(false);
-					compareTable.setWidget(row + 1, col, pct);
-					compareTable.getFlexCellFormatter().setHorizontalAlignment(
-							row + 1, col, HasHorizontalAlignment.ALIGN_CENTER);
+				if (i > 1) {
+					if (j > 0) {
+						Label pct = new Label("No Data");
+						pct.setWordWrap(false);
+						compareTable.setWidget(row + 1, col, pct);
+						compareTable.getFlexCellFormatter().setHorizontalAlignment(
+								row + 1, col, HasHorizontalAlignment.ALIGN_CENTER);
+					}
 				}
 			}
 		}
@@ -1408,6 +1415,9 @@ public class MainPanel extends BasePanel {
 			Map<String, String> map = new TreeMap<String, String>();
 			map.putAll(list.get(i).formData.main);
 
+			String name = list.get(i).heroName;
+			map.put("hero.name", (name != null) ? name : "No Data");
+			
 			Util.putAll(map, "passives.", list.get(i).formData.passives);
 			Util.putAll(map, "gems.", list.get(i).formData.gems);
 			Util.putAll(map, "specialItems.", list.get(i).formData.specialItems);
@@ -1530,15 +1540,21 @@ public class MainPanel extends BasePanel {
 
 						data.formData = formData;
 						data.exportData = exportData;
+						data.heroName = getHeroName();
 
 						showBuildData(which);
 
 						dialog.taskCompleted();
 					}
+
 				});
 			}
 		});
 
+	}
+
+	private String getHeroName() {
+		return (hero != null) ? hero.name : null;
 	}
 
 	protected void showBuildData(int which) {
@@ -1548,17 +1564,28 @@ public class MainPanel extends BasePanel {
 
 		if (data == null) {
 
+			Label heroLabel = (Label) compareTable.getWidget(2, col);
+			heroLabel.setText("No Data");
+
 			for (int row = 0; row < NUM_COMPARE_ROWS; row++) {
-				Label label = (Label) compareTable.getWidget(row + 2, col);
+				Label label = (Label) compareTable.getWidget(row + 3, col);
 
 				if (label != null)
 					label.setText("No Data");
 			}
 
 		} else {
+			String name = data.heroName;
+
+			if (name == null)
+				name = "No Data";
+			
+			Label heroLabel = (Label) compareTable.getWidget(2, col);
+			heroLabel.setText(name);
+
 			CompareData baseline = compareData[0];
 
-			int row = 2;
+			int row = 3;
 
 			Label aps = (Label) compareTable.getWidget(row, col);
 			Label wd = (Label) compareTable.getWidget(row + 1, col);
