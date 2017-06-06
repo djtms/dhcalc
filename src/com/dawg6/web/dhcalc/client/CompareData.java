@@ -23,6 +23,7 @@ import com.dawg6.web.dhcalc.shared.calculator.FormData;
 
 public class CompareData {
 
+	public String heroName;
 	public FormData formData;
 	public ExportData exportData;
 
