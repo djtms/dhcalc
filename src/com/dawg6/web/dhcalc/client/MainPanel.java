@@ -1453,6 +1453,8 @@ public class MainPanel extends BasePanel {
 		for (Map<String, String> map : formData) {
 			keys.addAll(map.keySet());
 		}
+		
+		keys.remove("Heroes");
 
 		for (String key : keys) {
 			List<String> values = new Vector<String>();
