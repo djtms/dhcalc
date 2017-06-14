@@ -68,7 +68,7 @@ public class SituationalPanel extends Composite {
 		riftLevel.setTitle("Greater Rift Level");
 		riftLevel.setText("1");
 		riftLevel.setMin(1);
-		riftLevel.setMax(100);
+		riftLevel.setMax(1000);
 		flexTable.setWidget(row++, 1, riftLevel);
 		
 		Label lblNumberOfPlayers = new Label("Number of Players:");
