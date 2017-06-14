@@ -5,6 +5,7 @@ Change Log:
 - Added Threatening Shout/Falter (other player buffs)
 - Added Gem of Effacious Toxin (other player buffs)
 - Changed max Gem level to 1000
+- Removed (old) Vengeance/Dark heart mechanic (AoE DoT)
 
 **6/7/17**
 - Fixed compare of heroes from multiple battletags
