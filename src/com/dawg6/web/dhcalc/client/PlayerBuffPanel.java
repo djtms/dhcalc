@@ -61,6 +61,9 @@ public class PlayerBuffPanel extends Composite {
 	private final SimpleCheckBox oculus;
 	private final NumberSpinner oculusPercent;
 	private final NumberSpinner oculusUptime;
+	private final SimpleCheckBox falter;
+	private final DoubleSpinner falterUptime;
+	private final SimpleCheckBox toxin;
 
 	public PlayerBuffPanel() {
 		
@@ -97,6 +100,17 @@ public class PlayerBuffPanel extends Composite {
 		calcWolfButton.setTitle("Calculate Wolf uptime based on your effective Cooldown Reduction");
 		flexTable.setWidget(row, 4, calcWolfButton);
 
+		row++;
+		
+		Anchor anchor_6b = new Anchor("Gem of Efficacious Toxin (rank 25+):");
+		anchor_6b.setWordWrap(false);
+		anchor_6b.setTarget("_blank");
+		anchor_6b.setHref("http://us.battle.net/d3/en/item/gem-of-efficacious-toxin");
+		flexTable.setWidget(row, 0, anchor_6b);
+		
+		toxin = new SimpleCheckBox();
+		flexTable.setWidget(row, 1, toxin);
+		
 		row++;
 		
 		Anchor anchor_1 = new Anchor("Big Bad Voodoo:");
@@ -204,6 +218,26 @@ public class PlayerBuffPanel extends Composite {
 		piranhasUptime = new DoubleSpinner();
 		piranhasUptime.setVisibleLength(5);
 		flexTable.setWidget(row, 3, piranhasUptime);
+		
+		row++;
+		
+		Anchor anchor_6a = new Anchor("Threatening Shout/Falter:");
+		anchor_6a.setWordWrap(false);
+		anchor_6a.setTarget("_blank");
+		anchor_6a.setHref("http://us.battle.net/d3/en/class/barbarian/active/threatening-shout#d+");
+		flexTable.setWidget(row, 0, anchor_6a);
+		
+		falter = new SimpleCheckBox();
+		flexTable.setWidget(row, 1, falter);
+		
+		Label label_5a = new Label("% Uptime:");
+		label_5a.setWordWrap(false);
+		flexTable.setWidget(row, 2, label_5a);
+		
+		falterUptime = new DoubleSpinner();
+		falterUptime.setVisibleLength(5);
+		falterUptime.setValue(100.0);
+		flexTable.setWidget(row, 3, falterUptime);
 		
 		row++;
 		
@@ -372,6 +406,7 @@ public class PlayerBuffPanel extends Composite {
 		bbvUptime.setMax(100.0);
 		massConfusionUptime.setMax(100.0);
 		piranhasUptime.setMax(100.0);
+		falterUptime.setMax(100.0);
 		cripplingWaveUptime.setMax(100.0);
 		innerSanctuaryUptime.setMax(100.0);
 		convictionPassiveUptime.setMax(100.0);
@@ -516,6 +551,18 @@ public class PlayerBuffPanel extends Composite {
 
 	public DoubleSpinner getPiranhasUptime() {
 		return piranhasUptime;
+	}
+
+	public SimpleCheckBox getFalter() {
+		return falter;
+	}
+
+	public DoubleSpinner getFalterUptime() {
+		return falterUptime;
+	}
+
+	public SimpleCheckBox getToxin() {
+		return toxin;
 	}
 
 	public SimpleCheckBox getOverawe() {

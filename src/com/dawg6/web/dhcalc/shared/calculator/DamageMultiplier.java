@@ -1412,6 +1412,20 @@ public enum DamageMultiplier {
 						CharacterData data) {
 					return data.isPiranhas() ? 0.15 : 0.0;
 				}
+			}), Falter("Falter", DamageAccumulator.Additive,
+			"Threatening Shout/Falter bonus (25% during uptime)",
+			new Test<SimulationState, Double>() {
+				@Override
+				public Double getValue(SimulationState state) {
+					return state.getBuffs().isActive(Buff.Falter) ? 0.25
+							: 0.0;
+				}
+
+				@Override
+				public Double getMax(boolean sentry, DamageRow row,
+						CharacterData data) {
+					return (data.isFalter() && (data.getFalterUptime() > 0)) ? 0.25 : 0.0;
+				}
 			}), InnerSanctuary(
 			"InnerSanctuary",
 			DamageAccumulator.Additive,
@@ -1609,14 +1623,14 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return (state.getData().isToxin() && state.getData()
-							.getToxinLevel() >= 25) ? 0.1 : 0.0;
+					return ((state.getData().isToxin() && state.getData()
+							.getToxinLevel() >= 25) || state.getData().isOtherPlayerToxin()) ? 0.1 : 0.0;
 				}
 
 				@Override
 				public Double getMax(boolean sentry, DamageRow row,
 						CharacterData data) {
-					return (data.isToxin() && data.getToxinLevel() >= 25) ? 0.1
+					return ((data.isToxin() && data.getToxinLevel() >= 25) || data.isOtherPlayerToxin()) ? 0.1
 							: 0.0;
 				}
 			}), Ambush("Ambush", DamageAccumulator.Multiplicative,

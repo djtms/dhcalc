@@ -21,6 +21,11 @@
 	src="http://us.battle.net/d3/static/local-common/js/third-party.js?v=58-80"></script>
 <script src="tooltips.js?v=13"></script>
 
+<a href="http://us.battle.net/d3/en/class/barbarian/active/threatening-shout#a+">Threatening Shout</a><br/>
+<a href="http://us.battle.net/d3/en/class/barbarian/active/threatening-shout#b+">Threatening Shout</a><br/>
+<a href="http://us.battle.net/d3/en/class/barbarian/active/threatening-shout#c+">Threatening Shout</a><br/>
+<a href="http://us.battle.net/d3/en/class/barbarian/active/threatening-shout#d+">Threatening Shout</a><br/>
+<a href="http://us.battle.net/d3/en/class/barbarian/active/threatening-shout#e+">Threatening Shout</a><br/>
 <table border="1">
 <tr>
 <th>Skill</th><th>Runes</th>

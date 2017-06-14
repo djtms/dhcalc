@@ -1,5 +1,11 @@
 Change Log:
 
+**6/14/17**
+
+- Added Threatening Shout/Falter (other player buffs)
+- Added Gem of Effacious Toxin (other player buffs)
+- Changed max Gem level to 1000
+
 **6/7/17**
 - Fixed compare of heroes from multiple battletags
 

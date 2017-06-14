@@ -61,6 +61,8 @@ public class CharacterData implements Serializable {
 	private boolean bigBadVoodo;
 	private boolean massConfusion;
 	private boolean piranhas;
+	private boolean falter;
+	private boolean toxin;
 	private boolean innerSanctuary;
 	private boolean conviction;
 	private boolean overawe;
@@ -93,6 +95,7 @@ public class CharacterData implements Serializable {
 	private double percentControlled;
 	private double percentAtLeast10Yards;
 	private double piranhasUptime;
+	private double falterUptime;
 	private double innerSanctuaryUptime;
 	private double cripplingWaveUptime;
 	private double convictionPassiveUptime;
@@ -218,6 +221,8 @@ public class CharacterData implements Serializable {
 		bbv = false;
 		massConfusion = false;
 		piranhas = false;
+		falter = false;
+		toxin = false;
 		valor = false;
 		innerSanctuary = false;
 		cripplingWave = false;
@@ -295,6 +300,8 @@ public class CharacterData implements Serializable {
 		this.equipIas = other.equipIas;
 		this.equipmentDexterity = other.equipmentDexterity;
 		this.equipmentDiscipline = other.equipmentDiscipline;
+		this.falter = other.falter;
+		this.falterUptime = other.falterUptime;
 		this.followerOculus = other.followerOculus;
 		this.followerOculusPercent = other.followerOculusPercent;
 		this.followerOculusUptime = other.followerOculusUptime;
@@ -388,6 +395,7 @@ public class CharacterData implements Serializable {
 		this.timeWarp = other.timeWarp;
 		this.timeWarpUptime = other.timeWarpUptime;
 		this.topaz= other.topaz;
+		this.toxin = other.toxin;
 		this.transgression = other.transgression;
 		this.valor = other.valor;
 		this.valorPassiveUptime = other.valorPassiveUptime;
@@ -651,6 +659,22 @@ public class CharacterData implements Serializable {
 
 	public void setPiranhas(boolean piranhas) {
 		this.piranhas = piranhas;
+	}
+
+	public boolean isFalter() {
+		return falter;
+	}
+
+	public void setFalter(boolean falter) {
+		this.falter = falter;
+	}
+
+	public boolean isOtherPlayerToxin() {
+		return toxin;
+	}
+
+	public void setOtherPlayerToxin(boolean toxin) {
+		this.toxin = toxin;
 	}
 
 	public boolean isInnerSanctuary() {
@@ -1015,6 +1039,14 @@ public class CharacterData implements Serializable {
 
 	public void setPiranhasUptime(double piranhasUptime) {
 		this.piranhasUptime = piranhasUptime;
+	}
+
+	public double getFalterUptime() {
+		return falterUptime;
+	}
+
+	public void setFalterUptime(double falterUptime) {
+		this.falterUptime = falterUptime;
 	}
 
 	public double getInnerSanctuaryUptime() {

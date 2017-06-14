@@ -87,6 +87,9 @@ public class FiringData {
 		if (data.isPiranhas() && (data.getPiranhasUptime() > 0))
 			eventQueue.push(new BuffEvent(Buff.Piranhas, 8.0, data.getPiranhasUptime()));
 
+		if (data.isFalter() && (data.getFalterUptime() > 0))
+			eventQueue.push(new BuffEvent(Buff.Falter, 6.0, data.getFalterUptime()));
+
 		if (data.isInnerSanctuary() && (data.getInnerSanctuaryUptime() > 0))
 			eventQueue.push(new BuffEvent(Buff.InnerSanct, 6.0, data.getInnerSanctuaryUptime()));
 

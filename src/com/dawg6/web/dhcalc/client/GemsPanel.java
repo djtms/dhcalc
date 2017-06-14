@@ -107,7 +107,7 @@ public class GemsPanel extends Composite {
 			table.setWidget(row, 2, label);
 
 			NumberSpinner level = new NumberSpinner();
-			level.setMax(100);
+			level.setMax(1000);
 			level.setVisibleLength(4);
 			table.setWidget(row, 3, level);
 			levels.add(level);

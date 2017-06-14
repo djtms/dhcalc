@@ -148,6 +148,7 @@ public class DamageRow {
 		this.multipliers.add(DamageMultiplier.TW);
 		this.multipliers.add(DamageMultiplier.Paranoia);
 		this.multipliers.add(DamageMultiplier.Piranhas);
+		this.multipliers.add(DamageMultiplier.Falter);
 		this.multipliers.add(DamageMultiplier.InnerSanctuary);
 		this.multipliers.add(DamageMultiplier.CripplingWave);
 		this.multipliers.add(DamageMultiplier.Conviction);

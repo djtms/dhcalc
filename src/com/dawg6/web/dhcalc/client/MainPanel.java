@@ -2391,6 +2391,10 @@ public class MainPanel extends BasePanel {
 						"17.67"),
 				new Field(this.playerBuffPanel.getPiranhas(), "Piranhas",
 						Boolean.FALSE.toString()),
+				new Field(this.playerBuffPanel.getFalter(), "Falter",
+						Boolean.FALSE.toString()),
+				new Field(this.playerBuffPanel.getToxin(), "OtherPlayerToxin",
+						Boolean.FALSE.toString()),
 				new Field(this.playerBuffPanel.getStretchTime(), "StretchTime",
 						Boolean.FALSE.toString()),
 				new Field(this.playerBuffPanel.getStretchTimeUptime(),
@@ -2401,6 +2405,8 @@ public class MainPanel extends BasePanel {
 						"TimeWarpUptime", "0"),
 				new Field(this.playerBuffPanel.getPiranhasUptime(),
 						"PiranhasUptime", "0"),
+				new Field(this.playerBuffPanel.getFalterUptime(),
+						"FalterUptime", "0"),
 				new Field(this.playerBuffPanel.getInnerSanctuary(),
 						"InnerSanctuary", Boolean.FALSE.toString()),
 				new Field(this.playerBuffPanel.getInnerSanctuaryUptime(),
@@ -2579,6 +2585,10 @@ public class MainPanel extends BasePanel {
 			data.setPiranhas(playerBuffPanel.getPiranhas().getValue());
 			data.setPiranhasUptime(playerBuffPanel.getPiranhasUptime()
 					.getValue() / 100.0);
+			data.setFalter(playerBuffPanel.getFalter().getValue());
+			data.setFalterUptime(playerBuffPanel.getFalterUptime()
+					.getValue() / 100.0);
+			data.setOtherPlayerToxin(playerBuffPanel.getToxin().getValue());
 			data.setInnerSanctuary(playerBuffPanel.getInnerSanctuary()
 					.getValue());
 			data.setInnerSanctuaryUptime(playerBuffPanel
