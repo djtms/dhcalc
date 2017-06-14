@@ -62,6 +62,7 @@ public class CharacterData implements Serializable {
 	private boolean massConfusion;
 	private boolean piranhas;
 	private boolean falter;
+	private boolean unity;
 	private boolean toxin;
 	private boolean innerSanctuary;
 	private boolean conviction;
@@ -222,6 +223,7 @@ public class CharacterData implements Serializable {
 		massConfusion = false;
 		piranhas = false;
 		falter = false;
+		unity = false;
 		toxin = false;
 		valor = false;
 		innerSanctuary = false;
@@ -397,6 +399,7 @@ public class CharacterData implements Serializable {
 		this.topaz= other.topaz;
 		this.toxin = other.toxin;
 		this.transgression = other.transgression;
+		this.unity = other.unity;
 		this.valor = other.valor;
 		this.valorPassiveUptime = other.valorPassiveUptime;
 		this.valorActiveUptime = other.valorActiveUptime;
@@ -665,8 +668,16 @@ public class CharacterData implements Serializable {
 		return falter;
 	}
 
+	public boolean isUnity() {
+		return unity;
+	}
+
 	public void setFalter(boolean falter) {
 		this.falter = falter;
+	}
+
+	public void setUnity(boolean unity) {
+		this.unity = unity;
 	}
 
 	public boolean isOtherPlayerToxin() {

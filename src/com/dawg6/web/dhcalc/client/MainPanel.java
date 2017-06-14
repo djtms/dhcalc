@@ -2393,6 +2393,8 @@ public class MainPanel extends BasePanel {
 						Boolean.FALSE.toString()),
 				new Field(this.playerBuffPanel.getFalter(), "Falter",
 						Boolean.FALSE.toString()),
+				new Field(this.playerBuffPanel.getUnity(), "MonkUnity",
+						Boolean.FALSE.toString()),
 				new Field(this.playerBuffPanel.getToxin(), "OtherPlayerToxin",
 						Boolean.FALSE.toString()),
 				new Field(this.playerBuffPanel.getStretchTime(), "StretchTime",
@@ -2586,6 +2588,7 @@ public class MainPanel extends BasePanel {
 			data.setPiranhasUptime(playerBuffPanel.getPiranhasUptime()
 					.getValue() / 100.0);
 			data.setFalter(playerBuffPanel.getFalter().getValue());
+			data.setUnity(playerBuffPanel.getUnity().getValue());
 			data.setFalterUptime(playerBuffPanel.getFalterUptime()
 					.getValue() / 100.0);
 			data.setOtherPlayerToxin(playerBuffPanel.getToxin().getValue());

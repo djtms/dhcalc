@@ -64,6 +64,7 @@ public class PlayerBuffPanel extends Composite {
 	private final SimpleCheckBox falter;
 	private final DoubleSpinner falterUptime;
 	private final SimpleCheckBox toxin;
+	private final SimpleCheckBox unity;
 
 	public PlayerBuffPanel() {
 		
@@ -329,6 +330,17 @@ public class PlayerBuffPanel extends Composite {
 		
 		row++;
 		
+		Anchor anchor_6c = new Anchor("Unity (Monk Passive):");
+		anchor_6c.setWordWrap(false);
+		anchor_6c.setTarget("_blank");
+		anchor_6c.setHref("http://us.battle.net/d3/en/class/monk/passive/unity");
+		flexTable.setWidget(row, 0, anchor_6c);
+		
+		unity = new SimpleCheckBox();
+		flexTable.setWidget(row, 1, unity);
+
+		row++;
+		
 		Anchor anchor_5 = new Anchor("Mantra of Conviction:");
 		anchor_5.setWordWrap(false);
 		anchor_5.setTarget("_blank");
@@ -591,6 +603,10 @@ public class PlayerBuffPanel extends Composite {
 
 	public SimpleCheckBox getTimeWarp() {
 		return timeWarp;
+	}
+
+	public SimpleCheckBox getUnity() {
+		return unity;
 	}
 
 	public SimpleCheckBox getStretchTime() {

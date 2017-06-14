@@ -1417,14 +1417,28 @@ public enum DamageMultiplier {
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return state.getBuffs().isActive(Buff.Falter) ? 0.25
-							: 0.0;
+					return state.getBuffs().isActive(Buff.Falter) ? 0.25 : 0.0;
 				}
 
 				@Override
 				public Double getMax(boolean sentry, DamageRow row,
 						CharacterData data) {
-					return (data.isFalter() && (data.getFalterUptime() > 0)) ? 0.25 : 0.0;
+					return (data.isFalter() && (data.getFalterUptime() > 0)) ? 0.25
+							: 0.0;
+				}
+			}), Unity("Unity", DamageAccumulator.Additive,
+			"Monk Unity Passive bonus (5%)",
+			new Test<SimulationState, Double>() {
+				@Override
+				public Double getValue(SimulationState state) {
+					return state.getData().isUnity() ? 0.05 : 0.0;
+				}
+
+				@Override
+				public Double getMax(boolean sentry, DamageRow row,
+						CharacterData data) {
+					return data.isUnity() ? 0.05
+							: 0.0;
 				}
 			}), InnerSanctuary(
 			"InnerSanctuary",
@@ -1624,14 +1638,15 @@ public enum DamageMultiplier {
 				@Override
 				public Double getValue(SimulationState state) {
 					return ((state.getData().isToxin() && state.getData()
-							.getToxinLevel() >= 25) || state.getData().isOtherPlayerToxin()) ? 0.1 : 0.0;
+							.getToxinLevel() >= 25) || state.getData()
+							.isOtherPlayerToxin()) ? 0.1 : 0.0;
 				}
 
 				@Override
 				public Double getMax(boolean sentry, DamageRow row,
 						CharacterData data) {
-					return ((data.isToxin() && data.getToxinLevel() >= 25) || data.isOtherPlayerToxin()) ? 0.1
-							: 0.0;
+					return ((data.isToxin() && data.getToxinLevel() >= 25) || data
+							.isOtherPlayerToxin()) ? 0.1 : 0.0;
 				}
 			}), Ambush("Ambush", DamageAccumulator.Multiplicative,
 			"Ambush (40% to enemies above 75% health)",
