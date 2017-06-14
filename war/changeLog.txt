@@ -7,6 +7,7 @@ Change Log:
 - Changed max Gem level to 1000
 - Removed (old) Vengeance/Dark heart mechanic (AoE DoT)
 - Increased rift max level to 1000
+- Default Firing Delay to 0
 
 **6/7/17**
 - Fixed compare of heroes from multiple battletags
