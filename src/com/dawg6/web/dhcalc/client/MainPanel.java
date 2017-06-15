@@ -36,6 +36,7 @@ import com.dawg6.gwt.client.ApplicationPanel;
 import com.dawg6.gwt.client.widgets.SimpleCaptionPanel;
 import com.dawg6.gwt.common.util.AsyncTaskHandler;
 import com.dawg6.gwt.common.util.DefaultCallback;
+import com.dawg6.gwt.common.util.DialogBoxHandler;
 import com.dawg6.web.dhcalc.client.ItemPanel.ItemsChangedListener;
 import com.dawg6.web.dhcalc.client.SavePanel.FormListener;
 import com.dawg6.web.dhcalc.client.Service.NewsHandler;
@@ -70,6 +71,7 @@ import com.dawg6.web.dhcalc.shared.calculator.Util;
 import com.dawg6.web.dhcalc.shared.calculator.Version;
 import com.dawg6.web.dhcalc.shared.calculator.stats.DpsTableEntry;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -716,8 +718,6 @@ public class MainPanel extends BasePanel {
 		playerBuffPanel.getRetribution().addClickHandler(clickHandler3);
 		playerBuffPanel.getRetributionUptime().addChangeHandler(changeHandler);
 		playerBuffPanel.getUnity().addClickHandler(clickHandler3);
-		playerBuffPanel.getFalter().addClickHandler(clickHandler3);
-		playerBuffPanel.getFalterUptime().addChangeHandler(changeHandler);
 		
 		buffPanel.getAnatomy().addClickHandler(clickHandler3);
 		buffPanel.getFocusedMind().addClickHandler(clickHandler3);
@@ -768,6 +768,7 @@ public class MainPanel extends BasePanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				Service.getInstance().checkVersion(null);
+				
 				calculate();
 			}
 		});
@@ -2456,16 +2457,33 @@ public class MainPanel extends BasePanel {
 
 	protected void calculate() {
 
-		final AsyncTaskHandler dialog = super.showWaitDialogBox("Calculating",
+		final DialogBoxHandler dialog = super.showWaitDialogBox("Simulating",
 				"Please wait...");
 
-		Scheduler.get().scheduleDeferred(new Command() {
+		Scheduler.get().scheduleFixedDelay(new RepeatingCommand(){
 
 			@Override
-			public void execute() {
-				doCalculate(dialog);
-			}
-		});
+			public boolean execute() {
+				if (dialog.getDialogBox().isShowing()) {
+					
+					doCalculate(dialog);
+
+					return false;
+					
+				} else {
+					return true;
+				}
+				
+			}}, 500);
+		
+		
+//		Scheduler.get().scheduleDeferred(new Command() {
+//
+//			@Override
+//			public void execute() {
+//				doCalculate(dialog);
+//			}
+//		});
 
 	}
 
@@ -3283,7 +3301,7 @@ public class MainPanel extends BasePanel {
 
 			calculator.setDisableListeners(false);
 
-			calculate();
+			//calculate();
 
 			if (items.size() > 0) {
 

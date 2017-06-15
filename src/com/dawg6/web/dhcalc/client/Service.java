@@ -31,6 +31,7 @@ import com.dawg6.gwt.client.ApplicationPanel;
 import com.dawg6.gwt.client.ApplicationPanel.DialogBoxResultHandler;
 import com.dawg6.gwt.common.util.AsyncTask;
 import com.dawg6.gwt.common.util.AsyncTaskHandler;
+import com.dawg6.gwt.common.util.DialogBoxHandler;
 import com.dawg6.web.dhcalc.shared.calculator.ExportData;
 import com.dawg6.web.dhcalc.shared.calculator.FormData;
 import com.dawg6.web.dhcalc.shared.calculator.NewsItem;
@@ -39,6 +40,7 @@ import com.dawg6.web.dhcalc.shared.calculator.Version;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -98,7 +100,7 @@ public class Service implements DHCalcServiceAsync {
 		execute(true, task);
 	}
 	
-	private AsyncTaskHandler waitDialog = null;
+	private DialogBoxHandler waitDialog = null;
 
 	public void execute(boolean showDialog, final AsyncTask task) {
 
@@ -110,26 +112,40 @@ public class Service implements DHCalcServiceAsync {
 			createDlg = true;
 		}
 
-		final AsyncTaskHandler handler = createDlg ? new AsyncTaskHandler(){
+		final boolean create = createDlg;
+			
+		Scheduler.get().scheduleFixedDelay(new RepeatingCommand(){
 
 			@Override
-			public void taskCompleted() {
-				waitDialog.taskCompleted();
-				waitDialog = null;
+			public boolean execute() {
+				if (create && (waitDialog != null) && !waitDialog.getDialogBox().isShowing())
+					return true;
 				
-			}} : AsyncTaskHandler.Default;
-		
-		checkVersion(new Handler<VersionCheck>() {
+				final AsyncTaskHandler handler = create ? new AsyncTaskHandler(){
 
-			@Override
-			public void handleResult(VersionCheck result) {
-				if (result.success) {
-					task.run(handler);
-				} else {
-					handler.taskCompleted();
-				}
-			}
-		});
+					@Override
+					public void taskCompleted() {
+						waitDialog.taskCompleted();
+						waitDialog = null;
+						
+					}} : AsyncTaskHandler.Default;
+				
+				checkVersion(new Handler<VersionCheck>() {
+
+					@Override
+					public void handleResult(VersionCheck result) {
+						if (result.success) {
+							task.run(handler);
+						} else {
+							handler.taskCompleted();
+						}
+					}
+				});
+				
+				return false;
+				
+			}}, 500);
+		
 	}
 
 	public void checkVersion(final Handler<VersionCheck> handler) {

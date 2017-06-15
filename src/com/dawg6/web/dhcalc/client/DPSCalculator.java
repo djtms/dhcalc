@@ -735,10 +735,6 @@ public class DPSCalculator extends BasePanel {
 			aDam += 0.05;
 		}
 
-		if (main.getPlayerBuffs().getFalter().getValue()) {
-			aDam += 0.25;
-		}
-
 		// Steady Aim is now multiplicative and doesn't show up in Sheet DPS
 //		if (main.getPassivesPanel().getPassives().contains(Passive.Steady_Aim)) {
 //			aDam += .2;

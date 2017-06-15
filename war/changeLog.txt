@@ -3,6 +3,7 @@ Change Log:
 **6/15/17**
 
 - Updated Sheet DPS tab to recalculate whenever Falter or Unity buffs are selected.
+- No longer runs simulation on startup (must press button or import hero to run simulation). 
 
 **6/14/17**
 
