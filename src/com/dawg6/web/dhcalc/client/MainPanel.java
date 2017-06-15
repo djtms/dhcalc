@@ -715,11 +715,15 @@ public class MainPanel extends BasePanel {
 		playerBuffPanel.getValorPassiveUptime().addChangeHandler(changeHandler);
 		playerBuffPanel.getRetribution().addClickHandler(clickHandler3);
 		playerBuffPanel.getRetributionUptime().addChangeHandler(changeHandler);
-
+		playerBuffPanel.getUnity().addClickHandler(clickHandler3);
+		playerBuffPanel.getFalter().addClickHandler(clickHandler3);
+		playerBuffPanel.getFalterUptime().addChangeHandler(changeHandler);
+		
 		buffPanel.getAnatomy().addClickHandler(clickHandler3);
 		buffPanel.getFocusedMind().addClickHandler(clickHandler3);
 		buffPanel.getHysteria().addClickHandler(clickHandler3);
 
+		
 		gemPanel.addChangeHandler(changeHandler);
 
 		SimpleCaptionPanel cptnpnlNewPanel = new SimpleCaptionPanel(

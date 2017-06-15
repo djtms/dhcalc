@@ -637,4 +637,9 @@ public class PlayerBuffPanel extends Composite {
 	public NumberSpinner getOculusUptime() {
 		return oculusUptime;
 	}
+
+	public void addChangeHandler(ChangeHandler changeHandler) {
+		// TODO Auto-generated method stub
+		
+	}
 }

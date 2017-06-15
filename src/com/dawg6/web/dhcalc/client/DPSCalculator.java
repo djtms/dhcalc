@@ -38,8 +38,6 @@ import com.dawg6.web.dhcalc.shared.calculator.Util;
 import com.dawg6.web.dhcalc.shared.calculator.WeaponType;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -108,19 +106,9 @@ public class DPSCalculator extends BasePanel {
 
 			@Override
 			public void onChange(ChangeEvent event) {
-				if (!disableListeners)
-					calculate();
+				inputsChanged();
 			}
 
-		};
-
-		ClickHandler clickHandler = new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				Service.getInstance().checkNews(null);
-				calculate();
-			}
 		};
 
 		FlexTable grid = new FlexTable();
@@ -470,6 +458,11 @@ public class DPSCalculator extends BasePanel {
 		offHand.getWeaponIAS().addChangeHandler(handler);
 		offHand.getWeaponDamage().addChangeHandler(handler);
 
+	}
+
+	public void inputsChanged() {
+		if (!disableListeners)
+			calculate();
 	}
 
 	protected void paragonsChanged() {
