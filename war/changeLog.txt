@@ -1,5 +1,9 @@
 Change Log:
 
+**6/16/17**
+
+- Added Iceblink gem (rank 25+) for Other Player Buffs
+
 **6/15/17**
 
 - Updated Sheet DPS tab to recalculate whenever Unity buff is selected.

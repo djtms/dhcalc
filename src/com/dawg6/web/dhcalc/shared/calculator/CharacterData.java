@@ -63,7 +63,8 @@ public class CharacterData implements Serializable {
 	private boolean piranhas;
 	private boolean falter;
 	private boolean unity;
-	private boolean toxin;
+	private boolean partyToxin;
+	private boolean partyIceblink;
 	private boolean innerSanctuary;
 	private boolean conviction;
 	private boolean overawe;
@@ -224,7 +225,8 @@ public class CharacterData implements Serializable {
 		piranhas = false;
 		falter = false;
 		unity = false;
-		toxin = false;
+		partyToxin = false;
+		partyIceblink = false;
 		valor = false;
 		innerSanctuary = false;
 		cripplingWave = false;
@@ -357,9 +359,11 @@ public class CharacterData implements Serializable {
 		this.paragonHatred = other.paragonHatred;
 		this.paragonIAS = other.paragonIAS;
 		this.paragonRCR = other.paragonRCR;
+		this.partyIceblink = other.partyIceblink;
 		this.partyOculus = other.partyOculus;
 		this.partyOculusPercent = other.partyOculusPercent;
 		this.partyOculusUptime = other.partyOculusUptime;
+		this.partyToxin = other.partyToxin;
 		this.passives = Util.copy(other.passives);
 		this.percentAtLeast10Yards = other.percentAtLeast10Yards;
 		this.percentControlled = other.percentControlled;
@@ -397,7 +401,6 @@ public class CharacterData implements Serializable {
 		this.timeWarp = other.timeWarp;
 		this.timeWarpUptime = other.timeWarpUptime;
 		this.topaz= other.topaz;
-		this.toxin = other.toxin;
 		this.transgression = other.transgression;
 		this.unity = other.unity;
 		this.valor = other.valor;
@@ -681,11 +684,11 @@ public class CharacterData implements Serializable {
 	}
 
 	public boolean isOtherPlayerToxin() {
-		return toxin;
+		return partyToxin;
 	}
 
 	public void setOtherPlayerToxin(boolean toxin) {
-		this.toxin = toxin;
+		this.partyToxin = toxin;
 	}
 
 	public boolean isInnerSanctuary() {
@@ -2407,6 +2410,14 @@ public class CharacterData implements Serializable {
 		int bounces = this.getHellcatBounces();
 		
 		return (bounces >= 5) ? 16.0 : ((bounces <= 3) ? 10.5 : 13.0);
+	}
+
+	public boolean isPartyIceblink() {
+		return partyIceblink;
+	}
+
+	public void setPartyIceblink(boolean partyIceblink) {
+		this.partyIceblink = partyIceblink;
 	}
 
 }

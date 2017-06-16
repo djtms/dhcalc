@@ -2402,6 +2402,8 @@ public class MainPanel extends BasePanel {
 						Boolean.FALSE.toString()),
 				new Field(this.playerBuffPanel.getToxin(), "OtherPlayerToxin",
 						Boolean.FALSE.toString()),
+				new Field(this.playerBuffPanel.getIceblink(), "OtherPlayerIceblink",
+						Boolean.FALSE.toString()),
 				new Field(this.playerBuffPanel.getStretchTime(), "StretchTime",
 						Boolean.FALSE.toString()),
 				new Field(this.playerBuffPanel.getStretchTimeUptime(),
@@ -2614,6 +2616,7 @@ public class MainPanel extends BasePanel {
 			data.setFalterUptime(playerBuffPanel.getFalterUptime()
 					.getValue() / 100.0);
 			data.setOtherPlayerToxin(playerBuffPanel.getToxin().getValue());
+			data.setPartyIceblink(playerBuffPanel.getIceblink().getValue());
 			data.setInnerSanctuary(playerBuffPanel.getInnerSanctuary()
 					.getValue());
 			data.setInnerSanctuaryUptime(playerBuffPanel

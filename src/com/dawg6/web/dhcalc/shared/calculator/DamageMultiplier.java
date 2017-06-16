@@ -1668,19 +1668,19 @@ public enum DamageMultiplier {
 			}), Iced(
 			"Iced",
 			DamageAccumulator.Special,
-			"Iceblink rank 25 bonus (10% Crit Chance to enemies chilled/frozen)",
+			"Iceblink rank 25 bonus (10% Crit Chance to enemies chilled)",
 			new Test<SimulationState, Double>() {
 				@Override
 				public Double getValue(SimulationState state) {
-					return (state.getData().isIceblink() && (state.getData()
-							.getIceblinkLevel() >= 25)) ? (0.1 * state
+					return ((state.getData().isIceblink() && (state.getData()
+							.getIceblinkLevel() >= 25)) || state.getData().isPartyIceblink()) ? (0.1 * state
 							.getData().getPercentSlowedChilled()) : 0.0;
 				}
 
 				@Override
 				public Double getMax(boolean sentry, DamageRow row,
 						CharacterData data) {
-					return (data.isIceblink() && (data.getIceblinkLevel() >= 25)) ? 0.1
+					return ((data.isIceblink() && (data.getIceblinkLevel() >= 25)) || data.isPartyIceblink()) ? 0.1
 							: 0.0;
 				}
 			}), DML(

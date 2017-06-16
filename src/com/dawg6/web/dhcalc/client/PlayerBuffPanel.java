@@ -65,6 +65,7 @@ public class PlayerBuffPanel extends Composite {
 	private final DoubleSpinner falterUptime;
 	private final SimpleCheckBox toxin;
 	private final SimpleCheckBox unity;
+	private final SimpleCheckBox iceblink;
 
 	public PlayerBuffPanel() {
 		
@@ -111,6 +112,17 @@ public class PlayerBuffPanel extends Composite {
 		
 		toxin = new SimpleCheckBox();
 		flexTable.setWidget(row, 1, toxin);
+		
+		row++;
+		
+		Anchor anchor_6d = new Anchor("Iceblink (rank 25+):");
+		anchor_6d.setWordWrap(false);
+		anchor_6d.setTarget("_blank");
+		anchor_6d.setHref("http://us.battle.net/d3/en/item/iceblink");
+		flexTable.setWidget(row, 0, anchor_6d);
+		
+		iceblink = new SimpleCheckBox();
+		flexTable.setWidget(row, 1, iceblink);
 		
 		row++;
 		
@@ -575,6 +587,10 @@ public class PlayerBuffPanel extends Composite {
 
 	public SimpleCheckBox getToxin() {
 		return toxin;
+	}
+
+	public SimpleCheckBox getIceblink() {
+		return iceblink;
 	}
 
 	public SimpleCheckBox getOverawe() {
