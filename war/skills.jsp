@@ -1,5 +1,6 @@
 <%@ page import="com.dawg6.web.dhcalc.shared.calculator.*"%>
-
+<%@ page import="com.dawg6.d3api.shared.*"%>
+<%@ page import="com.dawg6.web.dhcalc.server.*"%>
 
 <html>
 <meta http-equiv="expires" content="0">
@@ -21,39 +22,80 @@
 	src="http://us.battle.net/d3/static/local-common/js/third-party.js?v=58-80"></script>
 <script src="tooltips.js?v=13"></script>
 
-<a href="http://us.battle.net/d3/en/class/monk/active/crippling-wave#a+">Skill A</a><br/>
-<a href="http://us.battle.net/d3/en/class/monk/active/crippling-wave#b+">Skill B</a><br/>
-<a href="http://us.battle.net/d3/en/class/monk/active/crippling-wave#c+">Skill C</a><br/>
-<a href="http://us.battle.net/d3/en/class/monk/active/crippling-wave#d+">Skill D</a><br/>
-<a href="http://us.battle.net/d3/en/class/monk/active/crippling-wave#e+">Skill E</a><br/>
+<%
+
+	try {
+		HeroData data = IO.getInstance().readHeroData(Realm.US, D3Class.DemonHunter);
+	
+		if (data == null) {
+%>
+Null HeroData
+<%			
+		} else {
+			
+%>
 <table border="1">
 <tr>
 <th>Skill</th><th>Runes</th>
 </tr>
-<%
-for (ActiveSkill skill : ActiveSkill.values()) {
+<%	
+			SkillDefinitions skills = data.skills;
+
+			if (skills != null) {
+				
+				for (SkillDefinition skill : skills.active) {
+				
+					if (skill != null) {
 %>
-<tr>
-<td><a href="<%= skill.getUrl() %>" target="_blank"><%= skill.getLongName() %></a></td>
+<tr><td><a target="_blank" href="http://us.battle.net/d3/en/class/demon-hunter/active/<%= skill.slug %>"><%= skill.name %></a> (<%= skill.categorySlug %>)</td>
 <td>
-<table border="1">
 <%
-	for (Rune rune : skill.getRunes()) {
-		String url = skill.getUrl();
-		
-		if (rune != Rune.None)
-			url += ("#" + rune.getSlug() + "+");
+						com.dawg6.d3api.shared.Rune runes[] = skill.runes;
+
+						if (runes != null) {
 %>
-<tr><td><a href="<%= url %>" target="_blank"><%= rune.getLongName() %></a></td></tr>
+<table>
+<%
+							for (com.dawg6.d3api.shared.Rune rune : runes) {
+							
+									if (rune != null) {
+%>
+<tr><td><a target="_blank" href="http://us.battle.net/d3/en/class/demon-hunter/active/<%= skill.slug %>#<%= rune.type %>+"><%= rune.name %></a> (<%= rune.type %>)</td>
+<%										
+									}
+							}
+%>
+</table>
+<%							
+						}
+
+%>
+</td>
+</tr>
+<%						
+					}
+				}
+				
+				for (SkillDefinition skill : skills.passive) {
+				
+					if (skill != null) {
+%>
+<tr><td><a target="_blank" href="http://us.battle.net/d3/en/class/demon-hunter/passive/<%= skill.slug %>"><%= skill.name %></a></td>
+<td>&nbsp;</td>
+</tr>
+<%						
+					}
+				}
+			}
+		}
+%>
+</table>
+<%	
+	} catch (Exception e) {
+%>
+Exception: <%= e.toString() %>
 <%		
 	}
 %>
-</table>
-</td>
-</tr>
-<%	
-}
-%>
-</table>
 </body>
 </html>
